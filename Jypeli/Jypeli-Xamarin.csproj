@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B953E24C-29F5-4DA6-AE07-8F4300EAD977}</ProjectGuid>
+    <ProjectTypeGuids>{9B831FEF-F496-498F-9FE8-180DA5CB4258};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Jypeli</RootNamespace>
+    <MonoGamePlatform>WindowsGL</MonoGamePlatform>
+    <AssemblyName>Jypeli</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;UseDouble;WINDOWS;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
+    <DefineConstants>UseDouble;WINDOWS;</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="MonoGame.Framework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DataTypes\Angle.cs" />
+    <Compile Include="DataTypes\Direction.cs" />
+    <Compile Include="DataTypes\INotifyList.cs" />
+    <Compile Include="DataTypes\ScoreList.cs" />
+    <Compile Include="DataTypes\StringList.cs" />
+    <Compile Include="DataTypes\SynchronousList.cs" />
+    <Compile Include="DataTypes\Time.cs" />
+    <Compile Include="DataTypes\UnlimitedAngle.cs" />
+    <Compile Include="DataTypes\Vector.cs" />
+    <Compile Include="DataTypes\Updatable.cs" />
+    <Compile Include="AdvanceMath\CFFauxAttributes.cs" />
+    <Compile Include="AdvanceMath\Clamped.cs" />
+    <Compile Include="AdvanceMath\ContainmentType.cs" />
+    <Compile Include="AdvanceMath\Interfaces.cs" />
+    <Compile Include="AdvanceMath\MathHelper.cs" />
+    <Compile Include="AdvanceMath\Matrix2x2.cs" />
+    <Compile Include="AdvanceMath\Matrix2x3.cs" />
+    <Compile Include="AdvanceMath\Matrix3x3.cs" />
+    <Compile Include="AdvanceMath\Matrix4x4.cs" />
+    <Compile Include="AdvanceMath\MatrixHelper.cs" />
+    <Compile Include="AdvanceMath\OperationHelper.cs" />
+    <Compile Include="AdvanceMath\ParseHelper.cs" />
+    <Compile Include="AdvanceMath\Point2D.cs" />
+    <Compile Include="AdvanceMath\PrimeNumberGenerator.cs" />
+    <Compile Include="AdvanceMath\Quaternion.cs" />
+    <Compile Include="AdvanceMath\ThrowHelper.cs" />
+    <Compile Include="AdvanceMath\Vector2D.cs" />
+    <Compile Include="AdvanceMath\Vector3D.cs" />
+    <Compile Include="AdvanceMath\Vector4D.cs" />
+    <Compile Include="AdvanceMath\Design\AdvBrowsableAttribute.cs" />
+    <Compile Include="AdvanceMath\Design\AdvBrowsableOrderAttribute.cs" />
+    <Compile Include="AdvanceMath\Design\AdvPropertyDescriptor.cs" />
+    <Compile Include="AdvanceMath\Design\AdvTypeConverter%27.cs" />
+    <Compile Include="AdvanceMath\Design\InstanceConstructorAttribute.cs" />
+    <Compile Include="AdvanceMath\Design\ParseMethodAttribute.cs" />
+    <Compile Include="AdvanceMath\Geometry2D\BoundingCircle.cs" />
+    <Compile Include="AdvanceMath\Geometry2D\BoundingPolygon.cs" />
+    <Compile Include="AdvanceMath\Geometry2D\BoundingRectangle.cs" />
+    <Compile Include="AdvanceMath\Geometry2D\Line.cs" />
+    <Compile Include="AdvanceMath\Geometry2D\LineSegment.cs" />
+    <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
+    <Compile Include="AdvanceMath\IO\MathReader.cs" />
+    <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="Storage\SaveAttribute.cs" />
+    <Compile Include="DataTypes\Destroyable.cs" />
+    <Compile Include="DataTypes\Tagged.cs" />
+    <Compile Include="Helpers\ListHelpers.cs" />
+    <Compile Include="Helpers\ObjectHelper.cs" />
+    <Compile Include="Helpers\ReturnHelper.cs" />
+    <Compile Include="Helpers\StreamHelpers.cs" />
+    <Compile Include="Helpers\StringHelpers.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="DataTypes\" />
+    <Folder Include="AdvanceMath\" />
+    <Folder Include="Storage\" />
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

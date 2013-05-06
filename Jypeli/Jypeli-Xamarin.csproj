@@ -92,6 +92,7 @@
     <Compile Include="Helpers\ReturnHelper.cs" />
     <Compile Include="Helpers\StreamHelpers.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
+    <Compile Include="Game\Game.cs" />
     <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli-WP8", "Jypeli-WP8.csproj", "{86788B50-91AD-480E-8A06-E9C94FD1F07A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86788B50-91AD-480E-8A06-E9C94FD1F07A}.Debug|ARM.ActiveCfg = Debug|ARM
+		{86788B50-91AD-480E-8A06-E9C94FD1F07A}.Debug|ARM.Build.0 = Debug|ARM
+		{86788B50-91AD-480E-8A06-E9C94FD1F07A}.Debug|ARM.Deploy.0 = Debug|ARM
+		{86788B50-91AD-480E-8A06-E9C94FD1F07A}.Debug|x86.ActiveCfg = Debug|x86
+		{86788B50-91AD-480E-8A06-E9C94FD1F07A}.Debug|x86.Build.0 = Debug|x86
+		{86788B50-91AD-480E-8A06-E9C94FD1F07A}.Debug|x86.Deploy.0 = Debug|x86
+		{86788B50-91AD-480E-8A06-E9C94FD1F07A}.Release|ARM.ActiveCfg = Release|ARM
+		{86788B50-91AD-480E-8A06-E9C94FD1F07A}.Release|ARM.Build.0 = Release|ARM
+		{86788B50-91AD-480E-8A06-E9C94FD1F07A}.Release|ARM.Deploy.0 = Release|ARM
+		{86788B50-91AD-480E-8A06-E9C94FD1F07A}.Release|x86.ActiveCfg = Release|x86
+		{86788B50-91AD-480E-8A06-E9C94FD1F07A}.Release|x86.Build.0 = Release|x86
+		{86788B50-91AD-480E-8A06-E9C94FD1F07A}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

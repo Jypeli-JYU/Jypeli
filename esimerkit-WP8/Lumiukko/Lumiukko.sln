@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumiukko", "Lumiukko.csproj", "{BA031D2F-ADF5-407F-9783-9C4FDDFACD51}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA031D2F-ADF5-407F-9783-9C4FDDFACD51}.Debug|ARM.ActiveCfg = Debug|ARM
+		{BA031D2F-ADF5-407F-9783-9C4FDDFACD51}.Debug|ARM.Build.0 = Debug|ARM
+		{BA031D2F-ADF5-407F-9783-9C4FDDFACD51}.Debug|ARM.Deploy.0 = Debug|ARM
+		{BA031D2F-ADF5-407F-9783-9C4FDDFACD51}.Debug|x86.ActiveCfg = Debug|x86
+		{BA031D2F-ADF5-407F-9783-9C4FDDFACD51}.Debug|x86.Build.0 = Debug|x86
+		{BA031D2F-ADF5-407F-9783-9C4FDDFACD51}.Debug|x86.Deploy.0 = Debug|x86
+		{BA031D2F-ADF5-407F-9783-9C4FDDFACD51}.Release|ARM.ActiveCfg = Release|ARM
+		{BA031D2F-ADF5-407F-9783-9C4FDDFACD51}.Release|ARM.Build.0 = Release|ARM
+		{BA031D2F-ADF5-407F-9783-9C4FDDFACD51}.Release|ARM.Deploy.0 = Release|ARM
+		{BA031D2F-ADF5-407F-9783-9C4FDDFACD51}.Release|x86.ActiveCfg = Release|x86
+		{BA031D2F-ADF5-407F-9783-9C4FDDFACD51}.Release|x86.Build.0 = Release|x86
+		{BA031D2F-ADF5-407F-9783-9C4FDDFACD51}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

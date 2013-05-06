@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli", "Jypeli-Xamarin.csproj", "{B953E24C-29F5-4DA6-AE07-8F4300EAD977}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B953E24C-29F5-4DA6-AE07-8F4300EAD977}.Debug|x86.ActiveCfg = Debug|x86
+		{B953E24C-29F5-4DA6-AE07-8F4300EAD977}.Debug|x86.Build.0 = Debug|x86
+		{B953E24C-29F5-4DA6-AE07-8F4300EAD977}.Release|x86.ActiveCfg = Release|x86
+		{B953E24C-29F5-4DA6-AE07-8F4300EAD977}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Jypeli-Xamarin.csproj
+	EndGlobalSection
+EndGlobal

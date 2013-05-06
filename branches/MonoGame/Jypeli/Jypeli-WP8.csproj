@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{86788B50-91AD-480E-8A06-E9C94FD1F07A}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Jypeli</RootNamespace>
+    <AssemblyName>Jypeli</AssemblyName>
+    <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\WindowsPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0436</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\WindowsPhone\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0436</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\WindowsPhone\x86\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0436</NoWarn>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\WindowsPhone\x86\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0436</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\WindowsPhone\ARM\Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;UseDouble</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0436</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\WindowsPhone\ARM\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;UseDouble</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0436</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="DataTypes\Angle.cs" />
+    <Compile Include="DataTypes\BoundingRectangle.cs" />
+    <Compile Include="DataTypes\Direction.cs" />
+    <Compile Include="DataTypes\INotifyList.cs" />
+    <Compile Include="DataTypes\ScoreList.cs" />
+    <Compile Include="DataTypes\StringList.cs" />
+    <Compile Include="DataTypes\SynchronousList.cs" />
+    <Compile Include="DataTypes\Time.cs" />
+    <Compile Include="DataTypes\UnlimitedAngle.cs" />
+    <Compile Include="DataTypes\Vector.cs" />
+    <Compile Include="DataTypes\Updatable.cs" />
+    <Compile Include="AdvanceMath\CFFauxAttributes.cs" />
+    <Compile Include="AdvanceMath\Clamped.cs" />
+    <Compile Include="AdvanceMath\ContainmentType.cs" />
+    <Compile Include="AdvanceMath\Interfaces.cs" />
+    <Compile Include="AdvanceMath\MathHelper.cs" />
+    <Compile Include="AdvanceMath\Matrix2x2.cs" />
+    <Compile Include="AdvanceMath\Matrix2x3.cs" />
+    <Compile Include="AdvanceMath\Matrix3x3.cs" />
+    <Compile Include="AdvanceMath\Matrix4x4.cs" />
+    <Compile Include="AdvanceMath\MatrixHelper.cs" />
+    <Compile Include="AdvanceMath\OperationHelper.cs" />
+    <Compile Include="AdvanceMath\ParseHelper.cs" />
+    <Compile Include="AdvanceMath\Point2D.cs" />
+    <Compile Include="AdvanceMath\PrimeNumberGenerator.cs" />
+    <Compile Include="AdvanceMath\Quaternion.cs" />
+    <Compile Include="AdvanceMath\ThrowHelper.cs" />
+    <Compile Include="AdvanceMath\Vector2D.cs" />
+    <Compile Include="AdvanceMath\Vector3D.cs" />
+    <Compile Include="AdvanceMath\Vector4D.cs" />
+    <Compile Include="AdvanceMath\Design\AdvBrowsableAttribute.cs" />
+    <Compile Include="AdvanceMath\Design\AdvBrowsableOrderAttribute.cs" />
+    <Compile Include="AdvanceMath\Design\AdvPropertyDescriptor.cs" />
+    <Compile Include="AdvanceMath\Design\AdvTypeConverter%27.cs" />
+    <Compile Include="AdvanceMath\Design\InstanceConstructorAttribute.cs" />
+    <Compile Include="AdvanceMath\Design\ParseMethodAttribute.cs" />
+    <Compile Include="AdvanceMath\Geometry2D\BoundingCircle.cs" />
+    <Compile Include="AdvanceMath\Geometry2D\BoundingPolygon.cs" />
+    <Compile Include="AdvanceMath\Geometry2D\BoundingRectangle.cs" />
+    <Compile Include="AdvanceMath\Geometry2D\Line.cs" />
+    <Compile Include="AdvanceMath\Geometry2D\LineSegment.cs" />
+    <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
+    <Compile Include="AdvanceMath\IO\MathReader.cs" />
+    <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="Game\Game.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Storage\SaveAttribute.cs" />
+    <Compile Include="DataTypes\Destroyable.cs" />
+    <Compile Include="DataTypes\Tagged.cs" />
+    <Compile Include="Helpers\ListHelpers.cs" />
+    <Compile Include="Helpers\ObjectHelper.cs" />
+    <Compile Include="Helpers\ReturnHelper.cs" />
+    <Compile Include="Helpers\StreamHelpers.cs" />
+    <Compile Include="Helpers\StringHelpers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework" Condition=" '$(Platform)' == 'ARM' ">
+      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsPhone\ARM\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework" Condition=" '$(Platform)' == 'x86' ">
+      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsPhone\x86\MonoGame.Framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
+  <Target Name="MonoGame_RemoveXnaAssemblies" AfterTargets="ImplicitlyExpandTargetFramework">
+    <Message Text="MonoGame - Removing XNA Assembly references!" Importance="normal" />
+    <ItemGroup>
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(Filename)%(Extension)'=='Microsoft.Xna.Framework.dll'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(Filename)%(Extension)'=='Microsoft.Xna.Framework.GamerServices.dll'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(Filename)%(Extension)'=='Microsoft.Xna.Framework.GamerServicesExtensions.dll'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(Filename)%(Extension)'=='Microsoft.Xna.Framework.Input.Touch.dll'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(Filename)%(Extension)'=='Microsoft.Xna.Framework.MediaLibraryExtensions.dll'" />
+    </ItemGroup>
+  </Target>
+  <ProjectExtensions />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

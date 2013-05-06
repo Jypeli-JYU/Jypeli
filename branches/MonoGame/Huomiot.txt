@@ -1,0 +1,20 @@
+MonoGame-hakemisto (git)
+https://github.com/mono/MonoGame.git
+
+---
+
+Virhe:
+   "A graphics object cannot be created from an image that has an indexed pixel format"
+Syy:
+   Kuvan lataaja vaatii 24-bittiset v‰rit.
+
+---
+
+Poikkeus:
+   NotImplementedException Content.Load -rivill‰
+Ymp‰ristˆ:
+   VS2012 WP8
+Syy:
+   WP8-versio ei osaa k‰‰nt‰‰ contenttia.
+   K‰‰nn‰ xnb:ksi XNA Content Compilerilla.
+   https://xnacontentcompiler.codeplex.com/

@@ -4,15 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A6D22166-0170-4171-83B3-5073A0623E82}</ProjectGuid>
+    <ProjectGuid>{DF32AA3A-FDC8-4218-8E9B-2F398D7D9BEF}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lumiukko</RootNamespace>
-    <AssemblyName>Lumiukko</AssemblyName>
+    <RootNamespace>XnaPong</RootNamespace>
+    <AssemblyName>XnaPong</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Lumiukko_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>XnaPong_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -127,27 +127,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ohjelma.cs" />
-    <Compile Include="Peli.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Lumiukko_TemporaryKey.pfx" />
+    <Content Include="Content\ScoreFont.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="XnaPong_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\StoreLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Jypeli\Jypeli-Win8.csproj">
-      <Project>{f2642dd9-9e8c-479d-87d1-8b6572d5529a}</Project>
-      <Name>Jypeli-Win8</Name>
-    </ProjectReference>
+    <Content Include="Content\maila.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\pallo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

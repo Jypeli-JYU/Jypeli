@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -7,15 +8,170 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Jypeli
 {
+    [Save]
     public class Game : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+#region Fields
+        // fullscreen isn't used as default, because debug mode doesn't work well with it
+        private bool isFullScreenRequested = false;
+#endregion
 
+#region Graphics properties
+        /// <summary>
+        /// XNA:n grafiikkakortti.
+        /// </summary>
+        [EditorBrowsable( EditorBrowsableState.Never )]
+        public static new GraphicsDevice GraphicsDevice
+        {
+            get
+            {
+                if ( Game.Instance == null ) return null;
+                return ( (Microsoft.Xna.Framework.Game)Instance ).GraphicsDevice;
+            }
+        }
+
+        /// <summary>
+        /// XNA:n grafiikkakorttien hallintaolio.
+        /// </summary>
+        internal static GraphicsDeviceManager GraphicsDeviceManager { get; private set; }
+
+        /// <summary>
+        /// Onko peli kokoruututilassa.
+        /// </summary>
+        public bool IsFullScreen
+        {
+            get { return isFullScreenRequested; }
+            set
+            {
+                if ( GraphicsDevice == null )
+                {
+                    // GraphicsDevice is not initialized yet.
+                    isFullScreenRequested = value;
+                }
+                else if ( ( GraphicsDeviceManager.IsFullScreen != value ) )
+                {
+#if WINDOWS_PHONE
+                    //Phone.ResetScreen();
+#else
+                    SetWindowSize( GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, value );
+#endif
+                }
+            }
+        }
+
+        /// <summary>
+        /// Näytön dimensiot, eli koko ja reunat.
+        /// </summary>
+        public static ScreenView Screen { get; private set; }
+
+        /// <summary>
+        /// Tekstuurien (kuvien) reunanpehmennys skaalattaessa (oletus päällä).
+        /// </summary>
+        public static bool SmoothTextures { get; set; }
+#endregion
+
+#region Instance properties
+        /// <summary>
+        /// Käynnissä olevan pelin pääolio.
+        /// </summary>
+        public static Game Instance { get; private set; }
+#endregion
+
+#region Camera / level properties
+        /// <summary>
+        /// Kamera, joka näyttää ruudulla näkyvän osan kentästä.
+        /// Kameraa voidaan siirtää, zoomata tai asettaa seuraamaan tiettyä oliota.
+        /// </summary>
+        [Save]
+        public Camera Camera { get; set; }
+
+        /// <summary>
+        /// Aktiivinen kenttä.
+        /// </summary>
+        public Level Level { get; private set; }
+#endregion
+
+#region Constructor & inits
         public Game()
         {
-            graphics = new GraphicsDeviceManager( this );
+            InitXnaContent();
+            InitInstance();
+            InitXnaGraphics();
+            InitScreen();
+        }
+
+        private void InitInstance()
+        {
+            Instance = this;
+        }
+
+        private void InitXnaGraphics()
+        {
+            GraphicsDeviceManager = new GraphicsDeviceManager( this );
+            //GraphicsDeviceManager.PreferredDepthStencilFormat = Jypeli.Graphics.SelectStencilMode();
+        }
+
+        private void InitScreen()
+        {
+            Camera = new Camera();
+            SmoothTextures = true;
+        }
+
+        private void InitXnaContent()
+        {
             Content.RootDirectory = "Content";
+        }
+#endregion
+
+#region XNA overrides
+        /// <summary>
+        /// This gets called after the GraphicsDevice has been created. So, this is
+        /// the place to initialize the resources needed in the game. Except the graphics content,
+        /// which should be called int LoadContent(), according to the XNA docs.
+        /// </summary>
+        [EditorBrowsable( EditorBrowsableState.Never )]
+        protected override void Initialize()
+        {
+            Jypeli.Graphics.Initialize();
+            Screen = new ScreenView(GraphicsDevice.Viewport);
+
+#if WINDOWS_PHONE
+            isFullScreenRequested = true;
+            //Phone.ResetScreen();
+#else
+            SetWindowSize( GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, isFullScreenRequested );
+#endif
+
+            Level = new Level( this );
+            //MediaPlayer = new MediaPlayer( Content );
+            //addMessageDisplay();
+
+#if DEBUG && !DISABLE_WIDGETS
+            double barWidth = 20;
+            double barHeight = Screen.Height;
+            fpsDisplay = new Label( "00" );
+            fpsDisplay.Color = Color.Gray;
+            fpsDisplay.X = Level.Right - barWidth / 2 - fpsDisplay.Width;
+            fpsDisplay.Y = Screen.Top - fpsDisplay.Height / 2;
+
+            double left = Screen.Right - Layers.Count * barWidth;
+
+            objectCountDisplays = new BarGauge[Layers.Count];
+
+            for ( int i = 0; i < Layers.Count; i++ )
+            {
+                var gauge = new BarGauge( barWidth, Screen.Height );
+                gauge.X = left + i * barWidth + barWidth / 2;
+                gauge.Y = Screen.Center.Y;
+                gauge.BarColor = Color.DarkGreen;
+                gauge.BindTo( Layers[i + Layers.FirstIndex].ObjectCount );
+                objectCountDisplays[i] = gauge;
+            }
+
+            Keyboard.Listen( Key.F12, ButtonState.Pressed, ToggleDebugScreen, null );
+#endif
+
+            base.Initialize();
         }
 
         protected override void LoadContent()
@@ -24,14 +180,70 @@ namespace Jypeli
             base.LoadContent();
         }
 
+        [EditorBrowsable( EditorBrowsableState.Never )]
         protected override void Draw( GameTime gameTime )
         {
-            GraphicsDevice.Clear( Color.Black );
+            GraphicsDevice.Clear( ClearOptions.Target, Level.BackgroundColor.AsXnaColor(), 1.0f, 0 );
+
+            // The world matrix adjusts the position and size of objects according to the camera angle.
+            var worldMatrix =
+                Matrix.CreateTranslation( (float)-Camera.Position.X, (float)-Camera.Position.Y, 0 )
+                * Matrix.CreateScale( (float)Camera.ZoomFactor, (float)Camera.ZoomFactor, 1f );
+
+            Graphics.LineBatch.Begin( ref worldMatrix );
+            Graphics.Canvas.Reset();
+            Paint( Graphics.Canvas );
+            Graphics.LineBatch.End();
+
             base.Draw( gameTime );
         }
+#endregion
 
+#region Jypeli overrides
         public virtual void Begin()
         {
+        }
+
+        protected virtual void Paint( Canvas canvas )
+        {
+        }
+#endregion
+
+        /// <summary>
+        /// Asettaa ikkunan koon.
+        /// </summary>
+        /// <param name="width">Leveys.</param>
+        /// <param name="height">Korkeus.</param>
+        public void SetWindowSize( int width, int height )
+        {
+            SetWindowSize( width, height, IsFullScreen );
+        }
+
+        /// <summary>
+        /// Asettaa ikkunan koon ja alustaa pelin käyttämään joko ikkunaa tai koko ruutua.
+        /// </summary>
+        /// <param name="width">Leveys.</param>
+        /// <param name="height">Korkeus.</param>
+        /// <param name="fullscreen">Koko ruutu jos <c>true</c>, muuten ikkuna.</param>
+        /// <returns></returns>
+        public void SetWindowSize( int width, int height, bool fullscreen )
+        {
+            GraphicsDeviceManager.PreferredBackBufferWidth = width;
+            GraphicsDeviceManager.PreferredBackBufferHeight = height;
+            GraphicsDeviceManager.IsFullScreen = fullscreen;
+            GraphicsDeviceManager.ApplyChanges();
+            isFullScreenRequested = fullscreen;
+
+            /*D
+            if ( GraphicsDevice != null )
+            {
+                Viewport viewPort = GraphicsDevice.Viewport;
+                Mouse.Viewport = viewPort;
+                if ( screen != null )
+                {
+                    screen.viewPort = viewPort;
+                }
+            }*/
         }
     }
 }

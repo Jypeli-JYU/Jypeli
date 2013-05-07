@@ -11,14 +11,13 @@
     <RootNamespace>Jypeli</RootNamespace>
     <MonoGamePlatform>WindowsGL</MonoGamePlatform>
     <AssemblyName>Jypeli</AssemblyName>
-    <ReleaseVersion>6.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
     <OutputPath>bin\Xamarin-Debug</OutputPath>
-    <DefineConstants>DEBUG;UseDouble;WINDOWS;</DefineConstants>
+    <DefineConstants>DEBUG;UseDouble;WINDOWS;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
@@ -32,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <PlatformTarget>x86</PlatformTarget>
-    <DefineConstants>UseDouble;WINDOWS;</DefineConstants>
+    <DefineConstants>UseDouble;WINDOWS;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -42,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTypes\Angle.cs" />
+    <Compile Include="DataTypes\BoundingRectangle.cs" />
     <Compile Include="DataTypes\Direction.cs" />
     <Compile Include="DataTypes\INotifyList.cs" />
     <Compile Include="DataTypes\ScoreList.cs" />
@@ -84,6 +84,18 @@
     <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
     <Compile Include="AdvanceMath\IO\MathReader.cs" />
     <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="Game\Game.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Graphics\Camera.cs" />
+    <Compile Include="Graphics\Canvas.cs" />
+    <Compile Include="Graphics\Color.cs" />
+    <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Graphics\ImageBatch.cs" />
+    <Compile Include="Graphics\LineBatch.cs" />
+    <Compile Include="Graphics\ShapeBatch.cs" />
+    <Compile Include="Graphics\View.cs" />
+    <Compile Include="Levels\Level.cs" />
     <Compile Include="Storage\SaveAttribute.cs" />
     <Compile Include="DataTypes\Destroyable.cs" />
     <Compile Include="DataTypes\Tagged.cs" />
@@ -92,7 +104,6 @@
     <Compile Include="Helpers\ReturnHelper.cs" />
     <Compile Include="Helpers\StreamHelpers.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
-    <Compile Include="Game\Game.cs" />
     <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -42,7 +42,7 @@ namespace AdvanceMath
     /// <remarks><seealso href="http://en.wikipedia.org/wiki/Vector_%28spatial%29"/></remarks>
     [StructLayout(LayoutKind.Sequential, Size = Vector2D.Size)]
     [AdvBrowsableOrder("X,Y")]
-#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE
+#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE && !NETFX_CORE
     [Serializable]
     [System.ComponentModel.TypeConverter(typeof(AdvTypeConverter<Vector2D>))]
 #endif
@@ -790,14 +790,18 @@ namespace AdvanceMath
         /// </summary>
         [AdvBrowsable]
         [XmlAttribute]
+#if !NETFX_CORE
         [System.ComponentModel.Description("The Magnitude on the X-Axis")]
+#endif
         public Scalar X;
         /// <summary>
         /// This is the Y value. (Usually represents a vertical position or direction.)
         /// </summary>
         [AdvBrowsable]
         [XmlAttribute]
+#if !NETFX_CORE
         [System.ComponentModel.Description("The Magnitude on the Y-Axis")]
+#endif
         public Scalar Y;
         #endregion
         #region constructors

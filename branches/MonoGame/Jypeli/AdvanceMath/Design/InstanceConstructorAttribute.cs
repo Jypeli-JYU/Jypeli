@@ -25,6 +25,7 @@
 
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace AdvanceMath.Design
@@ -48,6 +49,8 @@ namespace AdvanceMath.Design
         {
             get { return parameterNames; }
         }
+
+#if !NETFX_CORE
         public static ConstructorInfo GetConstructor(Type t, out string[] paramNames)
         {
             foreach (ConstructorInfo method in t.GetConstructors())
@@ -67,5 +70,27 @@ namespace AdvanceMath.Design
             paramNames = null;
             return null;
         }
+#else
+        public static ConstructorInfo GetConstructor(Type t, out string[] paramNames)
+        {
+            foreach (ConstructorInfo method in t.GetTypeInfo().DeclaredConstructors)
+            {
+                IEnumerable<Attribute> atts = method.GetCustomAttributes(typeof(InstanceConstructorAttribute), true);
+                IEnumerator<Attribute> en = atts.GetEnumerator();
+
+                if ( en.MoveNext() )
+                {
+                    InstanceConstructorAttribute att = (InstanceConstructorAttribute)en.Current;
+                    if (method.GetParameters().Length == att.ParameterNames.Length)
+                    {
+                        paramNames = att.ParameterNames;
+                        return method;
+                    }
+                }
+            }
+            paramNames = null;
+            return null;
+        }
+#endif
     }
 }

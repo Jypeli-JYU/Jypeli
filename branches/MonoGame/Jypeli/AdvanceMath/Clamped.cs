@@ -37,13 +37,13 @@ namespace AdvanceMath
     /// <summary>
     /// A class that keeps a value clamped.
     /// </summary>
-#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE
+#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE && !NETFX_CORE && !NETFX_CORE
     [Serializable]
     [System.ComponentModel.TypeConverter(typeof(AdvTypeConverter<Clamped>))]
 #endif
     [AdvBrowsableOrder("Min,Value,Max")]
     public sealed class Clamped :
-#if !(WINDOWS_PHONE || XBOX)
+#if !(WINDOWS_PHONE || XBOX || NETFX_CORE)
         ICloneable,
 #endif
  IComparable<Clamped>, IEquatable<Clamped>

@@ -47,11 +47,21 @@ namespace AdvanceMath.Design
 
         public static string[] GetOrder(Type type)
         {
+#if !NETFX_CORE
             object[] arr = type.GetCustomAttributes(typeof(AdvBrowsableOrderAttribute), false);
             if (arr.Length > 0)
             {
                 return ((AdvBrowsableOrderAttribute)arr[0]).Order;
             }
+#else
+            IEnumerable<Attribute> attr = type.GetTypeInfo().GetCustomAttributes(typeof(AdvBrowsableOrderAttribute), false);
+            IEnumerator<Attribute> e = attr.GetEnumerator();
+            if ( e.MoveNext() )
+            {
+                return ((AdvBrowsableOrderAttribute)e.Current).Order;
+            }
+#endif
+            
             return null;
         }
     }

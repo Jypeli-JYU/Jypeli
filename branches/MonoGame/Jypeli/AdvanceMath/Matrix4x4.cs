@@ -38,7 +38,7 @@ namespace AdvanceMath
 {
     [StructLayout(LayoutKind.Sequential, Size = Matrix4x4.Size)]
     [AdvBrowsableOrder("Rx,Ry,Rz,Rw")]
-#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE
+#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE && !NETFX_CORE && !NETFX_CORE
     [Serializable]
     [System.ComponentModel.TypeConverter(typeof(AdvTypeConverter<Matrix4x4>))]
 #endif
@@ -1787,7 +1787,9 @@ namespace AdvanceMath
         #endregion
         #region Properties
         [AdvBrowsable]
+#if !NETFX_CORE
         [System.ComponentModel.Description("The First row of the Matrix4x4")]
+#endif
         public Vector4D Rx
         {
             get
@@ -1808,7 +1810,9 @@ namespace AdvanceMath
             }
         }
         [AdvBrowsable]
+#if !NETFX_CORE
         [System.ComponentModel.Description("The Second row of the Matrix4x4")]
+#endif
         public Vector4D Ry
         {
             get
@@ -1829,7 +1833,9 @@ namespace AdvanceMath
             }
         }
         [AdvBrowsable]
+#if !NETFX_CORE
         [System.ComponentModel.Description("The Third row of the Matrix4x4")]
+#endif
         public Vector4D Rz
         {
             get
@@ -1850,7 +1856,9 @@ namespace AdvanceMath
             }
         }
         [AdvBrowsable]
+#if !NETFX_CORE
         [System.ComponentModel.Description("The Forth row of the Matrix4x4")]
+#endif
         public Vector4D Rw
         {
             get

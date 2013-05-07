@@ -37,7 +37,7 @@ namespace AdvanceMath.Geometry2D
 
     [StructLayout(LayoutKind.Sequential, Size = BoundingCircle.Size)]
     [AdvBrowsableOrder("Position,Radius")]
-#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE
+#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE && !NETFX_CORE
     [Serializable]
     [System.ComponentModel.TypeConverter(typeof(AdvTypeConverter<BoundingCircle>))]
 #endif

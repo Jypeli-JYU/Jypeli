@@ -41,7 +41,7 @@ namespace AdvanceMath.Design
         {
             get { return name; }
         }
-#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE
+#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE && !NETFX_CORE
         public static PropertyDescriptorCollection GetDispMembers(Type t)
         {
             string[] order = AdvBrowsableOrderAttribute.GetOrder(t);

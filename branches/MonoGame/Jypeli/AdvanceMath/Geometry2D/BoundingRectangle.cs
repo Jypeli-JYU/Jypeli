@@ -36,7 +36,7 @@ namespace AdvanceMath.Geometry2D
 {
     [StructLayout(LayoutKind.Sequential, Size = BoundingRectangle.Size)]
     [AdvBrowsableOrder("Min,Max")]
-#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE
+#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE && !NETFX_CORE
     [Serializable]
     [System.ComponentModel.TypeConverter(typeof(AdvTypeConverter<BoundingRectangle>))]
 #endif

@@ -33,7 +33,7 @@ using System;
 
 namespace AdvanceMath
 {
-#if !(WINDOWS_PHONE || XBOX)
+#if !(WINDOWS_PHONE || XBOX || NETFX_CORE)
     [Serializable]
 #endif
     [Flags]

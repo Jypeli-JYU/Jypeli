@@ -1,11 +1,12 @@
-using Jypeli;
+﻿using Jypeli;
 //using Jypeli.Controls;
 
 public class Peli : Game
 {
-	public override void Begin()
-	{
-		/*Camera.ZoomToLevel();
+    public override void Begin()
+    {
+        Level.BackgroundColor = Color.Pink;
+        /*Camera.ZoomToLevel();
 
         GameObject p1 = new GameObject( 200.0, 200.0, Shape.Circle );
         p1.X = 0.0;
@@ -23,5 +24,26 @@ public class Peli : Game
         Add( p3 );
 
         Keyboard.Listen( Key.Escape, ButtonState.Pressed, Exit, "Poistu" );*/
-	}
+    }
+
+    protected override void Paint( Canvas canvas )
+    {
+        canvas.BrushColor = Color.White;
+        canvas.DrawLine( canvas.TopLeft, canvas.TopRight );
+        canvas.DrawLine( canvas.TopRight, canvas.BottomRight );
+        canvas.DrawLine( canvas.BottomRight, canvas.BottomLeft );
+        canvas.DrawLine( canvas.BottomLeft, canvas.TopLeft );
+
+        canvas.BrushColor = Color.LightGray;
+        canvas.DrawLine( canvas.Left + 50, canvas.Top - 50, canvas.Right - 50, canvas.Top - 50 );
+        canvas.DrawLine( canvas.Right - 50, canvas.Top - 50, canvas.Right - 50, canvas.Bottom + 50 );
+        canvas.DrawLine( canvas.Right - 50, canvas.Bottom + 50, canvas.Left + 50, canvas.Bottom + 50 );
+        canvas.DrawLine( canvas.Left + 50, canvas.Bottom + 50, canvas.Left + 50, canvas.Top - 50 );
+
+        canvas.BrushColor = Color.Teal;
+        canvas.DrawLine( canvas.TopLeft, canvas.BottomRight );
+        canvas.DrawLine( canvas.TopRight, canvas.BottomLeft );
+
+        base.Paint( canvas );
+    }
 }

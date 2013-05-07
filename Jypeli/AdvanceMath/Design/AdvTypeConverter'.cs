@@ -27,14 +27,14 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Reflection;
-#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE
+#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE && !NETFX_CORE
 using System.ComponentModel.Design.Serialization;
 #endif
 using System.Globalization;
 
 namespace AdvanceMath.Design
 {
-#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE
+#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE && !NETFX_CORE
     public class AdvTypeConverter<TType> : ExpandableObjectConverter
     {
         ConstructorInfo instanceNoArgsCtor;

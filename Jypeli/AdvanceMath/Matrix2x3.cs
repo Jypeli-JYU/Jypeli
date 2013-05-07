@@ -54,7 +54,7 @@ namespace AdvanceMath
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = Matrix2x3.Size)]
     [AdvBrowsableOrder("Rx,Ry")]
-#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE
+#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE && !NETFX_CORE
     [Serializable]
     [System.ComponentModel.TypeConverter(typeof(AdvTypeConverter<Matrix2x3>))]
 #endif
@@ -893,7 +893,9 @@ namespace AdvanceMath
         #endregion
         #region Properties
         [AdvBrowsable]
+#if !NETFX_CORE
         [System.ComponentModel.Description("The First row of the Matrix2x3")]
+#endif
         public Vector3D Rx
         {
             get
@@ -912,7 +914,9 @@ namespace AdvanceMath
             }
         }
         [AdvBrowsable]
+#if !NETFX_CORE
         [System.ComponentModel.Description("The Second row of the Matrix2x3")]
+#endif
         public Vector3D Ry
         {
             get

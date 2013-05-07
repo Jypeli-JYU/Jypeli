@@ -87,6 +87,18 @@ namespace Jypeli
 
 #endif
 
+#if NETFX_CORE
+        /// <summary>
+        /// Tyyppi metodille joka muuttaa annetun arvon tyypistä toiseen.
+        /// Löytyy kirjastosta mscorlib.dll.
+        /// </summary>
+        /// <typeparam name="TInput">Tyyppi josta muunnetaan.</typeparam>
+        /// <typeparam name="TOutput">Tyyppi johon muunnetaan.</typeparam>
+        /// <param name="input">Arvo joka muunnetaan.</param>
+        /// <returns>Muunnettu arvo.</returns>
+        public delegate TOutput Converter<in TInput, out TOutput>(TInput input);
+#endif
+
         /// <summary>
         /// Muuntaa kokoelman tietyn tyyppisiä olioita kokoelmaksi toisen tyyppisiä olioita.
         /// </summary>

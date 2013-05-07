@@ -24,6 +24,7 @@
 
 
 using System;
+using System.Collections;
 using System.Reflection;
 
 namespace AdvanceMath.Design
@@ -31,6 +32,7 @@ namespace AdvanceMath.Design
     [global::System.AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
     public sealed class ParseMethodAttribute : Attribute
     {
+#if !NETFX_CORE
         public static MethodInfo GetParseMethod(Type t)
         {
             foreach (MethodInfo method in t.GetMethods())
@@ -46,5 +48,31 @@ namespace AdvanceMath.Design
             }
             return null;
         }
+#else
+        public static MethodInfo GetParseMethod(Type t)
+        {
+            // Use the Win8 "new" reflection model
+            TypeInfo ti = t.GetTypeInfo();
+
+            foreach (MethodInfo method in ti.DeclaredMethods)
+            {
+                if (method.IsStatic &&
+                    !IsEmpty( method.GetCustomAttributes(typeof(ParseMethodAttribute), true) ) &&
+                    method.GetParameters().Length == 1 &&
+                    method.GetParameters()[0].ParameterType == typeof(string) &&
+                    method.ReturnType == t)
+                {
+                    return method;
+                }
+            }
+            return null;
+        }
+
+        private static bool IsEmpty( IEnumerable collection )
+        {
+            IEnumerator e = collection.GetEnumerator();
+            return e.MoveNext();
+        }
+#endif
     }
 }

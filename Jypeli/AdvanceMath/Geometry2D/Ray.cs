@@ -36,7 +36,7 @@ using AdvanceMath.Design;
 namespace AdvanceMath.Geometry2D
 {
     [StructLayout(LayoutKind.Sequential, Size = Ray.Size)]
-#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE
+#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE && !NETFX_CORE
     [Serializable]
     [System.ComponentModel.TypeConverter(typeof(AdvTypeConverter<Ray>))]
 #endif

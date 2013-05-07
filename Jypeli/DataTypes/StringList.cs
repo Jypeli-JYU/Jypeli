@@ -219,6 +219,7 @@ namespace Jypeli
             return this;
         }
 
+#if !NETFX_CORE        
         /// <summary>
         /// Lukee merkkijonolistan tiedostosta.
         /// Huom. toimii vain PC:ll‰, k‰yt‰ mieluummin
@@ -240,6 +241,7 @@ namespace Jypeli
 
             return result;
         }
+#endif
 
         /// <summary>
         /// Lis‰‰ yhden tai useamman rivin merkkijonolistaan.

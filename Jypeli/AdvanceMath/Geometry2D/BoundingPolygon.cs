@@ -32,7 +32,7 @@ using Scalar = System.Single;
 using System;
 namespace AdvanceMath.Geometry2D
 {
-#if !(WINDOWS_PHONE || XBOX)
+#if !(WINDOWS_PHONE || XBOX || NETFX_CORE)
     [Serializable]
 #endif
     public sealed class BoundingPolygon

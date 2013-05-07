@@ -50,7 +50,7 @@ namespace AdvanceMath
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = Matrix2x2.Size)]
     [AdvBrowsableOrder("Rx,Ry")]
-#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE
+#if !CompactFramework && !WindowsCE && !PocketPC && !XBOX360 && !SILVERLIGHT && !WINDOWS_PHONE && !NETFX_CORE
     [Serializable]
     [System.ComponentModel.TypeConverter(typeof(AdvTypeConverter<Matrix2x2>))]
 #endif
@@ -582,7 +582,9 @@ namespace AdvanceMath
         /// The X Row or row zero.
         /// </summary>
         [AdvBrowsable]
+#if !NETFX_CORE
         [System.ComponentModel.Description("The First row of the Matrix2x2")]
+#endif
         public Vector2D Rx
         {
             get
@@ -602,7 +604,9 @@ namespace AdvanceMath
         /// The Y Row or row one.
         /// </summary>
         [AdvBrowsable]
+#if !NETFX_CORE
         [System.ComponentModel.Description("The Second row of the Matrix2x2")]
+#endif
         public Vector2D Ry
         {
             get

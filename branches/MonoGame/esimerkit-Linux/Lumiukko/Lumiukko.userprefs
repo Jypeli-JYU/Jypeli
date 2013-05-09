@@ -1,9 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Ohjelma.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../Jypeli/Game/Game.cs">
     <Files>
-      <File FileName="Peli.cs" Line="28" Column="1" />
+      <File FileName="Peli.cs" Line="11" Column="5" />
       <File FileName="Ohjelma.cs" Line="25" Column="1" />
+      <File FileName="../../Jypeli/Graphics/Graphics.cs" Line="95" Column="53" />
+      <File FileName="../../Jypeli/Graphics/LineBatch.cs" Line="63" Column="6" />
+      <File FileName="../../MonoGame/MonoGame.Framework/Net/MonoGamerPeer.cs" Line="543" Column="6" />
+      <File FileName="../../Jypeli/Game/Game.cs" Line="140" Column="42" />
+      <File FileName="../../Jypeli/Graphics/View.cs" Line="49" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

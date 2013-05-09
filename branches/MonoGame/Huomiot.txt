@@ -18,3 +18,14 @@ Syy:
    WP8-versio ei osaa k‰‰nt‰‰ contenttia.
    K‰‰nn‰ xnb:ksi XNA Content Compilerilla.
    https://xnacontentcompiler.codeplex.com/
+
+---
+
+Virhe:
+   "Error CS2001: Source file `opentk/Source/GlobalAssemblyInfo.cs' could not be found (CS2001) (OpenTK)"
+Ymp‰ristˆ:
+   Linux/MonoDevelop
+Syy:
+   OpenTK pit‰‰ k‰‰nt‰‰ ensin konsolin kautta
+   xbuild OpenTK.sln /p:Configuration=Release
+

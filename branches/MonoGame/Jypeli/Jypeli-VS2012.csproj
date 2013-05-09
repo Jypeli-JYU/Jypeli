@@ -38,6 +38,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controls\Controller\ButtonState.cs" />
+    <Compile Include="Controls\Controller\Controller.cs" />
+    <Compile Include="Controls\Controller\Listener.cs" />
+    <Compile Include="Controls\Keyboard\Key.cs" />
+    <Compile Include="Controls\Keyboard\Keyboard.cs" />
     <Compile Include="DataTypes\Angle.cs" />
     <Compile Include="DataTypes\BoundingRectangle.cs" />
     <Compile Include="DataTypes\Direction.cs" />

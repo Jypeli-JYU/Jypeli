@@ -97,7 +97,9 @@ namespace Jypeli
             ShapeBatch.Initialize();
 
             ResetScreenSize();
+#if !LINUX
             Game.GraphicsDevice.DeviceReset += GraphicsDevice_DeviceReset;
+#endif
         }
 
         public static DepthFormat SelectStencilMode()

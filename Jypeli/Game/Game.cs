@@ -14,6 +14,7 @@ namespace Jypeli
 #region Fields
         // fullscreen isn't used as default, because debug mode doesn't work well with it
         private bool isFullScreenRequested = false;
+		private bool windowSizeSet = false;
 #endregion
 
 #region Graphics properties
@@ -132,14 +133,16 @@ namespace Jypeli
         [EditorBrowsable( EditorBrowsableState.Never )]
         protected override void Initialize()
         {
+			Screen = new ScreenView(GraphicsDevice.Viewport);
             Jypeli.Graphics.Initialize();
-            Screen = new ScreenView(GraphicsDevice.Viewport);
 
 #if WINDOWS_PHONE
             isFullScreenRequested = true;
             //Phone.ResetScreen();
-#else
-            SetWindowSize( GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, isFullScreenRequested );
+#elif !LINUX
+			// Let Linux use the default 800x480 window size, seems to work best with OpenTK
+			if ( !windowSizeSet )
+            	SetWindowSize( GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, isFullScreenRequested );
 #endif
 
             Level = new Level( this );
@@ -233,6 +236,7 @@ namespace Jypeli
             GraphicsDeviceManager.IsFullScreen = fullscreen;
             GraphicsDeviceManager.ApplyChanges();
             isFullScreenRequested = fullscreen;
+			windowSizeSet = true;
 
             /*D
             if ( GraphicsDevice != null )

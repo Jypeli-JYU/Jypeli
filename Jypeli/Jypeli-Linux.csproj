@@ -10,14 +10,13 @@
     <OutputType>Library</OutputType>
     <RootNamespace>JypeliLinux</RootNamespace>
     <AssemblyName>Jypeli</AssemblyName>
-    <ReleaseVersion>6.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;LINUX;UseDouble</DefineConstants>
+    <DefineConstants>DEBUG;LINUX;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
@@ -31,27 +30,19 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
-    <DefineConstants>LINUX;UseDouble</DefineConstants>
+    <DefineConstants>LINUX;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="OpenTK">
-      <Package>opentk</Package>
-    </Reference>
-    <Reference Include="MonoGame.Framework.Linux">
-      <Package>monogame</Package>
-    </Reference>
-    <Reference Include="Lidgren.Network">
-      <Package>monogame</Package>
-    </Reference>
     <Reference Include="Tao.Sdl">
       <Package>tao-sdl</Package>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTypes\Angle.cs" />
+    <Compile Include="DataTypes\BoundingRectangle.cs" />
     <Compile Include="DataTypes\Direction.cs" />
     <Compile Include="DataTypes\INotifyList.cs" />
     <Compile Include="DataTypes\ScoreList.cs" />
@@ -94,6 +85,18 @@
     <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
     <Compile Include="AdvanceMath\IO\MathReader.cs" />
     <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="Game\Game.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Graphics\Camera.cs" />
+    <Compile Include="Graphics\Canvas.cs" />
+    <Compile Include="Graphics\Color.cs" />
+    <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Graphics\ImageBatch.cs" />
+    <Compile Include="Graphics\LineBatch.cs" />
+    <Compile Include="Graphics\ShapeBatch.cs" />
+    <Compile Include="Graphics\View.cs" />
+    <Compile Include="Levels\Level.cs" />
     <Compile Include="Storage\SaveAttribute.cs" />
     <Compile Include="DataTypes\Destroyable.cs" />
     <Compile Include="DataTypes\Tagged.cs" />
@@ -102,7 +105,6 @@
     <Compile Include="Helpers\ReturnHelper.cs" />
     <Compile Include="Helpers\StreamHelpers.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
-    <Compile Include="Game\Game.cs" />
     <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -112,4 +114,18 @@
     <Folder Include="Content\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.Linux.csproj">
+      <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
+      <Name>MonoGame.Framework.Linux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.Linux.csproj">
+      <Project>{AE483C29-042E-4226-BA52-D247CE7676DA}</Project>
+      <Name>Lidgren.Network.Linux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\opentk\Source\OpenTK\OpenTK.csproj">
+      <Project>{A37A7E14-0000-0000-0000-000000000000}</Project>
+      <Name>OpenTK</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

@@ -35,20 +35,8 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="OpenTK">
-      <Package>opentk</Package>
-    </Reference>
-    <Reference Include="MonoGame.Framework.Linux">
-      <Package>monogame</Package>
-    </Reference>
-    <Reference Include="Lidgren.Network">
-      <Package>monogame</Package>
-    </Reference>
     <Reference Include="Tao.Sdl">
       <Package>tao-sdl</Package>
-    </Reference>
-    <Reference Include="Jypeli">
-      <HintPath>..\..\Jypeli\bin\Debug\Jypeli.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -63,4 +51,18 @@
     <Folder Include="Content\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Jypeli\Jypeli-Linux.csproj">
+      <Project>{6D97D187-7044-4AF6-BFC9-445F4A261F8A}</Project>
+      <Name>Jypeli-Linux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Linux.csproj">
+      <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
+      <Name>MonoGame.Framework.Linux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\opentk\Source\OpenTK\OpenTK.csproj">
+      <Project>{A37A7E14-0000-0000-0000-000000000000}</Project>
+      <Name>OpenTK</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

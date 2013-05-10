@@ -152,11 +152,13 @@ namespace Jypeli
         private void InitControls()
         {
             Keyboard = new Keyboard();
+            TouchPanel = new TouchPanel();
         }
 #endregion
 
 #region Control properties
         public Keyboard Keyboard { get; private set; }
+        public TouchPanel TouchPanel { get; private set; }
 #endregion
 
 #region XNA overrides
@@ -239,6 +241,7 @@ namespace Jypeli
         protected override void Update( GameTime gameTime )
         {
             Keyboard.Update();
+            TouchPanel.Update();
             base.Update( gameTime );
         }
 #endregion

@@ -97,6 +97,20 @@ namespace Jypeli
         /// <param name="input">Arvo joka muunnetaan.</param>
         /// <returns>Muunnettu arvo.</returns>
         public delegate TOutput Converter<in TInput, out TOutput>(TInput input);
+
+        /// <summary>
+        /// Suorittaa metodin kaikille kokoelman olioille.
+        /// </summary>
+        /// <typeparam name="T">Olioiden tyyppi</typeparam>
+        /// <param name="items">Oliokokoelma</param>
+        /// <param name="action">Metodi</param>
+        public static void ForEach<T>(this IEnumerable<T> items, Action<T> action)
+        {
+            foreach (T item in items)
+            {
+                action( item );
+            }
+        }
 #endif
 
         /// <summary>

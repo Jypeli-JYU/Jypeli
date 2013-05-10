@@ -16,6 +16,7 @@ Ymp‰ristˆ:
    VS2012 WP8
 Syy:
    WP8-versio ei osaa k‰‰nt‰‰ contenttia.
+Ratkaisu:
    K‰‰nn‰ xnb:ksi XNA Content Compilerilla.
    https://xnacontentcompiler.codeplex.com/
 
@@ -25,7 +26,15 @@ Virhe:
    "Error CS2001: Source file `opentk/Source/GlobalAssemblyInfo.cs' could not be found (CS2001) (OpenTK)"
 Ymp‰ristˆ:
    Linux/MonoDevelop
-Syy:
+Ratkaisu:
    OpenTK pit‰‰ k‰‰nt‰‰ ensin konsolin kautta
    xbuild OpenTK.sln /p:Configuration=Release
 
+---
+
+Ongelma:
+   Kosketus aina paikassa (Infinity, Infinity)
+Syy:
+   Bugi MonoGamessa
+Ratkaisu:
+   K‰yt‰ viimeisint‰ gitist‰ otettua versiota

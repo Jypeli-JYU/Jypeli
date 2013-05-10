@@ -3,9 +3,14 @@
 
 public class Peli : Game
 {
+    public Peli()
+        : base()
+    {
+        SetWindowSize( 800, 600, false );
+    }
+
     public override void Begin()
     {
-        Level.BackgroundColor = Color.Pink;
         /*Camera.ZoomToLevel();
 
         GameObject p1 = new GameObject( 200.0, 200.0, Shape.Circle );
@@ -21,9 +26,15 @@ public class Peli : Game
         GameObject p3 = new GameObject( 60.0, 60.0, Shape.Circle );
         p3.X = 0.0;
         p3.Y = Level.Bottom + 330.0;
-        Add( p3 );
+        Add( p3 );*/
 
-        Keyboard.Listen( Key.Escape, ButtonState.Pressed, Exit, "Poistu" );*/
+        Keyboard.Listen( Key.Left, ButtonState.Down, Camera.Move, null, -Vector.UnitX );
+        Keyboard.Listen( Key.Right, ButtonState.Down, Camera.Move, null, Vector.UnitX );
+        Keyboard.Listen( Key.Up, ButtonState.Down, Camera.Move, null, Vector.UnitY );
+        Keyboard.Listen( Key.Down, ButtonState.Down, Camera.Move, null, -Vector.UnitY );
+        Keyboard.Listen( Key.Period, ButtonState.Down, Camera.Zoom, null, 1.1 );
+        Keyboard.Listen( Key.Comma, ButtonState.Down, Camera.Zoom, null, 0.9 );
+        Keyboard.Listen( Key.Escape, ButtonState.Pressed, Exit, "Poistu" );
     }
 
     protected override void Paint( Canvas canvas )

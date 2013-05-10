@@ -22,7 +22,7 @@ namespace Lumiukko
         {
             InitializeComponent();
 
-            _game = XamlGame<Peli>.Create("", XnaSurface);
+            _game = XamlGame<Peli>.Create("", this);
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();

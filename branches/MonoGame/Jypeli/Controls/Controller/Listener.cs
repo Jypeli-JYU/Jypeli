@@ -63,7 +63,12 @@ namespace Jypeli
 
         public void Invoke()
         {
+#if NETFX_CORE
+            // Win8
+            MethodInfo handlerMethod = handler.GetMethodInfo();
+#else
             MethodInfo handlerMethod = handler.Method;
+#endif
             handlerMethod.Invoke( handler.Target, handlerParams );
         }
 

@@ -218,6 +218,7 @@ namespace Jypeli
 
         protected override void LoadContent()
         {
+            SetViewports();
             Begin();
             base.LoadContent();
         }
@@ -284,14 +285,15 @@ namespace Jypeli
             GraphicsDeviceManager.ApplyChanges();
             isFullScreenRequested = fullscreen;
 			windowSizeSet = true;
+        }
 
-            if ( GraphicsDevice != null )
-            {
-                Viewport viewPort = GraphicsDevice.Viewport;
-                Mouse.Viewport = viewPort;
-                if ( Screen != null )
-                    Screen.viewPort = viewPort;
-            }
+        private void SetViewports()
+        {
+            Viewport viewPort = GraphicsDevice.Viewport;
+            Mouse.Viewport = viewPort;
+            if ( Screen != null )
+                Screen.viewPort = viewPort;
+            Jypeli.Graphics.ResetScreenSize();
         }
     }
 }

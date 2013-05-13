@@ -6,11 +6,13 @@ public class Peli : Game
     public Peli()
         : base()
     {
-        SetWindowSize( 800, 600, false );
+        SetWindowSize( 1200, 800, false );
     }
 
     public override void Begin()
     {
+        Camera.ZoomFactor = 1;
+
         /*Camera.ZoomToLevel();
 
         GameObject p1 = new GameObject( 200.0, 200.0, Shape.Circle );

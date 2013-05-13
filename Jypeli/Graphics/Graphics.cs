@@ -191,7 +191,7 @@ namespace Jypeli
         }
 #endif
 
-        private static void ResetScreenSize()
+        internal static void ResetScreenSize()
         {
             GraphicsDevice device = Game.GraphicsDevice;
 

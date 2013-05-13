@@ -49,17 +49,17 @@ namespace Jypeli
 
             switch ( state )
             {
-                case ButtonState.Released:
-                    return delegate( KeyboardState prev, KeyboardState curr ) { return ( prev.IsKeyDown( key ) && curr.IsKeyUp(  key ) ); };
-
-                case ButtonState.Pressed:
-                    return delegate( KeyboardState prev, KeyboardState curr ) { return ( prev.IsKeyUp( key ) && curr.IsKeyDown( key ) ); };
-
                 case ButtonState.Up:
                     return delegate( KeyboardState prev, KeyboardState curr ) { return ( curr.IsKeyUp( key ) ); };
 
                 case ButtonState.Down:
                     return delegate( KeyboardState prev, KeyboardState curr ) { return ( curr.IsKeyDown( key ) ); };
+
+                case ButtonState.Pressed:
+                    return delegate( KeyboardState prev, KeyboardState curr ) { return ( prev.IsKeyUp( key ) && curr.IsKeyDown( key ) ); };
+
+                case ButtonState.Released:
+                    return delegate( KeyboardState prev, KeyboardState curr ) { return ( prev.IsKeyDown( key ) && curr.IsKeyUp( key ) ); };
             }
 
             return AlwaysTrigger;

@@ -131,6 +131,11 @@
     <Compile Include="Controls\Controller\Listener.cs" />
     <Compile Include="Controls\Keyboard\Key.cs" />
     <Compile Include="Controls\Keyboard\Keyboard.cs" />
+    <Compile Include="Controls\Mouse\Mouse.cs" />
+    <Compile Include="Controls\Mouse\MouseButton.cs" />
+    <Compile Include="Controls\TouchPanel\Touch.cs" />
+    <Compile Include="Controls\TouchPanel\TouchListener.cs" />
+    <Compile Include="Controls\TouchPanel\TouchPanel.cs" />
     <Compile Include="DataTypes\Angle.cs" />
     <Compile Include="DataTypes\BoundingRectangle.cs" />
     <Compile Include="DataTypes\Direction.cs" />
@@ -186,6 +191,7 @@
     <Compile Include="Graphics\LineBatch.cs" />
     <Compile Include="Graphics\ShapeBatch.cs" />
     <Compile Include="Graphics\View.cs" />
+    <Compile Include="Helpers\RandomGen.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Storage\SaveAttribute.cs" />
     <Compile Include="DataTypes\Destroyable.cs" />

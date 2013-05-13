@@ -152,12 +152,14 @@ namespace Jypeli
         private void InitControls()
         {
             Keyboard = new Keyboard();
+            Mouse = new Mouse();
             TouchPanel = new TouchPanel();
         }
 #endregion
 
 #region Control properties
         public Keyboard Keyboard { get; private set; }
+        public Mouse Mouse { get; private set; }
         public TouchPanel TouchPanel { get; private set; }
 #endregion
 
@@ -241,6 +243,7 @@ namespace Jypeli
         protected override void Update( GameTime gameTime )
         {
             Keyboard.Update();
+            Mouse.Update();
             TouchPanel.Update();
             base.Update( gameTime );
         }
@@ -282,16 +285,13 @@ namespace Jypeli
             isFullScreenRequested = fullscreen;
 			windowSizeSet = true;
 
-            /*D
             if ( GraphicsDevice != null )
             {
                 Viewport viewPort = GraphicsDevice.Viewport;
                 Mouse.Viewport = viewPort;
-                if ( screen != null )
-                {
-                    screen.viewPort = viewPort;
-                }
-            }*/
+                if ( Screen != null )
+                    Screen.viewPort = viewPort;
+            }
         }
     }
 }

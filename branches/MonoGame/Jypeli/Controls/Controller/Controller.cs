@@ -51,7 +51,7 @@ namespace Jypeli.Controls
         /// <summary>
         /// Nykyinen tila.
         /// </summary>
-        public ControllerState CurrentState { get; private set; }
+        public ControllerState CurrentState { get; protected set; }
 
         /// <summary>
         /// Lukee ja palauttaa laitteen viimeisimmän tilan.

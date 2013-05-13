@@ -35,6 +35,12 @@ public class Peli : Game
         Keyboard.Listen( Key.Period, ButtonState.Down, Camera.Zoom, null, 1.1 );
         Keyboard.Listen( Key.Comma, ButtonState.Down, Camera.Zoom, null, 0.9 );
         Keyboard.Listen( Key.Escape, ButtonState.Pressed, Exit, "Poistu" );
+
+        //Mouse.ListenMovement( 100, test, null );
+    }
+
+    void test()
+    {
     }
 
     protected override void Paint( Canvas canvas )
@@ -54,6 +60,22 @@ public class Peli : Game
         canvas.BrushColor = Color.Teal;
         canvas.DrawLine( canvas.TopLeft, canvas.BottomRight );
         canvas.DrawLine( canvas.TopRight, canvas.BottomLeft );
+
+        canvas.BrushColor = Color.White;
+        canvas.DrawLine( Mouse.PositionOnWorld + new Vector( 10, -20 ), Mouse.PositionOnWorld );
+        canvas.DrawLine( Mouse.PositionOnWorld, Mouse.PositionOnWorld + new Vector( 20, -10 ) );
+
+        double radius = 1;
+        if ( Mouse.GetButtonState( MouseButton.Left ) == ButtonState.Down ) radius += 10;
+        if ( Mouse.GetButtonState( MouseButton.Right ) == ButtonState.Down ) radius += 20;
+
+        for ( int i = 0; i < 10; i++ )
+        {
+            canvas.BrushColor = RandomGen.NextColor();
+            Vector from = Mouse.PositionOnWorld + RandomGen.NextVector( 3, radius );
+            Vector to = Mouse.PositionOnWorld + RandomGen.NextVector( 3, radius );
+            canvas.DrawLine( from, to );
+        }
 
         base.Paint( canvas );
     }

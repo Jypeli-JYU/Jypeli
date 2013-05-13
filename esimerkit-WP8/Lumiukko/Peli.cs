@@ -7,7 +7,7 @@ public class Peli : Game
     public Peli()
         : base()
     {
-        SetWindowSize( 800, 600, false );
+        //SetWindowSize( 800, 600, false );
     }
 
     public override void Begin()

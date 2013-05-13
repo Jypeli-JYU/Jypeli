@@ -119,6 +119,7 @@ namespace Jypeli
 
 #region Constructor & inits
         public Game()
+            : base()
         {
             InitXnaContent();
             InitInstance();
@@ -172,9 +173,6 @@ namespace Jypeli
         [EditorBrowsable( EditorBrowsableState.Never )]
         protected override void Initialize()
         {
-			Screen = new ScreenView(GraphicsDevice.Viewport);
-            Jypeli.Graphics.Initialize();
-
 #if WINDOWS_PHONE
             isFullScreenRequested = true;
             //Phone.ResetScreen();
@@ -218,7 +216,9 @@ namespace Jypeli
 
         protected override void LoadContent()
         {
-            SetViewports();
+            // Graphics initialization is best done here when window size is set for certain
+            InitGraphics();
+            
             Begin();
             base.LoadContent();
         }
@@ -287,13 +287,12 @@ namespace Jypeli
 			windowSizeSet = true;
         }
 
-        private void SetViewports()
+        private void InitGraphics()
         {
             Viewport viewPort = GraphicsDevice.Viewport;
             Mouse.Viewport = viewPort;
-            if ( Screen != null )
-                Screen.viewPort = viewPort;
-            Jypeli.Graphics.ResetScreenSize();
+            Screen = new ScreenView( viewPort );
+            Jypeli.Graphics.Initialize();
         }
     }
 }

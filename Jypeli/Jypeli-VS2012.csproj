@@ -93,13 +93,17 @@
     <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
     <Compile Include="AdvanceMath\IO\MathReader.cs" />
     <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="Game\Controls.cs" />
+    <Compile Include="Game\DelayedActions.cs" />
     <Compile Include="Game\Game.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Game\Graphics.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Canvas.cs" />
     <Compile Include="Graphics\Color.cs" />
     <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Graphics\Image.cs" />
     <Compile Include="Graphics\ImageBatch.cs" />
     <Compile Include="Graphics\LineBatch.cs" />
     <Compile Include="Graphics\ShapeBatch.cs" />

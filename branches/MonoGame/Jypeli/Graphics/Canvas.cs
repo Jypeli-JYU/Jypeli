@@ -86,23 +86,11 @@ namespace Jypeli
             Reset();
         }
 
-        internal void Reset()
+        private void Reset()
         {
             BrushColor = Color.Black;
-
-            // debug
-            if (Game.Screen == null) return;
-            Left = Game.Screen.Left;
-            Right = Game.Screen.Right;
-            Bottom = Game.Screen.Bottom;
-            Top = Game.Screen.Top;
-            TopLeft = new Vector( Left, Top );
-            TopRight = new Vector( Right, Top );
-            BottomLeft = new Vector( Left, Bottom );
-            BottomRight = new Vector( Right, Bottom );
         }
 
-        /*D
         internal void Reset( Level level )
         {
             Reset();
@@ -115,7 +103,6 @@ namespace Jypeli
             BottomLeft = new Vector( Left, Bottom );
             BottomRight = new Vector( Right, Bottom );
         }
-         */
 
         /// <summary>
         /// Piirtää janan.

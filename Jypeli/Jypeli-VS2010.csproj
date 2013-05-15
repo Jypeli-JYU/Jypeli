@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\WindowsGL\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS;UseDouble</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -27,7 +27,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\WindowsGL\Release\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;UseDouble</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -38,7 +38,19 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controls\Controller\ButtonState.cs" />
+    <Compile Include="Controls\Controller\Controller.cs" />
+    <Compile Include="Controls\Controller\Listener.cs" />
+    <Compile Include="Controls\Keyboard\Key.cs" />
+    <Compile Include="Controls\Keyboard\Keyboard.cs" />
+    <Compile Include="Controls\Mouse\Mouse.cs" />
+    <Compile Include="Controls\Mouse\MouseButton.cs" />
+    <Compile Include="Controls\Mouse\MouseState.cs" />
+    <Compile Include="Controls\TouchPanel\Touch.cs" />
+    <Compile Include="Controls\TouchPanel\TouchListener.cs" />
+    <Compile Include="Controls\TouchPanel\TouchPanel.cs" />
     <Compile Include="DataTypes\Angle.cs" />
+    <Compile Include="DataTypes\BoundingRectangle.cs" />
     <Compile Include="DataTypes\Direction.cs" />
     <Compile Include="DataTypes\INotifyList.cs" />
     <Compile Include="DataTypes\ScoreList.cs" />
@@ -81,6 +93,25 @@
     <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
     <Compile Include="AdvanceMath\IO\MathReader.cs" />
     <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="Game\Content.cs" />
+    <Compile Include="Game\Controls.cs" />
+    <Compile Include="Game\DelayedActions.cs" />
+    <Compile Include="Game\Game.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Game\Graphics.cs" />
+    <Compile Include="Graphics\Camera.cs" />
+    <Compile Include="Graphics\Canvas.cs" />
+    <Compile Include="Graphics\Color.cs" />
+    <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Graphics\Image.cs" />
+    <Compile Include="Graphics\ImageBatch.cs" />
+    <Compile Include="Graphics\LineBatch.cs" />
+    <Compile Include="Graphics\Renderer.cs" />
+    <Compile Include="Graphics\ShapeBatch.cs" />
+    <Compile Include="Graphics\View.cs" />
+    <Compile Include="Helpers\RandomGen.cs" />
+    <Compile Include="Levels\Level.cs" />
     <Compile Include="Storage\SaveAttribute.cs" />
     <Compile Include="DataTypes\Destroyable.cs" />
     <Compile Include="DataTypes\Tagged.cs" />
@@ -89,7 +120,6 @@
     <Compile Include="Helpers\ReturnHelper.cs" />
     <Compile Include="Helpers\StreamHelpers.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
-    <Compile Include="Game\Game.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

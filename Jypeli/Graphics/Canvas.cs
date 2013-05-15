@@ -28,6 +28,7 @@
  */
 
 using System;
+using Microsoft.Xna.Framework;
 
 namespace Jypeli
 {
@@ -36,6 +37,9 @@ namespace Jypeli
     /// </summary>
     public class Canvas
     {
+        Image previousImage = null;
+        internal Matrix worldMatrix;
+
         /// <summary>
         /// Vasen reuna.
         /// </summary>
@@ -86,9 +90,24 @@ namespace Jypeli
             Reset();
         }
 
+        public void Begin( ref Matrix worldMatrix, Level level )
+        {
+            Graphics.LineBatch.Begin( ref worldMatrix );
+            Graphics.ImageBatch.Begin( ref worldMatrix, null );
+            Graphics.Canvas.Reset( level );
+            this.worldMatrix = worldMatrix;
+        }
+
+        public void End()
+        {
+            Graphics.ImageBatch.End();
+            Graphics.LineBatch.End();
+        }
+
         private void Reset()
         {
             BrushColor = Color.Black;
+            previousImage = null;
         }
 
         internal void Reset( Level level )
@@ -124,6 +143,37 @@ namespace Jypeli
         public void DrawLine( double x1, double y1, double x2, double y2 )
         {
             Graphics.LineBatch.Draw( new Vector( x1, y1 ), new Vector( x2, y2 ), BrushColor );
+        }
+
+        /// <summary>
+        /// Piirtää kuvan.
+        /// </summary>
+        /// <param name="point">Koordinaatti johon piirretään</param>
+        /// <param name="image">Kuva</param>
+        /// <param name="scale">Skaalaus (1x1 normaalikoko)</param>
+        /// <param name="angle">Kiertokulma</param>
+        public void DrawImage( Vector point, Image image, Vector scale, Angle angle )
+        {
+            if ( !Object.ReferenceEquals( image, previousImage ) )
+            {
+                // Start a new batch with different image
+                Graphics.ImageBatch.End();
+                Graphics.ImageBatch.Begin( ref worldMatrix, image.XNATexture );
+                previousImage = image;
+            }
+
+            Vector2 scaleV = new Vector2( (float)( image.Width * scale.X ), (float)( image.Height * scale.Y ) );
+            Graphics.ImageBatch.Draw( Graphics.DefaultTextureCoords, (Vector2)point, scaleV, (float)angle.Radians );
+        }
+
+        /// <summary>
+        /// Piirtää kuvan.
+        /// </summary>
+        /// <param name="point">Koordinaatti johon piirretään</param>
+        /// <param name="image">Kuva</param>
+        public void DrawImage( Vector point, Image image )
+        {
+            DrawImage( point, image, Vector.Diagonal, Angle.Zero );
         }
     }
 }

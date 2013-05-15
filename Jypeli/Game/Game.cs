@@ -146,10 +146,9 @@ namespace Jypeli
                 Matrix.CreateTranslation( (float)-Camera.Position.X, (float)-Camera.Position.Y, 0 )
                 * Matrix.CreateScale( (float)Camera.ZoomFactor, (float)Camera.ZoomFactor, 1f );
 
-            Graphics.LineBatch.Begin( ref worldMatrix );
-            Graphics.Canvas.Reset( Level );
+            Graphics.Canvas.Begin( ref worldMatrix, Level );
             Paint( Graphics.Canvas );
-            Graphics.LineBatch.End();
+            Graphics.Canvas.End();
 
             base.Draw( gameTime );
         }

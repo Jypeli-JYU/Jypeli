@@ -37,7 +37,6 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="MonoGame.Framework" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\Controller\ButtonState.cs" />
@@ -123,6 +122,7 @@
     <Compile Include="Helpers\StreamHelpers.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
+    <Compile Include="Content\ContentResources.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
@@ -134,5 +134,29 @@
     <Folder Include="Storage\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\bin\AsRifle.xnb" />
+    <None Include="Content\bin\Auto.xnb" />
+    <None Include="Content\bin\Bullet.xnb" />
+    <None Include="Content\bin\Cannon.xnb" />
+    <None Include="Content\bin\CannonBall.xnb" />
+    <None Include="Content\bin\DownArrow.xnb" />
+    <None Include="Content\bin\explosion.xnb" />
+    <None Include="Content\bin\explosion2.xnb" />
+    <None Include="Content\bin\Grenade.xnb" />
+    <None Include="Content\bin\PlasmaCannon.xnb" />
+    <None Include="Content\bin\smoke.xnb" />
+    <None Include="Content\bin\Tank.xnb" />
+    <None Include="Content\bin\UpArrow.xnb" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
+      <Project>{7DE47032-A904-4C29-BD22-2D235E8D91BA}</Project>
+      <Name>MonoGame.Framework.Windows</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\ContentResources.resx" />
+  </ItemGroup>
 </Project>

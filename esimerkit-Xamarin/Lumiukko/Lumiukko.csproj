@@ -36,7 +36,6 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="MonoGame.Framework" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +53,10 @@
     <ProjectReference Include="..\..\Jypeli\Jypeli-Xamarin.csproj">
       <Project>{B953E24C-29F5-4DA6-AE07-8F4300EAD977}</Project>
       <Name>Jypeli-Xamarin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
+      <Project>{7DE47032-A904-4C29-BD22-2D235E8D91BA}</Project>
+      <Name>MonoGame.Framework.Windows</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

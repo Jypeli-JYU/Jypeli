@@ -70,14 +70,9 @@ namespace Jypeli
         private void InitXnaGraphics()
         {
             GraphicsDeviceManager = new GraphicsDeviceManager( this );
-            //GraphicsDeviceManager.PreferredDepthStencilFormat = Jypeli.Graphics.SelectStencilMode();
+            GraphicsDeviceManager.PreferredDepthStencilFormat = Jypeli.Graphics.SelectStencilMode();
         }
 
-        private void InitXnaContent()
-        {
-            Content.RootDirectory = "Content";
-        }
-      
         /// <summary>
         /// This gets called after the GraphicsDevice has been created. So, this is
         /// the place to initialize the resources needed in the game. Except the graphics content,

@@ -14,8 +14,13 @@ public class Peli : Game
 
     public override void Begin()
     {
+        IsMouseVisible = true;
         Camera.ZoomFactor = 1;
-        norsunkuva = LoadImage( "norsu" );
+        var img = ResourceContent.Load<Microsoft.Xna.Framework.Graphics.Texture2D>( "CannonBall" );
+        norsunkuva = new Image( img );
+        //var sound = ResourceContent.Load<Microsoft.Xna.Framework.Audio.SoundEffect>( "laser" );
+        //sound.Play();
+        //norsunkuva = LoadImage( "norsu" );
 
         /*Camera.ZoomToLevel();
 

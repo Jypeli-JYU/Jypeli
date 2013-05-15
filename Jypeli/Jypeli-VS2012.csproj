@@ -38,6 +38,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Content\ContentResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ContentResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Controller\ButtonState.cs" />
     <Compile Include="Controls\Controller\Controller.cs" />
     <Compile Include="Controls\Controller\Listener.cs" />
@@ -126,12 +131,10 @@
     <Reference Include="OpenTK">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="MonoGame.Framework">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\MonoGame.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="Lidgren.Network">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Lidgren.Network.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="Tao.Sdl">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Tao.Sdl.dll</HintPath>
     </Reference>
@@ -146,8 +149,40 @@
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\" />
     <Folder Include="GameObjects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\ContentResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ContentResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\bin\AsRifle.xnb" />
+    <None Include="Content\bin\Auto.xnb" />
+    <None Include="Content\bin\Bullet.xnb" />
+    <None Include="Content\bin\Cannon.xnb" />
+    <None Include="Content\bin\CannonBall.xnb" />
+    <None Include="Content\bin\CannonFire.xnb" />
+    <None Include="Content\bin\DownArrow.xnb" />
+    <None Include="Content\bin\explosion.xnb" />
+    <None Include="Content\bin\explosion2.xnb" />
+    <None Include="Content\bin\explosionSound.xnb" />
+    <None Include="Content\bin\Grenade.xnb" />
+    <None Include="Content\bin\implosionSound.xnb" />
+    <None Include="Content\bin\laser.xnb" />
+    <None Include="Content\bin\MGAttack.xnb" />
+    <None Include="Content\bin\PlasmaAttack.xnb" />
+    <None Include="Content\bin\PlasmaCannon.xnb" />
+    <None Include="Content\bin\smoke.xnb" />
+    <None Include="Content\bin\Tank.xnb" />
+    <None Include="Content\bin\UpArrow.xnb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
+      <Project>{7de47032-a904-4c29-bd22-2d235e8d91ba}</Project>
+      <Name>MonoGame.Framework.Windows</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

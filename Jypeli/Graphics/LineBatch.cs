@@ -37,8 +37,9 @@ namespace Jypeli
             if ( iVertexBuffer > 0 )
             {
                 effect = Graphics.GetColorEffect(ref matrix, LightingEnabled);
-                effect.CurrentTechnique.Passes[0].Apply();
-                
+                for ( int i = 0; i < effect.CurrentTechnique.Passes.Count; i++ )
+                    effect.CurrentTechnique.Passes[i].Apply();
+
                 Game.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
                     PrimitiveType.LineList, vertexBuffer, 0, iVertexBuffer / 2);
             }

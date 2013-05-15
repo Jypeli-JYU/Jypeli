@@ -52,6 +52,14 @@ namespace Jypeli
 
         public static Canvas Canvas = new Canvas();
 
+        public static readonly TextureCoordinates DefaultTextureCoords = new TextureCoordinates()
+        {
+            TopLeft = new Vector2( 0.0f, 0.0f ),
+            TopRight = new Vector2( 1.0f, 0.0f ),
+            BottomLeft = new Vector2( 0.0f, 1.0f ),
+            BottomRight = new Vector2( 1.0f, 1.0f ),
+        };
+
 #if !WINDOWS_PHONE && !DISABLE_EFFECTS
         static Effect LightingEffect;
 #endif

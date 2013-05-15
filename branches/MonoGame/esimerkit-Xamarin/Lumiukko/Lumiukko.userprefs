@@ -1,10 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Peli.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Ohjelma.cs">
     <Files>
-      <File FileName="Peli.cs" Line="3" Column="1" />
-      <File FileName="Ohjelma.cs" Line="20" Column="15" />
-      <File FileName="d:\Jypeli\MonoKaannos\Jypeli\Graphics\Graphics.cs" Line="30" Column="21" />
+      <File FileName="Ohjelma.cs" Line="24" Column="1" />
+      <File FileName="d:\Jypeli\MonoKaannos\Jypeli\Graphics\Graphics.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

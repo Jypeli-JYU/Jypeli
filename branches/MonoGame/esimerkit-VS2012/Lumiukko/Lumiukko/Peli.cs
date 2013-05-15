@@ -1,8 +1,11 @@
-﻿using Jypeli;
-//using Jypeli.Controls;
+﻿using System.Collections.Generic;
+using Jypeli;
 
 public class Peli : Game
 {
+    Image norsunkuva;
+    List<Vector> norsut = new List<Vector>();
+
     public Peli()
         : base()
     {
@@ -12,6 +15,7 @@ public class Peli : Game
     public override void Begin()
     {
         Camera.ZoomFactor = 1;
+        norsunkuva = LoadImage( "norsu" );
 
         /*Camera.ZoomToLevel();
 
@@ -38,11 +42,18 @@ public class Peli : Game
         Keyboard.Listen( Key.Comma, ButtonState.Down, Camera.Zoom, null, 0.9 );
         Keyboard.Listen( Key.Escape, ButtonState.Pressed, Exit, "Poistu" );
 
-        //Mouse.ListenMovement( 100, test, null );
+        Mouse.Listen( MouseButton.Left, ButtonState.Pressed, LisaaNorsu, "Lisää norsu" );
+        Mouse.Listen( MouseButton.Right, ButtonState.Pressed, PoistaNorsut, "Poista kaikki norsut" );
     }
 
-    void test()
+    void LisaaNorsu()
     {
+        norsut.Add( Mouse.PositionOnWorld );
+    }
+
+    void PoistaNorsut()
+    {
+        norsut.Clear();
     }
 
     protected override void Paint( Canvas canvas )
@@ -77,6 +88,11 @@ public class Peli : Game
             Vector from = Mouse.PositionOnWorld + RandomGen.NextVector( 3, radius );
             Vector to = Mouse.PositionOnWorld + RandomGen.NextVector( 3, radius );
             canvas.DrawLine( from, to );
+        }
+
+        foreach ( Vector piste in norsut )
+        {
+            canvas.DrawImage( piste, norsunkuva );
         }
 
         base.Paint( canvas );

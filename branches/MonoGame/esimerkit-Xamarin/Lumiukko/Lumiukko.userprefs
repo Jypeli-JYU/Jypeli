@@ -1,10 +1,30 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Ohjelma.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Peli.cs">
     <Files>
-      <File FileName="Ohjelma.cs" Line="24" Column="1" />
+      <File FileName="Ohjelma.cs" Line="1" Column="1" />
       <File FileName="d:\Jypeli\MonoKaannos\Jypeli\Graphics\Graphics.cs" Line="1" Column="1" />
+      <File FileName="Peli.cs" Line="8" Column="2" />
+      <File FileName="d:\Jypeli\MonoKaannos\Jypeli\Game\Content.cs" Line="39" Column="1" />
+      <File FileName="d:\Jypeli\MonoKaannos\MonoGame\MonoGame.Framework\Content\ResourceContentManager.cs" Line="33" Column="52" />
+      <File FileName="..\..\Jypeli\Content\ContentResources.Designer.cs" Line="11" Column="25" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Jypeli-Xamarin" expanded="True">
+            <Node name="Content" expanded="True" />
+            <Node name="Game" expanded="True" />
+          </Node>
+          <Node name="Lumiukko" expanded="True">
+            <Node name="Peli.cs" selected="True" />
+          </Node>
+          <Node name="MonoGame.Framework.Windows" expanded="True">
+            <Node name="Content" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

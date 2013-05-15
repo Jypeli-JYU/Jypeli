@@ -21,6 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+using Jypeli.Content;
+
+
 #endregion
 
 /*
@@ -31,26 +34,50 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Jypeli
 {
     public partial class Game
     {
         /// <summary>
+        /// Kirjaston mukana tuleva sisältö.
+        /// Voidaan käyttää esimerkiksi tekstuurien lataamiseen.
+        /// </summary>
+        public static ResourceContentManager ResourceContent { get; private set; }
+
+        private void InitXnaContent()
+        {
+            ResourceContent = new ResourceContentManager( this.Services, ContentResources.ResourceManager );
+            Content.RootDirectory = "Content";
+        }
+
+        /// <summary>
         /// Lataa kuvan contentista.
         /// </summary>
         /// <param name="name">Kuvan nimi (ei tarkennetta)</param>
-        /// <returns>Image-olio</returns>
+        /// <returns>Kuva</returns>
         public static Image LoadImage( string name )
         {
             return new Image( name );
         }
 
         /// <summary>
+        /// Lataa kuvan Jypelin resursseista.
+        /// </summary>
+        /// <param name="name">Kuvan nimi</param>
+        /// <returns>Kuva</returns>
+        public static Image LoadImageFromResources( string name )
+        {
+            return new Image( ResourceContent.Load<Texture2D>( name ) );
+        }
+
+        /// <summary>
         /// Lataa taulukon kuvia contentista.
         /// </summary>
         /// <param name="name">Kuvien nimet ilman tarkennetta pilkuin eroiteltuna</param>
-        /// <returns>Taulukko Image-olioita</returns>
+        /// <returns>Kuvataulukko</returns>
         public static Image[] LoadImages( params string[] names )
         {
             Image[] result = new Image[names.Length];
@@ -66,7 +93,7 @@ namespace Jypeli
         /// <param name="startIndex">Ensimmäisen kuvan numero.</param>
         /// <param name="endIndex">Viimeisen kuvan numero.</param>
         /// <param name="zeroPad">Onko numeron edessä täytenollia.</param>
-        /// <returns></returns>
+        /// <returns>Kuvataulukko</returns>
         public static Image[] LoadImages( string baseName, int startIndex, int endIndex, bool zeroPad = false )
         {
             if ( startIndex > endIndex ) throw new ArgumentException( "Starting index must be smaller than ending index." );

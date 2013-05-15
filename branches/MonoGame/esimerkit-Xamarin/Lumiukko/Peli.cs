@@ -14,8 +14,10 @@ public class Peli : Game
 
     public override void Begin()
     {
+		IsMouseVisible = true;
         Camera.ZoomFactor = 1;
-        norsunkuva = LoadImage( "norsu" );
+        //norsunkuva = LoadImage( "norsu" );
+		norsunkuva = LoadImageFromResources( "CannonBall" );
 
         /*Camera.ZoomToLevel();
 

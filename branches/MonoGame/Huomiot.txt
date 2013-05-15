@@ -38,3 +38,15 @@ Syy:
    Bugi MonoGamessa
 Ratkaisu:
    Käytä viimeisintä gitistä otettua versiota
+
+---
+
+Virhe:
+   Error CS1566: Error reading resource file 'd:\Jypeli\MonoKaannos\Jypeli\Content\ContentResources.resources' -- 'The system cannot find the file specified. ' (CS1566) (Jypeli-Xamarin)
+Ympäristö:
+   Xamarin Studio
+Syy:
+   Tarvitsee .resource -tiedoston .resx:n sijasta
+Ratkaisu:
+   Käännä resx resgen.exellä
+

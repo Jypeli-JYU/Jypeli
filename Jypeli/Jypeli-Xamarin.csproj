@@ -121,11 +121,39 @@
     <Compile Include="Helpers\ReturnHelper.cs" />
     <Compile Include="Helpers\StreamHelpers.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
-    <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
     <Compile Include="Content\ContentResources.Designer.cs" />
+    <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
+    <Compile Include="Events\MeterAddOperation.cs" />
+    <Compile Include="Events\Operation.cs" />
+    <Compile Include="Events\Timer.cs" />
+    <Compile Include="Sound\MediaPlayer.cs" />
+    <Compile Include="Sound\Sound.cs" />
+    <Compile Include="Sound\SoundEffect.cs" />
+    <Compile Include="DataTypes\DoubleMeter.cs" />
+    <Compile Include="DataTypes\IntMeter.cs" />
+    <Compile Include="DataTypes\Meter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
+    <None Include="Content\AsRifle.xnb" />
+    <None Include="Content\Auto.xnb" />
+    <None Include="Content\Bullet.xnb" />
+    <None Include="Content\Cannon.xnb" />
+    <None Include="Content\CannonBall.xnb" />
+    <None Include="Content\CannonFire.xnb" />
+    <None Include="Content\DownArrow.xnb" />
+    <None Include="Content\explosion.xnb" />
+    <None Include="Content\explosion2.xnb" />
+    <None Include="Content\explosionSound.xnb" />
+    <None Include="Content\Grenade.xnb" />
+    <None Include="Content\implosionSound.xnb" />
+    <None Include="Content\laser.xnb" />
+    <None Include="Content\MGAttack.xnb" />
+    <None Include="Content\PlasmaAttack.xnb" />
+    <None Include="Content\PlasmaCannon.xnb" />
+    <None Include="Content\smoke.xnb" />
+    <None Include="Content\Tank.xnb" />
+    <None Include="Content\UpArrow.xnb" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -133,30 +161,17 @@
     <Folder Include="AdvanceMath\" />
     <Folder Include="Storage\" />
     <Folder Include="Helpers\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\bin\AsRifle.xnb" />
-    <None Include="Content\bin\Auto.xnb" />
-    <None Include="Content\bin\Bullet.xnb" />
-    <None Include="Content\bin\Cannon.xnb" />
-    <None Include="Content\bin\CannonBall.xnb" />
-    <None Include="Content\bin\DownArrow.xnb" />
-    <None Include="Content\bin\explosion.xnb" />
-    <None Include="Content\bin\explosion2.xnb" />
-    <None Include="Content\bin\Grenade.xnb" />
-    <None Include="Content\bin\PlasmaCannon.xnb" />
-    <None Include="Content\bin\smoke.xnb" />
-    <None Include="Content\bin\Tank.xnb" />
-    <None Include="Content\bin\UpArrow.xnb" />
+    <Folder Include="Events\" />
+    <Folder Include="Sound\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
-      <Project>{7DE47032-A904-4C29-BD22-2D235E8D91BA}</Project>
-      <Name>MonoGame.Framework.Windows</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="Content\ContentResources.resx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Content\ContentResources.resx" />
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
+      <Project>{DA65B249-9290-4A09-A48C-443A65845583}</Project>
+      <Name>MonoGame.Framework.WindowsGL</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -1,16 +1,28 @@
-﻿using Jypeli;
-//using Jypeli.Controls;
+﻿using System.Collections.Generic;
+using Jypeli;
 
 public class Peli : Game
 {
+    Image norsunkuva;
+    List<Vector> norsut = new List<Vector>();
+
     public Peli()
         : base()
     {
-        SetWindowSize( 800, 600, false );
+        SetWindowSize( 1200, 800, false );
     }
 
     public override void Begin()
     {
+        IsMouseVisible = true;
+        Camera.ZoomFactor = 1;
+        var img = ResourceContent.Load<Microsoft.Xna.Framework.Graphics.Texture2D>( "bullet" );
+        norsunkuva = new Image( img );
+		//MediaPlayer.Play("");
+        //var sound = ResourceContent.Load<Microsoft.Xna.Framework.Audio.SoundEffect>( "laser" );
+        //sound.Play();
+        //norsunkuva = LoadImage( "norsu" );
+
         /*Camera.ZoomToLevel();
 
         GameObject p1 = new GameObject( 200.0, 200.0, Shape.Circle );
@@ -36,11 +48,19 @@ public class Peli : Game
         Keyboard.Listen( Key.Comma, ButtonState.Down, Camera.Zoom, null, 0.9 );
         Keyboard.Listen( Key.Escape, ButtonState.Pressed, Exit, "Poistu" );
 
-        //Mouse.ListenMovement( 100, test, null );
+        Mouse.Listen( MouseButton.Left, ButtonState.Pressed, LisaaNorsu, "Lisää norsu" );
+        Mouse.Listen( MouseButton.Right, ButtonState.Pressed, PoistaNorsut, "Poista kaikki norsut" );
     }
 
-    void test()
+    void LisaaNorsu()
     {
+		//PlaySound( "CannonFire" );
+        norsut.Add( Mouse.PositionOnWorld );
+    }
+
+    void PoistaNorsut()
+    {
+        norsut.Clear();
     }
 
     protected override void Paint( Canvas canvas )
@@ -72,9 +92,14 @@ public class Peli : Game
         for ( int i = 0; i < 10; i++ )
         {
             canvas.BrushColor = RandomGen.NextColor();
-            Vector from = Mouse.PositionOnWorld - Mouse.MovementOnWorld + RandomGen.NextVector( 3, radius );
-            Vector to = Mouse.PositionOnWorld - Mouse.MovementOnWorld + RandomGen.NextVector( 3, radius );
+            Vector from = Mouse.PositionOnWorld + RandomGen.NextVector( 3, radius );
+            Vector to = Mouse.PositionOnWorld + RandomGen.NextVector( 3, radius );
             canvas.DrawLine( from, to );
+        }
+
+        foreach ( Vector piste in norsut )
+        {
+            canvas.DrawImage( piste, norsunkuva );
         }
 
         base.Paint( canvas );

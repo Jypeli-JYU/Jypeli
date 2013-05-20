@@ -42,7 +42,11 @@ namespace Jypeli
             {
                 wcx = value.X + value.Width / 2;
                 wcy = value.Y + value.Height / 2;
+
+#if !NETFX_CORE
+                // Not supported on Win8 Store apps... only sets xna coords
                 XnaMouse.SetPosition( wcx, wcy );
+#endif
             }
         }
 
@@ -57,8 +61,11 @@ namespace Jypeli
             }
             set
             {
+#if !NETFX_CORE
+                // Not supported on Win8 Store apps... only sets xna coords
                 CurrentState = new MouseState( CurrentState, value );
                 XnaMouse.SetPosition( wcx + (int)value.X, wcy - (int)value.Y );
+#endif
             }
         }
 
@@ -123,6 +130,12 @@ namespace Jypeli
             }
         }
 
+        public Mouse()
+        {
+            var xnaState = XnaMouse.GetState();
+            CurrentState = new MouseState( CurrentState, new Vector( xnaState.X, xnaState.Y ) );
+        }
+
         internal override MouseState GetState()
         {
             var xnaState = XnaMouse.GetState();
@@ -137,11 +150,13 @@ namespace Jypeli
             state.X2Down = xnaState.XButton2 == XnaButtonState.Pressed;
             state.Wheel = xnaState.ScrollWheelValue;
 
+#if !NETFX_CORE
             if ( !IsCursorVisible )
             {
                 // Reset the mouse to the center of the screen
                 XnaMouse.SetPosition( wcx, wcy );
             }
+#endif
 
             return state;
         }

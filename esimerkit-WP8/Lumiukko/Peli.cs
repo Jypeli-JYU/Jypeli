@@ -1,17 +1,28 @@
 ﻿using System.Collections.Generic;
 using Jypeli;
-//using Jypeli.Controls;
 
 public class Peli : Game
 {
+    Image norsunkuva;
+    List<Vector> norsut = new List<Vector>();
+
     public Peli()
         : base()
     {
-        //SetWindowSize( 800, 600, false );
+        SetWindowSize( 1200, 800, false );
     }
 
     public override void Begin()
     {
+        IsMouseVisible = true;
+        Camera.ZoomFactor = 1;
+        //var img = ResourceContent.Load<Microsoft.Xna.Framework.Graphics.Texture2D>( "CannonBall" );
+        //norsunkuva = new Image( img );
+		//MediaPlayer.Play("");
+        //var sound = ResourceContent.Load<Microsoft.Xna.Framework.Audio.SoundEffect>( "laser" );
+        //sound.Play();
+        norsunkuva = LoadImage( "norsu" );
+
         /*Camera.ZoomToLevel();
 
         GameObject p1 = new GameObject( 200.0, 200.0, Shape.Circle );
@@ -29,28 +40,18 @@ public class Peli : Game
         p3.Y = Level.Bottom + 330.0;
         Add( p3 );*/
 
-        Keyboard.Listen( Key.Left, ButtonState.Down, Camera.Move, null, -Vector.UnitX );
-        Keyboard.Listen( Key.Right, ButtonState.Down, Camera.Move, null, Vector.UnitX );
-        Keyboard.Listen( Key.Up, ButtonState.Down, Camera.Move, null, Vector.UnitY );
-        Keyboard.Listen( Key.Down, ButtonState.Down, Camera.Move, null, -Vector.UnitY );
-        Keyboard.Listen( Key.Period, ButtonState.Down, Camera.Zoom, null, 1.1 );
-        Keyboard.Listen( Key.Comma, ButtonState.Down, Camera.Zoom, null, 0.9 );
-        Keyboard.Listen( Key.Escape, ButtonState.Pressed, Exit, "Poistu" );
-
-        TouchPanel.Listen( ButtonState.Pressed, AddPoint, null );
-        TouchPanel.Listen( ButtonState.Released, RemovePoint, null );
+        TouchPanel.Listen( ButtonState.Pressed, LisaaNorsu, "Lisää norsu" );
     }
 
-    List<Touch> points = new List<Touch>();
-
-    void AddPoint( Touch t )
+    void LisaaNorsu( Touch touch )
     {
-        points.Add( t );
+		//PlaySound( "CannonFire" );
+        norsut.Add( touch.PositionOnWorld );
     }
 
-    void RemovePoint( Touch t )
+    void PoistaNorsut()
     {
-        points.Remove( t );
+        norsut.Clear();
     }
 
     protected override void Paint( Canvas canvas )
@@ -71,17 +72,27 @@ public class Peli : Game
         canvas.DrawLine( canvas.TopLeft, canvas.BottomRight );
         canvas.DrawLine( canvas.TopRight, canvas.BottomLeft );
 
-        foreach ( Touch t in points )
+        canvas.BrushColor = Color.White;
+        canvas.DrawLine( Mouse.PositionOnWorld + new Vector( 10, -20 ), Mouse.PositionOnWorld );
+        canvas.DrawLine( Mouse.PositionOnWorld, Mouse.PositionOnWorld + new Vector( 20, -10 ) );
+
+        double radius = 1;
+        if ( Mouse.GetButtonState( MouseButton.Left ) == ButtonState.Down ) radius += 10;
+        if ( Mouse.GetButtonState( MouseButton.Right ) == ButtonState.Down ) radius += 20;
+
+        for ( int i = 0; i < 10; i++ )
         {
-            for ( int i = 0; i < 10; i++ )
-            {
-                canvas.BrushColor = RandomGen.NextColor();
-                Vector from = t.PositionOnWorld + RandomGen.NextVector( 3, 30 );
-                Vector to = t.PositionOnWorld + RandomGen.NextVector( 3, 30 );
-                canvas.DrawLine( from, to );
-            }
+            canvas.BrushColor = RandomGen.NextColor();
+            Vector from = Mouse.PositionOnWorld + RandomGen.NextVector( 3, radius );
+            Vector to = Mouse.PositionOnWorld + RandomGen.NextVector( 3, radius );
+            canvas.DrawLine( from, to );
         }
-        
+
+        foreach ( Vector piste in norsut )
+        {
+            canvas.DrawImage( piste, norsunkuva );
+        }
+
         base.Paint( canvas );
     }
 }

@@ -54,13 +54,19 @@
       <Project>{B953E24C-29F5-4DA6-AE07-8F4300EAD977}</Project>
       <Name>Jypeli-Xamarin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
-      <Project>{7DE47032-A904-4C29-BD22-2D235E8D91BA}</Project>
-      <Name>MonoGame.Framework.Windows</Name>
+    <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
+      <Project>{DA65B249-9290-4A09-A48C-443A65845583}</Project>
+      <Name>MonoGame.Framework.WindowsGL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\norsu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\CannonFire.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\AbracaZebra.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

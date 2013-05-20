@@ -90,6 +90,11 @@
     <NoWarn>0436</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Content\ContentResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ContentResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Controller\ButtonState.cs" />
     <Compile Include="Controls\Controller\Controller.cs" />
     <Compile Include="Controls\Controller\Listener.cs" />
@@ -145,6 +150,7 @@
     <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
     <Compile Include="AdvanceMath\IO\MathReader.cs" />
     <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
     <Compile Include="Game\Game.cs">
@@ -158,6 +164,7 @@
     <Compile Include="Graphics\Image.cs" />
     <Compile Include="Graphics\ImageBatch.cs" />
     <Compile Include="Graphics\LineBatch.cs" />
+    <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Graphics\ShapeBatch.cs" />
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Helpers\RandomGen.cs" />
@@ -170,7 +177,44 @@
     <Compile Include="Helpers\ReturnHelper.cs" />
     <Compile Include="Helpers\StreamHelpers.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
+    <Compile Include="Sound\MediaPlayer.cs" />
+    <Compile Include="Sound\Sound.cs" />
+    <Compile Include="Sound\SoundEffect.cs" />
+    <Compile Include="Events\Timer.cs" />
+    <Compile Include="DataTypes\Meter.cs" />
+    <Compile Include="DataTypes\IntMeter.cs" />
+    <Compile Include="DataTypes\DoubleMeter.cs" />
+    <Compile Include="Events\MeterAddOperation.cs" />
+    <Compile Include="Events\Operation.cs" />
+	<Compile Include="..\MonoGame\MonoGame.Framework\Content\ResourceContentManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\ContentResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ContentResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\AsRifle.xnb" />
+    <None Include="Content\Auto.xnb" />
+    <None Include="Content\Bullet.xnb" />
+    <None Include="Content\Cannon.xnb" />
+    <None Include="Content\CannonBall.xnb" />
+    <None Include="Content\CannonFire.xnb" />
+    <None Include="Content\DownArrow.xnb" />
+    <None Include="Content\explosion.xnb" />
+    <None Include="Content\explosion2.xnb" />
+    <None Include="Content\explosionSound.xnb" />
+    <None Include="Content\Grenade.xnb" />
+    <None Include="Content\implosionSound.xnb" />
+    <None Include="Content\laser.xnb" />
+    <None Include="Content\MGAttack.xnb" />
+    <None Include="Content\PlasmaAttack.xnb" />
+    <None Include="Content\PlasmaCannon.xnb" />
+    <None Include="Content\smoke.xnb" />
+    <None Include="Content\Tank.xnb" />
+    <None Include="Content\UpArrow.xnb" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsPhone.csproj">

@@ -14,10 +14,15 @@ public class Peli : Game
 
     public override void Begin()
     {
-		IsMouseVisible = true;
+        IsMouseVisible = true;
         Camera.ZoomFactor = 1;
-        //norsunkuva = LoadImage( "norsu" );
-		norsunkuva = LoadImageFromResources( "CannonBall" );
+        //var img = ResourceContent.Load<Microsoft.Xna.Framework.Graphics.Texture2D>( "CannonBall" );
+        //norsunkuva = new Image( img );
+		//MediaPlayer.Play("");
+        //var sound = ResourceContent.Load<Microsoft.Xna.Framework.Audio.SoundEffect>( "laser" );
+        //sound.Play();
+        norsunkuva = LoadImage( "norsu" );
+		//MediaPlayer.Play("AbracaZebra");
 
         /*Camera.ZoomToLevel();
 
@@ -50,6 +55,7 @@ public class Peli : Game
 
     void LisaaNorsu()
     {
+		PlaySound( "CannonFire" );
         norsut.Add( Mouse.PositionOnWorld );
     }
 

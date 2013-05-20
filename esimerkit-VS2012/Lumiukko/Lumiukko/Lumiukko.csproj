@@ -57,6 +57,9 @@
       <Link>SDL.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\CannonFire.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\norsu.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -67,9 +70,9 @@
       <Project>{76cc55a2-bece-4f80-b491-ddcab9f061fb}</Project>
       <Name>Jypeli-VS2012</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj">
-      <Project>{7de47032-a904-4c29-bd22-2d235e8d91ba}</Project>
-      <Name>MonoGame.Framework.Windows</Name>
+    <ProjectReference Include="..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
+      <Project>{da65b249-9290-4a09-a48c-443a65845583}</Project>
+      <Name>MonoGame.Framework.WindowsGL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

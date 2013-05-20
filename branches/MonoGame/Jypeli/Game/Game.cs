@@ -91,7 +91,6 @@ namespace Jypeli
 #endif
 
             Level = new Level( this );
-            //MediaPlayer = new MediaPlayer( Content );
             //addMessageDisplay();
 
 #if DEBUG && !DISABLE_WIDGETS

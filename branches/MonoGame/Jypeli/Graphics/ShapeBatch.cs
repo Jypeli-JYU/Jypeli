@@ -86,7 +86,8 @@ namespace Jypeli
                 Game.GraphicsDevice.SamplerStates[0] = samplerState;
 
                 effect = Graphics.GetColorEffect(ref matrix, LightingEnabled);
-                effect.CurrentTechnique.Passes[0].Apply();
+                for ( int i = 0; i < effect.CurrentTechnique.Passes.Count; i++ )
+                    effect.CurrentTechnique.Passes[i].Apply();
 
                 Game.GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColor>(
                     PrimitiveType.TriangleList,

@@ -21,9 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-using Jypeli.Content;
-
-
 #endregion
 
 /*
@@ -37,20 +34,39 @@ using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+#if NETFX_CORE
+using Windows.ApplicationModel.Resources;
+#else
+using Jypeli.Content;
+#endif
+
+
 namespace Jypeli
 {
     public partial class Game
     {
+		/// <summary>
+        /// Mediasoitin. Voidaan käyttää musiikin soittamiseen.
+        /// </summary>
+		public MediaPlayer MediaPlayer { get; private set; }
+
+        // Need to find a way to get this working on Win8
+
         /// <summary>
         /// Kirjaston mukana tuleva sisältö.
         /// Voidaan käyttää esimerkiksi tekstuurien lataamiseen.
         /// </summary>
-        public static ResourceContentManager ResourceContent { get; private set; }
+        public static JypeliContentManager ResourceContent { get; private set; }
 
         private void InitXnaContent()
         {
+#if NETFX_CORE
+            ResourceContent = new JypeliContentManager( this.Services );
+#else
             ResourceContent = new ResourceContentManager( this.Services, ContentResources.ResourceManager );
+#endif
             Content.RootDirectory = "Content";
+			MediaPlayer = new MediaPlayer( Content );
         }
 
         /// <summary>
@@ -117,6 +133,38 @@ namespace Jypeli
                 result[i - startIndex] = LoadImage( imgName );
             }
 
+            return result;
+        }
+
+		/// <summary>
+        /// Soittaa ääniefektin.
+        /// </summary>
+        /// <param name="name">Äänen nimi (ei tarkennetta)</param>
+        public static void PlaySound( string name )
+        {
+            LoadSoundEffect( name ).Play();
+        }
+
+        /// <summary>
+        /// Lataa ääniefektin contentista.
+        /// </summary>
+        /// <param name="name">Äänen nimi (ei tarkennetta)</param>
+        /// <returns>SoundEffect-olio</returns>
+        public static SoundEffect LoadSoundEffect( string name )
+        {
+            return new SoundEffect( name );
+        }
+
+        /// <summary>
+        /// Lataa taulukon ääniefektejä contentista.
+        /// </summary>
+        /// <param name="names">Äänien nimet ilman tarkennetta pilkuin eroiteltuna</param>
+        /// <returns>Taulukko SoundEffect-olioita</returns>
+        public static SoundEffect[] LoadSoundEffects( params string[] names )
+        {
+            SoundEffect[] result = new SoundEffect[names.Length];
+            for ( int i = 0; i < names.Length; i++ )
+                result[i] = LoadSoundEffect( names[i] );
             return result;
         }
     }

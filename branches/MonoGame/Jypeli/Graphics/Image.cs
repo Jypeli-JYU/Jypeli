@@ -5,15 +5,20 @@ using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Net;
+using System.Threading;
 
 using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
 using XnaV2 = Microsoft.Xna.Framework.Vector2;
 using XnaColor = Microsoft.Xna.Framework.Color;
 using JyColor = Jypeli.Color;
 
-#if !XBOX
-using System.Net;
-using System.Threading;
+#if NETFX_CORE
+using ColorConverter = Jypeli.ListHelpers.Converter<Jypeli.Color, Jypeli.Color>;
+using XnaColorConverter = Jypeli.ListHelpers.Converter<Microsoft.Xna.Framework.Color, Microsoft.Xna.Framework.Color>;
+#else
+using ColorConverter = System.Converter<Jypeli.Color, Jypeli.Color>;
+using XnaColorConverter = System.Converter<Microsoft.Xna.Framework.Color, Microsoft.Xna.Framework.Color>;
 #endif
 
 namespace Jypeli
@@ -453,9 +458,9 @@ namespace Jypeli
         /// Suorittaa annetun pikselioperaation koko kuvalle.
         /// </summary>
         /// <param name="operation">Aliohjelma, joka ottaa värin ja palauttaa värin</param>
-        public void ApplyPixelOperation( Converter<Color, Color> operation )
+        public void ApplyPixelOperation( ColorConverter operation )
         {
-            Converter<XnaColor, XnaColor> newOp = delegate( XnaColor c )
+            XnaColorConverter newOp = delegate( XnaColor c )
             {
                 return operation( new Color( c ) ).AsXnaColor();
             };
@@ -467,7 +472,7 @@ namespace Jypeli
         /// Suorittaa annetun pikselioperaation koko kuvalle.
         /// </summary>
         /// <param name="operation">Aliohjelma, joka ottaa värin ja palauttaa värin</param>
-        internal void ApplyPixelOperation( Converter<XnaColor, XnaColor> operation )
+        internal void ApplyPixelOperation( XnaColorConverter operation )
         {
             DoInitTexture();
             InvalidateAsset();
@@ -523,19 +528,18 @@ namespace Jypeli
 
         #region static methods
 
+#if !NETFX_CORE
         /// <summary>
         /// Lataa kuvan tiedostosta. Kuvan ei tarvitse olla lisättynä
         /// Content-projektiin.
         /// </summary>
         /// <param name="path">Tiedoston polku.</param>
-#if !XBOX
         public static Image FromFile( string path )
         {
             StreamReader sr = new StreamReader( path );
             Image img = new Image( Texture2D.FromStream( Game.GraphicsDevice, sr.BaseStream ) );
             return img;
         }
-
 #endif
 
         /// <summary>
@@ -1031,7 +1035,7 @@ namespace Jypeli
         {
             XnaColor srcColor = src.AsXnaColor();
             XnaColor destColor = dest.AsXnaColor();
-            Converter<XnaColor, XnaColor> op = delegate( XnaColor c )
+            XnaColorConverter op = delegate( XnaColor c )
             {
                 if ( exactAlpha && c.A != srcColor.A )
                     return c;
@@ -1058,7 +1062,7 @@ namespace Jypeli
         {
             XnaColor srcColor = src.AsXnaColor();
             XnaColor destColor = dest.AsXnaColor();
-            Converter<XnaColor, XnaColor> op = delegate( XnaColor c )
+            XnaColorConverter op = delegate( XnaColor c )
             {
                 return c == srcColor ? destColor : c;
             };

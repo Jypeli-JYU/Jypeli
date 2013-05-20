@@ -5,7 +5,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lumiukko", "Lumiukko.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli-Xamarin", "..\..\Jypeli\Jypeli-Xamarin.csproj", "{B953E24C-29F5-4DA6-AE07-8F4300EAD977}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.Windows", "..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj", "{7DE47032-A904-4C29-BD22-2D235E8D91BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.WindowsGL", "..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj", "{DA65B249-9290-4A09-A48C-443A65845583}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidgren.Network.Windows", "..\..\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.Windows.csproj", "{AE483C29-042E-4226-BA52-D247CE7676DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,18 +15,22 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Debug|x86.Build.0 = Debug|Any CPU
-		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Release|x86.ActiveCfg = Release|Any CPU
-		{7DE47032-A904-4C29-BD22-2D235E8D91BA}.Release|x86.Build.0 = Release|Any CPU
 		{977FDE09-FAD3-4387-8D77-AC91466D3B7E}.Debug|x86.ActiveCfg = Debug|x86
 		{977FDE09-FAD3-4387-8D77-AC91466D3B7E}.Debug|x86.Build.0 = Debug|x86
 		{977FDE09-FAD3-4387-8D77-AC91466D3B7E}.Release|x86.ActiveCfg = Release|x86
 		{977FDE09-FAD3-4387-8D77-AC91466D3B7E}.Release|x86.Build.0 = Release|x86
+		{AE483C29-042E-4226-BA52-D247CE7676DA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AE483C29-042E-4226-BA52-D247CE7676DA}.Debug|x86.Build.0 = Debug|Any CPU
+		{AE483C29-042E-4226-BA52-D247CE7676DA}.Release|x86.ActiveCfg = Release|Any CPU
+		{AE483C29-042E-4226-BA52-D247CE7676DA}.Release|x86.Build.0 = Release|Any CPU
 		{B953E24C-29F5-4DA6-AE07-8F4300EAD977}.Debug|x86.ActiveCfg = Debug|x86
 		{B953E24C-29F5-4DA6-AE07-8F4300EAD977}.Debug|x86.Build.0 = Debug|x86
 		{B953E24C-29F5-4DA6-AE07-8F4300EAD977}.Release|x86.ActiveCfg = Release|x86
 		{B953E24C-29F5-4DA6-AE07-8F4300EAD977}.Release|x86.Build.0 = Release|x86
+		{DA65B249-9290-4A09-A48C-443A65845583}.Debug|x86.ActiveCfg = Debug|x86
+		{DA65B249-9290-4A09-A48C-443A65845583}.Debug|x86.Build.0 = Debug|x86
+		{DA65B249-9290-4A09-A48C-443A65845583}.Release|x86.ActiveCfg = Release|x86
+		{DA65B249-9290-4A09-A48C-443A65845583}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Lumiukko.csproj

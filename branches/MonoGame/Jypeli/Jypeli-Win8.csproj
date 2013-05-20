@@ -99,33 +99,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Reference Include="MonoGame.Framework">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows8\MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows8\SharpDX.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.XInput">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows8\SharpDX.XInput.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct2D1">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows8\SharpDX.Direct2D1.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D11">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows8\SharpDX.Direct3D11.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.DXGI">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows8\SharpDX.DXGI.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.MediaFoundation">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows8\SharpDX.MediaFoundation.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.XAudio2">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows8\SharpDX.XAudio2.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="Content\AsRifle.cs" />
+    <Compile Include="Content\Auto.cs" />
+    <Compile Include="Content\Bullet.cs" />
+    <Compile Include="Content\JypeliContentManager.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />
     <Compile Include="Controls\Controller\Controller.cs" />
     <Compile Include="Controls\Controller\Listener.cs" />
@@ -181,6 +158,7 @@
     <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
     <Compile Include="AdvanceMath\IO\MathReader.cs" />
     <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
     <Compile Include="Game\Game.cs">
@@ -194,6 +172,7 @@
     <Compile Include="Graphics\Image.cs" />
     <Compile Include="Graphics\ImageBatch.cs" />
     <Compile Include="Graphics\LineBatch.cs" />
+    <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Graphics\ShapeBatch.cs" />
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Helpers\RandomGen.cs" />
@@ -206,7 +185,40 @@
     <Compile Include="Helpers\ReturnHelper.cs" />
     <Compile Include="Helpers\StreamHelpers.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
+    <Compile Include="Sound\MediaPlayer.cs" />
+    <Compile Include="Sound\Sound.cs" />
+    <Compile Include="Sound\SoundEffect.cs" />
+    <Compile Include="Events\Timer.cs" />
+    <Compile Include="DataTypes\Meter.cs" />
+    <Compile Include="DataTypes\IntMeter.cs" />
+    <Compile Include="DataTypes\DoubleMeter.cs" />
+    <Compile Include="Events\MeterAddOperation.cs" />
+    <Compile Include="Events\Operation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Cannon.xnb" />
+    <None Include="Content\CannonBall.xnb" />
+    <None Include="Content\CannonFire.xnb" />
+    <None Include="Content\DownArrow.xnb" />
+    <None Include="Content\explosion.xnb" />
+    <None Include="Content\explosion2.xnb" />
+    <None Include="Content\explosionSound.xnb" />
+    <None Include="Content\Grenade.xnb" />
+    <None Include="Content\implosionSound.xnb" />
+    <None Include="Content\laser.xnb" />
+    <None Include="Content\MGAttack.xnb" />
+    <None Include="Content\PlasmaAttack.xnb" />
+    <None Include="Content\PlasmaCannon.xnb" />
+    <None Include="Content\smoke.xnb" />
+    <None Include="Content\Tank.xnb" />
+    <None Include="Content\UpArrow.xnb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows8.csproj">
+      <Project>{0518563c-acca-4a14-8c5d-ddbe93e2605f}</Project>
+      <Name>MonoGame.Framework.Windows8</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

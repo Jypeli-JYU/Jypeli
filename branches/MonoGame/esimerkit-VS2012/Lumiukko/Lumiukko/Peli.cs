@@ -16,11 +16,12 @@ public class Peli : Game
     {
         IsMouseVisible = true;
         Camera.ZoomFactor = 1;
-        var img = ResourceContent.Load<Microsoft.Xna.Framework.Graphics.Texture2D>( "CannonBall" );
-        norsunkuva = new Image( img );
+        //var img = ResourceContent.Load<Microsoft.Xna.Framework.Graphics.Texture2D>( "CannonBall" );
+        //norsunkuva = new Image( img );
+		//MediaPlayer.Play("");
         //var sound = ResourceContent.Load<Microsoft.Xna.Framework.Audio.SoundEffect>( "laser" );
         //sound.Play();
-        //norsunkuva = LoadImage( "norsu" );
+        norsunkuva = LoadImage( "norsu" );
 
         /*Camera.ZoomToLevel();
 
@@ -53,6 +54,7 @@ public class Peli : Game
 
     void LisaaNorsu()
     {
+		PlaySound( "CannonFire" );
         norsut.Add( Mouse.PositionOnWorld );
     }
 

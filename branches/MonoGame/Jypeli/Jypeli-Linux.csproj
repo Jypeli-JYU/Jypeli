@@ -96,6 +96,7 @@
     <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
     <Compile Include="AdvanceMath\IO\MathReader.cs" />
     <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
     <Compile Include="Game\Game.cs">
@@ -109,6 +110,7 @@
     <Compile Include="Graphics\Image.cs" />
     <Compile Include="Graphics\ImageBatch.cs" />
     <Compile Include="Graphics\LineBatch.cs" />
+    <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Graphics\ShapeBatch.cs" />
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Helpers\RandomGen.cs" />
@@ -121,13 +123,48 @@
     <Compile Include="Helpers\ReturnHelper.cs" />
     <Compile Include="Helpers\StreamHelpers.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
+    <Compile Include="Content\ContentResources.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
+    <Compile Include="Sound\MediaPlayer.cs" />
+    <Compile Include="Sound\Sound.cs" />
+    <Compile Include="Sound\SoundEffect.cs" />
+    <Compile Include="Events\Timer.cs" />
+    <Compile Include="DataTypes\Meter.cs" />
+    <Compile Include="DataTypes\IntMeter.cs" />
+    <Compile Include="DataTypes\DoubleMeter.cs" />
+    <Compile Include="Events\MeterAddOperation.cs" />
+    <Compile Include="Events\Operation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
+    <None Include="Content\AsRifle.xnb" />
+    <None Include="Content\Auto.xnb" />
+    <None Include="Content\Bullet.xnb" />
+    <None Include="Content\Cannon.xnb" />
+    <None Include="Content\CannonBall.xnb" />
+    <None Include="Content\CannonFire.xnb" />
+    <None Include="Content\DownArrow.xnb" />
+    <None Include="Content\explosion.xnb" />
+    <None Include="Content\explosion2.xnb" />
+    <None Include="Content\explosionSound.xnb" />
+    <None Include="Content\Grenade.xnb" />
+    <None Include="Content\implosionSound.xnb" />
+    <None Include="Content\laser.xnb" />
+    <None Include="Content\MGAttack.xnb" />
+    <None Include="Content\PlasmaAttack.xnb" />
+    <None Include="Content\PlasmaCannon.xnb" />
+    <None Include="Content\smoke.xnb" />
+    <None Include="Content\Tank.xnb" />
+    <None Include="Content\UpArrow.xnb" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
+    <Folder Include="DataTypes\" />
+    <Folder Include="AdvanceMath\" />
+    <Folder Include="Storage\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Sound\" />
+    <Folder Include="Events\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -143,5 +180,10 @@
       <Project>{A37A7E14-0000-0000-0000-000000000000}</Project>
       <Name>OpenTK</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\ContentResources.resx">
+      <LogicalName>Jypeli.Content.ContentResources.resources</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

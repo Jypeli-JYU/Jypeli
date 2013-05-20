@@ -32,16 +32,20 @@ using System.Collections.Generic;
 
 namespace Jypeli.Controls
 {
+    public class Controller
+    {
+    }
+
     /// <summary>
     /// Mikä tahansa ohjauslaite.
     /// </summary>
     /// <typeparam name="ControllerState">Ohjauslaitteen tilaolio</typeparam>
-    public abstract class Controller<ControllerState>
+    public abstract class Controller<ControllerState> : Controller
     {
         protected static readonly ChangePredicate<ControllerState> AlwaysTrigger
             = delegate { return true; };
 
-        private List<Listener<ControllerState>> listeners = new List<Listener<ControllerState>>();
+        private SynchronousList<Listener<ControllerState>> listeners = new SynchronousList<Listener<ControllerState>>();
 
         /// <summary>
         /// Viimeisin tila.
@@ -67,6 +71,7 @@ namespace Jypeli.Controls
             PrevState = CurrentState;
             CurrentState = GetState();
 
+            listeners.Update( Game.Time );
             listeners.ForEach( l => l.CheckAndInvoke( PrevState, CurrentState ) );
         }
 

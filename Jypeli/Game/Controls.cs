@@ -31,14 +31,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Jypeli.Controls;
 
 namespace Jypeli
 {
-    public partial class Game
+    public partial class Game : ControlContexted
     {
+        private ListenContext _context = new ListenContext() { Active = true };
+
         public Keyboard Keyboard { get; private set; }
         public Mouse Mouse { get; private set; }
         public TouchPanel TouchPanel { get; private set; }
+
+        /// <summary>
+        /// Pelin pääohjainkonteksti.
+        /// </summary>
+        public ListenContext ControlContext
+        {
+            get { return Instance._context; }
+        }
+
+        public bool IsModal
+        {
+            get { return false; }
+        }
 
         private void InitControls()
         {
@@ -52,6 +68,52 @@ namespace Jypeli
             Keyboard.Update();
             Mouse.Update();
             TouchPanel.Update();
+        }
+
+        private void ActivateObject( ControlContexted obj )
+        {
+            obj.ControlContext.Active = true;
+
+            if ( obj.IsModal )
+            {
+                Game.Instance.ControlContext.SaveFocus();
+                Game.Instance.ControlContext.Active = false;
+
+                foreach ( Layer l in Layers )
+                {
+                    foreach ( IGameObject lo in l.Objects )
+                    {
+                        ControlContexted co = lo as ControlContexted;
+                        if ( lo == obj || co == null )
+                            continue;
+
+                        co.ControlContext.SaveFocus();
+                        co.ControlContext.Active = false;
+                    }
+                }
+            }
+        }
+
+        private void DeactivateObject( ControlContexted obj )
+        {
+            obj.ControlContext.Active = false;
+
+            if ( obj.IsModal )
+            {
+                Game.Instance.ControlContext.RestoreFocus();
+
+                foreach ( Layer l in Layers )
+                {
+                    foreach ( IGameObject lo in l.Objects )
+                    {
+                        ControlContexted co = lo as ControlContexted;
+                        if ( lo == obj || co == null )
+                            continue;
+
+                        co.ControlContext.RestoreFocus();
+                    }
+                }
+            }
         }
     }
 }

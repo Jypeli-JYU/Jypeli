@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Windows8\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;UseDouble;WIN8STORE;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;JYPELI;UseDouble;WIN8STORE;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -28,7 +28,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Windows8\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;UseDouble;WIN8STORE;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;JYPELI;UseDouble;WIN8STORE;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -108,6 +108,7 @@
     <Compile Include="Controls\Controller\Listener.cs" />
     <Compile Include="Controls\Keyboard\Key.cs" />
     <Compile Include="Controls\Keyboard\Keyboard.cs" />
+    <Compile Include="Controls\ListenContext.cs" />
     <Compile Include="Controls\Mouse\Mouse.cs" />
     <Compile Include="Controls\Mouse\MouseButton.cs" />
     <Compile Include="Controls\Mouse\MouseState.cs" />
@@ -158,6 +159,18 @@
     <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
     <Compile Include="AdvanceMath\IO\MathReader.cs" />
     <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="GameObjects\GameObject\Appearance.cs" />
+    <Compile Include="GameObjects\GameObject\ChildObjects.cs" />
+    <Compile Include="GameObjects\GameObject\Dimensions.cs" />
+    <Compile Include="GameObjects\GameObject\GameConnection.cs" />
+    <Compile Include="GameObjects\GameObject\GameObject.cs" />
+    <Compile Include="GameObjects\GameObject\GameObjectBase.cs" />
+    <Compile Include="GameObjects\GameObject\IGameObject.cs" />
+    <Compile Include="GameObjects\GameObject\Layout.cs" />
+    <Compile Include="GameObjects\GameObject\Movement.cs" />
+    <Compile Include="GameObjects\GameObject\Oscillator.cs" />
+    <Compile Include="GameObjects\Layouts\ILayout.cs" />
+    <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
@@ -165,12 +178,19 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Game\Graphics.cs" />
+    <Compile Include="Game\Layers.cs" />
+    <Compile Include="Game\Time.cs" />
+    <Compile Include="Graphics\Animation.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Canvas.cs" />
     <Compile Include="Graphics\Color.cs" />
+    <Compile Include="Graphics\CustomDrawable.cs" />
+    <Compile Include="Graphics\Font.cs" />
     <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Graphics\Grid.cs" />
     <Compile Include="Graphics\Image.cs" />
     <Compile Include="Graphics\ImageBatch.cs" />
+    <Compile Include="Graphics\Layer.cs" />
     <Compile Include="Graphics\LineBatch.cs" />
     <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Graphics\ShapeBatch.cs" />
@@ -194,6 +214,9 @@
     <Compile Include="DataTypes\DoubleMeter.cs" />
     <Compile Include="Events\MeterAddOperation.cs" />
     <Compile Include="Events\Operation.cs" />
+    <Compile Include="Shapes\Shapes.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +243,7 @@
       <Name>MonoGame.Framework.Windows8</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
   </PropertyGroup>

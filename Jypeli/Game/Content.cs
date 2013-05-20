@@ -56,7 +56,7 @@ namespace Jypeli
         /// Kirjaston mukana tuleva sisältö.
         /// Voidaan käyttää esimerkiksi tekstuurien lataamiseen.
         /// </summary>
-        public static JypeliContentManager ResourceContent { get; private set; }
+        public static ContentManager ResourceContent { get; private set; }
 
         private void InitXnaContent()
         {

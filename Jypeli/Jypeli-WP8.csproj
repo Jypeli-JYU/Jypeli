@@ -186,6 +186,8 @@
     <Compile Include="DataTypes\DoubleMeter.cs" />
     <Compile Include="Events\MeterAddOperation.cs" />
     <Compile Include="Events\Operation.cs" />
+	<Compile Include="GameObjects\GameObject\GameObject.cs" />
+	<Compile Include="GameObjects\Layouts\ILayout.cs" />
 	<Compile Include="..\MonoGame\MonoGame.Framework\Content\ResourceContentManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -30,10 +30,44 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Physics2DDotNet.Shapes;
 using AdvanceMath;
 
 namespace Jypeli
 {
+    public class ObjectLoadMethods
+    {
+        internal static readonly ObjectLoadMethods Empty = new ObjectLoadMethods();
+
+        internal Dictionary<string, Func<GameObject, GameObject>> MethodsByTag = new Dictionary<string, Func<GameObject, GameObject>>();
+        internal Dictionary<string, Func<GameObject, GameObject>> MethodsByTemplate = new Dictionary<string, Func<GameObject, GameObject>>();
+
+        /// <summary>
+        /// Lisää metodin ladatun olion muokkaamiseksi.
+        /// Metodin tulee palauttaa muokkaamansa olio. Metodi voi myös palauttaa uuden olion, jos
+        /// haluttu tyyppi ei ole tuettu editorissa.
+        /// </summary>
+        /// <param name="tag">Tagi, joka oliolla tulee olla.</param>
+        /// <param name="method">Metodi, joka muokkaa oliota tai palauttaa uuden.</param>
+        public void AddByTag( string tag, Func<GameObject, GameObject> method )
+        {
+            MethodsByTag.Add( tag, method );
+        }
+
+        /// <summary>
+        /// Lisää metodin ladatun olion muokkaamiseksi.
+        /// Metodin tulee palauttaa muokkaamansa olio. Metodi voi myös palauttaa uuden olion, jos
+        /// haluttu olion tyyppi ei ole tuettu editorissa.
+        /// </summary>
+        /// <param name="tag">Template, jonka pohjalta olio on luotu.</param>
+        /// <param name="method">Metodi, joka muokkaa oliota tai palauttaa uuden.</param>
+        public void AddByTemplate( string template, Func<GameObject, GameObject> method )
+        {
+            MethodsByTemplate.Add( template, method );
+        }
+    }
+
+
     /// <summary>
     /// Pelikenttä, johon voi lisätä olioita. Kentällä voi myös olla reunat ja taustaväri tai taustakuva.
     /// </summary>
@@ -44,6 +78,7 @@ namespace Jypeli
         [Save] double _height = 800;
 
         private Game game;
+        public double AmbientLight { get; set; }
 
         /// <summary>
         /// Kentän keskipiste.
@@ -117,11 +152,71 @@ namespace Jypeli
         internal Level( Game game )
         {
             this.game = game;
+            AmbientLight = 1.0;
             BackgroundColor = Color.LightBlue; // default color
         }
 
         internal void Clear()
         {
+        }
+
+        /// <summary>
+        /// Laskee pienimmän alueen, jonka sisälle kaikki kentän oliot mahtuvat.
+        /// </summary>
+        public BoundingRectangle FindObjectLimits()
+        {
+            var objectsAboutToBeAdded = Game.GetObjectsAboutToBeAdded();
+
+            if ( ( Game.Instance.ObjectCount + objectsAboutToBeAdded.Count ) == 0 )
+            {
+                throw new InvalidOperationException( "There must be at least one object" );
+            }
+
+            double left = double.PositiveInfinity;
+            double right = double.NegativeInfinity;
+            double top = double.NegativeInfinity;
+            double bottom = double.PositiveInfinity;
+
+            foreach ( var layer in Game.Instance.Layers )
+            {
+                if (layer.IgnoresZoom)
+                    continue;
+
+                foreach ( var o in layer.Objects )
+                {
+                    if ( o.Left < left )
+                        left = o.Left * layer.RelativeTransition.X;
+                    if ( o.Right > right )
+                        right = o.Right * layer.RelativeTransition.X;
+                    if ( o.Top > top )
+                        top = o.Top * layer.RelativeTransition.Y;
+                    if ( o.Bottom < bottom )
+                        bottom = o.Bottom * layer.RelativeTransition.Y;
+                }
+            }
+
+            foreach ( var o in objectsAboutToBeAdded )
+            {
+                if ( o.Left < left )
+                    left = o.Left;
+                if ( o.Right > right )
+                    right = o.Right;
+                if ( o.Top > top )
+                    top = o.Top;
+                if ( o.Bottom < bottom )
+                    bottom = o.Bottom;
+            }
+
+            return new BoundingRectangle( new Vector( left, top ), new Vector( right, bottom ) );
+        }
+
+        /// <summary>
+        /// Palauttaa satunnaisen kohdan kentän reunojen sisältä.
+        /// </summary>
+        /// <returns>Vektori.</returns>
+        public Vector GetRandomPosition()
+        {
+            return new Vector( RandomGen.NextDouble( Left, Right ), RandomGen.NextDouble( Bottom, Top ) );
         }
     }
 }

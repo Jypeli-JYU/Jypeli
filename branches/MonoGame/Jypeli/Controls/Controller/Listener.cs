@@ -29,6 +29,7 @@
 
 using System;
 using System.Reflection;
+using Jypeli.Controls;
 
 namespace Jypeli
 {
@@ -42,23 +43,30 @@ namespace Jypeli
     /// <returns>true tai false</returns>
     public delegate bool ChangePredicate<T>( T prev, T curr );
 
+    public interface Listener : Destroyable
+    {
+    }
+
     /// <summary>
     /// Yleinen kuuntelija.
     /// </summary>
     /// <typeparam name="State">Tila</typeparam>
-    public struct Listener<State>
+    public struct Listener<State> : Listener
     {
         private ChangePredicate<State> isTriggered;
         private Delegate handler;
         private object[] handlerParams;
         private string helpText;
+        private bool isDestroyed;
 
         public Listener( ChangePredicate<State> triggerRule, string helpText, Delegate handler, params object[] args )
         {
+            this.isDestroyed = false;
             this.isTriggered = triggerRule;
             this.handler = handler;
             this.helpText = helpText;
             this.handlerParams = args;
+            this.Destroyed = null;
         }
 
         public void Invoke()
@@ -74,8 +82,38 @@ namespace Jypeli
 
         public void CheckAndInvoke( State oldState, State newState )
         {
-            if ( isTriggered( oldState, newState ) )
+            if ( !IsDestroyed && isTriggered( oldState, newState ) )
                 Invoke();
         }
+
+        #region Destroyable Members
+
+        /// <summary>
+        /// Onko olio tuhottu.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsDestroyed
+        {
+            get { return isDestroyed; }
+        }
+
+        public void Destroy()
+        {
+            isDestroyed = true;
+            OnDestroyed();
+        }
+
+        /// <summary> 
+        /// Tapahtuu, kun olio tuhotaan. 
+        /// </summary> 
+        public event Action Destroyed;
+
+        private void OnDestroyed()
+        {
+            if ( Destroyed != null )
+                Destroyed();
+        }
+
+        #endregion
     }
 }

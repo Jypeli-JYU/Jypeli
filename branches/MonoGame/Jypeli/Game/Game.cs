@@ -36,6 +36,9 @@ namespace Jypeli
     [Save]
     public partial class Game : Microsoft.Xna.Framework.Game
     {
+        private bool loadContentHasBeenCalled = false;
+        private bool beginHasBeenCalled = false;
+
         /// <summary>
         /// Käynnissä olevan pelin pääolio.
         /// </summary>
@@ -60,6 +63,7 @@ namespace Jypeli
             InitInstance();
             InitXnaGraphics();
             InitControls();
+            InitLayers();
         }
 
         private void InitInstance()
@@ -121,15 +125,23 @@ namespace Jypeli
             base.Initialize();
         }
 
+        /// <summary>
+        /// XNA:n sisällön alustus (Initializen jälkeen)
+        /// </summary>
         protected override void LoadContent()
         {
             // Graphics initialization is best done here when window size is set for certain
             InitGraphics();
             
-            Begin();
+            CallBegin();
             base.LoadContent();
+            loadContentHasBeenCalled = true;
         }
 
+        /// <summary>
+        /// XNA:n piirtorutiinit.
+        /// </summary>
+        /// <param name="gameTime"></param>
         [EditorBrowsable( EditorBrowsableState.Never )]
         protected override void Draw( GameTime gameTime )
         {
@@ -140,6 +152,10 @@ namespace Jypeli
                 Matrix.CreateTranslation( (float)-Camera.Position.X, (float)-Camera.Position.Y, 0 )
                 * Matrix.CreateScale( (float)Camera.ZoomFactor, (float)Camera.ZoomFactor, 1f );
 
+            // Draw the layers containing the GameObjects
+            Layers.ForEach( l => l.Draw( Camera ) );
+
+            // Draw on the canvas
             Graphics.Canvas.Begin( ref worldMatrix, Level );
             Paint( Graphics.Canvas );
             Graphics.Canvas.End();
@@ -147,17 +163,27 @@ namespace Jypeli
             base.Draw( gameTime );
         }
 
-        protected override void Update( GameTime gameTime )
+        /// <summary>
+        /// Aloittaa pelin kutsumalla Begin-metodia.
+        /// Tärkeää: kutsu tätä, älä Beginiä suoraan, sillä muuten peli ei päivity!
+        /// </summary>
+        internal void CallBegin()
         {
-            UpdateControls();
-            ExecutePendingActions();
-            base.Update( gameTime );
+            Begin();
+            beginHasBeenCalled = true;
         }
 
+        /// <summary>
+        /// Tässä alustetaan peli.
+        /// </summary>
         public virtual void Begin()
         {
         }
 
+        /// <summary>
+        /// Canvakselle piirto.
+        /// </summary>
+        /// <param name="canvas"></param>
         protected virtual void Paint( Canvas canvas )
         {
         }

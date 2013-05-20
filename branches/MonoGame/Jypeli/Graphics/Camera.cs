@@ -42,7 +42,7 @@ namespace Jypeli
     public class Camera
     {
         // Huom. tätä käytetään vain jos seurataan useita olioita kerralla
-        //private List<GameObject> followedObjects = null;
+        private List<GameObject> followedObjects = null;
 
         [Save] internal bool _stayInLevel = false;
         [Save] internal double _zoomFactor = 1.0;
@@ -109,7 +109,7 @@ namespace Jypeli
         /// <summary>
         /// Olio, jota kamera seuraa. Jos <c>null</c>, mitään oliota ei seurata.
         /// </summary>
-        //public GameObject FollowedObject { get; set; }
+        public GameObject FollowedObject { get; set; }
 
         /// <summary>
         /// Seurataanko oliota (FollowedObject) x- eli vaakasuunnassa.
@@ -177,7 +177,7 @@ namespace Jypeli
         /// Muuntaa annetun pisteen ruutukoordinaateista maailmankoordinaatteihin
         /// ottaen huomioon oliokerroksen suhteellisen siirtymän.
         /// </summary>
-        /*public Vector ScreenToWorld( Vector point, Layer layer )
+        public Vector ScreenToWorld( Vector point, Layer layer )
         {
             if ( layer == null )
                 return ScreenToWorld( point );
@@ -185,7 +185,7 @@ namespace Jypeli
                 return Vector.ComponentProduct( Position, layer.RelativeTransition ) + point;
 
             return Vector.ComponentProduct( Position, layer.RelativeTransition ) + ( 1 / ZoomFactor ) * point;
-        }*/
+        }
 
         /// <summary>
         /// Kohdistaa kameran.
@@ -216,10 +216,8 @@ namespace Jypeli
             Position = Vector.Zero;
             Velocity = Vector.Zero;
             ZoomFactor = 1.0f;
-            //StopFollowing();
+            StopFollowing();
         }
-
-#if GameObjects
 
         /// <summary>
         /// Seuraa yhtä tai useampaa peliobjektia.
@@ -290,7 +288,6 @@ namespace Jypeli
 
             ZoomFactor = Math.Min( zoomX, zoomY );
         }
-#endif
 
         /// <summary>
         /// Zoomaa ja sijoittaa kameran niin, että parametreina annettua alue näkyy kokonaan ruudulla.
@@ -312,7 +309,6 @@ namespace Jypeli
             ZoomTo( rectangle.Left, rectangle.Bottom, rectangle.Right, rectangle.Top, borderSize );
         }
 
-#if GameObjects
         public void ZoomToAllObjects()
         {
             ZoomToAllObjects( 0 );
@@ -333,7 +329,6 @@ namespace Jypeli
             if ( Game.Instance.ObjectCount > 0 )
                 ZoomTo( Game.Instance.Level.FindObjectLimits(), borderSize );
         }
-#endif
 
         /// <summary>
         /// Zoomaa ja sijoittaa kameran niin, että parametreina annettua alue näkyy kokonaan ruudulla.
@@ -362,8 +357,6 @@ namespace Jypeli
                 this.ZoomFactor = screenHeight / ( height + borderSize );
         }
 
-#if GameObjects
-
         /// <summary>
         /// Zoomaa ja keskittää kameran siten, että koko kenttä on näkyvissä kerralla.
         /// </summary>
@@ -382,7 +375,6 @@ namespace Jypeli
             Level level = Game.Instance.Level;
             ZoomTo( level.Left, level.Bottom, level.Right, level.Top, borderSize );
         }
-#endif
 
         /// <summary>
         /// Ajetaan kun pelitilannetta päivitetään.
@@ -392,7 +384,6 @@ namespace Jypeli
         {
             Position += Velocity * time.SinceLastUpdate.TotalSeconds;
 
-#if GameObjects
             if ( FollowedObject != null )
             {
                 Vector center = ScreenToWorld( Vector.Zero );
@@ -408,7 +399,6 @@ namespace Jypeli
                 else if ( FollowsY )
                     Y = FollowedObject.Y + ( worldOffset.Y - center.Y );
             }
-#endif
 
             if ( StayInLevel )
             {

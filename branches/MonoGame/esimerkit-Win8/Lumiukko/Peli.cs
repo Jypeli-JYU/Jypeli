@@ -23,7 +23,7 @@ public class Peli : Game
         //sound.Play();
         //norsunkuva = LoadImage( "norsu" );
 
-        /*Camera.ZoomToLevel();
+        Camera.ZoomToLevel();
 
         GameObject p1 = new GameObject( 200.0, 200.0, Shape.Circle );
         p1.X = 0.0;
@@ -38,7 +38,7 @@ public class Peli : Game
         GameObject p3 = new GameObject( 60.0, 60.0, Shape.Circle );
         p3.X = 0.0;
         p3.Y = Level.Bottom + 330.0;
-        Add( p3 );*/
+        Add( p3 );
 
         Keyboard.Listen( Key.Left, ButtonState.Down, Camera.Move, null, -Vector.UnitX );
         Keyboard.Listen( Key.Right, ButtonState.Down, Camera.Move, null, Vector.UnitX );

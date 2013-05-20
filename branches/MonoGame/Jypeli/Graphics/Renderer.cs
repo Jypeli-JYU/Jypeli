@@ -226,7 +226,7 @@ namespace Jypeli
             }
         }
 
-#if COMMENT
+//#if COMMENT
         /// <summary>
         /// Makes all the subsequent draw calls until <c>EndDrawingInsideShape</c> limit the
         /// drawing inside <c>shape</c> (transformed by the matrix).
@@ -455,6 +455,6 @@ namespace Jypeli
                     );
             }
         }
-#endif
+//#endif
     }
 }

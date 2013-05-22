@@ -188,9 +188,9 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Kohdistaa kameran.
+        /// Liikuttaa kameraa.
         /// </summary>
-        /// <param name="v">Koordinaatti vektorina johon kamera kohdistetaan.</param>
+        /// <param name="v">Kameran liikevektori.</param>
         public void Move( Vector v )
         {
             Position += new Vector( v.X / ZoomFactor, v.Y / ZoomFactor );

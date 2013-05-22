@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Jypeli;
 
 public class Peli : Game
@@ -9,21 +10,21 @@ public class Peli : Game
     public Peli()
         : base()
     {
-        SetWindowSize( 1200, 800, false );
+        Phone.DisplayOrientation = DisplayOrientation.Landscape;
     }
 
     public override void Begin()
     {
-        IsMouseVisible = true;
-        Camera.ZoomFactor = 1;
+        //Camera.ZoomFactor = 1;
         //var img = ResourceContent.Load<Microsoft.Xna.Framework.Graphics.Texture2D>( "CannonBall" );
         //norsunkuva = new Image( img );
 		//MediaPlayer.Play("");
         //var sound = ResourceContent.Load<Microsoft.Xna.Framework.Audio.SoundEffect>( "laser" );
         //sound.Play();
-        norsunkuva = LoadImage( "norsu" );
+        //norsunkuva = LoadImage( "norsu" );
 
-        /*Camera.ZoomToLevel();
+        //Camera.ZoomToLevel();
+
 
         GameObject p1 = new GameObject( 200.0, 200.0, Shape.Circle );
         p1.X = 0.0;
@@ -38,9 +39,16 @@ public class Peli : Game
         GameObject p3 = new GameObject( 60.0, 60.0, Shape.Circle );
         p3.X = 0.0;
         p3.Y = Level.Bottom + 330.0;
-        Add( p3 );*/
+        Add( p3 );
 
-        TouchPanel.Listen( ButtonState.Pressed, LisaaNorsu, "Lisää norsu" );
+        //TouchPanel.Listen( ButtonState.Pressed, LisaaNorsu, "Lisää norsu" );
+        TouchPanel.Listen( ButtonState.Down, KeskitaNaytto, "Keskitä näyttö" );
+    }
+
+    void KeskitaNaytto( Touch touch )
+    {
+        Camera.Move( touch.PositionOnScreen / 100 );
+
     }
 
     void LisaaNorsu( Touch touch )
@@ -72,9 +80,10 @@ public class Peli : Game
         canvas.DrawLine( canvas.TopLeft, canvas.BottomRight );
         canvas.DrawLine( canvas.TopRight, canvas.BottomLeft );
 
-        canvas.BrushColor = Color.White;
-        canvas.DrawLine( Mouse.PositionOnWorld + new Vector( 10, -20 ), Mouse.PositionOnWorld );
-        canvas.DrawLine( Mouse.PositionOnWorld, Mouse.PositionOnWorld + new Vector( 20, -10 ) );
+        canvas.BrushColor = Color.Magenta;
+        canvas.DrawLine( 0, -20, 0, 20 );
+        canvas.DrawLine( -10, 10, 0, 20 );
+        canvas.DrawLine( 0, 20, 10, 10 );
 
         double radius = 1;
         if ( Mouse.GetButtonState( MouseButton.Left ) == ButtonState.Down ) radius += 10;

@@ -102,7 +102,11 @@ namespace Jypeli
         /// <param name="height">Korkeus.</param>
         public void SetWindowSize( int width, int height )
         {
-            SetWindowSize( width, height, IsFullScreen );
+            // WP has a limited set of supported resolutions
+            // Use Phone.DisplayResolution instead
+#if !WINDOWS_PHONE
+            DoSetWindowSize( width, height, IsFullScreen );
+#endif
         }
 
         /// <summary>
@@ -113,6 +117,22 @@ namespace Jypeli
         /// <param name="fullscreen">Koko ruutu jos <c>true</c>, muuten ikkuna.</param>
         /// <returns></returns>
         public void SetWindowSize( int width, int height, bool fullscreen )
+        {
+            // WP has a limited set of supported resolutions
+            // Use Phone.DisplayResolution instead
+#if !WINDOWS_PHONE
+            DoSetWindowSize( width, height, fullscreen );
+#endif
+        }
+
+        /// <summary>
+        /// Asettaa ikkunan koon ja alustaa pelin käyttämään joko ikkunaa tai koko ruutua.
+        /// </summary>
+        /// <param name="width">Leveys.</param>
+        /// <param name="height">Korkeus.</param>
+        /// <param name="fullscreen">Koko ruutu jos <c>true</c>, muuten ikkuna.</param>
+        /// <returns></returns>
+        internal void DoSetWindowSize( int width, int height, bool fullscreen )
         {
             GraphicsDeviceManager.PreferredBackBufferWidth = width;
             GraphicsDeviceManager.PreferredBackBufferHeight = height;

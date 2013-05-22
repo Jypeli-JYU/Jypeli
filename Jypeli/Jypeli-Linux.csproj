@@ -16,7 +16,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;LINUX;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
+    <DefineConstants>DEBUG;JYPELI;LINUX;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
@@ -30,7 +30,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
-    <DefineConstants>LINUX;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
+    <DefineConstants>LINUX;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -46,6 +46,7 @@
     <Compile Include="Controls\Controller\Listener.cs" />
     <Compile Include="Controls\Keyboard\Key.cs" />
     <Compile Include="Controls\Keyboard\Keyboard.cs" />
+    <Compile Include="Controls\ListenContext.cs" />
     <Compile Include="Controls\Mouse\Mouse.cs" />
     <Compile Include="Controls\Mouse\MouseButton.cs" />
     <Compile Include="Controls\Mouse\MouseState.cs" />
@@ -96,6 +97,18 @@
     <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
     <Compile Include="AdvanceMath\IO\MathReader.cs" />
     <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="GameObjects\GameObject\Appearance.cs" />
+    <Compile Include="GameObjects\GameObject\ChildObjects.cs" />
+    <Compile Include="GameObjects\GameObject\Dimensions.cs" />
+    <Compile Include="GameObjects\GameObject\GameConnection.cs" />
+    <Compile Include="GameObjects\GameObject\GameObject.cs" />
+    <Compile Include="GameObjects\GameObject\GameObjectBase.cs" />
+    <Compile Include="GameObjects\GameObject\IGameObject.cs" />
+    <Compile Include="GameObjects\GameObject\Layout.cs" />
+    <Compile Include="GameObjects\GameObject\Movement.cs" />
+    <Compile Include="GameObjects\GameObject\Oscillator.cs" />
+    <Compile Include="GameObjects\Layouts\ILayout.cs" />
+    <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
@@ -103,12 +116,19 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Game\Graphics.cs" />
+    <Compile Include="Game\Layers.cs" />
+    <Compile Include="Game\Time.cs" />
+    <Compile Include="Graphics\Animation.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Canvas.cs" />
     <Compile Include="Graphics\Color.cs" />
+    <Compile Include="Graphics\CustomDrawable.cs" />
+    <Compile Include="Graphics\Font.cs" />
     <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Graphics\Grid.cs" />
     <Compile Include="Graphics\Image.cs" />
     <Compile Include="Graphics\ImageBatch.cs" />
+    <Compile Include="Graphics\Layer.cs" />
     <Compile Include="Graphics\LineBatch.cs" />
     <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Graphics\ShapeBatch.cs" />
@@ -123,8 +143,6 @@
     <Compile Include="Helpers\ReturnHelper.cs" />
     <Compile Include="Helpers\StreamHelpers.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
-    <Compile Include="Content\ContentResources.Designer.cs" />
-    <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
     <Compile Include="Sound\MediaPlayer.cs" />
     <Compile Include="Sound\Sound.cs" />
     <Compile Include="Sound\SoundEffect.cs" />
@@ -134,6 +152,15 @@
     <Compile Include="DataTypes\DoubleMeter.cs" />
     <Compile Include="Events\MeterAddOperation.cs" />
     <Compile Include="Events\Operation.cs" />
+    <Compile Include="Shapes\Shapes.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
+    <Compile Include="..\MonoGame\MonoGame.Framework\Content\ResourceContentManager.cs">
+      <Link>Content\ResourceContentManager.cs</Link>
+    </Compile>
+    <Compile Include="Content\ContentResources.Designer.cs" />
+    <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
+    <Compile Include="WP8\Phone.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
@@ -165,6 +192,7 @@
     <Folder Include="Helpers\" />
     <Folder Include="Sound\" />
     <Folder Include="Events\" />
+    <Folder Include="WP8\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

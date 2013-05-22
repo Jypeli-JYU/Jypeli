@@ -45,6 +45,11 @@ namespace Jypeli
         public static Game Instance { get; private set; }
 
         /// <summary>
+        /// Phone-olio esim. puhelimen tärisyttämiseen.
+        /// </summary>
+        public Phone Phone { get; private set; }
+
+        /// <summary>
         /// Kamera, joka näyttää ruudulla näkyvän osan kentästä.
         /// Kameraa voidaan siirtää, zoomata tai asettaa seuraamaan tiettyä oliota.
         /// </summary>
@@ -61,6 +66,7 @@ namespace Jypeli
         {
             InitXnaContent();
             InitInstance();
+            InitPhone();
             InitXnaGraphics();
             InitControls();
             InitLayers();
@@ -69,6 +75,11 @@ namespace Jypeli
         private void InitInstance()
         {
             Instance = this;
+        }
+
+        private void InitPhone()
+        {
+            Phone = new Phone();
         }
 
         private void InitXnaGraphics()

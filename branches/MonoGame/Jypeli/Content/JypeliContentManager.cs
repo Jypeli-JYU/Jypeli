@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Resources;
+
+#if WINRT_CORE
 using Windows.ApplicationModel.Resources;
+#endif
 
 namespace Microsoft.Xna.Framework.Content
 {
@@ -21,18 +24,6 @@ namespace Microsoft.Xna.Framework.Content
             }
 
             throw new ContentLoadException( "Resource not found" );
-
-            /*object obj = this.rl.GetString(assetName);
-
-            if (obj == null)
-            {
-                throw new ContentLoadException("Resource not found");
-            }
-            if (!(obj is byte[]))
-            {
-                throw new ContentLoadException("Resource is not in binary format");
-            }
-            return new MemoryStream(obj as byte[]);*/
         }
     }
 }

@@ -33,6 +33,11 @@
             BackgroundColor="#464646">
             <DefaultTile ShowName="allLogos" />
             <SplashScreen Image="Assets\SplashScreen.png" />
+			<InitialRotationPreference>
+				<Rotation Preference="portrait" />
+				<Rotation Preference="landscape" />
+				<Rotation Preference="landscapeFlipped" />
+			</InitialRotationPreference>
         </VisualElements>
     </Application>
   </Applications>

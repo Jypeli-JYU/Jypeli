@@ -35,7 +35,7 @@ using AdvanceMath;
 using AdvanceMath.Geometry2D;
 
 
-namespace Physics2DDotNet.Shapes
+namespace Jypeli.Physics2d
 {
 
     public class VertexInfo

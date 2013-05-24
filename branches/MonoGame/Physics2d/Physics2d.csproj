@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{041D26C6-A261-4843-906E-7326AB1DBA4C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Physics2d</RootNamespace>
+    <AssemblyName>Physics2d</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;UseDouble</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;UseDouble</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Physics2DDotNet\Shapes\ShapeHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PhysicsBody\Coefficients.cs" />
+    <Compile Include="PhysicsBody\Collisions.cs" />
+    <Compile Include="PhysicsBody\CollisionShapeParameters.cs" />
+    <Compile Include="PhysicsBody\CollisionShapeQuality.cs" />
+    <Compile Include="PhysicsBody\Dimensions.cs" />
+    <Compile Include="PhysicsBody\Inertia.cs" />
+    <Compile Include="PhysicsBody\Movement.cs" />
+    <Compile Include="PhysicsClient.cs" />
+    <Compile Include="PhysicsBody\PhysicsBody.cs" />
+    <Compile Include="PhysicsGame\PhysicsGame.cs" />
+    <Compile Include="PhysicsGame\PhysicsGameBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Physics2DDotNet\ALVector2D.cs" />
+    <Compile Include="Physics2DDotNet\Body.cs" />
+    <Compile Include="Physics2DDotNet\DistanceGrid.cs" />
+    <Compile Include="Physics2DDotNet\Interfaces.cs" />
+    <Compile Include="Physics2DDotNet\Lifespan.cs" />
+    <Compile Include="Physics2DDotNet\ListExtension.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsEngine.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsHelper.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsTimer.cs" />
+    <Compile Include="Physics2DDotNet\Collections\AdvReaderWriterLock.cs" />
+    <Compile Include="Physics2DDotNet\Collections\ImplicitCastCollection.cs" />
+    <Compile Include="Physics2DDotNet\Collections\ReadOnlyThreadSafeCollection.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\BodyJointEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\BodyProxy.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\Coefficients.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\CollectionEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\CollisionEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\DragInfo.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\IntersectionInfo.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\LinkedList2.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\MassInfo.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\Matrices.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\PairID.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\PhysicsState.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\RemovedEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\TimeStep.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\UpdatedEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\BroadPhaseCollisionDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\BruteForceDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\FrameCoherentSAPDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\SelectiveSweepDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\SpatialHashDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\SweepAndPruneDetector.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\AdvGroupIgnorer.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\GroupCollection.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\GroupIgnorer.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\Ignorer.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\ObjectIgnorer.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\OneWayPlatformIgnorer.cs" />
+    <Compile Include="Physics2DDotNet\Joints\AngleJoint.cs" />
+    <Compile Include="Physics2DDotNet\Joints\FixedAngleJoint.cs" />
+    <Compile Include="Physics2DDotNet\Joints\FixedHingeJoint.cs" />
+    <Compile Include="Physics2DDotNet\Joints\HingeJoint.cs" />
+    <Compile Include="Physics2DDotNet\Joints\Joint.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\ExplosionLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\GlobalFluidLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\GravityField.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\GravityPointField.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\GravityPointMass.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\LineFluidLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\MoveToPointLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\PhysicsLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\RaySegmentsCollisionLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\VelocityLimitLogic.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\CircleShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\MultiPolygonShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\ParticleShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\PolygonShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\RaySegmentsShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\Shape.cs" />
+    <Compile Include="Physics2DDotNet\Solvers\CollisionSolver.cs" />
+    <Compile Include="Physics2DDotNet\Solvers\ISequentialImpulsesJoint.cs" />
+    <Compile Include="Physics2DDotNet\Solvers\SequentialImpulses.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Jypeli\Jypeli-VS2012.csproj">
+      <Project>{76cc55a2-bece-4f80-b491-ddcab9f061fb}</Project>
+      <Name>Jypeli-VS2012</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
+      <Project>{da65b249-9290-4a09-a48c-443a65845583}</Project>
+      <Name>MonoGame.Framework.WindowsGL</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

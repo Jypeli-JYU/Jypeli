@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Physics2d", "Physics2d.csproj", "77C567E3-AFC4-4784-A68A-6D6FA757825A"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77C567E3-AFC4-4784-A68A-6D6FA757825A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77C567E3-AFC4-4784-A68A-6D6FA757825A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77C567E3-AFC4-4784-A68A-6D6FA757825A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77C567E3-AFC4-4784-A68A-6D6FA757825A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Physics2d.csproj
+	EndGlobalSection
+EndGlobal

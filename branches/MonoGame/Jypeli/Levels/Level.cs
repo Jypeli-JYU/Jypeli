@@ -30,7 +30,6 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Physics2DDotNet.Shapes;
 using AdvanceMath;
 
 namespace Jypeli
@@ -72,7 +71,7 @@ namespace Jypeli
     /// Pelikenttä, johon voi lisätä olioita. Kentällä voi myös olla reunat ja taustaväri tai taustakuva.
     /// </summary>
     [Save]
-    public class Level
+    public partial class Level
     {
         [Save] double _width = 1000;
         [Save] double _height = 800;
@@ -208,15 +207,6 @@ namespace Jypeli
             }
 
             return new BoundingRectangle( new Vector( left, top ), new Vector( right, bottom ) );
-        }
-
-        /// <summary>
-        /// Palauttaa satunnaisen kohdan kentän reunojen sisältä.
-        /// </summary>
-        /// <returns>Vektori.</returns>
-        public Vector GetRandomPosition()
-        {
-            return new Vector( RandomGen.NextDouble( Left, Right ), RandomGen.NextDouble( Bottom, Top ) );
         }
     }
 }

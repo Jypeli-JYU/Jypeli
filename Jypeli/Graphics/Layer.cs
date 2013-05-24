@@ -77,7 +77,7 @@ namespace Jypeli
             BottomRight = new Vector2( 1.0f, 1.0f ),
         };
 
-        internal SynchronousList<IGameObject> Objects = new SynchronousList<IGameObject>();
+        public SynchronousList<IGameObject> Objects = new SynchronousList<IGameObject>();
 
         private List<IGameObject> objectsWithImage = new List<IGameObject>();
         private List<IGameObject> objectsWithoutImage = new List<IGameObject>();

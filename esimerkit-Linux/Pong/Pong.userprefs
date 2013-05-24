@@ -1,0 +1,18 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../SimplePhysics/PhysicsObject.cs">
+    <Files>
+      <File FileName="Peli.cs" Line="156" Column="19" />
+      <File FileName="../../SimplePhysics/PhysicsGame.cs" Line="35" Column="66" />
+      <File FileName="../../SimplePhysics/PhysicsObject.cs" Line="18" Column="10" />
+      <File FileName="../../SimplePhysics/ImpulseCollection.cs" Line="10" Column="18" />
+      <File FileName="../../SimplePhysics/Impulse.cs" Line="13" Column="1" />
+      <File FileName="../../SimplePhysics/ConstantImpulse.cs" Line="12" Column="45" />
+      <File FileName="../../Jypeli/Controls/Keyboard/Keyboard.cs" Line="106" Column="44" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

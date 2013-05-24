@@ -36,7 +36,7 @@ using Microsoft.Xna.Framework.Graphics;
 using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
 using XnaColor = Microsoft.Xna.Framework.Color;
 using System.Reflection;
-using Physics2DDotNet.Shapes;
+using Jypeli.Physics2d;
 
 
 namespace Jypeli
@@ -53,7 +53,7 @@ namespace Jypeli
         /// </summary>
         public abstract bool IsUnitSize { get; }
 
-        internal abstract ShapeCache Cache { get; }
+        public abstract ShapeCache Cache { get; }
 
         /// <summary>
         /// Ympyrä tai ellipsi.
@@ -297,7 +297,7 @@ namespace Jypeli
     {
         private static ShapeCache _cache = CreateRegularPolygonCache( 64 );
 
-        internal override ShapeCache Cache
+        public override ShapeCache Cache
         {
             get { return _cache; }
         }
@@ -338,7 +338,7 @@ namespace Jypeli
 
         private static readonly ShapeCache _cache = new ShapeCache( vertices, triangles, outlineIndices );
 
-        internal override ShapeCache Cache { get { return _cache; } }
+        public override ShapeCache Cache { get { return _cache; } }
 
         public override bool IsUnitSize { get { return true; } }
 
@@ -383,7 +383,7 @@ namespace Jypeli
 
         private static readonly ShapeCache _cache = new ShapeCache( vertices, triangles );
 
-        internal override ShapeCache Cache { get { return _cache; } }
+        public override ShapeCache Cache { get { return _cache; } }
 
         public override bool IsUnitSize { get { return true; } }
 
@@ -426,7 +426,7 @@ namespace Jypeli
 
         private static readonly ShapeCache _cache = new ShapeCache( vertices, triangles, outlineIndices );
 
-        internal override ShapeCache Cache { get { return _cache; } }
+        public override ShapeCache Cache { get { return _cache; } }
 
         public override bool IsUnitSize { get { return true; } }
 
@@ -457,7 +457,7 @@ namespace Jypeli
 
         private static readonly ShapeCache _cache = new ShapeCache( vertices, triangles, outlineIndices );
 
-        internal override ShapeCache Cache { get { return _cache; } }
+        public override ShapeCache Cache { get { return _cache; } }
 
         public override bool IsUnitSize { get { return true; } }
 
@@ -474,7 +474,7 @@ namespace Jypeli
     /// </summary>
     public class RaySegment : Shape
     {
-        internal override ShapeCache Cache
+        public override ShapeCache Cache
         {
             get { throw new Exception( "Cache is not defined for RaySegment" ); }
         }
@@ -511,7 +511,7 @@ namespace Jypeli
             get { return isUnitSize; }
         }
 
-        internal override ShapeCache Cache
+        public override ShapeCache Cache
         {
             get { return _cache; }
         }

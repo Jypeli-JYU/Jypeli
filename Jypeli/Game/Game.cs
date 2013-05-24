@@ -27,6 +27,7 @@
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
+using System;
 using System.ComponentModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -70,6 +71,7 @@ namespace Jypeli
             InitXnaGraphics();
             InitControls();
             InitLayers();
+            InitPhysics();
         }
 
         private void InitInstance()
@@ -172,6 +174,23 @@ namespace Jypeli
             Graphics.Canvas.End();
 
             base.Draw( gameTime );
+        }
+
+        /// <summary>
+        /// Nollaa kaiken.
+        /// </summary>
+        public virtual void ClearAll()
+        {
+            Level.Clear();
+            ResetLayers();
+            ClearTimers();
+/*#if !WINDOWS_PHONE
+            ClearLights();
+#endif*/
+            //ClearControls();
+            GC.Collect();
+            //addMessageDisplay();
+            ControlContext.Enable();
         }
 
         /// <summary>

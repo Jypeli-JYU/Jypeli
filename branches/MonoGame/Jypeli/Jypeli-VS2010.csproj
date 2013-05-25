@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\WindowsGL\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -27,7 +27,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\WindowsGL\Release\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -38,11 +38,17 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Content\ContentResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ContentResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Controller\ButtonState.cs" />
     <Compile Include="Controls\Controller\Controller.cs" />
     <Compile Include="Controls\Controller\Listener.cs" />
     <Compile Include="Controls\Keyboard\Key.cs" />
     <Compile Include="Controls\Keyboard\Keyboard.cs" />
+    <Compile Include="Controls\ListenContext.cs" />
     <Compile Include="Controls\Mouse\Mouse.cs" />
     <Compile Include="Controls\Mouse\MouseButton.cs" />
     <Compile Include="Controls\Mouse\MouseState.cs" />
@@ -93,6 +99,22 @@
     <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
     <Compile Include="AdvanceMath\IO\MathReader.cs" />
     <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="GameObjects\GameObject\Appearance.cs" />
+    <Compile Include="GameObjects\GameObject\ChildObjects.cs" />
+    <Compile Include="GameObjects\GameObject\Dimensions.cs" />
+    <Compile Include="GameObjects\GameObject\GameConnection.cs" />
+    <Compile Include="GameObjects\GameObject\GameObject.cs" />
+    <Compile Include="GameObjects\GameObject\GameObjectBase.cs" />
+    <Compile Include="GameObjects\GameObject\IGameObject.cs" />
+    <Compile Include="GameObjects\GameObject\Layout.cs" />
+    <Compile Include="GameObjects\GameObject\Movement.cs" />
+    <Compile Include="GameObjects\GameObject\Oscillator.cs" />
+    <Compile Include="GameObjects\Layouts\ILayout.cs" />
+    <Compile Include="GameObjects\PhysicsObject\IPhysicsBody.cs" />
+    <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
+    <Compile Include="GameObjects\PhysicsObject\PhysicsObject.cs" />
+    <Compile Include="GameObjects\Surface\Surface.cs" />
+    <Compile Include="GameObjects\Surface\Surfaces.cs" />
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
@@ -100,18 +122,32 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Game\Graphics.cs" />
+    <Compile Include="Game\Layers.cs" />
+    <Compile Include="Game\Physics.cs" />
+    <Compile Include="Game\Time.cs" />
+    <Compile Include="Graphics\Animation.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Canvas.cs" />
     <Compile Include="Graphics\Color.cs" />
+    <Compile Include="Graphics\CustomDrawable.cs" />
+    <Compile Include="Graphics\Font.cs" />
     <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Graphics\Grid.cs" />
     <Compile Include="Graphics\Image.cs" />
     <Compile Include="Graphics\ImageBatch.cs" />
+    <Compile Include="Graphics\Layer.cs" />
     <Compile Include="Graphics\LineBatch.cs" />
     <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Graphics\ShapeBatch.cs" />
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Helpers\RandomGen.cs" />
     <Compile Include="Levels\Level.cs" />
+    <Compile Include="Levels\Borders.cs" />
+    <Compile Include="Physics\IPhysicsClient.cs" />
+    <Compile Include="Physics\PhysicsInterface.cs" />
+    <Compile Include="Shapes\Shapes.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Storage\SaveAttribute.cs" />
     <Compile Include="DataTypes\Destroyable.cs" />
     <Compile Include="DataTypes\Tagged.cs" />
@@ -120,33 +156,66 @@
     <Compile Include="Helpers\ReturnHelper.cs" />
     <Compile Include="Helpers\StreamHelpers.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
+    <Compile Include="Sound\MediaPlayer.cs" />
+    <Compile Include="Sound\Sound.cs" />
+    <Compile Include="Sound\SoundEffect.cs" />
+    <Compile Include="Events\Timer.cs" />
+    <Compile Include="DataTypes\Meter.cs" />
+    <Compile Include="DataTypes\IntMeter.cs" />
+    <Compile Include="DataTypes\DoubleMeter.cs" />
+    <Compile Include="Events\MeterAddOperation.cs" />
+    <Compile Include="Events\Operation.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
+    <Compile Include="WP8\Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Content\ContentResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ContentResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\AsRifle.xnb" />
+    <None Include="Content\Auto.xnb" />
+    <None Include="Content\Bullet.xnb" />
+    <None Include="Content\Cannon.xnb" />
+    <None Include="Content\CannonBall.xnb" />
+    <None Include="Content\CannonFire.xnb" />
+    <None Include="Content\DownArrow.xnb" />
+    <None Include="Content\explosion.xnb" />
+    <None Include="Content\explosion2.xnb" />
+    <None Include="Content\explosionSound.xnb" />
+    <None Include="Content\Grenade.xnb" />
+    <None Include="Content\implosionSound.xnb" />
+    <None Include="Content\laser.xnb" />
+    <None Include="Content\MGAttack.xnb" />
+    <None Include="Content\PlasmaAttack.xnb" />
+    <None Include="Content\PlasmaCannon.xnb" />
+    <None Include="Content\smoke.xnb" />
+    <None Include="Content\Tank.xnb" />
+    <None Include="Content\UpArrow.xnb" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="OpenTK">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Lidgren.Network">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Lidgren.Network.dll</HintPath>
-    </Reference>
-    <Reference Include="Tao.Sdl">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Tao.Sdl.dll</HintPath>
+      <HintPath>..\MonoGame\ThirdParty\Libs\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="Tao.Sdl">
+      <HintPath>..\MonoGame\MonoGame.Framework\bin\WindowsGL\Debug\Tao.Sdl.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="C:\Program Files %28x86%29\MonoGame\v3.0\Assemblies\WindowsGL\SDL.dll">
-      <Link>SDL.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Content\" />
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
+      <Project>{7DE47032-A904-4C29-BD22-2D235E8D91BA}</Project>
+      <Name>MonoGame.Framework.WindowsGL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

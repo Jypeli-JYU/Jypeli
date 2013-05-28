@@ -5,9 +5,10 @@ using Jypeli;
 
 namespace Jypeli
 {
-    public class PhysicsGame : Game
+    public partial class PhysicsGame : Game
     {
         List<PhysicsObject> physObjects = new List<PhysicsObject>();
+        Dictionary<PhysicsObject, List<PhysicsObject>> contacts = new Dictionary<PhysicsObject, List<PhysicsObject>>();
 
         public PhysicsGame()
             : base()
@@ -53,6 +54,51 @@ namespace Jypeli
             SolveCollisions( dt );
         }
 
+        private bool HasContact( PhysicsObject obj1, PhysicsObject obj2 )
+        {
+            if ( contacts.ContainsKey( obj1 ) && contacts[obj1].Contains( obj2 ) )
+                return true;
+
+            if ( contacts.ContainsKey( obj2 ) && contacts[obj2].Contains( obj1 ) )
+                return true;
+
+            return false;
+        }
+
+        private void AddContact( PhysicsObject obj1, PhysicsObject obj2 )
+        {
+            if ( contacts.ContainsKey( obj1 ) )
+            {
+                contacts[obj1].Add( obj2 );
+                return;
+            }
+
+            if ( contacts.ContainsKey( obj2 ) )
+            {
+                contacts[obj2].Add( obj1 );
+                return;
+            }
+
+            var newList = new List<PhysicsObject>();
+            newList.Add( obj2 );
+            contacts.Add( obj1, newList );
+        }
+
+        private void RemoveContact( PhysicsObject obj1, PhysicsObject obj2 )
+        {
+            if ( contacts.ContainsKey( obj1 ) && contacts[obj1].Contains( obj2 ) )
+                contacts[obj1].Remove( obj2 );
+
+            if ( contacts.ContainsKey( obj2 ) && contacts[obj2].Contains( obj1 ) )
+                contacts[obj2].Remove( obj1 );
+        }
+
+        private bool IsOverlapping( PhysicsObject obj1, PhysicsObject obj2 )
+        {
+            // Just a simple rectangle check for now
+            return BoundingRectangle.Intersects( obj1.BoundingRectangle, obj2.BoundingRectangle );
+        }
+
         private void SolveCollisions( double dt )
         {
             for ( int i = 0; i < physObjects.Count; i++ )
@@ -66,8 +112,14 @@ namespace Jypeli
                     if ( iStatic && jStatic )
                         continue;
 
-                    if ( BoundingRectangle.Intersects( physObjects[i].BoundingRectangle, physObjects[j].BoundingRectangle ) )
+                    if ( IsOverlapping( physObjects[i], physObjects[j] ) )
                     {
+                        if ( HasContact( physObjects[i], physObjects[j] ) )
+                        {
+                            // Already responded to this collision
+                            continue;
+                        }
+
                         // Collision (perfectly elastic)
                         BoundingRectangle intsect = BoundingRectangle.GetIntersection( physObjects[i].BoundingRectangle, physObjects[j].BoundingRectangle );
                         double rest = physObjects[i].Restitution * physObjects[j].Restitution;
@@ -81,9 +133,13 @@ namespace Jypeli
                             if ( v_n > 0 )
                             {
                                 // Approaching the wall
-                                Vector p = n.LeftNormal;
-                                double v_p = physObjects[index].Velocity.ScalarProjection( p );
-                                physObjects[index].Velocity = rest * ( v_p * p - v_n * n );
+                                if ( !physObjects[i].IgnoresCollisionResponse && !physObjects[j].IgnoresCollisionResponse )
+                                {
+                                    // Collision response
+                                    Vector p = n.LeftNormal;
+                                    double v_p = physObjects[index].Velocity.ScalarProjection( p );
+                                    physObjects[index].Velocity = rest * ( v_p * p - v_n * n );
+                                }
                             }
                         }
                         else
@@ -97,9 +153,23 @@ namespace Jypeli
                             Vector v_j = ( p_sum - p_diff ) / 2;
                             Vector v_i = p_sum - v_j;
 
-                            physObjects[i].Velocity = v_i;
-                            physObjects[j].Velocity = v_j;
+                            if ( !physObjects[i].IgnoresCollisionResponse && !physObjects[j].IgnoresCollisionResponse )
+                            {
+                                // Collision response
+                                physObjects[i].Velocity = v_i;
+                                physObjects[j].Velocity = v_j;
+                            }
                         }
+
+                        // Collision event
+                        physObjects[i].OnCollided( physObjects[j] );
+                        physObjects[j].OnCollided( physObjects[i] );
+                        AddContact( physObjects[i], physObjects[j] );
+                    }
+                    else
+                    {
+                        // No contact between these objects
+                        RemoveContact( physObjects[i], physObjects[j] );
                     }
                 }
             }

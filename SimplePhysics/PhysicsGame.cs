@@ -70,35 +70,25 @@ namespace Jypeli
                     {
                         // Collision (perfectly elastic)
                         BoundingRectangle intsect = BoundingRectangle.GetIntersection( physObjects[i].BoundingRectangle, physObjects[j].BoundingRectangle );
+                        double rest = physObjects[i].Restitution * physObjects[j].Restitution;
 
                         if ( iStatic || jStatic )
                         {
                             int index = iStatic ? j : i;
-
-                            // ds is the distance travelled during dt
-                            Vector ds = ( physObjects[index].Acceleration * dt + physObjects[index].Velocity ) * dt;
                             Vector n = ( intsect.Position - physObjects[index].Position ).Normalize();
-                            Vector p = n.RightNormal;
-                                                        
-                            // n = normal, p = parallel
-                            double pos_n = physObjects[index].Position.ScalarProjection( n );
-                            double pos_p = physObjects[index].Position.ScalarProjection( p );
-                            double contact_n = intsect.Position.ScalarProjection( n );
-                            double contact_p = intsect.Position.ScalarProjection( p );
-                            double ds_n = ds.ScalarProjection( n );
-                            double ds_p = ds.ScalarProjection( p );
-
-                            // ds2 is the part after the collision
-                            double ds2_n = contact_n - pos_n;
-                            double ds1_n = ds_n - ds2_n;
-                            physObjects[index].Position += ds_p * p + ( ds1_n - ds2_n ) * n;
-
                             double v_n = physObjects[index].Velocity.ScalarProjection( n );
-                            double v_p = physObjects[index].Velocity.ScalarProjection( p );
-                            physObjects[index].Velocity = v_p * p - v_n * n;
+
+                            if ( v_n > 0 )
+                            {
+                                // Approaching the wall
+                                Vector p = n.LeftNormal;
+                                double v_p = physObjects[index].Velocity.ScalarProjection( p );
+                                physObjects[index].Velocity = rest * ( v_p * p - v_n * n );
+                            }
                         }
                         else
                         {
+                            // TODO: Restitution
                             Vector p_i = physObjects[i].Mass * physObjects[i].Velocity;
                             Vector p_j = physObjects[j].Mass * physObjects[j].Velocity;
                             Vector p_sum = p_i + p_j;

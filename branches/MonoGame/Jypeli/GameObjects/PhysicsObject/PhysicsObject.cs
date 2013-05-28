@@ -163,17 +163,8 @@ namespace Jypeli
             }
         }
 
-        public bool IgnoresCollisionResponse
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        [Save]
+        public bool IgnoresCollisionResponse { get; set; }
 
         public bool IgnoresGravity
         {
@@ -212,6 +203,16 @@ namespace Jypeli
         }
 
         public event CollisionHandler<IPhysicsObject, IPhysicsObject> Collided;
+
+        /// <summary>
+        /// Fysiikkamoottori kutsuu kun törmäys tapahtuu
+        /// </summary>
+        /// <param name="otherObject"></param>
+        public void OnCollided( IPhysicsObject otherObject )
+        {
+            if ( Collided != null )
+                Collided( this, otherObject );
+        }
 
         public PhysicsObject( double width, double height, Shape shape )
             : base( width, height, shape )

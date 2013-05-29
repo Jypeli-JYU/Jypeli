@@ -60,11 +60,7 @@ namespace Jypeli
 
         private void InitXnaContent()
         {
-#if NETFX_CORE
             ResourceContent = new JypeliContentManager( this.Services );
-#else
-            ResourceContent = new ResourceContentManager( this.Services, ContentResources.ResourceManager );
-#endif
             Content.RootDirectory = "Content";
 			MediaPlayer = new MediaPlayer( Content );
         }

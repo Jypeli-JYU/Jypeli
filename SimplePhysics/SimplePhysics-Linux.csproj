@@ -34,10 +34,12 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="PhysicsGame.cs" />
-    <Compile Include="PhysicsObject.cs" />
     <Compile Include="ImpulseCollection.cs" />
     <Compile Include="Impulse.cs" />
-    <Compile Include="ConstantImpulse.cs" />
+    <Compile Include="PhysicsBody.cs" />
+    <Compile Include="PhysicsClient.cs" />
+    <Compile Include="SingleImpulse.cs" />
+    <Compile Include="Collisions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

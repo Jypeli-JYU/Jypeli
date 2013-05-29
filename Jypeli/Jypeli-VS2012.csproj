@@ -38,11 +38,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Content\ContentResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ContentResources.resx</DependentUpon>
-    </Compile>
+    <Compile Include="Content\AsRifle.cs" />
+    <Compile Include="Content\Auto.cs" />
+    <Compile Include="Content\Bullet.cs" />
+    <Compile Include="Content\JypeliContentManager.cs" />
+    <Compile Include="Content\MediumFont.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />
     <Compile Include="Controls\Controller\Controller.cs" />
     <Compile Include="Controls\Controller\Listener.cs" />
@@ -115,6 +115,9 @@
     <Compile Include="GameObjects\PhysicsObject\PhysicsObject.cs" />
     <Compile Include="GameObjects\Surface\Surface.cs" />
     <Compile Include="GameObjects\Surface\Surfaces.cs" />
+    <Compile Include="GameObjects\Widget\Appearance.cs" />
+    <Compile Include="GameObjects\Widget\Control.cs" />
+    <Compile Include="GameObjects\Widget\Widget.cs" />
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
@@ -125,6 +128,7 @@
     <Compile Include="Game\Layers.cs" />
     <Compile Include="Game\Physics.cs" />
     <Compile Include="Game\Time.cs" />
+    <Compile Include="Game\Widgets.cs" />
     <Compile Include="Graphics\Animation.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Canvas.cs" />
@@ -167,6 +171,7 @@
     <Compile Include="Events\Operation.cs" />
     <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
+    <Compile Include="Widgets\MessageDisplay.cs" />
     <Compile Include="WP8\Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -195,33 +200,6 @@
     </None>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <EmbeddedResource Include="Content\ContentResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ContentResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\AsRifle.xnb" />
-    <None Include="Content\Auto.xnb" />
-    <None Include="Content\Bullet.xnb" />
-    <None Include="Content\Cannon.xnb" />
-    <None Include="Content\CannonBall.xnb" />
-    <None Include="Content\CannonFire.xnb" />
-    <None Include="Content\DownArrow.xnb" />
-    <None Include="Content\explosion.xnb" />
-    <None Include="Content\explosion2.xnb" />
-    <None Include="Content\explosionSound.xnb" />
-    <None Include="Content\Grenade.xnb" />
-    <None Include="Content\implosionSound.xnb" />
-    <None Include="Content\laser.xnb" />
-    <None Include="Content\MGAttack.xnb" />
-    <None Include="Content\PlasmaAttack.xnb" />
-    <None Include="Content\PlasmaCannon.xnb" />
-    <None Include="Content\smoke.xnb" />
-    <None Include="Content\Tank.xnb" />
-    <None Include="Content\UpArrow.xnb" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
       <Project>{da65b249-9290-4a09-a48c-443a65845583}</Project>

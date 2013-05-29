@@ -68,9 +68,9 @@
       <Project>{A37A7E14-0000-0000-0000-000000000000}</Project>
       <Name>OpenTK</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SimplePhysics\SimplePhysics.csproj">
+    <ProjectReference Include="..\..\SimplePhysics\SimplePhysics-Linux.csproj">
       <Project>{7E51D9E3-3B1F-44D5-8376-90253690C95A}</Project>
-      <Name>SimplePhysics</Name>
+      <Name>SimplePhysics-Linux</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

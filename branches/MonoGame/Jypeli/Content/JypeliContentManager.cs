@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Resources;
+using System.Reflection;
 
 #if WINRT_CORE
 using Windows.ApplicationModel.Resources;
@@ -18,12 +19,11 @@ namespace Microsoft.Xna.Framework.Content
 
         protected override System.IO.Stream OpenStream(string assetName)
         {
-            if ( assetName == "bullet" )
-            {
-                return new MemoryStream( Jypeli.Content.Bullet.rawData );
-            }
-
-            throw new ContentLoadException( "Resource not found" );
+            var assetType = Assembly.GetExecutingAssembly().GetType( "Jypeli.Content." + assetName );
+            var bindingFlags = BindingFlags.GetField | BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
+            var fieldInfo = assetType.GetField( "rawData", bindingFlags );
+            var bytes = fieldInfo.GetValue( null );
+            return new MemoryStream( bytes as byte[] );
         }
     }
 }

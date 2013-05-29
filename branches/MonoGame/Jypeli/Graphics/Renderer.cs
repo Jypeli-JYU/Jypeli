@@ -214,19 +214,21 @@ namespace Jypeli
         private static void DrawImageTexture( Image texture, Matrix matrix, GraphicsDevice device, VertexPositionTexture[] tempVertices )
         {
             Effect effect = Graphics.GetTextureEffect( ref matrix, texture.XNATexture, LightingEnabled );
-            foreach ( EffectPass pass in effect.CurrentTechnique.Passes )
+            Graphics.SetSamplerState();
+
+			foreach ( EffectPass pass in effect.CurrentTechnique.Passes )
             {
                 pass.Apply();
-                device.SamplerStates[0] = SamplerState.LinearClamp;
                 Game.GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionTexture>(
                     PrimitiveType.TriangleList,
                     tempVertices, 0, tempVertices.Length,
                     textureTriangleIndices, 0, textureTriangleIndices.Length / 3
                     );
             }
+
+            Graphics.ResetSamplerState();
         }
 
-//#if COMMENT
         /// <summary>
         /// Makes all the subsequent draw calls until <c>EndDrawingInsideShape</c> limit the
         /// drawing inside <c>shape</c> (transformed by the matrix).
@@ -319,12 +321,13 @@ namespace Jypeli
 
             BasicEffect effect = Graphics.BasicColorEffect;
             effect.World = matrix;
+            Graphics.SetSamplerState();
             foreach ( EffectPass pass in effect.CurrentTechnique.Passes )
             {
                 pass.Apply();
-                device.SamplerStates[0] = SamplerState.LinearClamp;
                 device.DrawUserPrimitives<VertexPositionColor>( PrimitiveType.LineStrip, colorVertices, 0, 1 );
             }
+            Graphics.ResetSamplerState();
         }
 
         /// <summary>
@@ -374,16 +377,17 @@ namespace Jypeli
 #endif
 
             Effect effect = Graphics.GetColorEffect( ref matrix, LightingEnabled );
+            Graphics.SetSamplerState();
             foreach ( EffectPass pass in effect.CurrentTechnique.Passes )
             {
                 pass.Apply();
-                device.SamplerStates[0] = SamplerState.LinearClamp;
                 device.DrawUserIndexedPrimitives<VertexPositionColor>(
                     PrimitiveType.TriangleList,
                     vertices, 0, vertices.Length,
                     indices, 0, indices.Length / 3
                     );
             }
+            Graphics.ResetSamplerState();
         }
 
         public static void DrawPolygon( Vector[] vertices, ref Matrix matrix, Color color )
@@ -414,10 +418,10 @@ namespace Jypeli
             indices[2 * ( n - 1 ) + 1] = (Int16)0;
 
             Effect effect = Graphics.GetColorEffect( ref matrix, LightingEnabled );
+            Graphics.SetSamplerState();
             foreach ( EffectPass pass in effect.CurrentTechnique.Passes )
             {
                 pass.Apply();
-                device.SamplerStates[0] = SamplerState.LinearClamp;
                 device.DrawUserIndexedPrimitives<VertexPositionColor>(
                     PrimitiveType.LineStrip,
                     colorVertices, 0, colorVertices.Length,
@@ -425,6 +429,7 @@ namespace Jypeli
                     );
 
             }
+            Graphics.ResetSamplerState();
         }
 
 
@@ -445,16 +450,16 @@ namespace Jypeli
 
             BasicEffect effect = Graphics.BasicColorEffect;
             effect.World = matrix;
+            Graphics.SetSamplerState();
             foreach ( var pass in effect.CurrentTechnique.Passes )
             {
                 pass.Apply();
-                device.SamplerStates[0] = SamplerState.LinearClamp;
                 device.DrawUserPrimitives<VertexPositionColor>(
                     PrimitiveType.LineList,
                     pointVertices, 0, pointVertices.Length
                     );
             }
+            Graphics.ResetSamplerState();
         }
-//#endif
     }
 }

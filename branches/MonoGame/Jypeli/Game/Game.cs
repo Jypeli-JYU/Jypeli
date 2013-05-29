@@ -108,7 +108,6 @@ namespace Jypeli
 #endif
 
             Level = new Level( this );
-            //addMessageDisplay();
 
 #if DEBUG && !DISABLE_WIDGETS
             double barWidth = 20;
@@ -145,10 +144,10 @@ namespace Jypeli
         {
             // Graphics initialization is best done here when window size is set for certain
             InitGraphics();
-            
-            CallBegin();
             base.LoadContent();
             loadContentHasBeenCalled = true;
+            addMessageDisplay();
+            CallBegin();
         }
 
         /// <summary>
@@ -158,7 +157,8 @@ namespace Jypeli
         [EditorBrowsable( EditorBrowsableState.Never )]
         protected override void Draw( GameTime gameTime )
         {
-            GraphicsDevice.Clear( ClearOptions.Target, Level.BackgroundColor.AsXnaColor(), 1.0f, 0 );
+            //GraphicsDevice.Clear( ClearOptions.Target, Level.BackgroundColor.AsXnaColor(), 1.0f, 0 );
+			GraphicsDevice.Clear( Level.BackgroundColor.AsXnaColor() );
 
             // The world matrix adjusts the position and size of objects according to the camera angle.
             var worldMatrix =
@@ -189,7 +189,6 @@ namespace Jypeli
 #endif*/
             //ClearControls();
             GC.Collect();
-            //addMessageDisplay();
             ControlContext.Enable();
         }
 

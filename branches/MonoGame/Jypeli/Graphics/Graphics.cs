@@ -46,13 +46,13 @@ namespace Jypeli
         // Having global batch objects saves memory.
         // The same batch object must not be used from more
         // than one place at a time, though.
-        public static ImageBatch ImageBatch = new ImageBatch();
-        public static ShapeBatch ShapeBatch = new ShapeBatch();
-        public static LineBatch LineBatch = new LineBatch();
+        internal static ImageBatch ImageBatch = new ImageBatch();
+        internal static ShapeBatch ShapeBatch = new ShapeBatch();
+        internal static LineBatch LineBatch = new LineBatch();
 
         public static Canvas Canvas = new Canvas();
 
-        public static readonly TextureCoordinates DefaultTextureCoords = new TextureCoordinates()
+        internal static readonly TextureCoordinates DefaultTextureCoords = new TextureCoordinates()
         {
             TopLeft = new Vector2( 0.0f, 0.0f ),
             TopRight = new Vector2( 1.0f, 0.0f ),
@@ -76,7 +76,7 @@ namespace Jypeli
         private static bool is_PS_2_0_supported = false;
 #endif
 
-        public static SamplerState GetDefaultSamplerState()
+        private static SamplerState GetDefaultSamplerState()
         {
             return Game.SmoothTextures ? SamplerState.LinearClamp : SamplerState.PointClamp;
         }
@@ -84,8 +84,6 @@ namespace Jypeli
         public static void Initialize()
         {
             GraphicsDevice device = Game.GraphicsDevice;
-
-            device.SamplerStates[0] = GetDefaultSamplerState();
 
             BasicTextureEffect = new BasicEffect( device );
             // This must be set to false for textures to work with BasicEffect.
@@ -125,6 +123,19 @@ namespace Jypeli
                 return DepthFormat.Depth15Stencil1;
             else
                 throw new ApplicationException( "Could Not Find Stencil Buffer for Default Adapter" );*/
+        }
+
+        private static SamplerState storedSamplerState;
+
+        public static void SetSamplerState()
+        {
+            storedSamplerState = Game.GraphicsDevice.SamplerStates[0];
+            Game.GraphicsDevice.SamplerStates[0] = GetDefaultSamplerState();
+        }
+
+        public static void ResetSamplerState()
+        {
+            Game.GraphicsDevice.SamplerStates[0] = storedSamplerState;
         }
 
         private static void GraphicsDevice_DeviceReset( object sender, EventArgs e )
@@ -199,7 +210,7 @@ namespace Jypeli
         }
 #endif
 
-        internal static void ResetScreenSize()
+        public static void ResetScreenSize()
         {
             GraphicsDevice device = Game.GraphicsDevice;
 

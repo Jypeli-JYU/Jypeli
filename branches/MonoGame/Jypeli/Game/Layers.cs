@@ -157,11 +157,8 @@ namespace Jypeli
                     throw new NotSupportedException( "Object cannot be added to multiple layers" );
             }
 
-#if !DISABLE_WIDGETS
             if ( o is Widget ) Add( o, MaxLayer );
-            else
-#endif
-                Add( o, 0 );
+            else Add( o, 0 );
         }
 
         /// <summary>
@@ -232,7 +229,7 @@ namespace Jypeli
             foreach ( var layer in Layers )
                 layer.Clear();
 
-            //addMessageDisplay();
+            addMessageDisplay();
         }
 
         /// <summary>
@@ -336,9 +333,7 @@ namespace Jypeli
         {
             Predicate<GameObject> isInsideRadius = delegate( GameObject obj )
             {
-#if !DISABLE_WIDGETS
-                if ( obj is MessageDisplay ) return false;
-#endif
+                if ( IsJypeliWidget<GameObject>( obj ) ) return false;
 
                 Vector positionUp = new Vector( position.X, position.Y + radius );
                 Vector positionDown = new Vector( position.X, position.Y - radius );
@@ -429,7 +424,6 @@ namespace Jypeli
             return GetObjectsAt( position, radius ).Find( obj => obj.Tag == tag );
         }
 
-#if !DISABLE_WIDGETS
         /// <summary>
         /// Palauttaa ensimmäisen ruutuolion joka toteuttaa ehdon (null jos mikään ei toteuta).
         /// </summary>
@@ -449,9 +443,8 @@ namespace Jypeli
         /// <returns>Mahdollinen ruutuolio</returns>
         public Widget GetWidgetAt( Vector position )
         {
-            return (Widget)GetFirstObject( obj => obj is Widget && obj.IsInside( position ) && !( obj is MessageDisplay ) );
+            return (Widget)GetFirstObject( obj => obj is Widget && obj.IsInside( position ) && !IsJypeliWidget<IGameObject>( obj ) );
         }
-#endif
 #endregion
     }
 }

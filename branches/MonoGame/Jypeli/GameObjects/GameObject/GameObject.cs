@@ -108,7 +108,6 @@ namespace Jypeli
             InitLayout( animation.Width, animation.Height );
         }
 
-#if !DISABLE_WIDGETS
         /// <summary>
         /// Alustaa widgetin.
         /// </summary>
@@ -121,7 +120,6 @@ namespace Jypeli
             InitListeners();
             InitLayout( defaultSize.X, defaultSize.Y, layout );
         }
-#endif
 
         private void InitListeners()
         {

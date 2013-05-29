@@ -100,18 +100,17 @@ namespace Jypeli
                 device.BlendState = BlendState.AlphaBlend;
 
                 effect = Graphics.GetTextureEffect(ref matrix, texture, LightingEnabled);
+                Graphics.SetSamplerState();
+
                 for ( int i = 0; i < effect.CurrentTechnique.Passes.Count; i++ )
                     effect.CurrentTechnique.Passes[i].Apply();
-
-                // When drawing individual textures, set the texture addressing modes
-                // to clamp in order to avoid unwanted edges.
-                // EDIT (Denis Zhidkikh): changeable clamp state
-                device.SamplerStates[0] = Graphics.GetDefaultSamplerState();
 
                 device.DrawUserPrimitives<VertexPositionTexture>(
                     PrimitiveType.TriangleList,
                     vertexBuffer, 0,
                     iTexture * 2 );
+
+                Graphics.ResetSamplerState();
             }
 
             iTexture = 0;

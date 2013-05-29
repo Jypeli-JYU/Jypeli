@@ -41,6 +41,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Content\JypeliContentManager.cs" />
+    <Compile Include="Content\MediumFont.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />
     <Compile Include="Controls\Controller\Controller.cs" />
     <Compile Include="Controls\Controller\Listener.cs" />
@@ -108,7 +110,14 @@
     <Compile Include="GameObjects\GameObject\Movement.cs" />
     <Compile Include="GameObjects\GameObject\Oscillator.cs" />
     <Compile Include="GameObjects\Layouts\ILayout.cs" />
+    <Compile Include="GameObjects\PhysicsObject\IPhysicsBody.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
+    <Compile Include="GameObjects\PhysicsObject\PhysicsObject.cs" />
+    <Compile Include="GameObjects\Surface\Surface.cs" />
+    <Compile Include="GameObjects\Surface\Surfaces.cs" />
+    <Compile Include="GameObjects\Widget\Appearance.cs" />
+    <Compile Include="GameObjects\Widget\Control.cs" />
+    <Compile Include="GameObjects\Widget\Widget.cs" />
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
@@ -117,7 +126,9 @@
     </Compile>
     <Compile Include="Game\Graphics.cs" />
     <Compile Include="Game\Layers.cs" />
+    <Compile Include="Game\Physics.cs" />
     <Compile Include="Game\Time.cs" />
+    <Compile Include="Game\Widgets.cs" />
     <Compile Include="Graphics\Animation.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Canvas.cs" />
@@ -135,6 +146,12 @@
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Helpers\RandomGen.cs" />
     <Compile Include="Levels\Level.cs" />
+    <Compile Include="Levels\Borders.cs" />
+    <Compile Include="Physics\IPhysicsClient.cs" />
+    <Compile Include="Physics\PhysicsInterface.cs" />
+    <Compile Include="Shapes\Shapes.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Storage\SaveAttribute.cs" />
     <Compile Include="DataTypes\Destroyable.cs" />
     <Compile Include="DataTypes\Tagged.cs" />
@@ -152,37 +169,14 @@
     <Compile Include="DataTypes\DoubleMeter.cs" />
     <Compile Include="Events\MeterAddOperation.cs" />
     <Compile Include="Events\Operation.cs" />
-    <Compile Include="Shapes\Shapes.cs" />
     <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
-    <Compile Include="..\MonoGame\MonoGame.Framework\Content\ResourceContentManager.cs">
-      <Link>Content\ResourceContentManager.cs</Link>
-    </Compile>
-    <Compile Include="Content\ContentResources.Designer.cs" />
+    <Compile Include="Widgets\MessageDisplay.cs" />
     <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
     <Compile Include="WP8\Phone.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
-    <None Include="Content\AsRifle.xnb" />
-    <None Include="Content\Auto.xnb" />
-    <None Include="Content\Bullet.xnb" />
-    <None Include="Content\Cannon.xnb" />
-    <None Include="Content\CannonBall.xnb" />
-    <None Include="Content\CannonFire.xnb" />
-    <None Include="Content\DownArrow.xnb" />
-    <None Include="Content\explosion.xnb" />
-    <None Include="Content\explosion2.xnb" />
-    <None Include="Content\explosionSound.xnb" />
-    <None Include="Content\Grenade.xnb" />
-    <None Include="Content\implosionSound.xnb" />
-    <None Include="Content\laser.xnb" />
-    <None Include="Content\MGAttack.xnb" />
-    <None Include="Content\PlasmaAttack.xnb" />
-    <None Include="Content\PlasmaCannon.xnb" />
-    <None Include="Content\smoke.xnb" />
-    <None Include="Content\Tank.xnb" />
-    <None Include="Content\UpArrow.xnb" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -208,10 +202,5 @@
       <Project>{A37A7E14-0000-0000-0000-000000000000}</Project>
       <Name>OpenTK</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Content\ContentResources.resx">
-      <LogicalName>Jypeli.Content.ContentResources.resources</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
 </Project>

@@ -6,8 +6,8 @@ using Jypeli;
 
 public class Pong : PhysicsGame
 {
-    Vector nopeusYlos = new Vector(0, 200);
-    Vector nopeusAlas = new Vector(0, -200);
+    Vector nopeusYlos = new Vector( 0, 200 );
+    Vector nopeusAlas = new Vector( 0, -200 );
 
     PhysicsObject pallo;
     PhysicsObject maila1;
@@ -19,6 +19,12 @@ public class Pong : PhysicsGame
     IntMeter pelaajan1Pisteet;
     IntMeter pelaajan2Pisteet;
 
+    public Pong()
+    {
+        SetWindowSize( 800, 600 );
+        IsMouseVisible = true;
+    }
+
     public override void Begin()
     {
         LuoKentta();
@@ -29,108 +35,111 @@ public class Pong : PhysicsGame
 
     void LuoKentta()
     {
-        pallo = new PhysicsObject(40.0, 40.0);
+        Level.Width = Screen.Width;
+        Level.Height = Screen.Height;
+
+        pallo = new PhysicsObject( 40.0, 40.0 );
         pallo.Shape = Shape.Circle;
         pallo.X = -200.0;
         pallo.Y = 0.0;
-        //pallo.Restitution = 1.0;
-        //pallo.KineticFriction = 0.0;
-        //pallo.MomentOfInertia = Double.PositiveInfinity;
-        Add(pallo);
-        //AddCollisionHandler(pallo, KasittelePallonTormays);
+        pallo.Restitution = 1.0;
+        pallo.KineticFriction = 0.0;
+        pallo.MomentOfInertia = Double.PositiveInfinity;
+        Add( pallo );
+        AddCollisionHandler(pallo, KasittelePallonTormays);
 
-        maila1 = LuoMaila(Level.Left + 20.0, 0.0);
-        maila2 = LuoMaila(Level.Right - 20.0, 0.0);
+        maila1 = LuoMaila( Level.Left + 20.0, 0.0 );
+        maila2 = LuoMaila( Level.Right - 20.0, 0.0 );
 
-        //vasenReuna = Level.CreateLeftBorder();
-        //vasenReuna.Restitution = 1.0;
-        //vasenReuna.KineticFriction = 0.0;
-        //vasenReuna.IsVisible = false;
+        vasenReuna = Level.CreateLeftBorder();
+        vasenReuna.Restitution = 1.0;
+        vasenReuna.KineticFriction = 0.0;
 
-        //oikeaReuna = Level.CreateRightBorder();
-        //oikeaReuna.Restitution = 1.0;
-        //oikeaReuna.KineticFriction = 0.0;
-        //oikeaReuna.IsVisible = false;
+        oikeaReuna = Level.CreateRightBorder();
+        oikeaReuna.Restitution = 1.0;
+        oikeaReuna.KineticFriction = 0.0;
 
-        //PhysicsObject ylaReuna = Level.CreateTopBorder();
-        //ylaReuna.Restitution = 1.0;
-        //ylaReuna.KineticFriction = 0.0;
-        //ylaReuna.IsVisible = false;
+        PhysicsObject ylaReuna = Level.CreateTopBorder();
+        ylaReuna.Restitution = 1.0;
+        ylaReuna.KineticFriction = 0.0;
 
-        //PhysicsObject alaReuna = Level.CreateBottomBorder();
-        //alaReuna.Restitution = 1.0;
-        //alaReuna.IsVisible = false;
-        //alaReuna.KineticFriction = 0.0;
+        PhysicsObject alaReuna = Level.CreateBottomBorder();
+        alaReuna.Restitution = 1.0;
+        alaReuna.KineticFriction = 0.0;
 
         Level.BackgroundColor = Color.Black;
 
         Camera.ZoomToLevel();
     }
 
-    PhysicsObject LuoMaila(double x, double y)
+    PhysicsObject LuoMaila( double x, double y )
     {
-        PhysicsObject maila = PhysicsObject.CreateStaticObject(20.0, 100.0);
+        PhysicsObject maila = PhysicsObject.CreateStaticObject( 20.0, 100.0 );
         maila.Shape = Shape.Rectangle;
         maila.X = x;
         maila.Y = y;
         //maila.Restitution = 1.0;
         //maila.KineticFriction = 0.0;
-        Add(maila);
+        Add( maila );
         return maila;
     }
 
     void LisaaLaskurit()
     {
-        //pelaajan1Pisteet = LuoPisteLaskuri(Screen.Left + 100.0, Screen.Top - 100.0);
-        //pelaajan2Pisteet = LuoPisteLaskuri(Screen.Right - 100.0, Screen.Top - 100.0);
+        pelaajan1Pisteet = LuoPisteLaskuri(Screen.Left + 100.0, Screen.Top - 100.0);
+        pelaajan2Pisteet = LuoPisteLaskuri(Screen.Right - 100.0, Screen.Top - 100.0);
     }
 
-    /*IntMeter LuoPisteLaskuri(double x, double y)
+    IntMeter LuoPisteLaskuri(double x, double y)
     {
         IntMeter laskuri = new IntMeter(0);
         laskuri.MaxValue = 10;
         
-        Label naytto = new Label();
+        /*Label naytto = new Label();
         naytto.BindTo(laskuri);
         naytto.X = x;
         naytto.Y = y;
         naytto.TextColor = Color.White;
         naytto.BorderColor = Level.BackgroundColor;
         naytto.Color = Level.BackgroundColor;
-        Add(naytto);
+        Add(naytto);*/
 
         return laskuri;
-    }*/
+    }
 
-    void KasittelePallonTormays(PhysicsObject pallo, PhysicsObject kohde)
+    void KasittelePallonTormays( PhysicsObject pallo, PhysicsObject kohde )
     {
-        if (kohde == oikeaReuna)
+        if ( kohde == oikeaReuna )
         {
+            MessageDisplay.Add( "Piste 1. pelaajalle" );
+            //System.Diagnostics.Debug.WriteLine( "Piste 1. pelaajalle" );
             pelaajan1Pisteet.Value += 1;
         }
-        else if (kohde == vasenReuna)
+        else if ( kohde == vasenReuna )
         {
+            MessageDisplay.Add( "Piste 2. pelaajalle" );
+            //System.Diagnostics.Debug.WriteLine( "Piste 2. pelaajalle" );
             pelaajan2Pisteet.Value += 1;
         }
     }
 
     void AloitaPeli()
     {
-        Vector impulssi = new Vector(500.0, 0.0);
-        pallo.Hit(impulssi);
+        Vector impulssi = new Vector( RandomGen.NextDouble( 100, 500 ), RandomGen.NextDouble( 100, 500 ) );
+        pallo.Hit( impulssi );
     }
 
     void AsetaOhjaimet()
     {
-        Keyboard.Listen(Key.A, ButtonState.Down, AsetaNopeus, "Pelaaja 1: Liikuta mailaa ylös", maila1, nopeusYlos);
-        Keyboard.Listen(Key.A, ButtonState.Released, AsetaNopeus, null, maila1, Vector.Zero);
-        Keyboard.Listen(Key.Z, ButtonState.Down, AsetaNopeus, "Pelaaja 1: Liikuta mailaa alas", maila1, nopeusAlas);
-        Keyboard.Listen(Key.Z, ButtonState.Released, AsetaNopeus, null, maila1, Vector.Zero);
+        Keyboard.Listen( Key.W, ButtonState.Down, AsetaNopeus, "Pelaaja 1: Liikuta mailaa ylös", maila1, nopeusYlos );
+        Keyboard.Listen( Key.W, ButtonState.Released, AsetaNopeus, null, maila1, Vector.Zero );
+        Keyboard.Listen( Key.S, ButtonState.Down, AsetaNopeus, "Pelaaja 1: Liikuta mailaa alas", maila1, nopeusAlas );
+        Keyboard.Listen( Key.S, ButtonState.Released, AsetaNopeus, null, maila1, Vector.Zero );
 
-        Keyboard.Listen(Key.Up, ButtonState.Down, AsetaNopeus, "Pelaaja 2: Liikuta mailaa ylös", maila2, nopeusYlos);
-        Keyboard.Listen(Key.Up, ButtonState.Released, AsetaNopeus, null, maila2, Vector.Zero);
-        Keyboard.Listen(Key.Down, ButtonState.Down, AsetaNopeus, "Pelaaja 2: Liikuta mailaa alas", maila2, nopeusAlas);
-        Keyboard.Listen(Key.Down, ButtonState.Released, AsetaNopeus, null, maila2, Vector.Zero);
+        Keyboard.Listen( Key.Up, ButtonState.Down, AsetaNopeus, "Pelaaja 2: Liikuta mailaa ylös", maila2, nopeusYlos );
+        Keyboard.Listen( Key.Up, ButtonState.Released, AsetaNopeus, null, maila2, Vector.Zero );
+        Keyboard.Listen( Key.Down, ButtonState.Down, AsetaNopeus, "Pelaaja 2: Liikuta mailaa alas", maila2, nopeusAlas );
+        Keyboard.Listen( Key.Down, ButtonState.Released, AsetaNopeus, null, maila2, Vector.Zero );
 
         //Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet");
         //Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
@@ -149,14 +158,14 @@ public class Pong : PhysicsGame
         ControllerTwo.Listen(Button.Back, ButtonState.Pressed, ConfirmExit, "Lopeta peli");*/
     }
 
-    void AsetaNopeus(PhysicsObject maila, Vector nopeus)
+    void AsetaNopeus( PhysicsObject maila, Vector nopeus )
     {
-        if ((nopeus.Y < 0) && (maila.Bottom < Level.Bottom))
+        if ( ( nopeus.Y < 0 ) && ( maila.Bottom < Level.Bottom ) )
         {
             maila.Velocity = Vector.Zero;
             return;
         }
-        if ((nopeus.Y > 0) && (maila.Top > Level.Top))
+        if ( ( nopeus.Y > 0 ) && ( maila.Top > Level.Top ) )
         {
             maila.Velocity = Vector.Zero;
             return;

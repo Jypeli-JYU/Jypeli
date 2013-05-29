@@ -1,14 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../SimplePhysics/PhysicsObject.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Peli.cs">
     <Files>
-      <File FileName="Peli.cs" Line="156" Column="19" />
-      <File FileName="../../SimplePhysics/PhysicsGame.cs" Line="35" Column="66" />
-      <File FileName="../../SimplePhysics/PhysicsObject.cs" Line="18" Column="10" />
-      <File FileName="../../SimplePhysics/ImpulseCollection.cs" Line="10" Column="18" />
-      <File FileName="../../SimplePhysics/Impulse.cs" Line="13" Column="1" />
-      <File FileName="../../SimplePhysics/ConstantImpulse.cs" Line="12" Column="45" />
-      <File FileName="../../Jypeli/Controls/Keyboard/Keyboard.cs" Line="106" Column="44" />
+      <File FileName="Peli.cs" Line="121" Column="15" />
+      <File FileName="../../Jypeli/Game/Widgets.cs" Line="24" Column="35" />
+      <File FileName="../../Jypeli/Graphics/Graphics.cs" Line="130" Column="9" />
+      <File FileName="../../Jypeli/Graphics/Renderer.cs" Line="219" Column="4" />
+      <File FileName="../../Jypeli/Game/Game.cs" Line="161" Column="63" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

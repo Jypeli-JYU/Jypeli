@@ -19,9 +19,15 @@ namespace Microsoft.Xna.Framework.Content
 
         protected override System.IO.Stream OpenStream(string assetName)
         {
+#if WINRT
+            var assembly = typeof( JypeliContentManager ).GetTypeInfo().Assembly;
+            var assetType = assembly.GetType( "Jypeli.Content." + assetName );
+            var fieldInfo = assetType.GetTypeInfo().GetDeclaredField( "rawData" );
+#else
             var assetType = Assembly.GetExecutingAssembly().GetType( "Jypeli.Content." + assetName );
             var bindingFlags = BindingFlags.GetField | BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
             var fieldInfo = assetType.GetField( "rawData", bindingFlags );
+#endif
             var bytes = fieldInfo.GetValue( null );
             return new MemoryStream( bytes as byte[] );
         }

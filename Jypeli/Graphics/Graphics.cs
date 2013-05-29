@@ -76,7 +76,7 @@ namespace Jypeli
         private static bool is_PS_2_0_supported = false;
 #endif
 
-        private static SamplerState GetDefaultSamplerState()
+        public static SamplerState GetDefaultSamplerState()
         {
             return Game.SmoothTextures ? SamplerState.LinearClamp : SamplerState.PointClamp;
         }

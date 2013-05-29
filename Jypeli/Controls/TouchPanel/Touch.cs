@@ -52,6 +52,11 @@ namespace Jypeli
         public int Id { get; private set; }
 
         /// <summary>
+        /// Vapaasti asetettava muuttuja.
+        /// </summary>
+        public object Tag { get; set; }
+
+        /// <summary>
         /// Kosketuksen paikka ruudulla.
         /// </summary>
         public Vector PositionOnScreen

@@ -171,7 +171,7 @@ namespace Jypeli
                 Matrix.CreateTranslation( (float)Position.X, (float)Position.Y, 0 )
                 * parentTransformation;
 
-            spriteBatch.Begin( SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, m );
+            spriteBatch.Begin( SpriteSortMode.Immediate, BlendState.AlphaBlend, Graphics.GetDefaultSamplerState(), DepthStencilState.None, RasterizerState.CullCounterClockwise, null, m );
 
             if ( bgImage != null )
                 spriteBatch.Draw( bgImage.XNATexture, Vector2.Zero, XnaColor.White );

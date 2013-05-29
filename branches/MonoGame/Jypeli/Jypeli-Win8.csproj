@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Windows8\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;JYPELI;UseDouble;WIN8STORE;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -28,14 +28,14 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Windows8\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;JYPELI;UseDouble;WIN8STORE;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Windows8\ARM\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
@@ -45,7 +45,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\Windows8\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -57,7 +57,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Windows8\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -67,7 +67,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\Windows8\x64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -79,7 +79,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Windows8\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -89,7 +89,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\Windows8\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -103,6 +103,7 @@
     <Compile Include="Content\Auto.cs" />
     <Compile Include="Content\Bullet.cs" />
     <Compile Include="Content\JypeliContentManager.cs" />
+    <Compile Include="Content\MediumFont.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />
     <Compile Include="Controls\Controller\Controller.cs" />
     <Compile Include="Controls\Controller\Listener.cs" />
@@ -170,7 +171,14 @@
     <Compile Include="GameObjects\GameObject\Movement.cs" />
     <Compile Include="GameObjects\GameObject\Oscillator.cs" />
     <Compile Include="GameObjects\Layouts\ILayout.cs" />
+    <Compile Include="GameObjects\PhysicsObject\IPhysicsBody.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
+    <Compile Include="GameObjects\PhysicsObject\PhysicsObject.cs" />
+    <Compile Include="GameObjects\Surface\Surface.cs" />
+    <Compile Include="GameObjects\Surface\Surfaces.cs" />
+    <Compile Include="GameObjects\Widget\Appearance.cs" />
+    <Compile Include="GameObjects\Widget\Control.cs" />
+    <Compile Include="GameObjects\Widget\Widget.cs" />
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
@@ -179,7 +187,9 @@
     </Compile>
     <Compile Include="Game\Graphics.cs" />
     <Compile Include="Game\Layers.cs" />
+    <Compile Include="Game\Physics.cs" />
     <Compile Include="Game\Time.cs" />
+    <Compile Include="Game\Widgets.cs" />
     <Compile Include="Graphics\Animation.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Canvas.cs" />
@@ -197,6 +207,12 @@
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Helpers\RandomGen.cs" />
     <Compile Include="Levels\Level.cs" />
+    <Compile Include="Levels\Borders.cs" />
+    <Compile Include="Physics\IPhysicsClient.cs" />
+    <Compile Include="Physics\PhysicsInterface.cs" />
+    <Compile Include="Shapes\Shapes.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Storage\SaveAttribute.cs" />
     <Compile Include="DataTypes\Destroyable.cs" />
     <Compile Include="DataTypes\Tagged.cs" />
@@ -214,10 +230,10 @@
     <Compile Include="DataTypes\DoubleMeter.cs" />
     <Compile Include="Events\MeterAddOperation.cs" />
     <Compile Include="Events\Operation.cs" />
-    <Compile Include="Shapes\Shapes.cs" />
     <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
-	<Compile Include="WP8\Phone.cs" />
+    <Compile Include="Widgets\MessageDisplay.cs" />
+    <Compile Include="WP8\Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

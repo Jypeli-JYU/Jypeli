@@ -91,7 +91,7 @@ namespace Jypeli
         {
             get
             {
-                return new Vector( CurrentState.X - PrevState.X, PrevState.Y - CurrentState.Y );
+                return new Vector( CurrentState.X - PrevState.X, CurrentState.Y - PrevState.Y );
             }
         }
 

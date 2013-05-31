@@ -43,6 +43,7 @@
     <Compile Include="Content\Bullet.cs" />
     <Compile Include="Content\JypeliContentManager.cs" />
     <Compile Include="Content\MediumFont.cs" />
+    <Compile Include="Controls\Controller\AnalogState.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />
     <Compile Include="Controls\Controller\Controller.cs" />
     <Compile Include="Controls\Controller\Listener.cs" />
@@ -109,7 +110,10 @@
     <Compile Include="GameObjects\GameObject\Layout.cs" />
     <Compile Include="GameObjects\GameObject\Movement.cs" />
     <Compile Include="GameObjects\GameObject\Oscillator.cs" />
+    <Compile Include="GameObjects\Layouts\HorizontalLayout.cs" />
     <Compile Include="GameObjects\Layouts\ILayout.cs" />
+    <Compile Include="GameObjects\Layouts\VerticalLayout.cs" />
+    <Compile Include="GameObjects\Layouts\VerticalScrollLayout.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsBody.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
     <Compile Include="GameObjects\PhysicsObject\PhysicsObject.cs" />
@@ -172,6 +176,7 @@
     <Compile Include="Events\Operation.cs" />
     <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
+    <Compile Include="Widgets\BarGauge.cs" />
     <Compile Include="Widgets\Label.cs" />
     <Compile Include="Widgets\MessageDisplay.cs" />
     <Compile Include="WP8\Phone.cs" />

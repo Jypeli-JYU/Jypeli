@@ -24,6 +24,13 @@ namespace Jypeli.Physics
         double AngularVelocity { get; set; }
         double AngularAcceleration { get; set; }
 
+        double LinearDamping { get; set; }
+        double AngularDamping { get; set; }
+
+        bool IgnoresCollisionResponse { get; set; }
+        bool IgnoresGravity { get; set; }
+        bool IgnoresPhysicsLogics { get; set; }
+
         void MakeStatic();
         void ApplyImpulse( Vector impulse );
     }

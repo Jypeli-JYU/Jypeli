@@ -129,66 +129,36 @@ namespace Jypeli
 
         public double LinearDamping
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return Body.LinearDamping; }
+            set { Body.LinearDamping = value; }
         }
 
         public double AngularDamping
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return Body.AngularDamping; }
+            set { Body.AngularDamping = value; }
         }
-
-        public bool IgnoresExplosions
+        
+        public bool IgnoresCollisionResponse
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return Body.IgnoresCollisionResponse; }
+            set { Body.IgnoresCollisionResponse = value; }
         }
-
-        [Save]
-        public bool IgnoresCollisionResponse { get; set; }
 
         public bool IgnoresGravity
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return Body.IgnoresGravity; }
+            set { Body.IgnoresGravity = value; }
         }
 
         public bool IgnoresPhysicsLogics
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return Body.IgnoresPhysicsLogics; }
+            set { Body.IgnoresPhysicsLogics = value; }
         }
+
+        [Save]
+        public bool IgnoresExplosions { get; set; }
 
         private BoundingRectangle _bRect = new BoundingRectangle();
 

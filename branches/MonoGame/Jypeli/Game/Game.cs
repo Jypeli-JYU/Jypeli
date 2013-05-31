@@ -32,6 +32,10 @@ using System.ComponentModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using XnaColor = Microsoft.Xna.Framework.Color;
+using XnaSoundEffect = Microsoft.Xna.Framework.Audio.SoundEffect;
+using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
+
 namespace Jypeli
 {
     [Save]
@@ -160,10 +164,21 @@ namespace Jypeli
             //GraphicsDevice.Clear( ClearOptions.Target, Level.BackgroundColor.AsXnaColor(), 1.0f, 0 );
 			GraphicsDevice.Clear( Level.BackgroundColor.AsXnaColor() );
 
+            if ( Level.Background.Image != null && !Level.Background.MovesWithCamera )
+            {
+                SpriteBatch spriteBatch = Jypeli.Graphics.SpriteBatch;
+                spriteBatch.Begin( SpriteSortMode.Deferred, BlendState.AlphaBlend );
+                spriteBatch.Draw( Level.Background.Image.XNATexture, new XnaRectangle( 0, 0, (int)Screen.Width, (int)Screen.Height ), XnaColor.White );
+                spriteBatch.End();
+            }
+
             // The world matrix adjusts the position and size of objects according to the camera angle.
             var worldMatrix =
                 Matrix.CreateTranslation( (float)-Camera.Position.X, (float)-Camera.Position.Y, 0 )
                 * Matrix.CreateScale( (float)Camera.ZoomFactor, (float)Camera.ZoomFactor, 1f );
+
+            // If the background should move with camera, draw it here.
+            Level.Background.Draw( worldMatrix, Matrix.Identity );
 
             // Draw the layers containing the GameObjects
             Layers.ForEach( l => l.Draw( Camera ) );

@@ -31,6 +31,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using AdvanceMath;
+using Jypeli.Widgets;
 
 namespace Jypeli
 {
@@ -88,6 +89,11 @@ namespace Jypeli
         /// Kentän taustaväri.
         /// </summary>
         public Color BackgroundColor { get; set; }
+
+        /// <summary>
+        /// Kentän taustakuva.
+        /// </summary>
+        public Background Background { get; set; }
 
         /// <summary>
         /// Kentän leveys.
@@ -153,10 +159,14 @@ namespace Jypeli
             this.game = game;
             AmbientLight = 1.0;
             BackgroundColor = Color.LightBlue; // default color
+
+            // creates a null background
+            this.Background = new Jypeli.Widgets.Background( Vector.Zero );
         }
 
         internal void Clear()
         {
+            Background.Image = null;
         }
 
         /// <summary>

@@ -36,7 +36,6 @@ namespace Jypeli.Widgets
     /// <summary>
     /// Palkki, jonka korkeutta voi säätää.
     /// </summary>
-    [Obsolete("Use ProgressBar instead")]
     public class BarGauge : Widget
     {
         /// <summary>

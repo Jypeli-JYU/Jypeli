@@ -42,11 +42,6 @@ namespace Jypeli
     public partial class PhysicsBody : IPhysicsBody
     {
         /// <summary>
-        /// Jättääkö olio räjähdyksen paineaallon huomiotta.
-        /// </summary>
-        public bool IgnoresExplosions { get; set; }
-
-        /// <summary>
         /// Jättääkö olio painovoiman huomioimatta.
         /// </summary>
         public bool IgnoresGravity

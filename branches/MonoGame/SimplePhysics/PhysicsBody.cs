@@ -5,13 +5,15 @@ using Jypeli;
 
 namespace Jypeli.Physics
 {
+    [Save]
     public class PhysicsBody : IPhysicsBody
     {
-        private double _mass = 1.0;
-        private double _massInv = 1.0;
+        [Save] private double _mass = 1.0;
+        [Save] private double _massInv = 1.0;
         private double _restitution = 1.0;
         private double _kineticFriction = 0.0;
 
+        [Save]
         public Shape Shape { get; private set; }
 
         public double Mass
@@ -52,12 +54,28 @@ namespace Jypeli.Physics
             set { _kineticFriction = value; }
         }
 
+        public double AngularDamping
+        {
+            get { return 0; }
+            set { }
+        }
+
+        public double LinearDamping
+        {
+            get { return 0; }
+            set { }
+        }
+
+        [Save]
         public Vector Position { get; set; }
 
+        [Save]
         public Vector Velocity { get; set; }
 
+        [Save]
         public Vector Acceleration { get; set; }
 
+        [Save]
         public Vector Size { get; set; }
 
         public double Angle
@@ -77,6 +95,12 @@ namespace Jypeli.Physics
             get { return 0; }
             set { }
         }
+
+        public bool IgnoresCollisionResponse { get; set; }
+
+        public bool IgnoresGravity { get; set; }
+
+        public bool IgnoresPhysicsLogics { get; set; }
 
         public PhysicsBody( double width, double height, Shape shape )
         {

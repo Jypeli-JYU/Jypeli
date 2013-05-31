@@ -54,11 +54,11 @@ namespace Jypeli
         /// </summary>
         protected virtual void PausedUpdate( Time time )
         {
-            /*foreach ( var layer in Layers )
+            foreach ( var layer in Layers )
             {
                 // Update the UI components only
                 layer.Objects.Update( time, o => o is Widget );
-            }*/
+            }
 
             Timer.UpdateAll( time, t => t.IgnorePause );
         }
@@ -87,7 +87,7 @@ namespace Jypeli
 
             currentRealTime.Advance( gameTime );
 
-            if ( this.IsActive ) UpdateControls();
+            if ( this.IsActive ) UpdateControls( currentTime );
             /*if ( DataStorage.IsUpdated )
                 DataStorage.Update( currentRealTime );*/
 

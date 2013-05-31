@@ -38,6 +38,10 @@ namespace Jypeli
     /// </summary>
     public class Keyboard : Controller<KeyboardState>
     {
+        internal Keyboard()
+        {
+        }
+
         internal override KeyboardState GetState()
         {
             return Microsoft.Xna.Framework.Input.Keyboard.GetState();
@@ -108,6 +112,24 @@ namespace Jypeli
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
             AddListener( rule, helpText, handler, p1, p2 );
+        }
+
+        /// <summary>
+        /// Kuuntelee näppäinten painalluksia.
+        /// </summary>
+        /// <typeparam name="T1">1. parametrin tyyppi</typeparam>
+        /// <typeparam name="T2">2. parametrin tyyppi</typeparam>
+        /// <param name="k">Näppäin</param>
+        /// <param name="state">Näppäimen tila</param>
+        /// <param name="handler">Mitä tehdään</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <param name="p2">2. parametri</param>
+        /// <param name="p3">3. parametri</param>
+        public void Listen<T1, T2, T3>( Key k, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        {
+            ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
+            AddListener( rule, helpText, handler, p1, p2, p3 );
         }
     }
 }

@@ -32,16 +32,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Jypeli.Controls;
+using Microsoft.Xna.Framework;
 
 namespace Jypeli
 {
     public partial class Game : ControlContexted
     {
         private ListenContext _context = new ListenContext() { Active = true };
+        private GamePad[] _gamePads;
+        private bool initialized;
 
+        /// <summary>
+        /// Näppäimistö
+        /// </summary>
         public Keyboard Keyboard { get; private set; }
+
+        /// <summary>
+        /// Hiiri
+        /// </summary>
         public Mouse Mouse { get; private set; }
+
+        /// <summary>
+        /// Kosketusnäyttö
+        /// </summary>
         public TouchPanel TouchPanel { get; private set; }
+
+        /// <summary>
+        /// Ensimmäinen peliohjain.
+        /// </summary>
+        public GamePad ControllerOne { get { return _gamePads[0]; } }
+
+        /// <summary>
+        /// Toinen peliohjain.
+        /// </summary>
+        public GamePad ControllerTwo { get { return _gamePads[1]; } }
+
+        /// <summary>
+        /// Kolmas peliohjain.
+        /// </summary>
+        public GamePad ControllerThree { get { return _gamePads[2]; } }
+
+        /// <summary>
+        /// Neljäs peliohjain.
+        /// </summary>
+        public GamePad ControllerFour { get { return _gamePads[3]; } }
 
         /// <summary>
         /// Pelin pääohjainkonteksti.
@@ -61,13 +95,31 @@ namespace Jypeli
             Keyboard = new Keyboard();
             Mouse = new Mouse();
             TouchPanel = new TouchPanel();
+
+            _gamePads = new GamePad[4];
+            _gamePads[0] = new GamePad( PlayerIndex.One );
+            _gamePads[1] = new GamePad( PlayerIndex.Two );
+            _gamePads[2] = new GamePad( PlayerIndex.Three );
+            _gamePads[3] = new GamePad( PlayerIndex.Four );
+
+            initialized = true;
         }
 
-        private void UpdateControls()
+        private void UpdateControls( Time gameTime )
         {
+            //if ( !initialized ) return;
+
             Keyboard.Update();
             Mouse.Update();
             TouchPanel.Update();
+
+            for ( int i = 0; i < _gamePads.Length; i++ )
+            {
+                _gamePads[i].Update();
+                
+                if (!Game.Instance.IsPaused)
+                    _gamePads[i].UpdateVibrations( gameTime );
+            }
         }
 
         private void ActivateObject( ControlContexted obj )

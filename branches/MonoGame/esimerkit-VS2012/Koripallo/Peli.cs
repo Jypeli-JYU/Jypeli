@@ -186,7 +186,7 @@ public class Koripallo : PhysicsGame
 
         Level.Background.Image = taustaKuva;
         Level.Background.FitToLevel();
-        Gravity = new Vector(0, -1000.0);
+        Gravity = new Vector( 0, -1000.0 );
         Mouse.IsCursorVisible = true;
 
         lattia = Level.CreateBottomBorder();
@@ -262,7 +262,7 @@ public class Koripallo : PhysicsGame
         }
     }
 
-    /*void laskeVoimaPadilla()
+    void laskeVoimaPadilla()
     {
         if (saakoHeittaa)
         {
@@ -270,10 +270,11 @@ public class Koripallo : PhysicsGame
             heittoVoima.Y += (ControllerOne.LeftThumbDirection.Y * 250);
             voimaMittari.Value = heittoVoima.Magnitude;
         }
-    }*/
+    }
 
     void heitaPallo()
     {
+        ControllerOne.Vibrate( 0.2, 0.2, 0, 0, 0.5 );
         pelaaja.Animation.Start( 1 );
         saakoHeittaa = false;
         pallo.IgnoresGravity = false;
@@ -290,13 +291,13 @@ public class Koripallo : PhysicsGame
         }
     }
 
-    /*void pyoritaPalloaPadilla()
+    void pyoritaPalloaPadilla()
     {
         if (saakoHeittaa)
         {
             pallo.AngularVelocity += ControllerOne.RightThumbDirection.X;
         }
-    }*/
+    }
 
     bool OnPallonPaalla( Vector paikka )
     {
@@ -396,14 +397,13 @@ public class Koripallo : PhysicsGame
         Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet");
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Poistu"); */
 
-        /* TODO GamePad
-        ControllerOne.Listen(Button.RightTrigger, ButtonState.Down, laskeVoimaPadilla, "Pidä pohjassa heiton voimakkuuden säätämiseen.");
-        ControllerOne.Listen(Button.RightTrigger, ButtonState.Released, heitaPallo, null);
-        ControllerOne.Listen(Button.RightStick, ButtonState.Up, pyoritaPalloaPadilla, "Anna pallolle kierrettä.");
-        ControllerOne.Listen(Button.A, ButtonState.Pressed, asetaPallo, "Palauta pallo alkutilanteeseen");
+        ControllerOne.Listen( Button.RightTrigger, ButtonState.Down, laskeVoimaPadilla, "Pidä pohjassa heiton voimakkuuden säätämiseen." );
+        ControllerOne.Listen( Button.RightTrigger, ButtonState.Released, heitaPallo, null );
+        ControllerOne.Listen( Button.RightStick, ButtonState.Up, pyoritaPalloaPadilla, "Anna pallolle kierrettä." );
+        ControllerOne.Listen( Button.A, ButtonState.Pressed, asetaPallo, "Palauta pallo alkutilanteeseen" );
 
-        ControllerOne.Listen(Button.Start, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet");
-        ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Poistu");*/
+        //ControllerOne.Listen( Button.Start, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet" );
+        ControllerOne.Listen( Button.Back, ButtonState.Pressed, Exit, "Poistu" );
     }
 
     public Koripallo()

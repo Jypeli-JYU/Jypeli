@@ -217,10 +217,266 @@ namespace Jypeli
             AddListener( rule, helpText, handler, p );
         }
 
+        /// <summary>
+        /// Kuuntelee hiiren nappulan painalluksia.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="button">Nappi</param>
+        /// <param name="state">Napin tila</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
+        /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
+        public void Listen<T1, T2>( MouseButton button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        {
+            ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
+            AddListener( rule, helpText, handler, p1, p2 );
+        }
+
+        /// <summary>
+        /// Kuuntelee hiiren nappulan painalluksia.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <param name="button">Nappi</param>
+        /// <param name="state">Napin tila</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
+        /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
+        /// <param name="p3">3. parametri kuuntelija-aliohjelmalle</param>
+        public void Listen<T1, T2, T3>( MouseButton button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        {
+            ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
+            AddListener( rule, helpText, handler, p1, p2, p3 );
+        }
+
+        /// <summary>
+        /// Kuuntelee hiiren liikettä.
+        /// </summary>
+        /// <param name="trigger">Raja jonka liikkeen tulee ylittää</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
         public void ListenMovement( double trigger, Action handler, string helpText )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
             AddListener( rule, helpText, handler );
         }
+
+        /// <summary>
+        /// Kuuntelee hiiren liikettä.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="trigger">Raja jonka liikkeen tulee ylittää</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p">Parametri kuuntelija-aliohjelmalle</param>
+        public void ListenMovement<T>( double trigger, Action<T> handler, string helpText, T p )
+        {
+            ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
+            AddListener( rule, helpText, handler, p );
+        }
+
+        /// <summary>
+        /// Kuuntelee hiiren liikettä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="trigger">Raja jonka liikkeen tulee ylittää</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
+        /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
+        public void ListenMovement<T1, T2>( double trigger, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        {
+            ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
+            AddListener( rule, helpText, handler, p1, p2 );
+        }
+
+        /// <summary>
+        /// Kuuntelee hiiren liikettä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <param name="trigger">Raja jonka liikkeen tulee ylittää</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
+        /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
+        /// <param name="p3">3. parametri kuuntelija-aliohjelmalle</param>
+        public void ListenMovement<T1, T2, T3>( double trigger, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        {
+            ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
+            AddListener( rule, helpText, handler, p1, p2, p3 );
+        }
+
+        #region Backwards compatibility
+
+        public class MouseAnalogState : AnalogState
+        {
+            private Mouse mouse;
+
+            public double State
+            {
+                get { return mouse.GetButtonState( MouseButton.Left ) == ButtonState.Down ? 1 : 0; }
+            }
+
+            public double AnalogChange
+            {
+                get { return mouse.MovementOnScreen.Magnitude; }
+            }
+
+            public Vector StateVector
+            {
+                get { return Vector.Zero; }
+            }
+
+            public Vector MouseMovement
+            {
+                get { return mouse.MovementOnScreen; }
+            }
+
+            internal MouseAnalogState( Mouse mouse )
+            {
+                this.mouse = mouse;
+            }
+        }
+
+        /// <summary>
+        /// Kuuntelee hiiren nappulan painalluksia.
+        /// </summary>
+        /// <param name="button">Nappi</param>
+        /// <param name="state">Napin tila</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
+        public void Listen( MouseButton button, ButtonState state, Action<AnalogState> handler, string helpText )
+        {
+            ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
+            AddListener( rule, helpText, handler, new MouseAnalogState( this ) );
+        }
+
+        /// <summary>
+        /// Kuuntelee hiiren nappulan painalluksia.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="button">Nappi</param>
+        /// <param name="state">Napin tila</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p">Parametri kuuntelija-aliohjelmalle</param>
+        [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
+        public void Listen<T>( MouseButton button, ButtonState state, Action<AnalogState, T> handler, string helpText, T p )
+        {
+            ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
+            AddListener( rule, helpText, handler, new MouseAnalogState( this ), p );
+        }
+
+        /// <summary>
+        /// Kuuntelee hiiren nappulan painalluksia.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="button">Nappi</param>
+        /// <param name="state">Napin tila</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
+        /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
+        [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
+        public void Listen<T1, T2>( MouseButton button, ButtonState state, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        {
+            ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
+            AddListener( rule, helpText, handler, new MouseAnalogState( this ), p1, p2 );
+        }
+
+        /// <summary>
+        /// Kuuntelee hiiren nappulan painalluksia.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <param name="button">Nappi</param>
+        /// <param name="state">Napin tila</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
+        /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
+        /// <param name="p3">3. parametri kuuntelija-aliohjelmalle</param>
+        [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
+        public void Listen<T1, T2, T3>( MouseButton button, ButtonState state, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        {
+            ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
+            AddListener( rule, helpText, handler, new MouseAnalogState( this ), p1, p2, p3 );
+        }
+
+        /// <summary>
+        /// Kuuntelee hiiren liikettä.
+        /// </summary>
+        /// <param name="trigger">Raja jonka liikkeen tulee ylittää</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
+        public void ListenMovement( double trigger, Action<AnalogState> handler, string helpText )
+        {
+            ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
+            AddListener( rule, helpText, handler, new MouseAnalogState( this ) );
+        }
+
+        /// <summary>
+        /// Kuuntelee hiiren liikettä.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="trigger">Raja jonka liikkeen tulee ylittää</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p">Parametri kuuntelija-aliohjelmalle</param>
+        [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
+        public void ListenMovement<T>( double trigger, Action<AnalogState, T> handler, string helpText, T p )
+        {
+            ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
+            AddListener( rule, helpText, handler, new MouseAnalogState( this ), p );
+        }
+
+        /// <summary>
+        /// Kuuntelee hiiren liikettä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="trigger">Raja jonka liikkeen tulee ylittää</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
+        /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
+        [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
+        public void ListenMovement<T1, T2>( double trigger, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        {
+            ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
+            AddListener( rule, helpText, handler, new MouseAnalogState( this ), p1, p2 );
+        }
+
+        /// <summary>
+        /// Kuuntelee hiiren liikettä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <param name="trigger">Raja jonka liikkeen tulee ylittää</param>
+        /// <param name="handler">Kuuntelija-aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
+        /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
+        /// <param name="p3">3. parametri kuuntelija-aliohjelmalle</param>
+        [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
+        public void ListenMovement<T1, T2, T3>( double trigger, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        {
+            ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
+            AddListener( rule, helpText, handler, new MouseAnalogState( this ), p1, p2, p3 );
+        }
+
+        #endregion
     }
 }

@@ -116,6 +116,7 @@
     <Compile Include="GameObjects\Surface\Surface.cs" />
     <Compile Include="GameObjects\Surface\Surfaces.cs" />
     <Compile Include="GameObjects\Widget\Appearance.cs" />
+    <Compile Include="GameObjects\Widget\BindableWidget.cs" />
     <Compile Include="GameObjects\Widget\Control.cs" />
     <Compile Include="GameObjects\Widget\Widget.cs" />
     <Compile Include="Game\Content.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Events\Operation.cs" />
     <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
+    <Compile Include="Widgets\Label.cs" />
     <Compile Include="Widgets\MessageDisplay.cs" />
     <Compile Include="WP8\Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

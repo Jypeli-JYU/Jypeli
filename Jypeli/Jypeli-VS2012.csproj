@@ -43,10 +43,14 @@
     <Compile Include="Content\Bullet.cs" />
     <Compile Include="Content\JypeliContentManager.cs" />
     <Compile Include="Content\MediumFont.cs" />
+    <Compile Include="Controls\Controller\AnalogControl.cs" />
     <Compile Include="Controls\Controller\AnalogState.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />
     <Compile Include="Controls\Controller\Controller.cs" />
     <Compile Include="Controls\Controller\Listener.cs" />
+    <Compile Include="Controls\GamePad\Button.cs" />
+    <Compile Include="Controls\GamePad\GamePad.cs" />
+    <Compile Include="Controls\GamePad\Vibration.cs" />
     <Compile Include="Controls\Keyboard\Key.cs" />
     <Compile Include="Controls\Keyboard\Keyboard.cs" />
     <Compile Include="Controls\ListenContext.cs" />

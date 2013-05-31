@@ -43,7 +43,7 @@ namespace Jypeli
             get { return caps.MaximumTouchCount; }
         }
 
-        public TouchPanel()
+        internal TouchPanel()
         {
             caps = XnaTouchPanel.GetCapabilities();
             touches = new List<Touch>( caps.MaximumTouchCount );

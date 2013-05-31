@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Jypeli;
+using Jypeli.Physics;
 
 namespace Jypeli
 {
@@ -9,6 +10,11 @@ namespace Jypeli
     {
         List<PhysicsObject> physObjects = new List<PhysicsObject>();
         Dictionary<PhysicsObject, List<PhysicsObject>> contacts = new Dictionary<PhysicsObject, List<PhysicsObject>>();
+
+        /// <summary>
+        /// Painovoima.
+        /// </summary>
+        public Vector Gravity { get; set; }
 
         public PhysicsGame()
             : base()
@@ -44,11 +50,14 @@ namespace Jypeli
         private void Integrate( double dt )
         {
             if ( dt <= 0 ) return;
-                        
+
             for ( int i = 0; i < physObjects.Count; i++ )
             {
-                physObjects[i].Velocity += physObjects[i].Acceleration * dt;
-                physObjects[i].Position += physObjects[i].Velocity * dt;
+                PhysicsBody body = (PhysicsBody)physObjects[i].Body;
+                if ( !body.IgnoresGravity && !body.IgnoresPhysicsLogics )
+                    body.Velocity += Gravity * body.MassInv * dt;
+                body.Velocity += body.Acceleration * dt;
+                body.Position += body.Velocity * dt;
             }
 
             SolveCollisions( dt );

@@ -95,14 +95,14 @@ public class Pong : PhysicsGame
         IntMeter laskuri = new IntMeter(0);
         laskuri.MaxValue = 10;
         
-        /*Label naytto = new Label();
+        Label naytto = new Label();
         naytto.BindTo(laskuri);
         naytto.X = x;
         naytto.Y = y;
         naytto.TextColor = Color.White;
         naytto.BorderColor = Level.BackgroundColor;
         naytto.Color = Level.BackgroundColor;
-        Add(naytto);*/
+        Add(naytto);
 
         return laskuri;
     }
@@ -111,12 +111,12 @@ public class Pong : PhysicsGame
     {
         if ( kohde == oikeaReuna )
         {
-            MessageDisplay.Add( "Piste 1. pelaajalle" );
+            //MessageDisplay.Add( "Piste 1. pelaajalle" );
             pelaajan1Pisteet.Value += 1;
         }
         else if ( kohde == vasenReuna )
         {
-            MessageDisplay.Add( "Piste 2. pelaajalle" );
+            //MessageDisplay.Add( "Piste 2. pelaajalle" );
             pelaajan2Pisteet.Value += 1;
         }
     }

@@ -65,9 +65,9 @@
       <Project>{AE483C29-042E-4226-BA52-D247CE7676DA}</Project>
       <Name>Lidgren.Network.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Physics2d\Physics2d-VS2010.csproj">
-      <Project>{041D26C6-A261-4843-906E-7326AB1DBA4C}</Project>
-      <Name>Physics2d-VS2010</Name>
+    <ProjectReference Include="..\..\..\SimplePhysics\SimplePhysics-VS2010.csproj">
+      <Project>{7E51D9E3-3B1F-44D5-8376-90253690C95A}</Project>
+      <Name>SimplePhysics-VS2010</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

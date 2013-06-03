@@ -46,7 +46,7 @@ public class Pong : PhysicsGame
         pallo.KineticFriction = 0.0;
         pallo.MomentOfInertia = Double.PositiveInfinity;
         Add( pallo );
-        //AddCollisionHandler(pallo, KasittelePallonTormays);
+        AddCollisionHandler(pallo, KasittelePallonTormays);
 
         maila1 = LuoMaila( Level.Left + 20.0, 0.0 );
         maila2 = LuoMaila( Level.Right - 20.0, 0.0 );
@@ -54,22 +54,18 @@ public class Pong : PhysicsGame
         vasenReuna = Level.CreateLeftBorder();
         vasenReuna.Restitution = 1.0;
         vasenReuna.KineticFriction = 0.0;
-        //vasenReuna.IsVisible = false;
 
         oikeaReuna = Level.CreateRightBorder();
         oikeaReuna.Restitution = 1.0;
         oikeaReuna.KineticFriction = 0.0;
-        //oikeaReuna.IsVisible = false;
 
         PhysicsObject ylaReuna = Level.CreateTopBorder();
         ylaReuna.Restitution = 1.0;
         ylaReuna.KineticFriction = 0.0;
-        //ylaReuna.IsVisible = false;
 
         PhysicsObject alaReuna = Level.CreateBottomBorder();
         alaReuna.Restitution = 1.0;
         alaReuna.KineticFriction = 0.0;
-        //alaReuna.IsVisible = false;
 
         Level.BackgroundColor = Color.Black;
 
@@ -90,11 +86,11 @@ public class Pong : PhysicsGame
 
     void LisaaLaskurit()
     {
-        //pelaajan1Pisteet = LuoPisteLaskuri(Screen.Left + 100.0, Screen.Top - 100.0);
-        //pelaajan2Pisteet = LuoPisteLaskuri(Screen.Right - 100.0, Screen.Top - 100.0);
+        pelaajan1Pisteet = LuoPisteLaskuri(Screen.Left + 100.0, Screen.Top - 100.0);
+        pelaajan2Pisteet = LuoPisteLaskuri(Screen.Right - 100.0, Screen.Top - 100.0);
     }
 
-    /*IntMeter LuoPisteLaskuri(double x, double y)
+    IntMeter LuoPisteLaskuri(double x, double y)
     {
         IntMeter laskuri = new IntMeter(0);
         laskuri.MaxValue = 10;
@@ -109,16 +105,18 @@ public class Pong : PhysicsGame
         Add(naytto);
 
         return laskuri;
-    }*/
+    }
 
     void KasittelePallonTormays( PhysicsObject pallo, PhysicsObject kohde )
     {
         if ( kohde == oikeaReuna )
         {
+            //MessageDisplay.Add( "Piste 1. pelaajalle" );
             pelaajan1Pisteet.Value += 1;
         }
         else if ( kohde == vasenReuna )
         {
+            //MessageDisplay.Add( "Piste 2. pelaajalle" );
             pelaajan2Pisteet.Value += 1;
         }
     }

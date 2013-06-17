@@ -24,7 +24,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\WindowsPhone\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;JYPELI;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -35,7 +35,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\WindowsPhone\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE</DefineConstants>
+    <DefineConstants>TRACE;JYPELI;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -59,7 +59,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\WindowsPhone\x86\Release</OutputPath>
-    <DefineConstants>TRACE;UseDouble;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_WIDGETS;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;JYPELI;UseDouble;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_WIDGETS;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -71,7 +71,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\WindowsPhone\ARM\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;JYPELI;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -82,7 +82,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\WindowsPhone\ARM\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
+    <DefineConstants>TRACE;JYPELI;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -90,14 +90,19 @@
     <NoWarn>0436</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Content\ContentResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ContentResources.resx</DependentUpon>
-    </Compile>
+    <Compile Include="Content\AsRifle.cs" />
+    <Compile Include="Content\Auto.cs" />
+    <Compile Include="Content\Bullet.cs" />
+    <Compile Include="Content\JypeliContentManager.cs" />
+    <Compile Include="Content\MediumFont.cs" />
+    <Compile Include="Controls\Controller\AnalogControl.cs" />
+    <Compile Include="Controls\Controller\AnalogState.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />
     <Compile Include="Controls\Controller\Controller.cs" />
     <Compile Include="Controls\Controller\Listener.cs" />
+    <Compile Include="Controls\GamePad\Button.cs" />
+    <Compile Include="Controls\GamePad\GamePad.cs" />
+    <Compile Include="Controls\GamePad\Vibration.cs" />
     <Compile Include="Controls\Keyboard\Key.cs" />
     <Compile Include="Controls\Keyboard\Keyboard.cs" />
     <Compile Include="Controls\ListenContext.cs" />
@@ -161,8 +166,19 @@
     <Compile Include="GameObjects\GameObject\Layout.cs" />
     <Compile Include="GameObjects\GameObject\Movement.cs" />
     <Compile Include="GameObjects\GameObject\Oscillator.cs" />
+    <Compile Include="GameObjects\Layouts\HorizontalLayout.cs" />
     <Compile Include="GameObjects\Layouts\ILayout.cs" />
+    <Compile Include="GameObjects\Layouts\VerticalLayout.cs" />
+    <Compile Include="GameObjects\Layouts\VerticalScrollLayout.cs" />
+    <Compile Include="GameObjects\PhysicsObject\IPhysicsBody.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
+    <Compile Include="GameObjects\PhysicsObject\PhysicsObject.cs" />
+    <Compile Include="GameObjects\Surface\Surface.cs" />
+    <Compile Include="GameObjects\Surface\Surfaces.cs" />
+    <Compile Include="GameObjects\Widget\Appearance.cs" />
+    <Compile Include="GameObjects\Widget\BindableWidget.cs" />
+    <Compile Include="GameObjects\Widget\Control.cs" />
+    <Compile Include="GameObjects\Widget\Widget.cs" />
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
@@ -171,7 +187,9 @@
     </Compile>
     <Compile Include="Game\Graphics.cs" />
     <Compile Include="Game\Layers.cs" />
+    <Compile Include="Game\Physics.cs" />
     <Compile Include="Game\Time.cs" />
+    <Compile Include="Game\Widgets.cs" />
     <Compile Include="Graphics\Animation.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Canvas.cs" />
@@ -189,6 +207,12 @@
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Helpers\RandomGen.cs" />
     <Compile Include="Levels\Level.cs" />
+    <Compile Include="Levels\Borders.cs" />
+    <Compile Include="Physics\IPhysicsClient.cs" />
+    <Compile Include="Physics\PhysicsInterface.cs" />
+    <Compile Include="Shapes\Shapes.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Storage\SaveAttribute.cs" />
     <Compile Include="DataTypes\Destroyable.cs" />
     <Compile Include="DataTypes\Tagged.cs" />
@@ -206,41 +230,14 @@
     <Compile Include="DataTypes\DoubleMeter.cs" />
     <Compile Include="Events\MeterAddOperation.cs" />
     <Compile Include="Events\Operation.cs" />
-    <Compile Include="Shapes\Shapes.cs" />
     <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
-    <Compile Include="..\MonoGame\MonoGame.Framework\Content\ResourceContentManager.cs">
-      <Link>Content\ResourceContentManager.cs</Link>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Widgets\Background.cs" />
+    <Compile Include="Widgets\BarGauge.cs" />
+    <Compile Include="Widgets\Label.cs" />
+    <Compile Include="Widgets\MessageDisplay.cs" />
     <Compile Include="WP8\Phone.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Content\ContentResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ContentResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\AsRifle.xnb" />
-    <None Include="Content\Auto.xnb" />
-    <None Include="Content\Bullet.xnb" />
-    <None Include="Content\Cannon.xnb" />
-    <None Include="Content\CannonBall.xnb" />
-    <None Include="Content\CannonFire.xnb" />
-    <None Include="Content\DownArrow.xnb" />
-    <None Include="Content\explosion.xnb" />
-    <None Include="Content\explosion2.xnb" />
-    <None Include="Content\explosionSound.xnb" />
-    <None Include="Content\Grenade.xnb" />
-    <None Include="Content\implosionSound.xnb" />
-    <None Include="Content\laser.xnb" />
-    <None Include="Content\MGAttack.xnb" />
-    <None Include="Content\PlasmaAttack.xnb" />
-    <None Include="Content\PlasmaCannon.xnb" />
-    <None Include="Content\smoke.xnb" />
-    <None Include="Content\Tank.xnb" />
-    <None Include="Content\UpArrow.xnb" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsPhone.csproj">

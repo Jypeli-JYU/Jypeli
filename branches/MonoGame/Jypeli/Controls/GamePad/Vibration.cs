@@ -60,7 +60,8 @@ namespace Jypeli.Controls.GamePad
             rmotort = AdvanceMath.MathHelper.Clamp( (float)rmotort, 0, 1 );
 
             // Set the vibration
-            XnaGamePad.SetVibration( p, (float)lmotort, (float)rmotort );
+            //XnaGamePad.SetVibration( p, (float)lmotort, (float)rmotort );
+            // MonoGame: no support yet
         }
 
         #region Destroyable Members

@@ -139,6 +139,10 @@ namespace Jypeli
             GraphicsDeviceManager.IsFullScreen = fullscreen;
             GraphicsDeviceManager.ApplyChanges();
             isFullScreenRequested = fullscreen;
+
+            if ( Screen != null )
+                Screen.Size = new Vector( width, height );
+
             windowSizeSet = true;
         }
 
@@ -149,7 +153,7 @@ namespace Jypeli
         {
             Viewport viewPort = GraphicsDevice.Viewport;
             Mouse.Viewport = viewPort;
-            Screen = new ScreenView( viewPort );
+            Screen = new ScreenView( GraphicsDevice );
             Jypeli.Graphics.Initialize();
 
             Camera = new Camera();

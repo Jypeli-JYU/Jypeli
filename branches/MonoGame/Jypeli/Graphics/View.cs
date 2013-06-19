@@ -31,6 +31,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AdvanceMath;
 
+using XnaColor = Microsoft.Xna.Framework.Color;
+using XnaHelper = Microsoft.Xna.Framework.MathHelper;
+
 namespace Jypeli
 {
     /// <summary>
@@ -40,15 +43,35 @@ namespace Jypeli
     /// </summary>
     public class ScreenView
     {
-        internal Viewport viewPort;
+        private SpriteBatch renderBatch;
+        private Vector2 _center = Vector2.Zero;
+        private float _angle = 0;
+        private SpriteEffects _effect = SpriteEffects.None;
+        private bool _flipAndMirror;
+        private XnaColor _color = XnaColor.White;
+
+        internal GraphicsDevice device;
+        internal RenderTarget2D renderTarget;
 
         /// <summary>
         /// Alustaa uuden näyttönäkymän.
         /// </summary>
         /// <param name="viewPort">Näytön viewport.</param>
-        public ScreenView( Viewport viewPort )
+        public ScreenView( GraphicsDevice device )
         {
-            this.viewPort = viewPort;
+            this.device = device;
+            this.renderBatch = new SpriteBatch( device );
+
+            PresentationParameters pp = device.PresentationParameters;
+            this.renderTarget = new RenderTarget2D( device, pp.BackBufferWidth, pp.BackBufferHeight, false, device.DisplayMode.Format, DepthFormat.Depth24Stencil8 );
+        }
+
+        /// <summary>
+        /// Ruudulla näkyvä kuva.
+        /// </summary>
+        public Image Image
+        {
+            get { return new Image( renderTarget ); }
         }
 
         /// <summary>
@@ -56,7 +79,68 @@ namespace Jypeli
         /// </summary>
         public Vector Center
         {
-            get { return Vector.Zero; }
+            get { return (Vector)_center; }
+            set { _center = (Vector2)value; }
+        }
+
+        /// <summary>
+        /// Kaikkea näytön sisältöä sävyttävä väri (valkoinen = normaali)
+        /// </summary>
+        public Color Color
+        {
+            get { return (Color)_color; }
+            set { _color = (XnaColor)value; }
+        }
+
+        /// <summary>
+        /// Peilataanko kuva pystysuunnassa.
+        /// </summary>
+        public bool IsFlipped
+        {
+            get { return _flipAndMirror || _effect == SpriteEffects.FlipVertically; }
+            set
+            {
+                if ( IsMirrored )
+                {
+                    _effect = SpriteEffects.None;
+                    _flipAndMirror = true;
+                }
+                else
+                {
+                    _effect = SpriteEffects.FlipVertically;
+                    _flipAndMirror = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Peilataanko kuva vaakasuunnassa.
+        /// </summary>
+        public bool IsMirrored
+        {
+            get { return _flipAndMirror || _effect == SpriteEffects.FlipVertically; }
+            set
+            {
+                if ( IsFlipped )
+                {
+                    _effect = SpriteEffects.None;
+                    _flipAndMirror = true;
+                }
+                else
+                {
+                    _effect = SpriteEffects.FlipHorizontally;
+                    _flipAndMirror = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Näytön kiertokulma.
+        /// </summary>
+        public Angle Angle
+        {
+            get { return Angle.FromRadians( _angle ); }
+            set { _angle = (float)value.Radians; }
         }
 
         /// <summary>
@@ -64,7 +148,11 @@ namespace Jypeli
         /// </summary>
         public double Width
         {
-            get { return viewPort.Width; }
+            get { return renderTarget.Width; }
+            set
+            {
+                renderTarget = new RenderTarget2D( device, (int)value, renderTarget.Height );
+            }
         }
 
         /// <summary>
@@ -72,7 +160,11 @@ namespace Jypeli
         /// </summary>
         public double Height
         {
-            get { return viewPort.Height; }
+            get { return renderTarget.Height; }
+            set
+            {
+                renderTarget = new RenderTarget2D( device, (int)value, renderTarget.Height );
+            }
         }
 
         /// <summary>
@@ -80,7 +172,11 @@ namespace Jypeli
         /// </summary>
         public Vector Size
         {
-            get { return new Vector( viewPort.Width, viewPort.Height ); }
+            get { return new Vector( renderTarget.Width, renderTarget.Height ); }
+            set
+            {
+                renderTarget = new RenderTarget2D( device, (int)value.X, (int)value.Y );
+            }
         }
 
         /// <summary>
@@ -115,59 +211,77 @@ namespace Jypeli
             get { return -Height / 2; }
         }
 
+        public double LeftSafe { get { return Left + 10; } }
+        public double RightSafe { get { return Right - 10; } }
+        public double BottomSafe { get { return Bottom + 10; } }
+        public double TopSafe { get { return Top + 10; } }
+
+        public double WidthSafe { get { return RightSafe - LeftSafe; } }
+        public double HeightSafe { get { return TopSafe - BottomSafe; } }
+
         /// <summary>
-        /// Näytön "turvallinen" ts. laiteriippumaton leveys x-suunnassa.
+        /// Muuntaa XNA:n ruutukoordinaateista Jypelin ruutukoordinaateiksi.
         /// </summary>
-        public double WidthSafe
+        /// <param name="position"></param>
+        /// <param name="objectSize"></param>
+        /// <returns></returns>
+        internal Vector FromXnaCoords( Vector2 position, Vector objectSize )
         {
-            get { return viewPort.TitleSafeArea.Width; }
+            double x = -renderTarget.Width / 2 + objectSize.X / 2 + position.X;
+            double y = renderTarget.Height / 2 - objectSize.Y / 2 - position.Y;
+            return new Vector( x, y );
+        }
+
+        private float xToXna( float x, float w )
+        {
+            return renderTarget.Width / 2 - w / 2 + x;
+        }
+
+        private float yToXna( float y, float h )
+        {
+            return renderTarget.Height / 2 - h / 2 - y;
         }
 
         /// <summary>
-        /// Näytön "turvallinen" ts. laiteriippumaton korkeus y-suunnassa.
+        /// Muuntaa Jypelin ruutukoordinaateista XNA:n ruutukoordinaateiksi.
         /// </summary>
-        public double HeightSafe
+        /// <param name="position"></param>
+        /// <param name="objectSize"></param>
+        /// <returns></returns>
+        internal Vector2 ToXnaCoords( Vector position, Vector objectSize )
         {
-            get { return viewPort.TitleSafeArea.Height; }
-        }
+            return new Vector2( xToXna( (float)position.X, (float)objectSize.X ), yToXna( (float)position.Y, (float)objectSize.Y ) );
+        }        
 
         /// <summary>
-        /// Näytön vasemman reunan "turvallinen" ts. laiteriippumaton x-koordinaatti.
+        /// Muuntaa matriisin Jypelin ruutukoordinaateista XNA:n ruutukoordinaatteihin.
         /// </summary>
-        public double LeftSafe
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        internal Matrix ToXnaCoords( Matrix matrix, Vector scale )
         {
-            get { return -viewPort.TitleSafeArea.Width / 2; }
+            float xnamat_M41 = xToXna( matrix.M41, matrix.M11 * (float)scale.X );
+            float xnamat_M42 = yToXna( matrix.M42, matrix.M22 * (float)scale.Y );
+
+            return new Matrix(
+                matrix.M11, matrix.M12, matrix.M13, matrix.M14,
+                matrix.M21, matrix.M22, matrix.M23, matrix.M24,
+                matrix.M31, matrix.M32, matrix.M33, matrix.M34,
+                xnamat_M41, xnamat_M42, matrix.M43, matrix.M44
+            );
         }
 
-        /// <summary>
-        /// Näytön oikean reunan "turvallinen" ts. laiteriippumaton x-koordinaatti.
-        /// </summary>
-        public double RightSafe
+        internal void Render( Color bgColor )
         {
-            get { return viewPort.TitleSafeArea.Width / 2; }
-        }
+            float angle = _flipAndMirror ? _angle + Microsoft.Xna.Framework.MathHelper.Pi : _angle;
 
-        /// <summary>
-        /// Näytön yläreunan "turvallinen" ts. laiteriippumaton y-koordinaatti.
-        /// </summary>
-        public double TopSafe
-        {
-            get { return viewPort.TitleSafeArea.Height / 2; }
-        }
+            device.SetRenderTarget( null );
+            device.Clear( bgColor.AsXnaColor() );
+            //device.Clear( ClearOptions.Target | ClearOptions.DepthBuffer, XnaColor.DarkSlateBlue, 1.0f, 0 );
 
-        /// <summary>
-        /// Näytön alareunan "turvallinen" ts. laiteriippumaton y-koordinaatti.
-        /// </summary>
-        public double BottomSafe
-        {
-            get { return -viewPort.TitleSafeArea.Height / 2; }
-        }
-
-        internal Vector FromXnaScreenCoordinates(Vector2 position)
-        {
-            double x = position.X - (viewPort.Width / 2);
-            double y = -position.Y + (viewPort.Height / 2);
-            return new Vector(x, y);
+            renderBatch.Begin( SpriteSortMode.Immediate, BlendState.Opaque );
+            renderBatch.Draw( renderTarget, _center, null, _color, angle, Vector2.Zero, 1, _effect, 1 );
+            renderBatch.End();
         }
     }
 

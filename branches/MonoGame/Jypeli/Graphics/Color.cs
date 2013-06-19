@@ -383,10 +383,19 @@ namespace Jypeli
             return false;
         }
 
-
         public static bool operator !=( Color c1, Color c2 )
         {
             return !( c1 == c2 );
+        }
+
+        public static explicit operator XnaColor( Color color )
+        {
+            return color.AsXnaColor();
+        }
+
+        public static explicit operator Color( XnaColor color )
+        {
+            return new Color( color );
         }
 
         public static Color Lerp( Color value1, Color value2, double amount )

@@ -63,7 +63,7 @@ namespace Jypeli
         {
             get
             {
-                return Game.Screen.FromXnaScreenCoordinates( _position );
+                return Game.Screen.FromXnaCoords( _position, Vector.Zero );
             }
         }
 

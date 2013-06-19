@@ -637,7 +637,6 @@ namespace Jypeli
             return new Image( newTexture );
         }
 
-#if COMMENT
         /// <summary>
         /// Luo kuvan tekstistä.
         /// </summary>
@@ -733,7 +732,6 @@ namespace Jypeli
         {
             return DrawTextOnImage( img, text, Vector.Zero, font, textColor, Jypeli.Color.Transparent );
         }
-#endif
 
         /// <summary>
         /// Luo pystysuuntaisen liukuväritetyn kuvan.

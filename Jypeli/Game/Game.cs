@@ -161,7 +161,7 @@ namespace Jypeli
         [EditorBrowsable( EditorBrowsableState.Never )]
         protected override void Draw( GameTime gameTime )
         {
-            //GraphicsDevice.Clear( ClearOptions.Target, Level.BackgroundColor.AsXnaColor(), 1.0f, 0 );
+            GraphicsDevice.SetRenderTarget( Screen.renderTarget );
 			GraphicsDevice.Clear( Level.BackgroundColor.AsXnaColor() );
 
             if ( Level.Background.Image != null && !Level.Background.MovesWithCamera )
@@ -187,6 +187,9 @@ namespace Jypeli
             Graphics.Canvas.Begin( ref worldMatrix, Level );
             Paint( Graphics.Canvas );
             Graphics.Canvas.End();
+
+            // Render the scene on screen
+            Screen.Render( Level.BackgroundColor );
 
             base.Draw( gameTime );
         }

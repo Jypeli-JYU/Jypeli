@@ -489,20 +489,13 @@ namespace Jypeli
 
         protected void Draw( Matrix parentTransformation, Matrix transformation, string text )
         {
-            // Reverse the Y axis of the parent transformation
-            Matrix p = parentTransformation;
-            p.Translation = new Vector3( p.Translation.X, -p.Translation.Y, p.Translation.Z );
-
-            Matrix m =
-                    Matrix.CreateScale( _textScale )
-                    * Matrix.CreateTranslation( (float)GetHorizontalAlignment(), (float)GetVerticalAlignment(), 0 )
-                    * Matrix.CreateRotationZ( (float)-Angle.Radians )
-                    * Matrix.CreateTranslation( (float)Position.X, -(float)Position.Y, 0 )
-                    * p
-                    * Matrix.CreateTranslation( (float)( Game.Screen.Width / 2 ), (float)( Game.Screen.Height / 2 ), 0 );
+            Matrix m = Matrix.CreateScale( _textScale )
+                * Matrix.CreateTranslation( (float)GetHorizontalAlignment(), (float)GetVerticalAlignment(), 0 )
+                * Matrix.CreateRotationZ( (float)-Angle.Radians )
+                * Matrix.CreateTranslation( (float)Position.X, (float)Position.Y, 0 )
+                * parentTransformation;
 
             Renderer.DrawText( text, ref m, Font, TextColor );
-
             base.Draw( parentTransformation, transformation );
         }
     }

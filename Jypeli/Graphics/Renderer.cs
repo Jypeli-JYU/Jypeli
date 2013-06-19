@@ -266,18 +266,42 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Piirtää tekstiä ruudulle. Varoitus: käyttää XNA:n ruutukoordinaatistoa, jossa
-        /// origo on vasemmassa yläreunassa ja y-akseli kasvaa alaspäin!
+        /// Piirtää tekstiä ruudulle
+        /// </summary>
+        /// <param name="text">Teksti</param>
+        /// <param name="position">Paikka</param>
+        /// <param name="font">Fontti</param>
+        /// <param name="color">Tekstin väri</param>
+        public static void DrawText( string text, Vector position, Font font, Color color )
+        {
+            Vector2 textSize = font.XnaFont.MeasureString(text);
+            Vector2 xnaPos = Game.Screen.ToXnaCoords( position, (Vector)textSize );
+
+            SpriteBatch spriteBatch = Graphics.SpriteBatch;
+            //spriteBatch.Begin( SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, transformation );
+            spriteBatch.Begin();
+            //spriteBatch.DrawString( font.XnaFont, text, Vector2.Zero, color.AsXnaColor() );
+            spriteBatch.DrawString( font.XnaFont, text, xnaPos, color.AsXnaColor() );
+            spriteBatch.End();
+        }
+
+        /// <summary>
+        /// Piirtää tekstiä ruudulle
         /// </summary>
         /// <param name="text">Teksti</param>
         /// <param name="transformation">Transformaatio</param>
         /// <param name="font">Fontti</param>
         /// <param name="color">Tekstin väri</param>
-        internal static void DrawText( string text, ref Matrix transformation, Font font, Color color )
+        public static void DrawText( string text, ref Matrix transformation, Font font, Color color )
         {
+            Vector textSize = (Vector)font.XnaFont.MeasureString( text );
+            Matrix xnaTrans = Game.Screen.ToXnaCoords( transformation, textSize );
+
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
-            spriteBatch.Begin( SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, transformation );
+            spriteBatch.Begin( SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, xnaTrans );
+            //spriteBatch.Begin();
             spriteBatch.DrawString( font.XnaFont, text, Vector2.Zero, color.AsXnaColor() );
+            //spriteBatch.DrawString( font.XnaFont, text, xnaPos, color.AsXnaColor() );
             spriteBatch.End();
         }
 
@@ -463,3 +487,4 @@ namespace Jypeli
         }
     }
 }
+

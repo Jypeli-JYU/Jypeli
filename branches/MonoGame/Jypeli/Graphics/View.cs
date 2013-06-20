@@ -49,6 +49,7 @@ namespace Jypeli
         private SpriteEffects _effect = SpriteEffects.None;
         private bool _flipAndMirror;
         private XnaColor _color = XnaColor.White;
+        private XnaColor _bgcolor = XnaColor.Black;
 
         internal GraphicsDevice device;
         internal RenderTarget2D renderTarget;
@@ -72,6 +73,16 @@ namespace Jypeli
         public Image Image
         {
             get { return new Image( renderTarget ); }
+        }
+
+        /// <summary>
+        /// Ruudun "taustalla" näkyvä kuva jos ruutua on kierretty
+        /// tai se on pienempi kuin ikkuna.
+        /// </summary>
+        public Color BackgroundColor
+        {
+            get { return (Color)_bgcolor; }
+            set { _bgcolor = (XnaColor)value; }
         }
 
         /// <summary>
@@ -139,8 +150,8 @@ namespace Jypeli
         /// </summary>
         public Angle Angle
         {
-            get { return Angle.FromRadians( _angle ); }
-            set { _angle = (float)value.Radians; }
+            get { return Angle.FromRadians( -_angle ); }
+            set { _angle = -(float)value.Radians; }
         }
 
         /// <summary>
@@ -271,16 +282,19 @@ namespace Jypeli
             );
         }
 
-        internal void Render( Color bgColor )
+        internal void Render()
         {
             float angle = _flipAndMirror ? _angle + Microsoft.Xna.Framework.MathHelper.Pi : _angle;
 
             device.SetRenderTarget( null );
-            device.Clear( bgColor.AsXnaColor() );
-            //device.Clear( ClearOptions.Target | ClearOptions.DepthBuffer, XnaColor.DarkSlateBlue, 1.0f, 0 );
+            device.Clear( _bgcolor );
+
+            Vector2 devorigin = new Vector2( device.Viewport.Width, device.Viewport.Height ) / 2;
+            Vector2 rtorigin = new Vector2( renderTarget.Width, renderTarget.Height ) / 2;
+            Vector2 diff = devorigin - rtorigin;
 
             renderBatch.Begin( SpriteSortMode.Immediate, BlendState.Opaque );
-            renderBatch.Draw( renderTarget, _center, null, _color, angle, Vector2.Zero, 1, _effect, 1 );
+            renderBatch.Draw( renderTarget, devorigin + diff + _center, null, _color, angle, devorigin, 1, _effect, 1 );
             renderBatch.End();
         }
     }

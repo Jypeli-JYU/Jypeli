@@ -40,6 +40,7 @@ namespace Jypeli
     using Matrix = Microsoft.Xna.Framework.Matrix;
     using XnaV2 = Microsoft.Xna.Framework.Vector2;
     using XnaMouse = Microsoft.Xna.Framework.Input.Mouse;
+    using MouseState = Microsoft.Xna.Framework.Input.MouseState;
     using XnaButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 
     /// <summary>
@@ -47,7 +48,17 @@ namespace Jypeli
     /// </summary>
     public class Mouse : Controller<MouseState>
     {
-        private ScreenView screen;
+        //private static Dictionary<MouseButton, Func<MouseState, bool>> GetButtonDown = null;
+        private static readonly Dictionary<MouseButton, Func<MouseState, bool>> GetButtonDown = new Dictionary<MouseButton, Func<MouseState, bool>>( 5 )
+        {
+            { MouseButton.Left, delegate( MouseState state ) { return state.LeftButton == XnaButtonState.Pressed; } },
+            { MouseButton.Right, delegate( MouseState state ) { return state.RightButton == XnaButtonState.Pressed; } },
+            { MouseButton.Middle, delegate( MouseState state ) { return state.MiddleButton == XnaButtonState.Pressed; } },
+            { MouseButton.XButton1, delegate( MouseState state ) { return state.XButton1 == XnaButtonState.Pressed; } },
+            { MouseButton.XButton2, delegate( MouseState state ) { return state.XButton2 == XnaButtonState.Pressed; } }
+        };
+
+        private ScreenView screen;        
 
         /// <summary>
         /// Käytetäänkö hiiren kursoria.
@@ -76,7 +87,8 @@ namespace Jypeli
         {
             get
             {
-                Vector pos = ScreenView.FromXnaCoords( CurrentState.Position, screen.ViewportSize, Vector.Zero );
+                XnaV2 xnaPos = new XnaV2( CurrentState.X, CurrentState.Y );
+                Vector pos = ScreenView.FromXnaCoords( xnaPos, screen.ViewportSize, Vector.Zero );
                 return pos.Transform( screen.GetScreenTransform() );
             }
             set
@@ -86,7 +98,11 @@ namespace Jypeli
                 Vector pos = value.Transform( screen.GetScreenInverse() );
                 XnaV2 xnapos = ScreenView.ToXnaCoords( pos, screen.ViewportSize, Vector.Zero );
 
-                CurrentState = new MouseState( CurrentState, xnapos );
+                //CurrentState = new MouseState( CurrentState, xnapos );
+                CurrentState = new MouseState(
+                    (int)xnapos.X, (int)xnapos.Y, CurrentState.ScrollWheelValue,
+                    CurrentState.LeftButton, CurrentState.MiddleButton, CurrentState.RightButton,
+                    CurrentState.XButton1, CurrentState.XButton2 );
                 XnaMouse.SetPosition( (int)xnapos.X, (int)xnapos.Y );
 #endif
             }
@@ -116,8 +132,10 @@ namespace Jypeli
             {
                 Matrix screenTransform = screen.GetScreenTransform();
 
-                Vector curScr = ScreenView.FromXnaCoords( CurrentState.Position, screen.ViewportSize, Vector.Zero );
-                Vector prevScr = ScreenView.FromXnaCoords( PrevState.Position, screen.ViewportSize, Vector.Zero );               
+                XnaV2 curXna = new XnaV2( CurrentState.X, CurrentState.Y );
+                XnaV2 prevXna = new XnaV2( PrevState.X, PrevState.Y );
+                Vector curScr = ScreenView.FromXnaCoords( curXna, screen.ViewportSize, Vector.Zero );
+                Vector prevScr = ScreenView.FromXnaCoords( prevXna, screen.ViewportSize, Vector.Zero );
                 Vector curr = curScr.Transform( screenTransform );
                 Vector prev = prevScr.Transform( screenTransform );
 
@@ -134,8 +152,10 @@ namespace Jypeli
             {
                 Matrix screenTransform = screen.GetScreenTransform();
 
-                Vector curScr = ScreenView.FromXnaCoords( CurrentState.Position, screen.ViewportSize, Vector.Zero );
-                Vector prevScr = ScreenView.FromXnaCoords( PrevState.Position, screen.ViewportSize, Vector.Zero );
+                XnaV2 curXna = new XnaV2( CurrentState.X, CurrentState.Y );
+                XnaV2 prevXna = new XnaV2( PrevState.X, PrevState.Y );
+                Vector curScr = ScreenView.FromXnaCoords( curXna, screen.ViewportSize, Vector.Zero );
+                Vector prevScr = ScreenView.FromXnaCoords( prevXna, screen.ViewportSize, Vector.Zero );
                 Vector curr = curScr.Transform( screenTransform );
                 Vector prev = prevScr.Transform( screenTransform );
 
@@ -150,7 +170,7 @@ namespace Jypeli
         {
             get
             {
-                return CurrentState.Wheel / 120;
+                return CurrentState.ScrollWheelValue / 120;
             }
         }
 
@@ -162,15 +182,24 @@ namespace Jypeli
         {
             get
             {
-                return ( CurrentState.Wheel - PrevState.Wheel ) / 120;
+                return ( CurrentState.ScrollWheelValue - PrevState.ScrollWheelValue ) / 120;
             }
         }
 
         internal Mouse( ScreenView screen )
         {
-            var xnaState = XnaMouse.GetState();
-            CurrentState = new MouseState( CurrentState, new XnaV2( xnaState.X, xnaState.Y ) );
             this.screen = screen;
+            this.CurrentState = XnaMouse.GetState();
+
+            /*if ( GetButtonDown == null )
+            {
+                GetButtonDown = new Dictionary<MouseButton, Func<MouseState, bool>>( 5 );
+                GetButtonDown.Add( MouseButton.Left, delegate( MouseState state ) { return state.LeftButton == XnaButtonState.Pressed; } );
+                GetButtonDown.Add( MouseButton.Right, delegate( MouseState state ) { return state.RightButton == XnaButtonState.Pressed; } );
+                GetButtonDown.Add( MouseButton.Middle, delegate( MouseState state ) { return state.MiddleButton == XnaButtonState.Pressed; } );
+                GetButtonDown.Add( MouseButton.XButton1, delegate( MouseState state ) { return state.XButton1 == XnaButtonState.Pressed; } );
+                GetButtonDown.Add( MouseButton.XButton2, delegate( MouseState state ) { return state.XButton2 == XnaButtonState.Pressed; } );
+            }*/
         }
 
         private void SetPosition( Vector pos )
@@ -185,7 +214,7 @@ namespace Jypeli
 
         internal override MouseState GetState()
         {
-            var xnaState = XnaMouse.GetState();
+            /*var xnaState = XnaMouse.GetState();
             MouseState state = new MouseState();
 
             state.Position = new XnaV2( xnaState.X, xnaState.Y );
@@ -194,7 +223,7 @@ namespace Jypeli
             state.MiddleDown = xnaState.MiddleButton == XnaButtonState.Pressed;
             state.X1Down = xnaState.XButton1 == XnaButtonState.Pressed;
             state.X2Down = xnaState.XButton2 == XnaButtonState.Pressed;
-            state.Wheel = xnaState.ScrollWheelValue;
+            state.Wheel = xnaState.ScrollWheelValue;*/
 
 #if !WINRT
             if ( !IsCursorVisible )
@@ -204,9 +233,20 @@ namespace Jypeli
             }
 #endif
 
-            return state;
+            return XnaMouse.GetState();
         }
-        
+
+        private static ButtonState GetButtonState( MouseState oldState, MouseState newState, MouseButton button )
+        {
+            bool prevDown = GetButtonDown[button]( oldState );
+            bool currDown = GetButtonDown[button]( newState );
+
+            if ( prevDown && currDown ) return ButtonState.Down;
+            if ( !prevDown && !currDown ) return ButtonState.Up;
+            if ( !prevDown && currDown ) return ButtonState.Pressed;
+            return ButtonState.Released;
+        }
+
         /// <summary>
         /// Palauttaa napin tilan.
         /// </summary>
@@ -214,7 +254,7 @@ namespace Jypeli
         /// <returns></returns>
         public ButtonState GetButtonState( MouseButton button )
         {
-            return MouseState.GetButtonState( PrevState, CurrentState, button );
+            return GetButtonState( PrevState, CurrentState, button );
         }
 
         private ChangePredicate<MouseState> MakeTriggerRule( MouseButton button, ButtonState state )
@@ -222,7 +262,7 @@ namespace Jypeli
             if ( button == MouseButton.None || state == ButtonState.Irrelevant )
                 return AlwaysTrigger;
 
-            return delegate( MouseState prev, MouseState curr ) { return MouseState.GetButtonState( prev, curr, button ) == state; };
+            return delegate( MouseState prev, MouseState curr ) { return GetButtonState( prev, curr, button ) == state; };
         }
 
         private ChangePredicate<MouseState> MakeTriggerRule( double moveTrigger )

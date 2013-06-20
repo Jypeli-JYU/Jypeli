@@ -32,6 +32,8 @@ using AdvanceMath;
 using System.Globalization;
 using System.Collections.Generic;
 
+using Matrix = Microsoft.Xna.Framework.Matrix;
+
 namespace Jypeli
 {
     // NOTES:
@@ -183,6 +185,29 @@ namespace Jypeli
         public Vector Normalize()
         {
             return this / this.Magnitude;
+        }
+
+        /// <summary>
+        /// Kertoo vektorin matriisilla.
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        public Vector Transform( Matrix matrix )
+        {
+            return new Vector
+            (
+                ( X * matrix.M11 ) + ( Y * matrix.M21 ) + matrix.M41,
+                ( X * matrix.M12 ) + ( Y * matrix.M22 ) + matrix.M42
+            );
+        }
+
+        /// <summary>
+        /// Palauttaa uuden vektorin, jossa x ja y on vaihdettu kesken‰‰n.
+        /// </summary>
+        /// <returns></returns>
+        public Vector Transpose()
+        {
+            return new Vector( Y, X );
         }
 
         /// <summary>

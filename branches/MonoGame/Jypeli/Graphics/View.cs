@@ -43,16 +43,37 @@ namespace Jypeli
     /// </summary>
     public class ScreenView
     {
+        private RenderTarget2D _renderTarget = null;
         private SpriteBatch renderBatch;
         private Vector2 _center = Vector2.Zero;
+        private Point _size;
         private float _angle = 0;
         private SpriteEffects _effect = SpriteEffects.None;
         private bool _flipAndMirror;
         private XnaColor _color = XnaColor.White;
         private XnaColor _bgcolor = XnaColor.Black;
 
+        /// <summary>
+        /// Näyttölaite.
+        /// </summary>
         internal GraphicsDevice device;
-        internal RenderTarget2D renderTarget;
+
+        /// <summary>
+        /// Tekstuuri johon näkymä piirretään.
+        /// </summary>
+        internal RenderTarget2D RenderTarget
+        {
+            get
+            {
+                if ( _renderTarget == null )
+                {
+                    _renderTarget = new RenderTarget2D( device, _size.X, _size.Y, false, device.DisplayMode.Format, DepthFormat.Depth24Stencil8 );
+                    Graphics.ResetScreenSize();
+                }
+
+                return _renderTarget;
+            }
+        }
 
         /// <summary>
         /// Alustaa uuden näyttönäkymän.
@@ -64,7 +85,7 @@ namespace Jypeli
             this.renderBatch = new SpriteBatch( device );
 
             PresentationParameters pp = device.PresentationParameters;
-            this.renderTarget = new RenderTarget2D( device, pp.BackBufferWidth, pp.BackBufferHeight, false, device.DisplayMode.Format, DepthFormat.Depth24Stencil8 );
+            this._size = new Point( pp.BackBufferWidth, pp.BackBufferHeight );
         }
 
         /// <summary>
@@ -72,7 +93,7 @@ namespace Jypeli
         /// </summary>
         public Image Image
         {
-            get { return new Image( renderTarget ); }
+            get { return new Image( RenderTarget ); }
         }
 
         /// <summary>
@@ -159,10 +180,11 @@ namespace Jypeli
         /// </summary>
         public double Width
         {
-            get { return renderTarget.Width; }
+            get { return RenderTarget.Width; }
             set
             {
-                renderTarget = new RenderTarget2D( device, (int)value, renderTarget.Height );
+                _size.X = (int)value;
+                _renderTarget = null;
             }
         }
 
@@ -171,10 +193,11 @@ namespace Jypeli
         /// </summary>
         public double Height
         {
-            get { return renderTarget.Height; }
+            get { return RenderTarget.Height; }
             set
             {
-                renderTarget = new RenderTarget2D( device, (int)value, renderTarget.Height );
+                _size.Y = (int)value;
+                _renderTarget = null;
             }
         }
 
@@ -183,11 +206,37 @@ namespace Jypeli
         /// </summary>
         public Vector Size
         {
-            get { return new Vector( renderTarget.Width, renderTarget.Height ); }
+            get { return new Vector( RenderTarget.Width, RenderTarget.Height ); }
             set
             {
-                renderTarget = new RenderTarget2D( device, (int)value.X, (int)value.Y );
+                _size.X = (int)value.X;
+                _size.Y = (int)value.Y;
+                _renderTarget = null;
             }
+        }
+
+        /// <summary>
+        /// Näytön todellinen leveys.
+        /// </summary>
+        public double ViewportWidth
+        {
+            get { return device.Viewport.Width; }
+        }
+
+        /// <summary>
+        /// Näytön todellinen korkeus.
+        /// </summary>
+        public double ViewportHeight
+        {
+            get { return device.Viewport.Height; }
+        }
+
+        /// <summary>
+        /// Näytön todellinen koko.
+        /// </summary>
+        public Vector ViewportSize
+        {
+            get { return new Vector( device.Viewport.Width, device.Viewport.Height ); }
         }
 
         /// <summary>
@@ -236,21 +285,21 @@ namespace Jypeli
         /// <param name="position"></param>
         /// <param name="objectSize"></param>
         /// <returns></returns>
-        internal Vector FromXnaCoords( Vector2 position, Vector objectSize )
+        internal static Vector FromXnaCoords( Vector2 position, Vector screenSize, Vector objectSize )
         {
-            double x = -renderTarget.Width / 2 + objectSize.X / 2 + position.X;
-            double y = renderTarget.Height / 2 - objectSize.Y / 2 - position.Y;
+            double x = ( -screenSize.X + objectSize.X ) / 2 + position.X;
+            double y = ( screenSize.Y - objectSize.Y ) / 2 - position.Y;
             return new Vector( x, y );
         }
 
-        private float xToXna( float x, float w )
+        private static float xToXna( float x, float scrW, float objW )
         {
-            return renderTarget.Width / 2 - w / 2 + x;
+            return ( scrW - objW ) / 2 + x;
         }
 
-        private float yToXna( float y, float h )
+        private static float yToXna( float y, float scrH, float objH )
         {
-            return renderTarget.Height / 2 - h / 2 - y;
+            return ( scrH - objH ) / 2 - y;
         }
 
         /// <summary>
@@ -259,20 +308,22 @@ namespace Jypeli
         /// <param name="position"></param>
         /// <param name="objectSize"></param>
         /// <returns></returns>
-        internal Vector2 ToXnaCoords( Vector position, Vector objectSize )
+        internal static Vector2 ToXnaCoords( Vector position, Vector screenSize, Vector objectSize )
         {
-            return new Vector2( xToXna( (float)position.X, (float)objectSize.X ), yToXna( (float)position.Y, (float)objectSize.Y ) );
-        }        
+            return new Vector2(
+                xToXna( (float)position.X, (float)screenSize.X, (float)objectSize.X ),
+                yToXna( (float)position.Y, (float)screenSize.Y, (float)objectSize.Y ) );
+        }
 
         /// <summary>
         /// Muuntaa matriisin Jypelin ruutukoordinaateista XNA:n ruutukoordinaatteihin.
         /// </summary>
         /// <param name="matrix"></param>
         /// <returns></returns>
-        internal Matrix ToXnaCoords( Matrix matrix, Vector scale )
+        internal static Matrix ToXnaCoords( Matrix matrix, Vector screenSize, Vector scale )
         {
-            float xnamat_M41 = xToXna( matrix.M41, matrix.M11 * (float)scale.X );
-            float xnamat_M42 = yToXna( matrix.M42, matrix.M22 * (float)scale.Y );
+            float xnamat_M41 = xToXna( matrix.M41, (float)screenSize.X, matrix.M11 * (float)scale.X );
+            float xnamat_M42 = yToXna( matrix.M42, (float)screenSize.Y, matrix.M22 * (float)scale.Y );
 
             return new Matrix(
                 matrix.M11, matrix.M12, matrix.M13, matrix.M14,
@@ -282,6 +333,16 @@ namespace Jypeli
             );
         }
 
+        /// <summary>
+        /// Palauttaa transformaatiomatriisin jolla voi ottaa huomioon ruudun kokoon,
+        /// kiertoon ja paikkaan tehdyt muutokset.
+        /// </summary>
+        /// <returns></returns>
+        internal Matrix GetScreenTransform()
+        {
+            return Matrix.CreateRotationZ( _angle ) * Matrix.CreateTranslation( -_center.X, -_center.Y, 0 );
+        }
+
         internal void Render()
         {
             float angle = _flipAndMirror ? _angle + Microsoft.Xna.Framework.MathHelper.Pi : _angle;
@@ -289,12 +350,13 @@ namespace Jypeli
             device.SetRenderTarget( null );
             device.Clear( _bgcolor );
 
+            Matrix rotate = Matrix.CreateRotationZ(angle);
             Vector2 devorigin = new Vector2( device.Viewport.Width, device.Viewport.Height ) / 2;
-            Vector2 rtorigin = new Vector2( renderTarget.Width, renderTarget.Height ) / 2;
-            Vector2 diff = devorigin - rtorigin;
+            Vector2 rtorigin = new Vector2( RenderTarget.Width, RenderTarget.Height ) / 2;
+            Vector2 diff = Vector2.Transform( -rtorigin, rotate );
 
             renderBatch.Begin( SpriteSortMode.Immediate, BlendState.Opaque );
-            renderBatch.Draw( renderTarget, devorigin + diff + _center, null, _color, angle, devorigin, 1, _effect, 1 );
+            renderBatch.Draw( RenderTarget, devorigin + diff + _center, null, _color, angle, Vector2.Zero, 1, _effect, 1 );
             renderBatch.End();
         }
     }

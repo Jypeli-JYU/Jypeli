@@ -94,7 +94,7 @@ namespace Jypeli
         {
             Keyboard = new Keyboard();
             Mouse = new Mouse();
-            TouchPanel = new TouchPanel();
+            TouchPanel = new TouchPanel( Screen );
 
             _gamePads = new GamePad[4];
             _gamePads[0] = new GamePad( PlayerIndex.One );

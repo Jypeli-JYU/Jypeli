@@ -275,12 +275,10 @@ namespace Jypeli
         public static void DrawText( string text, Vector position, Font font, Color color )
         {
             Vector2 textSize = font.XnaFont.MeasureString(text);
-            Vector2 xnaPos = Game.Screen.ToXnaCoords( position, (Vector)textSize );
+            Vector2 xnaPos = ScreenView.ToXnaCoords( position, Game.Screen.Size, (Vector)textSize );
 
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
-            //spriteBatch.Begin( SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, transformation );
             spriteBatch.Begin();
-            //spriteBatch.DrawString( font.XnaFont, text, Vector2.Zero, color.AsXnaColor() );
             spriteBatch.DrawString( font.XnaFont, text, xnaPos, color.AsXnaColor() );
             spriteBatch.End();
         }
@@ -295,13 +293,11 @@ namespace Jypeli
         public static void DrawText( string text, ref Matrix transformation, Font font, Color color )
         {
             Vector textSize = (Vector)font.XnaFont.MeasureString( text );
-            Matrix xnaTrans = Game.Screen.ToXnaCoords( transformation, textSize );
+            Matrix xnaTrans = ScreenView.ToXnaCoords( transformation, Game.Screen.Size, textSize );
 
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
             spriteBatch.Begin( SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, xnaTrans );
-            //spriteBatch.Begin();
             spriteBatch.DrawString( font.XnaFont, text, Vector2.Zero, color.AsXnaColor() );
-            //spriteBatch.DrawString( font.XnaFont, text, xnaPos, color.AsXnaColor() );
             spriteBatch.End();
         }
 

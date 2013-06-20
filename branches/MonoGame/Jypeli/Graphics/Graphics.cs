@@ -220,8 +220,8 @@ namespace Jypeli
                 Vector3.Up
                 );
             ProjectionMatrix = Matrix.CreateOrthographic(
-                (float)device.Viewport.Width,
-                (float)device.Viewport.Height,
+                (float)Game.Screen.Width,
+                (float)Game.Screen.Height,
                 1.0f, 2.0f
                 );
 

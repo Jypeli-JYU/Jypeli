@@ -8,8 +8,20 @@ namespace Jypeli
 {
     public partial class PhysicsGame : Game
     {
+        struct Contact
+        {
+            public PhysicsObject obj1;
+            public PhysicsObject obj2;
+
+            public Contact( PhysicsObject obj1, PhysicsObject obj2 )
+            {
+                this.obj1 = obj1;
+                this.obj2 = obj2;
+            }
+        }
+
         List<PhysicsObject> physObjects = new List<PhysicsObject>();
-        Dictionary<PhysicsObject, List<PhysicsObject>> contacts = new Dictionary<PhysicsObject, List<PhysicsObject>>();
+        List<Contact> contacts = new List<Contact>();
 
         /// <summary>
         /// Painovoima.
@@ -41,10 +53,27 @@ namespace Jypeli
                 Integrate( maxdt );
                 dt -= maxdt;
             }
-            
+
+            Cleanup();
             Integrate( dt );
 
             base.Update( time );
+        }
+
+        private void Cleanup()
+        {
+            for ( int i = physObjects.Count - 1; i >= 0; i-- )
+            {
+                if ( physObjects[i].IsDestroyed )
+                    physObjects.RemoveAt( i );
+            }
+
+            for ( int i = contacts.Count - 1; i >= 0; i-- )
+            {
+                if ( contacts[i].obj1 == null || contacts[i].obj2 == null
+                    || contacts[i].obj1.IsDestroyed || contacts[i].obj2.IsDestroyed )
+                        contacts.RemoveAt( i );
+            }
         }
 
         private void Integrate( double dt )
@@ -65,41 +94,17 @@ namespace Jypeli
 
         private bool HasContact( PhysicsObject obj1, PhysicsObject obj2 )
         {
-            if ( contacts.ContainsKey( obj1 ) && contacts[obj1].Contains( obj2 ) )
-                return true;
-
-            if ( contacts.ContainsKey( obj2 ) && contacts[obj2].Contains( obj1 ) )
-                return true;
-
-            return false;
+            return contacts.Exists( c => ( ( c.obj1 == obj1 && c.obj2 == obj2 ) || ( c.obj1 == obj2 && c.obj2 == obj1 ) ) );
         }
 
         private void AddContact( PhysicsObject obj1, PhysicsObject obj2 )
         {
-            if ( contacts.ContainsKey( obj1 ) )
-            {
-                contacts[obj1].Add( obj2 );
-                return;
-            }
-
-            if ( contacts.ContainsKey( obj2 ) )
-            {
-                contacts[obj2].Add( obj1 );
-                return;
-            }
-
-            var newList = new List<PhysicsObject>();
-            newList.Add( obj2 );
-            contacts.Add( obj1, newList );
+            contacts.Add( new Contact( obj1, obj2 ) );
         }
 
         private void RemoveContact( PhysicsObject obj1, PhysicsObject obj2 )
         {
-            if ( contacts.ContainsKey( obj1 ) && contacts[obj1].Contains( obj2 ) )
-                contacts[obj1].Remove( obj2 );
-
-            if ( contacts.ContainsKey( obj2 ) && contacts[obj2].Contains( obj1 ) )
-                contacts[obj2].Remove( obj1 );
+            contacts.RemoveAll( c => ( ( c.obj1 == obj1 && c.obj2 == obj2 ) || ( c.obj1 == obj2 && c.obj2 == obj1 ) ) );
         }
 
         private bool IsOverlapping( PhysicsObject obj1, PhysicsObject obj2 )

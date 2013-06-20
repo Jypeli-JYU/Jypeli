@@ -37,13 +37,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Jypeli
 {
+    using Matrix = Microsoft.Xna.Framework.Matrix;
+    using XnaV2 = Microsoft.Xna.Framework.Vector2;
     using XnaMouse = Microsoft.Xna.Framework.Input.Mouse;
     using XnaButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 
+    /// <summary>
+    /// Hiiri.
+    /// </summary>
     public class Mouse : Controller<MouseState>
     {
-        private static int wcx = 800;
-        private static int wcy = 600;
+        private ScreenView screen;
 
         /// <summary>
         /// Käytetäänkö hiiren kursoria.
@@ -65,20 +69,6 @@ namespace Jypeli
             set { Game.Instance.IsMouseVisible = value; }
         }
 
-        internal static Viewport Viewport
-        {
-            set
-            {
-                wcx = value.X + value.Width / 2;
-                wcy = value.Y + value.Height / 2;
-
-#if !NETFX_CORE
-                // Not supported on Win8 Store apps... only sets xna coords
-                XnaMouse.SetPosition( wcx, wcy );
-#endif
-            }
-        }
-
         /// <summary>
         /// Kursorin paikka ruutukoordinaateissa.
         /// </summary>
@@ -86,14 +76,18 @@ namespace Jypeli
         {
             get
             {
-                return CurrentState.Position;
+                Vector pos = ScreenView.FromXnaCoords( CurrentState.Position, screen.ViewportSize, Vector.Zero );
+                return pos.Transform( screen.GetScreenTransform() );
             }
             set
             {
-#if !NETFX_CORE
-                // Not supported on Win8 Store apps... only sets xna coords
-                CurrentState = new MouseState( CurrentState, value );
-                XnaMouse.SetPosition( wcx + (int)value.X, wcy - (int)value.Y );
+#if !WINRT
+                // Not supported on WinRT... only sets xna coords
+                Vector pos = value.Transform( screen.GetScreenInverse() );
+                XnaV2 xnapos = ScreenView.ToXnaCoords( pos, screen.ViewportSize, Vector.Zero );
+
+                CurrentState = new MouseState( CurrentState, xnapos );
+                XnaMouse.SetPosition( (int)xnapos.X, (int)xnapos.Y );
 #endif
             }
         }
@@ -120,7 +114,14 @@ namespace Jypeli
         {
             get
             {
-                return new Vector( CurrentState.X - PrevState.X, CurrentState.Y - PrevState.Y );
+                Matrix screenTransform = screen.GetScreenTransform();
+
+                Vector curScr = ScreenView.FromXnaCoords( CurrentState.Position, screen.ViewportSize, Vector.Zero );
+                Vector prevScr = ScreenView.FromXnaCoords( PrevState.Position, screen.ViewportSize, Vector.Zero );               
+                Vector curr = curScr.Transform( screenTransform );
+                Vector prev = prevScr.Transform( screenTransform );
+
+                return curr - prev;
             }
         }
 
@@ -131,8 +132,14 @@ namespace Jypeli
         {
             get
             {
-                Vector lastPosOnWorld = Game.Instance.Camera.ScreenToWorld( PrevState.Position );
-                return PositionOnWorld - lastPosOnWorld;
+                Matrix screenTransform = screen.GetScreenTransform();
+
+                Vector curScr = ScreenView.FromXnaCoords( CurrentState.Position, screen.ViewportSize, Vector.Zero );
+                Vector prevScr = ScreenView.FromXnaCoords( PrevState.Position, screen.ViewportSize, Vector.Zero );
+                Vector curr = curScr.Transform( screenTransform );
+                Vector prev = prevScr.Transform( screenTransform );
+
+                return Game.Instance.Camera.ScreenToWorld( curr ) - Game.Instance.Camera.ScreenToWorld( prev );
             }
         }
 
@@ -159,10 +166,21 @@ namespace Jypeli
             }
         }
 
-        internal Mouse()
+        internal Mouse( ScreenView screen )
         {
             var xnaState = XnaMouse.GetState();
-            CurrentState = new MouseState( CurrentState, new Vector( xnaState.X, xnaState.Y ) );
+            CurrentState = new MouseState( CurrentState, new XnaV2( xnaState.X, xnaState.Y ) );
+            this.screen = screen;
+        }
+
+        private void SetPosition( Vector pos )
+        {
+#if !WINRT
+            // Not supported on WinRT... only sets xna coords
+            Vector screenpos = pos.Transform( screen.GetScreenInverse() );
+            XnaV2 center = ScreenView.ToXnaCoords( screenpos, screen.ViewportSize, Vector.Zero );
+            XnaMouse.SetPosition( (int)center.X, (int)center.Y );
+#endif
         }
 
         internal override MouseState GetState()
@@ -170,8 +188,7 @@ namespace Jypeli
             var xnaState = XnaMouse.GetState();
             MouseState state = new MouseState();
 
-            state.X = xnaState.X - wcx;
-            state.Y = -( xnaState.Y - wcy );
+            state.Position = new XnaV2( xnaState.X, xnaState.Y );
             state.LeftDown = xnaState.LeftButton == XnaButtonState.Pressed;
             state.RightDown = xnaState.RightButton == XnaButtonState.Pressed;
             state.MiddleDown = xnaState.MiddleButton == XnaButtonState.Pressed;
@@ -179,11 +196,11 @@ namespace Jypeli
             state.X2Down = xnaState.XButton2 == XnaButtonState.Pressed;
             state.Wheel = xnaState.ScrollWheelValue;
 
-#if !NETFX_CORE
+#if !WINRT
             if ( !IsCursorVisible )
             {
                 // Reset the mouse to the center of the screen
-                XnaMouse.SetPosition( wcx, wcy );
+                SetPosition( Vector.Zero );
             }
 #endif
 

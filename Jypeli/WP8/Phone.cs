@@ -53,11 +53,11 @@ namespace Jypeli
             get { return _displayResolution; }
             set
             {
-                if ( _displayResolution != value )
-                {
-                    _displayResolution = value;
-                    ResetScreen();
-                }
+                if ( _displayResolution == value )
+                    return;
+
+                _displayResolution = value;
+                if ( Game.Instance != null && Game.Screen != null ) ResetScreen();
             }
         }
 
@@ -69,12 +69,12 @@ namespace Jypeli
             get { return _displayOrientation; }
             set
             {
-                if ( _displayOrientation != value )
-                {
-                    _displayOrientation = value;
-                    //Game.Instance.Accelerometer.DisplayOrientation = value;
-                    ResetScreen();
-                }
+                if ( _displayOrientation == value )
+                    return;
+
+                _displayOrientation = value;
+                //Game.Instance.Accelerometer.DisplayOrientation = value;
+                if ( Game.Instance != null && Game.Screen != null ) UpdateOrientation();
             }
         }
 
@@ -93,36 +93,28 @@ namespace Jypeli
             }
         }
 
+        private void UpdateOrientation()
+        {
+            if ( _displayOrientation == DisplayOrientation.Portrait || _displayOrientation == DisplayOrientation.PortraitInverse )
+            {
+                Game.Screen.Size = Game.Screen.ViewportSize;
+                Game.Screen.Angle = _displayOrientation == DisplayOrientation.PortraitInverse ? Angle.StraightAngle : Angle.Zero;
+            }
+            else
+            {
+                Game.Screen.Size = Game.Screen.ViewportSize.Transpose();
+                Game.Screen.Angle = _displayOrientation == DisplayOrientation.LandscapeRight ? Angle.RightAngle : -Angle.RightAngle;
+            }
+        }
+
         internal void ResetScreen()
         {
 #if WINDOWS_PHONE
             int screenWidth, screenHeight;
             GraphicsDeviceManager graphics = Game.GraphicsDeviceManager;
             GetScreenSize( _displayResolution, out screenWidth, out screenHeight );
-
-            switch ( _displayOrientation )
-            {
-                case DisplayOrientation.Landscape:
-                    graphics.SupportedOrientations = Microsoft.Xna.Framework.DisplayOrientation.LandscapeLeft | Microsoft.Xna.Framework.DisplayOrientation.LandscapeRight;
-                    Game.Instance.DoSetWindowSize( screenHeight, screenWidth, true );
-                    break;
-                case DisplayOrientation.LandscapeLeft:
-                    graphics.SupportedOrientations = Microsoft.Xna.Framework.DisplayOrientation.LandscapeLeft;
-                    Game.Instance.DoSetWindowSize( screenHeight, screenWidth, true );
-                    break;
-                case DisplayOrientation.LandscapeRight:
-                    graphics.SupportedOrientations = Microsoft.Xna.Framework.DisplayOrientation.LandscapeRight;
-                    Game.Instance.DoSetWindowSize( screenHeight, screenWidth, true );
-                    break;
-                case DisplayOrientation.Portrait:
-                    graphics.SupportedOrientations = Microsoft.Xna.Framework.DisplayOrientation.Portrait;
-                    Game.Instance.DoSetWindowSize( screenWidth, screenHeight, true );
-                    break;
-                default:
-                    break;
-            }
-
             graphics.ApplyChanges();
+            UpdateOrientation();
 #endif
         }
     }
@@ -133,7 +125,7 @@ namespace Jypeli
     public enum DisplayOrientation
     {
         /// <summary>
-        /// Vaakasuuntainen. näyttö kääntyy automaattisesti, jos puhelin käännetään toisinpäin.
+        /// Vaakasuuntainen.
         /// </summary>
         Landscape,
 
@@ -151,6 +143,11 @@ namespace Jypeli
         /// Pystysuuntainen.
         /// </summary>
         Portrait,
+
+        /// <summary>
+        /// Pystysuuntainen, ylösalaisin käännetty.
+        /// </summary>
+        PortraitInverse,
     }
 
     /// <summary>

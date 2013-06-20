@@ -224,6 +224,17 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Palauttaa satunnaisen aikavälin.
+        /// </summary>
+        /// <param name="minSeconds">Minimikesto sekunteina</param>
+        /// <param name="maxSeconds">Maksimikesto sekunteina</param>
+        /// <returns></returns>
+        public static TimeSpan NextTimeSpan( double minSeconds, double maxSeconds )
+        {
+            return TimeSpan.FromSeconds( NextDouble( minSeconds, maxSeconds ) );
+        }
+
+        /// <summary>
         /// Palauttaa satunnaisen kokonaisluvun annettujen todennäköisyyksien
         /// perusteella.
         /// </summary>

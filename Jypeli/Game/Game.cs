@@ -71,11 +71,8 @@ namespace Jypeli
         {
             InitXnaContent();
             InitInstance();
-            InitPhone();
             InitXnaGraphics();
-            InitControls();
-            InitLayers();
-            InitPhysics();
+            InitPhone();
         }
 
         private void InitInstance()
@@ -104,7 +101,6 @@ namespace Jypeli
         {
 #if WINDOWS_PHONE
             isFullScreenRequested = true;
-            //Phone.ResetScreen();
 #elif !LINUX
 			// Let Linux use the default 800x480 window size, seems to work best with OpenTK
 			if ( !windowSizeSet )
@@ -148,6 +144,11 @@ namespace Jypeli
         {
             // Graphics initialization is best done here when window size is set for certain
             InitGraphics();
+            Phone.ResetScreen();
+            InitControls();
+            InitLayers();
+            InitPhysics();
+            
             base.LoadContent();
             loadContentHasBeenCalled = true;
             addMessageDisplay();
@@ -161,7 +162,7 @@ namespace Jypeli
         [EditorBrowsable( EditorBrowsableState.Never )]
         protected override void Draw( GameTime gameTime )
         {
-            GraphicsDevice.SetRenderTarget( Screen.renderTarget );
+            GraphicsDevice.SetRenderTarget( Screen.RenderTarget );
 			GraphicsDevice.Clear( Level.BackgroundColor.AsXnaColor() );
 
             if ( Level.Background.Image != null && !Level.Background.MovesWithCamera )

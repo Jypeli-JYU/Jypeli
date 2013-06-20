@@ -41,6 +41,7 @@ namespace Jypeli
     /// </summary>
     public class Touch
     {
+        private ScreenView screen;
         protected Vector2 _previousPosition;
         protected Vector2 _position;
 
@@ -63,7 +64,7 @@ namespace Jypeli
         {
             get
             {
-                return Game.Screen.FromXnaCoords( _position, Vector.Zero );
+                return ScreenView.FromXnaCoords( _position, screen.ViewportSize, Vector.Zero ).Transform( screen.GetScreenTransform() );
             }
         }
 
@@ -102,8 +103,9 @@ namespace Jypeli
 
         public TouchLocationState State { get; internal set; }
 
-        internal Touch( TouchLocation location )
+        internal Touch( ScreenView screen, TouchLocation location )
         {
+            this.screen = screen;
             this.Id = location.Id;
             this._position = this._previousPosition = location.Position;
         }

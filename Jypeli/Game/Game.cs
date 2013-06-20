@@ -189,7 +189,7 @@ namespace Jypeli
             Graphics.Canvas.End();
 
             // Render the scene on screen
-            Screen.Render( Level.BackgroundColor );
+            Screen.Render();
 
             base.Draw( gameTime );
         }

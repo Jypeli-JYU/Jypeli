@@ -93,7 +93,7 @@ namespace Jypeli
         private void InitControls()
         {
             Keyboard = new Keyboard();
-            Mouse = new Mouse();
+            Mouse = new Mouse( Screen );
             TouchPanel = new TouchPanel( Screen );
 
             _gamePads = new GamePad[4];

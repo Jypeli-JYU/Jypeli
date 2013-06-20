@@ -152,7 +152,6 @@ namespace Jypeli
         private void InitGraphics()
         {
             Viewport viewPort = GraphicsDevice.Viewport;
-            Mouse.Viewport = viewPort;
             Screen = new ScreenView( GraphicsDevice );
             Jypeli.Graphics.Initialize();
 

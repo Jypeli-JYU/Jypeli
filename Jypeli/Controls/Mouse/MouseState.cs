@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Jypeli.Controls
 {
@@ -17,14 +18,14 @@ namespace Jypeli.Controls
             { ButtonState.Up, ButtonState.Pressed,
                 ButtonState.Released, ButtonState.Down };
 
-        public double X;
-        public double Y;
+        public float X;
+        public float Y;
         public int ButtonMask;
         public int Wheel;
 
-        public Vector Position
+        public Vector2 Position
         {
-            get { return new Vector( X, Y ); }
+            get { return new Vector2( X, Y ); }
             set
             {
                 X = value.X;
@@ -89,7 +90,7 @@ namespace Jypeli.Controls
             return states[oldDown + newDown];
         }
 
-        public MouseState( MouseState oldState, Vector position )
+        public MouseState( MouseState oldState, Vector2 position )
         {
             this.X = position.X;
             this.Y = position.Y;

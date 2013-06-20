@@ -336,11 +336,25 @@ namespace Jypeli
         /// <summary>
         /// Palauttaa transformaatiomatriisin jolla voi ottaa huomioon ruudun kokoon,
         /// kiertoon ja paikkaan tehdyt muutokset.
+        /// Ennen transformaatiota: paikkavektori ikkunan koordinaateissa
+        /// Transformaation jälkeen: paikkavektori RenderTargetin koordinaateissa
         /// </summary>
         /// <returns></returns>
         internal Matrix GetScreenTransform()
         {
             return Matrix.CreateRotationZ( _angle ) * Matrix.CreateTranslation( -_center.X, -_center.Y, 0 );
+        }
+
+        /// <summary>
+        /// Palauttaa käänteisen transformaatiomatriisin jolla voi ottaa huomioon ruudun kokoon,
+        /// kiertoon ja paikkaan tehdyt muutokset.
+        /// Ennen transformaatiota: paikkavektori RenderTargetin koordinaateissa
+        /// Transformaation jälkeen: paikkavektori ikkunan koordinaateissa
+        /// </summary>
+        /// <returns></returns>
+        internal Matrix GetScreenInverse()
+        {
+            return Matrix.CreateRotationZ( -_angle ) * Matrix.CreateTranslation( _center.X, _center.Y, 0 );
         }
 
         internal void Render()

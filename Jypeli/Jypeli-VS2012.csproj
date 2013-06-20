@@ -56,7 +56,6 @@
     <Compile Include="Controls\ListenContext.cs" />
     <Compile Include="Controls\Mouse\Mouse.cs" />
     <Compile Include="Controls\Mouse\MouseButton.cs" />
-    <Compile Include="Controls\Mouse\MouseState.cs" />
     <Compile Include="Controls\TouchPanel\Touch.cs" />
     <Compile Include="Controls\TouchPanel\TouchListener.cs" />
     <Compile Include="Controls\TouchPanel\TouchPanel.cs" />

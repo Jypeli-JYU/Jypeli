@@ -32,12 +32,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Devices;
 using Microsoft.Xna.Framework;
 
 namespace Jypeli
 {
     /// <summary>
-    /// Aliohjelmia ja ominaisuuksia, jotka toimivat vain puhelimessa. Voidaan kutsua myös PC:lle käännettäessä,
+    /// Aliohjelmia ja ominaisuuksia, jotka toimivat vain puhelimessa. Voidaan kutsua myös muilla alustoilla,
     /// mutta tällöin mitään ei yksinkertaisesti tapahdu.
     /// </summary>
     public class Phone
@@ -76,6 +77,23 @@ namespace Jypeli
                 //Game.Instance.Accelerometer.DisplayOrientation = value;
                 if ( Game.Instance != null && Game.Screen != null ) UpdateOrientation();
             }
+        }
+
+        /// <summary>
+        /// Värisyttää puhelinta.
+        /// </summary>
+        /// <param name="milliSeconds">Värinän kesto millisekunteina.</param>
+        public void Vibrate( int milliSeconds )
+        {
+            VibrateController.Default.Start( TimeSpan.FromMilliseconds( milliSeconds ) );
+        }
+
+        /// <summary>
+        /// Lopettaa puhelimen värinän.
+        /// </summary>
+        public void StopVibrating()
+        {
+            VibrateController.Default.Stop();
         }
 
         private static void GetScreenSize( DisplayResolution resolution, out int width, out int height )
@@ -126,60 +144,5 @@ namespace Jypeli
             UpdateOrientation();
 #endif
         }
-    }
-
-    /// <summary>
-    /// Puhelimen näytön asemointi.
-    /// </summary>
-    public enum DisplayOrientation
-    {
-        /// <summary>
-        /// Vaakasuuntainen.
-        /// </summary>
-        Landscape,
-
-        /// <summary>
-        /// Vaakasuuntainen, vasemmalle käännetty.
-        /// </summary>
-        LandscapeLeft,
-
-        /// <summary>
-        /// Vaakasuuntainen, oikealle käännetty.
-        /// </summary>
-        LandscapeRight,
-
-        /// <summary>
-        /// Pystysuuntainen.
-        /// </summary>
-        Portrait,
-
-        /// <summary>
-        /// Pystysuuntainen, ylösalaisin käännetty.
-        /// </summary>
-        PortraitInverse,
-    }
-
-    /// <summary>
-    /// Puhelimen näytön tarkkuus.
-    /// </summary>
-    public enum DisplayResolution
-    {
-        /// <summary>
-        /// Pieni tarkkuus (WVGA, 400 x 240).
-        /// WP7-yhteensopivuustila, ei varsinaisesti paranna suorituskykyä.
-        /// </summary>
-        Small,
-
-        /// <summary>
-        /// Suuri tarkkuus (WVGA, 800 x 480).
-        /// Oletus WP8:lla.
-        /// </summary>
-        Large,
-
-        /// <summary>
-        /// HD720-tarkkuus (720p, 1280 x 720).
-        /// Ei toimi kaikilla puhelimilla.
-        /// </summary>
-        HD720
     }
 }

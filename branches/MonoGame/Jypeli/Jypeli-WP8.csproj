@@ -237,6 +237,8 @@
     <Compile Include="Widgets\BarGauge.cs" />
     <Compile Include="Widgets\Label.cs" />
     <Compile Include="Widgets\MessageDisplay.cs" />
+    <Compile Include="WP8\DisplayOrientation.cs" />
+    <Compile Include="WP8\DisplayResolution.cs" />
     <Compile Include="WP8\Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -15,7 +15,7 @@ namespace Jypeli
     /// <summary>
     /// Kosketusnäyttö.
     /// </summary>
-    public class TouchPanel
+    public class TouchPanel : Controls.Controller
     {
         protected static readonly Predicate<Touch> AlwaysTrigger = delegate { return true; };
 
@@ -87,6 +87,13 @@ namespace Jypeli
             var empty = touches;
             touches = newTouches;
             newTouches = empty;
+        }
+
+        public void Clear()
+        {
+            DownListeners.Clear();
+            PressListeners.Clear();
+            ReleaseListeners.Clear();
         }
         
         private List<TouchListener> GetList( ButtonState state )

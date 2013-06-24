@@ -38,17 +38,18 @@ namespace Jypeli
 {
     public partial class Game : ControlContexted
     {
-        private ListenContext _context = new ListenContext() { Active = true };
+        private ListenContext _context;
+        private List<Controller> controllers;
         private GamePad[] _gamePads;
         private bool initialized;
 
         /// <summary>
-        /// Näppäimistö
+        /// Näppäimistö.
         /// </summary>
         public Keyboard Keyboard { get; private set; }
 
         /// <summary>
-        /// Hiiri
+        /// Hiiri.
         /// </summary>
         public Mouse Mouse { get; private set; }
 
@@ -56,6 +57,11 @@ namespace Jypeli
         /// Kosketusnäyttö
         /// </summary>
         public TouchPanel TouchPanel { get; private set; }
+
+        /// <summary>
+        /// Puhelimen takaisin-näppäin.
+        /// </summary>
+        public BackButton PhoneBackButton { get; private set; }
 
         /// <summary>
         /// Ensimmäinen peliohjain.
@@ -92,8 +98,11 @@ namespace Jypeli
 
         private void InitControls()
         {
+            _context = new ListenContext() { Active = true };
+
             Keyboard = new Keyboard();
             Mouse = new Mouse( Screen );
+            PhoneBackButton = new BackButton();
             TouchPanel = new TouchPanel( Screen );
 
             _gamePads = new GamePad[4];
@@ -102,24 +111,35 @@ namespace Jypeli
             _gamePads[2] = new GamePad( PlayerIndex.Three );
             _gamePads[3] = new GamePad( PlayerIndex.Four );
 
+            controllers = new List<Controller>();
+            controllers.Add( Keyboard );
+            controllers.Add( Mouse );
+            controllers.Add( TouchPanel );
+#if WINDOWS_PHONE
+            controllers.Add( PhoneBackButton );
+#endif
+            controllers.AddRange( _gamePads );
+
             initialized = true;
         }
 
         private void UpdateControls( Time gameTime )
         {
-            //if ( !initialized ) return;
+            controllers.ForEach( c => c.Update() );
 
-            Keyboard.Update();
-            Mouse.Update();
-            TouchPanel.Update();
-
-            for ( int i = 0; i < _gamePads.Length; i++ )
+            /*for ( int i = 0; i < _gamePads.Length; i++ )
             {
-                _gamePads[i].Update();
-                
                 if (!Game.Instance.IsPaused)
                     _gamePads[i].UpdateVibrations( gameTime );
-            }
+            }*/
+        }
+
+        /// <summary>
+        /// Poistaa kaikki ohjainkuuntelijat.
+        /// </summary>
+        public void ClearControls()
+        {
+            controllers.ForEach( c => c.Clear() );
         }
 
         private void ActivateObject( ControlContexted obj )

@@ -32,8 +32,21 @@ using System.Collections.Generic;
 
 namespace Jypeli.Controls
 {
-    public class Controller
+    /// <summary>
+    /// Ohjainlaite.
+    /// </summary>
+    public interface Controller
     {
+        /// <summary>
+        /// Poistaa kaikki kuuntelijat.
+        /// </summary>
+        void Clear();
+
+        /// <summary>
+        /// Lukee uuden tilan laitteelta ja päivittää sen nykyiseksi sekä
+        /// laukaisee tapahtumia.
+        /// </summary>
+        void Update();
     }
 
     /// <summary>
@@ -78,6 +91,11 @@ namespace Jypeli.Controls
         protected void AddListener( ChangePredicate<ControllerState> rule, string helpText, Delegate handler, params object[] args )
         {
             listeners.Add( new Listener<ControllerState>( rule, helpText, handler, args ) );
+        }
+
+        public void Clear()
+        {
+            listeners.Clear();
         }
     }
 }

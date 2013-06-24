@@ -56,8 +56,8 @@ namespace Jypeli
 
         bool IsInside( Vector point );
 
-        //void Add( GameObject childObject );
-        //void Remove( GameObject childObject );
+        void Add( GameObject childObject );
+        void Remove( GameObject childObject );
 
         void Move( Vector movement );
         void MoveTo( Vector location, double speed, Action doWhenArrived );
@@ -80,7 +80,7 @@ namespace Jypeli
     public interface IGameObjectInternal : IGameObject
     {
         Layer Layer { set; }
-        //List<Listener> AssociatedListeners { get; }
+        List<Listener> AssociatedListeners { get; }
 
         void Update( Time time );
 

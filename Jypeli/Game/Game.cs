@@ -206,7 +206,7 @@ namespace Jypeli
 /*#if !WINDOWS_PHONE
             ClearLights();
 #endif*/
-            //ClearControls();
+            ClearControls();
             GC.Collect();
             ControlContext.Enable();
         }

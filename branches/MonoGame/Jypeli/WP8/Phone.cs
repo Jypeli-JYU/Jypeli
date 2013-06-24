@@ -43,7 +43,7 @@ namespace Jypeli
     public class Phone
     {
         private DisplayOrientation _displayOrientation = DisplayOrientation.Landscape;
-        private DisplayResolution _displayResolution = DisplayResolution.Small;
+        private DisplayResolution _displayResolution = DisplayResolution.Large;
 
         /// <summary>
         /// Puhelimen näytön tarkkuus.
@@ -82,27 +82,36 @@ namespace Jypeli
         {
             switch ( resolution )
             {
-                case DisplayResolution.Small:
-                    width = 480;
-                    height = 800;
-                    break;
-                default:
+                case DisplayResolution.HD720:
                     width = 720;
                     height = 1280;
+                    break;
+                default:
+                    width = 480;
+                    height = 800;
                     break;
             }
         }
 
         private void UpdateOrientation()
         {
+            Vector defaultSize = Game.Screen.ViewportSize;
+            Vector defaultScale = Vector.Diagonal;
+
+            if ( _displayResolution == DisplayResolution.Small )
+            {
+                defaultSize = new Vector( 240, 400 );
+                defaultScale = new Vector( Game.Screen.ViewportSize.Y / defaultSize.X, Game.Screen.ViewportSize.X / defaultSize.Y );
+            }
+
             if ( _displayOrientation == DisplayOrientation.Portrait || _displayOrientation == DisplayOrientation.PortraitInverse )
             {
-                Game.Screen.Size = Game.Screen.ViewportSize;
+                Game.Screen.Size = defaultSize;
                 Game.Screen.Angle = _displayOrientation == DisplayOrientation.PortraitInverse ? Angle.StraightAngle : Angle.Zero;
             }
             else
             {
-                Game.Screen.Size = Game.Screen.ViewportSize.Transpose();
+                Game.Screen.Size = defaultSize.Transpose();
                 Game.Screen.Angle = _displayOrientation == DisplayOrientation.LandscapeRight ? Angle.RightAngle : -Angle.RightAngle;
             }
         }
@@ -156,14 +165,21 @@ namespace Jypeli
     public enum DisplayResolution
     {
         /// <summary>
-        /// Pieni tarkkuus (WVGA, 800 x 480).
-        /// Parempi suorituskyky ja pienempi akun kulutus.
+        /// Pieni tarkkuus (WVGA, 400 x 240).
+        /// WP7-yhteensopivuustila, ei varsinaisesti paranna suorituskykyä.
         /// </summary>
         Small,
 
         /// <summary>
-        /// Suuri tarkkuus (720p, 1280 x 720).
+        /// Suuri tarkkuus (WVGA, 800 x 480).
+        /// Oletus WP8:lla.
         /// </summary>
         Large,
+
+        /// <summary>
+        /// HD720-tarkkuus (720p, 1280 x 720).
+        /// Ei toimi kaikilla puhelimilla.
+        /// </summary>
+        HD720
     }
 }

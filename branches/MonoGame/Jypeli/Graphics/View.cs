@@ -46,6 +46,9 @@ namespace Jypeli
         private RenderTarget2D _renderTarget = null;
         private SpriteBatch renderBatch;
         private Vector2 _center = Vector2.Zero;
+        private Vector3 _scale = Vector3.One;
+        private Vector2 _scale2 = Vector2.One;
+        private Vector3 _scaleInv = Vector3.One;
         private Point _size;
         private float _angle = 0;
         private SpriteEffects _effect = SpriteEffects.None;
@@ -173,6 +176,20 @@ namespace Jypeli
         {
             get { return Angle.FromRadians( -_angle ); }
             set { _angle = -(float)value.Radians; }
+        }
+
+        /// <summary>
+        /// Näytön skaalaus.
+        /// </summary>
+        public Vector Scale
+        {
+            get { return new Vector( _scale.X, _scale.Y ); }
+            set
+            {
+                _scale = new Vector3( (float)value.X, (float)value.Y, 1 );
+                _scale2 = new Vector2( _scale.X, _scale.Y );
+                _scaleInv = new Vector3( 1 / _scale.X, 1 / _scale.Y, 1 );
+            }
         }
 
         /// <summary>
@@ -342,7 +359,9 @@ namespace Jypeli
         /// <returns></returns>
         internal Matrix GetScreenTransform()
         {
-            return Matrix.CreateRotationZ( _angle ) * Matrix.CreateTranslation( -_center.X, -_center.Y, 0 );
+            return Matrix.CreateScale( _scale )
+                * Matrix.CreateRotationZ( _angle )
+                * Matrix.CreateTranslation( -_center.X, -_center.Y, 0 );
         }
 
         /// <summary>
@@ -354,7 +373,9 @@ namespace Jypeli
         /// <returns></returns>
         internal Matrix GetScreenInverse()
         {
-            return Matrix.CreateRotationZ( -_angle ) * Matrix.CreateTranslation( _center.X, _center.Y, 0 );
+            return Matrix.CreateScale( _scaleInv )
+                * Matrix.CreateRotationZ( -_angle )
+                * Matrix.CreateTranslation( _center.X, _center.Y, 0 );
         }
 
         internal void Render()
@@ -370,7 +391,7 @@ namespace Jypeli
             Vector2 diff = Vector2.Transform( -rtorigin, rotate );
 
             renderBatch.Begin( SpriteSortMode.Immediate, BlendState.Opaque );
-            renderBatch.Draw( RenderTarget, devorigin + diff + _center, null, _color, angle, Vector2.Zero, 1, _effect, 1 );
+            renderBatch.Draw( RenderTarget, devorigin + diff + _center, null, _color, angle, Vector2.Zero, _scale2, _effect, 1 );
             renderBatch.End();
         }
     }

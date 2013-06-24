@@ -172,8 +172,10 @@
     <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
     <Compile Include="Widgets\MessageDisplay.cs" />
+	<Compile Include="WP8\DisplayOrientation.cs" />
+    <Compile Include="WP8\DisplayResolution.cs" />
+	<Compile Include="WP8\PhoneStub.cs" />
     <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
-    <Compile Include="WP8\Phone.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />

@@ -126,12 +126,7 @@ namespace Jypeli
         private void UpdateControls( Time gameTime )
         {
             controllers.ForEach( c => c.Update() );
-
-            /*for ( int i = 0; i < _gamePads.Length; i++ )
-            {
-                if (!Game.Instance.IsPaused)
-                    _gamePads[i].UpdateVibrations( gameTime );
-            }*/
+            //_gamePads.ForEach( g => g.UpdateVibrations( gameTime ) );
         }
 
         /// <summary>

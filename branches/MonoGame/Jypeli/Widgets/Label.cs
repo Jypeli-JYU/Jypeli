@@ -457,11 +457,11 @@ namespace Jypeli
             switch ( HorizontalAlignment )
             {
                 case HorizontalAlignment.Center:
-                    return -TextSize.X / 2;
+                    return 0;
                 case HorizontalAlignment.Left:
-                    return -Width / 2 + XMargin;
+                    return ( -Width + TextSize.X ) / 2 + XMargin;
                 case HorizontalAlignment.Right:
-                    return Width / 2 - TextSize.X - XMargin;
+                    return ( Width / 2 - TextSize.X ) - XMargin;
                 default:
                     return XMargin;
             }
@@ -472,13 +472,13 @@ namespace Jypeli
             switch ( VerticalAlignment )
             {
                 case VerticalAlignment.Center:
-                    return -TextSize.Y / 2;
+                    return 0;
                 case VerticalAlignment.Top:
-                    return -Size.Y / 2 - YMargin;
+                    return ( Size.Y - TextSize.Y ) / 2 - YMargin;
                 case VerticalAlignment.Bottom:
-                    return Size.Y / 2 - TextSize.Y + YMargin;
+                    return ( -Size.Y + TextSize.Y ) / 2 + YMargin;
                 default:
-                    return -YMargin;
+                    return YMargin;
             }
         }
 

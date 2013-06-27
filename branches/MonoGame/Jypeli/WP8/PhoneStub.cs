@@ -47,5 +47,9 @@ namespace Jypeli
         public void StopVibrating()
         {
         }
+
+        internal void ResetScreen()
+        {
+        }
     }
 }

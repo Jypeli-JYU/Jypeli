@@ -59,6 +59,7 @@
     <Compile Include="Controls\TouchPanel\Touch.cs" />
     <Compile Include="Controls\TouchPanel\TouchListener.cs" />
     <Compile Include="Controls\TouchPanel\TouchPanel.cs" />
+	<Compile Include="Controls\BackButton\BackButton.cs" />
     <Compile Include="DataTypes\Angle.cs" />
     <Compile Include="DataTypes\BoundingRectangle.cs" />
     <Compile Include="DataTypes\Direction.cs" />
@@ -187,33 +188,6 @@
     <Compile Include="WP8\DisplayResolution.cs" />
 	<Compile Include="WP8\PhoneStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Content\ContentResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ContentResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\AsRifle.xnb" />
-    <None Include="Content\Auto.xnb" />
-    <None Include="Content\Bullet.xnb" />
-    <None Include="Content\Cannon.xnb" />
-    <None Include="Content\CannonBall.xnb" />
-    <None Include="Content\CannonFire.xnb" />
-    <None Include="Content\DownArrow.xnb" />
-    <None Include="Content\explosion.xnb" />
-    <None Include="Content\explosion2.xnb" />
-    <None Include="Content\explosionSound.xnb" />
-    <None Include="Content\Grenade.xnb" />
-    <None Include="Content\implosionSound.xnb" />
-    <None Include="Content\laser.xnb" />
-    <None Include="Content\MGAttack.xnb" />
-    <None Include="Content\PlasmaAttack.xnb" />
-    <None Include="Content\PlasmaCannon.xnb" />
-    <None Include="Content\smoke.xnb" />
-    <None Include="Content\Tank.xnb" />
-    <None Include="Content\UpArrow.xnb" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK">

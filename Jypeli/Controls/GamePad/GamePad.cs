@@ -232,10 +232,10 @@ namespace Jypeli
         /// <param name="state">Napin tila</param>
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public void Listen( Button button, ButtonState state, Action handler, string helpText )
+        public Listener Listen( Button button, ButtonState state, Action handler, string helpText )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( button, state );
-            AddListener( rule, helpText, handler );
+            return AddListener( rule, helpText, handler );
         }
 
         /// <summary>
@@ -247,10 +247,10 @@ namespace Jypeli
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri kuuntelija-aliohjelmalle</param>
-        public void Listen<T>( Button button, ButtonState state, Action<T> handler, string helpText, T p )
+        public Listener Listen<T>( Button button, ButtonState state, Action<T> handler, string helpText, T p )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( button, state );
-            AddListener( rule, helpText, handler, p );
+            return AddListener( rule, helpText, handler, p );
         }
 
         /// <summary>
@@ -264,10 +264,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
-        public void Listen<T1, T2>( Button button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener Listen<T1, T2>( Button button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( button, state );
-            AddListener( rule, helpText, handler, p1, p2 );
+            return AddListener( rule, helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -283,10 +283,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p3">3. parametri kuuntelija-aliohjelmalle</param>
-        public void Listen<T1, T2, T3>( Button button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener Listen<T1, T2, T3>( Button button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( button, state );
-            AddListener( rule, helpText, handler, p1, p2, p3 );
+            return AddListener( rule, helpText, handler, p1, p2, p3 );
         }
 
         /// <summary>
@@ -297,10 +297,10 @@ namespace Jypeli
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <returns></returns>
-        public void ListenAnalog( AnalogControl control, double trigger, Action<AnalogState> handler, string helpText )
+        public Listener ListenAnalog( AnalogControl control, double trigger, Action<AnalogState> handler, string helpText )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            AddListener( rule, helpText, handler );
+            return AddListener( rule, helpText, handler );
         }
 
         /// <summary>
@@ -313,10 +313,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri</param>
         /// <returns></returns>
-        public void ListenAnalog<T>( AnalogControl control, double trigger, Action<AnalogState, T> handler, string helpText, T p )
+        public Listener ListenAnalog<T>( AnalogControl control, double trigger, Action<AnalogState, T> handler, string helpText, T p )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            AddListener( rule, helpText, handler, p );
+            return AddListener( rule, helpText, handler, p );
         }
 
         /// <summary>
@@ -331,10 +331,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
         /// <returns></returns>
-        public void ListenAnalog<T1, T2>( AnalogControl control, double trigger, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener ListenAnalog<T1, T2>( AnalogControl control, double trigger, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            AddListener( rule, helpText, handler, p1, p2 );
+            return AddListener( rule, helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -351,10 +351,10 @@ namespace Jypeli
         /// <param name="p2">2. parametri</param>
         /// <param name="p3">3. parametri</param>
         /// <returns></returns>
-        public void ListenAnalog<T1, T2, T3>( AnalogControl control, double trigger, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener ListenAnalog<T1, T2, T3>( AnalogControl control, double trigger, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            AddListener( rule, helpText, handler, p1, p2, p3 );
+            return AddListener( rule, helpText, handler, p1, p2, p3 );
         }
     }
 }

@@ -282,10 +282,10 @@ namespace Jypeli
         /// <param name="state">Napin tila</param>
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public void Listen( MouseButton button, ButtonState state, Action handler, string helpText )
+        public Listener Listen( MouseButton button, ButtonState state, Action handler, string helpText )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            AddListener( rule, helpText, handler );
+            return AddListener( rule, helpText, handler );
         }
 
         /// <summary>
@@ -297,10 +297,10 @@ namespace Jypeli
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri kuuntelija-aliohjelmalle</param>
-        public void Listen<T>( MouseButton button, ButtonState state, Action<T> handler, string helpText, T p )
+        public Listener Listen<T>( MouseButton button, ButtonState state, Action<T> handler, string helpText, T p )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            AddListener( rule, helpText, handler, p );
+            return AddListener( rule, helpText, handler, p );
         }
 
         /// <summary>
@@ -314,10 +314,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
-        public void Listen<T1, T2>( MouseButton button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener Listen<T1, T2>( MouseButton button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            AddListener( rule, helpText, handler, p1, p2 );
+            return AddListener( rule, helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -333,10 +333,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p3">3. parametri kuuntelija-aliohjelmalle</param>
-        public void Listen<T1, T2, T3>( MouseButton button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener Listen<T1, T2, T3>( MouseButton button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            AddListener( rule, helpText, handler, p1, p2, p3 );
+            return AddListener( rule, helpText, handler, p1, p2, p3 );
         }
 
         /// <summary>
@@ -345,10 +345,10 @@ namespace Jypeli
         /// <param name="trigger">Raja jonka liikkeen tulee ylittää</param>
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public void ListenMovement( double trigger, Action handler, string helpText )
+        public Listener ListenMovement( double trigger, Action handler, string helpText )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            AddListener( rule, helpText, handler );
+            return AddListener( rule, helpText, handler );
         }
 
         /// <summary>
@@ -359,10 +359,10 @@ namespace Jypeli
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri kuuntelija-aliohjelmalle</param>
-        public void ListenMovement<T>( double trigger, Action<T> handler, string helpText, T p )
+        public Listener ListenMovement<T>( double trigger, Action<T> handler, string helpText, T p )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            AddListener( rule, helpText, handler, p );
+            return AddListener( rule, helpText, handler, p );
         }
 
         /// <summary>
@@ -375,10 +375,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
-        public void ListenMovement<T1, T2>( double trigger, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener ListenMovement<T1, T2>( double trigger, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            AddListener( rule, helpText, handler, p1, p2 );
+            return AddListener( rule, helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -393,10 +393,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p3">3. parametri kuuntelija-aliohjelmalle</param>
-        public void ListenMovement<T1, T2, T3>( double trigger, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener ListenMovement<T1, T2, T3>( double trigger, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            AddListener( rule, helpText, handler, p1, p2, p3 );
+            return AddListener( rule, helpText, handler, p1, p2, p3 );
         }
 
         #region Backwards compatibility
@@ -439,10 +439,10 @@ namespace Jypeli
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
-        public void Listen( MouseButton button, ButtonState state, Action<AnalogState> handler, string helpText )
+        public Listener Listen( MouseButton button, ButtonState state, Action<AnalogState> handler, string helpText )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            AddListener( rule, helpText, handler, new MouseAnalogState( this ) );
+            return AddListener( rule, helpText, handler, new MouseAnalogState( this ) );
         }
 
         /// <summary>
@@ -455,10 +455,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri kuuntelija-aliohjelmalle</param>
         [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
-        public void Listen<T>( MouseButton button, ButtonState state, Action<AnalogState, T> handler, string helpText, T p )
+        public Listener Listen<T>( MouseButton button, ButtonState state, Action<AnalogState, T> handler, string helpText, T p )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            AddListener( rule, helpText, handler, new MouseAnalogState( this ), p );
+            return AddListener( rule, helpText, handler, new MouseAnalogState( this ), p );
         }
 
         /// <summary>
@@ -473,10 +473,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
         [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
-        public void Listen<T1, T2>( MouseButton button, ButtonState state, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener Listen<T1, T2>( MouseButton button, ButtonState state, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            AddListener( rule, helpText, handler, new MouseAnalogState( this ), p1, p2 );
+            return AddListener( rule, helpText, handler, new MouseAnalogState( this ), p1, p2 );
         }
 
         /// <summary>
@@ -493,10 +493,10 @@ namespace Jypeli
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p3">3. parametri kuuntelija-aliohjelmalle</param>
         [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
-        public void Listen<T1, T2, T3>( MouseButton button, ButtonState state, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener Listen<T1, T2, T3>( MouseButton button, ButtonState state, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            AddListener( rule, helpText, handler, new MouseAnalogState( this ), p1, p2, p3 );
+            return AddListener( rule, helpText, handler, new MouseAnalogState( this ), p1, p2, p3 );
         }
 
         /// <summary>
@@ -506,10 +506,10 @@ namespace Jypeli
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
-        public void ListenMovement( double trigger, Action<AnalogState> handler, string helpText )
+        public Listener ListenMovement( double trigger, Action<AnalogState> handler, string helpText )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            AddListener( rule, helpText, handler, new MouseAnalogState( this ) );
+            return AddListener( rule, helpText, handler, new MouseAnalogState( this ) );
         }
 
         /// <summary>
@@ -521,10 +521,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri kuuntelija-aliohjelmalle</param>
         [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
-        public void ListenMovement<T>( double trigger, Action<AnalogState, T> handler, string helpText, T p )
+        public Listener ListenMovement<T>( double trigger, Action<AnalogState, T> handler, string helpText, T p )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            AddListener( rule, helpText, handler, new MouseAnalogState( this ), p );
+            return AddListener( rule, helpText, handler, new MouseAnalogState( this ), p );
         }
 
         /// <summary>
@@ -538,10 +538,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
         [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
-        public void ListenMovement<T1, T2>( double trigger, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener ListenMovement<T1, T2>( double trigger, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            AddListener( rule, helpText, handler, new MouseAnalogState( this ), p1, p2 );
+            return AddListener( rule, helpText, handler, new MouseAnalogState( this ), p1, p2 );
         }
 
         /// <summary>
@@ -557,10 +557,10 @@ namespace Jypeli
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p3">3. parametri kuuntelija-aliohjelmalle</param>
         [Obsolete( "Käytä ilman AnalogStatea. Hiiren liikkeen saa Mouse.MovementOnScreen tai Mouse.MovementOnWorld" )]
-        public void ListenMovement<T1, T2, T3>( double trigger, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener ListenMovement<T1, T2, T3>( double trigger, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            AddListener( rule, helpText, handler, new MouseAnalogState( this ), p1, p2, p3 );
+            return AddListener( rule, helpText, handler, new MouseAnalogState( this ), p1, p2, p3 );
         }
 
         #endregion

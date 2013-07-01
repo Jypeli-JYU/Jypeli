@@ -133,14 +133,13 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Jypeli\Jypeli-VS2010.csproj">
       <Project>{5FE042B2-05F4-47A9-BC92-2E6E1C5356E9}</Project>
       <Name>Jypeli-VS2010</Name>
     </ProjectReference>
     <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
-      <Project>{da65b249-9290-4a09-a48c-443a65845583}</Project>
+      <Project>{DA65B249-9290-4A09-A48C-443A65845583}</Project>
       <Name>MonoGame.Framework.WindowsGL</Name>
     </ProjectReference>
   </ItemGroup>

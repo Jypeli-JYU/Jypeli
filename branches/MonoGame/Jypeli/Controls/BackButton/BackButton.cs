@@ -32,9 +32,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="handler">Tapahtumankäsittelijä.</param>
         /// <param name="helpText">Ohjeteksti.</param>
-        public void Listen( Action handler, string helpText )
+        public Listener Listen( Action handler, string helpText )
         {
-            AddListener( BackButton.ButtonDown, helpText, handler );
+            return AddListener( BackButton.ButtonDown, helpText, handler );
         }
 
         /// <summary>
@@ -44,9 +44,9 @@ namespace Jypeli
         /// <param name="handler">Tapahtumankäsittelijä.</param>
         /// <param name="helpText">Ohjeteksti.</param>
         /// <param name="p">Parametri.</param>
-        public void Listen<T>( Action handler, string helpText, T p )
+        public Listener Listen<T>( Action handler, string helpText, T p )
         {
-            AddListener( BackButton.ButtonDown, helpText, handler, p );
+            return AddListener( BackButton.ButtonDown, helpText, handler, p );
         }
 
         /// <summary>
@@ -58,9 +58,9 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti.</param>
         /// <param name="p1">1. parametri.</param>
         /// <param name="p2">2. parametri.</param>
-        public void Listen<T1, T2>( Action handler, string helpText, T1 p1, T2 p2 )
+        public Listener Listen<T1, T2>( Action handler, string helpText, T1 p1, T2 p2 )
         {
-            AddListener( BackButton.ButtonDown, helpText, handler, p1, p2 );
+            return AddListener( BackButton.ButtonDown, helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -74,9 +74,9 @@ namespace Jypeli
         /// <param name="p1">1. parametri.</param>
         /// <param name="p2">2. parametri.</param>
         /// <param name="p3">3. parametri.</param>
-        public void Listen<T1, T2, T3>( Action handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener Listen<T1, T2, T3>( Action handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
-            AddListener( BackButton.ButtonDown, helpText, handler, p1, p2, p3 );
+            return AddListener( BackButton.ButtonDown, helpText, handler, p1, p2, p3 );
         }
     }
 }

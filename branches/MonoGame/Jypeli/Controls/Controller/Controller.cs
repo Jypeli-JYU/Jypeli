@@ -88,9 +88,11 @@ namespace Jypeli.Controls
             listeners.ForEach( l => l.CheckAndInvoke( PrevState, CurrentState ) );
         }
 
-        protected void AddListener( ChangePredicate<ControllerState> rule, string helpText, Delegate handler, params object[] args )
+        protected Listener AddListener( ChangePredicate<ControllerState> rule, string helpText, Delegate handler, params object[] args )
         {
-            listeners.Add( new Listener<ControllerState>( rule, helpText, handler, args ) );
+            var l = new Listener<ControllerState>( rule, Game.Instance.ControlContext, helpText, handler, args );
+            listeners.Add( l );
+            return l;
         }
 
         public void Clear()

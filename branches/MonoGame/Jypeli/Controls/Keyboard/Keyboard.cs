@@ -76,10 +76,10 @@ namespace Jypeli
         /// <param name="state">Näppäimen tila</param>
         /// <param name="handler">Mitä tehdään</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public void Listen( Key k, ButtonState state, Action handler, string helpText )
+        public Listener Listen( Key k, ButtonState state, Action handler, string helpText )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            AddListener( rule, helpText, handler );
+            return AddListener( rule, helpText, handler );
         }
 
         /// <summary>
@@ -91,10 +91,10 @@ namespace Jypeli
         /// <param name="handler">Mitä tehdään</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri</param>
-        public void Listen<T>( Key k, ButtonState state, Action<T> handler, string helpText, T p )
+        public Listener Listen<T>( Key k, ButtonState state, Action<T> handler, string helpText, T p )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            AddListener( rule, helpText, handler, p );
+            return AddListener( rule, helpText, handler, p );
         }
 
 		/// <summary>
@@ -108,10 +108,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri</param>
 		/// <param name="p2">2. parametri</param>
-        public void Listen<T1, T2>( Key k, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener Listen<T1, T2>( Key k, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            AddListener( rule, helpText, handler, p1, p2 );
+            return AddListener( rule, helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -126,10 +126,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
         /// <param name="p3">3. parametri</param>
-        public void Listen<T1, T2, T3>( Key k, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener Listen<T1, T2, T3>( Key k, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            AddListener( rule, helpText, handler, p1, p2, p3 );
+            return AddListener( rule, helpText, handler, p1, p2, p3 );
         }
     }
 }

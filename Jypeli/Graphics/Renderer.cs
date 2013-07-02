@@ -293,7 +293,7 @@ namespace Jypeli
         public static void DrawText( string text, ref Matrix transformation, Font font, Color color )
         {
             Vector textSize = (Vector)font.XnaFont.MeasureString( text );
-            Matrix m = ScreenView.ToXnaCoords( Game.Screen.GetScreenTransform() * transformation, Game.Screen.Size, textSize );
+            Matrix m = ScreenView.ToXnaCoords( transformation, Game.Screen.Size, textSize );
 
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
             spriteBatch.Begin( SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, m );

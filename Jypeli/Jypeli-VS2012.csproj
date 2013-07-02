@@ -59,6 +59,7 @@
     <Compile Include="Controls\TouchPanel\Touch.cs" />
     <Compile Include="Controls\TouchPanel\TouchListener.cs" />
     <Compile Include="Controls\TouchPanel\TouchPanel.cs" />
+	<Compile Include="Controls\BackButton\BackButton.cs" />
     <Compile Include="DataTypes\Angle.cs" />
     <Compile Include="DataTypes\BoundingRectangle.cs" />
     <Compile Include="DataTypes\Direction.cs" />

@@ -41,8 +41,24 @@
     <Compile Include="Content\AsRifle.cs" />
     <Compile Include="Content\Auto.cs" />
     <Compile Include="Content\Bullet.cs" />
+    <Compile Include="Content\Cannon.cs" />
+    <Compile Include="Content\CannonBall.cs" />
+    <Compile Include="Content\CannonFire.cs" />
+    <Compile Include="Content\DownArrow.cs" />
+    <Compile Include="Content\Explosion.cs" />
+    <Compile Include="Content\Explosion2.cs" />
+    <Compile Include="Content\ExplosionSound.cs" />
+    <Compile Include="Content\Grenade.cs" />
+    <Compile Include="Content\ImplosionSound.cs" />
     <Compile Include="Content\JypeliContentManager.cs" />
+    <Compile Include="Content\Laser.cs" />
     <Compile Include="Content\MediumFont.cs" />
+    <Compile Include="Content\MGAttack.cs" />
+    <Compile Include="Content\PlasmaAttack.cs" />
+    <Compile Include="Content\PlasmaCannon.cs" />
+    <Compile Include="Content\Smoke.cs" />
+    <Compile Include="Content\Tank.cs" />
+    <Compile Include="Content\UpArrow.cs" />
     <Compile Include="Controls\Controller\AnalogControl.cs" />
     <Compile Include="Controls\Controller\AnalogState.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />
@@ -59,7 +75,7 @@
     <Compile Include="Controls\TouchPanel\Touch.cs" />
     <Compile Include="Controls\TouchPanel\TouchListener.cs" />
     <Compile Include="Controls\TouchPanel\TouchPanel.cs" />
-	<Compile Include="Controls\BackButton\BackButton.cs" />
+    <Compile Include="Controls\BackButton\BackButton.cs" />
     <Compile Include="DataTypes\Angle.cs" />
     <Compile Include="DataTypes\BoundingRectangle.cs" />
     <Compile Include="DataTypes\Direction.cs" />
@@ -186,7 +202,7 @@
     <Compile Include="Widgets\MessageDisplay.cs" />
     <Compile Include="WP8\DisplayOrientation.cs" />
     <Compile Include="WP8\DisplayResolution.cs" />
-	<Compile Include="WP8\PhoneStub.cs" />
+    <Compile Include="WP8\PhoneStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

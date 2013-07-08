@@ -101,7 +101,7 @@ namespace Jypeli
 
         public void CheckAndInvoke( Touch touch )
         {
-            if ( !IsDestroyed && Context != null && Context.IsDestroyed && Context.Active && isTriggered( touch ) )
+            if ( !IsDestroyed && Context != null && !Context.IsDestroyed && Context.Active && isTriggered( touch ) )
                 Invoke( touch );
         }
 

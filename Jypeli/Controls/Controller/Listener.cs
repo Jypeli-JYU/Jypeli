@@ -123,7 +123,7 @@ namespace Jypeli
 
         public void CheckAndInvoke( State oldState, State newState )
         {
-            if ( !IsDestroyed && Context != null && Context.IsDestroyed && Context.Active && isTriggered( oldState, newState ) )
+            if ( !IsDestroyed && Context != null && !Context.IsDestroyed && Context.Active && isTriggered( oldState, newState ) )
                 Invoke();
         }
 

@@ -63,6 +63,7 @@
     <Compile Include="Controls\Controller\AnalogState.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />
     <Compile Include="Controls\Controller\Controller.cs" />
+    <Compile Include="Controls\Controller\HoverState.cs" />
     <Compile Include="Controls\Controller\Listener.cs" />
     <Compile Include="Controls\GamePad\Button.cs" />
     <Compile Include="Controls\GamePad\GamePad.cs" />

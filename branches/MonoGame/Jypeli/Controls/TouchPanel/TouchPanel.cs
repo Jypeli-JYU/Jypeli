@@ -95,6 +95,27 @@ namespace Jypeli
             PressListeners.Clear();
             ReleaseListeners.Clear();
         }
+
+        public IEnumerable<string> GetHelpTexts()
+        {
+            foreach ( var l in PressListeners )
+            {
+                if ( l.HelpText != null )
+                    yield return String.Format( "TouchPanel Press", l.HelpText );
+            }
+
+            foreach ( var l in DownListeners )
+            {
+                if ( l.HelpText != null )
+                    yield return String.Format( "TouchPanel Down", l.HelpText );
+            }
+
+            foreach ( var l in ReleaseListeners )
+            {
+                if ( l.HelpText != null )
+                    yield return String.Format( "TouchPanel Release", l.HelpText );
+            }
+        }
         
         private List<TouchListener> GetList( ButtonState state )
         {

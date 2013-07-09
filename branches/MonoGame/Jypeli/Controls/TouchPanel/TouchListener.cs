@@ -8,17 +8,29 @@ using Jypeli.Controls;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Kuuntelija kosketusnäytölle.
+    /// </summary>
     public struct TouchListener : Listener
     {
         private Predicate<Touch> isTriggered;
         private Delegate handler;
         private object[] handlerParams;
-        private string helpText;
         private bool isDestroyed;
+        private string _helpText;
 
         private bool dynamicContext;
         private ListenContext context;
         private ControlContexted contextedObject;
+
+        /// <summary>
+        /// Ohjeteksti.
+        /// </summary>
+        public string HelpText
+        {
+            get { return _helpText; }
+            set { _helpText = value; }
+        }
 
         internal ListenContext Context
         {
@@ -31,7 +43,7 @@ namespace Jypeli
             this.Destroyed = null;
             this.isTriggered = triggerRule;
             this.handler = handler;
-            this.helpText = helpText;
+            this._helpText = helpText;
             this.dynamicContext = false;
             this.context = context;
             this.contextedObject = null;
@@ -50,7 +62,7 @@ namespace Jypeli
             this.Destroyed = null;
             this.isTriggered = triggerRule;
             this.handler = handler;
-            this.helpText = helpText;
+            this._helpText = helpText;
             this.dynamicContext = true;
             this.context = null;
             this.contextedObject = contexted;

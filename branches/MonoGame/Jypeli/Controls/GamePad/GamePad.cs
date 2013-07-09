@@ -198,6 +198,16 @@ namespace Jypeli
             throw new ArgumentException( control.ToString() + " is not a valid analog control for a GamePad" );
         }
 
+        private string GetButtonName( Button b )
+        {
+            return String.Format( "GamePad{0} {1}", playerIndex.ToString(), b.ToString() );
+        }
+
+        private string GetAnalogName( AnalogControl a )
+        {
+            return String.Format( "GamePad{0} {1}", playerIndex.ToString(), a.ToString() );
+        }
+
         /// <summary>
         /// Täristää peliohjainta.
         /// </summary>
@@ -235,7 +245,7 @@ namespace Jypeli
         public Listener Listen( Button button, ButtonState state, Action handler, string helpText )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, helpText, handler );
+            return AddListener( rule, GetButtonName( button ), helpText, handler );
         }
 
         /// <summary>
@@ -250,7 +260,7 @@ namespace Jypeli
         public Listener Listen<T>( Button button, ButtonState state, Action<T> handler, string helpText, T p )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, helpText, handler, p );
+            return AddListener( rule, GetButtonName( button ), helpText, handler, p );
         }
 
         /// <summary>
@@ -267,7 +277,7 @@ namespace Jypeli
         public Listener Listen<T1, T2>( Button button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, helpText, handler, p1, p2 );
+            return AddListener( rule, GetButtonName( button ), helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -286,7 +296,7 @@ namespace Jypeli
         public Listener Listen<T1, T2, T3>( Button button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, helpText, handler, p1, p2, p3 );
+            return AddListener( rule, GetButtonName( button ), helpText, handler, p1, p2, p3 );
         }
 
         /// <summary>
@@ -300,7 +310,7 @@ namespace Jypeli
         public Listener ListenAnalog( AnalogControl control, double trigger, Action<AnalogState> handler, string helpText )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            return AddListener( rule, helpText, handler );
+            return AddListener( rule, GetAnalogName( control ), helpText, handler );
         }
 
         /// <summary>
@@ -316,7 +326,7 @@ namespace Jypeli
         public Listener ListenAnalog<T>( AnalogControl control, double trigger, Action<AnalogState, T> handler, string helpText, T p )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            return AddListener( rule, helpText, handler, p );
+            return AddListener( rule, GetAnalogName( control ), helpText, handler, p );
         }
 
         /// <summary>
@@ -334,7 +344,7 @@ namespace Jypeli
         public Listener ListenAnalog<T1, T2>( AnalogControl control, double trigger, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            return AddListener( rule, helpText, handler, p1, p2 );
+            return AddListener( rule, GetAnalogName( control ), helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -354,7 +364,7 @@ namespace Jypeli
         public Listener ListenAnalog<T1, T2, T3>( AnalogControl control, double trigger, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            return AddListener( rule, helpText, handler, p1, p2, p3 );
+            return AddListener( rule, GetAnalogName( control ), helpText, handler, p1, p2, p3 );
         }
     }
 }

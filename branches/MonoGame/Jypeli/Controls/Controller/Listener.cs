@@ -72,8 +72,10 @@ namespace Jypeli
         private ChangePredicate<State> isTriggered;
         private Delegate handler;
         private object[] handlerParams;
-        private string helpText;
         private bool isDestroyed;
+
+        private string _controlName;
+        private string _helpText;
 
         private bool dynamicContext;
         private ListenContext context;
@@ -84,12 +86,31 @@ namespace Jypeli
             get { return ( dynamicContext ? contextedObject.ControlContext : context ); }
         }
 
-        public Listener( ChangePredicate<State> triggerRule, ListenContext context, string helpText, Delegate handler, params object[] args )
+        /// <summary>
+        /// Kontrollin nimi jota kuunnellaan. Käytetään vain ohjeen yhteydessä.
+        /// </summary>
+        public string ControlName
+        {
+            get { return _controlName; }
+            set { _controlName = value; }
+        }
+
+        /// <summary>
+        /// Ohjeteksti.
+        /// </summary>
+        public string HelpText
+        {
+            get { return _helpText; }
+            set { _helpText = value; }
+        }
+
+        public Listener( ChangePredicate<State> triggerRule, ListenContext context, string controlName, string helpText, Delegate handler, params object[] args )
         {
             this.isDestroyed = false;
             this.isTriggered = triggerRule;
             this.handler = handler;
-            this.helpText = helpText;
+            this._controlName = controlName;
+            this._helpText = helpText;
             this.handlerParams = args;
             this.Destroyed = null;
             this.dynamicContext = false;
@@ -97,12 +118,13 @@ namespace Jypeli
             this.contextedObject = null;
         }
 
-        public Listener( ChangePredicate<State> triggerRule, ControlContexted contexted, string helpText, Delegate handler, params object[] args )
+        public Listener( ChangePredicate<State> triggerRule, ControlContexted contexted, string controlName, string helpText, Delegate handler, params object[] args )
         {
             this.isDestroyed = false;
             this.isTriggered = triggerRule;
             this.handler = handler;
-            this.helpText = helpText;
+            this._controlName = controlName;
+            this._helpText = helpText;
             this.handlerParams = args;
             this.Destroyed = null;
             this.dynamicContext = true;

@@ -47,6 +47,12 @@ namespace Jypeli.Controls
         /// laukaisee tapahtumia.
         /// </summary>
         void Update();
+
+        /// <summary>
+        /// Palauttaa asetettujen kuuntelijoiden ohjetekstit.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<string> GetHelpTexts();
     }
 
     /// <summary>
@@ -88,9 +94,9 @@ namespace Jypeli.Controls
             listeners.ForEach( l => l.CheckAndInvoke( PrevState, CurrentState ) );
         }
 
-        protected Listener AddListener( ChangePredicate<ControllerState> rule, string helpText, Delegate handler, params object[] args )
+        protected Listener AddListener( ChangePredicate<ControllerState> rule, string controlName, string helpText, Delegate handler, params object[] args )
         {
-            var l = new Listener<ControllerState>( rule, Game.Instance.ControlContext, helpText, handler, args );
+            var l = new Listener<ControllerState>( rule, Game.Instance.ControlContext, controlName, helpText, handler, args );
             listeners.Add( l );
             return l;
         }
@@ -98,6 +104,15 @@ namespace Jypeli.Controls
         public void Clear()
         {
             listeners.Clear();
+        }
+
+        public IEnumerable<string> GetHelpTexts()
+        {
+            foreach ( var l in listeners )
+            {
+                if ( l.ControlName != null && l.HelpText != null )
+                    yield return String.Format( "{0} - {1}", l.ControlName, l.HelpText );
+            }
         }
     }
 }

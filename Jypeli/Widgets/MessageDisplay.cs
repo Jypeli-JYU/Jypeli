@@ -233,6 +233,13 @@ namespace Jypeli
             }
         }
 
+        public void Add( IEnumerable<string> strings )
+        {
+            // TODO: optimization?
+            foreach ( string s in strings )
+                Add( s );
+        }
+
         /// <summary>
         /// Lis‰‰ uuden viestin n‰kym‰‰n.
         /// </summary>

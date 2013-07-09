@@ -69,6 +69,22 @@ namespace Jypeli
             return AlwaysTrigger;
         }
 
+        private string GetKeyName( Key k )
+        {
+            string keyStr = k.ToString();
+
+            if ( k == Key.OemQuotes ) keyStr = "ä";
+            if ( k == Key.OemTilde ) keyStr = "ö";
+            if ( k == Key.OemPlus || k == Key.Add ) keyStr = "+";
+            if ( k == Key.Subtract ) keyStr = "-";
+            if ( k == Key.Multiply ) keyStr = "*";
+            if ( k == Key.Divide ) keyStr = "/";
+            if ( k == Key.Aring ) keyStr = "å";
+            if ( k == Key.LessOrGreater ) keyStr = "<";
+
+            return "Keyboard " + keyStr;
+        }
+
         /// <summary>
         /// Kuuntelee näppäinten painalluksia.
         /// </summary>
@@ -79,7 +95,7 @@ namespace Jypeli
         public Listener Listen( Key k, ButtonState state, Action handler, string helpText )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, helpText, handler );
+            return AddListener( rule, GetKeyName( k ), helpText, handler );
         }
 
         /// <summary>
@@ -94,7 +110,7 @@ namespace Jypeli
         public Listener Listen<T>( Key k, ButtonState state, Action<T> handler, string helpText, T p )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, helpText, handler, p );
+            return AddListener( rule, GetKeyName( k ), helpText, handler, p );
         }
 
 		/// <summary>
@@ -111,7 +127,7 @@ namespace Jypeli
         public Listener Listen<T1, T2>( Key k, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, helpText, handler, p1, p2 );
+            return AddListener( rule, GetKeyName( k ), helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -129,7 +145,7 @@ namespace Jypeli
         public Listener Listen<T1, T2, T3>( Key k, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, helpText, handler, p1, p2, p3 );
+            return AddListener( rule, GetKeyName( k ), helpText, handler, p1, p2, p3 );
         }
     }
 }

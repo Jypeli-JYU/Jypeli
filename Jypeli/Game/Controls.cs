@@ -137,6 +137,22 @@ namespace Jypeli
             controllers.ForEach( c => c.Clear() );
         }
 
+        /// <summary>
+        /// Näyttää kontrollien ohjetekstit.
+        /// </summary>
+        public void ShowControlHelp()
+        {
+            controllers.ForEach( c => MessageDisplay.Add( c.GetHelpTexts() ) );
+        }
+
+        /// <summary>
+        /// Näyttää kontrollien ohjetekstit tietylle ohjaimelle.
+        /// </summary>
+        public void ShowControlHelp( Controller controller )
+        {
+            MessageDisplay.Add( controller.GetHelpTexts() );
+        }
+
         private void ActivateObject( ControlContexted obj )
         {
             obj.ControlContext.Active = true;

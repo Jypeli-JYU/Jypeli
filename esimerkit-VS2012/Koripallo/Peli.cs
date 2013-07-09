@@ -306,6 +306,9 @@ public class Koripallo : PhysicsGame
 
     void HeitaHiirella( AnalogState state )
     {
+        //MessageDisplay.RealTime = true;
+        //MessageDisplay.Add( String.Format( "({0}, {1})", Mouse.PositionOnScreen.X, Mouse.PositionOnScreen.Y ) );
+
         if ( onHeittamassa )
         {
             pallo.Position = Mouse.PositionOnWorld;
@@ -388,21 +391,20 @@ public class Koripallo : PhysicsGame
         TouchPanel.Listen( ButtonState.Down, HeitaKosketuksella, null );
         //PhoneBackButton.Listen(ConfirmExit,"Lopettaa pelin");
 
-        Keyboard.Listen( Key.Space, ButtonState.Down, laskeVoima, "Pidä pohjassa heiton voimakk5uuden säätämiseen." );
+        Keyboard.Listen( Key.Space, ButtonState.Down, laskeVoima, "Pidä pohjassa heiton voimakkuuden säätämiseen." );
         Keyboard.Listen( Key.Space, ButtonState.Released, heitaPallo, null );
         Keyboard.Listen( Key.Left, ButtonState.Down, pyoritaPalloa, "Anna pallolle alakierrettä.", 0.2 );
         Keyboard.Listen( Key.Right, ButtonState.Down, pyoritaPalloa, "Anna pallolle yläkierrettä.", -0.2 );
 
-        /* TODO ShowControlHelp
-        Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet");
-        Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Poistu"); */
+        Keyboard.Listen( Key.F1, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet" );
+        //Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Poistu");
 
         ControllerOne.Listen( Button.RightTrigger, ButtonState.Down, laskeVoimaPadilla, "Pidä pohjassa heiton voimakkuuden säätämiseen." );
         ControllerOne.Listen( Button.RightTrigger, ButtonState.Released, heitaPallo, null );
         ControllerOne.Listen( Button.RightStick, ButtonState.Up, pyoritaPalloaPadilla, "Anna pallolle kierrettä." );
         ControllerOne.Listen( Button.A, ButtonState.Pressed, asetaPallo, "Palauta pallo alkutilanteeseen" );
 
-        //ControllerOne.Listen( Button.Start, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet" );
+        ControllerOne.Listen( Button.Start, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet" );
         ControllerOne.Listen( Button.Back, ButtonState.Pressed, Exit, "Poistu" );
     }
 
@@ -410,7 +412,7 @@ public class Koripallo : PhysicsGame
     {
         SetWindowSize( 1024, 768 );
     }
-
+    
     public override void Begin()
     {
         Phone.DisplayOrientation = DisplayOrientation.Portrait;

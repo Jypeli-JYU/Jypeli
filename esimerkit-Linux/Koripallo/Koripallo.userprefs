@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../../../../Jypeli/MonoKaannos/Jypeli/Graphics/View.cs">
+    <Files>
+      <File FileName="Koripallo/Peli.cs" Line="419" Column="9" />
+      <File FileName="../../Jypeli/Game/Graphics.cs" Line="137" Column="59" />
+      <File FileName="../../../../../../../Jypeli/MonoKaannos/Jypeli/Game/Graphics.cs" Line="146" Column="5" />
+      <File FileName="../../Jypeli/Graphics/View.cs" Line="318" Column="25" />
+      <File FileName="../../../../../../../Jypeli/MonoKaannos/Jypeli/Graphics/View.cs" Line="257" Column="37" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

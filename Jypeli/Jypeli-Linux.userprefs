@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="AdvanceMath/Matrix2x3.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Content/JypeliContentManager.cs">
     <Files>
-      <File FileName="AdvanceMath/Matrix2x3.cs" Line="434" Column="20" />
+      <File FileName="AdvanceMath/Matrix2x3.cs" Line="423" Column="10" />
+      <File FileName="Content/JypeliContentManager.cs" Line="8" Column="42" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

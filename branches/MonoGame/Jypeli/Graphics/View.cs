@@ -21,6 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+using System;
+
+
 #endregion
 
 /*
@@ -237,7 +240,10 @@ namespace Jypeli
         /// </summary>
         public double ViewportWidth
         {
-            get { return device.Viewport.Width; }
+			get
+            {
+				return Game.GraphicsDeviceManager.PreferredBackBufferWidth;
+            }
         }
 
         /// <summary>
@@ -245,7 +251,10 @@ namespace Jypeli
         /// </summary>
         public double ViewportHeight
         {
-            get { return device.Viewport.Height; }
+            get
+            {
+                return Game.GraphicsDeviceManager.PreferredBackBufferHeight;
+            }
         }
 
         /// <summary>
@@ -253,7 +262,7 @@ namespace Jypeli
         /// </summary>
         public Vector ViewportSize
         {
-            get { return new Vector( device.Viewport.Width, device.Viewport.Height ); }
+            get { return new Vector( ViewportWidth, ViewportHeight ); }
         }
 
         /// <summary>
@@ -295,6 +304,12 @@ namespace Jypeli
 
         public double WidthSafe { get { return RightSafe - LeftSafe; } }
         public double HeightSafe { get { return TopSafe - BottomSafe; } }
+
+		public void ScaleToFit()
+		{
+			// TODO: Angle
+			this.Scale = new Vector( ViewportSize.X / Size.X, ViewportSize.Y / Size.Y );
+		}
 
         /// <summary>
         /// Muuntaa XNA:n ruutukoordinaateista Jypelin ruutukoordinaateiksi.
@@ -387,7 +402,7 @@ namespace Jypeli
 
             Matrix rotate = Matrix.CreateRotationZ(angle);
             Vector2 devorigin = new Vector2( device.Viewport.Width, device.Viewport.Height ) / 2;
-            Vector2 rtorigin = new Vector2( RenderTarget.Width, RenderTarget.Height ) / 2;
+            Vector2 rtorigin = new Vector2( RenderTarget.Width * _scale.X, RenderTarget.Height * _scale.Y ) / 2;
             Vector2 diff = Vector2.Transform( -rtorigin, rotate );
 
             renderBatch.Begin( SpriteSortMode.Immediate, BlendState.Opaque );

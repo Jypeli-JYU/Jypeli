@@ -10,6 +10,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>JypeliLinux</RootNamespace>
     <AssemblyName>Jypeli</AssemblyName>
+    <ReleaseVersion>6.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,7 +38,16 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Tao.Sdl">
-      <Package>tao-sdl</Package>
+      <HintPath>..\MonoGame\MonoGame.Framework\bin\Linux\Debug\Tao.Sdl.dll</HintPath>
+    </Reference>
+    <Reference Include="Lidgren.Network">
+      <HintPath>..\MonoGame\MonoGame.Framework\bin\Linux\Debug\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\MonoGame\MonoGame.Framework\bin\Linux\Debug\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\MonoGame\MonoGame.Framework\bin\Linux\Debug\OpenTK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -62,7 +72,7 @@
     <Compile Include="Controls\TouchPanel\Touch.cs" />
     <Compile Include="Controls\TouchPanel\TouchListener.cs" />
     <Compile Include="Controls\TouchPanel\TouchPanel.cs" />
-	<Compile Include="Controls\BackButton\BackButton.cs" />
+    <Compile Include="Controls\BackButton\BackButton.cs" />
     <Compile Include="DataTypes\Angle.cs" />
     <Compile Include="DataTypes\BoundingRectangle.cs" />
     <Compile Include="DataTypes\Direction.cs" />
@@ -189,7 +199,7 @@
     <Compile Include="Widgets\MessageDisplay.cs" />
     <Compile Include="WP8\DisplayOrientation.cs" />
     <Compile Include="WP8\DisplayResolution.cs" />
-	<Compile Include="WP8\PhoneStub.cs" />
+    <Compile Include="WP8\PhoneStub.cs" />
     <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -206,18 +216,4 @@
     <Folder Include="WP8\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.Linux.csproj">
-      <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
-      <Name>MonoGame.Framework.Linux</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.Linux.csproj">
-      <Project>{AE483C29-042E-4226-BA52-D247CE7676DA}</Project>
-      <Name>Lidgren.Network.Linux</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\opentk\Source\OpenTK\OpenTK.csproj">
-      <Project>{A37A7E14-0000-0000-0000-000000000000}</Project>
-      <Name>OpenTK</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

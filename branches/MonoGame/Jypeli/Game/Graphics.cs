@@ -134,14 +134,27 @@ namespace Jypeli
         /// <returns></returns>
         internal void DoSetWindowSize( int width, int height, bool fullscreen )
         {
-            GraphicsDeviceManager.PreferredBackBufferWidth = width;
+			GraphicsDeviceManager.PreferredBackBufferWidth = width;
             GraphicsDeviceManager.PreferredBackBufferHeight = height;
             GraphicsDeviceManager.IsFullScreen = fullscreen;
-            GraphicsDeviceManager.ApplyChanges();
+            
+#if LINUX
+			if (fullscreen)
+			{
+				GraphicsDeviceManager.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+				GraphicsDeviceManager.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+			}
+#endif
+
+			GraphicsDeviceManager.ApplyChanges();
             isFullScreenRequested = fullscreen;
 
             if ( Screen != null )
                 Screen.Size = new Vector( width, height );
+
+#if LINUX
+			Screen.ScaleToFit();
+#endif
 
             windowSizeSet = true;
         }

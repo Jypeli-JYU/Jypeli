@@ -39,8 +39,7 @@ namespace Jypeli
     public partial class Game : ControlContexted
     {
         private ListenContext _context;
-        private List<Controller> controllers;
-        private GamePad[] _gamePads;
+        private List<Controller> _controllers;
         private bool initialized;
 
         /// <summary>
@@ -64,24 +63,29 @@ namespace Jypeli
         public BackButton PhoneBackButton { get; private set; }
 
         /// <summary>
+        /// Taulukko kaikista peliohjaimista järjestyksessä.
+        /// </summary>
+        public GamePad[] GameControllers { get; private set; } 
+
+        /// <summary>
         /// Ensimmäinen peliohjain.
         /// </summary>
-        public GamePad ControllerOne { get { return _gamePads[0]; } }
+        public GamePad ControllerOne { get { return GameControllers[0]; } }
 
         /// <summary>
         /// Toinen peliohjain.
         /// </summary>
-        public GamePad ControllerTwo { get { return _gamePads[1]; } }
+        public GamePad ControllerTwo { get { return GameControllers[1]; } }
 
         /// <summary>
         /// Kolmas peliohjain.
         /// </summary>
-        public GamePad ControllerThree { get { return _gamePads[2]; } }
+        public GamePad ControllerThree { get { return GameControllers[2]; } }
 
         /// <summary>
         /// Neljäs peliohjain.
         /// </summary>
-        public GamePad ControllerFour { get { return _gamePads[3]; } }
+        public GamePad ControllerFour { get { return GameControllers[3]; } }
 
         /// <summary>
         /// Pelin pääohjainkonteksti.
@@ -105,27 +109,27 @@ namespace Jypeli
             PhoneBackButton = new BackButton();
             TouchPanel = new TouchPanel( Screen );
 
-            _gamePads = new GamePad[4];
-            _gamePads[0] = new GamePad( PlayerIndex.One );
-            _gamePads[1] = new GamePad( PlayerIndex.Two );
-            _gamePads[2] = new GamePad( PlayerIndex.Three );
-            _gamePads[3] = new GamePad( PlayerIndex.Four );
+            GameControllers = new GamePad[4];
+            GameControllers[0] = new GamePad( PlayerIndex.One );
+            GameControllers[1] = new GamePad( PlayerIndex.Two );
+            GameControllers[2] = new GamePad( PlayerIndex.Three );
+            GameControllers[3] = new GamePad( PlayerIndex.Four );
 
-            controllers = new List<Controller>();
-            controllers.Add( Keyboard );
-            controllers.Add( Mouse );
-            controllers.Add( TouchPanel );
+            _controllers = new List<Controller>();
+            _controllers.Add( Keyboard );
+            _controllers.Add( Mouse );
+            _controllers.Add( TouchPanel );
 #if WINDOWS_PHONE
             controllers.Add( PhoneBackButton );
 #endif
-            controllers.AddRange( _gamePads );
+            _controllers.AddRange( GameControllers );
 
             initialized = true;
         }
 
         private void UpdateControls( Time gameTime )
         {
-            controllers.ForEach( c => c.Update() );
+            _controllers.ForEach( c => c.Update() );
             //_gamePads.ForEach( g => g.UpdateVibrations( gameTime ) );
         }
 
@@ -134,7 +138,7 @@ namespace Jypeli
         /// </summary>
         public void ClearControls()
         {
-            controllers.ForEach( c => c.Clear() );
+            _controllers.ForEach( c => c.Clear() );
         }
 
         /// <summary>
@@ -142,7 +146,7 @@ namespace Jypeli
         /// </summary>
         public void ShowControlHelp()
         {
-            controllers.ForEach( c => MessageDisplay.Add( c.GetHelpTexts() ) );
+            _controllers.ForEach( c => MessageDisplay.Add( c.GetHelpTexts() ) );
         }
 
         /// <summary>

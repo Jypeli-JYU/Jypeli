@@ -63,9 +63,9 @@ namespace Jypeli
         public BackButton PhoneBackButton { get; private set; }
 
         /// <summary>
-        /// Taulukko kaikista peliohjaimista järjestyksessä.
+        /// Lista kaikista peliohjaimista järjestyksessä.
         /// </summary>
-        public GamePad[] GameControllers { get; private set; } 
+        public List<GamePad> GameControllers { get; private set; } 
 
         /// <summary>
         /// Ensimmäinen peliohjain.
@@ -109,20 +109,23 @@ namespace Jypeli
             PhoneBackButton = new BackButton();
             TouchPanel = new TouchPanel( Screen );
 
-            GameControllers = new GamePad[4];
-            GameControllers[0] = new GamePad( PlayerIndex.One );
-            GameControllers[1] = new GamePad( PlayerIndex.Two );
-            GameControllers[2] = new GamePad( PlayerIndex.Three );
-            GameControllers[3] = new GamePad( PlayerIndex.Four );
+            GameControllers = new List<GamePad>( 4 );
+            GameControllers.Add( new GamePad( PlayerIndex.One ) );
+            GameControllers.Add( new GamePad( PlayerIndex.Two ) );
+            GameControllers.Add( new GamePad( PlayerIndex.Three ) );
+            GameControllers.Add( new GamePad( PlayerIndex.Four ) );
 
             _controllers = new List<Controller>();
             _controllers.Add( Keyboard );
+#if !WINDOWS_PHONE
             _controllers.Add( Mouse );
+#endif
             _controllers.Add( TouchPanel );
 #if WINDOWS_PHONE
             controllers.Add( PhoneBackButton );
-#endif
+#else
             _controllers.AddRange( GameControllers );
+#endif
 
             initialized = true;
         }

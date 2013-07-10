@@ -108,6 +108,22 @@ namespace Jypeli
                 InstanceInitialized += delegate { actionMethod( o1 ); };
         }
 
+        /// <summary>
+        /// Kysyy haluaako lopettaa pelin ja lopettaa jos vastataan kyllä.
+        /// </summary>
+        public void ConfirmExit()
+        {
+            bool cursorVisible = IsMouseVisible;
+            IsMouseVisible = true;
+
+            YesNoWindow kyselyIkkuna = new YesNoWindow( "Do you want to quit?" );
+            kyselyIkkuna.Yes += Exit;
+            kyselyIkkuna.Closed += delegate { IsMouseVisible = cursorVisible; IsPaused = false; };
+            Add( kyselyIkkuna );
+
+            IsPaused = true;
+        }
+
         protected override void OnExiting( object sender, EventArgs args )
         {
             if ( Exiting != null )

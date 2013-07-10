@@ -202,8 +202,10 @@
     <Compile Include="Widgets\Label.cs" />
     <Compile Include="Widgets\MessageDisplay.cs" />
     <Compile Include="Widgets\MessageWindow.cs" />
+    <Compile Include="Widgets\MultiSelectWindow.cs" />
     <Compile Include="Widgets\PushButton.cs" />
     <Compile Include="Widgets\Window.cs" />
+    <Compile Include="Widgets\YesNoWindow.cs" />
     <Compile Include="WP8\DisplayOrientation.cs" />
     <Compile Include="WP8\DisplayResolution.cs" />
     <Compile Include="WP8\PhoneStub.cs" />

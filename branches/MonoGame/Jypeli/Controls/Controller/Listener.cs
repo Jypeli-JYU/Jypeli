@@ -67,7 +67,7 @@ namespace Jypeli
     /// Ohjaintapahtumien kuuntelija.
     /// </summary>
     /// <typeparam name="State">Tila</typeparam>
-    public struct Listener<State> : Listener
+    public class Listener<State> : Listener
     {
         private ChangePredicate<State> isTriggered;
         private Delegate handler;

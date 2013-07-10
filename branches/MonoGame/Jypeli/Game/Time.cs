@@ -87,7 +87,7 @@ namespace Jypeli
 
             currentRealTime.Advance( gameTime );
 
-            if ( this.IsActive ) UpdateControls( currentTime );
+            UpdateControls( currentTime );
             /*if ( DataStorage.IsUpdated )
                 DataStorage.Update( currentRealTime );*/
 

@@ -11,7 +11,7 @@ namespace Jypeli
     /// <summary>
     /// Kuuntelija kosketusnäytölle.
     /// </summary>
-    public struct TouchListener : Listener
+    public class TouchListener : Listener
     {
         private Predicate<Touch> isTriggered;
         private Delegate handler;

@@ -114,11 +114,10 @@ namespace Jypeli
         public void ConfirmExit()
         {
             bool cursorVisible = IsMouseVisible;
-            IsMouseVisible = true;
 
             YesNoWindow kyselyIkkuna = new YesNoWindow( "Do you want to quit?" );
             kyselyIkkuna.Yes += Exit;
-            kyselyIkkuna.Closed += delegate { IsMouseVisible = cursorVisible; IsPaused = false; };
+            kyselyIkkuna.Closed += delegate { IsPaused = false; };
             Add( kyselyIkkuna );
 
             IsPaused = true;

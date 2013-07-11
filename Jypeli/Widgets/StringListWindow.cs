@@ -35,7 +35,7 @@ using System.Text;
 using System.ComponentModel;
 using Jypeli.GameObjects;
 
-namespace Jypeli.Widgets
+namespace Jypeli
 {
     /// <summary>
     /// Ikkuna, joka sis‰lt‰‰ listan merkkijonoja.

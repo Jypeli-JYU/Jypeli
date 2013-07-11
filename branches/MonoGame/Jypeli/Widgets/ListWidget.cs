@@ -33,7 +33,7 @@ using Microsoft.Xna.Framework;
 using Jypeli.GameObjects;
 using System;
 
-namespace Jypeli.Widgets
+namespace Jypeli
 {
     [EditorBrowsable( EditorBrowsableState.Never )]
     public class ScrollableList<O> : Widget where O : Widget

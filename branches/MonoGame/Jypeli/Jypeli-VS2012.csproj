@@ -200,6 +200,8 @@
     <Compile Include="Widgets\Background.cs" />
     <Compile Include="Widgets\BarGauge.cs" />
     <Compile Include="Widgets\CustomQueryWindow.cs" />
+    <Compile Include="Widgets\InputBox.cs" />
+    <Compile Include="Widgets\InputWindow.cs" />
     <Compile Include="Widgets\Label.cs" />
     <Compile Include="Widgets\ListWidget.cs" />
     <Compile Include="Widgets\MessageDisplay.cs" />

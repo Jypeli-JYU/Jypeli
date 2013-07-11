@@ -33,7 +33,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Jypeli.GameObjects;
 
-namespace Jypeli.Widgets
+namespace Jypeli
 {
     /// <summary>
     /// Käyttöliittymäkomponentti, joka näyttää listan merkkijonoja.

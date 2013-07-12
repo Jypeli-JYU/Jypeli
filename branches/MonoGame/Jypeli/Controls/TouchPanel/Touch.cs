@@ -80,13 +80,35 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Kosketuksen edellinen paikka ruudulla.
+        /// </summary>
+        public Vector PrevPositionOnScreen
+        {
+            get
+            {
+                return ScreenView.FromXnaCoords( _previousPosition, screen.ViewportSize, Vector.Zero ).Transform( screen.GetScreenTransform() );
+            }
+        }
+
+        /// <summary>
+        /// Kosketuksen edellinen paikka pelimaailmassa.
+        /// </summary>
+        public Vector PrevPositionOnWorld
+        {
+            get
+            {
+                return Game.Instance.Camera.ScreenToWorld( PrevPositionOnScreen );
+            }
+        }
+
+        /// <summary>
         /// Kosketuksen liike ruudulla.
         /// </summary>
         public Vector MovementOnScreen
         {
             get
             {
-                return new Vector( _position.X - _previousPosition.X, _previousPosition.Y - _position.Y );
+                return PositionOnScreen - PrevPositionOnScreen;
             }
         }
 
@@ -97,7 +119,7 @@ namespace Jypeli
         {
             get
             {
-                return MovementOnScreen / Game.Instance.Camera.ZoomFactor;
+                return PositionOnWorld - PrevPositionOnWorld;
             }
         }
 

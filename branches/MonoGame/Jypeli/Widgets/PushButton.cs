@@ -148,8 +148,6 @@ namespace Jypeli
         /// </summary>
         public event Action RightClicked;
 
-
-#if WINDOWS_PHONE
         void TouchHover( Touch touch )
         {
             double touchX = touch.PositionOnScreen.X;
@@ -171,7 +169,6 @@ namespace Jypeli
         {
             Click();
         }
-#endif
 
         public PushButton( string text )
             : base( text )
@@ -248,12 +245,10 @@ namespace Jypeli
 
             Game.Mouse.ListenMovement( 1.0, CheckHover, null ).InContext( this );
 
-#if WINDOWS_PHONE
             Game.Instance.TouchPanel.Listen( ButtonState.Down, TouchHover, null ).InContext( this );
             Game.Instance.TouchPanel.ListenOn( this, ButtonState.Released, TouchRelease, null ).InContext( this );
             Game.Instance.TouchPanel.Listen( ButtonState.Released, TouchRelease, null ).InContext( this );
             Game.Instance.TouchPanel.ListenOn(  this, ButtonState.Released, TouchClick, null ).InContext( this );
-#endif
         }
 
         private void InitializeShape()

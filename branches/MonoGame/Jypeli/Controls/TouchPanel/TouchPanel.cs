@@ -37,6 +37,14 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Kuinka monta kosketusta tällä hetkellä ruudulla.
+        /// </summary>
+        public int NumTouches
+        {
+            get { return touches.Count; }
+        }
+
+        /// <summary>
         /// Kuinka monta yhtäaikaista kosketusta näyttö tukee.
         /// </summary>
         public int MaxTouches
@@ -51,7 +59,36 @@ namespace Jypeli
             this.touches = new List<Touch>( caps.MaximumTouchCount );
             this.newTouches = new List<Touch>( caps.MaximumTouchCount );
         }
-        
+
+        /// <summary>
+        /// Kosketetaako oliota.
+        /// </summary>
+        private static bool IsBeingTouched( ScreenView screen, Vector touchOnScreen, GameObject obj )
+        {
+            if ( obj == null || obj.Layer == null || obj.IsDestroyed ) return false;
+            return obj.IsInside( Game.Instance.Camera.ScreenToWorld( touchOnScreen, obj.Layer ) );
+        }
+
+        private static HoverState GetHoverState( Touch touch, GameObject obj )
+        {
+            bool prevOn = IsBeingTouched( Game.Screen, touch.PrevPositionOnScreen, obj );
+            bool currOn = IsBeingTouched( Game.Screen, touch.PositionOnScreen, obj );
+
+            if ( prevOn && currOn ) return HoverState.On;
+            if ( !prevOn && !currOn ) return HoverState.Off;
+            if ( !prevOn && currOn ) return HoverState.Enter;
+            return HoverState.Exit;
+        }
+
+        private Predicate<Touch> MakeTriggerRule( GameObject obj, HoverState hover )
+        {
+            return delegate( Touch touch )
+            {
+                if ( obj == null || obj.IsDestroyed || obj.Layer == null ) return false;
+                return GetHoverState( touch, obj ) == hover;
+            };
+        }
+
         public void Update()
         {
             var xnaTouches = XnaTouchPanel.GetState();
@@ -190,6 +227,32 @@ namespace Jypeli
         public Listener Listen<T1, T2, T3>( ButtonState state, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             return AddListener( GetList( state ), AlwaysTrigger, helpText, handler, p1, p2, p3 );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttöä olion päällä.
+        /// </summary>
+        /// <param name="obj">Olio.</param>
+        /// <param name="hoverstate">Tila siitä onko kursori olion päällä, pois, menossa päälle vai poistumassa</param>
+        /// <param name="buttonstate">Kosketuksen tila</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        public Listener ListenOn( GameObject obj, HoverState hoverstate, ButtonState buttonstate, TouchHandler handler, string helpText )
+        {
+            Predicate<Touch> rule = MakeTriggerRule( obj, hoverstate );
+            return AddListener( GetList( buttonstate ), rule, helpText, handler );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttöä olion päällä.
+        /// </summary>
+        /// <param name="obj">Olio.</param>
+        /// <param name="buttonstate">Kosketuksen tila</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        public Listener ListenOn( GameObject obj, ButtonState buttonstate, TouchHandler handler, string helpText )
+        {
+            return ListenOn( obj, HoverState.On, buttonstate, handler, helpText );
         }
     }
 }

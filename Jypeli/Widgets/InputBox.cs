@@ -153,13 +153,19 @@ namespace Jypeli
         private void onAdded()
         {
             cursorBlinkTimer.Start();
+
+#if WINDOWS || LINUX
             Game.Instance.Window.TextInput += InputText;
+#endif
         }
 
         private void onRemoved()
         {
             cursorBlinkTimer.Stop();
+
+#if WINDOWS || LINUX
             Game.Instance.Window.TextInput -= InputText;
+#endif
         }
 
         private void blinkCursor()
@@ -172,6 +178,7 @@ namespace Jypeli
             Cursor.Left = Math.Min( -Width / 2 + XMargin + TextSize.X, Width / 2 - Font.CharacterWidth );
         }
 
+#if WINDOWS || LINUX
         void InputText( object sender, TextInputEventArgs e )
         {
             if ( !this.ControlContext.Active ) return;
@@ -196,11 +203,12 @@ namespace Jypeli
             
             OnTextChanged();
         }
+#endif
 
 #if WINDOWS_PHONE
         void AddTouchListener()
         {
-            Game.Instance.TouchPanel.ListenOn(this, ButtonState.Pressed, ShowTouchKeyboard, null).InContext( this );
+            Game.Instance.TouchPanel.ListenOn( this, ButtonState.Pressed, ShowTouchKeyboard, null ).InContext( this );
         }
 
         void ShowTouchKeyboard( Touch touch )

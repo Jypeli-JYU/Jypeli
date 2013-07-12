@@ -755,21 +755,7 @@ namespace Jypeli
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, HoverState.On, button, state );
             return AddListener( rule, GetButtonName( button, obj ), helpText, handler, p1, p2, p3 );
         }
-
-        /// <summary>
-        /// Kuuntelee hiiren liikettä kun hiirellä siirrytään olion päälle.
-        /// </summary>
-        /// <param name="obj">Olio, jonka päällä hiiren kursorin tulisi olla.</param>
-        /// <param name="button">Hiiren nappula.</param>
-        /// <param name="state">Nappulan tila.</param>
-        /// <param name="handler">Tapahtuman käsittelijä.</param>
-        /// <param name="helpText">Ohjeteksti.</param>
-        public Listener ListenEnter( GameObject obj, MouseButton button, ButtonState state, Action handler, string helpText )
-        {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( obj, HoverState.On, button, state );
-            return AddListener( rule, GetButtonName( button, obj ), helpText, handler );
-        }
-
+        
 #endregion
     }
 }

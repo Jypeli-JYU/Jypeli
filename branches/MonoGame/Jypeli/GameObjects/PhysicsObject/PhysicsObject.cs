@@ -10,20 +10,41 @@ namespace Jypeli
     public partial class PhysicsObject : GameObject, IPhysicsObjectInternal
     {
         [Save]
+        private int _ignoreGroup = 0;
+
+        [Save]
         private double _storedMomentOfInertia = 1;
 
         [Save]
         public IPhysicsBody Body { get; private set; }
 
-        public int CollisionIgnoreGroup
+        /// <summary>
+        /// Olio, jolla voi välttää oliota osumasta tiettyihin muihin olioihin.
+        /// </summary>
+        public virtual Ignorer CollisionIgnorer { get; set; }
+
+        /// <summary>
+        /// Törmäysryhmä.
+        /// Oliot jotka ovat samassa törmäysryhmässä menevät toistensa läpi.
+        /// Jos ryhmä on nolla tai negatiivinen, sillä ei ole vaikutusta.
+        /// </summary>
+        public virtual int CollisionIgnoreGroup
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return _ignoreGroup; }
             set
             {
-                throw new NotImplementedException();
+                _ignoreGroup = value;
+                
+                if ( _ignoreGroup == 0 )
+                {
+                    this.CollisionIgnorer = null;
+                }
+                else
+                {
+                    var ignorer = new GroupIgnorer();
+                    ignorer.Groups.Add( value );
+                    this.CollisionIgnorer = ignorer;
+                }
             }
         }
 
@@ -83,11 +104,11 @@ namespace Jypeli
         {
             get
             {
-                throw new NotImplementedException();
+                return Body.StaticFriction;
             }
             set
             {
-                throw new NotImplementedException();
+                Body.StaticFriction = value;
             }
         }
 
@@ -178,16 +199,27 @@ namespace Jypeli
         /// Fysiikkamoottori kutsuu kun törmäys tapahtuu
         /// </summary>
         /// <param name="otherObject"></param>
-        public void OnCollided( IPhysicsObject otherObject )
+        public void OnCollided( IPhysicsBody thisBody, IPhysicsBody otherBody )
         {
+            var thisObject = thisBody.Owner;
+            var otherObject = otherBody.Owner;
+
+            if ( thisObject != this || otherObject == null || this.IsDestroyed || otherObject.IsDestroyed == null ) return;
+
             if ( Collided != null )
+            {
+                //if ( otherObject.ParentStructure != null ) Collided( this, otherObject.ParentStructure );
                 Collided( this, otherObject );
+            }
+            
+            //Brain.OnCollision( other );
         }
 
         public PhysicsObject( double width, double height, Shape shape )
             : base( width, height, shape )
         {
-            Body = Game.Instance.PhysicsClient.CreateBody( width, height, shape );
+            Body = Game.Instance.PhysicsClient.CreateBody( this, width, height, shape );
+            Body.Collided += this.OnCollided;
         }
 
         public PhysicsObject( double width, double height )
@@ -214,49 +246,19 @@ namespace Jypeli
             Body.MakeStatic();
         }
 
-        public void Push( Vector force )
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Push( Vector force, TimeSpan time )
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Hit( Vector impulse )
-        {
-            Body.ApplyImpulse( impulse );
-        }
-
-        public void ApplyTorque( double torque )
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StopAxial( Vector axis )
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StopHorizontal()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StopVertical()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StopAngular()
-        {
-            throw new NotImplementedException();
-        }
-
         public bool IsDestroying
         {
             get { throw new NotImplementedException(); }
+        }
+
+        public bool IgnoresCollisionWith( PhysicsObject target )
+        {
+            if ( this.IgnoresCollisionResponse || target.IgnoresCollisionResponse )
+                return true;
+            if ( this.CollisionIgnorer == null || target.CollisionIgnorer == null )
+                return false;
+
+            return !this.CollisionIgnorer.CanCollide( this.Body, target.Body, target.CollisionIgnorer );
         }
 
         public event Action Destroying;

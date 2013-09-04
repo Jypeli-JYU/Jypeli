@@ -1,107 +1,181 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Jypeli;
+using Jypeli.Controls;
+using Jypeli.Widgets;
 
 public class Peli : Game
 {
-    Image norsunkuva;
-    List<Vector> norsut = new List<Vector>();
-
-    public Peli()
-        : base()
-    {
-        SetWindowSize( 1200, 800, false );
-    }
+    StringList vastaukset = new StringList();
+    ScoreList hiscoret;
 
     public override void Begin()
     {
+        SetWindowSize( 1024, 768 );
+
         IsMouseVisible = true;
-        Camera.ZoomFactor = 1;
-        var img = ResourceContent.Load<Microsoft.Xna.Framework.Graphics.Texture2D>( "bullet" );
-        norsunkuva = new Image( img );
-		MediaPlayer.Play("AbracaZebra");
-        //var sound = ResourceContent.Load<Microsoft.Xna.Framework.Audio.SoundEffect>( "laser" );
-        //sound.Play();
-        //norsunkuva = LoadImage( "norsu" );
+        Phone.DisplayOrientation = DisplayOrientation.Portrait;
+        Phone.DisplayResolution = DisplayResolution.Large;
 
-        Camera.ZoomToLevel();
+        PushButton inputNappula = new PushButton( 300, 50, "InputWindow (1)" );
+        inputNappula.Top = Screen.Top - 20;
+        inputNappula.Width = 2 * Screen.Width / 3;
+        inputNappula.Clicked += new Action( ShowInputWindow );
+        //Add( inputNappula );
 
-        GameObject p1 = new GameObject( 200.0, 200.0, Shape.Circle );
-        p1.X = 0.0;
-        p1.Y = Level.Bottom + 100.0;
-        Add( p1 );
+        PushButton viestiNappula = new PushButton( 300, 50, "MessageWindow (2)" );
+        viestiNappula.Top = Screen.Top - 100;
+        viestiNappula.Width = 2 * Screen.Width / 3;
+        viestiNappula.Clicked += new Action( ShowMessageWindow );
+        Add( viestiNappula );
 
-        GameObject p2 = new GameObject( 100.0, 100.0, Shape.Circle );
-        p2.X = 0.0;
-        p2.Y = Level.Bottom + 250.0;
-        Add( p2 );
+        PushButton listaNappula = new PushButton( 300, 50, "StringListWindow (3)" );
+        listaNappula.Top = Screen.Top - 180;
+        listaNappula.Width = 2 * Screen.Width / 3;
+        listaNappula.Clicked += new Action( ShowListWindow );
+        //Add( listaNappula );
 
-        GameObject p3 = new GameObject( 60.0, 60.0, Shape.Circle );
-        p3.X = 0.0;
-        p3.Y = Level.Bottom + 330.0;
-        Add( p3 );
+        PushButton hiscoreNappula = new PushButton( 300, 50, "Parhaat pisteet (4)" );
+        hiscoreNappula.Top = Screen.Top - 260;
+        hiscoreNappula.Width = 2 * Screen.Width / 3;
+        hiscoreNappula.Clicked += new Action( ShowHighScores );
+        //Add( hiscoreNappula );
 
-        Keyboard.Listen( Key.Left, ButtonState.Down, Camera.Move, null, -Vector.UnitX );
-        Keyboard.Listen( Key.Right, ButtonState.Down, Camera.Move, null, Vector.UnitX );
-        Keyboard.Listen( Key.Up, ButtonState.Down, Camera.Move, null, Vector.UnitY );
-        Keyboard.Listen( Key.Down, ButtonState.Down, Camera.Move, null, -Vector.UnitY );
-        Keyboard.Listen( Key.Period, ButtonState.Down, Camera.Zoom, null, 1.1 );
-        Keyboard.Listen( Key.Comma, ButtonState.Down, Camera.Zoom, null, 0.9 );
-        Keyboard.Listen( Key.Escape, ButtonState.Pressed, Exit, "Poistu" );
+        PushButton valintaNappula = new PushButton( 300, 50, "Monivalinta (5)" );
+        valintaNappula.Top = Screen.Top - 340;
+        valintaNappula.Width = 2 * Screen.Width / 3;
+        valintaNappula.Clicked += new Action( ShowMultiSelect );
+        //Add( valintaNappula );
 
-        Mouse.Listen( MouseButton.Left, ButtonState.Pressed, LisaaNorsu, "Lisää norsu" );
-        Mouse.Listen( MouseButton.Right, ButtonState.Pressed, PoistaNorsut, "Poista kaikki norsut" );
+        PushButton AddItemNappula = new PushButton( "Add item (6)" );
+        AddItemNappula.Top = Screen.Bottom + 340;
+        AddItemNappula.Width = 2 * Screen.Width / 6;
+        AddItemNappula.Clicked += AddRandomAnswer;
+        //Add( AddItemNappula );
+
+        PushButton AddTenItemsButton = new PushButton( "Add ten items (7)" );
+        AddTenItemsButton.Top = Screen.Bottom + 260;
+        AddTenItemsButton.Width = 2 * Screen.Width / 6;
+        AddTenItemsButton.Clicked += AddTenItems;
+        //Add( AddTenItemsButton );
+
+        hiscoret = new ScoreList( 10, false, 0 );
+        //hiscoret = DataStorage.TryLoad<ScoreList>( hiscoret, "pisteet.xml" );
+
+        GameObject liikkio = new GameObject( 30, 30 );
+        liikkio.Y = hiscoreNappula.Y - 50;
+        Add( liikkio );
+        Keyboard.Listen( Key.Left, ButtonState.Down, Liikuta, null, liikkio, -20 * Vector.UnitX );
+        Keyboard.Listen( Key.Right, ButtonState.Down, Liikuta, null, liikkio, 20 * Vector.UnitX );
+        Keyboard.Listen( Key.Up, ButtonState.Down, Liikuta, null, liikkio, 20 * Vector.UnitY );
+        Keyboard.Listen( Key.Down, ButtonState.Down, Liikuta, null, liikkio, -20 * Vector.UnitY );
+
+        Keyboard.Listen( Key.D1, ButtonState.Pressed, ShowInputWindow, "InputWindow" );
+        Keyboard.Listen( Key.D2, ButtonState.Pressed, ShowMessageWindow, "MessageWindow" );
+        Keyboard.Listen( Key.D3, ButtonState.Pressed, ShowListWindow, "StringListWindow" );
+        Keyboard.Listen( Key.D4, ButtonState.Pressed, ShowHighScores, "HighScore" );
+        Keyboard.Listen( Key.D5, ButtonState.Pressed, ShowMultiSelect, "MultiSelectWindow" );
+        Keyboard.Listen( Key.D6, ButtonState.Pressed, AddRandomAnswer, "Add one item" );
+        Keyboard.Listen( Key.D7, ButtonState.Pressed, AddTenItems, "Add ten items" );
+
+        Keyboard.Listen( Key.Escape, ButtonState.Pressed, ConfirmExit, "Exit" );
+
+        ShowControlHelp();
     }
 
-    void LisaaNorsu()
+    void AddTenItems()
     {
-		//PlaySound( "CannonFire" );
-        norsut.Add( Mouse.PositionOnWorld );
-    }
-
-    void PoistaNorsut()
-    {
-        norsut.Clear();
-    }
-
-    protected override void Paint( Canvas canvas )
-    {
-        canvas.BrushColor = Color.White;
-        canvas.DrawLine( canvas.TopLeft, canvas.TopRight );
-        canvas.DrawLine( canvas.TopRight, canvas.BottomRight );
-        canvas.DrawLine( canvas.BottomRight, canvas.BottomLeft );
-        canvas.DrawLine( canvas.BottomLeft, canvas.TopLeft );
-
-        canvas.BrushColor = Color.LightGray;
-        canvas.DrawLine( canvas.Left + 50, canvas.Top - 50, canvas.Right - 50, canvas.Top - 50 );
-        canvas.DrawLine( canvas.Right - 50, canvas.Top - 50, canvas.Right - 50, canvas.Bottom + 50 );
-        canvas.DrawLine( canvas.Right - 50, canvas.Bottom + 50, canvas.Left + 50, canvas.Bottom + 50 );
-        canvas.DrawLine( canvas.Left + 50, canvas.Bottom + 50, canvas.Left + 50, canvas.Top - 50 );
-
-        canvas.BrushColor = Color.Teal;
-        canvas.DrawLine( canvas.TopLeft, canvas.BottomRight );
-        canvas.DrawLine( canvas.TopRight, canvas.BottomLeft );
-
-        canvas.BrushColor = Color.White;
-        canvas.DrawLine( Mouse.PositionOnWorld + new Vector( 10, -20 ), Mouse.PositionOnWorld );
-        canvas.DrawLine( Mouse.PositionOnWorld, Mouse.PositionOnWorld + new Vector( 20, -10 ) );
-
-        double radius = 1;
-        if ( Mouse.GetButtonState( MouseButton.Left ) == ButtonState.Down ) radius += 10;
-        if ( Mouse.GetButtonState( MouseButton.Right ) == ButtonState.Down ) radius += 20;
-
         for ( int i = 0; i < 10; i++ )
-        {
-            canvas.BrushColor = RandomGen.NextColor();
-            Vector from = Mouse.PositionOnWorld + RandomGen.NextVector( 3, radius );
-            Vector to = Mouse.PositionOnWorld + RandomGen.NextVector( 3, radius );
-            canvas.DrawLine( from, to );
-        }
+            AddRandomAnswer();
+    }
 
-        foreach ( Vector piste in norsut )
+    void AddRandomAnswer()
+    {
+        string[] choises =
         {
-            canvas.DrawImage( piste, norsunkuva );
-        }
+            "foo",
+            "bar",
+            "kissa",
+            "hevonen",
+            "MUU MUU",
+            "BÄÄ BÄÄ",
+            "Ihanaa Leijonat, Ihanaa",
+        };
+        vastaukset.Add( choises[RandomGen.NextInt( choises.Length )] );
+        MessageDisplay.Add( "Added" );
+    }
 
-        base.Paint( canvas );
+    void Liikuta( GameObject olio, Vector suunta )
+    {
+        olio.Position += suunta;
+    }
+
+    void ShowInputWindow()
+    {
+        InputWindow kysymysIkkuna = new InputWindow( "Vastaa kysymykseen" );
+        kysymysIkkuna.TextEntered += new InputWindow.InputWindowHandler( ProcessInput );
+        Add( kysymysIkkuna );
+    }
+
+    void ProcessInput( InputWindow sender )
+    {
+        string vastaus = sender.InputBox.Text;
+        vastaukset.Add( vastaus );
+    }
+
+    void ShowMessageWindow()
+    {
+        string viimeVastaus = vastaukset.Count > 0 ? vastaukset[vastaukset.Count - 1] : "Et ole syöttänyt vielä mitään!";
+        MessageWindow vastausIkkuna = new MessageWindow( viimeVastaus );
+        Add( vastausIkkuna );
+    }
+
+    protected override void Update( Time time )
+    {
+        base.Update( time );
+    }
+
+    void ShowListWindow()
+    {
+        StringListWindow listaIkkuna = new StringListWindow( "Tässä on lista syöttämistäsi vastauksista" );
+        listaIkkuna.List.Bind( vastaukset );
+        Add( listaIkkuna );
+    }
+
+    void ShowHighScores()
+    {
+        //HighScoreWindow topIkkuna = new HighScoreWindow(
+        //    "Eniten syötettyjä vastauksia:",
+        //    "Onneksi olkoon, pääsit listalle pisteillä %p! Anna nimesi:", hiscoret, vastaukset.Count );
+        //topIkkuna.Closed += new Jypeli.Widgets.Window.WindowHandler( SaveHighscores );
+        //Add( topIkkuna );
+    }
+
+    //void SaveHighscores( Window sender )
+    //{
+    //    DataStorage.Save<ScoreList>( hiscoret, "pisteet.xml" );
+    //}
+
+    void ShowMultiSelect()
+    {
+        try
+        {
+            MultiSelectWindow monivalinta = new MultiSelectWindow( "Valitse näistä:", vastaukset.ToArray<string>() );
+            monivalinta.ItemSelected += new Action<int>( monivalinta_ItemSelected );
+            monivalinta.DefaultCancel = -1;
+            Add( monivalinta );
+        }
+        catch ( InvalidOperationException )
+        {
+            MessageWindow msg = new MessageWindow( "Lista on tyhjä, monivalintaa ei voi näyttää" );
+            Add( msg );
+        }
+    }
+
+    void monivalinta_ItemSelected( int i )
+    {
+        MessageDisplay.Add( "Valintasi: " + vastaukset[i] );
     }
 }

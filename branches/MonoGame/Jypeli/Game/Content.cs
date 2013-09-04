@@ -34,6 +34,8 @@ using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using XnaSoundEffect = Microsoft.Xna.Framework.Audio.SoundEffect;
+
 #if NETFX_CORE
 using Windows.ApplicationModel.Resources;
 #else
@@ -149,6 +151,16 @@ namespace Jypeli
         public static SoundEffect LoadSoundEffect( string name )
         {
             return new SoundEffect( name );
+        }
+
+        /// <summary>
+        /// Lataa ääniefektin Jypelin resursseista.
+        /// </summary>
+        /// <param name="name">Äänen nimi (ei tarkennetta)</param>
+        /// <returns>SoundEffect-olio</returns>
+        public static SoundEffect LoadSoundEffectFromResources( string name )
+        {
+            return new SoundEffect( ResourceContent.Load<XnaSoundEffect>( name ) );
         }
 
         /// <summary>

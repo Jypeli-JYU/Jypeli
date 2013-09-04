@@ -22,8 +22,7 @@ public class Peli : PhysicsGame
 
     public Peli()
     {
-        Phone.DisplayOrientation = DisplayOrientation.Landscape;
-        Phone.DisplayResolution = DisplayResolution.Small;
+        Phone.DisplayResolution = DisplayResolution.Large;
         IsMouseVisible = true;
     }
 
@@ -97,14 +96,14 @@ public class Peli : PhysicsGame
         IntMeter laskuri = new IntMeter( 0 );
         laskuri.MaxValue = 10;
 
-        /*Label naytto = new Label();
+        Label naytto = new Label();
         naytto.BindTo(laskuri);
         naytto.X = x;
         naytto.Y = y;
         naytto.TextColor = Color.White;
         naytto.BorderColor = Level.BackgroundColor;
         naytto.Color = Level.BackgroundColor;
-        Add(naytto);*/
+        Add(naytto);
 
         return laskuri;
     }
@@ -143,8 +142,9 @@ public class Peli : PhysicsGame
 
         TouchPanel.Listen( ButtonState.Down, LiikutaKosketuksella, null );
         TouchPanel.Listen( ButtonState.Released, PysaytaKosketuksella, null );
+        PhoneBackButton.Listen( Exit, null );
 
-        //Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet");
+        Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet");
         //Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
 
         /*ControllerOne.Listen(Button.DPadUp, ButtonState.Down, AsetaNopeus, "Liikuta mailaa ylös", maila1, nopeusYlos);
@@ -182,6 +182,27 @@ public class Peli : PhysicsGame
             double nopeus = kosketusMaxNopeus * Math.Sign( r ) * r * r;
             AsetaNopeus( maila, nopeus * Vector.UnitY );
             kosketus.Tag = maila;
+        }
+
+        for ( int i = 0; i < 7; i++ )
+        {
+            //GameObject sparkle = new GameObject( 3, 1 );
+            //sparkle.Position = kosketus.PositionOnWorld + RandomGen.NextVector( 0, 1 );
+            Widget sparkle = new Widget( 3, 1 );
+            sparkle.Position = kosketus.PositionOnScreen + RandomGen.NextVector( 0, 1 );
+            sparkle.Angle = RandomGen.NextAngle();
+            sparkle.Color = RandomGen.NextColor( Color.LightYellow, Color.Yellow );
+            sparkle.MaximumLifetime = RandomGen.NextTimeSpan( 0.1, 0.5 );
+            Add( sparkle );
+
+            /*PhysicsObject sparkle = new PhysicsObject( 3, 1 );
+            sparkle.Angle = RandomGen.NextAngle();
+            sparkle.Color = RandomGen.NextColor( Color.LightYellow, Color.Yellow );
+            sparkle.MaximumLifetime = RandomGen.NextTimeSpan( 0.1, 0.5 );
+            Add( sparkle );
+
+            double force = RandomGen.NextDouble( 100, 200 );
+            sparkle.Hit( Vector.FromLengthAndAngle( force, sparkle.Angle ) );*/
         }
     }
 

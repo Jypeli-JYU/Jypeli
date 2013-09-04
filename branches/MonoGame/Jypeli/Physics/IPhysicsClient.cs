@@ -7,6 +7,6 @@ namespace Jypeli.Physics
 {
     public interface IPhysicsClient
     {
-        IPhysicsBody CreateBody( double width, double height, Shape shape );
+        IPhysicsBody CreateBody( IPhysicsObject owner, double width, double height, Shape shape );
     }
 }

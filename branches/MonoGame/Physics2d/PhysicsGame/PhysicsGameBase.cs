@@ -10,7 +10,7 @@ namespace Jypeli
     /// <summary>
     /// Kantaluokka fysiikkapeleille.
     /// </summary>
-    public abstract class PhysicsGameBase : Game
+    public abstract partial class PhysicsGameBase : Game
     {
         protected struct CollisionRecord
         {

@@ -38,6 +38,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\CollisionHandler.cs" />
+    <Compile Include="Assets\Explosion.cs" />
+    <Compile Include="Assets\Projectile.cs" />
     <Compile Include="Content\AsRifle.cs" />
     <Compile Include="Content\Auto.cs" />
     <Compile Include="Content\Bullet.cs" />
@@ -137,6 +140,7 @@
     <Compile Include="GameObjects\Layouts\VerticalScrollLayout.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsBody.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
+    <Compile Include="GameObjects\PhysicsObject\Movement.cs" />
     <Compile Include="GameObjects\PhysicsObject\PhysicsObject.cs" />
     <Compile Include="GameObjects\Surface\Surface.cs" />
     <Compile Include="GameObjects\Surface\Surfaces.cs" />
@@ -147,6 +151,7 @@
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
+    <Compile Include="Game\Factory.cs" />
     <Compile Include="Game\Game.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -173,6 +178,11 @@
     <Compile Include="Helpers\RandomGen.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\Borders.cs" />
+    <Compile Include="Physics\Ignorers\AdvGroupIgnorer.cs" />
+    <Compile Include="Physics\Ignorers\GroupCollection.cs" />
+    <Compile Include="Physics\Ignorers\GroupIgnorer.cs" />
+    <Compile Include="Physics\Ignorers\Ignorer.cs" />
+    <Compile Include="Physics\Ignorers\ObjectIgnorer.cs" />
     <Compile Include="Physics\IPhysicsClient.cs" />
     <Compile Include="Physics\PhysicsInterface.cs" />
     <Compile Include="Shapes\Shapes.cs">

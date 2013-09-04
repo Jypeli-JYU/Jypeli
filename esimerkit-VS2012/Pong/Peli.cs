@@ -27,6 +27,9 @@ public class Pong : PhysicsGame
 
     public override void Begin()
     {
+        Screen.Size = new Vector( 700, 500 );
+        Screen.Angle = Angle.FromDegrees( 20 );
+
         LuoKentta();
         AsetaOhjaimet();
         LisaaLaskurit();
@@ -154,6 +157,23 @@ public class Pong : PhysicsGame
 
         ControllerOne.Listen(Button.Back, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
         ControllerTwo.Listen(Button.Back, ButtonState.Pressed, ConfirmExit, "Lopeta peli");*/
+
+        Mouse.Listen( MouseButton.Left, ButtonState.Down, Sparkle, null );
+    }
+
+    void Sparkle()
+    {
+        PhysicsObject sparkle = new PhysicsObject( 3, 1 );
+        sparkle.Position = Mouse.PositionOnWorld;
+        sparkle.IgnoresCollisionResponse = true;
+        sparkle.IgnoresGravity = true;
+        sparkle.Angle = RandomGen.NextAngle();
+        sparkle.Color = RandomGen.NextColor( Color.LightYellow, Color.Yellow );
+        sparkle.MaximumLifetime = RandomGen.NextTimeSpan( 0.1, 0.5 );
+        Add( sparkle );
+
+        double force = RandomGen.NextDouble( 100, 200 );
+        sparkle.Hit( Vector.FromLengthAndAngle( force, sparkle.Angle ) );
     }
 
     void AsetaNopeus( PhysicsObject maila, Vector nopeus )

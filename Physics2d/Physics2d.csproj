@@ -42,12 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Tank.cs" />
+    <Compile Include="Assets\Weapon.cs" />
+    <Compile Include="Assets\WeaponTemplates.cs" />
     <Compile Include="Physics2DDotNet\Shapes\ShapeHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Assets\PlatformCharacter.cs" />
+    <Compile Include="Joints\AxleJoint.cs" />
     <Compile Include="PhysicsBody\Coefficients.cs" />
     <Compile Include="PhysicsBody\Collisions.cs" />
     <Compile Include="PhysicsBody\CollisionShapeParameters.cs" />
@@ -57,6 +62,7 @@
     <Compile Include="PhysicsBody\Movement.cs" />
     <Compile Include="PhysicsClient.cs" />
     <Compile Include="PhysicsBody\PhysicsBody.cs" />
+    <Compile Include="PhysicsGame\Joints.cs" />
     <Compile Include="PhysicsGame\PhysicsGame.cs" />
     <Compile Include="PhysicsGame\PhysicsGameBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

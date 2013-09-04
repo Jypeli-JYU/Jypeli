@@ -121,10 +121,10 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Työntää oliota.
+        /// Kohdistaa kappaleeseen voiman.
         /// </summary>
         /// <param name="force">Voima, jolla oliota työnnetään.</param>
-        public void Push( Vector force )
+        public void ApplyForce( Vector force )
         {
             Body.ApplyForce( new Vector2D( force.X, force.Y ) );
         }
@@ -156,23 +156,7 @@ namespace Jypeli
             Body.State.Velocity = ALVector2D.Zero;
             Body.State.ForceAccumulator = ALVector2D.Zero;
         }
-
-        /// <summary>
-        /// Pysäyttää olion liikkeen vaakasuunnassa.
-        /// </summary>
-        public void StopHorizontal()
-        {
-            StopAxial( Vector.UnitX );
-        }
-
-        /// <summary>
-        /// Pysäyttää olion liikkeen pystysuunnassa.
-        /// </summary>
-        public void StopVertical()
-        {
-            StopAxial( Vector.UnitY );
-        }
-
+        
         /// <summary>
         /// Pysäyttää liikkeen akselin suunnassa.
         /// </summary>

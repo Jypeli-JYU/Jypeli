@@ -48,6 +48,7 @@
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Joints\AxleJoint.cs" />
     <Compile Include="PhysicsBody\Coefficients.cs" />
     <Compile Include="PhysicsBody\Collisions.cs" />
     <Compile Include="PhysicsBody\CollisionShapeParameters.cs" />

@@ -32,20 +32,43 @@ using Physics2DDotNet;
 using System.Collections.Generic;
 using System;
 using AdvanceMath;
+using Jypeli.Physics;
 
 namespace Jypeli
 {
+    internal class AdaptedIgnorer : Physics2DDotNet.Ignorers.Ignorer
+    {
+        public Jypeli.Ignorer Adaptee { get; private set; }
+
+        public override bool BothNeeded
+        {
+            get { return Adaptee.BothNeeded; }
+        }
+
+        public AdaptedIgnorer( Jypeli.Ignorer adaptee )
+        {
+            this.Adaptee = adaptee;
+        }
+
+        protected override bool CanCollide( Body thisBody, Body otherBody, Physics2DDotNet.Ignorers.Ignorer otherIgnorer )
+        {
+            var other = (PhysicsBody)( otherBody.Tag );
+            return Adaptee.CanCollide( (IPhysicsBody)thisBody.Tag, other, other.CollisionIgnorer );
+        }
+    }
+
     public partial class PhysicsBody
     {
         private int _ignoreGroup = 0;
+        private AdaptedIgnorer _adaptedIgnorer = null;
 
         /// <summary>
         /// Olio, jolla voi välttää oliota osumasta tiettyihin muihin olioihin.
         /// </summary>
         public virtual Ignorer CollisionIgnorer
         {
-            get { return Body.CollisionIgnorer; }
-            set { Body.CollisionIgnorer = value; }
+            get { return _adaptedIgnorer == null ? null : _adaptedIgnorer.Adaptee; }
+            set { Body.CollisionIgnorer = _adaptedIgnorer = new AdaptedIgnorer( value ); }
         }
         
         /// <summary>
@@ -61,22 +84,17 @@ namespace Jypeli
         /// <summary>
         /// Tapahtuu kun olio törmää toiseen.
         /// </summary>
-        public event CollisionHandler<IPhysicsObject, IPhysicsObject> Collided;
+        public event CollisionHandler<IPhysicsBody, IPhysicsBody> Collided;
 
-        private void OnCollided( object sender, CollisionEventArgs args )
+        private void OnCollided( object sender, CollisionEventArgs e )
         {
-            /*if ( this.IsDestroyed || args.Other == null ) return;
-            var other = (PhysicsObject)args.Other.Tag;
-            if ( other.IsDestroyed ) return;
-
             if ( Collided != null )
             {
-                if ( other.ParentStructure != null ) Collided( this, other.ParentStructure );
+                var other = e.Other.Tag as IPhysicsBody;
                 Collided( this, other );
             }
-            Brain.OnCollision( other );*/
         }
-        
+
         private static CollisionShapeParameters GetDefaultParameters( double width, double height )
         {
             CollisionShapeParameters p;
@@ -91,7 +109,8 @@ namespace Jypeli
         /// </summary>
         public void MakeOneWay()
         {
-            this.CollisionIgnorer = new OneWayPlatformIgnorer( AdvanceMath.Vector2D.YAxis, Size.Y );
+            throw new NotImplementedException();
+            //this.CollisionIgnorer = new OneWayPlatformIgnorer( AdvanceMath.Vector2D.YAxis, Size.Y );
         }
 
         /// <summary>
@@ -100,7 +119,8 @@ namespace Jypeli
         /// </summary>
         public void MakeOneWay( Vector direction )
         {
-            this.CollisionIgnorer = new OneWayPlatformIgnorer( (Vector2D)direction, Size.Y );
+            throw new NotImplementedException();
+            //this.CollisionIgnorer = new OneWayPlatformIgnorer( (Vector2D)direction, Size.Y );
         }
     }
 }

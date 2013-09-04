@@ -353,6 +353,18 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Palauttaa peliolion, joka on annetussa paikassa.
+        /// Jos paikassa ei ole mitään pelioliota, palautetaan null.
+        /// Jos olioita on useampia, palautetaan päällimmäinen.
+        /// </summary>
+        /// <param name="position">Paikkakoordinaatit</param>
+        /// <returns>Mahdollinen olio</returns>
+        public GameObject GetObjectAt( Vector position )
+        {
+            return GetFirstObject( obj => obj.IsInside( position ) && !IsJypeliWidget<GameObject>( obj ) );
+        }
+
+        /// <summary>
         /// Palauttaa peliolion, joka on annetussa paikassa tietyllä säteellä.
         /// Jos paikassa ei ole mitään pelioliota, palautetaan null.
         /// Jos olioita on useampia, palautetaan ensin lisätty.

@@ -42,6 +42,11 @@ namespace Jypeli
     public partial class PhysicsBody : IPhysicsBody
     {
         /// <summary>
+        /// Kappaleen omistajaolio.
+        /// </summary>
+        public IPhysicsObject Owner { get; internal set; }
+
+        /// <summary>
         /// Jättääkö olio painovoiman huomioimatta.
         /// </summary>
         public bool IgnoresGravity
@@ -106,8 +111,8 @@ namespace Jypeli
             Coefficients c = new Coefficients( DefaultCoefficients.Restitution, DefaultCoefficients.StaticFriction, DefaultCoefficients.DynamicFriction );
             Body = new Body( new PhysicsState( ALVector2D.Zero ), physicsShape, DefaultMass, c, new Lifespan() );
             Body.Tag = this;
-            Body.Collided += this.OnCollided;
-        }
+            Body.Collided += OnCollided;
+        }        
 
         #endregion
 

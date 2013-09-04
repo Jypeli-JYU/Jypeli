@@ -16,7 +16,7 @@ namespace Jypeli
 
         //Body Body { get; }
 
-        //Ignorer CollisionIgnorer { get; set; }
+        Ignorer CollisionIgnorer { get; set; }
         int CollisionIgnoreGroup { get; set; }
 
         double Mass { get; set; }
@@ -79,5 +79,5 @@ namespace Jypeli
     /// metodilla ei ole paluuarvoa ja se ottaa yhden <code>Collision</code>-tyyppisen
     /// parametrin.
     /// </summary>
-    public delegate void CollisionHandler<O,T>( O collidingObject, T otherObject ) where O : IPhysicsObject where T : IPhysicsObject;
+    public delegate void CollisionHandler<O,T>( O collidingObject, T otherObject );
 }

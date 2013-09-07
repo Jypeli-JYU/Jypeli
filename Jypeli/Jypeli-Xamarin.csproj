@@ -11,13 +11,14 @@
     <RootNamespace>Jypeli</RootNamespace>
     <MonoGamePlatform>WindowsGL</MonoGamePlatform>
     <AssemblyName>Jypeli</AssemblyName>
+    <ReleaseVersion>6.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
     <OutputPath>bin\Xamarin-Debug</OutputPath>
-    <DefineConstants>DEBUG;UseDouble;WINDOWS;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
+    <DefineConstants>DEBUG;JYPELI;UseDouble;WINDOWS;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
@@ -31,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <PlatformTarget>x86</PlatformTarget>
-    <DefineConstants>UseDouble;WINDOWS;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
+    <DefineConstants>JYPELI;UseDouble;WINDOWS;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -39,20 +40,49 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CollisionHandler.cs" />
+    <Compile Include="Assets\Explosion.cs" />
+    <Compile Include="Assets\Projectile.cs" />
+    <Compile Include="Content\AsRifle.cs" />
+    <Compile Include="Content\Auto.cs" />
+    <Compile Include="Content\Bullet.cs" />
+    <Compile Include="Content\Cannon.cs" />
+    <Compile Include="Content\CannonBall.cs" />
+    <Compile Include="Content\CannonFire.cs" />
+    <Compile Include="Content\DownArrow.cs" />
+    <Compile Include="Content\Explosion.cs" />
+    <Compile Include="Content\Explosion2.cs" />
+    <Compile Include="Content\ExplosionSound.cs" />
+    <Compile Include="Content\Grenade.cs" />
+    <Compile Include="Content\ImplosionSound.cs" />
     <Compile Include="Content\JypeliContentManager.cs" />
+    <Compile Include="Content\Laser.cs" />
     <Compile Include="Content\MediumFont.cs" />
+    <Compile Include="Content\MGAttack.cs" />
+    <Compile Include="Content\PlasmaAttack.cs" />
+    <Compile Include="Content\PlasmaCannon.cs" />
+    <Compile Include="Content\Smoke.cs" />
+    <Compile Include="Content\Tank.cs" />
+    <Compile Include="Content\UpArrow.cs" />
+    <Compile Include="ContentExtensions\TextReader.cs" />
+    <Compile Include="Controls\Controller\AnalogControl.cs" />
+    <Compile Include="Controls\Controller\AnalogState.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />
     <Compile Include="Controls\Controller\Controller.cs" />
+    <Compile Include="Controls\Controller\HoverState.cs" />
     <Compile Include="Controls\Controller\Listener.cs" />
+    <Compile Include="Controls\GamePad\Button.cs" />
+    <Compile Include="Controls\GamePad\GamePad.cs" />
+    <Compile Include="Controls\GamePad\Vibration.cs" />
     <Compile Include="Controls\Keyboard\Key.cs" />
     <Compile Include="Controls\Keyboard\Keyboard.cs" />
     <Compile Include="Controls\ListenContext.cs" />
     <Compile Include="Controls\Mouse\Mouse.cs" />
     <Compile Include="Controls\Mouse\MouseButton.cs" />
-    <Compile Include="Controls\Mouse\MouseState.cs" />
     <Compile Include="Controls\TouchPanel\Touch.cs" />
     <Compile Include="Controls\TouchPanel\TouchListener.cs" />
     <Compile Include="Controls\TouchPanel\TouchPanel.cs" />
+    <Compile Include="Controls\BackButton\BackButton.cs" />
     <Compile Include="DataTypes\Angle.cs" />
     <Compile Include="DataTypes\BoundingRectangle.cs" />
     <Compile Include="DataTypes\Direction.cs" />
@@ -107,18 +137,24 @@
     <Compile Include="GameObjects\GameObject\Layout.cs" />
     <Compile Include="GameObjects\GameObject\Movement.cs" />
     <Compile Include="GameObjects\GameObject\Oscillator.cs" />
+    <Compile Include="GameObjects\Layouts\HorizontalLayout.cs" />
     <Compile Include="GameObjects\Layouts\ILayout.cs" />
+    <Compile Include="GameObjects\Layouts\VerticalLayout.cs" />
+    <Compile Include="GameObjects\Layouts\VerticalScrollLayout.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsBody.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
+    <Compile Include="GameObjects\PhysicsObject\Movement.cs" />
     <Compile Include="GameObjects\PhysicsObject\PhysicsObject.cs" />
     <Compile Include="GameObjects\Surface\Surface.cs" />
     <Compile Include="GameObjects\Surface\Surfaces.cs" />
     <Compile Include="GameObjects\Widget\Appearance.cs" />
+    <Compile Include="GameObjects\Widget\BindableWidget.cs" />
     <Compile Include="GameObjects\Widget\Control.cs" />
     <Compile Include="GameObjects\Widget\Widget.cs" />
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
+    <Compile Include="Game\Factory.cs" />
     <Compile Include="Game\Game.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -143,8 +179,16 @@
     <Compile Include="Graphics\ShapeBatch.cs" />
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Helpers\RandomGen.cs" />
+    <Compile Include="Levels\AbstractTileMap.cs" />
+    <Compile Include="Levels\ColorTileMap.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\Borders.cs" />
+    <Compile Include="Levels\TileMap.cs" />
+    <Compile Include="Physics\Ignorers\AdvGroupIgnorer.cs" />
+    <Compile Include="Physics\Ignorers\GroupCollection.cs" />
+    <Compile Include="Physics\Ignorers\GroupIgnorer.cs" />
+    <Compile Include="Physics\Ignorers\Ignorer.cs" />
+    <Compile Include="Physics\Ignorers\ObjectIgnorer.cs" />
     <Compile Include="Physics\IPhysicsClient.cs" />
     <Compile Include="Physics\PhysicsInterface.cs" />
     <Compile Include="Shapes\Shapes.cs">
@@ -169,11 +213,25 @@
     <Compile Include="Events\Operation.cs" />
     <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
+    <Compile Include="Widgets\Background.cs" />
+    <Compile Include="Widgets\BarGauge.cs" />
+    <Compile Include="Widgets\CustomQueryWindow.cs" />
+    <Compile Include="Widgets\InputBox.cs" />
+    <Compile Include="Widgets\InputWindow.cs" />
+    <Compile Include="Widgets\Label.cs" />
+    <Compile Include="Widgets\ListWidget.cs" />
     <Compile Include="Widgets\MessageDisplay.cs" />
-	<Compile Include="WP8\DisplayOrientation.cs" />
+    <Compile Include="Widgets\MessageWindow.cs" />
+    <Compile Include="Widgets\MultiSelectWindow.cs" />
+    <Compile Include="Widgets\PushButton.cs" />
+    <Compile Include="Widgets\StringListWidget.cs" />
+    <Compile Include="Widgets\StringListWindow.cs" />
+    <Compile Include="Widgets\Window.cs" />
+    <Compile Include="Widgets\YesNoWindow.cs" />
+    <Compile Include="WP8\DisplayOrientation.cs" />
     <Compile Include="WP8\DisplayResolution.cs" />
-	<Compile Include="WP8\PhoneStub.cs" />
-	<Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
+    <Compile Include="WP8\PhoneStub.cs" />
+    <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
@@ -207,9 +265,6 @@
     <Folder Include="Sound\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <EmbeddedResource Include="Content\ContentResources.resx" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
       <Project>{DA65B249-9290-4A09-A48C-443A65845583}</Project>

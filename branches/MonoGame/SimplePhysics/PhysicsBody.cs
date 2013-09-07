@@ -120,6 +120,12 @@ namespace Jypeli.Physics
             Size = new Vector( width, height );
         }
 
+        internal void OnCollided( PhysicsBody anotherBody )
+        {
+            if ( Collided != null )
+                Collided( this, anotherBody );
+        }
+
         public void MakeStatic()
         {
             _mass = double.PositiveInfinity;

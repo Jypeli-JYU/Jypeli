@@ -62,6 +62,7 @@
     <Compile Include="Content\Smoke.cs" />
     <Compile Include="Content\Tank.cs" />
     <Compile Include="Content\UpArrow.cs" />
+    <Compile Include="ContentExtensions\TextProcessor.cs" />
     <Compile Include="Controls\Controller\AnalogControl.cs" />
     <Compile Include="Controls\Controller\AnalogState.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />
@@ -176,8 +177,11 @@
     <Compile Include="Graphics\ShapeBatch.cs" />
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Helpers\RandomGen.cs" />
+    <Compile Include="Levels\AbstractTileMap.cs" />
+    <Compile Include="Levels\ColorTileMap.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\Borders.cs" />
+    <Compile Include="Levels\TileMap.cs" />
     <Compile Include="Physics\Ignorers\AdvGroupIgnorer.cs" />
     <Compile Include="Physics\Ignorers\GroupCollection.cs" />
     <Compile Include="Physics\Ignorers\GroupIgnorer.cs" />

@@ -4,11 +4,11 @@ using System.Runtime.CompilerServices;
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("SimplePhysics")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Jypeli.SimplePhysics")]
+[assembly: AssemblyDescription("A simple physics engine for Jypeli")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jyväskylän yliopisto")]
-[assembly: AssemblyProduct("")]
+[assembly: AssemblyProduct("Jypeli")]
 [assembly: AssemblyCopyright("Jyväskylän yliopisto")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

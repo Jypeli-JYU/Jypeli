@@ -28,11 +28,19 @@ namespace Jypeli
         /// </summary>
         public Vector Gravity { get; set; }
 
+        /// <summary>
+        /// Luo uuden fysiikkapelin.
+        /// </summary>
         public PhysicsGame()
             : base()
         {
         }
 
+        /// <summary>
+        /// Lisää olion peliin.
+        /// </summary>
+        /// <param name="o">Olio</param>
+        /// <param name="layer">Kerros jolle lisätään</param>
         public override void Add( IGameObject o, int layer )
         {
             if ( o is PhysicsObject )
@@ -43,6 +51,10 @@ namespace Jypeli
             base.Add( o, layer );
         }
 
+        /// <summary>
+        /// Jypeli kutsuu tätä metodia joka päivityksellä.
+        /// </summary>
+        /// <param name="time">Olio joka kertoo ajan viime päivityksestä ja pelin alusta</param>
         protected override void Update( Time time )
         {
             const double maxdt = 0.01;

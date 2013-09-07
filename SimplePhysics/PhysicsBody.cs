@@ -10,8 +10,14 @@ namespace Jypeli.Physics
     {
         [Save] private double _mass = 1.0;
         [Save] private double _massInv = 1.0;
-        private double _restitution = 1.0;
-        private double _kineticFriction = 0.0;
+        [Save] private double _restitution = 1.0;
+        [Save] private double _staticFriction = 0.0;
+        [Save] private double _kineticFriction = 0.0;
+
+        public event CollisionHandler<IPhysicsBody, IPhysicsBody> Collided;
+
+        [Save]
+        public IPhysicsObject Owner { get; internal set; }
 
         [Save]
         public Shape Shape { get; private set; }
@@ -52,6 +58,12 @@ namespace Jypeli.Physics
         {
             get { return _kineticFriction; }
             set { _kineticFriction = value; }
+        }
+
+        public double StaticFriction
+        {
+            get { return _staticFriction; }
+            set { _staticFriction = value; }
         }
 
         public double AngularDamping
@@ -114,9 +126,36 @@ namespace Jypeli.Physics
             _massInv = 0;
         }
 
+        public void ApplyForce( Vector force )
+        {
+            Acceleration += force * _massInv;
+        }
+
         public void ApplyImpulse( Vector impulse )
         {
             Velocity += impulse * _massInv;
+        }
+
+        public void ApplyTorque( double torque )
+        {
+            // No angular motion implemented (yet?)
+        }
+
+        public void Stop()
+        {
+            Acceleration = Vector.Zero;
+            Velocity = Vector.Zero;
+        }
+
+        public void StopAngular()
+        {
+            // No angular motion to stop :)
+        }
+
+        public void StopAxial( Vector axis )
+        {
+            Acceleration = Acceleration.Project( axis.LeftNormal );
+            Velocity = Velocity.Project( axis.LeftNormal );
         }
     }
 }

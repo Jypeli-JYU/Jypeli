@@ -62,7 +62,7 @@
     <Compile Include="Content\Smoke.cs" />
     <Compile Include="Content\Tank.cs" />
     <Compile Include="Content\UpArrow.cs" />
-    <Compile Include="ContentExtensions\TextProcessor.cs" />
+    <Compile Include="ContentExtensions\TextReader.cs" />
     <Compile Include="Controls\Controller\AnalogControl.cs" />
     <Compile Include="Controls\Controller\AnalogState.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />

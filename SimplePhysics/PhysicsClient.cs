@@ -8,9 +8,9 @@ namespace Jypeli.Physics
 {
     public class PhysicsClient : IPhysicsClient
     {
-        public IPhysicsBody CreateBody( double width, double height, Shape shape )
+        public IPhysicsBody CreateBody( IPhysicsObject owner, double width, double height, Shape shape )
         {
-            return new PhysicsBody( width, height, shape );
+            return new PhysicsBody( width, height, shape ) { Owner = owner };
         }
     }
 }

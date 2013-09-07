@@ -87,6 +87,9 @@ namespace Jypeli
                     body.Velocity += Gravity * body.MassInv * dt;
                 body.Velocity += body.Acceleration * dt;
                 body.Position += body.Velocity * dt;
+                
+                // Acceleration is for this update only
+                body.Acceleration = Vector.Zero;
             }
 
             SolveCollisions( dt );
@@ -176,8 +179,8 @@ namespace Jypeli
                         }
 
                         // Collision event
-                        physObjects[i].OnCollided( physObjects[j] );
-                        physObjects[j].OnCollided( physObjects[i] );
+                        physObjects[i].OnCollided( physObjects[i].Body, physObjects[j].Body );
+                        physObjects[j].OnCollided( physObjects[j].Body, physObjects[i].Body );
                         AddContact( physObjects[i], physObjects[j] );
                     }
                     else

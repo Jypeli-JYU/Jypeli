@@ -38,11 +38,31 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\CollisionHandler.cs" />
+    <Compile Include="Assets\Explosion.cs" />
+    <Compile Include="Assets\Projectile.cs" />
     <Compile Include="Content\AsRifle.cs" />
     <Compile Include="Content\Auto.cs" />
     <Compile Include="Content\Bullet.cs" />
+    <Compile Include="Content\Cannon.cs" />
+    <Compile Include="Content\CannonBall.cs" />
+    <Compile Include="Content\CannonFire.cs" />
+    <Compile Include="Content\DownArrow.cs" />
+    <Compile Include="Content\Explosion.cs" />
+    <Compile Include="Content\Explosion2.cs" />
+    <Compile Include="Content\ExplosionSound.cs" />
+    <Compile Include="Content\Grenade.cs" />
+    <Compile Include="Content\ImplosionSound.cs" />
     <Compile Include="Content\JypeliContentManager.cs" />
+    <Compile Include="Content\Laser.cs" />
     <Compile Include="Content\MediumFont.cs" />
+    <Compile Include="Content\MGAttack.cs" />
+    <Compile Include="Content\PlasmaAttack.cs" />
+    <Compile Include="Content\PlasmaCannon.cs" />
+    <Compile Include="Content\Smoke.cs" />
+    <Compile Include="Content\Tank.cs" />
+    <Compile Include="Content\UpArrow.cs" />
+    <Compile Include="ContentExtensions\TextReader.cs" />
     <Compile Include="Controls\Controller\AnalogControl.cs" />
     <Compile Include="Controls\Controller\AnalogState.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />
@@ -121,6 +141,7 @@
     <Compile Include="GameObjects\Layouts\VerticalScrollLayout.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsBody.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
+    <Compile Include="GameObjects\PhysicsObject\Movement.cs" />
     <Compile Include="GameObjects\PhysicsObject\PhysicsObject.cs" />
     <Compile Include="GameObjects\Surface\Surface.cs" />
     <Compile Include="GameObjects\Surface\Surfaces.cs" />
@@ -131,6 +152,7 @@
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
+    <Compile Include="Game\Factory.cs" />
     <Compile Include="Game\Game.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -155,8 +177,16 @@
     <Compile Include="Graphics\ShapeBatch.cs" />
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Helpers\RandomGen.cs" />
+    <Compile Include="Levels\AbstractTileMap.cs" />
+    <Compile Include="Levels\ColorTileMap.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\Borders.cs" />
+    <Compile Include="Levels\TileMap.cs" />
+    <Compile Include="Physics\Ignorers\AdvGroupIgnorer.cs" />
+    <Compile Include="Physics\Ignorers\GroupCollection.cs" />
+    <Compile Include="Physics\Ignorers\GroupIgnorer.cs" />
+    <Compile Include="Physics\Ignorers\Ignorer.cs" />
+    <Compile Include="Physics\Ignorers\ObjectIgnorer.cs" />
     <Compile Include="Physics\IPhysicsClient.cs" />
     <Compile Include="Physics\PhysicsInterface.cs" />
     <Compile Include="Shapes\Shapes.cs">

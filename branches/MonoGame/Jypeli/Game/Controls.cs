@@ -127,6 +127,7 @@ namespace Jypeli
             _controllers.AddRange( GameControllers );
 #endif
 
+            IsMouseVisible = true;
             initialized = true;
         }
 

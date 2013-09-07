@@ -5,9 +5,12 @@ using System.Text;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Fysiikkapeli (SimplePhysics)
+    /// </summary>
     public partial class PhysicsGame
     {
-        protected struct CollisionRecord
+        private struct CollisionRecord
         {
             public IPhysicsObject obj;
             public IPhysicsObject target;
@@ -23,14 +26,15 @@ namespace Jypeli
             }
         }
 
-        protected Dictionary<CollisionRecord, CollisionHandler<IPhysicsObject, IPhysicsObject>> collisionHandlers =
+        private Dictionary<CollisionRecord, CollisionHandler<IPhysicsObject, IPhysicsObject>> collisionHandlers =
             new Dictionary<CollisionRecord, CollisionHandler<IPhysicsObject, IPhysicsObject>>();
-        protected Dictionary<CollisionRecord, CollisionHandler<IPhysicsObject, IPhysicsObject>> protectedCollisionHandlers =
+        private Dictionary<CollisionRecord, CollisionHandler<IPhysicsObject, IPhysicsObject>> protectedCollisionHandlers =
             new Dictionary<CollisionRecord, CollisionHandler<IPhysicsObject, IPhysicsObject>>();
 
         /// <summary>
         /// Määrää, mihin aliohjelmaan siirrytään kun olio <code>obj</code> törmää johonkin toiseen olioon.
         /// </summary>
+        /// <typeparam name="O">Törmäävän olion tyyppi.</typeparam>
         /// <typeparam name="T">Kohdeolion tyyppi.</typeparam>
         /// <param name="obj">Törmäävä olio</param>
         /// <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>

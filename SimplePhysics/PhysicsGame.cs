@@ -120,11 +120,13 @@ namespace Jypeli
         {
             for ( int i = 0; i < physObjects.Count; i++ )
             {
-                bool iStatic = double.IsInfinity( physObjects[i].Mass );
+                var iBody = (PhysicsBody)( physObjects[i].Body );
+                var iStatic = double.IsInfinity( iBody.Mass );
 
                 for ( int j = 0; j < i; j++ )
                 {
-                    bool jStatic = double.IsInfinity( physObjects[j].Mass );
+                    var jBody = (PhysicsBody)( physObjects[j].Body );
+                    var jStatic = double.IsInfinity( jBody.Mass );
 
                     if ( iStatic && jStatic )
                         continue;
@@ -179,8 +181,8 @@ namespace Jypeli
                         }
 
                         // Collision event
-                        physObjects[i].OnCollided( physObjects[i].Body, physObjects[j].Body );
-                        physObjects[j].OnCollided( physObjects[j].Body, physObjects[i].Body );
+                        iBody.OnCollided( jBody );
+                        jBody.OnCollided( iBody );
                         AddContact( physObjects[i], physObjects[j] );
                     }
                     else

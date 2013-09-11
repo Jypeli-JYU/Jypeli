@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\PlatformWandererBrain.cs" />
     <Compile Include="Assets\Tank.cs" />
     <Compile Include="Assets\Weapon.cs" />
     <Compile Include="Assets\WeaponTemplates.cs" />

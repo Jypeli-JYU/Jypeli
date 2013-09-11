@@ -15,7 +15,7 @@ namespace Jypeli
     {
         Layer Layer { get; }
         IGameObject Parent { get; set; }
-        //Brain Brain { get; set; }
+        Brain Brain { get; set; }
 
         SynchronousList<GameObject> Objects { get; }
 

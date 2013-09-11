@@ -212,7 +212,7 @@ namespace Jypeli
                 Collided( this, otherObject );
             }
             
-            //Brain.OnCollision( other );
+            Brain.OnCollision( otherObject );
         }
 
         public PhysicsObject( double width, double height, Shape shape )

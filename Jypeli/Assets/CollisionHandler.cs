@@ -232,7 +232,7 @@ namespace Jypeli.Assets
         }
 
         /// <summary>
-        /// Kasvattaa kohdeolion kokoa (tai pienentää negatiivisilla arvoilla)
+        /// Kasvattaa törmäyskohteen kokoa (tai pienentää negatiivisilla arvoilla)
         /// </summary>
         /// <param name="width">Leveyden muutos</param>
         /// <param name="height">Korkeuden muutos</param>
@@ -246,6 +246,53 @@ namespace Jypeli.Assets
 
                 targetObject.Size += new Vector( width, height );
             };
+        }
+
+        /// <summary>
+        /// Vaihtaa törmäävän olion väriä.
+        /// </summary>
+        /// <param name="color">Väri</param>
+        /// <returns></returns>
+        public static CollisionHandler<PhysicsObject, PhysicsObject> SetColor( Color color )
+        {
+            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            {
+                collidingObject.Color = color;
+            };
+        }
+
+        /// <summary>
+        /// Vaihtaa törmäyskohteen väriä.
+        /// </summary>
+        /// <param name="color">Väri</param>
+        /// <returns></returns>
+        public static CollisionHandler<PhysicsObject, PhysicsObject> SetTargetColor( Color color )
+        {
+            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            {
+                targetObject.Color = color;
+            };
+        }
+
+        /// <summary>
+        /// Vaihtaa törmäävän olion värin satunnaiseen.
+        /// </summary>
+        /// <param name="collidingObject"></param>
+        /// <param name="targetObject"></param>
+        public static void SetRandomColor( PhysicsObject collidingObject, PhysicsObject targetObject )
+        {
+            collidingObject.Color = RandomGen.NextColor();
+        }
+
+        /// <summary>
+        /// Vaihtaa törmäyskohteen värin satunnaiseen.
+        /// </summary>
+        /// <param name="collidingObject"></param>
+        /// <param name="targetObject"></param>
+        /// <returns></returns>
+        public static void SetRandomTargetColor( PhysicsObject collidingObject, PhysicsObject targetObject )
+        {
+            targetObject.Color = RandomGen.NextColor();
         }
 
         /// <summary>

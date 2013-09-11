@@ -107,5 +107,44 @@ namespace Jypeli
             PrepareThrowable( obj, angle, force, distOffset, axialOffset );
             Game.Add( obj, layer );
         }
+
+        /// <summary>
+        /// Siirtää oliota.
+        /// </summary>
+        /// <param name="movement">Vektori, joka määrittää kuinka paljon siirretään.</param>
+        public override void Move( Vector movement )
+        {
+            Vector dv = movement - this.Velocity;
+            Hit( Mass * dv );
+        }
+
+        protected override void MoveToTarget()
+        {
+            if ( !moveTarget.HasValue )
+            {
+                Stop();
+                moveTimer.Stop();
+                return;
+            }
+
+            Vector d = moveTarget.Value - AbsolutePosition;
+            double vt = moveSpeed * moveTimer.Interval;
+
+            if ( d.Magnitude < vt )
+            {
+                Vector targetLoc = moveTarget.Value;
+                Stop();
+                moveTimer.Stop();
+                moveTarget = null;
+
+                if ( arrivedAction != null )
+                    arrivedAction();
+            }
+            else
+            {
+                Vector dv = Vector.FromLengthAndAngle( moveSpeed, d.Angle ) - this.Velocity;
+                Hit( Mass * dv );
+            }
+        }
     }
 }

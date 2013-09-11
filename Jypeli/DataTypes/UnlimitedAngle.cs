@@ -59,6 +59,11 @@ namespace Jypeli
         /// </summary>
         public static readonly UnlimitedAngle FullAngle = new UnlimitedAngle( 2 * Math.PI );
 
+        /// <summary>
+        /// Ääretön kulma.
+        /// </summary>
+        public static readonly UnlimitedAngle Infinity = new UnlimitedAngle( double.PositiveInfinity );
+
         private double radian;
 
         /// <summary>
@@ -86,7 +91,7 @@ namespace Jypeli
             get { return radian; }
             set
             {
-                radian = (float)value; 
+                radian = (float)value;
             }
         }
 
@@ -333,7 +338,7 @@ namespace Jypeli
         /// <returns></returns>
         public static double DegreeToRadian( double degree )
         {
-            return (float)(degree * ( System.Math.PI / 180 ));
+            return (float)( degree * ( System.Math.PI / 180 ) );
         }
 
         /// <summary>

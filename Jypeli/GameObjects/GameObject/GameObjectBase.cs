@@ -12,7 +12,7 @@ namespace Jypeli.GameObjects
     public abstract class GameObjectBase : Tagged, Destroyable
     {
         private Layer _layer = null;
-        //private Brain _brain = Brain.None;
+        private Brain _brain = Brain.None;
         private TimeSpan _maxLifetime = TimeSpan.MaxValue;
         private bool _rotateImage = true;
 
@@ -91,7 +91,7 @@ namespace Jypeli.GameObjects
         /// Olion aivot.
         /// Ks. <c>Brain</c>
         /// </summary>
-        /*public virtual Brain Brain
+        public virtual Brain Brain
         {
             get
             {
@@ -106,7 +106,7 @@ namespace Jypeli.GameObjects
                 if ( value != null )
                     IsUpdated = true;
             }
-        }*/
+        }
 
         /// <summary>
         /// Tapahtuu, kun olio lisätään peliin.
@@ -120,7 +120,7 @@ namespace Jypeli.GameObjects
         {
             if ( AddedToGame != null )
                 AddedToGame();
-            //Brain.AddToGameEvent();
+            Brain.AddToGameEvent();
         }
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace Jypeli.GameObjects
                 return;
             }
 
-            //Brain.DoUpdate( time );
+            Brain.DoUpdate( time );
         }
     }
 }

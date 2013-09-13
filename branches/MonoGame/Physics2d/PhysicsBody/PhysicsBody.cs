@@ -100,6 +100,8 @@ namespace Jypeli
         public PhysicsBody( RaySegment raySegment )
             : this( 1, 1, raySegment )
         {
+            this._size = Vector.One;
+            this._shape = raySegment;
         }
 
         /// <summary>
@@ -112,6 +114,9 @@ namespace Jypeli
             Body = new Body( new PhysicsState( ALVector2D.Zero ), physicsShape, DefaultMass, c, new Lifespan() );
             Body.Tag = this;
             Body.Collided += OnCollided;
+
+            this._size = new Vector( width, height );
+            this._shape = shape;
         }        
 
         #endregion

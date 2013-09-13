@@ -146,6 +146,7 @@
     <Compile Include="GameObjects\Layouts\ILayout.cs" />
     <Compile Include="GameObjects\Layouts\VerticalLayout.cs" />
     <Compile Include="GameObjects\Layouts\VerticalScrollLayout.cs" />
+    <Compile Include="GameObjects\PhysicsObject\Dimensions.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsBody.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
     <Compile Include="GameObjects\PhysicsObject\Movement.cs" />

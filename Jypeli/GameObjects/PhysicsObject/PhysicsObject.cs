@@ -15,9 +15,6 @@ namespace Jypeli
         [Save]
         private double _storedMomentOfInertia = 1;
 
-        [Save]
-        public IPhysicsBody Body { get; private set; }
-
         /// <summary>
         /// Olio, jolla voi välttää oliota osumasta tiettyihin muihin olioihin.
         /// </summary>
@@ -46,12 +43,6 @@ namespace Jypeli
                     this.CollisionIgnorer = ignorer;
                 }
             }
-        }
-
-        public override Vector Position
-        {
-            get { return Body.Position; }
-            set { Body.Position = value; }
         }
 
         public double Mass

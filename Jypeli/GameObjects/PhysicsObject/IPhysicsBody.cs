@@ -9,7 +9,8 @@ namespace Jypeli.Physics
     {
         IPhysicsObject Owner { get; }
 
-        Shape Shape { get; }
+        Vector Size { get; set; }
+        Shape Shape { get; set; }
         
         double Mass { get; set; }
         double MassInv { get; set; }

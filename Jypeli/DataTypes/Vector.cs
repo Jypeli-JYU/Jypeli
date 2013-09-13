@@ -60,7 +60,12 @@ namespace Jypeli
         /// <summary>
         /// Nollavektori.
         /// </summary>
-        public static readonly Vector Zero = new Vector( 0.0, 0.0 );
+        public static readonly Vector Zero = new Vector( 0, 0 );
+
+        /// <summary>
+        /// Yksikkövektori.
+        /// </summary>
+        public static readonly Vector One = new Vector( 1, 1 );
 
         /// <summary>
         /// Vaakasuuntainen yksikkövektori (pituus 1, suunta oikealle).
@@ -75,7 +80,7 @@ namespace Jypeli
         /// <summary>
         /// Diagonaalivektori (1,1)
         /// </summary>
-        public static readonly Vector Diagonal = new Vector( 1.0, 1.0 );
+        public static readonly Vector Diagonal = Vector.One;
 
         /// <summary>
         /// Vasen normaali.

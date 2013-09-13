@@ -32,7 +32,7 @@ namespace Jypeli.Physics
         /// Kappaleen muoto.
         /// </summary>
         [Save]
-        public Shape Shape { get; private set; }
+        public Shape Shape { get; set; }
 
         /// <summary>
         /// Kappaleen massa (paino).

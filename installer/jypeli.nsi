@@ -54,9 +54,41 @@ Section "MonoJypeli for VS2012"
 SectionEnd
 
 Section "Project templates for VS2012"
-  SetOutPath "$DOCUMENTS\Visual Studio 2012\Templates\ProjectTemplates\Visual C#\Jypeli-MonoGame"
-  File "..\projektimallit\VS2012\*.zip"
+  ReadEnvStr $0 VS110COMNTOOLS
+  Push $0
+  Call InstallVsTemplates
 SectionEnd
+
+Function InstallVsTemplates
+   Pop $0
+   
+   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VsExpressForPhone
+    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
+	SetOutPath $1
+    File "..\projektimallit\VS2012\*.zip"
+	Exec '"$0..\IDE\vcsexpress.exe" /installvstemplates'
+	Goto VsExpressForPhone
+  
+  VsExpressForPhone:
+	ReadRegStr $5 HKLM "Software\Microsoft\VPDExpress\10.0" "InstallDir"
+	StrCmp $5 "" VSPro 0	
+    CreateDirectory "$5\VPDExpress\ProjectTemplates\Jypeli-MonoGame\1033"
+	StrCpy $1 "$5\VPDExpress\ProjectTemplates\Jypeli\1033"
+	SetOutPath $1
+    File "..\projektimallit\VS2012\*.zip"
+	Exec '"$5\VPDExpress.exe" /installvstemplates'    	
+	Goto VSPro
+	
+  VSPro:
+	IfFileExists "$0..\IDE\devenv.exe" 0 Done
+      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
+      CreateDirectory $1
+      SetOutPath $1
+      File "..\projektimallit\VS2012\*.zip"
+      Exec '"$0..\IDE\devenv" /installvstemplates'
+
+  Done:
+FunctionEnd
 
 ;--------------------------------
 

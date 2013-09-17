@@ -107,6 +107,9 @@ namespace Jypeli
             	SetWindowSize( GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, isFullScreenRequested );
 #endif
 
+            // Center the window on next update (aka the OpenTK fix)
+            DoNextUpdate( CenterWindow );
+
             Level = new Level( this );
 
 #if DEBUG && !DISABLE_WIDGETS

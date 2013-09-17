@@ -135,7 +135,7 @@ namespace Jypeli
             return outList;
         }
 
-        public static List<T> FindAll<T>( this List<T> items, Predicate<T> pred )
+        public static List<T> FindAll<T>( this IEnumerable<T> items, Predicate<T> pred )
         {
             // Huom/TK: FindAll-metodi on jo olemassa, mutta sitä ei ole toteutettu X360/WP7-alustoille.
 

@@ -60,7 +60,7 @@ namespace Jypeli
 
         public static void AddFactory<T>( string tag, FactoryMethod method )
         {
-            foreach ( var key in constructors.Keys.FindAll( k => k.type == typeof( T ) && k.tag == tag ) )
+            foreach ( var key in constructors.Keys.FindAll<FactoryKey>( k => k.type == typeof( T ) && k.tag == tag ) )
             {
                 // Overwrite an existing method
                 constructors[key] = method;
@@ -73,7 +73,7 @@ namespace Jypeli
 
         public static void RemoveFactory<T>( string tag, FactoryMethod method )
         {
-            foreach ( var key in constructors.Keys.FindAll( k => k.type == typeof( T ) && k.tag == tag ) )
+            foreach ( var key in constructors.Keys.FindAll<FactoryKey>( k => k.type == typeof( T ) && k.tag == tag ) )
                 constructors.Remove( key );
         }
 

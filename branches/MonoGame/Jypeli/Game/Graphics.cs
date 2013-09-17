@@ -35,10 +35,20 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+#if WINDOWS
+using System.Runtime.InteropServices;
+#endif
+
 namespace Jypeli
 {
     public partial class Game
     {
+#if WINDOWS
+        [DllImport( "user32.dll" )]
+        private static extern int GetSystemMetrics( int smIndex );
+#endif
+
+
         // fullscreen isn't used as default, because debug mode doesn't work well with it
         private bool isFullScreenRequested = false;
         private bool windowSizeSet = false;
@@ -96,6 +106,57 @@ namespace Jypeli
         public static bool SmoothTextures { get; set; }
 
         /// <summary>
+        /// Asettaa ikkunan paikan. Huomaa että origo on vasemmassa yläreunassa.
+        /// </summary>
+        /// <param name="x">Ikkunan vasemman reunan x-koordinaatti</param>
+        /// <param name="y">Ikkunan yläreunan y-koordinaatti (kasvaa alaspäin)</param>
+        public void SetWindowPosition( int x, int y )
+        {
+#if WINDOWS || LINUX
+            OpenTK.GameWindow OTKWindow = GetForm( this.Window );
+
+            if ( OTKWindow != null )
+            {
+                OTKWindow.X = x;
+                OTKWindow.Y = y;
+            }
+#endif
+        }
+
+        private static OpenTK.GameWindow GetForm( Microsoft.Xna.Framework.GameWindow gameWindow )
+        {
+            Type type = typeof( OpenTKGameWindow );
+            System.Reflection.FieldInfo field = type.GetField( "window", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance );
+            if ( field != null )
+                return field.GetValue( gameWindow ) as OpenTK.GameWindow;
+            return null;
+        }
+
+        /// <summary>
+        /// Asettaa ikkunan ruudun keskelle.
+        /// </summary>
+        public void CenterWindow()
+        {
+#if WINDOWS || LINUX
+            int W = (int)GraphicsDevice.DisplayMode.Width;
+            int H = (int)GraphicsDevice.DisplayMode.Height;
+            //int w = (int)GraphicsDevice.Viewport.Width;
+            //int h = (int)GraphicsDevice.Viewport.Height;
+			int w = (int)GraphicsDeviceManager.PreferredBackBufferWidth;
+			int h = (int)GraphicsDeviceManager.PreferredBackBufferHeight;
+
+#if WINDOWS
+            int borderwidth = GetSystemMetrics( 32 ); // SM_CXFRAME
+            int titleheight = GetSystemMetrics( 30 ); // SM_CXSIZE
+            w += 2 * borderwidth;
+            h += titleheight + 2 * borderwidth;
+#endif
+
+            SetWindowPosition( ( W - w ) / 2, ( H - h ) / 2 );
+#endif
+        }
+
+        /// <summary>
         /// Asettaa ikkunan koon.
         /// </summary>
         /// <param name="width">Leveys.</param>
@@ -132,31 +193,33 @@ namespace Jypeli
         /// <param name="height">Korkeus.</param>
         /// <param name="fullscreen">Koko ruutu jos <c>true</c>, muuten ikkuna.</param>
         /// <returns></returns>
-        internal void DoSetWindowSize( int width, int height, bool fullscreen )
-        {
+        internal void DoSetWindowSize (int width, int height, bool fullscreen)
+		{
 			GraphicsDeviceManager.PreferredBackBufferWidth = width;
-            GraphicsDeviceManager.PreferredBackBufferHeight = height;
-            GraphicsDeviceManager.IsFullScreen = fullscreen;
+			GraphicsDeviceManager.PreferredBackBufferHeight = height;
+			GraphicsDeviceManager.IsFullScreen = fullscreen;
             
 #if LINUX
-			if (fullscreen)
-			{
+			if (fullscreen) {
 				GraphicsDeviceManager.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
 				GraphicsDeviceManager.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
 			}
 #endif
 
-			GraphicsDeviceManager.ApplyChanges();
-            isFullScreenRequested = fullscreen;
+			GraphicsDeviceManager.ApplyChanges ();
+			isFullScreenRequested = fullscreen;
 
-            if ( Screen != null )
-                Screen.Size = new Vector( width, height );
-
+			if (Screen != null) {
+				Screen.Size = new Vector (width, height);
 #if LINUX
-			Screen.ScaleToFit();
+				Screen.ScaleToFit ();
 #endif
+			}
 
             windowSizeSet = true;
+
+            if ( GraphicsDevice != null )
+                CenterWindow();
         }
 
         /// <summary>

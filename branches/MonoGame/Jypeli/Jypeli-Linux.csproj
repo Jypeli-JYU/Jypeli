@@ -2,53 +2,42 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6D97D187-7044-4AF6-BFC9-445F4A261F8A}</ProjectGuid>
-    <ProjectTypeGuids>{9B831FEF-F496-498F-9FE8-180DA5CB4258};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{6B7DA771-B6DC-45C6-844E-CE67BCD476F2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>JypeliLinux</RootNamespace>
     <AssemblyName>Jypeli</AssemblyName>
     <ReleaseVersion>6.0</ReleaseVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>bin\Linux\Debug</OutputPath>
     <DefineConstants>DEBUG;JYPELI;LINUX;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>bin\Linux\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
-    <DefineConstants>LINUX;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>JYPELI;LINUX;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Tao.Sdl, Version=1.2.13.0, Culture=neutral, PublicKeyToken=9c7a200e36c0094e">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="Tao.Sdl">
-      <HintPath>..\MonoGame\MonoGame.Framework\bin\Linux\Debug\Tao.Sdl.dll</HintPath>
-    </Reference>
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\MonoGame\MonoGame.Framework\bin\Linux\Debug\Lidgren.Network.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework">
-      <HintPath>..\MonoGame\MonoGame.Framework\bin\Linux\Debug\MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK">
-      <HintPath>..\MonoGame\MonoGame.Framework\bin\Linux\Debug\OpenTK.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\CollisionHandler.cs" />
@@ -251,18 +240,15 @@
     <Compile Include="WP8\PhoneStub.cs" />
     <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\" />
-    <Folder Include="DataTypes\" />
-    <Folder Include="AdvanceMath\" />
-    <Folder Include="Storage\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Sound\" />
-    <Folder Include="Events\" />
-    <Folder Include="WP8\" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Linux.csproj">
+      <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
+      <Name>Jypeli.MonoGame.Framework.Linux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.Linux.csproj">
+      <Project>{AE483C29-042E-4226-BA52-D247CE7676DA}</Project>
+      <Name>Lidgren.Network.Linux</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

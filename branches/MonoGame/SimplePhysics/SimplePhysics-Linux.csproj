@@ -8,22 +8,23 @@
     <ProjectGuid>{7E51D9E3-3B1F-44D5-8376-90253690C95A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>SimplePhysics</RootNamespace>
-    <AssemblyName>SimplePhysics</AssemblyName>
+    <AssemblyName>Jypeli.SimplePhysics</AssemblyName>
+    <ReleaseVersion>6.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\Jypeli\bin\Linux\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <GenerateDocumentation>true</GenerateDocumentation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\Jypeli\bin\Linux\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -40,8 +41,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Linux.csproj">
+      <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
+      <Name>Jypeli.MonoGame.Framework.Linux</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jypeli\Jypeli-Linux.csproj">
-      <Project>{6D97D187-7044-4AF6-BFC9-445F4A261F8A}</Project>
+      <Project>{6B7DA771-B6DC-45C6-844E-CE67BCD476F2}</Project>
       <Name>Jypeli-Linux</Name>
     </ProjectReference>
   </ItemGroup>

@@ -41,7 +41,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework" />
+    <Reference Include="Jypeli.MonoGame.Framework" />
     <Reference Include="Jypeli" />
     <Reference Include="Jypeli.Physics2d" />
     <Reference Include="OpenTK">

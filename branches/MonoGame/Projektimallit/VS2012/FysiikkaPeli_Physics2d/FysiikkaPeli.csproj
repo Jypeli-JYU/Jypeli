@@ -41,7 +41,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Jypeli.MonoGame.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Jypeli, Version=6.0.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="Jypeli.Physics2d" />
     <Reference Include="OpenTK">

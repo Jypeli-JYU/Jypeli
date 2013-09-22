@@ -104,7 +104,7 @@ namespace Jypeli
 #elif !LINUX
 			// Let Linux use the default 800x480 window size, seems to work best with OpenTK
 			if ( !windowSizeSet )
-            	SetWindowSize( GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, isFullScreenRequested );
+            	SetWindowSize( 1024, 768, isFullScreenRequested );
 #endif
 
             // Center the window on next update (aka the OpenTK fix)

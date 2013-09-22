@@ -158,6 +158,18 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Palauttaa satunnaisen värin olioilmentymän perusteella.
+        /// Sama olio palauttaa aina saman värin.
+        /// </summary>
+        /// <param name="obj">Olio</param>
+        /// <returns>Väri.</returns>
+        public static Color NextColor( object obj )
+        {
+            var r = new Random( obj.GetHashCode() );
+            return new Color( (float)r.NextDouble(), (float)r.NextDouble(), (float)r.NextDouble(), 1 );
+        }
+
+        /// <summary>
         /// Palauttaa satunnaisen värin.
         /// </summary>
         /// <returns>Väri.</returns>

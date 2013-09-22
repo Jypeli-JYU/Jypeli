@@ -8,15 +8,36 @@ namespace Jypeli
 {
     public partial class PhysicsGame : Game
     {
-        struct Contact
+        class Contact
         {
             public PhysicsObject obj1;
             public PhysicsObject obj2;
+            public Vector normal;
+            public int deadcycles;
 
-            public Contact( PhysicsObject obj1, PhysicsObject obj2 )
+            public bool Active
+            {
+                get { return deadcycles == 0; }
+            }
+
+            public Contact( PhysicsObject obj1, PhysicsObject obj2, Vector n )
             {
                 this.obj1 = obj1;
                 this.obj2 = obj2;
+                this.normal = n;
+                this.deadcycles = 0;
+            }
+
+            public void UpdateContact()
+            {
+                BoundingRectangle intsect = BoundingRectangle.GetIntersection( obj1.BoundingRectangle, obj2.BoundingRectangle );
+                Vector n = ( intsect.Position - obj1.Position ).Normalize();
+                deadcycles = 0;
+            }
+
+            public void UpdateNoContact()
+            {
+                this.deadcycles++;
             }
         }
 
@@ -83,8 +104,12 @@ namespace Jypeli
             for ( int i = contacts.Count - 1; i >= 0; i-- )
             {
                 if ( contacts[i].obj1 == null || contacts[i].obj2 == null
-                    || contacts[i].obj1.IsDestroyed || contacts[i].obj2.IsDestroyed )
-                        contacts.RemoveAt( i );
+                    || contacts[i].obj1.IsDestroyed || contacts[i].obj2.IsDestroyed
+                    || contacts[i].deadcycles > 1000 )
+                {
+                    //MessageDisplay.Add( "Contact removed", RandomGen.NextColor( contacts[i] ) );
+                    contacts.RemoveAt( i );
+                }
             }
         }
 
@@ -92,13 +117,23 @@ namespace Jypeli
         {
             if ( dt <= 0 ) return;
 
+            Vector temp;
+
             for ( int i = 0; i < physObjects.Count; i++ )
             {
                 PhysicsBody body = (PhysicsBody)physObjects[i].Body;
                 if ( !body.IgnoresGravity && !body.IgnoresPhysicsLogics )
                     body.Velocity += Gravity * body.MassInv * dt;
-                body.Velocity += body.Acceleration * dt;
-                body.Position += body.Velocity * dt;
+
+                temp = body.Acceleration;
+                NullifyContactForces( physObjects[i], ref temp );
+                body.Acceleration = temp;
+                body.Velocity += temp * dt;
+
+                temp = body.Velocity;
+                NullifyContactForces( physObjects[i], ref temp );
+                body.Velocity = temp;
+                body.Position += temp * dt;
                 
                 // Acceleration is for this update only
                 body.Acceleration = Vector.Zero;
@@ -109,17 +144,57 @@ namespace Jypeli
 
         private bool HasContact( PhysicsObject obj1, PhysicsObject obj2 )
         {
-            return contacts.Exists( c => ( ( c.obj1 == obj1 && c.obj2 == obj2 ) || ( c.obj1 == obj2 && c.obj2 == obj1 ) ) );
+            Contact contact = GetContact( obj1, obj2 );
+            return contact != null && contact.Active;
         }
 
-        private void AddContact( PhysicsObject obj1, PhysicsObject obj2 )
+        private Contact GetContact( PhysicsObject obj1, PhysicsObject obj2 )
         {
-            contacts.Add( new Contact( obj1, obj2 ) );
+            return contacts.Find<Contact>( c => c.obj1 == obj1 && c.obj2 == obj2 || c.obj1 == obj2 && c.obj2 == obj1 );
         }
 
-        private void RemoveContact( PhysicsObject obj1, PhysicsObject obj2 )
+        private void AddContact( PhysicsObject obj1, PhysicsObject obj2, Vector n )
         {
-            contacts.RemoveAll( c => ( ( c.obj1 == obj1 && c.obj2 == obj2 ) || ( c.obj1 == obj2 && c.obj2 == obj1 ) ) );
+            Contact contact = GetContact( obj1, obj2 );
+
+            if ( contact != null )
+            {
+                //MessageDisplay.Add( "Contact enabled", RandomGen.NextColor( contact ) );
+                contact.UpdateContact();
+            }
+            else
+            {
+                contact = new Contact( obj1, obj2, n );
+                //MessageDisplay.Add( "New contact!", RandomGen.NextColor( contact ) );
+                contacts.Add( contact );
+            }
+        }
+
+        private void NullifyContactForces( PhysicsObject obj, ref Vector vector )
+        {
+            foreach ( var contact in contacts.FindAll( c => c.obj1 == obj ) )
+            {
+                if ( !contact.Active )
+                    continue;
+
+                var target = contact.obj2;
+                double par = vector.ScalarProjection( contact.normal );
+                double perp = vector.ScalarProjection( contact.normal.LeftNormal );
+
+                vector = perp * contact.normal.LeftNormal + ( par < 0 ? par : 0 ) * contact.normal;
+            }
+
+            foreach ( var contact in contacts.FindAll( c => c.obj2 == obj ) )
+            {
+                if ( !contact.Active )
+                    continue;
+
+                var target = contact.obj1;
+                double par = vector.ScalarProjection( contact.normal );
+                double perp = vector.ScalarProjection( contact.normal.LeftNormal );
+
+                vector = perp * contact.normal.LeftNormal + ( par < 0 ? par : 0 ) * contact.normal;
+            }
         }
 
         private bool IsOverlapping( PhysicsObject obj1, PhysicsObject obj2 )
@@ -139,15 +214,19 @@ namespace Jypeli
                 {
                     var jBody = (PhysicsBody)( physObjects[j].Body );
                     var jStatic = double.IsInfinity( jBody.Mass );
+                    Vector n;
 
                     if ( iStatic && jStatic )
                         continue;
 
+                    Contact contact = GetContact( physObjects[i], physObjects[j] );
+
                     if ( IsOverlapping( physObjects[i], physObjects[j] ) )
                     {
-                        if ( HasContact( physObjects[i], physObjects[j] ) )
+                        if ( contact != null && contact.Active )
                         {
                             // Already responded to this collision
+                            contact.UpdateContact();
                             continue;
                         }
 
@@ -158,7 +237,7 @@ namespace Jypeli
                         if ( iStatic || jStatic )
                         {
                             int index = iStatic ? j : i;
-                            Vector n = ( intsect.Position - physObjects[index].Position ).Normalize();
+                            n = ( intsect.Position - physObjects[index].Position ).Normalize();
                             double v_n = physObjects[index].Velocity.ScalarProjection( n );
 
                             if ( v_n > 0 )
@@ -180,6 +259,7 @@ namespace Jypeli
                             Vector p_j = physObjects[j].Mass * physObjects[j].Velocity;
                             Vector p_sum = p_i + p_j;
                             Vector p_diff = p_j - p_i;
+                            n = ( physObjects[j].AbsolutePosition - physObjects[i].AbsolutePosition ).Normalize();
 
                             Vector v_j = ( p_sum - p_diff ) / 2;
                             Vector v_i = p_sum - v_j;
@@ -195,12 +275,18 @@ namespace Jypeli
                         // Collision event
                         iBody.OnCollided( jBody );
                         jBody.OnCollided( iBody );
-                        AddContact( physObjects[i], physObjects[j] );
+                        AddContact( physObjects[i], physObjects[j], n );
                     }
                     else
                     {
                         // No contact between these objects
-                        RemoveContact( physObjects[i], physObjects[j] );
+                        if ( contact != null )
+                        {
+                            /*if ( contact.Active )
+                                MessageDisplay.Add( "Contact disabled", RandomGen.NextColor( contact ) );*/
+
+                            contact.UpdateNoContact();
+                        }
                     }
                 }
             }

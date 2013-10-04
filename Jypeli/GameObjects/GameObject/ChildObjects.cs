@@ -34,7 +34,7 @@ using System.Text;
 
 namespace Jypeli
 {
-    public partial class GameObject
+    public partial class GameObject : GameObjectContainer
     {
         internal SynchronousList<GameObject> _childObjects = null;
         internal protected bool autoResizeChildObjects = true;

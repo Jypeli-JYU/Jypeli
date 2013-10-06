@@ -14,12 +14,12 @@ namespace Jypeli
         /// Lisää peliolion.
         /// </summary>
         /// <param name="obj">Olio</param>
-        void Add( GameObject obj );
+        void Add( IGameObject obj );
 
         /// <summary>
         /// Poistaa peliolion tuhoamatta sitä.
         /// </summary>
         /// <param name="obj">Olio</param>
-        void Remove( GameObject obj );
+        void Remove( IGameObject obj );
     }
 }

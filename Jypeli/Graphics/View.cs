@@ -242,7 +242,11 @@ namespace Jypeli
         {
 			get
             {
+#if WINDOWS_PHONE
+                return 480;
+#else
 				return Game.GraphicsDeviceManager.PreferredBackBufferWidth;
+#endif
             }
         }
 
@@ -253,7 +257,11 @@ namespace Jypeli
         {
             get
             {
+#if WINDOWS_PHONE
+                return 800;
+#else
                 return Game.GraphicsDeviceManager.PreferredBackBufferHeight;
+#endif
             }
         }
 

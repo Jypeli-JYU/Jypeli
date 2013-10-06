@@ -24,7 +24,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\WindowsPhone\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;JYPELI;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;JYPELI;UseDouble;SILVERLIGHT;WINDOWS_PHONE;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -35,7 +35,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\WindowsPhone\Release</OutputPath>
-    <DefineConstants>TRACE;JYPELI;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;JYPELI;UseDouble;SILVERLIGHT;WINDOWS_PHONE;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -47,7 +47,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\WindowsPhone\x86\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;UseDouble;JYPELI;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_WIDGETS;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UseDouble;JYPELI;SILVERLIGHT;WINDOWS_PHONE;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_WIDGETS;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -59,7 +59,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\WindowsPhone\x86\Release</OutputPath>
-    <DefineConstants>TRACE;JYPELI;UseDouble;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_WIDGETS;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;JYPELI;UseDouble;SILVERLIGHT;WINDOWS_PHONE;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_WIDGETS;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -71,7 +71,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\WindowsPhone\ARM\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;JYPELI;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UseDouble;JYPELI;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -82,7 +82,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\WindowsPhone\ARM\Release</OutputPath>
-    <DefineConstants>TRACE;JYPELI;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;JYPELI;UseDouble;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>

@@ -154,6 +154,14 @@ namespace Jypeli
             get { return -Height / 2; }
         }
 
+        /// <summary>
+        /// Kentän rajaama alue
+        /// </summary>
+        public BoundingRectangle BoundingRect
+        {
+            get { return new BoundingRectangle( Center.X, Center.Y, Width, Height ); }
+        }
+
         internal Level( Game game )
         {
             this.game = game;

@@ -135,8 +135,10 @@ namespace Jypeli
 
             OKButton = new PushButton( "OK" );
 #if WINDOWS_PHONE
-            if ( Game.Instance.Phone.DisplayResolution == WP7.DisplayResolution.Large )
+            if ( Game.Instance.Phone.DisplayResolution == DisplayResolution.Large )
                 OKButton.TextScale = new Vector(2, 2);
+            else if ( Game.Instance.Phone.DisplayResolution == DisplayResolution.HD720 )
+                OKButton.TextScale = new Vector( 3, 3 );
 #endif
             OKButton.Clicked += new Action(Close);
             buttonRow.Add( OKButton );

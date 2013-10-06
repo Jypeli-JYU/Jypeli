@@ -123,6 +123,7 @@ namespace Jypeli
 #endif
         }
 
+#if WINDOWS || LINUX
         private static OpenTK.GameWindow GetForm( Microsoft.Xna.Framework.GameWindow gameWindow )
         {
             Type type = typeof( OpenTKGameWindow );
@@ -131,6 +132,7 @@ namespace Jypeli
                 return field.GetValue( gameWindow ) as OpenTK.GameWindow;
             return null;
         }
+#endif
 
         /// <summary>
         /// Asettaa ikkunan ruudun keskelle.

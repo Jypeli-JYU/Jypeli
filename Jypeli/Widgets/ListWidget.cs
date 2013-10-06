@@ -65,7 +65,8 @@ namespace Jypeli
         void AddListeners()
         {
 #if WINDOWS_PHONE
-            Game.TouchPanel.ListenGestureOn( this, GestureType.VerticalDrag, Scroll, null ).InContext( this );
+            // TODO: gestures
+            //Game.TouchPanel.ListenGestureOn( this, GestureType.VerticalDrag, Scroll, null ).InContext( this );
 #endif
         }
 

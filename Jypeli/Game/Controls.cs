@@ -122,7 +122,7 @@ namespace Jypeli
 #endif
             _controllers.Add( TouchPanel );
 #if WINDOWS_PHONE
-            controllers.Add( PhoneBackButton );
+            _controllers.Add( PhoneBackButton );
 #else
             _controllers.AddRange( GameControllers );
 #endif

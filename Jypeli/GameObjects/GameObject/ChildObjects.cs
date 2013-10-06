@@ -63,12 +63,15 @@ namespace Jypeli
         /// <remarks>
         /// <c>PhysicsObject</c>-tyyppisiä olioita ei voi lisätä lapsiolioksi.
         /// </remarks>
-        public void Add( GameObject childObject )
+        public void Add( IGameObject childObject )
         {
             //if (childObject is Jypeli.Assets.Explosion)
             //    throw new ArgumentException("Explosion as child object is not supported. Use Game.Add(explosion) instead.");
 
-            Objects.Add( childObject );
+            if ( !( childObject is GameObject ) )
+                throw new ArgumentException( "Child object can not be a non-GameObject" );
+
+            Objects.Add( (GameObject)childObject );
         }
 
         /// <summary> 
@@ -79,9 +82,12 @@ namespace Jypeli
         /// Oliota ei poisteta välittömästi, vaan viimeistään seuraavan 
         /// päivityksen jälkeen. 
         /// </remarks> 
-        public void Remove( GameObject childObject )
+        public void Remove( IGameObject childObject )
         {
-            Objects.Remove( childObject );
+            if ( !( childObject is GameObject ) )
+                throw new ArgumentException( "Child object can not be a non-GameObject" );
+
+            Objects.Remove( (GameObject)childObject );
         }
 
         protected virtual void InitChildren()

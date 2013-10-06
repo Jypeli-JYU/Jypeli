@@ -162,16 +162,6 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Lisää olion peliin.
-        /// Tavalliset oliot tulevat automaattisesti kerrokselle 0
-        /// ja ruutuoliot päällimmäiselle kerrokselle.
-        /// </summary>
-        public void Add( GameObject o )
-        {
-            this.Add( (IGameObject)o );
-        }
-
-        /// <summary>
         /// Lisää peliolion peliin, tiettyyn kerrokseen.
         /// </summary>
         /// <param name="o">Lisättävä olio.</param>
@@ -219,19 +209,6 @@ namespace Jypeli
 
             foreach ( Layer l in Layers )
                 l.Remove( o );
-        }
-
-        /// <summary> 
-        /// Poistaa olion pelistä. Jos haluat tuhota olion, 
-        /// kutsu mielummin olion <c>Destroy</c>-metodia. 
-        /// </summary> 
-        /// <remarks> 
-        /// Oliota ei poisteta välittömästi, vaan viimeistään seuraavan 
-        /// päivityksen jälkeen. 
-        /// </remarks> 
-        public void Remove( GameObject o )
-        {
-            this.Remove( (IGameObject)o );
         }
 
         /// <summary>

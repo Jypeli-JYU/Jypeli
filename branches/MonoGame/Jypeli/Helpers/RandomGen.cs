@@ -212,6 +212,17 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Luodaan satunnainen vektori, jonka "piste" on suorakaiteen sisällä.
+        /// </summary>
+        /// <param name="rect">suorakaisen joka rajoittaa arvontaa</param>
+        /// <param name="r">säde joka otetaan reunoilta sisäänpäin</param>
+        /// <returns>Satunnainen vektori</returns>
+        public static Vector NextVector( BoundingRectangle rect, int r = 0 )
+        {
+            return new Vector( NextDouble( rect.Left + r, rect.Right - r ), NextDouble( rect.Bottom + r, rect.Top - r ) );
+        }
+
+        /// <summary>
         /// Palauttaa satunnaisen kulman nollasta annettuun maksimiin.
         /// </summary>
         /// <param name="max">Maksimikulma.</param>

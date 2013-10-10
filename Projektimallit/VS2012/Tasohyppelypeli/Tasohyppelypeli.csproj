@@ -43,7 +43,9 @@
   <ItemGroup>
     <Reference Include="Jypeli.MonoGame.Framework" />
     <Reference Include="Jypeli" />
-    <Reference Include="Jypeli.Physics2d" />
+    <Reference Include="Jypeli.Physics2d">
+	  <HintPath>$(registry:HKEY_LOCAL_MACHINE\Software\MonoJypeli@Install_Dir)\Common\Jypeli.Physics2d.dll</HintPath>
+	</Reference>
     <Reference Include="OpenTK">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\OpenTK.dll</HintPath>
     </Reference>

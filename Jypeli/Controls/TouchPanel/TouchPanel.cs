@@ -11,6 +11,9 @@ namespace Jypeli
     using XnaTouchPanel = Microsoft.Xna.Framework.Input.Touch.TouchPanel;
 
     public delegate void TouchHandler( Touch touch );
+    public delegate void TouchHandler<T>( Touch touch, T p );
+    public delegate void TouchHandler<T1, T2>( Touch touch, T1 p1, T2 p2 );
+    public delegate void TouchHandler<T1, T2, T3>( Touch touch, T1 p1, T2 p2, T3 p3 );
 
     /// <summary>
     /// Kosketusnäyttö.
@@ -246,6 +249,59 @@ namespace Jypeli
         /// <summary>
         /// Kuuntelee kosketusnäyttöä olion päällä.
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj">Olio.</param>
+        /// <param name="hoverstate">Tila siitä onko kursori olion päällä, pois, menossa päälle vai poistumassa</param>
+        /// <param name="buttonstate">Kosketuksen tila</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p">Parametri</param>
+        public Listener ListenOn<T>( GameObject obj, HoverState hoverstate, ButtonState buttonstate, TouchHandler<T> handler, string helpText, T p )
+        {
+            Predicate<Touch> rule = MakeTriggerRule( obj, hoverstate );
+            return AddListener( GetList( buttonstate ), rule, helpText, handler, p );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttöä olion päällä.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T1"></typeparam>
+        /// <param name="obj">Olio.</param>
+        /// <param name="hoverstate">Tila siitä onko kursori olion päällä, pois, menossa päälle vai poistumassa</param>
+        /// <param name="buttonstate">Kosketuksen tila</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <param name="p2">2. parametri</param>
+        public Listener ListenOn<T1, T2>( GameObject obj, HoverState hoverstate, ButtonState buttonstate, TouchHandler<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        {
+            Predicate<Touch> rule = MakeTriggerRule( obj, hoverstate );
+            return AddListener( GetList( buttonstate ), rule, helpText, handler, p1, p2 );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttöä olion päällä.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T1"></typeparam>
+        /// <param name="obj">Olio.</param>
+        /// <param name="hoverstate">Tila siitä onko kursori olion päällä, pois, menossa päälle vai poistumassa</param>
+        /// <param name="buttonstate">Kosketuksen tila</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <param name="p2">2. parametri</param>
+        /// <param name="p3">3. parametri</param>
+        public Listener ListenOn<T1, T2, T3>( GameObject obj, HoverState hoverstate, ButtonState buttonstate, TouchHandler<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        {
+            Predicate<Touch> rule = MakeTriggerRule( obj, hoverstate );
+            return AddListener( GetList( buttonstate ), rule, helpText, handler, p1, p2, p3 );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttöä olion päällä.
+        /// </summary>
         /// <param name="obj">Olio.</param>
         /// <param name="buttonstate">Kosketuksen tila</param>
         /// <param name="handler">Aliohjelma</param>
@@ -253,6 +309,54 @@ namespace Jypeli
         public Listener ListenOn( GameObject obj, ButtonState buttonstate, TouchHandler handler, string helpText )
         {
             return ListenOn( obj, HoverState.On, buttonstate, handler, helpText );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttöä olion päällä.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj">Olio.</param>
+        /// <param name="buttonstate">Kosketuksen tila</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p">Parametri</param>
+        public Listener ListenOn<T>( GameObject obj, ButtonState buttonstate, TouchHandler<T> handler, string helpText, T p )
+        {
+            return ListenOn( obj, HoverState.On, buttonstate, handler, helpText, p );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttöä olion päällä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="obj">Olio.</param>
+        /// <param name="buttonstate">Kosketuksen tila</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <param name="p2">2. parametri</param>
+        public Listener ListenOn<T1, T2>( GameObject obj, ButtonState buttonstate, TouchHandler<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        {
+            return ListenOn( obj, HoverState.On, buttonstate, handler, helpText, p1, p2 );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttöä olion päällä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <param name="obj">Olio.</param>
+        /// <param name="buttonstate">Kosketuksen tila</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <param name="p2">2. parametri</param>
+        /// <param name="p3">3. parametri</param>
+        public Listener ListenOn<T1, T2, T3>( GameObject obj, ButtonState buttonstate, TouchHandler<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        {
+            return ListenOn( obj, HoverState.On, buttonstate, handler, helpText, p1, p2, p3 );
         }
     }
 }

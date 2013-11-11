@@ -110,9 +110,9 @@
       <Project>{f2642dd9-9e8c-479d-87d1-8b6572d5529a}</Project>
       <Name>Jypeli-Win8</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows8.csproj">
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Windows8.csproj">
       <Project>{0518563c-acca-4a14-8c5d-ddbe93e2605f}</Project>
-      <Name>MonoGame.Framework.Windows8</Name>
+      <Name>Jypeli.MonoGame.Framework.Windows8</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">

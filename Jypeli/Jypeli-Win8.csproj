@@ -99,6 +99,15 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\CollisionHandler.cs" />
+    <Compile Include="Assets\Explosion.cs" />
+    <Compile Include="Assets\Projectile.cs" />
+    <Compile Include="Brains\AbstractMoverBrain.cs" />
+    <Compile Include="Brains\Brain.cs" />
+    <Compile Include="Brains\FollowerBrain.cs" />
+    <Compile Include="Brains\LabyrinthWandererBrain.cs" />
+    <Compile Include="Brains\PathFollowerBrain.cs" />
+    <Compile Include="Brains\RandomMoverBrain.cs" />
     <Compile Include="Content\AsRifle.cs" />
     <Compile Include="Content\Auto.cs" />
     <Compile Include="Content\Bullet.cs" />
@@ -120,6 +129,7 @@
     <Compile Include="Content\Smoke.cs" />
     <Compile Include="Content\Tank.cs" />
     <Compile Include="Content\UpArrow.cs" />
+    <Compile Include="ContentExtensions\TextReader.cs" />
     <Compile Include="Controls\Controller\AnalogControl.cs" />
     <Compile Include="Controls\Controller\AnalogState.cs" />
     <Compile Include="Controls\Controller\ButtonState.cs" />
@@ -197,8 +207,10 @@
     <Compile Include="GameObjects\Layouts\ILayout.cs" />
     <Compile Include="GameObjects\Layouts\VerticalLayout.cs" />
     <Compile Include="GameObjects\Layouts\VerticalScrollLayout.cs" />
+    <Compile Include="GameObjects\PhysicsObject\Dimensions.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsBody.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
+    <Compile Include="GameObjects\PhysicsObject\Movement.cs" />
     <Compile Include="GameObjects\PhysicsObject\PhysicsObject.cs" />
     <Compile Include="GameObjects\Surface\Surface.cs" />
     <Compile Include="GameObjects\Surface\Surfaces.cs" />
@@ -209,6 +221,7 @@
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DelayedActions.cs" />
+    <Compile Include="Game\Factory.cs" />
     <Compile Include="Game\Game.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -233,8 +246,16 @@
     <Compile Include="Graphics\ShapeBatch.cs" />
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Helpers\RandomGen.cs" />
+    <Compile Include="Levels\AbstractTileMap.cs" />
+    <Compile Include="Levels\ColorTileMap.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\Borders.cs" />
+    <Compile Include="Levels\TileMap.cs" />
+    <Compile Include="Physics\Ignorers\AdvGroupIgnorer.cs" />
+    <Compile Include="Physics\Ignorers\GroupCollection.cs" />
+    <Compile Include="Physics\Ignorers\GroupIgnorer.cs" />
+    <Compile Include="Physics\Ignorers\Ignorer.cs" />
+    <Compile Include="Physics\Ignorers\ObjectIgnorer.cs" />
     <Compile Include="Physics\IPhysicsClient.cs" />
     <Compile Include="Physics\PhysicsInterface.cs" />
     <Compile Include="Shapes\Shapes.cs">
@@ -298,12 +319,11 @@
     <None Include="Content\UpArrow.xnb" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows8.csproj">
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Windows8.csproj">
       <Project>{0518563c-acca-4a14-8c5d-ddbe93e2605f}</Project>
-      <Name>MonoGame.Framework.Windows8</Name>
+      <Name>Jypeli.MonoGame.Framework.Windows8</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
   </PropertyGroup>

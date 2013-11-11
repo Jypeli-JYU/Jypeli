@@ -293,7 +293,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.WindowsPhone.csproj">
-      <Project>{BAA9A6E4-7690-4DE0-9531-DE0EAEEC9739}</Project>
+      <Project>{EDE62A2B-C873-4F76-8E5C-128B29631586}</Project>
       <Name>Jypeli.MonoGame.Framework.WindowsPhone</Name>
     </ProjectReference>
   </ItemGroup>

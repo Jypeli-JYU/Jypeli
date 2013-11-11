@@ -38,6 +38,8 @@ namespace Jypeli
         {
         }
 
+#if !WINRT
+
         /// <summary>
         /// Lukee ruutukentän tiedostosta.
         /// </summary>
@@ -47,6 +49,8 @@ namespace Jypeli
             char[,] tiles = ReadFromFile( path );
             return new TileMap( tiles );
         }
+
+#endif
 
         /// <summary>
         /// Lukee ruutukentän merkkijonotaulukosta.
@@ -114,6 +118,8 @@ namespace Jypeli
             }
         }
 
+#if !WINRT
+
         /// <summary>
         /// Lukee kentän ruudut tiedostosta.
         /// </summary>
@@ -134,6 +140,8 @@ namespace Jypeli
 
             return ListToArray(tileBuffer);
         }
+
+#endif
 
         internal static char[,] ReadFromStringArray(string[] lines)
         {

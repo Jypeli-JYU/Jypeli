@@ -58,6 +58,7 @@ namespace Jypeli
         private bool _flipAndMirror;
         private XnaColor _color = XnaColor.White;
         private XnaColor _bgcolor = XnaColor.Black;
+        private Texture2D _bgTex = null;
 
         /// <summary>
         /// Näyttölaite.
@@ -89,6 +90,7 @@ namespace Jypeli
         {
             this.device = device;
             this.renderBatch = new SpriteBatch( device );
+            this._bgTex = new Texture2D( device, 1, 1 );
 
             PresentationParameters pp = device.PresentationParameters;
             this._size = new Point( pp.BackBufferWidth, pp.BackBufferHeight );
@@ -103,13 +105,34 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Ruudun "taustalla" näkyvä kuva jos ruutua on kierretty
+        /// Näytön taustakuva.
+        /// </summary>
+        public Image Background
+        {
+            get
+            {
+                return new Image( _bgTex );
+            }
+            set
+            {
+                // Clone ensures that the image doesn't change unexpectedly
+                _bgTex = value.Clone().XNATexture;
+            }
+        }
+
+        /// <summary>
+        /// Ruudun "taustalla" näkyvä väri jos ruutua on kierretty
         /// tai se on pienempi kuin ikkuna.
         /// </summary>
         public Color BackgroundColor
         {
             get { return (Color)_bgcolor; }
-            set { _bgcolor = (XnaColor)value; }
+            set
+            {
+                _bgcolor = (XnaColor)value;
+                _bgTex = new Texture2D( RenderTarget.GraphicsDevice, 1, 1 );
+                _bgTex.SetData<XnaColor>( new XnaColor[] { (XnaColor)value } );
+            }
         }
 
         /// <summary>
@@ -412,8 +435,10 @@ namespace Jypeli
             Vector2 devorigin = new Vector2( device.Viewport.Width, device.Viewport.Height ) / 2;
             Vector2 rtorigin = new Vector2( RenderTarget.Width * _scale.X, RenderTarget.Height * _scale.Y ) / 2;
             Vector2 diff = Vector2.Transform( -rtorigin, rotate );
+            var rectangle = new Microsoft.Xna.Framework.Rectangle( 0, 0, device.Viewport.Width, device.Viewport.Height );
 
-            renderBatch.Begin( SpriteSortMode.Immediate, BlendState.Opaque );
+            renderBatch.Begin( SpriteSortMode.Immediate, BlendState.AlphaBlend, Graphics.GetDefaultSamplerState(), DepthStencilState.None, RasterizerState.CullCounterClockwise, null );
+            renderBatch.Draw( _bgTex, rectangle, XnaColor.White );
             renderBatch.Draw( RenderTarget, devorigin + diff + _center, null, _color, angle, Vector2.Zero, _scale2, _effect, 1 );
             renderBatch.End();
         }

@@ -411,12 +411,12 @@ public class Peli : PhysicsGame
 
     public Peli()
     {
-        //SetWindowSize( 1024, 768 );
+        SetWindowSize( 1024, 768 );
     }
 
     public override void Begin()
     {
-        SetWindowSize( 1024, 768 );
+        //SetWindowSize( 1024, 768 );
         Phone.DisplayOrientation = DisplayOrientation.Portrait;
 
 #if WINDOWS_PHONE

@@ -140,9 +140,7 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Reference Include="Jypeli" />
     <Reference Include="Jypeli.MonoGame.Framework" />
-	<Reference Include="Jypeli.SimplePhysics">
-	  <HintPath>$(registry:HKEY_LOCAL_MACHINE\Software\MonoJypeli@Install_Dir)\Common\Jypeli.SimplePhysics.dll</HintPath>
-    </Reference>
+	<Reference Include="Jypeli.SimplePhysics" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

@@ -25,24 +25,8 @@ UninstPage instfiles
 
 ;--------------------------------
 
-Section "MonoJypeli for VS2012"
+Section "Jypeli"
   SectionIn RO
-  
-  SetOutPath "$INSTDIR\Common"
-  File "Common\Jypeli.Physics2d.dll"
-  File "Common\Jypeli.Physics2d.xml"
-  File "Common\Jypeli.SimplePhysics.dll"
-  File "Common\Jypeli.SimplePhysics.xml"
-  
-  SetOutPath "$INSTDIR\WindowsGL"
-  File "WindowsGL\Jypeli.dll"
-  File "WindowsGL\Jypeli.xml"
-  File "WindowsGL\Jypeli.MonoGame.Framework.dll"
-  File "WindowsGL\Lidgren.Network.dll"
-  File "WindowsGL\Tao.Sdl.dll"
-  File "WindowsGL\OpenTK.dll"
-  File "WindowsGL\SDL.dll"
-    
   WriteRegStr HKLM "SOFTWARE\MonoJypeli" "Install_Dir" "$INSTDIR"
   
   ; Write the uninstall keys for Windows
@@ -54,28 +38,66 @@ Section "MonoJypeli for VS2012"
   WriteUninstaller "uninstall.exe"
 SectionEnd
 
-Section "MonoJypeli for Windows Phone 8 (VS2012)"
+Section "MonoJypeli for Windows"
+  SetOutPath "$INSTDIR\WindowsGL"
+  File "..\Compiled\WindowsGL\Jypeli\*.dll"
+  File "..\Compiled\WindowsGL\Jypeli\*.xml"
+SectionEnd
+
+Section "MonoJypeli for Windows Phone 8"
   SetOutPath "$INSTDIR\WP8-ARM"
-  File "WP8-ARM\*.*"
+  File "..\Compiled\WP8-ARM\Jypeli\*.dll"
+  File "..\Compiled\WP8-ARM\Jypeli\*.xml"
     
   SetOutPath "$INSTDIR\WP8-x86"
-  File "WP8-x86\*.*"
+  File "..\Compiled\WP8-x86\Jypeli\*.dll"
+  File "..\Compiled\WP8-x86\Jypeli\*.xml"
+SectionEnd
+
+Section "MonoJypeli for Windows Store 8 / WinRT"
+  SetOutPath "$INSTDIR\Win8-ARM"
+  File "..\Compiled\Win8-ARM\Jypeli\*.dll"
+  File "..\Compiled\Win8-ARM\Jypeli\*.xml"
     
+  SetOutPath "$INSTDIR\Win8-x86"
+  File "..\Compiled\Win8-x86\Jypeli\*.dll"
+  File "..\Compiled\Win8-x86\Jypeli\*.xml"
+SectionEnd
+
+Section "MonoJypeli for Linux"
+  SetOutPath "$INSTDIR\Linux"
+  File "..\Compiled\Linux\Jypeli\*.dll"
+  File "..\Compiled\Linux\Jypeli\*.xml"
+SectionEnd
+
+SubSection "Visual Studio 2012 project templates"
+
+Section "Windows"
+  ReadEnvStr $0 VS110COMNTOOLS
+  Push $0
+  Call CopyVsTemplates
+SectionEnd
+
+Section "Windows 8 Store / RT"
+  ReadEnvStr $0 VS110COMNTOOLS
+  Push $0
+  Call CopyRTTemplates
+SectionEnd
+
+Section "Windows Phone 8"
   ReadEnvStr $0 VS110COMNTOOLS
   Push $0
   Call CopyWpTemplates
 SectionEnd
 
-Section "Project templates for VS2012"
-  ReadEnvStr $0 VS110COMNTOOLS
-  Push $0
-  Call CopyVsTemplates
-  
+Section "Run template installer"
   DetailPrint "Installing project templates for VS2012 (may take a while)..."
   ReadEnvStr $0 VS110COMNTOOLS
   Push $0
   Call InstallVsTemplates
 SectionEnd
+
+SubSectionEnd
 
 Function CopyVsTemplates
    Pop $0
@@ -133,6 +155,33 @@ Function CopyWpTemplates
   Done:
 FunctionEnd
 
+Function CopyRTTemplates
+   Pop $0
+   
+   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VsExpressForPhone
+    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
+	SetOutPath $1
+    File "..\projektimallit\Win8\*.zip"
+	Goto VsExpressForPhone
+  
+  VsExpressForPhone:
+	ReadRegStr $5 HKLM "Software\Microsoft\VPDExpress\10.0" "InstallDir"
+	StrCmp $5 "" VSPro 0	
+    CreateDirectory "$5\VPDExpress\ProjectTemplates\Jypeli-MonoGame\Windows 8\1033"
+	StrCpy $1 "$5\VPDExpress\ProjectTemplates\Jypeli-MonoGame\Windows 8\1033"
+	SetOutPath $1
+    File "..\projektimallit\Win8\*.zip"
+	Goto VSPro
+	
+  VSPro:
+	IfFileExists "$0..\IDE\devenv.exe" 0 Done
+      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows 8"
+      CreateDirectory $1
+      SetOutPath $1
+      File "..\projektimallit\Win8\*.zip"
+
+  Done:
+FunctionEnd
 
 Function InstallVsTemplates
    Pop $0

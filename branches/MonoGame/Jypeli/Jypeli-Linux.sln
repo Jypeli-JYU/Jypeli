@@ -1,11 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidgren.Network.Linux", "..\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.Linux.csproj", "{AE483C29-042E-4226-BA52-D247CE7676DA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplePhysics-Linux", "..\SimplePhysics\SimplePhysics-Linux.csproj", "{7E51D9E3-3B1F-44D5-8376-90253690C95A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Physics2d-Linux", "..\Physics2d\Physics2d-Linux.csproj", "{041D26C6-A261-4843-906E-7326AB1DBA4C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.MonoGame.Framework.Linux", "..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Linux.csproj", "{35253CE1-C864-4CD3-8249-4D1319748E8F}"
 EndProject
@@ -17,10 +13,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{041D26C6-A261-4843-906E-7326AB1DBA4C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{041D26C6-A261-4843-906E-7326AB1DBA4C}.Debug|x86.Build.0 = Debug|Any CPU
-		{041D26C6-A261-4843-906E-7326AB1DBA4C}.Release|x86.ActiveCfg = Release|Any CPU
-		{041D26C6-A261-4843-906E-7326AB1DBA4C}.Release|x86.Build.0 = Release|Any CPU
+		{AE483C29-042E-4226-BA52-D247CE7676DA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AE483C29-042E-4226-BA52-D247CE7676DA}.Debug|x86.Build.0 = Debug|Any CPU
+		{AE483C29-042E-4226-BA52-D247CE7676DA}.Release|x86.ActiveCfg = Release|Any CPU
+		{AE483C29-042E-4226-BA52-D247CE7676DA}.Release|x86.Build.0 = Release|Any CPU
 		{35253CE1-C864-4CD3-8249-4D1319748E8F}.Debug|x86.ActiveCfg = Debug|x86
 		{35253CE1-C864-4CD3-8249-4D1319748E8F}.Debug|x86.Build.0 = Debug|x86
 		{35253CE1-C864-4CD3-8249-4D1319748E8F}.Release|x86.ActiveCfg = Release|x86
@@ -29,14 +25,9 @@ Global
 		{6B7DA771-B6DC-45C6-844E-CE67BCD476F2}.Debug|x86.Build.0 = Debug|Any CPU
 		{6B7DA771-B6DC-45C6-844E-CE67BCD476F2}.Release|x86.ActiveCfg = Release|Any CPU
 		{6B7DA771-B6DC-45C6-844E-CE67BCD476F2}.Release|x86.Build.0 = Release|Any CPU
-		{7E51D9E3-3B1F-44D5-8376-90253690C95A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7E51D9E3-3B1F-44D5-8376-90253690C95A}.Debug|x86.Build.0 = Debug|Any CPU
-		{7E51D9E3-3B1F-44D5-8376-90253690C95A}.Release|x86.ActiveCfg = Release|Any CPU
-		{7E51D9E3-3B1F-44D5-8376-90253690C95A}.Release|x86.Build.0 = Release|Any CPU
-		{AE483C29-042E-4226-BA52-D247CE7676DA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{AE483C29-042E-4226-BA52-D247CE7676DA}.Debug|x86.Build.0 = Debug|Any CPU
-		{AE483C29-042E-4226-BA52-D247CE7676DA}.Release|x86.ActiveCfg = Release|Any CPU
-		{AE483C29-042E-4226-BA52-D247CE7676DA}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = ..\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.Linux.csproj

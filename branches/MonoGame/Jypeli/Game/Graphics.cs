@@ -105,6 +105,17 @@ namespace Jypeli
         /// </summary>
         public static bool SmoothTextures { get; set; }
 
+        private void SetDefaultResolution()
+        {
+#if WINDOWS_PHONE || WINRT
+            isFullScreenRequested = true;
+#elif LINUX
+            // Let Linux use the default 800x480 window size for now, seems to work best with OpenTK
+#else
+            SetWindowSize( 1024, 768, isFullScreenRequested );
+#endif
+        }
+
         /// <summary>
         /// Asettaa ikkunan paikan. Huomaa että origo on vasemmassa yläreunassa.
         /// </summary>
@@ -165,9 +176,10 @@ namespace Jypeli
         /// <param name="height">Korkeus.</param>
         public void SetWindowSize( int width, int height )
         {
-            // WP has a limited set of supported resolutions
+            // WP have a limited set of supported resolutions
             // Use Phone.DisplayResolution instead
-#if !WINDOWS_PHONE
+            // For RT, use Screen.Size to scale down from native
+#if !WINDOWS_PHONE && !WINRT
             DoSetWindowSize( width, height, IsFullScreen );
 #endif
         }
@@ -183,7 +195,8 @@ namespace Jypeli
         {
             // WP has a limited set of supported resolutions
             // Use Phone.DisplayResolution instead
-#if !WINDOWS_PHONE
+            // For RT, use Screen.Size to scale down from native
+#if !WINDOWS_PHONE && !WINRT
             DoSetWindowSize( width, height, fullscreen );
 #endif
         }

@@ -99,13 +99,8 @@ namespace Jypeli
         [EditorBrowsable( EditorBrowsableState.Never )]
         protected override void Initialize()
         {
-#if WINDOWS_PHONE
-            isFullScreenRequested = true;
-#elif !LINUX
-			// Let Linux use the default 800x480 window size, seems to work best with OpenTK
-			if ( !windowSizeSet )
-            	SetWindowSize( 1024, 768, isFullScreenRequested );
-#endif
+            if ( !windowSizeSet )
+                SetDefaultResolution();
 
             // Center the window on next update (aka the OpenTK fix)
             DoNextUpdate( CenterWindow );

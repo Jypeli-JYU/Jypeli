@@ -34,6 +34,20 @@ call copy_dlls Jypeli\bin\WindowsPhone\ARM\Release %outputDir%\WP8-ARM
 call copy_dlls Jypeli\bin\Windows8\x86\Release %outputDir%\Win8-x86
 call copy_dlls Jypeli\bin\Windows8\ARM\Release %outputDir%\Win8-ARM
 
+call copy_dlls SimplePhysics\bin\WindowsGL\Release %outputDir%\WindowsGL
+call copy_dlls SimplePhysics\bin\Linux\Release %outputDir%\Linux
+call copy_dlls SimplePhysics\bin\WindowsPhone\x86\Release %outputDir%\WP8-x86
+call copy_dlls SimplePhysics\bin\WindowsPhone\ARM\Release %outputDir%\WP8-ARM
+call copy_dlls SimplePhysics\bin\Windows8\x86\Release %outputDir%\Win8-x86
+call copy_dlls SimplePhysics\bin\Windows8\ARM\Release %outputDir%\Win8-ARM
+
+call copy_dlls Physics2d\bin\WindowsGL\Release %outputDir%\WindowsGL
+call copy_dlls Physics2d\bin\Linux\Release %outputDir%\Linux
+call copy_dlls Physics2d\bin\WindowsPhone\x86\Release %outputDir%\WP8-x86
+call copy_dlls Physics2d\bin\WindowsPhone\ARM\Release %outputDir%\WP8-ARM
+call copy_dlls Physics2d\bin\Windows8\x86\Release %outputDir%\Win8-x86
+call copy_dlls Physics2d\bin\Windows8\ARM\Release %outputDir%\Win8-ARM
+
 goto end
 
 

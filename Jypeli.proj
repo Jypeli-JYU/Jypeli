@@ -1,0 +1,56 @@
+<Project DefaultTargets="BuildJypeli;BuildSimplePhysics;BuildPhysics2d" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <OutputDir>Compiled</OutputDir>
+  </PropertyGroup>
+
+  <Target Name="BuildJypeli">
+    <MSBuild Projects="Jypeli\Jypeli-VS2012.sln" Properties="Configuration=Debug" />
+	<MSBuild Projects="Jypeli\Jypeli-VS2012.sln" Properties="Configuration=Release;DocumentationFile=Jypeli.xml" />
+
+	<MSBuild Projects="Jypeli\Jypeli-Linux.sln" Properties="Configuration=Debug" />
+	<MSBuild Projects="Jypeli\Jypeli-Linux.sln" Properties="Configuration=Release;DocumentationFile=Jypeli.xml" />
+	
+	<MSBuild Projects="Jypeli\Jypeli-WP8.sln" Properties="Configuration=Debug;Platform=x86" />
+    <MSBuild Projects="Jypeli\Jypeli-WP8.sln" Properties="Configuration=Release;Platform=x86;DocumentationFile=Jypeli.xml" />
+	
+	<MSBuild Projects="Jypeli\Jypeli-WP8.sln" Properties="Configuration=Debug;Platform=ARM" />
+    <MSBuild Projects="Jypeli\Jypeli-WP8.sln" Properties="Configuration=Release;Platform=ARM;DocumentationFile=Jypeli.xml" />
+	
+	<MSBuild Projects="Jypeli\Jypeli-Win8.sln" Properties="Configuration=Debug;Platform=x86" />
+    <MSBuild Projects="Jypeli\Jypeli-Win8.sln" Properties="Configuration=Release;Platform=x86;DocumentationFile=Jypeli.xml" />
+	
+	<MSBuild Projects="Jypeli\Jypeli-Win8.sln" Properties="Configuration=Debug;Platform=ARM" />
+    <MSBuild Projects="Jypeli\Jypeli-Win8.sln" Properties="Configuration=Release;Platform=ARM;DocumentationFile=Jypeli.xml" />
+  </Target>
+  
+  <Target Name="BuildSimplePhysics">
+	<MSBuild Projects="SimplePhysics\SimplePhysics-VS2012.sln" Properties="Configuration=Debug" />
+	<MSBuild Projects="SimplePhysics\SimplePhysics-VS2012.sln" Properties="Configuration=Release;DocumentationFile=SimplePhysics.xml" />
+	
+	<MSBuild Projects="SimplePhysics\SimplePhysics-Linux.sln" Properties="Configuration=Debug" />
+	<MSBuild Projects="SimplePhysics\SimplePhysics-Linux.sln" Properties="Configuration=Release;DocumentationFile=SimplePhysics.xml" />
+	
+	<MSBuild Projects="SimplePhysics\SimplePhysics-WP8.sln" Properties="Configuration=Debug;Platform=x86" />
+	<MSBuild Projects="SimplePhysics\SimplePhysics-WP8.sln" Properties="Configuration=Release;Platform=x86;DocumentationFile=SimplePhysics.xml" />
+	
+	<MSBuild Projects="SimplePhysics\SimplePhysics-WP8.sln" Properties="Configuration=Debug;Platform=ARM" />
+	<MSBuild Projects="SimplePhysics\SimplePhysics-WP8.sln" Properties="Configuration=Release;Platform=ARM;DocumentationFile=SimplePhysics.xml" />
+	
+	<MSBuild Projects="SimplePhysics\SimplePhysics-Win8.sln" Properties="Configuration=Debug;Platform=ARM" />
+	<MSBuild Projects="SimplePhysics\SimplePhysics-Win8.sln" Properties="Configuration=Release;Platform=ARM;DocumentationFile=SimplePhysics.xml" />
+  </Target>
+  
+  <Target Name="BuildPhysics2d">
+	<MSBuild Projects="Physics2d\Physics2d.sln" Properties="Configuration=Debug" />
+	<MSBuild Projects="Physics2d\Physics2d.sln" Properties="Configuration=Release;DocumentationFile=Jypeli.Physics2d.xml" />
+	
+	<MSBuild Projects="Physics2d\Physics2d-Linux.sln" Properties="Configuration=Debug" />
+	<MSBuild Projects="Physics2d\Physics2d-Linux.sln" Properties="Configuration=Release;DocumentationFile=Jypeli.Physics2d.xml" />
+	
+	<MSBuild Projects="Physics2d\Physics2d-WP8.sln" Properties="Configuration=Debug;Platform=x86" />
+	<MSBuild Projects="Physics2d\Physics2d-WP8.sln" Properties="Configuration=Release;Platform=x86;DocumentationFile=Jypeli.Physics2d.xml" />
+	
+	<MSBuild Projects="Physics2d\Physics2d-WP8.sln" Properties="Configuration=Debug;Platform=ARM" />
+	<MSBuild Projects="Physics2d\Physics2d-WP8.sln" Properties="Configuration=Release;Platform=ARM;DocumentationFile=Jypeli.Physics2d.xml" />
+  </Target>
+</Project>

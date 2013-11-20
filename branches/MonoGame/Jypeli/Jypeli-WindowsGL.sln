@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli-VS2012", "Jypeli-VS2012.csproj", "{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli-WindowsGL", "Jypeli-WindowsGL.csproj", "{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{AE483C29-042E-4226-BA52-D247CE7676DA} = {AE483C29-042E-4226-BA52-D247CE7676DA}
 	EndProjectSection

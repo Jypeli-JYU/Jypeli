@@ -62,7 +62,6 @@ namespace Jypeli
     {
         private double secondsPerFrame;
         private TimeSpan startTime;
-        private bool isAnimated = false;
         private int currentIndex;
         private int repeatCount = -1; // When -1, animation repeats forever.
 
@@ -77,6 +76,11 @@ namespace Jypeli
         // animation objects is quite easy anyway.
 
         internal Image[] frames = null;
+
+        /// <summary>
+        /// Onko animaatio käynnissä.
+        /// </summary>
+        public bool IsPlaying { get; set; }
 
         /// <summary>
         /// Ruutujen määrä.
@@ -95,7 +99,7 @@ namespace Jypeli
         {
             get
             {
-                if ( !isAnimated ) return currentIndex;
+                if ( !IsPlaying ) return currentIndex;
 
                 double secondsNow = Game.Time.SinceStartOfGame.TotalSeconds;
                 double secondsAdvanced = secondsNow - startTime.TotalSeconds;
@@ -207,7 +211,7 @@ namespace Jypeli
         public Animation( Animation src )
         {
             FPS = src.FPS;
-            isAnimated = src.isAnimated;
+            IsPlaying = src.IsPlaying;
             startTime = src.startTime;
             currentIndex = src.currentIndex;
             repeatCount = src.repeatCount;
@@ -290,8 +294,16 @@ namespace Jypeli
         {
             this.repeatCount = repeatCount;
             startTime = Game.Time.SinceStartOfGame;
-            isAnimated = true;
+            IsPlaying = true;
             lastRepeat = 0;
+        }
+
+        /// <summary>
+        /// Keskeyttää animaation toiston.
+        /// </summary>
+        public void Pause()
+        {
+            IsPlaying = false;
         }
 
         /// <summary>
@@ -299,7 +311,7 @@ namespace Jypeli
         /// </summary>
         public void Resume()
         {
-            isAnimated = true;
+            IsPlaying = true;
         }
 
         /// <summary>
@@ -307,7 +319,7 @@ namespace Jypeli
         /// </summary>
         public void Stop()
         {
-            isAnimated = false;
+            IsPlaying = false;
             currentIndex = 0;
             if ( StopOnLastFrame )
                 currentIndex = FrameCount - 1;
@@ -321,10 +333,7 @@ namespace Jypeli
         /// <param name="numberOfFrames">Edettävä määrä ruutuja.</param>
         public void Step( int numberOfFrames )
         {
-            if ( isAnimated )
-                Stop();
-            
-            //currentIndex = ( currentIndex + numberOfFrames ) % FrameCount;
+            IsPlaying = false;
             currentIndex = currentIndex + numberOfFrames;
 
             if ( currentIndex >= FrameCount )

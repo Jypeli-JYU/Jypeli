@@ -58,7 +58,7 @@
     <Compile Include="PhysicsBody.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Jypeli\Jypeli-VS2012.csproj">
+    <ProjectReference Include="..\Jypeli\Jypeli-WindowsGL.csproj">
       <Project>{76cc55a2-bece-4f80-b491-ddcab9f061fb}</Project>
       <Name>Jypeli-VS2012</Name>
     </ProjectReference>

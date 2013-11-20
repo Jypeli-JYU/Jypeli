@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplePhysics-VS2012", "SimplePhysics-VS2012.csproj", "{7E51D9E3-3B1F-44D5-8376-90253690C95A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplePhysics-WindowsGL", "SimplePhysics-WindowsGL.csproj", "{7E51D9E3-3B1F-44D5-8376-90253690C95A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli-VS2012", "..\Jypeli\Jypeli-VS2012.csproj", "{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli-WindowsGL", "..\Jypeli\Jypeli-WindowsGL.csproj", "{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.MonoGame.Framework.WindowsGL", "..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.WindowsGL.csproj", "{DA65B249-9290-4A09-A48C-443A65845583}"
 EndProject

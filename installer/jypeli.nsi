@@ -40,34 +40,34 @@ SectionEnd
 
 Section "MonoJypeli for Windows"
   SetOutPath "$INSTDIR\WindowsGL"
-  File "..\Compiled\WindowsGL\Jypeli\*.dll"
-  File "..\Compiled\WindowsGL\Jypeli\*.xml"
+  File "..\Compiled\WindowsGL-x86\*.dll"
+  File "..\Compiled\WindowsGL-x86\*.xml"
 SectionEnd
 
 Section "MonoJypeli for Windows Phone 8"
   SetOutPath "$INSTDIR\WP8-ARM"
-  File "..\Compiled\WP8-ARM\Jypeli\*.dll"
-  File "..\Compiled\WP8-ARM\Jypeli\*.xml"
+  File "..\Compiled\WP8-ARM\*.dll"
+  File "..\Compiled\WP8-ARM\*.xml"
     
   SetOutPath "$INSTDIR\WP8-x86"
-  File "..\Compiled\WP8-x86\Jypeli\*.dll"
-  File "..\Compiled\WP8-x86\Jypeli\*.xml"
+  File "..\Compiled\WP8-x86\*.dll"
+  File "..\Compiled\WP8-x86\*.xml"
 SectionEnd
 
 Section "MonoJypeli for Windows Store 8 / WinRT"
   SetOutPath "$INSTDIR\Win8-ARM"
-  File "..\Compiled\Win8-ARM\Jypeli\*.dll"
-  File "..\Compiled\Win8-ARM\Jypeli\*.xml"
+  File "..\Compiled\Win8-ARM\*.dll"
+  File "..\Compiled\Win8-ARM\*.xml"
     
   SetOutPath "$INSTDIR\Win8-x86"
-  File "..\Compiled\Win8-x86\Jypeli\*.dll"
-  File "..\Compiled\Win8-x86\Jypeli\*.xml"
+  File "..\Compiled\Win8-x86\*.dll"
+  File "..\Compiled\Win8-x86\*.xml"
 SectionEnd
 
 Section "MonoJypeli for Linux"
   SetOutPath "$INSTDIR\Linux"
-  File "..\Compiled\Linux\Jypeli\*.dll"
-  File "..\Compiled\Linux\Jypeli\*.xml"
+  File "..\Compiled\Linux-x86\*.dll"
+  File "..\Compiled\Linux-x86\*.xml"
 SectionEnd
 
 SubSection "Visual Studio 2012 project templates"

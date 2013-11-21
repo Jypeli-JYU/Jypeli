@@ -1,0 +1,33 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>FysiikkaPeli RT (Physics2d)</Name>
+    <Description>Fysiikkapeli Windows RT:lle (Windows 8 Store). Käyttää Physics2d-fysiikkamoottoria.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>FysiikkaPeli</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="FysiikkaPeli.csproj" File="FysiikkaPeli.csproj" ReplaceParameters="true">
+      <Folder Name="Assets" TargetFolderName="Assets">
+        <ProjectItem ReplaceParameters="false" TargetFileName="Logo.png">Logo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SmallLogo.png">SmallLogo.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SplashScreen.png">SplashScreen.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="StoreLogo.png">StoreLogo.png</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Package.appxmanifest">Package.appxmanifest</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Peli.cs">Peli.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="FysiikkaPeliRT_TemporaryKey.pfx">FysiikkaPeliRT_TemporaryKey.pfx</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+      </Folder>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

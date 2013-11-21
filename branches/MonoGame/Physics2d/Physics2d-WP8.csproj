@@ -23,7 +23,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\WindowsPhone\x86\Debug\</OutputPath>
+    <OutputPath>bin\WP8\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;UseDouble;JYPELI;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -31,44 +31,46 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0436</NoWarn>
     <UseVSHostingProcess>true</UseVSHostingProcess>
-    <DocumentationFile>bin\WindowsPhone\x86\Debug\Jypeli.Physics2d.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\WindowsPhone\x86\Release\</OutputPath>
+    <OutputPath>bin\WP8\x86\Release\</OutputPath>
     <DefineConstants>TRACE;JYPELI;UseDouble;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0436</NoWarn>
-    <DocumentationFile>bin\WindowsPhone\x86\Release\Jypeli.Physics2d.XML</DocumentationFile>
+    <DocumentationFile>bin\WP8\x86\Release\Jypeli.Physics2d.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\WindowsPhone\ARM\Debug\</OutputPath>
+    <OutputPath>bin\WP8\ARM\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;UseDouble;JYPELI;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0436</NoWarn>
-    <DocumentationFile>bin\WindowsPhone\ARM\Debug\Jypeli.Physics2d.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\WindowsPhone\ARM\Release\</OutputPath>
+    <OutputPath>bin\WP8\ARM\Release\</OutputPath>
     <DefineConstants>TRACE;JYPELI;UseDouble;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0436</NoWarn>
-    <DocumentationFile>bin\WindowsPhone\ARM\Release\Jypeli.Physics2d.XML</DocumentationFile>
+    <DocumentationFile>bin\WP8\ARM\Release\Jypeli.Physics2d.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\PlatformWandererBrain.cs" />

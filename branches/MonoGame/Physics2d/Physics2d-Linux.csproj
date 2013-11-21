@@ -15,24 +15,31 @@
     <ReleaseVersion>6.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <OutputPath>bin\Linux\Debug\</OutputPath>
+    <OutputPath>bin\Linux\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;UseDouble</DefineConstants>
-    <DocumentationFile>bin\Linux\Debug\Jypeli.Physics2d.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\Linux\Release\</OutputPath>
+    <OutputPath>bin\Linux\x86\Release\</OutputPath>
     <DefineConstants>TRACE;UseDouble</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Linux\Release\Jypeli.Physics2d.XML</DocumentationFile>
+    <DocumentationFile>bin\Linux\x86\Release\Jypeli.Physics2d.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Jypeli">
+      <HintPath>..\Jypeli\bin\Linux\Release\Jypeli.dll</HintPath>
+    </Reference>
+    <Reference Include="Jypeli.MonoGame.Framework">
+      <HintPath>..\Jypeli\bin\Linux\Release\Jypeli.MonoGame.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -141,14 +148,4 @@
   </Target>
   -->
   <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Linux.csproj">
-      <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
-      <Name>Jypeli.MonoGame.Framework.Linux</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Jypeli\Jypeli-Linux.csproj">
-      <Project>{6B7DA771-B6DC-45C6-844E-CE67BCD476F2}</Project>
-      <Name>Jypeli-Linux</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

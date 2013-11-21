@@ -7,15 +7,15 @@
     <ProjectGuid>{7E51D9E3-3B1F-44D5-8376-90253690C95A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Jypeli</RootNamespace>
-    <AssemblyName>SimplePhysics</AssemblyName>
+    <RootNamespace>Jypeli.SimplePhysics</RootNamespace>
+    <AssemblyName>Jypeli.SimplePhysics</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Windows8\ARM\Debug\</OutputPath>
+    <OutputPath>bin\Win8\ARM\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
@@ -23,10 +23,11 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <DocumentationFile>bin\Windows8\ARM\Debug\SimplePhysics.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
-    <OutputPath>bin\Windows8\ARM\Release\</OutputPath>
+    <OutputPath>bin\Win8\ARM\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
@@ -35,11 +36,11 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <DocumentationFile>bin\Windows8\ARM\Release\SimplePhysics.XML</DocumentationFile>
+    <DocumentationFile>bin\Win8\ARM\Release\Jypeli.SimplePhysics.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Windows8\x86\Debug\</OutputPath>
+    <OutputPath>bin\Win8\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;NETFX_CORE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
@@ -47,10 +48,11 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <DocumentationFile>bin\Windows8\x86\Debug\SimplePhysics.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\Windows8\x86\Release\</OutputPath>
+    <OutputPath>bin\Win8\x86\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
@@ -59,7 +61,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <DocumentationFile>bin\Windows8\x86\Release\SimplePhysics.XML</DocumentationFile>
+    <DocumentationFile>bin\Win8\x86\Release\Jypeli.SimplePhysics.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -73,9 +75,9 @@
       <Project>{f2642dd9-9e8c-479d-87d1-8b6572d5529a}</Project>
       <Name>Jypeli-Win8</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Windows8.csproj">
-      <Project>{0518563c-acca-4a14-8c5d-ddbe93e2605f}</Project>
-      <Name>Jypeli.MonoGame.Framework.Windows8</Name>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Win8.csproj">
+      <Project>{e3b82eb8-5725-49f0-876f-e857123c0799}</Project>
+      <Name>Jypeli.MonoGame.Framework.Win8</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">

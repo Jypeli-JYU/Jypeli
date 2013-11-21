@@ -12,22 +12,32 @@
     <ReleaseVersion>6.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <OutputPath>bin\Linux\Debug\</OutputPath>
+    <OutputPath>bin\Linux\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Linux\Debug\Jypeli.SimplePhysics.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\Linux\Release\</OutputPath>
+    <OutputPath>bin\Linux\x86\Release\</OutputPath>
     <Optimize>true</Optimize>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Linux\Release\Jypeli.SimplePhysics.XML</DocumentationFile>
+    <DocumentationFile>bin\Linux\x86\Release\Jypeli.SimplePhysics.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Jypeli, Version=6.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Jypeli\bin\Linux\Release\Jypeli.dll</HintPath>
+    </Reference>
+    <Reference Include="Jypeli.MonoGame.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Jypeli\bin\Linux\Release\Jypeli.MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -38,14 +48,4 @@
     <Compile Include="PhysicsBody.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Linux.csproj">
-      <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
-      <Name>Jypeli.MonoGame.Framework.Linux</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Jypeli\Jypeli-Linux.csproj">
-      <Project>{6B7DA771-B6DC-45C6-844E-CE67BCD476F2}</Project>
-      <Name>Jypeli-Linux</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

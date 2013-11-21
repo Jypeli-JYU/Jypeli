@@ -36,23 +36,24 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\WindowsGL\Debug\</OutputPath>
+    <OutputPath>bin\WindowsGL\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;UseDouble</DefineConstants>
-    <DocumentationFile>bin\WindowsGL\Debug\Jypeli.Physics2d.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\WindowsGL\Release\</OutputPath>
+    <OutputPath>bin\WindowsGL\x86\Release\</OutputPath>
     <DefineConstants>TRACE;UseDouble</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\WindowsGL\Release\Jypeli.Physics2d.XML</DocumentationFile>
+    <DocumentationFile>bin\WindowsGL\x86\Release\Jypeli.Physics2d.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

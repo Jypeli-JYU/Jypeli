@@ -52,7 +52,7 @@ namespace Jypeli
             
             if ( args.Length > 0 )
             {
-                Array.ConstrainedCopy( args, 1, handlerParams, 0, handlerParams.Length );
+                Array.ConstrainedCopy( args, 0, handlerParams, 1, handlerParams.Length - 1 );
             }
         }
 
@@ -71,7 +71,7 @@ namespace Jypeli
 
             if ( args.Length > 0 )
             {
-                Array.ConstrainedCopy( args, 1, handlerParams, 0, handlerParams.Length );
+                Array.ConstrainedCopy( args, 0, handlerParams, 1, handlerParams.Length - 1 );
             }
         }
 

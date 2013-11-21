@@ -26,10 +26,6 @@
 using System;
 using System.Collections.Generic;
 
-#if NETFX_CORE
-using Jypeli;
-#endif
-
 namespace Physics2DDotNet.Collections
 {
     public sealed class ReadOnlyThreadSafeCollection<T> : IList<T>
@@ -116,7 +112,14 @@ namespace Physics2DDotNet.Collections
             using (rwLock.Read)
             {
 #if NETFX_CORE
-                return self.ConvertAll<T, TOutput>(converter);
+                List<TOutput> outList = new List<TOutput>();
+
+                foreach ( T item in self )
+                {
+                    outList.Add( converter( item ) );
+                }
+
+                return outList;
 #else
                 return self.ConvertAll<TOutput>( converter );
 #endif

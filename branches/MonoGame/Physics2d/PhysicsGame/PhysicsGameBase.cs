@@ -319,7 +319,7 @@ namespace Jypeli
         /// <param name="obj">Törmäävä olio.</param>
         /// <param name="target">Olio johon törmätään.</param>
         /// <param name="handler">Metodi, joka käsittelee törmäyksen (ei parametreja).</param>
-        public void AddCollisionHandler<O, T>( O obj, T target, CollisionHandler<PhysicsObject, T> handler )
+        public void AddCollisionHandlerByRef<O, T>( O obj, T target, CollisionHandler<O, T> handler )
             where O : IPhysicsObject
             where T : IPhysicsObject
         {
@@ -331,7 +331,7 @@ namespace Jypeli
                 delegate( IPhysicsObject collider, IPhysicsObject collidee )
                 {
                     if ( object.ReferenceEquals( collidee, target ) )
-                        handler( (PhysicsObject)collider, (T)collidee );
+                        handler( (O)collider, (T)collidee );
                 };
 
             obj.Collided += targetHandler;
@@ -345,7 +345,7 @@ namespace Jypeli
         /// <param name="obj">Törmäävä olio.</param>
         /// <param name="tag">Törmättävän olion tagi.</param>
         /// <param name="handler">Metodi, joka käsittelee törmäyksen (ei parametreja).</param>
-        public void AddCollisionHandler<O, T>( O obj, object tag, CollisionHandler<O, T> handler )
+        public void AddCollisionHandlerByTag<O, T>( O obj, object tag, CollisionHandler<O, T> handler )
             where O : IPhysicsObject
             where T : IPhysicsObject
         {
@@ -362,6 +362,23 @@ namespace Jypeli
 
             obj.Collided += targetHandler;
             collisionHandlers.Add( new CollisionRecord( obj, null, tag, handler ), targetHandler );
+        }
+
+        /// <summary>
+        /// Määrää, mihin aliohjelmaan siirrytään kun 
+        /// olio <code>obj</code> törmää toiseen olioon.
+        /// </summary>
+        /// <param name="obj">Törmäävä olio.</param>
+        /// <param name="target">Törmättävän olion viite tai tagi.</param>
+        /// <param name="handler">Metodi, joka käsittelee törmäyksen (ei parametreja).</param>
+        public void AddCollisionHandler<O, T>( O obj, object target, CollisionHandler<O, T> handler )
+            where O : IPhysicsObject
+            where T : IPhysicsObject
+        {
+            if ( target is T )
+                AddCollisionHandlerByRef( obj, (T)target, handler );
+            else
+                AddCollisionHandlerByTag( obj, target, handler );
         }
 
         /// <summary>

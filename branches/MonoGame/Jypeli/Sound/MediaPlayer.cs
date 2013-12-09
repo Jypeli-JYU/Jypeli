@@ -15,6 +15,24 @@ namespace Jypeli
         private ContentManager content;
 
         /// <summary>
+        /// Voiko musiikkia soittaa.
+        /// Windows Phonella rajoituksena on että käyttäjän musiikkia ei saa keskeyttää.
+        /// Ei tarvitse tarkistaa itse ennen Play-kutsua, Jypeli tekee sen puolesta.
+        /// </summary>
+        public bool CanPlay
+        {
+            get
+            {
+#if WINDOWS_PHONE
+                Microsoft.Xna.Framework.FrameworkDispatcher.Update();
+                return Microsoft.Xna.Framework.Media.MediaPlayer.GameHasControl;
+#else
+                return true;
+#endif
+            }
+        }
+
+        /// <summary>
         /// Äänenvoimakkuus välillä 0.0 - 1.0.
         /// </summary>
         public double Volume
@@ -60,6 +78,8 @@ namespace Jypeli
         /// <param name="songName">Kappaleen nimi.</param>
         public void Play( string songName )
         {
+            if ( !CanPlay ) return;
+
             XnaSong song;
             try
             {
@@ -81,6 +101,8 @@ namespace Jypeli
         /// <param name="fileName">Tiedoston nimi.</param>
         public void PlayFromFile( string fileName )
         {
+            if ( !CanPlay ) return;
+
             // Use reflection to get the internal constructor of Song class
             // The public constructor does not take spaces well!
             var ctor = typeof( Song ).GetConstructor(
@@ -97,6 +119,7 @@ namespace Jypeli
         /// </summary>
         public void Pause()
         {
+            if ( !CanPlay ) return;
             Microsoft.Xna.Framework.Media.MediaPlayer.Pause();
         }
 
@@ -105,6 +128,7 @@ namespace Jypeli
         /// </summary>
         public void Resume()
         {
+            if ( !CanPlay ) return;
             Microsoft.Xna.Framework.Media.MediaPlayer.Resume();
         }
 
@@ -113,6 +137,7 @@ namespace Jypeli
         /// </summary>
         public void Stop()
         {
+            if ( !CanPlay ) return;
             Microsoft.Xna.Framework.Media.MediaPlayer.Stop();
         }
     }

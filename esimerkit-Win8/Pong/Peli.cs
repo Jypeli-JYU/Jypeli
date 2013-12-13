@@ -8,7 +8,7 @@ public class Pong : PhysicsGame
 {
     Vector nopeusYlos = new Vector( 0, 200 );
     Vector nopeusAlas = new Vector( 0, -200 );
-    double kosketusMaxNopeus = 500;
+    double kosketusMaxNopeus = 10;
 
     PhysicsObject pallo;
     PhysicsObject maila1;
@@ -28,6 +28,13 @@ public class Pong : PhysicsGame
 
     public override void Begin()
     {
+        Screen.Angle = Angle.FromDegrees( 20 );
+        Screen.Size /= 3;
+        Screen.Center = new Vector( Screen.ViewportWidth / 4, Screen.ViewportHeight / 4 );
+        //Screen.BackgroundColor = Color.Red;
+        Screen.Background = LoadImage( "cadance_evil" );
+
+
         LuoKentta();
         AsetaOhjaimet();
         LisaaLaskurit();
@@ -39,9 +46,9 @@ public class Pong : PhysicsGame
         Level.Width = Screen.Width;
         Level.Height = Screen.Height;
 
-        pallo = new PhysicsObject( 40.0, 40.0 );
+        pallo = new PhysicsObject( Level.Width / 30, Level.Width / 30 );
         pallo.Shape = Shape.Circle;
-        pallo.X = -200.0;
+        pallo.X = 0.0;
         pallo.Y = 0.0;
         pallo.Restitution = 1.0;
         pallo.KineticFriction = 0.0;
@@ -49,8 +56,8 @@ public class Pong : PhysicsGame
         Add( pallo );
         AddCollisionHandler( pallo, KasittelePallonTormays );
 
-        maila1 = LuoMaila( Level.Left + 20.0, 0.0 );
-        maila2 = LuoMaila( Level.Right - 20.0, 0.0 );
+        maila1 = LuoMaila( Level.Left + pallo.Width, 0.0 );
+        maila2 = LuoMaila( Level.Right - pallo.Width, 0.0 );
 
         vasenReuna = Level.CreateLeftBorder();
         vasenReuna.Restitution = 1.0;
@@ -75,7 +82,7 @@ public class Pong : PhysicsGame
 
     PhysicsObject LuoMaila( double x, double y )
     {
-        PhysicsObject maila = PhysicsObject.CreateStaticObject( 20.0, 100.0 );
+        PhysicsObject maila = PhysicsObject.CreateStaticObject( Level.Width / 200, Level.Height / 7 );
         maila.Shape = Shape.Rectangle;
         maila.X = x;
         maila.Y = y;
@@ -95,9 +102,8 @@ public class Pong : PhysicsGame
     {
         IntMeter laskuri = new IntMeter( 0 );
         laskuri.MaxValue = 10;
-
-        /*Label naytto = new Label();
-        naytto.BindTo(laskuri);
+        Label naytto = new Label();
+        /*naytto.BindTo(laskuri);
         naytto.X = x;
         naytto.Y = y;
         naytto.TextColor = Color.White;
@@ -124,7 +130,7 @@ public class Pong : PhysicsGame
 
     void AloitaPeli()
     {
-        Vector impulssi = new Vector( RandomGen.NextDouble( 100, 500 ), RandomGen.NextDouble( 100, 500 ) );
+        Vector impulssi = new Vector( RandomGen.NextDouble( 100, 500 ), RandomGen.NextDouble( 100, 300 ) );
         pallo.Hit( impulssi );
     }
 
@@ -176,9 +182,10 @@ public class Pong : PhysicsGame
 
         if ( maila != null )
         {
-            double matka = kosketus.PositionOnWorld.Y - maila.AbsolutePosition.Y;
+            double matka = kosketus.PositionOnScreen.Y;
             double r = 2 * matka / Screen.Height;
             double nopeus = kosketusMaxNopeus * Math.Sign( r ) * r * r;
+            ////double nopeus = Math.Pow( 2 * kosketus.PositionOnScreen.Y / Screen.Height, 2 ) * kosketusMaxNopeus;
             AsetaNopeus( maila, nopeus * Vector.UnitY );
             kosketus.Tag = maila;
         }

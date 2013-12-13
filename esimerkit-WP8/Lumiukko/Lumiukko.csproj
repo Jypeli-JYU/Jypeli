@@ -145,9 +145,9 @@
       <Project>{86788B50-91AD-480E-8A06-E9C94FD1F07A}</Project>
       <Name>Jypeli-WP8</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsPhone.csproj">
-      <Project>{BAA9A6E4-7690-4DE0-9531-DE0EAEEC9739}</Project>
-      <Name>MonoGame.Framework.WindowsPhone</Name>
+    <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.WindowsPhone.csproj">
+      <Project>{EDE62A2B-C873-4F76-8E5C-128B29631586}</Project>
+      <Name>Jypeli.MonoGame.Framework.WindowsPhone</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />

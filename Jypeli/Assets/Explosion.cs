@@ -138,8 +138,8 @@ namespace Jypeli.Assets
 
         private void PreloadContent()
         {
-            if ( commonImage == null ) commonImage = Game.LoadImageFromResources( "explosion" );
-            if ( commonSound == null ) commonSound = Game.LoadSoundEffectFromResources( "explosionSound" );
+            if ( commonImage == null ) commonImage = Game.LoadImageFromResources( "Explosion" );
+            if ( commonSound == null ) commonSound = Game.LoadSoundEffectFromResources( "ExplosionSound" );
 
             Image = commonImage;
             Sound = commonSound;

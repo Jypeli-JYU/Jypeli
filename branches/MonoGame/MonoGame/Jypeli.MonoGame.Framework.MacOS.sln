@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.MonoGame.Framework.MacOS", "MonoGame.Framework\Jypeli.MonoGame.Framework.MacOS.csproj", "{C6452FFF-BF4F-42CB-850C-A9C61370A078}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidgren.Network.MacOS", "ThirdParty\Lidgren.Network\Lidgren.Network.MacOS.csproj", "{AE483C29-042E-4226-BA52-D247CE7676DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6452FFF-BF4F-42CB-850C-A9C61370A078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6452FFF-BF4F-42CB-850C-A9C61370A078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6452FFF-BF4F-42CB-850C-A9C61370A078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6452FFF-BF4F-42CB-850C-A9C61370A078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE483C29-042E-4226-BA52-D247CE7676DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE483C29-042E-4226-BA52-D247CE7676DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE483C29-042E-4226-BA52-D247CE7676DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE483C29-042E-4226-BA52-D247CE7676DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = MonoGame.Framework\Jypeli.MonoGame.Framework.MacOS.csproj
+	EndGlobalSection
+EndGlobal

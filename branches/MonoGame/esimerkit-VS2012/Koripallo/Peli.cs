@@ -411,6 +411,7 @@ public class Koripallo : PhysicsGame
     public Koripallo()
     {
         SetWindowSize( 1024, 768 );
+        //SetWindowPosition( 0, 0 );
     }
     
     public override void Begin()

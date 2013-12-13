@@ -19,7 +19,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <MediaElement HorizontalAlignment="Left" Height="100" Grid.RowSpan="2" VerticalAlignment="Top" Width="100"/>
+        <MediaElement HorizontalAlignment="Left" Height="780" Grid.RowSpan="2" VerticalAlignment="Top" Width="460" Margin="10,10,0,0"/>
 
         <!-- LOCALIZATION NOTE:
             To localize the displayed strings copy their values to appropriately named

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli-Win8", "..\..\Jypeli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplePhysics-Win8", "..\..\SimplePhysics\SimplePhysics-Win8.csproj", "{7E51D9E3-3B1F-44D5-8376-90253690C95A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.Windows8", "..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows8.csproj", "{0518563C-ACCA-4A14-8C5D-DDBE93E2605F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.MonoGame.Framework.Windows8", "..\..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Windows8.csproj", "{0518563C-ACCA-4A14-8C5D-DDBE93E2605F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -209,6 +209,9 @@ namespace Jypeli
         public PhysicsObject( double width, double height, Shape shape )
             : base( width, height, shape )
         {
+            if ( Game.Instance.PhysicsClient == null )
+                throw new InvalidOperationException( "No physics engine attached to the game. Try checking your references and that you're using the correct game class." );
+
             Body = Game.Instance.PhysicsClient.CreateBody( this, width, height, shape );
             Body.Collided += this.OnCollided;
         }

@@ -44,7 +44,7 @@ namespace Jypeli
     /// Y-koordinaatti kasvaa ylöspäin.
     /// Koordinaatteja ei voi muuttaa.
     /// </summary>
-    public class ScreenView
+    public class ScreenView : Dimensional
     {
         private RenderTarget2D _renderTarget = null;
         private SpriteBatch renderBatch;

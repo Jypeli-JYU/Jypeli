@@ -39,10 +39,11 @@ namespace Jypeli
     /// Kamera. Määrittää mikä osa pelitasosta on kerralla näkyvissä.
     /// </summary>
     [Save]
-    public class Camera
+    public class Camera : PositionalRW
     {
         // Huom. tätä käytetään vain jos seurataan useita olioita kerralla
         private List<GameObject> followedObjects = null;
+        private Vector _pos = Vector.Zero;
 
         [Save] internal bool _stayInLevel = false;
         [Save] internal double _zoomFactor = 1.0;
@@ -50,12 +51,18 @@ namespace Jypeli
         /// <summary>
         /// Kameran sijainti.
         /// </summary>
-        [Save]public Vector Position = Vector.Zero;
+        [Save]
+        public Vector Position
+        {
+            get { return _pos; }
+            set { _pos = value; }
+        }
 
         /// <summary>
         /// Kameran liikkumisnopeus.
         /// </summary>
-        [Save] public Vector Velocity = Vector.Zero;
+        [Save]
+        public Vector Velocity { get; set; }
 
         /// <summary>
         /// Kameran paikan X-koordinaatti.
@@ -64,11 +71,11 @@ namespace Jypeli
         {
             get
             {
-                return Position.X;
+                return _pos.X;
             }
             set
             {
-                Position = new Vector(value, Position.Y);
+                _pos.X = value;
             }
         }
 
@@ -79,11 +86,11 @@ namespace Jypeli
         {
             get
             {
-                return Position.Y;
+                return _pos.Y;
             }
             set
             {
-                Position = new Vector(Position.X, value);
+                _pos.Y = value;
             }
         }
 
@@ -185,6 +192,20 @@ namespace Jypeli
                 return Vector.ComponentProduct( Position, layer.RelativeTransition ) + point;
 
             return Vector.ComponentProduct( Position, layer.RelativeTransition ) + ( 1 / ZoomFactor ) * point;
+        }
+
+        /// <summary>
+        /// Muuntaa annetun pisteen maailmankoordinaateista ruutukoordinaatteihin
+        /// ottaen huomioon oliokerroksen suhteellisen siirtymän.
+        /// </summary>
+        public Vector WorldToScreen( Vector point, Layer layer )
+        {
+            if ( layer == null )
+                return WorldToScreen( point );
+            if ( layer.IgnoresZoom )
+                return point - Vector.ComponentProduct( Position, layer.RelativeTransition );
+
+            return ( point - Vector.ComponentProduct( Position, layer.RelativeTransition ) ) * ZoomFactor;
         }
 
         /// <summary>
@@ -422,20 +443,20 @@ namespace Jypeli
 
                 if ( ( Position.X - ( viewAreaWidth / 2 ) ) < level.Left )
                 {
-                    Position.X = level.Left + ( viewAreaWidth / 2 );
+                    _pos.X = level.Left + ( viewAreaWidth / 2 );
                 }
                 else if ( Position.X + ( viewAreaWidth / 2 ) > level.Right )
                 {
-                    Position.X = level.Right - ( viewAreaWidth / 2 );
+                    _pos.X = level.Right - ( viewAreaWidth / 2 );
                 }
 
                 if ( Position.Y - ( viewAreaHeight / 2 ) < level.Bottom )
                 {
-                    Position.Y = level.Bottom + ( viewAreaHeight / 2 );
+                    _pos.Y = level.Bottom + ( viewAreaHeight / 2 );
                 }
                 else if ( Position.Y + ( viewAreaHeight / 2 ) > level.Top )
                 {
-                    Position.Y = level.Top - ( viewAreaHeight / 2 );
+                    _pos.Y = level.Top - ( viewAreaHeight / 2 );
                 }
             }
         }

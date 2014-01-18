@@ -11,6 +11,8 @@ namespace Jypeli
     {
         private string fpsText = "00";
         private int fpsSkipCounter;
+        private Canvas debugCanvas;
+        private Matrix canvasTransform = Matrix.Identity;
 
         /// <summary>
         /// Debug-ruutukerros, joka näkyy kun painetaan F12.
@@ -50,6 +52,8 @@ namespace Jypeli
 
         private void InitDebugScreen()
         {
+            debugCanvas = new Canvas();
+
             DebugLayer = Layer.CreateStaticLayer();
             DebugLayer.Objects.ItemAdded += OnObjectAdded;
             DebugLayer.Objects.ItemRemoved += OnObjectRemoved;
@@ -122,8 +126,55 @@ namespace Jypeli
 
         private void DrawDebugScreen()
         {
-            if ( DebugScreenVisible )
-                DebugLayer.Draw( Camera );
+            if ( !DebugScreenVisible )
+                return;
+
+            debugCanvas.Begin( ref canvasTransform, Game.Screen );
+            PaintDebugScreen( debugCanvas );
+            debugCanvas.End();
+            
+            DebugLayer.Draw( Camera );
+        }
+
+        private void PaintDebugScreen( Canvas canvas )
+        {
+            // Draw the object outlines as determined by their shape
+
+            for ( int i = Layers.FirstIndex; i <= Layers.LastIndex; i++ )
+            {
+                foreach ( var obj in Layers[i].Objects )
+                {
+                    if ( obj == null || obj.Shape == null || obj.Shape.Cache == null || obj.Layer == null )
+                        continue;
+
+                    var vertexes = obj.Shape.Cache.OutlineVertices;
+                    var center = Camera.WorldToScreen( obj.AbsolutePosition, obj.Layer );
+                    double wmul = obj.Shape.IsUnitSize ? obj.Width : 1;
+                    double hmul = obj.Shape.IsUnitSize ? obj.Height : 1;
+
+                    canvas.BrushColor = ( obj is GameObject && Mouse.IsCursorOn( (GameObject)obj ) ) ? Color.LightGreen : Color.LightGray;
+
+                    for ( int j = 0; j < vertexes.Length - 1; j++ )
+                    {
+                        double x1 = center.X + wmul * vertexes[j].X;
+                        double y1 = center.Y + hmul * vertexes[j].Y;
+                        double x2 = center.X + wmul * vertexes[j+1].X;
+                        double y2 = center.Y + hmul * vertexes[j+1].Y;
+
+                        canvas.DrawLine( x1, y1, x2, y2 );
+                    }
+
+                    if ( vertexes.Length > 2 )
+                    {
+                        double x1 = center.X + wmul * vertexes[vertexes.Length - 1].X;
+                        double y1 = center.Y + hmul * vertexes[vertexes.Length - 1].Y;
+                        double x2 = center.X + wmul * vertexes[0].X;
+                        double y2 = center.Y + hmul * vertexes[0].Y;
+
+                        canvas.DrawLine( x1, y1, x2, y2 );
+                    }
+                }
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Jypeli
     /// <summary>
     /// Yhteinen rajapinta kaikille peliolioille.
     /// </summary>
-    public interface IGameObject : Tagged, Destroyable, Updatable
+    public interface IGameObject : Destroyable, DimensionalRW, PositionalRW, Updatable, Tagged
     {
         Layer Layer { get; }
         IGameObject Parent { get; set; }

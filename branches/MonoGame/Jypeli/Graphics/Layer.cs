@@ -95,11 +95,6 @@ namespace Jypeli
         /// </summary>
         public DrawOrder DrawOrder { get; set; }
 
-#if DEBUG
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        internal DoubleMeter ObjectCount = new DoubleMeter( 0.0 ) { MaxValue = 10000 };
-#endif
-
         /// <summary>
         /// Kuinka paljon tämän kerroksen olioiden paikka muuttuu kameran siirtyessä suhteessa muihin kerroksiin.
         /// Esimerkiksi arvo 0.5 aiheuttaa siirtymän joka on puolet normaalista.
@@ -184,9 +179,6 @@ namespace Jypeli
 
         public void Update( Time time )
         {
-#if DEBUG
-            ObjectCount.Value = Objects.Count;
-#endif
             Objects.Update( time );
         }
 

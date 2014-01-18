@@ -21,7 +21,8 @@ namespace Jypeli
                 MessageDisplay.BackgroundColor = Color.LightGray;
             }
 
-            Add( MessageDisplay );
+            if ( !MessageDisplay.IsAddedToGame )
+                Add( MessageDisplay );
         }
 
         private bool IsJypeliWidget<T>( T obj ) where T : IGameObject

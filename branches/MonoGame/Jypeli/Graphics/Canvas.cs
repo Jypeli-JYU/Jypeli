@@ -90,14 +90,14 @@ namespace Jypeli
             Reset();
         }
 
-        public void Begin( ref Matrix worldMatrix, Level level )
+        public void Begin( ref Matrix worldMatrix, Dimensional dimensionSource )
         {
             Graphics.LineBatch.Begin( ref worldMatrix );
             Graphics.ImageBatch.Begin( ref worldMatrix, null );
-            Graphics.Canvas.Reset( level );
+            Graphics.Canvas.Reset( dimensionSource );
             this.worldMatrix = worldMatrix;
         }
-
+        
         public void End()
         {
             Graphics.ImageBatch.End();
@@ -110,13 +110,13 @@ namespace Jypeli
             previousImage = null;
         }
 
-        internal void Reset( Level level )
+        internal void Reset( Dimensional dimensionSource )
         {
             Reset();
-            Left = level.Left;
-            Right = level.Right;
-            Bottom = level.Bottom;
-            Top = level.Top;
+            Left = dimensionSource.Left;
+            Right = dimensionSource.Right;
+            Bottom = dimensionSource.Bottom;
+            Top = dimensionSource.Top;
             TopLeft = new Vector( Left, Top );
             TopRight = new Vector( Right, Top );
             BottomLeft = new Vector( Left, Bottom );

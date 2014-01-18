@@ -24,7 +24,7 @@ namespace Jypeli
             get
             {
 #if WINDOWS_PHONE
-                Microsoft.Xna.Framework.FrameworkDispatcher.Update();
+                //Microsoft.Xna.Framework.FrameworkDispatcher.Update();
                 return Microsoft.Xna.Framework.Media.MediaPlayer.GameHasControl;
 #else
                 return true;

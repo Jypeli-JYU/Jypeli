@@ -102,6 +102,8 @@ namespace Jypeli
                 this.PausedUpdate( currentRealTime );
             }
 
+            UpdateDebugScreen( currentRealTime );
+
             base.Update( gameTime );
         }
     }

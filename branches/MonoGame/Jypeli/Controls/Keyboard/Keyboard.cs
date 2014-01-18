@@ -86,6 +86,27 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Palauttaa annetun näppäimen tilan (ks. <c>ButtonState</c>).
+        /// </summary>
+        /// <param name="k">Näppäin.</param>
+        /// <returns>Näppäimen tila</returns>
+        public ButtonState GetKeyState( Key k )
+        {
+            Keys key = (Keys)k;
+            bool down = CurrentState.IsKeyDown( key );
+            bool lastdown = PrevState.IsKeyDown( key );
+
+            if ( lastdown && down )
+                return ButtonState.Down;
+            if ( !lastdown && down )
+                return ButtonState.Pressed;
+            if ( lastdown && !down )
+                return ButtonState.Released;
+
+            return ButtonState.Up;
+        }
+
+        /// <summary>
         /// Kuuntelee näppäinten painalluksia.
         /// </summary>
         /// <param name="k">Näppäin</param>

@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
     <OutputPath>bin\Xamarin-Debug</OutputPath>
-    <DefineConstants>DEBUG;JYPELI;UseDouble;WINDOWS;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>DEBUG;JYPELI;UseDouble;WINDOWS;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <PlatformTarget>x86</PlatformTarget>
-    <DefineConstants>JYPELI;UseDouble;WINDOWS;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>JYPELI;UseDouble;WINDOWS;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

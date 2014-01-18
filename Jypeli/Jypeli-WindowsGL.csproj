@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\WindowsGL\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_PHYSICS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\WindowsGL\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_WIDGETS;DISABLE_PHYSICS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\WindowsGL\x86\Release\Jypeli.xml</DocumentationFile>
@@ -162,6 +162,7 @@
     <Compile Include="GameObjects\Widget\Widget.cs" />
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
+    <Compile Include="Game\DebugScreen.cs" />
     <Compile Include="Game\DelayedActions.cs" />
     <Compile Include="Game\Factory.cs" />
     <Compile Include="Game\Game.cs">

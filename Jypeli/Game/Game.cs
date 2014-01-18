@@ -104,34 +104,8 @@ namespace Jypeli
 
             // Center the window on next update (aka the OpenTK fix)
             DoNextUpdate( CenterWindow );
-
+            
             Level = new Level( this );
-
-#if DEBUG && !DISABLE_WIDGETS
-            double barWidth = 20;
-            double barHeight = Screen.Height;
-            fpsDisplay = new Label( "00" );
-            fpsDisplay.Color = Color.Gray;
-            fpsDisplay.X = Level.Right - barWidth / 2 - fpsDisplay.Width;
-            fpsDisplay.Y = Screen.Top - fpsDisplay.Height / 2;
-
-            double left = Screen.Right - Layers.Count * barWidth;
-
-            objectCountDisplays = new BarGauge[Layers.Count];
-
-            for ( int i = 0; i < Layers.Count; i++ )
-            {
-                var gauge = new BarGauge( barWidth, Screen.Height );
-                gauge.X = left + i * barWidth + barWidth / 2;
-                gauge.Y = Screen.Center.Y;
-                gauge.BarColor = Color.DarkGreen;
-                gauge.BindTo( Layers[i + Layers.FirstIndex].ObjectCount );
-                objectCountDisplays[i] = gauge;
-            }
-
-            Keyboard.Listen( Key.F12, ButtonState.Pressed, ToggleDebugScreen, null );
-#endif
-
             base.Initialize();
         }
 
@@ -146,6 +120,7 @@ namespace Jypeli
             InitControls();
             InitLayers();
             InitPhysics();
+            InitDebugScreen();
             
             base.LoadContent();
             loadContentHasBeenCalled = true;
@@ -186,6 +161,9 @@ namespace Jypeli
             Graphics.Canvas.Begin( ref worldMatrix, Level );
             Paint( Graphics.Canvas );
             Graphics.Canvas.End();
+
+            // Draw the debug information screen
+            DrawDebugScreen();
 
             // Render the scene on screen
             Screen.Render();

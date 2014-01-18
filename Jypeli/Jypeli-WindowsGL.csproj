@@ -92,9 +92,11 @@
     <Compile Include="Controls\BackButton\BackButton.cs" />
     <Compile Include="DataTypes\Angle.cs" />
     <Compile Include="DataTypes\BoundingRectangle.cs" />
+    <Compile Include="DataTypes\Dimensional.cs" />
     <Compile Include="DataTypes\Direction.cs" />
     <Compile Include="DataTypes\GameObjectContainer.cs" />
     <Compile Include="DataTypes\INotifyList.cs" />
+    <Compile Include="DataTypes\Positional.cs" />
     <Compile Include="DataTypes\ScoreList.cs" />
     <Compile Include="DataTypes\StringList.cs" />
     <Compile Include="DataTypes\SynchronousList.cs" />

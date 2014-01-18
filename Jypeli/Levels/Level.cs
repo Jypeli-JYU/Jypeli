@@ -72,7 +72,7 @@ namespace Jypeli
     /// Pelikenttä, johon voi lisätä olioita. Kentällä voi myös olla reunat ja taustaväri tai taustakuva.
     /// </summary>
     [Save]
-    public partial class Level
+    public partial class Level : Dimensional
     {
         [Save] double _width = 1000;
         [Save] double _height = 800;

@@ -136,6 +136,112 @@ namespace Jypeli
             DebugLayer.Draw( Camera );
         }
 
+        private void PaintShapeOutlines( Canvas canvas, IGameObject obj )
+        {
+            var vertexes = obj.Shape.Cache.OutlineVertices;
+            double wmul = obj.Shape.IsUnitSize ? obj.Width : 1;
+            double hmul = obj.Shape.IsUnitSize ? obj.Height : 1;
+
+            canvas.BrushColor = ( obj is GameObject && Mouse.IsCursorOn( (GameObject)obj ) ) ? Color.LightGreen : Color.LightGray;
+
+            Vector3 center = (Vector3)Camera.WorldToScreen( obj.AbsolutePosition, obj.Layer );
+            Matrix transform = Matrix.CreateRotationZ( (float)obj.AbsoluteAngle.Radians ) * Matrix.CreateTranslation( center );
+
+            for ( int j = 0; j < vertexes.Length - 1; j++ )
+            {
+                double x1 = wmul * vertexes[j].X;
+                double y1 = hmul * vertexes[j].Y;
+                double x2 = wmul * vertexes[j + 1].X;
+                double y2 = hmul * vertexes[j + 1].Y;
+
+                var t1 = Vector2.Transform( new Vector2( (float)x1, (float)y1 ), transform );
+                var t2 = Vector2.Transform( new Vector2( (float)x2, (float)y2 ), transform );
+
+                canvas.DrawLine( t1.X, t1.Y, t2.X, t2.Y );
+            }
+
+            if ( vertexes.Length > 2 )
+            {
+                double x1 = wmul * vertexes[vertexes.Length - 1].X;
+                double y1 = hmul * vertexes[vertexes.Length - 1].Y;
+                double x2 = wmul * vertexes[0].X;
+                double y2 = hmul * vertexes[0].Y;
+
+                var t1 = Vector2.Transform( new Vector2( (float)x1, (float)y1 ), transform );
+                var t2 = Vector2.Transform( new Vector2( (float)x2, (float)y2 ), transform );
+
+                canvas.DrawLine( t1.X, t1.Y, t2.X, t2.Y );
+            }
+        }
+
+        private void PaintPhysicsOutlines( Canvas canvas, PhysicsObject obj )
+        {
+            if ( obj.Body == null || obj.Body.Shape == null || obj.Body.Shape.Cache == null )
+                return;
+
+            var vertexes = obj.Body.Shape.Cache.OutlineVertices;
+            double wmul = obj.Body.Shape.IsUnitSize ? obj.Width : 1;
+            double hmul = obj.Body.Shape.IsUnitSize ? obj.Height : 1;
+
+            canvas.BrushColor = ( obj is GameObject && Mouse.IsCursorOn( (GameObject)obj ) ) ? Color.Salmon : Color.DarkRed;
+
+            Vector3 center = (Vector3)Camera.WorldToScreen( obj.Body.Position, obj.Layer );
+            Matrix transform = Matrix.CreateRotationZ( (float)obj.Body.Angle ) * Matrix.CreateTranslation( center );
+
+            for ( int j = 0; j < vertexes.Length - 1; j++ )
+            {
+                double x1 = wmul * vertexes[j].X;
+                double y1 = hmul * vertexes[j].Y;
+                double x2 = wmul * vertexes[j + 1].X;
+                double y2 = hmul * vertexes[j + 1].Y;
+
+                var t1 = Vector2.Transform( new Vector2( (float)x1, (float)y1 ), transform );
+                var t2 = Vector2.Transform( new Vector2( (float)x2, (float)y2 ), transform );
+
+                canvas.DrawLine( t1.X, t1.Y, t2.X, t2.Y );
+            }
+
+            if ( vertexes.Length > 2 )
+            {
+                double x1 = wmul * vertexes[vertexes.Length - 1].X;
+                double y1 = hmul * vertexes[vertexes.Length - 1].Y;
+                double x2 = wmul * vertexes[0].X;
+                double y2 = hmul * vertexes[0].Y;
+
+                var t1 = Vector2.Transform( new Vector2( (float)x1, (float)y1 ), transform );
+                var t2 = Vector2.Transform( new Vector2( (float)x2, (float)y2 ), transform );
+
+                canvas.DrawLine( t1.X, t1.Y, t2.X, t2.Y );
+            }
+
+            /*var vertexes = obj.Body.Shape.Cache.OutlineVertices;
+            var center = Camera.WorldToScreen( obj.Body.Position, obj.Layer );
+            double wmul = obj.Body.Shape.IsUnitSize ? obj.Width : 1;
+            double hmul = obj.Body.Shape.IsUnitSize ? obj.Height : 1;
+
+            canvas.BrushColor = ( obj is GameObject && Mouse.IsCursorOn( (GameObject)obj ) ) ? Color.Salmon : Color.DarkRed;
+
+            for ( int j = 0; j < vertexes.Length - 1; j++ )
+            {
+                double x1 = center.X + wmul * vertexes[j].X;
+                double y1 = center.Y + hmul * vertexes[j].Y;
+                double x2 = center.X + wmul * vertexes[j + 1].X;
+                double y2 = center.Y + hmul * vertexes[j + 1].Y;
+
+                canvas.DrawLine( x1, y1, x2, y2 );
+            }
+
+            if ( vertexes.Length > 2 )
+            {
+                double x1 = center.X + wmul * vertexes[vertexes.Length - 1].X;
+                double y1 = center.Y + hmul * vertexes[vertexes.Length - 1].Y;
+                double x2 = center.X + wmul * vertexes[0].X;
+                double y2 = center.Y + hmul * vertexes[0].Y;
+
+                canvas.DrawLine( x1, y1, x2, y2 );
+            }*/
+        }
+
         private void PaintDebugScreen( Canvas canvas )
         {
             // Draw the object outlines as determined by their shape
@@ -147,32 +253,10 @@ namespace Jypeli
                     if ( obj == null || obj.Shape == null || obj.Shape.Cache == null || obj.Layer == null )
                         continue;
 
-                    var vertexes = obj.Shape.Cache.OutlineVertices;
-                    var center = Camera.WorldToScreen( obj.AbsolutePosition, obj.Layer );
-                    double wmul = obj.Shape.IsUnitSize ? obj.Width : 1;
-                    double hmul = obj.Shape.IsUnitSize ? obj.Height : 1;
+                    PaintShapeOutlines( canvas, obj );
 
-                    canvas.BrushColor = ( obj is GameObject && Mouse.IsCursorOn( (GameObject)obj ) ) ? Color.LightGreen : Color.LightGray;
-
-                    for ( int j = 0; j < vertexes.Length - 1; j++ )
-                    {
-                        double x1 = center.X + wmul * vertexes[j].X;
-                        double y1 = center.Y + hmul * vertexes[j].Y;
-                        double x2 = center.X + wmul * vertexes[j+1].X;
-                        double y2 = center.Y + hmul * vertexes[j+1].Y;
-
-                        canvas.DrawLine( x1, y1, x2, y2 );
-                    }
-
-                    if ( vertexes.Length > 2 )
-                    {
-                        double x1 = center.X + wmul * vertexes[vertexes.Length - 1].X;
-                        double y1 = center.Y + hmul * vertexes[vertexes.Length - 1].Y;
-                        double x2 = center.X + wmul * vertexes[0].X;
-                        double y2 = center.Y + hmul * vertexes[0].Y;
-
-                        canvas.DrawLine( x1, y1, x2, y2 );
-                    }
+                    if ( obj is PhysicsObject )
+                        PaintPhysicsOutlines( canvas, (PhysicsObject)obj );
                 }
             }
         }

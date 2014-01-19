@@ -500,5 +500,15 @@ namespace Jypeli
         {
             return new Microsoft.Xna.Framework.Vector2( (float)v.X, (float)v.Y );
         }
+
+        public static explicit operator Vector( Microsoft.Xna.Framework.Vector3 v )
+        {
+            return new Vector( v.X, v.Y );
+        }
+
+        public static explicit operator Microsoft.Xna.Framework.Vector3( Vector v )
+        {
+            return new Microsoft.Xna.Framework.Vector3( (float)v.X, (float)v.Y, 0 );
+        }
     }
 }

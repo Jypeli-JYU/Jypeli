@@ -21,40 +21,22 @@ namespace Jypeli
         [Save]
         public override Angle Angle
         {
-            get { return base.Angle; }
-            set
-            {
-                base.Angle = value;
-                Body.Angle = value.Radians;
-            }
+            get { return Angle.FromRadians( Body.Angle ); }
+            set { Body.Angle = value.Radians; }
         }
 
         [Save]
         public override Vector Size
         {
-            get
-            {
-                return base.Size;
-            }
-            set
-            {
-                Body.Size = value;
-                base.Size = value;
-            }
+            get { return (Vector)Body.Size; }
+            set { Body.Size = value; }
         }
 
         [Save]
         public override Shape Shape
         {
-            get
-            {
-                return base.Shape;
-            }
-            set
-            {
-                base.Shape = value;
-                Body.Shape = value;
-            }
+            get { return Body.Shape; }
+            set { Body.Shape = value; }
         }
     }
 }

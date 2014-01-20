@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Content\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Peli.cs" />
@@ -95,5 +96,32 @@
       <Project>{C6452FFF-BF4F-42CB-850C-A9C61370A078}</Project>
       <Name>Jypeli.MonoGame.Framework.MacOS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Physics2d\Physics2d-MacOS.csproj">
+      <Project>{C4EFECB3-7397-4DCF-990D-26A0EF6E8445}</Project>
+      <Name>Physics2d-MacOS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\tausta.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\heittaja1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\heittaja2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\heittaja3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\hit.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\kori.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\koripallo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

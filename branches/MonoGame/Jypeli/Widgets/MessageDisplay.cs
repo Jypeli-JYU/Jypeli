@@ -164,7 +164,7 @@ namespace Jypeli
             UpdateTexture();
         }
         
-        protected override void Draw( Matrix parentTransformation, Matrix transformation )
+        public override void Draw( Matrix parentTransformation, Matrix transformation )
         {
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
             Matrix m =
@@ -271,7 +271,7 @@ namespace Jypeli
         /// <summary>
         /// Poistaa kaikki lisätyt viestit.
         /// </summary>
-        public void Clear()
+        public override void Clear()
         {
             messages.Clear();
             UpdateTexture();

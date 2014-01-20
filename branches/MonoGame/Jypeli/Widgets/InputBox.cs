@@ -237,7 +237,7 @@ namespace Jypeli
         {
         }
 
-        protected override void Draw( Matrix parentTransformation, Matrix transformation )
+        public override void Draw( Matrix parentTransformation, Matrix transformation )
         {
             if ( ! IsTruncated )
                 base.Draw( parentTransformation, transformation, Text );

@@ -401,7 +401,7 @@ namespace Jypeli
             SetState( Game.Mouse.IsCursorOn( this ) ? State.Hover : State.Released );
         }
 
-        protected override void Draw( Matrix parentTransformation, Matrix transformation )
+        public override void Draw( Matrix parentTransformation, Matrix transformation )
         {
             base.Draw( parentTransformation, transformation );
 

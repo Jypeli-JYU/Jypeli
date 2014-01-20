@@ -26,18 +26,7 @@ namespace Jypeli
         TimeSpan Lifetime { get; }
         TimeSpan MaximumLifetime { get; set; }
         
-        Vector Size { get; set; }
-        double Width { get; set; }
-        double Height { get; set; }
-
-        Vector Position { get; set; }
         Angle Angle { get; set; }
-        double X { get; set; }
-        double Y { get; set; }
-        double Left { get; set; }
-        double Top { get; set; }
-        double Right { get; set; }
-        double Bottom { get; set; }
 
         Vector AbsolutePosition { get; set; }
         Angle AbsoluteAngle { get; set; }
@@ -79,12 +68,10 @@ namespace Jypeli
     /// </summary>
     public interface IGameObjectInternal : IGameObject
     {
-        Layer Layer { set; }
+        new Layer Layer { get; set; }
         List<Listener> AssociatedListeners { get; }
 
-        void Update( Time time );
-
-        bool IsAddedToGame { set; }
+        new bool IsAddedToGame { get; set; }
 
         void OnAddedToGame();
         void OnRemoved();

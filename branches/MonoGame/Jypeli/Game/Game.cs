@@ -121,7 +121,10 @@ namespace Jypeli
             InitLayers();
             InitPhysics();
             InitDebugScreen();
-            
+
+            if ( InstanceInitialized != null )
+                InstanceInitialized();
+
             base.LoadContent();
             loadContentHasBeenCalled = true;
             addMessageDisplay();

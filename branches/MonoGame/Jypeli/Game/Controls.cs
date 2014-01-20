@@ -40,7 +40,6 @@ namespace Jypeli
     {
         private ListenContext _context;
         private List<Controller> _controllers;
-        private bool initialized;
 
         /// <summary>
         /// Näppäimistö.
@@ -128,7 +127,6 @@ namespace Jypeli
 #endif
 
             IsMouseVisible = true;
-            initialized = true;
         }
 
         private void UpdateControls( Time gameTime )

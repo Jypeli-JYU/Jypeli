@@ -195,7 +195,7 @@ namespace Jypeli
             var thisObject = thisBody.Owner;
             var otherObject = otherBody.Owner;
 
-            if ( thisObject != this || otherObject == null || this.IsDestroyed || otherObject.IsDestroyed == null ) return;
+            if ( thisObject != this || otherObject == null || this.IsDestroyed || otherObject.IsDestroyed ) return;
 
             if ( Collided != null )
             {

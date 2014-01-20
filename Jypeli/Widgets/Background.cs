@@ -206,7 +206,7 @@ namespace Jypeli.Widgets
             return image;
         }
 
-        public void Draw( Matrix parentTransformation, Matrix transformation )
+        public override void Draw( Matrix parentTransformation, Matrix transformation )
         {
             if ( Image == null ) return;
 

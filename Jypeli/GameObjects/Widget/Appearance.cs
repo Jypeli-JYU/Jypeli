@@ -18,7 +18,7 @@ namespace Jypeli
             this.BorderColor = Color.Transparent;
         }
 
-        protected virtual void Draw( Matrix parentTransformation, Matrix transformation )
+        public virtual void Draw( Matrix parentTransformation, Matrix transformation )
         {
         }
 

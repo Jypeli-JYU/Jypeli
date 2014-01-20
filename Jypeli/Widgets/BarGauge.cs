@@ -144,7 +144,7 @@ namespace Jypeli.Widgets
             boundMeter = meter;
         }
 
-        protected override void Draw(Matrix parentTransformation, Matrix transformation)
+        public override void Draw(Matrix parentTransformation, Matrix transformation)
         {
             double barLength = Size.Y * boundMeter.RelativeValue;
             Matrix m =

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C4EFECB3-7397-4DCF-990D-26A0EF6E8445}</ProjectGuid>
+    <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Physics2d</RootNamespace>
+    <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
+    <AssemblyName>Physics2d-MacOS</AssemblyName>
+    <ReleaseVersion>1.0</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;UseDouble</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+    <UseSGen>false</UseSGen>
+    <IncludeMonoRuntime>false</IncludeMonoRuntime>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <CodeSigningKey>Mac Developer</CodeSigningKey>
+    <EnableCodeSigning>false</EnableCodeSigning>
+    <CreatePackage>false</CreatePackage>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+    <LinkMode>Full</LinkMode>
+    <UseSGen>false</UseSGen>
+    <IncludeMonoRuntime>true</IncludeMonoRuntime>
+    <CreatePackage>true</CreatePackage>
+    <CodeSigningKey>Developer ID Application</CodeSigningKey>
+    <EnableCodeSigning>true</EnableCodeSigning>
+    <EnablePackageSigning>false</EnablePackageSigning>
+    <DefineConstants>UseDouble</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|x86' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\x86\AppStore</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+    <LinkMode>Full</LinkMode>
+    <UseSGen>false</UseSGen>
+    <IncludeMonoRuntime>true</IncludeMonoRuntime>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <CreatePackage>true</CreatePackage>
+    <CodeSigningKey>3rd Party Mac Developer Application</CodeSigningKey>
+    <EnableCodeSigning>true</EnableCodeSigning>
+    <EnablePackageSigning>true</EnablePackageSigning>
+    <DefineConstants>UseDouble</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="MonoMac" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\v0.0\Xamarin.Mac.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.MacOS.csproj">
+      <Project>{C6452FFF-BF4F-42CB-850C-A9C61370A078}</Project>
+      <Name>Jypeli.MonoGame.Framework.MacOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jypeli\Jypeli-MacOS.csproj">
+      <Project>{21146E75-35F4-4E05-B6E9-E58903D9A4C2}</Project>
+      <Name>Jypeli-MacOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.MacOS.csproj">
+      <Project>{AE483C29-042E-4226-BA52-D247CE7676DA}</Project>
+      <Name>Lidgren.Network.MacOS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PhysicsClient.cs" />
+    <Compile Include="Assets\PlatformCharacter.cs" />
+    <Compile Include="Assets\PlatformWandererBrain.cs" />
+    <Compile Include="Assets\Tank.cs" />
+    <Compile Include="Assets\Weapon.cs" />
+    <Compile Include="Assets\WeaponTemplates.cs" />
+    <Compile Include="Joints\AxleJoint.cs" />
+    <Compile Include="Physics2DDotNet\ALVector2D.cs" />
+    <Compile Include="Physics2DDotNet\Body.cs" />
+    <Compile Include="Physics2DDotNet\DistanceGrid.cs" />
+    <Compile Include="Physics2DDotNet\Interfaces.cs" />
+    <Compile Include="Physics2DDotNet\Lifespan.cs" />
+    <Compile Include="Physics2DDotNet\ListExtension.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsEngine.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsHelper.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsTimer.cs" />
+    <Compile Include="Physics2DDotNet\WinRTCompat.cs" />
+    <Compile Include="Physics2DDotNet\Collections\AdvReaderWriterLock.cs" />
+    <Compile Include="Physics2DDotNet\Collections\ImplicitCastCollection.cs" />
+    <Compile Include="Physics2DDotNet\Collections\ReadOnlyThreadSafeCollection.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\BodyJointEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\BodyProxy.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\Coefficients.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\CollectionEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\CollisionEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\DragInfo.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\IntersectionInfo.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\LinkedList2.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\MassInfo.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\Matrices.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\PairID.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\PhysicsState.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\RemovedEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\TimeStep.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\UpdatedEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\BroadPhaseCollisionDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\BruteForceDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\FrameCoherentSAPDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\SelectiveSweepDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\SpatialHashDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\SweepAndPruneDetector.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\AdvGroupIgnorer.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\GroupCollection.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\GroupIgnorer.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\Ignorer.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\ObjectIgnorer.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\OneWayPlatformIgnorer.cs" />
+    <Compile Include="Physics2DDotNet\Joints\AngleJoint.cs" />
+    <Compile Include="Physics2DDotNet\Joints\FixedAngleJoint.cs" />
+    <Compile Include="Physics2DDotNet\Joints\FixedHingeJoint.cs" />
+    <Compile Include="Physics2DDotNet\Joints\HingeJoint.cs" />
+    <Compile Include="Physics2DDotNet\Joints\Joint.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\ExplosionLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\GlobalFluidLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\GravityField.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\GravityPointField.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\GravityPointMass.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\LineFluidLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\MoveToPointLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\PhysicsLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\RaySegmentsCollisionLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\VelocityLimitLogic.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\CircleShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\MultiPolygonShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\ParticleShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\PolygonShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\RaySegmentsShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\Shape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\ShapeHelper.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
+    <Compile Include="Physics2DDotNet\Solvers\CollisionSolver.cs" />
+    <Compile Include="Physics2DDotNet\Solvers\ISequentialImpulsesJoint.cs" />
+    <Compile Include="Physics2DDotNet\Solvers\SequentialImpulses.cs" />
+    <Compile Include="PhysicsBody\Coefficients.cs" />
+    <Compile Include="PhysicsBody\CollisionShapeParameters.cs" />
+    <Compile Include="PhysicsBody\CollisionShapeQuality.cs" />
+    <Compile Include="PhysicsBody\Collisions.cs" />
+    <Compile Include="PhysicsBody\Dimensions.cs" />
+    <Compile Include="PhysicsBody\Inertia.cs" />
+    <Compile Include="PhysicsBody\Movement.cs" />
+    <Compile Include="PhysicsBody\PhysicsBody.cs" />
+    <Compile Include="PhysicsGame\Joints.cs" />
+    <Compile Include="PhysicsGame\PhysicsGame.cs" />
+    <Compile Include="PhysicsGame\PhysicsGameBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+</Project>

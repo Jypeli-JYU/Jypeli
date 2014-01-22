@@ -8,9 +8,13 @@
 	<string>1</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.6</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.games</string>
+	<key>CFBundleIdentifier</key>
+	<string>Koripallo</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1</string>
 </dict>
 </plist>

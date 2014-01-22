@@ -10,8 +10,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Physics2d</RootNamespace>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
-    <AssemblyName>Physics2d-MacOS</AssemblyName>
-    <ReleaseVersion>1.0</ReleaseVersion>
+    <AssemblyName>Physics2d</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,21 +69,16 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="MonoMac" />
+    <Reference Include="Jypeli.MonoGame.Framework">
+      <HintPath>..\MonoGame\MonoGame.Framework\bin\MacOS\Debug\Jypeli.MonoGame.Framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\v0.0\Xamarin.Mac.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.MacOS.csproj">
-      <Project>{C6452FFF-BF4F-42CB-850C-A9C61370A078}</Project>
-      <Name>Jypeli.MonoGame.Framework.MacOS</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Jypeli\Jypeli-MacOS.csproj">
       <Project>{21146E75-35F4-4E05-B6E9-E58903D9A4C2}</Project>
       <Name>Jypeli-MacOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.MacOS.csproj">
-      <Project>{AE483C29-042E-4226-BA52-D247CE7676DA}</Project>
-      <Name>Lidgren.Network.MacOS</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -169,7 +169,7 @@
       <Name>Jypeli-WP8</Name>
     </ProjectReference>
     <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.WindowsPhone.csproj">
-      <Project>{baa9a6e4-7690-4de0-9531-de0eaeec9739}</Project>
+      <Project>{BAA9A6E4-7690-4DE0-9531-DE0EAEEC9739}</Project>
       <Name>Jypeli.MonoGame.Framework.WindowsPhone</Name>
     </ProjectReference>
   </ItemGroup>

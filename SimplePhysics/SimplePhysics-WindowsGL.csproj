@@ -50,6 +50,10 @@
     <DocumentationFile>bin\WindowsGL\x86\Release\Jypeli.SimplePhysics.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Jypeli.MonoGame.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\Jypeli.MonoGame.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -63,10 +67,6 @@
     <ProjectReference Include="..\Jypeli\Jypeli-WindowsGL.csproj">
       <Project>{76cc55a2-bece-4f80-b491-ddcab9f061fb}</Project>
       <Name>Jypeli-VS2012</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.WindowsGL.csproj">
-      <Project>{da65b249-9290-4a09-a48c-443a65845583}</Project>
-      <Name>Jypeli.MonoGame.Framework.WindowsGL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

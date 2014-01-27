@@ -1,14 +1,22 @@
 <Addin id          = "Jypeli"
        namespace   = "MonoDevelop"
-       author      = "Jyväskylän yliopisto"
+       name        = "Jypeli"
+       author      = "Jyvaskylan yliopisto"
        copyright   = "MIT"
        url         = "http://bit.ly/pelikurssi"
        description = "Jypeli game programming library"
-       category    = "Templates"
+       category    = "Jypeli"
        version     = "6.0.0">
 
        <Runtime>
-          <Import file = "PerusPeli.xpt.xml"/>
+          <Import file = "icons/Jypeli-32.png"/>
+          <Import file = "icons/PerusPeli-16.png"/>
+          <Import file = "icons/PerusPeli-32.png"/>
+          <Import file = "templates/PerusPeli/Icon-md.png"/>
+          <Import file = "templates/PerusPeli/Ohjelma.cs"/>
+          <Import file = "templates/PerusPeli/Peli.cs"/>
+          <Import file = "templates/PerusPeliCs.xft.xml"/>
+          <Import file = "templates/PerusPeli.xpt.xml"/>
        </Runtime>
 
       <Dependencies>
@@ -19,15 +27,18 @@
          <Addin id="Autotools" version="4.0"/>
       </Dependencies>
 
-<!--
-      <Extension path = "/MonoDevelop/ProjectModel/ProjectBindings">
-         <ProjectBinding id="Jypeli" class="MonoDevelop.Jypeli.JypeliProjectBinding"/>
-      </Extension>
--->
-
-      <Extension path = "/MonoDevelop/Ide/ProjectTemplates">
-         <ProjectTemplate id = "PerusPeli" file = "PerusPeli.xpt.xml"/>
+      <Extension path="/MonoDevelop/Core/StockIcons">
+         <StockIcon stockid="PerusPeli-project" file="icons/PerusPeli-32.png" />
       </Extension>
 
+      <Extension path="/MonoDevelop/Ide/ProjectTemplates">
+         <ProjectTemplate id   = "PerusPeli"
+                          file = "templates/PerusPeli.xpt.xml"/>
+      </Extension>
+
+      <Extension path = "/MonoDevelop/Ide/FileTemplates">
+         <FileTemplate id   = "PerusPeliCs"
+                       file = "templates/PerusPeliCs.xft.xml"/>
+      </Extension>
 </Addin>
 

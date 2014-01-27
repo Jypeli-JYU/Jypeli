@@ -1,0 +1,56 @@
+<Template originator   = "Tomi Karppinen"
+          created      = "2014/01/23"
+          lastModified = "2014/01/23">
+
+          <!-- Template Header -->
+          <TemplateConfiguration>
+             <_Name>PerusPeli</Name>
+             <_Category>C#/Jypeli</_Category>
+             <Icon>md-project</Icon>
+             <LanguageName>C#</LanguageName>
+             <_Description>Luo uuden pelin ilman fysiikkaa.</_Description>
+          </TemplateConfiguration>
+
+          <!-- Actions -->
+          <Actions>
+             <Open filename = "Peli.cs">
+          </Actions>
+
+         <Options>
+            <StartupProject>${ProjectName}</StartupProject>
+         </Options>
+
+          <!-- Template Content -->
+          <Combine name = "${ProjectName}" directory = ".">
+             <Project name = "${ProjectName} directory = "."">
+                <Options/>
+
+                <References>
+                   <Reference type = "Gac" refto="System"/>
+                   <Reference type = "Gac" refto="System.Core"/>
+                   <Reference type = "Gac" refto="System.Drawing"/>
+                   <Reference type = "Gac" refto="System.Xml"/>
+                   <Reference type = "Gac" refto="System.Xml.Linq"/>
+                   <Reference type = "Gac" refto="MonoMac" SpecificVersion = "false"/>
+                   <!--<Reference type = "Gac" refto="Jypeli"/>
+                   <Reference type = "Gac" refto="Jypeli.MonoGame.Framework"/>-->
+                </References>
+
+                <Files>
+                   <FileTemplateReference TemplateID = "CSharpAssemblyInfo"
+                                                name = "AssemblyInfo.cs"/>
+
+                   <File name = "Ohjelma.cs"><![CDATA[
+                   ]]
+                   </File>
+
+                   <File name = "Peli.cs"><![CDATA[
+                   ]]
+                   </File>
+
+                   <Directory name="Content"/>
+                </Files>
+             </Project>
+          </Combine>
+</Template>
+

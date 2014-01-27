@@ -1,0 +1,33 @@
+<Addin id          = "Jypeli"
+       namespace   = "MonoDevelop"
+       author      = "Jyväskylän yliopisto"
+       copyright   = "MIT"
+       url         = "http://bit.ly/pelikurssi"
+       description = "Jypeli game programming library"
+       category    = "Templates"
+       version     = "6.0.0">
+
+       <Runtime>
+          <Import file = "PerusPeli.xpt.xml"/>
+       </Runtime>
+
+      <Dependencies>
+         <Addin id="Core" version="4.0"/>
+         <Addin id="Ide" version="4.0"/>
+         <Addin id="SourceEditor2" version="4.0"/>
+         <Addin id="Refactoring" version="4.0"/>
+         <Addin id="Autotools" version="4.0"/>
+      </Dependencies>
+
+<!--
+      <Extension path = "/MonoDevelop/ProjectModel/ProjectBindings">
+         <ProjectBinding id="Jypeli" class="MonoDevelop.Jypeli.JypeliProjectBinding"/>
+      </Extension>
+-->
+
+      <Extension path = "/MonoDevelop/Ide/ProjectTemplates">
+         <ProjectTemplate id = "PerusPeli" file = "PerusPeli.xpt.xml"/>
+      </Extension>
+
+</Addin>
+

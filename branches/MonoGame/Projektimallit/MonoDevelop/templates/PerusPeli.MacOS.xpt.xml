@@ -37,7 +37,7 @@
           <Files>
              <FileTemplateReference TemplateID="CSharpAssemblyInfo" name="AssemblyInfo.cs" />
              <File name="Peli.cs" src="PerusPeli/Peli.cs" />
-             <File name="Ohjelma.cs" src="PerusPeli/Ohjelma-MacOS.cs" />
+             <File name="Ohjelma.cs" src="PerusPeli/Ohjelma.MacOS.cs" />
              <RawFile name="Icon.png" src="PerusPeli/Icon-md.png" />
              <Directory name="Content" />
           </Files>

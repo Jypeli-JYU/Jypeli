@@ -161,6 +161,7 @@
     <Compile Include="GameObjects\Widget\Widget.cs" />
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
+    <Compile Include="Game\DebugScreen.cs" />
     <Compile Include="Game\DelayedActions.cs" />
     <Compile Include="Game\Factory.cs" />
     <Compile Include="Game\Game.cs">

@@ -1,26 +1,19 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-#endregion
 
-namespace $safeprojectname$
+/// <summary>
+/// The main class.
+/// </summary>
+public static class Program
 {
-#if WINDOWS || LINUX
-    /// <summary>
-    /// The main class.
-    /// </summary>
-    public static class Program
-    {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            using (var peli = new Peli())
-                peli.Run();
-        }
-    }
-#endif
+   /// <summary>
+   /// The main entry point for the application.
+   /// </summary>
+   [STAThread]
+   static void Main()
+   {
+      using (var peli = new Peli())
+          peli.Run();
+   }
 }

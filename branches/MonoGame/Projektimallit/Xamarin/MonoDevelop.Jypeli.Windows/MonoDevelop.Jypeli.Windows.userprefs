@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="templates\PerusPeli.Windows.xpt.xml">
+    <Files>
+      <File FileName="Properties\Manifest.addin.xml" Line="29" Column="66" />
+      <File FileName="r:\Versiohallinta\MonoKaannos\Projektimallit\Xamarin\MonoDevelop.Jypeli.Windows\JypeliProject.cs" Line="167" Column="3" />
+      <File FileName="templates\PerusPeliCs.xft.xml" Line="1" Column="1" />
+      <File FileName="templates\PerusPeli.Windows.xpt.xml" Line="17" Column="5" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

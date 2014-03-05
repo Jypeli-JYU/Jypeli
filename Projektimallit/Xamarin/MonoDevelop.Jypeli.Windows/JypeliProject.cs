@@ -2,6 +2,7 @@ using System;
 using MonoDevelop.Projects;
 using System.Xml;
 using MonoDevelop.Core.Assemblies;
+using System.Text;
 
 namespace MonoDevelop.Jypeli
 {	
@@ -81,8 +82,65 @@ namespace MonoDevelop.Jypeli
 			{
 				return JypeliBuildAction.Shader;
 			}
+			else if (IsContentDir(System.IO.Path.GetDirectoryName(fileName)))
+			{
+				return BuildAction.Content;
+			}
+
 			return base.GetDefaultBuildAction (fileName);
-		}        
+		}
+
+		protected override void OnFileAddedToProject (ProjectFileEventArgs e)
+		{
+			if (Loading)
+			{
+				// Just deserializing
+				base.OnFileAddedToProject (e);
+			}
+
+			foreach (ProjectFileEventInfo einfo in e)
+			{
+				if (IsContentDir(System.IO.Path.GetDirectoryName(einfo.ProjectFile.FilePath)))
+				{
+					// Set copy mode to Always for content files
+					einfo.ProjectFile.CopyToOutputDirectory = FileCopyMode.Always;
+				}
+			}
+
+			base.OnFileAddedToProject (e);
+		}
+
+		private bool IsContentDir( string dir )
+		{
+			if (dir.Length < 7)
+				return false;
+
+			String path = dir.ToLower();
+			if (path[path.Length - 1] == '\\' || path[path.Length - 1] == '/')
+			{
+				// Remove trailing slash
+				path = dir.Substring(0, dir.Length - 1);
+			}
+
+			char[] separators = {'\\', '/'};
+
+			while (path.Length > 6)
+			{
+				int sep = path.LastIndexOfAny(separators);
+				if (sep < 0)
+				{
+					return path == "content";
+				}
+
+				String cur = path.Substring(sep + 1);
+				if (cur == "content")
+					return true;
+
+				path = path.Substring(0, sep);
+			}
+
+			return false;
+		}
 
         protected override void PopulateSupportFileList(FileCopySet list, ConfigurationSelector solutionConfiguration)
         {

@@ -123,6 +123,24 @@
     <EmbeddedResource Include="assemblies\WindowsGL\Tao.Sdl.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="icons\FysiikkaPeli-16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="icons\FysiikkaPeli-32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\FysiikkaPeli.Physics2d.Windows.xpt.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\FysiikkaPeli.SimplePhysics.Windows.xpt.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\FysiikkaPeli\Icon-md.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\FysiikkaPeli\Peli.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -131,5 +149,6 @@
     <Folder Include="assemblies\" />
     <Folder Include="assemblies\WindowsGL\" />
     <Folder Include="templates\PerusPeli\" />
+    <Folder Include="templates\FysiikkaPeli\" />
   </ItemGroup>
 </Project>

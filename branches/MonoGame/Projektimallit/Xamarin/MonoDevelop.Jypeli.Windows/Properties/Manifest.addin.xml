@@ -13,11 +13,19 @@
 		<Import file="icons/PerusPeli-32.png" />
 		<Import file="icons/FysiikkaPeli-16.png" />
 		<Import file="icons/FysiikkaPeli-32.png" />
+		<Import file="icons/Tasohyppelypeli-16.png" />
+		<Import file="icons/Tasohyppelypeli-32.png" />
 		<Import file="templates/PerusPeli/Icon-md.png" />
 		<Import file="templates/PerusPeli/Ohjelma.cs" />
 		<Import file="templates/PerusPeli/Peli.cs" />
 		<Import file="templates/FysiikkaPeli/Icon-md.png" />
 		<Import file="templates/FysiikkaPeli/Peli.cs" />
+		<Import file="templates/Tasohyppelypeli/Icon-md.png" />
+		<Import file="templates/Tasohyppelypeli/Peli.cs" />
+		<Import file="templates/Tasohyppelypeli/Content/kentta1.txt" />
+		<Import file="templates/Tasohyppelypeli/Content/norsu.png" />
+		<Import file="templates/Tasohyppelypeli/Content/tahti.png" />
+		<Import file="templates/Tasohyppelypeli/Content/maali.wav" />
 		<Import file="templates/PerusPeliCs.xft.xml" />
 		<Import file="templates/PerusPeli.Windows.xpt.xml" />
 		<Import file="templates/FysiikkaPeli.SimplePhysics.Windows.xpt.xml" />
@@ -38,6 +46,7 @@
 	<Extension path="/MonoDevelop/Core/StockIcons">
 		<StockIcon stockid="PerusPeli-project" file="icons/PerusPeli-32.png" />
 		<StockIcon stockid="FysiikkaPeli-project" file="icons/FysiikkaPeli-32.png" />
+		<StockIcon stockid="Tasohyppelypeli-project" file="icons/Tasohyppelypeli-32.png" />
 	</Extension>
 	<Extension path="/MonoDevelop/ProjectModel/MSBuildItemTypes">
 		<DotNetProjectSubtype id="Jypeli" guid="{D425DB69-D9EA-4523-A522-C706A2FF6736}" type="MonoDevelop.Jypeli.JypeliProject">
@@ -50,6 +59,7 @@
 		<ProjectTemplate id="PerusPeli" file="templates/PerusPeli.Windows.xpt.xml" />
 		<ProjectTemplate id="FysiikkaPeli.SimplePhysics" file="templates/FysiikkaPeli.SimplePhysics.Windows.xpt.xml" />
 		<ProjectTemplate id="FysiikkaPeli.Physics2d" file="templates/FysiikkaPeli.Physics2d.Windows.xpt.xml" />
+		<ProjectTemplate id="Tasohyppelypeli" file="templates/Tasohyppelypeli.Windows.xpt.xml" />
 	</Extension>
 	<Extension path="/MonoDevelop/Ide/FileTemplates">
 		<FileTemplate id="PerusPeliCs" file="templates/PerusPeliCs.xft.xml" />

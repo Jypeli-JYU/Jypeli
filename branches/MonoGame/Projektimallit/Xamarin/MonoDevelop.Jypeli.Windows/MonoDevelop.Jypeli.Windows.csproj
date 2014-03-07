@@ -141,6 +141,30 @@
     <EmbeddedResource Include="templates\FysiikkaPeli\Peli.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="icons\Tasohyppelypeli-16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Tasohyppelypeli\Content\kentta1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Tasohyppelypeli\Content\maali.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Tasohyppelypeli\Content\norsu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Tasohyppelypeli\Content\tahti.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Tasohyppelypeli\Icon-md.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Tasohyppelypeli\Peli.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Tasohyppelypeli.Windows.xpt.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -150,5 +174,11 @@
     <Folder Include="assemblies\WindowsGL\" />
     <Folder Include="templates\PerusPeli\" />
     <Folder Include="templates\FysiikkaPeli\" />
+    <Folder Include="templates\Tasohyppelypeli\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="icons\Tasohyppelypeli-32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

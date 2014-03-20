@@ -36,12 +36,6 @@
     <Reference Include="Mono.Addins">
       <Package>C:\Program Files (x86)\Xamarin Studio\bin\Mono.Addins.dll</Package>
     </Reference>
-    <Reference Include="MonoDevelop.Core">
-      <Package>C:\Program Files (x86)\Xamarin Studio\bin\MonoDevelop.Core.dll</Package>
-    </Reference>
-    <Reference Include="MonoDevelop.Ide">
-      <Package>C:\Program Files (x86)\Xamarin Studio\bin\MonoDevelop.Ide.dll</Package>
-    </Reference>
     <Reference Include="Mono.TextEditor">
       <Package>C:\Program Files (x86)\Xamarin Studio\bin\Mono.TextEditor.dll</Package>
     </Reference>
@@ -53,6 +47,9 @@
     <Reference Include="gdk-sharp" />
     <Reference Include="pango-sharp" />
     <Reference Include="Mono.Cairo" />
+    <Reference Include="MonoDevelop.Core">
+      <HintPath>references\MonoDevelop.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

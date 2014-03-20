@@ -1,0 +1,7 @@
+<AddinProject appVersion="2.4">
+	<Project platforms="Win32">
+		<AddinFile>MonoDevelop.Jypeli.Windows/bin/Release/MonoDevelop.Jypeli.Windows.dll</AddinFile>
+		<BuildFile>MonoDevelop.Jypeli.Windows/MonoDevelop.Jypeli.Windows.sln</BuildFile>
+		<BuildConfiguration>Release</BuildConfiguration>
+	</Project>
+</AddinProject>

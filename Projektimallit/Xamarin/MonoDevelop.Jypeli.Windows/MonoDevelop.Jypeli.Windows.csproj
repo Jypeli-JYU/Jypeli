@@ -47,7 +47,7 @@
     <Reference Include="gdk-sharp" />
     <Reference Include="pango-sharp" />
     <Reference Include="Mono.Cairo" />
-    <Reference Include="MonoDevelop.Core">
+    <Reference Include="MonoDevelop.Core, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>references\MonoDevelop.Core.dll</HintPath>
     </Reference>
   </ItemGroup>

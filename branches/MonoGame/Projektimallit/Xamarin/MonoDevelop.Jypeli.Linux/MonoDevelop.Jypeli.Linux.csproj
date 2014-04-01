@@ -56,75 +56,122 @@
   <ItemGroup>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\FysiikkaPeli-16.png">
       <Link>icons\FysiikkaPeli-16.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\FysiikkaPeli-32.png">
       <Link>icons\FysiikkaPeli-32.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\Jypeli-32.png">
       <Link>icons\Jypeli-32.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\PerusPeli-16.png">
       <Link>icons\PerusPeli-16.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\PerusPeli-32.png">
       <Link>icons\PerusPeli-32.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\Tasohyppelypeli-16.png">
       <Link>icons\Tasohyppelypeli-16.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\Tasohyppelypeli-32.png">
       <Link>icons\Tasohyppelypeli-32.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\PerusPeli\Icon-md.png">
       <Link>templates\PerusPeli\Icon-md.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\FysiikkaPeli\Icon-md.png">
       <Link>templates\FysiikkaPeli\Icon-md.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\Tasohyppelypeli\Icon-md.png">
       <Link>templates\Tasohyppelypeli\Icon-md.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\PerusPeliCs.xft.xml">
       <Link>templates\PerusPeli\PerusPeliCs.xft.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\PerusPeli\Peli.cs">
       <Link>templates\PerusPeli\Peli.cs</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\PerusPeli\Ohjelma.cs">
       <Link>templates\PerusPeli\Ohjelma.cs</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\PerusPeliCs.xft.xml" />
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\FysiikkaPeli\Peli.cs">
       <Link>templates\FysiikkaPeli\Peli.cs</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\Tasohyppelypeli\Peli.cs">
       <Link>templates\Tasohyppelypeli\Peli.cs</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\Tasohyppelypeli\Content\kentta1.txt">
       <Link>templates\Tasohyppelypeli\Content\kentta1.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\Tasohyppelypeli\Content\maali.wav">
       <Link>templates\Tasohyppelypeli\Content\maali.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\Tasohyppelypeli\Content\norsu.png">
       <Link>templates\Tasohyppelypeli\Content\norsu.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\Tasohyppelypeli\Content\tahti.png">
       <Link>templates\Tasohyppelypeli\Content\tahti.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Linux\Jypeli.dll" />
-    <EmbeddedResource Include="assemblies\Linux\Jypeli.MonoGame.Framework.dll" />
-    <EmbeddedResource Include="assemblies\Linux\Jypeli.Physics2d.dll" />
-    <EmbeddedResource Include="assemblies\Linux\Jypeli.Physics2d.xml" />
-    <EmbeddedResource Include="assemblies\Linux\Jypeli.SimplePhysics.dll" />
-    <EmbeddedResource Include="assemblies\Linux\Jypeli.SimplePhysics.xml" />
-    <EmbeddedResource Include="assemblies\Linux\Jypeli.xml" />
-    <EmbeddedResource Include="assemblies\Linux\Lidgren.Network.dll" />
-    <EmbeddedResource Include="assemblies\Linux\OpenTK.dll" />
-    <EmbeddedResource Include="assemblies\Linux\Tao.Sdl.dll" />
-    <EmbeddedResource Include="templates\PerusPeli.Linux.xpt.xml" />
-    <EmbeddedResource Include="templates\Tasohyppelypeli.Linux.xpt.xml" />
-    <EmbeddedResource Include="templates\FysiikkaPeli.Physics2d.Linux.xpt.xml" />
-    <EmbeddedResource Include="templates\FysiikkaPeli.SimplePhysics.Linux.xpt.xml" />
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.MonoGame.Framework.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.Physics2d.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.Physics2d.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.SimplePhysics.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.SimplePhysics.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="assemblies\Linux\Lidgren.Network.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="assemblies\Linux\OpenTK.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="assemblies\Linux\Tao.Sdl.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\PerusPeli.Linux.xpt.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Tasohyppelypeli.Linux.xpt.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\FysiikkaPeli.Physics2d.Linux.xpt.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\FysiikkaPeli.SimplePhysics.Linux.xpt.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

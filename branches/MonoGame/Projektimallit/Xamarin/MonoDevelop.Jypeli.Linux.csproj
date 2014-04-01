@@ -31,7 +31,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="MonoDevelop.Core, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>references\MonoDevelop.Core.dll</HintPath>
+      <HintPath>references\Linux\MonoDevelop.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>

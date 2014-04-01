@@ -30,28 +30,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Xml" />
     <Reference Include="MonoDevelop.Core, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>references\Linux\MonoDevelop.Core.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JypeliProject3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <None Include="Properties\MonoDevelop.Jypeli.Linux.addin.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="assemblies\" />
-    <Folder Include="icons\" />
-    <Folder Include="templates\" />
-    <Folder Include="templates\PerusPeli\" />
-    <Folder Include="templates\FysiikkaPeli\" />
-    <Folder Include="templates\Tasohyppelypeli\" />
-    <Folder Include="assemblies\Linux\" />
-    <Folder Include="templates\Tasohyppelypeli\Content\" />
+    <Compile Include="JypeliProject3.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\Jypeli-32.png">
@@ -153,5 +139,16 @@
     <EmbeddedResource Include="templates\FysiikkaPeli.SimplePhysics.xpt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\MonoDevelop.Jypeli.Linux.addin.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="icons\" />
+    <Folder Include="templates\" />
+    <Folder Include="assemblies\" />
+    <Folder Include="assemblies\WindowsGL\" />
+    <Folder Include="templates\PerusPeli\" />
+    <Folder Include="templates\FysiikkaPeli\" />
+    <Folder Include="templates\Tasohyppelypeli\" />
   </ItemGroup>
 </Project>

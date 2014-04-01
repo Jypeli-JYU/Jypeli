@@ -53,8 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="C:\Program Files %28x86%29\MonoGame\v3.0\Assemblies\WindowsGL\SDL.dll">
+    <Content Include="R:\Versiohallinta\MonoKaannos\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\SDL.dll">
       <Link>SDL.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="R:\Versiohallinta\MonoKaannos\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\SDL_mixer.dll">
+      <Link>SDL_mixer.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\AbracaZebra.mp3">
@@ -69,13 +73,17 @@
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Jypeli\Jypeli-VS2012.csproj">
+    <ProjectReference Include="..\..\..\Jypeli\Jypeli-WindowsGL.csproj">
       <Project>{76cc55a2-bece-4f80-b491-ddcab9f061fb}</Project>
-      <Name>Jypeli-VS2012</Name>
+      <Name>Jypeli-WindowsGL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
+    <ProjectReference Include="..\..\..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.WindowsGL.csproj">
       <Project>{da65b249-9290-4a09-a48c-443a65845583}</Project>
-      <Name>MonoGame.Framework.WindowsGL</Name>
+      <Name>Jypeli.MonoGame.Framework.WindowsGL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Physics2d\Physics2d-WindowsGL.csproj">
+      <Project>{041d26c6-a261-4843-906e-7326ab1dba4c}</Project>
+      <Name>Physics2d-WindowsGL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

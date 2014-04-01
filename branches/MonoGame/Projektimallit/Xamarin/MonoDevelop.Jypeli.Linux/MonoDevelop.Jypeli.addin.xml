@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Addin id="Jypeli" namespace="MonoDevelop" name="Jypeli" author="Jyvaskylan yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.0.1">
+	<Dependencies>
+		<Addin id="::MonoDevelop.Core" version="2.6" />
+		<Addin id="::MonoDevelop.Ide" version="2.6" />
+		<Addin id="::MonoDevelop.SourceEditor2" version="2.6" />
+		<Addin id="::MonoDevelop.Refactoring" version="2.6" />
+		<Addin id="::MonoDevelop.Autotools" version="2.6" />
+	</Dependencies>
+	<Runtime>
+		<Import file="icons/Jypeli-32.png" />
+		<Import file="icons/PerusPeli-16.png" />
+		<Import file="icons/PerusPeli-32.png" />
+		<Import file="icons/FysiikkaPeli-16.png" />
+		<Import file="icons/FysiikkaPeli-32.png" />
+		<Import file="icons/Tasohyppelypeli-16.png" />
+		<Import file="icons/Tasohyppelypeli-32.png" />
+		<Import file="templates/PerusPeli/Icon-md.png" />
+		<Import file="templates/PerusPeli/Ohjelma.cs" />
+		<Import file="templates/PerusPeli/Peli.cs" />
+		<Import file="templates/FysiikkaPeli/Icon-md.png" />
+		<Import file="templates/FysiikkaPeli/Peli.cs" />
+		<Import file="templates/Tasohyppelypeli/Icon-md.png" />
+		<Import file="templates/Tasohyppelypeli/Peli.cs" />
+		<Import file="templates/Tasohyppelypeli/Content/kentta1.txt" />
+		<Import file="templates/Tasohyppelypeli/Content/norsu.png" />
+		<Import file="templates/Tasohyppelypeli/Content/tahti.png" />
+		<Import file="templates/Tasohyppelypeli/Content/maali.wav" />
+		<Import file="templates/PerusPeliCs.xft.xml" />
+		<Import file="templates/PerusPeli.Windows.xpt.xml" />
+		<Import file="templates/FysiikkaPeli.SimplePhysics.Windows.xpt.xml" />
+		<Import file="templates/FysiikkaPeli.Physics2d.Windows.xpt.xml" />
+		<Import file="assemblies/Linux/Jypeli.MonoGame.Framework.dll" />
+		<Import file="assemblies/Linux/Lidgren.Network.dll" />
+		<Import file="assemblies/Linux/OpenTK.dll" />
+		<Import file="assemblies/Linux/Tao.Sdl.dll" />
+		<Import file="assemblies/Linux/Jypeli.dll" />
+		<Import file="assemblies/Linux/Jypeli.xml" />
+		<Import file="assemblies/Linux/Jypeli.Physics2d.dll" />
+		<Import file="assemblies/Linux/Jypeli.Physics2d.xml" />
+		<Import file="assemblies/Linux/Jypeli.SimplePhysics.dll" />
+		<Import file="assemblies/Linux/Jypeli.SimplePhysics.xml" />
+	</Runtime>
+	<Extension path="/MonoDevelop/Core/StockIcons">
+		<StockIcon stockid="PerusPeli-project" file="icons/PerusPeli-32.png" />
+		<StockIcon stockid="FysiikkaPeli-project" file="icons/FysiikkaPeli-32.png" />
+		<StockIcon stockid="Tasohyppelypeli-project" file="icons/Tasohyppelypeli-32.png" />
+	</Extension>
+	<Extension path="/MonoDevelop/ProjectModel/MSBuildItemTypes">
+		<DotNetProjectSubtype id="Jypeli" guid="{D425DB69-D9EA-4523-A522-C706A2FF6738}" type="MonoDevelop.Jypeli.JypeliProject">
+		</DotNetProjectSubtype>
+	</Extension>
+	<Extension path="/MonoDevelop/ProjectModel/ProjectBindings">
+		<ProjectBinding id="Jypeli" class="MonoDevelop.Jypeli.JypeliProjectBinding" />
+	</Extension>
+	<Extension path="/MonoDevelop/Ide/ProjectTemplates">
+		<ProjectTemplate id="PerusPeli" file="templates/PerusPeli.Windows.xpt.xml" />
+		<ProjectTemplate id="FysiikkaPeli.SimplePhysics" file="templates/FysiikkaPeli.SimplePhysics.Windows.xpt.xml" />
+		<ProjectTemplate id="FysiikkaPeli.Physics2d" file="templates/FysiikkaPeli.Physics2d.Windows.xpt.xml" />
+		<ProjectTemplate id="Tasohyppelypeli" file="templates/Tasohyppelypeli.Windows.xpt.xml" />
+	</Extension>
+	<Extension path="/MonoDevelop/Ide/FileTemplates">
+		<FileTemplate id="PerusPeliCs" file="templates/PerusPeliCs.xft.xml" />
+	</Extension>
+	<Extension path="/MonoDevelop/Core/SupportPackages">
+		<Condition id="PackageNotInstalled" name="jypeli" version="6.0">
+			<Package name="jypeli" version="6.0" clrVersion="Default">
+				<Assembly file="assemblies\WindowsGL\Jypeli.dll" />
+				<Assembly file="assemblies\WindowsGL\Jypeli.SimplePhysics.dll" />
+				<Assembly file="assemblies\WindowsGL\Jypeli.Physics2d.dll" />
+				<Assembly file="assemblies\WindowsGL\Jypeli.MonoGame.Framework.dll" />
+				<Assembly file="assemblies\WindowsGL\Lidgren.Network.dll" />
+				<Assembly file="assemblies\WindowsGL\OpenTK.dll" />
+				<Assembly file="assemblies\WindowsGL\Tao.Sdl.dll" />
+			</Package>
+		</Condition>
+	</Extension>
+</Addin>

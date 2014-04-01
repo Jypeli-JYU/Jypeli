@@ -27,9 +27,9 @@
 		<Import file="templates/Tasohyppelypeli/Content/tahti.png" />
 		<Import file="templates/Tasohyppelypeli/Content/maali.wav" />
 		<Import file="templates/PerusPeliCs.xft.xml" />
-		<Import file="templates/PerusPeli.Windows.xpt.xml" />
-		<Import file="templates/FysiikkaPeli.SimplePhysics.Windows.xpt.xml" />
-		<Import file="templates/FysiikkaPeli.Physics2d.Windows.xpt.xml" />
+		<Import file="templates/PerusPeli.xpt.xml" />
+		<Import file="templates/FysiikkaPeli.SimplePhysics.xpt.xml" />
+		<Import file="templates/FysiikkaPeli.Physics2d.xpt.xml" />
 		<Import file="assemblies/WindowsGL/Jypeli.MonoGame.Framework.dll" />
 		<Import file="assemblies/WindowsGL/Lidgren.Network.dll" />
 		<Import file="assemblies/WindowsGL/OpenTK.dll" />
@@ -56,10 +56,10 @@
 		<ProjectBinding id="Jypeli" class="MonoDevelop.Jypeli.JypeliProjectBinding" />
 	</Extension>
 	<Extension path="/MonoDevelop/Ide/ProjectTemplates">
-		<ProjectTemplate id="PerusPeli" file="templates/PerusPeli.Windows.xpt.xml" />
-		<ProjectTemplate id="FysiikkaPeli.SimplePhysics" file="templates/FysiikkaPeli.SimplePhysics.Windows.xpt.xml" />
-		<ProjectTemplate id="FysiikkaPeli.Physics2d" file="templates/FysiikkaPeli.Physics2d.Windows.xpt.xml" />
-		<ProjectTemplate id="Tasohyppelypeli" file="templates/Tasohyppelypeli.Windows.xpt.xml" />
+		<ProjectTemplate id="PerusPeli" file="templates/PerusPeli.xpt.xml" />
+		<ProjectTemplate id="FysiikkaPeli.SimplePhysics" file="templates/FysiikkaPeli.SimplePhysics.xpt.xml" />
+		<ProjectTemplate id="FysiikkaPeli.Physics2d" file="templates/FysiikkaPeli.Physics2d.xpt.xml" />
+		<ProjectTemplate id="Tasohyppelypeli" file="templates/Tasohyppelypeli.xpt.xml" />
 	</Extension>
 	<Extension path="/MonoDevelop/Ide/FileTemplates">
 		<FileTemplate id="PerusPeliCs" file="templates/PerusPeliCs.xft.xml" />

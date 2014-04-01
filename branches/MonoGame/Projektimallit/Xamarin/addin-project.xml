@@ -4,4 +4,9 @@
 		<BuildFile>MonoDevelop.Jypeli.Windows/MonoDevelop.Jypeli.Windows.sln</BuildFile>
 		<BuildConfiguration>Release</BuildConfiguration>
 	</Project>
+	<Project platforms="Linux">
+		<AddinFile>MonoDevelop.Jypeli.Linux/bin/Release/MonoDevelop.Jypeli.Linux.dll</AddinFile>
+		<BuildFile>MonoDevelop.Jypeli.Linux/MonoDevelop.Jypeli.Linux.sln</BuildFile>
+		<BuildConfiguration>Release</BuildConfiguration>
+	</Project>
 </AddinProject>

@@ -6,7 +6,6 @@
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6B2F9E23-E9BB-4461-8F7F-E81BCD39150A}</ProjectGuid>
-    <ProjectTypeGuids>{7DBEB09D-BB9F-4D92-A141-A009135475EF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>MonoDevelop.Jypeli.Windows</RootNamespace>
     <AssemblyName>MonoDevelop.Jypeli.Windows</AssemblyName>
@@ -22,7 +21,7 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -32,21 +31,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="Mono.Addins">
-      <Package>C:\Program Files (x86)\Xamarin Studio\bin\Mono.Addins.dll</Package>
-    </Reference>
-    <Reference Include="Mono.TextEditor">
-      <Package>C:\Program Files (x86)\Xamarin Studio\bin\Mono.TextEditor.dll</Package>
-    </Reference>
-    <Reference Include="ICSharpCode.NRefactory">
-      <Package>C:\Program Files (x86)\Xamarin Studio\bin\ICSharpCode.NRefactory.dll</Package>
-    </Reference>
-    <Reference Include="gtk-sharp" />
-    <Reference Include="glib-sharp" />
-    <Reference Include="gdk-sharp" />
-    <Reference Include="pango-sharp" />
-    <Reference Include="Mono.Cairo" />
     <Reference Include="MonoDevelop.Core, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>references\MonoDevelop.Core.dll</HintPath>
     </Reference>
@@ -141,6 +125,9 @@
     <EmbeddedResource Include="icons\Tasohyppelypeli-16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+	<EmbeddedResource Include="icons\Tasohyppelypeli-32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <EmbeddedResource Include="templates\Tasohyppelypeli\Content\kentta1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -172,10 +159,5 @@
     <Folder Include="templates\PerusPeli\" />
     <Folder Include="templates\FysiikkaPeli\" />
     <Folder Include="templates\Tasohyppelypeli\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="icons\Tasohyppelypeli-32.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>

@@ -1,11 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../SimplePhysics/PhysicsGame.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Content/JypeliContentManager.cs">
     <Files>
-      <File FileName="../MonoGame/MonoGame.Framework/Properties/AssemblyInfo.cs" Line="36" Column="36" />
-      <File FileName="../SimplePhysics/PhysicsGame.cs" Line="17" Column="5" />
-      <File FileName="AdvanceMath/Clamped.cs" Line="29" Column="30" />
-      <File FileName="GameObjects/GameObject/Appearance.cs" Line="105" Column="40" />
+      <File FileName="../MonoGame/MonoGame.Framework/Net/MonoGamerPeer.cs" Line="10" Column="7" />
+      <File FileName="Content/JypeliContentManager.cs" Line="9" Column="7" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

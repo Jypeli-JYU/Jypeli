@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Template originator   = "Tomi Karppinen"
+          created      = "2014/04/01"
+          lastModified = "2014/04/01">
+
+    <TemplateConfiguration>
+		<_Name>PerusPeli</_Name>
+		<_Category>C#/Jypeli</_Category>
+		<Icon>PerusPeli-project</Icon>
+		<LanguageName>C#</LanguageName>
+		<_Description>Peli ilman fysiikkaa.</_Description>
+	</TemplateConfiguration>
+
+    <Actions>
+       <Open filename = "Peli.cs"/>
+    </Actions>
+
+   <Options>
+      <StartupProject>${ProjectName}</StartupProject>
+   </Options>
+
+    <Combine name = "${ProjectName}" directory = ".">
+       <Project name = "${ProjectName}" directory = "." type="Jypeli">
+          <Options/>
+
+          <References>
+             <Reference type = "Package" refto = "Jypeli"/>
+             <Reference type = "Package" refto = "Jypeli.MonoGame.Framework"/>
+             <Reference type = "Package" refto = "System" />
+             <Reference type = "Package" refto = "System.Xml" />
+             <Reference type = "Package" refto = "System.Core" />
+             <Reference type = "Package" refto = "OpenTK" />
+             <Reference type = "Package" refto = "Lidgren.Network" />
+             <Reference type = "Package" refto = "Tao.Sdl" />
+          </References>
+
+          <Files>
+             <FileTemplateReference TemplateID="CSharpAssemblyInfo" name="AssemblyInfo.cs" />
+             <File name="Peli.cs" src="PerusPeli/Peli.cs" />
+             <File name="Ohjelma.cs" src="PerusPeli/Ohjelma.cs" />
+             <RawFile name="Icon.png" src="PerusPeli/Icon-md.png" />
+             <Directory name="Content" />
+          </Files>
+       </Project>
+    </Combine>
+</Template>
+

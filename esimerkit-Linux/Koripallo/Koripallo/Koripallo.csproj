@@ -62,7 +62,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\..\..\Jypeli\Jypeli-Linux.csproj">
-      <Project>{6D97D187-7044-4AF6-BFC9-445F4A261F8A}</Project>
+      <Project>{6B7DA771-B6DC-45C6-844E-CE67BCD476F2}</Project>
       <Name>Jypeli-Linux</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\SimplePhysics\SimplePhysics-Linux.csproj">

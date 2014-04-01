@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E67DEA04-C3D9-4F13-98AF-D15860CEAF89}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MonoDevelop.Jypeli.Linux</RootNamespace>
+    <AssemblyName>MonoDevelop.Jypeli.Linux</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="MonoDevelop.Core, Version=2.6.0.0, Culture=neutral">
+      <Private>False</Private>
+      <Package>monodevelop</Package>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="JypeliProject.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="MonoDevelop.Jypeli.addin.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="assemblies\" />
+    <Folder Include="icons\" />
+    <Folder Include="templates\" />
+    <Folder Include="templates\PerusPeli\" />
+    <Folder Include="templates\FysiikkaPeli\" />
+    <Folder Include="templates\Tasohyppelypeli\" />
+    <Folder Include="assemblies\Linux\" />
+    <Folder Include="templates\Tasohyppelypeli\Content\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\FysiikkaPeli-16.png">
+      <Link>icons\FysiikkaPeli-16.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\FysiikkaPeli-32.png">
+      <Link>icons\FysiikkaPeli-32.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\Jypeli-32.png">
+      <Link>icons\Jypeli-32.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\PerusPeli-16.png">
+      <Link>icons\PerusPeli-16.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\PerusPeli-32.png">
+      <Link>icons\PerusPeli-32.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\Tasohyppelypeli-16.png">
+      <Link>icons\Tasohyppelypeli-16.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\icons\Tasohyppelypeli-32.png">
+      <Link>icons\Tasohyppelypeli-32.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\PerusPeli\Icon-md.png">
+      <Link>templates\PerusPeli\Icon-md.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\FysiikkaPeli\Icon-md.png">
+      <Link>templates\FysiikkaPeli\Icon-md.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\Tasohyppelypeli\Icon-md.png">
+      <Link>templates\Tasohyppelypeli\Icon-md.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\PerusPeliCs.xft.xml">
+      <Link>templates\PerusPeli\PerusPeliCs.xft.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\PerusPeli\Peli.cs">
+      <Link>templates\PerusPeli\Peli.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\PerusPeli\Ohjelma.cs">
+      <Link>templates\PerusPeli\Ohjelma.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\PerusPeliCs.xft.xml" />
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\FysiikkaPeli\Peli.cs">
+      <Link>templates\FysiikkaPeli\Peli.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\Tasohyppelypeli\Peli.cs">
+      <Link>templates\Tasohyppelypeli\Peli.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\Tasohyppelypeli\Content\kentta1.txt">
+      <Link>templates\Tasohyppelypeli\Content\kentta1.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\Tasohyppelypeli\Content\maali.wav">
+      <Link>templates\Tasohyppelypeli\Content\maali.wav</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\Tasohyppelypeli\Content\norsu.png">
+      <Link>templates\Tasohyppelypeli\Content\norsu.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\MonoDevelop.Jypeli.Windows\templates\Tasohyppelypeli\Content\tahti.png">
+      <Link>templates\Tasohyppelypeli\Content\tahti.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.dll" />
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.MonoGame.Framework.dll" />
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.Physics2d.dll" />
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.Physics2d.xml" />
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.SimplePhysics.dll" />
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.SimplePhysics.xml" />
+    <EmbeddedResource Include="assemblies\Linux\Jypeli.xml" />
+    <EmbeddedResource Include="assemblies\Linux\Lidgren.Network.dll" />
+    <EmbeddedResource Include="assemblies\Linux\OpenTK.dll" />
+    <EmbeddedResource Include="assemblies\Linux\Tao.Sdl.dll" />
+    <EmbeddedResource Include="templates\PerusPeli.Linux.xpt.xml" />
+    <EmbeddedResource Include="templates\Tasohyppelypeli.Linux.xpt.xml" />
+    <EmbeddedResource Include="templates\FysiikkaPeli.Physics2d.Linux.xpt.xml" />
+    <EmbeddedResource Include="templates\FysiikkaPeli.SimplePhysics.Linux.xpt.xml" />
+  </ItemGroup>
+</Project>

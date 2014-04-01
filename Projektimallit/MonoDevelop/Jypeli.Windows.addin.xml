@@ -44,6 +44,15 @@
          <StockIcon stockid="PerusPeli-project" file="icons/PerusPeli-32.png" />
       </Extension>
 
+      <Extension path="/MonoDevelop/ProjectModel/MSBuildItemTypes">
+         <DotNetProjectSubtype id="Jypeli" guid="{D425DB69-D9EA-4523-A522-C706A2FF6736}" type="MonoDevelop.Jypeli.JypeliProject">
+         </DotNetProjectSubtype>
+      </Extension>
+
+      <Extension path="/MonoDevelop/ProjectModel/ProjectBindings">
+         <ProjectBinding id="Jypeli" class="MonoDevelop.Jypeli.JypeliProjectBinding" />
+      </Extension>
+
       <Extension path="/MonoDevelop/Ide/ProjectTemplates">
          <ProjectTemplate id   = "PerusPeli"
                           file = "templates/PerusPeli.Windows.xpt.xml"/>
@@ -57,14 +66,14 @@
       <Extension path="/MonoDevelop/Core/SupportPackages">
          <Condition id="PackageNotInstalled" name="jypeli" version="6.0">
             <Package name="jypeli" version="6.0" clrVersion="Default">
-               <Assembly file="assemblies/WindowsGL/Jypeli.dll" />
-               <Assembly file="assemblies/WindowsGL/Jypeli.SimplePhysics.dll" />
-               <Assembly file="assemblies/WindowsGL/Jypeli.Physics2d.dll" />
-               <Assembly file="assemblies/WindowsGL/Jypeli.MonoGame.Framework.dll" />
-               <Assembly file="assemblies/WindowsGL/Lidgren.Network.dll" />
-               <Assembly file="assemblies/WindowsGL/OpenTK.dll" />
-               <Assembly file="assemblies/WindowsGL/Tao.Sdl.dll" />
-               <Assembly file="assemblies/WindowsGL/sdl.dll" />
+               <Assembly file="assemblies\WindowsGL\Jypeli.dll" />
+               <Assembly file="assemblies\WindowsGL\Jypeli.SimplePhysics.dll" />
+               <Assembly file="assemblies\WindowsGL\Jypeli.Physics2d.dll" />
+               <Assembly file="assemblies\WindowsGL\Jypeli.MonoGame.Framework.dll" />
+               <Assembly file="assemblies\WindowsGL\Lidgren.Network.dll" />
+               <Assembly file="assemblies\WindowsGL\OpenTK.dll" />
+               <Assembly file="assemblies\WindowsGL\Tao.Sdl.dll" />
+               <Assembly file="assemblies\WindowsGL\sdl.dll" />
            </Package>
          </Condition>
        </Extension>

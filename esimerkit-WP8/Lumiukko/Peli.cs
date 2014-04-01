@@ -18,7 +18,7 @@ public class Peli : Game
         //Camera.ZoomFactor = 1;
         //var img = ResourceContent.Load<Microsoft.Xna.Framework.Graphics.Texture2D>( "CannonBall" );
         //norsunkuva = new Image( img );
-		MediaPlayer.Play("AbracaZebra");
+		//MediaPlayer.Play("AbracaZebra");
         //var sound = ResourceContent.Load<Microsoft.Xna.Framework.Audio.SoundEffect>( "laser" );
         //sound.Play();
         //norsunkuva = LoadImage( "norsu" );

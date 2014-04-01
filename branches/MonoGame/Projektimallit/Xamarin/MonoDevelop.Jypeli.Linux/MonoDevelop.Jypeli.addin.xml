@@ -65,13 +65,13 @@
 	<Extension path="/MonoDevelop/Core/SupportPackages">
 		<Condition id="PackageNotInstalled" name="jypeli" version="6.0">
 			<Package name="jypeli" version="6.0" clrVersion="Default">
-				<Assembly file="assemblies\WindowsGL\Jypeli.dll" />
-				<Assembly file="assemblies\WindowsGL\Jypeli.SimplePhysics.dll" />
-				<Assembly file="assemblies\WindowsGL\Jypeli.Physics2d.dll" />
-				<Assembly file="assemblies\WindowsGL\Jypeli.MonoGame.Framework.dll" />
-				<Assembly file="assemblies\WindowsGL\Lidgren.Network.dll" />
-				<Assembly file="assemblies\WindowsGL\OpenTK.dll" />
-				<Assembly file="assemblies\WindowsGL\Tao.Sdl.dll" />
+				<Assembly file="assemblies\Linux\Jypeli.dll" />
+				<Assembly file="assemblies\Linux\Jypeli.SimplePhysics.dll" />
+				<Assembly file="assemblies\Linux\Jypeli.Physics2d.dll" />
+				<Assembly file="assemblies\Linux\Jypeli.MonoGame.Framework.dll" />
+				<Assembly file="assemblies\Linux\Lidgren.Network.dll" />
+				<Assembly file="assemblies\Linux\OpenTK.dll" />
+				<Assembly file="assemblies\Linux\Tao.Sdl.dll" />
 			</Package>
 		</Condition>
 	</Extension>

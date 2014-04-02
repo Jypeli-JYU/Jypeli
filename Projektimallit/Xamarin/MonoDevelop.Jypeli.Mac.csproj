@@ -43,10 +43,10 @@
     <Reference Include="Xamarin.Ide, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>references\Xamarin.Ide.dll</HintPath>
     </Reference>
-    <Reference Include="MacPlatform">
+    <Reference Include="MacPlatform, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>references\MacPlatform.dll</HintPath>
     </Reference>
-    <Reference Include="MonoMac">
+    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>references\MonoMac.dll</HintPath>
     </Reference>
   </ItemGroup>

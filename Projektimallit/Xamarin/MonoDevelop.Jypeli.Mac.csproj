@@ -34,13 +34,13 @@
     <Reference Include="MonoDevelop.Core, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>references\MonoDevelop.Core.dll</HintPath>
     </Reference>
-    <Reference Include="MonoDevelop.MonoMac, Version=4.0.0.0, Culture=neutral">
+    <Reference Include="MonoDevelop.MonoMac, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>references\MonoDevelop.MonoMac.dll</HintPath>
     </Reference>
-    <Reference Include="MonoDevelop.MacDev, Version=4.0.0.0, Culture=neutral">
+    <Reference Include="MonoDevelop.MacDev, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>references\MonoDevelop.MacDev.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Ide, Version=1.0.0.0, Culture=neutral">
+    <Reference Include="Xamarin.Ide, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>references\Xamarin.Ide.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -148,9 +148,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="assemblies\Mac\Jypeli.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Mac\MonoMac.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

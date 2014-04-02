@@ -40,6 +40,9 @@
 		<Import file="assemblies/Linux/Jypeli.Physics2d.xml" />
 		<Import file="assemblies/Linux/Jypeli.SimplePhysics.dll" />
 		<Import file="assemblies/Linux/Jypeli.SimplePhysics.xml" />
+		<Import file="assemblies/sdl.dll" />
+		<Import file="assemblies/sdl_mixer.dll" />
+		<Import file="assemblies/smpeg.dll" />
 	</Runtime>
 	<Extension path="/MonoDevelop/Core/StockIcons">
 		<StockIcon stockid="PerusPeli-project" file="icons/PerusPeli-32.png" />
@@ -72,6 +75,9 @@
 				<Assembly file="assemblies\Linux\Lidgren.Network.dll" />
 				<Assembly file="assemblies\Linux\OpenTK.dll" />
 				<Assembly file="assemblies\Linux\Tao.Sdl.dll" />
+				<Assembly file="assemblies\sdl.dll" />
+				<Assembly file="assemblies\sdl_mixer.dll" />
+				<Assembly file="assemblies\smpeg.dll" />
 			</Package>
 		</Condition>
 	</Extension>

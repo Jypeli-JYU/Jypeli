@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Addin id="Jypeli" namespace="MonoDevelop" name="Jypeli" author="Jyväskylän yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.0.1">
+	<Dependencies>
+		<Addin id="::MonoDevelop.Core" version="4.0" />
+		<Addin id="::MonoDevelop.Ide" version="4.0" />
+		<Addin id="::MonoDevelop.SourceEditor2" version="4.0" />
+		<Addin id="::MonoDevelop.Refactoring" version="4.0" />
+		<Addin id="::MonoDevelop.Autotools" version="4.0" />
+	</Dependencies>
+	<Runtime>
+		<Import file="icons/Jypeli-32.png" />
+		<Import file="icons/PerusPeli-16.png" />
+		<Import file="icons/PerusPeli-32.png" />
+		<Import file="icons/FysiikkaPeli-16.png" />
+		<Import file="icons/FysiikkaPeli-32.png" />
+		<Import file="icons/Tasohyppelypeli-16.png" />
+		<Import file="icons/Tasohyppelypeli-32.png" />
+		<Import file="templates/PerusPeli/Icon-hd.png" />
+		<Import file="templates/PerusPeli/Ohjelma.MacOS.cs" />
+		<Import file="templates/PerusPeli/Peli.cs" />
+		<Import file="templates/PerusPeli/Info.plist" />
+		<Import file="templates/FysiikkaPeli/Icon-hd.png" />
+		<Import file="templates/FysiikkaPeli/Peli.cs" />
+		<Import file="templates/Tasohyppelypeli/Icon-hd.png" />
+		<Import file="templates/Tasohyppelypeli/Peli.cs" />
+		<Import file="templates/Tasohyppelypeli/Content/kentta1.txt" />
+		<Import file="templates/Tasohyppelypeli/Content/norsu.png" />
+		<Import file="templates/Tasohyppelypeli/Content/tahti.png" />
+		<Import file="templates/Tasohyppelypeli/Content/maali.wav" />
+		<Import file="templates/PerusPeliCs.xft.xml" />
+		<Import file="templates/PerusPeli.Mac.xpt.xml" />
+		<Import file="templates/FysiikkaPeli.SimplePhysics.Mac.xpt.xml" />
+		<Import file="templates/FysiikkaPeli.Physics2d.Mac.xpt.xml" />
+		<Import file="templates/Tasohyppelypeli.Mac.xpt.xml" />
+		<Import file="assemblies/Mac/Jypeli.MonoGame.Framework.dll" />
+		<Import file="assemblies/Mac/Lidgren.Network.dll" />
+		<Import file="assemblies/Mac/Tao.Sdl.dll" />
+		<Import file="assemblies/Mac/Jypeli.dll" />
+		<Import file="assemblies/Mac/Jypeli.xml" />
+		<Import file="assemblies/Mac/Jypeli.Physics2d.dll" />
+		<Import file="assemblies/Mac/Jypeli.Physics2d.xml" />
+		<Import file="assemblies/Mac/Jypeli.SimplePhysics.dll" />
+		<Import file="assemblies/Mac/Jypeli.SimplePhysics.xml" />
+	</Runtime>
+	<Extension path="/MonoDevelop/Core/StockIcons">
+		<StockIcon stockid="PerusPeli-project" file="icons/PerusPeli-32.png" />
+		<StockIcon stockid="FysiikkaPeli-project" file="icons/FysiikkaPeli-32.png" />
+		<StockIcon stockid="Tasohyppelypeli-project" file="icons/Tasohyppelypeli-32.png" />
+	</Extension>
+	<Extension path="/MonoDevelop/ProjectModel/MSBuildItemTypes">
+		<DotNetProjectSubtype id="Jypeli" guid="{D425DB69-D9EA-4523-A522-C706A2FF6738}" type="MonoDevelop.Jypeli.JypeliProject">
+		</DotNetProjectSubtype>
+	</Extension>
+	<Extension path="/MonoDevelop/ProjectModel/ProjectBindings">
+		<ProjectBinding id="Jypeli" class="MonoDevelop.Jypeli.JypeliProjectBinding" />
+	</Extension>
+	<Extension path="/MonoDevelop/Ide/ProjectTemplates">
+		<ProjectTemplate id="PerusPeli" file="templates/PerusPeli.Mac.xpt.xml" />
+		<ProjectTemplate id="FysiikkaPeli.SimplePhysics" file="templates/FysiikkaPeli.SimplePhysics.Mac.xpt.xml" />
+		<ProjectTemplate id="FysiikkaPeli.Physics2d" file="templates/FysiikkaPeli.Physics2d.Mac.xpt.xml" />
+		<ProjectTemplate id="Tasohyppelypeli" file="templates/Tasohyppelypeli.Mac.xpt.xml" />
+	</Extension>
+	<Extension path="/MonoDevelop/Ide/FileTemplates">
+		<FileTemplate id="PerusPeliCs" file="templates/PerusPeliCs.xft.xml" />
+	</Extension>
+	<Extension path="/MonoDevelop/Core/SupportPackages">
+		<Condition id="PackageNotInstalled" name="jypeli" version="6.0">
+			<Package name="jypeli" version="6.0" clrVersion="Default">
+				<Assembly file="assemblies/Mac/Jypeli.dll" />
+				<Assembly file="assemblies/Mac/Jypeli.SimplePhysics.dll" />
+				<Assembly file="assemblies/Mac/Jypeli.Physics2d.dll" />
+				<Assembly file="assemblies/Mac/Jypeli.MonoGame.Framework.dll" />
+				<Assembly file="assemblies/Mac/Lidgren.Network.dll" />
+				<Assembly file="assemblies/Mac/Tao.Sdl.dll" />
+			</Package>
+		</Condition>
+	</Extension>
+</Addin>

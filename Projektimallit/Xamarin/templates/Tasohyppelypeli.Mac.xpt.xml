@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<Template originator   = "Tomi Karppinen"
+          created      = "2014/03/07"
+          lastModified = "2014/04/02">
+
+    <TemplateConfiguration>
+		<_Name>Tasohyppelypeli (Physics2d)</_Name>
+		<_Category>C#/Jypeli</_Category>
+		<Icon>Tasohyppelypeli-project</Icon>
+		<LanguageName>C#</LanguageName>
+		<_Description>Peli, jossa on valmiina tasohyppelyhahmo ja tasoja.</_Description>
+	</TemplateConfiguration>
+
+    <Actions>
+       <Open filename = "Peli.cs"/>
+    </Actions>
+
+   <Options>
+      <StartupProject>${ProjectName}</StartupProject>
+   </Options>
+
+    <Combine name = "${ProjectName}" directory = ".">
+       <Project name = "${ProjectName}" directory = "." type="Jypeli">
+          <Options/>
+
+          <References>
+             <Reference type = "Package" refto = "Jypeli"/>
+             <Reference type = "Package" refto = "Jypeli.Physics2d"/>
+             <Reference type = "Package" refto = "Jypeli.MonoGame.Framework"/>
+             <Reference type = "Package" refto = "System" />
+             <Reference type = "Package" refto = "System.Xml" />
+             <Reference type = "Package" refto = "System.Core" />
+             <Reference type = "Package" refto = "MonoMac" />
+             <Reference type = "Package" refto = "Lidgren.Network" />
+             <Reference type = "Package" refto = "Tao.Sdl" />
+          </References>
+
+          <Files>
+             <FileTemplateReference TemplateID="CSharpAssemblyInfo" name="AssemblyInfo.cs" />
+             <File name="Peli.cs" src="Tasohyppelypeli/Peli.cs" />
+             <File name="Info.plist" AddStandardHeader="False" src="PerusPeli/Info.plist" />
+             <File name="Ohjelma.cs" src="PerusPeli/Ohjelma.MacOS.cs" />
+             <RawFile name="Icon.png" src="Tasohyppelypeli/Icon-hd.png" />
+             <Directory name="Content">
+             	<RawFile name="kentta1.txt" src="Tasohyppelypeli/Content/kentta1.txt" />
+             	<RawFile name="norsu.png" src="Tasohyppelypeli/Content/norsu.png" />
+             	<RawFile name="tahti.png" src="Tasohyppelypeli/Content/tahti.png" />
+             	<RawFile name="maali.wav" src="Tasohyppelypeli/Content/maali.wav" />
+             </Directory>
+          </Files>
+       </Project>
+    </Combine>
+</Template>
+

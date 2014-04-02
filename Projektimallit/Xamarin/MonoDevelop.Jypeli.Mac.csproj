@@ -35,13 +35,13 @@
       <HintPath>references\MonoDevelop.Core.dll</HintPath>
     </Reference>
     <Reference Include="MonoDevelop.MonoMac, Version=4.0.0.0, Culture=neutral">
-      <Package>/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/AddIns/MonoDevelop.MonoMac/MonoDevelop.MonoMac.dll</Package>
+      <HintPath>references\MonoDevelop.MonoMac.dll</HintPath>
     </Reference>
     <Reference Include="MonoDevelop.MacDev, Version=4.0.0.0, Culture=neutral">
-      <Package>/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/AddIns/MonoDevelop.MacDev/MonoDevelop.MacDev.dll</Package>
+      <HintPath>references\MonoDevelop.MacDev.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Ide, Version=1.0.0.0, Culture=neutral">
-      <Package>/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/AddIns/Xamarin.Ide/Xamarin.Ide.dll</Package>
+      <HintPath>references\Xamarin.Ide.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

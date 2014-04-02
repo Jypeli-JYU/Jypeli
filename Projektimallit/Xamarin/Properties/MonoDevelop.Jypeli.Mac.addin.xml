@@ -6,6 +6,8 @@
 		<Addin id="::MonoDevelop.SourceEditor2" version="4.0" />
 		<Addin id="::MonoDevelop.Refactoring" version="4.0" />
 		<Addin id="::MonoDevelop.Autotools" version="4.0" />
+		<Addin id="::MonoDevelop.MacDev" version="4.0" />
+		<Addin id="::MonoDevelop.MonoMac" version="4.0" />
 	</Dependencies>
 	<Runtime>
 		<Import file="icons/Jypeli-32.png" />

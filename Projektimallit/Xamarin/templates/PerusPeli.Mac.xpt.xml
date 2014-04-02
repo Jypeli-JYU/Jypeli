@@ -29,7 +29,7 @@
              <Reference type = "Package" refto = "System" />
              <Reference type = "Package" refto = "System.Xml" />
              <Reference type = "Package" refto = "System.Core" />
-             <Reference type = "Package" refto = "MonoMac" />
+             <Reference type = "Package" refto = "MonoMac" SpecificVersion="false" />
              <Reference type = "Package" refto = "Lidgren.Network" />
              <Reference type = "Package" refto = "Tao.Sdl" />
           </References>

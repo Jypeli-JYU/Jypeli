@@ -34,10 +34,19 @@
     <Reference Include="MonoDevelop.Core, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>references\MonoDevelop.Core.dll</HintPath>
     </Reference>
+    <Reference Include="MonoDevelop.MonoMac, Version=4.0.0.0, Culture=neutral">
+      <Package>/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/AddIns/MonoDevelop.MonoMac/MonoDevelop.MonoMac.dll</Package>
+    </Reference>
+    <Reference Include="MonoDevelop.MacDev, Version=4.0.0.0, Culture=neutral">
+      <Package>/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/AddIns/MonoDevelop.MacDev/MonoDevelop.MacDev.dll</Package>
+    </Reference>
+    <Reference Include="Xamarin.Ide, Version=1.0.0.0, Culture=neutral">
+      <Package>/Applications/Xamarin Studio.app/Contents/MacOS/lib/monodevelop/AddIns/Xamarin.Ide/Xamarin.Ide.dll</Package>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="JypeliProject4.cs" />
+    <Compile Include="JypeliMacProject.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\MonoDevelop.Jypeli.Mac.addin.xml" />
@@ -139,6 +148,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="assemblies\Mac\Jypeli.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="assemblies\Mac\MonoMac.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

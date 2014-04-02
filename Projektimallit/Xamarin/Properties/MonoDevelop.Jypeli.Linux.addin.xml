@@ -68,16 +68,16 @@
 	<Extension path="/MonoDevelop/Core/SupportPackages">
 		<Condition id="PackageNotInstalled" name="jypeli" version="6.0">
 			<Package name="jypeli" version="6.0" clrVersion="Default">
-				<Assembly file="assemblies\Linux\Jypeli.dll" />
-				<Assembly file="assemblies\Linux\Jypeli.SimplePhysics.dll" />
-				<Assembly file="assemblies\Linux\Jypeli.Physics2d.dll" />
-				<Assembly file="assemblies\Linux\Jypeli.MonoGame.Framework.dll" />
-				<Assembly file="assemblies\Linux\Lidgren.Network.dll" />
-				<Assembly file="assemblies\Linux\OpenTK.dll" />
-				<Assembly file="assemblies\Linux\Tao.Sdl.dll" />
-				<Assembly file="assemblies\sdl.dll" />
-				<Assembly file="assemblies\sdl_mixer.dll" />
-				<Assembly file="assemblies\smpeg.dll" />
+				<Assembly file="assemblies/Linux/Jypeli.dll" />
+				<Assembly file="assemblies/Linux/Jypeli.SimplePhysics.dll" />
+				<Assembly file="assemblies/Linux/Jypeli.Physics2d.dll" />
+				<Assembly file="assemblies/Linux/Jypeli.MonoGame.Framework.dll" />
+				<Assembly file="assemblies/Linux/Lidgren.Network.dll" />
+				<Assembly file="assemblies/Linux/OpenTK.dll" />
+				<Assembly file="assemblies/Linux/Tao.Sdl.dll" />
+				<Assembly file="assemblies/sdl.dll" />
+				<Assembly file="assemblies/sdl_mixer.dll" />
+				<Assembly file="assemblies/smpeg.dll" />
 			</Package>
 		</Condition>
 	</Extension>

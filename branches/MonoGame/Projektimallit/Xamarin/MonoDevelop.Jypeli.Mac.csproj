@@ -43,6 +43,12 @@
     <Reference Include="Xamarin.Ide, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>references\Xamarin.Ide.dll</HintPath>
     </Reference>
+    <Reference Include="MacPlatform">
+      <HintPath>references\MacPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMac">
+      <HintPath>references\MonoMac.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

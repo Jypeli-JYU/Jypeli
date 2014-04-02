@@ -146,7 +146,6 @@
     <Folder Include="icons\" />
     <Folder Include="templates\" />
     <Folder Include="assemblies\" />
-    <Folder Include="assemblies\WindowsGL\" />
     <Folder Include="templates\PerusPeli\" />
     <Folder Include="templates\FysiikkaPeli\" />
     <Folder Include="templates\Tasohyppelypeli\" />

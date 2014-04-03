@@ -18,6 +18,7 @@
 		<Import file="templates/PerusPeli/Icon-md.png" />
 		<Import file="templates/PerusPeli/Ohjelma.cs" />
 		<Import file="templates/PerusPeli/Peli.cs" />
+		<Import file="templates/PerusPeli/SDL.dll" />
 		<Import file="templates/FysiikkaPeli/Icon-md.png" />
 		<Import file="templates/FysiikkaPeli/Peli.cs" />
 		<Import file="templates/Tasohyppelypeli/Icon-md.png" />

@@ -40,9 +40,9 @@
 		<Import file="assemblies/WindowsGL/Jypeli.Physics2d.xml" />
 		<Import file="assemblies/WindowsGL/Jypeli.SimplePhysics.dll" />
 		<Import file="assemblies/WindowsGL/Jypeli.SimplePhysics.xml" />
-		<Import file="assemblies/WindowsGL\SDL.dll" />
-		<Import file="assemblies/WindowsGL\SDL_mixer.dll" />
-		<Import file="assemblies/WindowsGL\smpeg.dll" />
+		<Import file="assemblies/WindowsGL/SDL.dll" />
+		<Import file="assemblies/WindowsGL/SDL_mixer.dll" />
+		<Import file="assemblies/WindowsGL/smpeg.dll" />
 	</Runtime>
 	<Extension path="/MonoDevelop/Core/StockIcons">
 		<StockIcon stockid="PerusPeli-project" file="icons/PerusPeli-32.png" />

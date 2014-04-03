@@ -143,13 +143,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\MonoDevelop.Jypeli.Windows.addin.xml" />
-    <EmbeddedResource Include="assemblies\SDL.dll">
+    <EmbeddedResource Include="assemblies\WindowsGL\SDL.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\SDL_mixer.dll">
+    <EmbeddedResource Include="assemblies\WindowsGL\SDL_mixer.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\smpeg.dll">
+    <EmbeddedResource Include="assemblies\WindowsGL\smpeg.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

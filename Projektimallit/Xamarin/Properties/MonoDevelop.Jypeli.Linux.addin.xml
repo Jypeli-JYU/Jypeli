@@ -35,7 +35,11 @@
 		<Import file="assemblies/Linux/Jypeli.MonoGame.Framework.dll" />
 		<Import file="assemblies/Linux/Lidgren.Network.dll" />
 		<Import file="assemblies/Linux/OpenTK.dll" />
+		<Import file="assemblies/Linux/OpenTK.dll.config" />
 		<Import file="assemblies/Linux/Tao.Sdl.dll" />
+		<Import file="assemblies/Linux/Tao.Sdl.dll.config" />
+		<Import file="assemblies/Linux/SDL.dll" />
+		<Import file="assemblies/Linux/SDL_mixer.dll" />
 		<Import file="assemblies/Linux/Jypeli.dll" />
 		<Import file="assemblies/Linux/Jypeli.xml" />
 		<Import file="assemblies/Linux/Jypeli.Physics2d.dll" />
@@ -73,7 +77,11 @@
 				<Assembly file="assemblies/Linux/Jypeli.MonoGame.Framework.dll" />
 				<Assembly file="assemblies/Linux/Lidgren.Network.dll" />
 				<Assembly file="assemblies/Linux/OpenTK.dll" />
+				<Assembly file="assemblies/Linux/OpenTK.dll.config" />
 				<Assembly file="assemblies/Linux/Tao.Sdl.dll" />
+				<Assembly file="assemblies/Linux/Tao.Sdl.dll.config" />
+				<Assembly file="assemblies/Linux/SDL.dll" />
+				<Assembly file="assemblies/Linux/SDL_mixer.dll" />
 			</Package>
 		</Condition>
 	</Extension>

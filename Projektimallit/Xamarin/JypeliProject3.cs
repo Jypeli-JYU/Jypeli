@@ -163,13 +163,6 @@ namespace MonoDevelop.Jypeli
 					break;
 				}
 			}
-
-			//HACK: copy SDL etc. DLL files to output directory
-			foreach (var file in Files) {
-				if (System.IO.Path.GetExtension(file.Name).ToLower() == ".dll") {
-					list.Add(file.Name);
-				}
-			}
         }
 				
 	}

@@ -142,31 +142,34 @@ namespace MonoDevelop.Jypeli
 			return false;
 		}
 
-        protected override void PopulateSupportFileList(FileCopySet list, ConfigurationSelector solutionConfiguration)
-        {
-            base.PopulateSupportFileList(list, solutionConfiguration);
-            //HACK: workaround for MD not local-copying package references
-            foreach (var projectReference in References)
-            {
-				if (projectReference.Package != null && projectReference.Package.Name == "jypeli")
-                {
-					if (projectReference.ReferenceType == ReferenceType.Package)
-                    {
-                        foreach (var assem in projectReference.Package.Assemblies)
-                        {
-                            list.Add(assem.Location);
-                            var cfg = (JypeliProjectConfiguration)solutionConfiguration.GetConfiguration(this);
-                            if (cfg.DebugMode)
-                            {
-                                var mdbFile = TargetRuntime.GetAssemblyDebugInfoFile(assem.Location);
-                                if (System.IO.File.Exists(mdbFile))
-                                    list.Add(mdbFile);
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
+        protected override void PopulateSupportFileList (FileCopySet list, ConfigurationSelector solutionConfiguration)
+		{
+			base.PopulateSupportFileList (list, solutionConfiguration);
+
+			//HACK: workaround for MD not local-copying package references
+			foreach (var projectReference in References) {
+				if (projectReference.Package != null && projectReference.Package.Name == "jypeli") {
+					if (projectReference.ReferenceType == ReferenceType.Package) {
+						foreach (var assem in projectReference.Package.Assemblies) {
+							list.Add (assem.Location);
+							var cfg = (JypeliProjectConfiguration)solutionConfiguration.GetConfiguration (this);
+							if (cfg.DebugMode) {
+								var mdbFile = TargetRuntime.GetAssemblyDebugInfoFile (assem.Location);
+								if (System.IO.File.Exists (mdbFile))
+									list.Add (mdbFile);
+							}
+						}
+					}
+					break;
+				}
+			}
+
+			//HACK: copy SDL etc. DLL files to output directory
+			foreach (var file in Files) {
+				if (System.IO.Path.GetExtension(file.Name).ToLower() == ".dll") {
+					list.Add(file.Name);
+				}
+			}
         }
 				
 	}

@@ -39,6 +39,7 @@
              <FileTemplateReference TemplateID="CSharpAssemblyInfo" name="AssemblyInfo.cs" />
              <File name="Peli.cs" src="FysiikkaPeli/Peli.cs" />
              <File name="Ohjelma.cs" src="PerusPeli/Ohjelma.cs" />
+             <RawFile name="SDL.dll" src="PerusPeli/SDL.dll" />
              <RawFile name="Icon.png" src="FysiikkaPeli/Icon-md.png" />
              <Directory name="Content" />
           </Files>

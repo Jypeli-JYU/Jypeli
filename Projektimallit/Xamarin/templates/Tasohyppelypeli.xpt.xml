@@ -8,7 +8,7 @@
 		<_Category>C#/Jypeli</_Category>
 		<Icon>Tasohyppelypeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Peli, jossa on valmiina tasohyppelyhahmo ja tasoja.</_Description>
+		<_Description>Peli, jossa on valmiina tasohyppelyhahmo ja tasoja. Platform game template.</_Description>
 	</TemplateConfiguration>
 
     <Actions>

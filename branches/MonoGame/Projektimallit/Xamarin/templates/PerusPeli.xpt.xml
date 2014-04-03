@@ -8,7 +8,7 @@
 		<_Category>C#/Jypeli</_Category>
 		<Icon>PerusPeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Peli ilman fysiikkaa.</_Description>
+		<_Description>Peli ilman fysiikkaa. Gamw without physics.</_Description>
 	</TemplateConfiguration>
 
     <Actions>

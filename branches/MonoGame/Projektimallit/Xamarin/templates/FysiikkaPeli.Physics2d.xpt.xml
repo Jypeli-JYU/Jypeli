@@ -8,7 +8,7 @@
 		<_Category>C#/Jypeli</_Category>
 		<Icon>FysiikkaPeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Fysiikkapeli joka käyttää Physics2d-fysiikkamoottoria.</_Description>
+		<_Description>Fysiikkapeli joka käyttää Physics2d-fysiikkamoottoria. Physics game with Physics2d engine.</_Description>
 	</TemplateConfiguration>
 
     <Actions>

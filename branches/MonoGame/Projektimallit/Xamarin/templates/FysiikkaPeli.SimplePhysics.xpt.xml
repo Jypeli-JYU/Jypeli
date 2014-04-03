@@ -8,7 +8,7 @@
 		<_Category>C#/Jypeli</_Category>
 		<Icon>FysiikkaPeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Fysiikkapeli joka käyttää yksinkertaista fysiikkaa.</_Description>
+		<_Description>Fysiikkapeli joka käyttää yksinkertaista fysiikkaa. Physics game with SimplePhysics engine.</_Description>
 	</TemplateConfiguration>
 
     <Actions>

@@ -160,8 +160,8 @@ namespace MonoDevelop.Jypeli
 							}
 
 							// Copy dll.config -file if one exists
-							string cfgfile = GetConfigFile(assem.Location);
-							if (cfgfile != null)
+							string cfgfile = assem.Location + ".config";
+							if (System.IO.File.Exists(cfgfile))
 								list.Add(cfgfile);
 						}
 					}
@@ -169,21 +169,6 @@ namespace MonoDevelop.Jypeli
 				}
 			}
         }
-
-		private string GetConfigFile(string assembly)
-		{
-			string path = System.IO.Path.GetDirectoryName(assembly);
-			if (String.IsNullOrEmpty(path) || path.Length == assembly.Length)
-				return null;
-
-			string name = assembly.Substring(path.Length) + ".config";
-			string fullname = System.IO.Path.Combine(path, name);
-
-			if (!System.IO.File.Exists(fullname))
-				return null;
-
-			return fullname;
-		}
 	}
 	
 	public class JypeliBuildExtension : ProjectServiceExtension

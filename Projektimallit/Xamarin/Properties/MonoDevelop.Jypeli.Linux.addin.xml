@@ -21,7 +21,7 @@
 		<Import file="templates/PerusPeli/SDL.dll" />
 		<Import file="templates/FysiikkaPeli/Icon-md.png" />
 		<Import file="templates/FysiikkaPeli/Peli.cs" />
-		<Import file="templates/Tasohyppelypeli/Tasohyppelypeli.xpt.xml" />
+		<Import file="templates/Tasohyppelypeli.xpt.xml" />
 		<Import file="templates/Tasohyppelypeli/Icon-md.png" />
 		<Import file="templates/Tasohyppelypeli/Peli.cs" />
 		<Import file="templates/Tasohyppelypeli/Content/kentta1.txt" />

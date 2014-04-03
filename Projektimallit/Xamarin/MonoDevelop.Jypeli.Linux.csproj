@@ -140,13 +140,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\MonoDevelop.Jypeli.Linux.addin.xml" />
-    <EmbeddedResource Include="assemblies\smpeg.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\SDL.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\SDL_mixer.dll">
+    <EmbeddedResource Include="templates\PerusPeli\SDL.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

@@ -27,4 +27,9 @@
 		<BuildFile>MonoDevelop.Jypeli.Linux.sln</BuildFile>
 		<BuildConfiguration>Release</BuildConfiguration>
 	</Project>
+   <Project platforms="Mac">
+		<AddinFile>bin/Mac/Release/MonoDevelop.Jypeli.Mac.dll</AddinFile>
+                <BuildFile>MonoDevelop.Jypeli.Mac.sln</BuildFile>
+                <BuildConfiguration>Release</BuildConfiguration>
+	</Project>
 </AddinProject>

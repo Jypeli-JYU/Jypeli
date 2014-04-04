@@ -16,7 +16,7 @@
 	</Project>
 </AddinProject>-->
 
-<AddinProject appVersion="2.8">
+<AddinProject appVersion="4.0">
 	<Project platforms="Win32">
 		<AddinFile>bin/Windows/Release/MonoDevelop.Jypeli.Windows.dll</AddinFile>
 		<BuildFile>MonoDevelop.Jypeli.Windows.sln</BuildFile>

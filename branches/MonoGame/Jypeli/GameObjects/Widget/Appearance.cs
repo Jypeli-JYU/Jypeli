@@ -24,6 +24,9 @@ namespace Jypeli
 
         public void Draw( Matrix parentTransformation )
         {
+            if (!IsVisible)
+                return;
+
             Matrix transformation =
                 Matrix.CreateScale( (float)Size.X, (float)Size.Y, 1f )
                 * Matrix.CreateRotationZ( (float)Angle.Radians )
@@ -74,9 +77,11 @@ namespace Jypeli
         {
             foreach ( var child in Objects )
             {
-                if ( child is Widget )
+                Widget wc = child as Widget;
+
+                if (wc != null && wc.IsVisible)
                 {
-                    ( (Widget)child ).Draw( childTransformation );
+                    wc.Draw(childTransformation);
                 }
             }
         }

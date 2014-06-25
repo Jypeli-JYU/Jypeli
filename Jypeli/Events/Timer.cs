@@ -92,7 +92,17 @@ namespace Jypeli
             set
             {
                 if ( value <= 0 ) throw new ArgumentException( "Interval cannot be zero or negative!" );
-                trigInterval = new TimeSpan( (int)( value * 1e7 ) );
+
+                try
+                {
+                    trigInterval = TimeSpan.FromSeconds(value);
+                }
+                catch (OverflowException)
+                {
+                    // Workaround for overflow when converting TimeSpan.MaxValue to seconds and back again
+                    trigInterval = TimeSpan.MaxValue;
+                }
+
                 if ( Enabled )
                     timeToTrigger = trigInterval;
             }

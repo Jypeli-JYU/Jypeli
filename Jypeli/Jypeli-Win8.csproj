@@ -16,7 +16,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Win8\ARM\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
@@ -28,7 +28,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\Win8\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Win8\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -53,7 +53,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\Win8\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;WINRT;JYPELI;UseDouble;DISABLE_EFFECTS</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -198,6 +198,7 @@
     <Compile Include="Game\Physics.cs" />
     <Compile Include="Game\Time.cs" />
     <Compile Include="Game\Widgets.cs" />
+    <Compile Include="Game\Storage.cs" />
     <Compile Include="Graphics\Animation.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Canvas.cs" />
@@ -229,7 +230,22 @@
     <Compile Include="Shapes\Shapes.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Storage\RandomAccessAdapter.cs" />
+    <Compile Include="Storage\RTFileManager.cs" />
+    <Compile Include="Storage\RtStorageFile.cs" />
+    <Compile Include="Storage\RTStorageSerializer.cs" />
     <Compile Include="Storage\SaveAttribute.cs" />
+    <Compile Include="Storage\FileManager\Assert.cs" />
+    <Compile Include="Storage\FileManager\Directories.cs" />
+    <Compile Include="Storage\FileManager\Files.cs" />
+    <Compile Include="Storage\FileManager\HTTP.cs" />
+    <Compile Include="Storage\FileManager\NameHelpers.cs" />
+    <Compile Include="Storage\FileManager\Serialization.cs" />
+    <Compile Include="Storage\FileManager\XnaSerialization.cs" />
+    <Compile Include="Storage\AnimationReader.cs" />
+    <Compile Include="Storage\LoadState.cs" />
+    <Compile Include="Storage\SaveState.cs" />
+    <Compile Include="Storage\TypeHelper.cs" />
     <Compile Include="DataTypes\Destroyable.cs" />
     <Compile Include="DataTypes\Tagged.cs" />
     <Compile Include="Helpers\ListHelpers.cs" />

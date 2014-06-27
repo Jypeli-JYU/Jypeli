@@ -32,7 +32,7 @@ namespace Jypeli.Physics
             var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
             var assemblies = new List<Assembly>();
 
-            IEnumerable<StorageFile> files = null;
+            IEnumerable<Windows.Storage.StorageFile> files = null;
 
             var operation = folder.GetFilesAsync();
             operation.Completed = async ( r, s ) =>

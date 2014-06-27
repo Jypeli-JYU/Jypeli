@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStorageTest", "DataStorageTest\DataStorageTest.csproj", "{7E967D85-1EDA-4761-B8C7-041F555E0E26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli-WindowsGL", "..\..\Jypeli\Jypeli-WindowsGL.csproj", "{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.MonoGame.Framework.WindowsGL", "..\..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.WindowsGL.csproj", "{DA65B249-9290-4A09-A48C-443A65845583}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E967D85-1EDA-4761-B8C7-041F555E0E26}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7E967D85-1EDA-4761-B8C7-041F555E0E26}.Debug|x86.ActiveCfg = Debug|x86
+		{7E967D85-1EDA-4761-B8C7-041F555E0E26}.Debug|x86.Build.0 = Debug|x86
+		{7E967D85-1EDA-4761-B8C7-041F555E0E26}.Release|Any CPU.ActiveCfg = Release|x86
+		{7E967D85-1EDA-4761-B8C7-041F555E0E26}.Release|x86.ActiveCfg = Release|x86
+		{7E967D85-1EDA-4761-B8C7-041F555E0E26}.Release|x86.Build.0 = Release|x86
+		{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}.Debug|x86.ActiveCfg = Debug|x86
+		{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}.Debug|x86.Build.0 = Debug|x86
+		{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}.Release|Any CPU.ActiveCfg = Release|x86
+		{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}.Release|x86.ActiveCfg = Release|x86
+		{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}.Release|x86.Build.0 = Release|x86
+		{DA65B249-9290-4A09-A48C-443A65845583}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA65B249-9290-4A09-A48C-443A65845583}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA65B249-9290-4A09-A48C-443A65845583}.Debug|x86.ActiveCfg = Debug|x86
+		{DA65B249-9290-4A09-A48C-443A65845583}.Debug|x86.Build.0 = Debug|x86
+		{DA65B249-9290-4A09-A48C-443A65845583}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA65B249-9290-4A09-A48C-443A65845583}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA65B249-9290-4A09-A48C-443A65845583}.Release|x86.ActiveCfg = Release|x86
+		{DA65B249-9290-4A09-A48C-443A65845583}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

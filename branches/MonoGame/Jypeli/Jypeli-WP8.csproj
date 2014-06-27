@@ -24,7 +24,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\WP8\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;UseDouble;JYPELI;SILVERLIGHT;WINDOWS_PHONE;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UseDouble;JYPELI;SILVERLIGHT;WINDOWS_PHONE;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_EFFECTS</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -36,7 +36,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\WP8\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;JYPELI;UseDouble;SILVERLIGHT;WINDOWS_PHONE;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;JYPELI;UseDouble;SILVERLIGHT;WINDOWS_PHONE;DIRECTX;WINDOWS_MEDIA_ENGINE;DISABLE_EFFECTS</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -49,7 +49,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\WP8\ARM\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;UseDouble;JYPELI;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UseDouble;JYPELI;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -60,7 +60,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\WP8\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;JYPELI;UseDouble;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>TRACE;JYPELI;UseDouble;SILVERLIGHT;WINDOWS_PHONE;UseDouble;DISABLE_EFFECTS</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -192,7 +192,7 @@
     <Compile Include="GameObjects\Widget\Widget.cs" />
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
-   <Compile Include="Game\DebugScreen.cs" />
+    <Compile Include="Game\DebugScreen.cs" />
     <Compile Include="Game\DelayedActions.cs" />
     <Compile Include="Game\Factory.cs" />
     <Compile Include="Game\Game.cs">
@@ -201,6 +201,7 @@
     <Compile Include="Game\Graphics.cs" />
     <Compile Include="Game\Layers.cs" />
     <Compile Include="Game\Physics.cs" />
+    <Compile Include="Game\Storage.cs" />
     <Compile Include="Game\Time.cs" />
     <Compile Include="Game\Widgets.cs" />
     <Compile Include="Graphics\Animation.cs" />
@@ -235,6 +236,19 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Storage\SaveAttribute.cs" />
+	<Compile Include="Storage\FileManager\Assert.cs" />
+    <Compile Include="Storage\FileManager\Directories.cs" />
+    <Compile Include="Storage\FileManager\Files.cs" />
+    <Compile Include="Storage\FileManager\HTTP.cs" />
+    <Compile Include="Storage\FileManager\NameHelpers.cs" />
+    <Compile Include="Storage\FileManager\Serialization.cs" />
+    <Compile Include="Storage\FileManager\XnaSerialization.cs" />
+    <Compile Include="Storage\AnimationReader.cs" />
+    <Compile Include="Storage\IsolatedStorageManager.cs" />
+    <Compile Include="Storage\LoadState.cs" />
+    <Compile Include="Storage\SaveState.cs" />
+    <Compile Include="Storage\StorageFile.cs" />
+    <Compile Include="Storage\TypeHelper.cs" />
     <Compile Include="DataTypes\Destroyable.cs" />
     <Compile Include="DataTypes\Tagged.cs" />
     <Compile Include="Helpers\ListHelpers.cs" />

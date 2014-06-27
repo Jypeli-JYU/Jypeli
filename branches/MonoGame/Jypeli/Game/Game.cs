@@ -61,6 +61,11 @@ namespace Jypeli
         [Save]
         public Camera Camera { get; set; }
 
+		/// <summary>
+		/// Pelin nimi.
+		/// </summary>
+		public static string Name { get; private set; }
+
         /// <summary>
         /// Aktiivinen kenttä.
         /// </summary>
@@ -69,21 +74,22 @@ namespace Jypeli
         public Game()
             : base()
         {
+			InitGlobals();
             InitXnaContent();
-            InitInstance();
             InitXnaGraphics();
-            InitPhone();
+			InitStorage();
         }
 
-        private void InitInstance()
-        {
-            Instance = this;
-        }
-
-        private void InitPhone()
-        {
-            Phone = new Phone();
-        }
+		void InitGlobals ()
+		{
+#if WINRT
+            Name = this.GetType().AssemblyQualifiedName.Split( ',' )[0];
+#else
+			Name = this.GetType().Assembly.FullName.Split( ',' )[0];
+#endif
+			Instance = this;
+			Phone = new Phone();
+		}
 
         private void InitXnaGraphics()
         {

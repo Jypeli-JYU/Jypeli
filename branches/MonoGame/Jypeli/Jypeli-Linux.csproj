@@ -265,8 +265,26 @@
     <Compile Include="WP8\DisplayResolution.cs" />
     <Compile Include="WP8\PhoneStub.cs" />
     <Compile Include="Properties\AssemblyInfo-Xamarin.cs" />
+    <Compile Include="Storage\AnimationReader.cs" />
+    <Compile Include="Storage\IsolatedStorageManager.cs" />
+    <Compile Include="Storage\LoadState.cs" />
+    <Compile Include="Storage\SaveState.cs" />
+    <Compile Include="Storage\StorageFile.cs" />
+    <Compile Include="Storage\TypeHelper.cs" />
+    <Compile Include="Storage\FileManager\Assert.cs" />
+    <Compile Include="Storage\FileManager\Directories.cs" />
+    <Compile Include="Storage\FileManager\Files.cs" />
+    <Compile Include="Storage\FileManager\HTTP.cs" />
+    <Compile Include="Storage\FileManager\NameHelpers.cs" />
+    <Compile Include="Storage\FileManager\Serialization.cs" />
+    <Compile Include="Storage\FileManager\XnaSerialization.cs" />
+    <Compile Include="Game\Storage.cs" />
+    <Compile Include="Storage\LinuxFileManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Storage\FileManager\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Linux.csproj">
       <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>

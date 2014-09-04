@@ -12,7 +12,10 @@ InstallDirRegKey HKLM "Software\MonoJypeli" "Install_Dir"
 
 RequestExecutionLevel admin
 
-;--------------------------------
+
+; Headers
+!include LogicLib.nsh
+
 
 ; Pages
 
@@ -23,7 +26,6 @@ Page instfiles
 UninstPage uninstConfirm
 UninstPage instfiles
 
-;--------------------------------
 
 Section "Jypeli"
   SectionIn RO
@@ -70,31 +72,93 @@ Section "MonoJypeli for Linux"
   File "..\Compiled\Linux-x86\*.xml"
 SectionEnd
 
+SubSection "Visual Studio 2013 project templates"
+
+Section /o "Windows"
+  ReadEnvStr $R0 VS120COMNTOOLS
+  
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyVsTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
+  ${Endif}
+SectionEnd
+
+Section /o "Windows 8 Store / RT"
+  ReadEnvStr $R0 VS120COMNTOOLS
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyRTTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
+  ${Endif}
+SectionEnd
+
+Section /o "Windows Phone 8"
+  ReadEnvStr $R0 VS120COMNTOOLS
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyWpTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
+  ${Endif}
+SectionEnd
+
+Section /o "Run template installer"
+  ReadEnvStr $R0 VS120COMNTOOLS
+  ${If} $R0 != ""
+    DetailPrint "Installing project templates for VS2013 (may take a while)..."
+    Push $R0
+    Call InstallVsTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
+  ${Endif}
+SectionEnd
+
+SubSectionEnd
+
 SubSection "Visual Studio 2012 project templates"
 
-Section "Windows"
-  ReadEnvStr $0 VS110COMNTOOLS
-  Push $0
-  Call CopyVsTemplates
+Section /o "Windows"
+  ReadEnvStr $R0 VS110COMNTOOLS
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyVsTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2012, skipping template installation."
+  ${Endif}
 SectionEnd
 
-Section "Windows 8 Store / RT"
-  ReadEnvStr $0 VS110COMNTOOLS
-  Push $0
-  Call CopyRTTemplates
+Section /o "Windows 8 Store / RT"
+  ReadEnvStr $R0 VS110COMNTOOLS
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyRTTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2012, skipping template installation."
+  ${Endif}
 SectionEnd
 
-Section "Windows Phone 8"
-  ReadEnvStr $0 VS110COMNTOOLS
-  Push $0
-  Call CopyWpTemplates
+Section /o "Windows Phone 8"
+  ReadEnvStr $R0 VS110COMNTOOLS
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyWpTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2012, skipping template installation."
+  ${Endif}
 SectionEnd
 
-Section "Run template installer"
-  DetailPrint "Installing project templates for VS2012 (may take a while)..."
-  ReadEnvStr $0 VS110COMNTOOLS
-  Push $0
-  Call InstallVsTemplates
+Section /o "Run template installer"
+  ReadEnvStr $R0 VS110COMNTOOLS
+  ${If} $R0 != ""
+    DetailPrint "Installing project templates for VS2012 (may take a while)..."
+    Push $R0
+    Call InstallVsTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2012, skipping template installation."
+  ${Endif}
 SectionEnd
 
 SubSectionEnd
@@ -102,17 +166,8 @@ SubSectionEnd
 Function CopyVsTemplates
    Pop $0
    
-   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VsExpressForPhone
+   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
     StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-	SetOutPath $1
-    File "..\projektimallit\VS2012\*.zip"
-	Goto VsExpressForPhone
-  
-  VsExpressForPhone:
-	ReadRegStr $5 HKLM "Software\Microsoft\VPDExpress\10.0" "InstallDir"
-	StrCmp $5 "" VSPro 0	
-    CreateDirectory "$5\VPDExpress\ProjectTemplates\Jypeli-MonoGame\1033"
-	StrCpy $1 "$5\VPDExpress\ProjectTemplates\Jypeli-MonoGame\1033"
 	SetOutPath $1
     File "..\projektimallit\VS2012\*.zip"
 	Goto VSPro
@@ -130,17 +185,8 @@ FunctionEnd
 Function CopyWpTemplates
    Pop $0
    
-   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VsExpressForPhone
+   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
     StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-	SetOutPath $1
-    File "..\projektimallit\WP8\*.zip"
-	Goto VsExpressForPhone
-  
-  VsExpressForPhone:
-	ReadRegStr $5 HKLM "Software\Microsoft\VPDExpress\10.0" "InstallDir"
-	StrCmp $5 "" VSPro 0	
-    CreateDirectory "$5\VPDExpress\ProjectTemplates\Jypeli-MonoGame\Windows Phone 8\1033"
-	StrCpy $1 "$5\VPDExpress\ProjectTemplates\Jypeli-MonoGame\Windows Phone 8\1033"
 	SetOutPath $1
     File "..\projektimallit\WP8\*.zip"
 	Goto VSPro
@@ -158,17 +204,8 @@ FunctionEnd
 Function CopyRTTemplates
    Pop $0
    
-   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VsExpressForPhone
+   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
     StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-	SetOutPath $1
-    File "..\projektimallit\Win8\*.zip"
-	Goto VsExpressForPhone
-  
-  VsExpressForPhone:
-	ReadRegStr $5 HKLM "Software\Microsoft\VPDExpress\10.0" "InstallDir"
-	StrCmp $5 "" VSPro 0	
-    CreateDirectory "$5\VPDExpress\ProjectTemplates\Jypeli-MonoGame\Windows 8\1033"
-	StrCpy $1 "$5\VPDExpress\ProjectTemplates\Jypeli-MonoGame\Windows 8\1033"
 	SetOutPath $1
     File "..\projektimallit\Win8\*.zip"
 	Goto VSPro
@@ -186,18 +223,12 @@ FunctionEnd
 Function InstallVsTemplates
    Pop $0
    
-   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VsExpressForPhone
-	 ExecWait '"$0..\IDE\vcsexpress.exe" /installvstemplates'
-	 Goto VsExpressForPhone
-  
-  VsExpressForPhone:
-	ReadRegStr $5 HKLM "Software\Microsoft\VPDExpress\10.0" "InstallDir"
-	StrCmp $5 "" VSPro 0	
-	ExecWait '"$5\VPDExpress.exe" /installvstemplates'    	
-	Goto VSPro
+   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
+     ExecWait '"$0..\IDE\vcsexpress.exe" /installvstemplates'
+     Goto VSPro
 	
   VSPro:
-	IfFileExists "$0..\IDE\devenv.exe" 0 Done
+    IfFileExists "$0..\IDE\devenv.exe" 0 Done
       ExecWait '"$0..\IDE\devenv" /installvstemplates'
 
   Done:
@@ -205,20 +236,44 @@ FunctionEnd
 
 ;--------------------------------
 
+Function un.RemoveVsTemplateDir
+  Pop $0
+  Delete "$0\*.zip"
+  Delete "$0\Windows 8\*.zip"
+  Delete "$0\Windows Phone 8\*.zip"
+  RMDir "$0\Windows 8"
+  RMDir "$0\Windows Phone 8"
+  RMDir "$0"  
+FunctionEnd
 
 Section "Uninstall"
   
-  ; Register values
+  ; Registry values
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MonoJypeli"
   DeleteRegKey HKLM "SOFTWARE\MonoJypeli"
 
   ; Installation dir
   RMDir /r /REBOOTOK $INSTDIR
 
-  ; Project templates
-  ReadEnvStr $0 VS100COMNTOOLS
-  StrCpy $1 "$DOCUMENTS\Visual Studio 2012\Templates\ProjectTemplates\Visual C#\Jypeli-MonoGame"
-  Delete "$1\*.zip"
-  RMDir "$1"
+  ; VS2012 project templates
+  ReadEnvStr $R1 VS110COMNTOOLS
+  StrCpy $R0 "$R1\..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
+  Push $R0  
+  Call un.RemoveVsTemplateDir
+
+  Push "$DOCUMENTS\Visual Studio 2012\Templates\ProjectTemplates\Visual C#\Jypeli-MonoGame"
+  Call un.RemoveVsTemplateDir
+
+  ; VS2013 project templates
+  ReadEnvStr $R1 VS120COMNTOOLS
+  StrCpy $R0 "$R1\..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
+  Push $R0
+  Call un.RemoveVsTemplateDir
+
+  Push "$DOCUMENTS\Visual Studio 2013\Templates\ProjectTemplates\Visual C#\Jypeli-MonoGame"
+  Call un.RemoveVsTemplateDir
   
 SectionEnd
+
+
+

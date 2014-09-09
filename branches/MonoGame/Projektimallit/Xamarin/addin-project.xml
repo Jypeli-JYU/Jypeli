@@ -6,7 +6,7 @@
 	</Project>
    <Project platforms="Mac">
 		<AddinFile>bin/Mac/Release/MonoDevelop.Jypeli.Mac.dll</AddinFile>
-                <BuildFile>MonoDevelop.Jypeli.Mac.sln</BuildFile>
-                <BuildConfiguration>Release</BuildConfiguration>
+      <BuildFile>MonoDevelop.Jypeli.Mac.sln</BuildFile>
+      <BuildConfiguration>Release</BuildConfiguration>
 	</Project>
 </AddinProject>

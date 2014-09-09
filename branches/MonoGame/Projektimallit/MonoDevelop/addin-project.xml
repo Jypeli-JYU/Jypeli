@@ -1,0 +1,17 @@
+<AddinProject appVersion="2.4">
+	<Project platforms="Win32">
+		<AddinFile>../Xamarin/bin/Windows/Release/MonoDevelop.Jypeli.Windows.dll</AddinFile>
+		<BuildFile>../Xamarin/MonoDevelop.Jypeli.Windows.sln</BuildFile>
+		<BuildConfiguration>Release</BuildConfiguration>
+	</Project>
+	<Project platforms="Linux">
+		<AddinFile>../Xamarin/bin/Linux/Release/MonoDevelop.Jypeli.Linux.dll</AddinFile>
+		<BuildFile>../Xamarin/MonoDevelop.Jypeli.Linux.sln</BuildFile>
+		<BuildConfiguration>Release</BuildConfiguration>
+	</Project>
+	<Project platforms="Mac">
+		<AddinFile>../Xamarin/bin/Mac/Release/MonoDevelop.Jypeli.Mac.dll</AddinFile>
+                <BuildFile>MonoDevelop.Jypeli.Mac.sln</BuildFile>
+                <BuildConfiguration>Release</BuildConfiguration>
+	</Project>
+</AddinProject>

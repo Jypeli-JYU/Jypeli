@@ -1,9 +1,4 @@
 <AddinProject appVersion="5.0">
-	<Project platforms="Win32">
-		<AddinFile>bin/Windows/Release/MonoDevelop.Jypeli.Windows.dll</AddinFile>
-		<BuildFile>MonoDevelop.Jypeli.Windows.sln</BuildFile>
-		<BuildConfiguration>Release</BuildConfiguration>
-	</Project>
    <Project platforms="Mac">
 		<AddinFile>bin/Mac/Release/MonoDevelop.Jypeli.Mac.dll</AddinFile>
       <BuildFile>MonoDevelop.Jypeli.Mac.sln</BuildFile>

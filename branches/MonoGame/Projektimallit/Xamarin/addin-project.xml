@@ -1,4 +1,4 @@
-<!--<AddinProject appVersion="2.4">
+<AddinProject appVersion="2.4">
 	<Project platforms="Win32">
 		<AddinFile>bin/Windows/Release/MonoDevelop.Jypeli.Windows.dll</AddinFile>
 		<BuildFile>MonoDevelop.Jypeli.Windows.sln</BuildFile>
@@ -14,17 +14,12 @@
                 <BuildFile>MonoDevelop.Jypeli.Mac.sln</BuildFile>
                 <BuildConfiguration>Release</BuildConfiguration>
 	</Project>
-</AddinProject>-->
+</AddinProject>
 
 <AddinProject appVersion="5.0">
 	<Project platforms="Win32">
 		<AddinFile>bin/Windows/Release/MonoDevelop.Jypeli.Windows.dll</AddinFile>
 		<BuildFile>MonoDevelop.Jypeli.Windows.sln</BuildFile>
-		<BuildConfiguration>Release</BuildConfiguration>
-	</Project>
-	<Project platforms="Linux">
-		<AddinFile>bin/Linux/Release/MonoDevelop.Jypeli.Linux.dll</AddinFile>
-		<BuildFile>MonoDevelop.Jypeli.Linux.sln</BuildFile>
 		<BuildConfiguration>Release</BuildConfiguration>
 	</Project>
    <Project platforms="Mac">

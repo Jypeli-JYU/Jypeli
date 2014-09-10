@@ -61,6 +61,9 @@
     <Reference Include="MonoDevelop.MacDev, Version=4.0.0.0, Culture=neutral">
       <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/AddIns/MonoDevelop.MacDev/MonoDevelop.MacDev.dll</Package>
     </Reference>
+    <Reference Include="Xamarin.MacDev">
+      <HintPath>references\Xamarin.MacDev.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

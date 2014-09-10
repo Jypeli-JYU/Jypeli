@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B2608E4D-C8C4-4CDF-860D-9668ADE97D97}</ProjectGuid>
     <ProjectTypeGuids>{7DBEB09D-BB9F-4D92-A141-A009135475EF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -31,20 +31,35 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
-    <Reference Include="MonoDevelop.Core, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>references\MonoDevelop.Core.dll</HintPath>
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Addins">
+      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/bin/Mono.Addins.dll</Package>
     </Reference>
-    <Reference Include="MonoDevelop.MonoMac, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>references\MonoDevelop.MonoMac.dll</HintPath>
+    <Reference Include="MonoDevelop.Core">
+      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/bin/MonoDevelop.Core.dll</Package>
     </Reference>
-    <Reference Include="MonoDevelop.MacDev, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>references\MonoDevelop.MacDev.dll</HintPath>
+    <Reference Include="MonoDevelop.Ide">
+      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/bin/MonoDevelop.Ide.dll</Package>
     </Reference>
-    <Reference Include="Xamarin.Ide, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>references\Xamarin.Ide.dll</HintPath>
+    <Reference Include="Mono.TextEditor">
+      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/bin/Mono.TextEditor.dll</Package>
     </Reference>
-    <Reference Include="MacPlatform, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>references\MacPlatform.dll</HintPath>
+    <Reference Include="ICSharpCode.NRefactory">
+      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/bin/ICSharpCode.NRefactory.dll</Package>
+    </Reference>
+    <Reference Include="gtk-sharp" />
+    <Reference Include="glib-sharp" />
+    <Reference Include="gdk-sharp" />
+    <Reference Include="pango-sharp" />
+    <Reference Include="Mono.Cairo" />
+    <Reference Include="MonoDevelop.MonoMac, Version=4.0.0.0, Culture=neutral">
+      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/AddIns/MonoDevelop.MonoMac/MonoDevelop.MonoMac.dll</Package>
+    </Reference>
+    <Reference Include="Xamarin.Ide, Version=1.0.0.0, Culture=neutral">
+      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/AddIns/Xamarin.Ide/Xamarin.Ide.dll</Package>
+    </Reference>
+    <Reference Include="MonoDevelop.MacDev, Version=4.0.0.0, Culture=neutral">
+      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/AddIns/MonoDevelop.MacDev/MonoDevelop.MacDev.dll</Package>
     </Reference>
   </ItemGroup>
   <ItemGroup>

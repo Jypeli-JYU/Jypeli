@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Addin id="Jypeli" namespace="MonoDevelop" name="Jypeli" author="Jyväskylän yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.0.1">
 	<Dependencies>
-		<Addin id="::MonoDevelop.Core" version="5.3" />
-		<Addin id="::MonoDevelop.Ide" version="5.3" />
-		<Addin id="::MonoDevelop.MonoMac" version="5.3" />
-		<Addin id="::MonoDevelop.MacDev" version="5.3" />
-		<Addin id="::MonoDevelop.Xamarin.Ide" version="5.3" />
-		<Addin id="::MonoDevelop.MacPlatform" version="5.3" />
+		<Addin id="::MonoDevelop.Core" version="5.0" />
+		<Addin id="::MonoDevelop.Ide" version="5.0" />
+		<Addin id="::MonoDevelop.MonoMac" version="5.0" />
+		<Addin id="::MonoDevelop.MacDev" version="5.0" />
+		<Addin id="::MonoDevelop.Xamarin.Ide" version="5.0" />
+		<Addin id="::MonoDevelop.MacPlatform" version="5.0" />
 		<!--<Addin id="::MonoDevelop.MacDev" version="5.0" />
 		<Addin id="::MonoDevelop.MonoMac" version="5.0" />
 		<Addin id="::MonoDevelop.Xamarin.Ide" version="5.0" />

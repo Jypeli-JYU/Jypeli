@@ -3,28 +3,26 @@
 	<Dependencies>
 		<Addin id="::MonoDevelop.Core" version="5.0" />
 		<Addin id="::MonoDevelop.Ide" version="5.0" />
+		<Addin id="::MonoDevelop.MacDev" version="5.0" />
 		<Addin id="::MonoDevelop.MonoMac" version="5.0" />
+
+		<!-- MonoMac dependencies -->
+		<Addin id="::MonoDevelop.MacPlatform" version="5.0" />
 		<Addin id="::MonoDevelop.MacDev" version="5.0" />
 		<Addin id="::MonoDevelop.Xamarin.Ide" version="5.0" />
-		<Addin id="::MonoDevelop.MacPlatform" version="5.0" />
-		<!--<Addin id="::MonoDevelop.MacDev" version="5.0" />
-		<Addin id="::MonoDevelop.MonoMac" version="5.0" />
-		<Addin id="::MonoDevelop.Xamarin.Ide" version="5.0" />
-		<Addin id="::MonoDevelop.Xamarin.Ide.Mac" version="5.0" />
-		<Addin id="::MonoDevelop.Refactoring" version="5.0" />
 		<Addin id="::MonoDevelop.Debugger" version="5.0" />
 		<Addin id="::MonoDevelop.Debugger.Soft" version="5.0" />
-		<Addin id="::MonoDevelop.Debugger.Soft.MonoMac" version="5.0" />
-		<Addin id="::MonoDevelop.SourceEditor2" version="5.0" />
-		<Addin id="::MonoDevelop.DesignerSupport" version="5.0" />
-		<Addin id="::MonoDevelop.Xml" version="5.0" />
-		<Addin id="::MonoDevelop.AspNet" version="5.0" />
-		<Addin id="::MonoDevelop.CSharpBinding" version="5.0" />
-		<Addin id="::MonoDevelop.VersionControl" version="5.0" />
-		<Addin id="::MonoDevelop.VBBinding" version="5.0" />
-		<Addin id="::MonoDevelop.IPhone" version="5.0" />
+
+		<!-- MacDev dependencies -->
 		<Addin id="::MonoDevelop.Refactoring" version="5.0" />
-		<Addin id="::MonoDevelop.Xamarin.Designer" version="5.0" />-->
+		<Addin id="::MonoDevelop.CSharpBinding" version="5.0" />
+		<Addin id="::MonoDevelop.DesignerSupport" version="5.0" />
+		<Addin id="::MonoDevelop.VersionControl" version="5.0" />
+		<Addin id="::MonoDevelop.Xamarin.Ide.Mac" version="5.0" />
+
+		<!-- Xamarin.Ide dependencies -->
+		<Addin id="::MonoDevelop.DesignerSupport" version="5.0" />
+
 	</Dependencies>
 	<Runtime>
 		<Import file="icons/Jypeli-32.png" />

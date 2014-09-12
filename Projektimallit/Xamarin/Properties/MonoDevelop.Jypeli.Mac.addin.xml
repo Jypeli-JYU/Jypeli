@@ -90,6 +90,6 @@
 				<Assembly file="assemblies/Mac/Lidgren.Network.dll" />
 				<Assembly file="assemblies/Mac/Tao.Sdl.dll" />
 			</Package>
-		</Condition>
+		</Condition>xx
 	</Extension>
 </Addin>

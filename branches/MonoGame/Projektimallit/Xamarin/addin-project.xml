@@ -1,7 +1,7 @@
 <AddinProject appVersion="5.0">
-   <Project platforms="Mac">
-		<AddinFile>bin/Mac/Release/MonoDevelop.Jypeli.Mac.dll</AddinFile>
-      <BuildFile>MonoDevelop.Jypeli.Mac.sln</BuildFile>
+   <Project platforms="Linux">
+		<AddinFile>bin/Linux/Release/MonoDevelop.Jypeli.Linux.dll</AddinFile>
+      <BuildFile>MonoDevelop.Jypeli.Linux.sln</BuildFile>
       <BuildConfiguration>Release</BuildConfiguration>
 	</Project>
 </AddinProject>

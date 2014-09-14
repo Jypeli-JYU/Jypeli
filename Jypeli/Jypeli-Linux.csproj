@@ -28,6 +28,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <DefineConstants>JYPELI;LINUX;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DocumentationFile>bin\Linux\Release\Jypeli.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <OutputPath>bin\Linux\x86\Debug\</OutputPath>
@@ -282,9 +283,7 @@
     <Compile Include="Storage\LinuxFileManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Storage\FileManager\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Linux.csproj">
       <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>

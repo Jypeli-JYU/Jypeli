@@ -21,7 +21,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\WindowsGL\x86\Debug\</OutputPath>
+    <OutputPath>bin\WindowsGL\Debug\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -32,12 +32,37 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\WindowsGL\x86\Release\</OutputPath>
+    <OutputPath>bin\WindowsGL\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DefineConstants>TRACE;WINDOWS;OPENGL</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\WindowsGL\Debug</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugSymbols>true</DebugSymbols>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <DefineConstants>TRACE;WINDOWS;OPENGL</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\WindowsGL\Release</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <DefineConstants>TRACE;WINDOWS;OPENGL</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
@@ -56,7 +81,7 @@
     <DefineConstants>TRACE;WINDOWS;OPENGL</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ThirdParty\Libs\OpenTK.dll</HintPath>
     </Reference>
@@ -102,7 +127,7 @@
     <Compile Include="Content\ContentReaders\VertexBufferReader.cs" />
     <Compile Include="Content\ContentReaders\VertexDeclarationReader.cs" />
     <Compile Include="Content\ResourceContentManager.cs" />
-    <Compile Include="Audio\SoundEffect.cs" />
+    <Compile Include="Desktop\Audio\SoundEffect.cs" />
     <Compile Include="Desktop\Audio\SoundEffectInstance.cs" />
     <Compile Include="Desktop\Input\Axis.cs" />
     <Compile Include="Desktop\Input\Capabilities.cs" />
@@ -141,8 +166,11 @@
     <Compile Include="Graphics\ModelMeshPart.cs" />
     <Compile Include="Graphics\ModelMeshPartCollection.cs" />
     <Compile Include="Graphics\PackedVector\Bgr565.cs" />
+	
     <Compile Include="Graphics\PackedVector\Bgra4444.cs" />
+	
     <Compile Include="Graphics\PackedVector\Byte4.cs" />
+	
     <Compile Include="Graphics\PackedVector\HalfSingle.cs" />
     <Compile Include="Graphics\PackedVector\HalfTypeHelper.cs" />
     <Compile Include="Graphics\PackedVector\HalfVector2.cs" />
@@ -316,7 +344,8 @@
     <Compile Include="Storage\StorageDeviceHelper.cs" />
     <Compile Include="TextInputEventArgs.cs" />
     <Compile Include="Utilities\Hash.cs" />
-    <Compile Include="Desktop\Audio\AudioLoader.cs" />
+    <Compile Include="Windows\Audio\AudioLoader.cs" />
+    <Compile Include="Windows\Audio\Sound.cs" />
     <Compile Include="Windows\Content\ContentReaders\SoundEffectReader.cs" />
     <Compile Include="Windows\GamerServices\Guide.cs" />
     <Compile Include="Windows\GamerServices\MonoGameGamerServicesHelper.cs" />
@@ -443,7 +472,8 @@
     <Compile Include="Media\MediaSource.cs" />
     <Compile Include="FrameworkDispatcher.cs" />
     <Compile Include="Audio\MSADPCMToPCM.cs" />
-    <Compile Include="Utilities\ObjectFactoryWithReset.cs" />
+	<Compile Include="Utilities\ObjectFactoryWithReset.cs" />
+    
     <Compile Include="GamerServices\LeaderboardEntry.cs" />
     <Compile Include="GamerServices\LeaderboardIdentity.cs" />
     <Compile Include="GamerServices\LeaderboardKey.cs" />

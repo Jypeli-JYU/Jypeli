@@ -37,7 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="JypeliProject3.cs" />
+    <Compile Include="JypeliProject4.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\Jypeli-32.png">

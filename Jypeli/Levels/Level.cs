@@ -88,7 +88,11 @@ namespace Jypeli
         /// <summary>
         /// Kentän taustaväri.
         /// </summary>
-        public Color BackgroundColor { get; set; }
+        public Color BackgroundColor
+        {
+            get { return Background.Color; }
+            set { Background.Color = value; }
+        }
 
         /// <summary>
         /// Kentän taustakuva.
@@ -166,10 +170,10 @@ namespace Jypeli
         {
             this.game = game;
             AmbientLight = 1.0;
-            BackgroundColor = Color.LightBlue; // default color
 
             // creates a null background
             this.Background = new Jypeli.Widgets.Background( Vector.Zero );
+            this.Background.Color = Color.LightBlue; // default color
         }
 
         internal void Clear()

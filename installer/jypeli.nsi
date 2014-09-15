@@ -74,7 +74,7 @@ SectionEnd
 
 SubSection "Visual Studio 2013 project templates"
 
-Section /o "Windows"
+Section "Windows"
   ReadEnvStr $R0 VS120COMNTOOLS
   
   ${If} $R0 != ""
@@ -85,7 +85,7 @@ Section /o "Windows"
   ${Endif}
 SectionEnd
 
-Section /o "Windows 8 Store / RT"
+Section "Windows 8 Store / RT"
   ReadEnvStr $R0 VS120COMNTOOLS
   ${If} $R0 != ""
     Push $R0
@@ -95,7 +95,7 @@ Section /o "Windows 8 Store / RT"
   ${Endif}
 SectionEnd
 
-Section /o "Windows Phone 8"
+Section "Windows Phone 8"
   ReadEnvStr $R0 VS120COMNTOOLS
   ${If} $R0 != ""
     Push $R0
@@ -105,7 +105,7 @@ Section /o "Windows Phone 8"
   ${Endif}
 SectionEnd
 
-Section /o "Run template installer"
+Section "Run template installer"
   ReadEnvStr $R0 VS120COMNTOOLS
   ${If} $R0 != ""
     DetailPrint "Installing project templates for VS2013 (may take a while)..."
@@ -120,7 +120,7 @@ SubSectionEnd
 
 SubSection "Visual Studio 2012 project templates"
 
-Section /o "Windows"
+Section "Windows"
   ReadEnvStr $R0 VS110COMNTOOLS
   ${If} $R0 != ""
     Push $R0
@@ -130,7 +130,7 @@ Section /o "Windows"
   ${Endif}
 SectionEnd
 
-Section /o "Windows 8 Store / RT"
+Section "Windows 8 Store / RT"
   ReadEnvStr $R0 VS110COMNTOOLS
   ${If} $R0 != ""
     Push $R0
@@ -140,7 +140,7 @@ Section /o "Windows 8 Store / RT"
   ${Endif}
 SectionEnd
 
-Section /o "Windows Phone 8"
+Section "Windows Phone 8"
   ReadEnvStr $R0 VS110COMNTOOLS
   ${If} $R0 != ""
     Push $R0
@@ -150,7 +150,7 @@ Section /o "Windows Phone 8"
   ${Endif}
 SectionEnd
 
-Section /o "Run template installer"
+Section "Run template installer"
   ReadEnvStr $R0 VS110COMNTOOLS
   ${If} $R0 != ""
     DetailPrint "Installing project templates for VS2012 (may take a while)..."

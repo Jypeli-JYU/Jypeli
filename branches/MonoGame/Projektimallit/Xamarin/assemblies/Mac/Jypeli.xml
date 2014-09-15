@@ -5992,6 +5992,13 @@
             l�pin�kyvyytt� k�ytt�m�ll� saadaan kuvasta halutun muotoinen.
             </remarks>
         </member>
+        <member name="M:Jypeli.GameObject.SetImage(Jypeli.StorageFile)">
+            <summary>
+            Lataa kuvan tiedostosta ja asettaa sen oliolle.
+            </summary>
+            <param name="file">
+            </param>
+        </member>
         <member name="M:Jypeli.GameObject.MirrorImage">
             <summary>
             K��nt�� olion kuvan vaakasuunnassa.
@@ -7402,6 +7409,11 @@
             Kameraa voidaan siirtää, zoomata tai asettaa seuraamaan tiettyä oliota.
             </summary>
         </member>
+        <member name="P:Jypeli.Game.Name">
+            <summary>
+            Pelin nimi.
+            </summary>
+        </member>
         <member name="P:Jypeli.Game.Level">
             <summary>
             Aktiivinen kenttä.
@@ -7808,6 +7820,12 @@
         <member name="P:Jypeli.Game.LayerDisplay">
             <summary>
             "Layers"-näyttö.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Game.DataStorage">
+            <summary>
+            Tietovarasto, johon voi tallentaa tiedostoja pidempiaikaisesti.
+            Sopii esimerkiksi pelitilanteen lataamiseen ja tallentamiseen.
             </summary>
         </member>
         <member name="T:Jypeli.Animation">
@@ -12549,6 +12567,257 @@
             <summary>
             Paikan Y-koordinaatti.
             </summary>
+        </member>
+        <member name="T:Jypeli.LinuxFileManager">
+            <summary>
+            Tiedostonhallintaluokka Linuxia varten.
+            </summary>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.#ctor(System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jypeli.LinuxFileManager" /> class.
+            </summary>
+            <param name="pathCandidates">
+            Path candidates.
+            </param>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.Initialize">
+            <summary>
+            Initialize this instance.
+            </summary>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jypeli.LinuxFileManager" /> class.
+            </summary>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.Exists(System.String)">
+            <summary>
+            Kertoo onko tiedosto tai hakemisto olemassa.
+            </summary>
+            <param name="fileName">Tiedoston tai hakemiston nimi</param>
+            <returns>Onko olemassa</returns>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.ChDir(System.String)">
+            <summary>
+            Vaihtaa työhakemistoa.
+            </summary>
+            <param name="path">Hakemistopolku.</param>
+            <returns>Onnistuiko hakemiston vaihtaminen (palauttaa false jos hakemistoa ei ole).</returns>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.MkDir(System.String)">
+            <summary>
+            Luo uuden hakemiston.
+            </summary>
+            <param name="path">Hakemistopolku.</param>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.RmDir(System.String)">
+            <summary>
+            Tuhoaa hakemiston. Heittää poikkeuksen jos hakemisto ei ole tyhjä.
+            Ei heitä poikkeusta, jos hakemistoa ei ole olemassa.
+            </summary>
+            <param name="path">
+            </param>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.GetFileList">
+            <summary>
+            Antaa listan nykyisessä hakemistossa olevista tiedostoista.
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.Open(System.String,System.Boolean)">
+            <summary>
+            Avaa tiedoston.
+            </summary>
+            <param name="fileName">Tiedoston nimi.</param>
+            <param name="write">Tarvitaanko tiedostoon kirjoitusoikeus.</param>
+            <returns>StorageFile-olio</returns>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.Delete(System.String)">
+            <summary>
+            Poistaa tiedoston.
+            Ei heitä poikkeusta, jos tiedostoa ei ole olemassa.
+            </summary>
+            <param name="fileName">Tiedoston nimi</param>
+        </member>
+        <member name="T:Jypeli.LinuxLocation">
+            <summary>
+            Usein käytettyjä polkuja Linuxissa.
+            </summary>
+        </member>
+        <member name="F:Jypeli.LinuxLocation.ExePath">
+            <summary>
+            Ohjelman hakemisto.
+            </summary>
+        </member>
+        <member name="F:Jypeli.LinuxLocation.UserHome">
+            <summary>
+            Käyttäjän kotihakemisto.
+            </summary>
+        </member>
+        <member name="F:Jypeli.LinuxLocation.DataPath">
+            <summary>
+            Ohjelman data-alihakemisto.
+            </summary>
+        </member>
+        <member name="F:Jypeli.LinuxLocation.ContentPath">
+            <summary>
+            Ohjelman content-alihakemisto.
+            </summary>
+        </member>
+        <member name="T:Jypeli.WindowsLocation">
+            <summary>
+            Usein käytettyjä polkuja Windowsissa (yhteensopivuutta varten)
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.MyDocuments">
+            <summary>
+            Omat tiedostot.
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.MyMusic">
+            <summary>
+            Oma musiikki.
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.MyPictures">
+            <summary>
+            Omat kuvatiedostot.
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.MyVideos">
+            <summary>
+            Omat videot.
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.ExePath">
+            <summary>
+            Ohjelman hakemisto.
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.DataPath">
+            <summary>
+            Ohjelman data-alihakemisto.
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.ContentPath">
+            <summary>
+            Ohjelman content-alihakemisto.
+            </summary>
+        </member>
+        <member name="T:Jypeli.StorageFile">
+            <summary>
+            Tiedosto.
+            </summary>
+        </member>
+        <member name="P:Jypeli.FileManager.CurrentDirectory">
+            <summary>
+            Nykyinen ty�hakemisto.
+            </summary>
+        </member>
+        <member name="M:Jypeli.FileManager.ChDir(System.String)">
+            <summary>
+            Vaihtaa nykyist� hakemistoa.
+            </summary>
+            <param name="path">Hakemistopolku</param>
+            <returns>Vaihdettiinko hakemistoa</returns>
+        </member>
+        <member name="M:Jypeli.FileManager.MkDir(System.String)">
+            <summary>
+            Luo uuden hakemiston.
+            </summary>
+            <param name="path">Luotavan hakemiston nimi.</param>
+        </member>
+        <member name="M:Jypeli.FileManager.RmDir(System.String)">
+            <summary>
+            Poistaa hakemiston.
+            </summary>
+            <param name="path">Poistettavan hakemiston nimi.</param>
+        </member>
+        <member name="M:Jypeli.FileManager.PushDir(System.String)">
+            <summary>
+            Vaihtaa ty�hakemistoa j�tt�en edellisen hakemiston muistiin.
+            Kutsu PopDir kun haluat palauttaa ty�hakemiston edelliseen arvoonsa.
+            </summary>
+            <param name="dir">
+            </param>
+        </member>
+        <member name="M:Jypeli.FileManager.PopDir">
+            <summary>
+            Palauttaa edellisen ty�hakemiston.
+            Jos edellist� ty�hakemistoa ei ole tallennettu, s�ilytet��n nykyinen.
+            </summary>
+        </member>
+        <member name="M:Jypeli.FileManager.DoWith(System.String,System.Action{Jypeli.StorageFile})">
+            <summary>
+            Avaa tiedoston (lukua varten) ja tekee sill� jotain.
+            </summary>
+            <param name="fileName">Tiedoston nimi</param>
+            <param name="callback">Mit� tehd��n (aliohjelman nimi)</param>
+            <example>
+            {
+            DoWith( "kuva.png", AsetaKuva );
+            }
+            void AsetaKuva( StorageFile kuva )
+            {
+            olio.Image = new Image( kuva );
+            }
+            </example>
+        </member>
+        <member name="M:Jypeli.FileManager.DoWithURL(System.String,System.Action{Jypeli.StorageFile})">
+            <summary>
+            Avaa tiedoston netist� (lukua varten) ja tekee sill� jotain.
+            </summary>
+            <param name="url">Nettiosoite</param>
+            <param name="callback">Mit� tehd��n (aliohjelman nimi)</param>
+            <example>
+            {
+            DoWith( "http://www.google.fi/images/srpr/logo3w.png", AsetaKuva );
+            }
+            void AsetaKuva( StorageFile kuva )
+            {
+            olio.Image = new Image( kuva );
+            }
+            </example>
+        </member>
+        <member name="M:Jypeli.FileManager.DoWithURL(System.String,System.TimeSpan,System.Action{Jypeli.StorageFile})">
+            <summary>
+            Avaa tiedoston netist� (lukua varten) ja tekee sill� jotain.
+            </summary>
+            <param name="url">Nettiosoite</param>
+            <param name="callback">Mit� tehd��n (aliohjelman nimi)</param>
+            <example>
+            {
+            DoWith( "http://www.google.fi/images/srpr/logo3w.png", AsetaKuva );
+            }
+            void AsetaKuva( StorageFile kuva )
+            {
+            olio.Image = new Image( kuva );
+            }
+            </example>
+        </member>
+        <member name="M:Jypeli.FileManager.TriggerOnComplete(System.Action,Jypeli.FileManager.AsyncOperation[])">
+            <summary>
+            Laukaisee aliohjelman kun annetut operaatiot on suoritettu.
+            </summary>
+            <param name="callback">Aliohjelma</param>
+            <param name="actions">Operaatiot</param>
+        </member>
+        <member name="M:Jypeli.FileManager.TriggerOnComplete(System.Action,System.TimeSpan,Jypeli.FileManager.AsyncOperation[])">
+            <summary>
+            Laukaisee aliohjelman kun annetut operaatiot on suoritettu.
+            </summary>
+            <param name="callback">Aliohjelma</param>
+            <param name="timeout">Kuinka pitk��n odotetaan yksitt�ist� operaatiota ennen kuin luovutetaan</param>
+            <param name="actions">Operaatiot</param>
+        </member>
+        <member name="M:Jypeli.FileManager.Export(System.IO.Stream,System.String)">
+            <summary>
+            Vie virran sis�ll�n tiedostoon.
+            </summary>
+            <param name="objStream">Virta</param>
+            <param name="fileName">Tiedoston nimi</param>
         </member>
     </members>
 </doc>

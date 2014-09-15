@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C4EFECB3-7397-4DCF-990D-26A0EF6E8445}</ProjectGuid>
     <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -29,7 +29,8 @@
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
     <AssemblyName>Jypeli.Physics2d</AssemblyName>
-    <GenerateDocumentation>true</GenerateDocumentation>
+    <GenerateDocumentation>True</GenerateDocumentation>
+    <DocumentationFile>bin\Debug\Jypeli.Physics2d.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
@@ -47,6 +48,7 @@
     <EnablePackageSigning>false</EnablePackageSigning>
     <DefineConstants>UseDouble</DefineConstants>
     <AssemblyName>Physics2d</AssemblyName>
+    <DocumentationFile>bin\Release\Physics2d.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|x86' ">
     <Optimize>true</Optimize>

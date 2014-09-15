@@ -34,6 +34,7 @@
     <I18n>
     </I18n>
     <GenerateDocumentation>True</GenerateDocumentation>
+    <DocumentationFile>bin\MacOS\Debug\Jypeli.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
@@ -50,6 +51,7 @@
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
     <DefineConstants>JYPELI;UseDouble;DISABLE_EFFECTS;MACOS</DefineConstants>
+    <DocumentationFile>bin\MacOS\Release\Jypeli.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|x86' ">
     <Optimize>true</Optimize>
@@ -67,6 +69,7 @@
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>true</EnablePackageSigning>
     <DefineConstants>JYPELI;UseDouble;DISABLE_EFFECTS;MACOS</DefineConstants>
+    <DocumentationFile>bin\MacOS\AppStore\Jypeli.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

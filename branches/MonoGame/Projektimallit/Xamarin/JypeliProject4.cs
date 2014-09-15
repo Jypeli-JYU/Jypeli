@@ -162,6 +162,11 @@ namespace MonoDevelop.Jypeli
                                 if (System.IO.File.Exists(mdbFile))
                                     list.Add(mdbFile);
                             }
+
+							// Copy dll.config -file if one exists
+							string cfgfile = assem.Location + ".config";
+							if (System.IO.File.Exists(cfgfile))
+								list.Add(cfgfile);
                         }
                     }
                     break;

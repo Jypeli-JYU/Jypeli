@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
           created      = "2014/01/27"
-          lastModified = "2014/04/02">
+          lastModified = "2014/09/18">
 
     <TemplateConfiguration>
 		<_Name>PerusPeli</_Name>
@@ -24,14 +24,14 @@
           <Options/>
 
           <References>
-             <Reference type = "Package" refto = "Jypeli"/>
-             <Reference type = "Package" refto = "Jypeli.MonoGame.Framework"/>
+             <Reference type = "Package" refto = "Jypeli" SpecificVersion="false" LocalCopy="true" />
+             <Reference type = "Package" refto = "Jypeli.MonoGame.Framework" SpecificVersion="false" LocalCopy="true" />
              <Reference type = "Package" refto = "System" />
              <Reference type = "Package" refto = "System.Xml" />
              <Reference type = "Package" refto = "System.Core" />
              <Reference type = "Package" refto = "MonoMac" SpecificVersion="false" />
-             <Reference type = "Package" refto = "Lidgren.Network" />
-             <Reference type = "Package" refto = "Tao.Sdl" />
+             <Reference type = "Package" refto = "Lidgren.Network" SpecificVersion="false" LocalCopy="true" />
+             <Reference type = "Package" refto = "Tao.Sdl" SpecificVersion="false" LocalCopy="true" />
           </References>
 
           <Files>

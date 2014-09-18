@@ -41,10 +41,10 @@
              <File name="Ohjelma.cs" src="PerusPeli/Ohjelma.cs" />
              <RawFile name="Icon.png" src="Tasohyppelypeli/Icon-md.png" />
              <Directory name="Content">
-             	<RawFile name="kentta1.txt" src="Tasohyppelypeli/Content/kentta1.txt" />
-             	<RawFile name="norsu.png" src="Tasohyppelypeli/Content/norsu.png" />
-             	<RawFile name="tahti.png" src="Tasohyppelypeli/Content/tahti.png" />
-             	<RawFile name="maali.wav" src="Tasohyppelypeli/Content/maali.wav" />
+             	<RawFile name="kentta1.txt" src="Tasohyppelypeli/Content/kentta1.txt" BuildAction="Content" />
+             	<RawFile name="norsu.png" src="Tasohyppelypeli/Content/norsu.png" BuildAction="Content" />
+             	<RawFile name="tahti.png" src="Tasohyppelypeli/Content/tahti.png" BuildAction="Content" />
+             	<RawFile name="maali.wav" src="Tasohyppelypeli/Content/maali.wav" BuildAction="Content" />
              </Directory>
           </Files>
        </Project>

@@ -61,6 +61,7 @@
 		<ProjectTemplate id="FysiikkaPeli.SimplePhysics" file="templates/FysiikkaPeli.SimplePhysics.xpt.xml" />
 		<ProjectTemplate id="FysiikkaPeli.Physics2d" file="templates/FysiikkaPeli.Physics2d.xpt.xml" />
 		<ProjectTemplate id="Tasohyppelypeli" file="templates/Tasohyppelypeli.xpt.xml" />
+		<ProjectTemplate id="ConsoleMain" file="templates/ConsoleMain.xpt.xml" />
 	</Extension>
 	<Extension path="/MonoDevelop/Ide/FileTemplates">
 		<FileTemplate id="PerusPeliCs" file="templates/PerusPeliCs.xft.xml" />

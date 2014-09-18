@@ -1,0 +1,34 @@
+﻿<?xml version="1.0"?>
+<Template originator   = "Tomi Karppinen"
+          created      = "2014/09/18"
+          lastModified = "2014/09/18">
+
+    <TemplateConfiguration>
+		<_Name>ConsoleMain</_Name>
+		<_Category>C#/Jypeli</_Category>
+		<Icon>md-project-console</Icon>
+		<LanguageName>C#</LanguageName>
+		<_Description>Tyhjä Console Main -projekti, jossa kommenttien paikka valmiina.</_Description>
+	</TemplateConfiguration>
+
+   <Options>
+      <StartupProject>${ProjectName}</StartupProject>
+   </Options>
+
+    <Combine name = "${ProjectName}" directory = ".">
+       <Project name = "${ProjectName}" directory = ".">
+          <Options/>
+
+          <References>
+             <Reference type = "Package" refto = "System" />
+             <Reference type = "Package" refto = "System.Xml" />
+             <Reference type = "Package" refto = "System.Core" />
+          </References>
+
+          <Files>
+             <FileTemplateReference TemplateID="CSharpAssemblyInfo" name="AssemblyInfo.cs" />
+             <File name="${ProjectName}.cs" src="ConsoleMain/Program.cs" AddStandardHeader="true" />
+          </Files>
+       </Project>
+    </Combine>
+</Template>

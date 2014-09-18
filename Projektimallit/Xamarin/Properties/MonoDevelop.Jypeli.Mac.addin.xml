@@ -49,6 +49,8 @@
 		<Import file="templates/FysiikkaPeli.SimplePhysics.Mac.xpt.xml" />
 		<Import file="templates/FysiikkaPeli.Physics2d.Mac.xpt.xml" />
 		<Import file="templates/Tasohyppelypeli.Mac.xpt.xml" />
+		<Import file="templates/ConsoleMain.xpt.xml" />
+		<Import file="templates/ConsoleMain/Program.cs" />
 		<Import file="assemblies/Mac/Jypeli.MonoGame.Framework.dll" />
 		<Import file="assemblies/Mac/Lidgren.Network.dll" />
 		<Import file="assemblies/Mac/Tao.Sdl.dll" />
@@ -64,6 +66,7 @@
 		<StockIcon stockid="FysiikkaPeli-project" file="icons/FysiikkaPeli-32.png" />
 		<StockIcon stockid="Tasohyppelypeli-project" file="icons/Tasohyppelypeli-32.png" />
 	</Extension>
+<!--
 	<Extension path="/MonoDevelop/ProjectModel/MSBuildItemTypes">
 		<DotNetProjectSubtype id="Jypeli" guid="{D425DB69-D9EA-4523-A522-C706A2FF6738}" type="MonoDevelop.Jypeli.JypeliProject">
 		</DotNetProjectSubtype>
@@ -71,11 +74,13 @@
 	<Extension path="/MonoDevelop/ProjectModel/ProjectBindings">
 		<ProjectBinding id="Jypeli" class="MonoDevelop.Jypeli.JypeliProjectBinding" />
 	</Extension>
+-->
 	<Extension path="/MonoDevelop/Ide/ProjectTemplates">
 		<ProjectTemplate id="PerusPeli" file="templates/PerusPeli.Mac.xpt.xml" />
 		<ProjectTemplate id="FysiikkaPeli.SimplePhysics" file="templates/FysiikkaPeli.SimplePhysics.Mac.xpt.xml" />
 		<ProjectTemplate id="FysiikkaPeli.Physics2d" file="templates/FysiikkaPeli.Physics2d.Mac.xpt.xml" />
 		<ProjectTemplate id="Tasohyppelypeli" file="templates/Tasohyppelypeli.Mac.xpt.xml" />
+		<ProjectTemplate id="ConsoleMain" file="templates/ConsoleMain.xpt.xml" />
 	</Extension>
 	<Extension path="/MonoDevelop/Ide/FileTemplates">
 		<FileTemplate id="PerusPeliCs" file="templates/PerusPeliCs.xft.xml" />

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
           created      = "2014/03/07"
-          lastModified = "2014/04/02">
+          lastModified = "2014/09/18">
 
     <TemplateConfiguration>
 		<_Name>Tasohyppelypeli (Physics2d)</_Name>
@@ -24,15 +24,15 @@
           <Options/>
 
           <References>
-             <Reference type = "Package" refto = "Jypeli"/>
-             <Reference type = "Package" refto = "Jypeli.Physics2d"/>
-             <Reference type = "Package" refto = "Jypeli.MonoGame.Framework"/>
+             <Reference type = "Package" refto = "Jypeli" SpecificVersion="false" LocalCopy="true" />
+             <Reference type = "Package" refto = "Jypeli.Physics2d" SpecificVersion="false" LocalCopy="true" />
+             <Reference type = "Package" refto = "Jypeli.MonoGame.Framework" SpecificVersion="false" LocalCopy="true" />
              <Reference type = "Package" refto = "System" />
              <Reference type = "Package" refto = "System.Xml" />
              <Reference type = "Package" refto = "System.Core" />
              <Reference type = "Package" refto = "MonoMac" SpecificVersion="false" />
-             <Reference type = "Package" refto = "Lidgren.Network" />
-             <Reference type = "Package" refto = "Tao.Sdl" />
+             <Reference type = "Package" refto = "Lidgren.Network" SpecificVersion="false" LocalCopy="true" />
+             <Reference type = "Package" refto = "Tao.Sdl" SpecificVersion="false" LocalCopy="true" />
           </References>
 
           <Files>
@@ -42,10 +42,10 @@
              <File name="Ohjelma.cs" src="PerusPeli/Ohjelma.MacOS.cs" />
              <RawFile name="Icon.png" src="Tasohyppelypeli/Icon-hd.png" />
              <Directory name="Content">
-             	<RawFile name="kentta1.txt" src="Tasohyppelypeli/Content/kentta1.txt" />
-             	<RawFile name="norsu.png" src="Tasohyppelypeli/Content/norsu.png" />
-             	<RawFile name="tahti.png" src="Tasohyppelypeli/Content/tahti.png" />
-             	<RawFile name="maali.wav" src="Tasohyppelypeli/Content/maali.wav" />
+             	<RawFile name="kentta1.txt" src="Tasohyppelypeli/Content/kentta1.txt" BuildAction="Content"/>
+             	<RawFile name="norsu.png" src="Tasohyppelypeli/Content/norsu.png" BuildAction="Content" />
+             	<RawFile name="tahti.png" src="Tasohyppelypeli/Content/tahti.png" BuildAction="Content" />
+             	<RawFile name="maali.wav" src="Tasohyppelypeli/Content/maali.wav" BuildAction="Content" />
              </Directory>
           </Files>
        </Project>

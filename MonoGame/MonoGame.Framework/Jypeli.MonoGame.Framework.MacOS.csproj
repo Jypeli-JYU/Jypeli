@@ -3,15 +3,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C6452FFF-BF4F-42CB-850C-A9C61370A078}</ProjectGuid>
     <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>Microsoft.Xna.Framework</RootNamespace>
     <AssemblyName>Jypeli.MonoGame.Framework</AssemblyName>
     <SuppressXamMacUpsell>True</SuppressXamMacUpsell>
-    <ReleaseVersion>6.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>

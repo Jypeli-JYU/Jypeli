@@ -29,6 +29,8 @@
 		<Import file="templates/PerusPeli.xpt.xml" />
 		<Import file="templates/FysiikkaPeli.SimplePhysics.xpt.xml" />
 		<Import file="templates/FysiikkaPeli.Physics2d.xpt.xml" />
+		<Import file="templates/ConsoleMain.xpt.xml" />
+		<Import file="templates/ConsoleMain/Program.cs" />
 		<Import file="assemblies/Linux/Jypeli.MonoGame.Framework.dll" />
 		<Import file="assemblies/Linux/Lidgren.Network.dll" />
 		<Import file="assemblies/Linux/OpenTK.dll" />

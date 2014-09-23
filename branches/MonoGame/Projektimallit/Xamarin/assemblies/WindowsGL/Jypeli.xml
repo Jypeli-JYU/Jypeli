@@ -1003,6 +1003,23 @@
             </summary>
             <param name="otherObject"></param>
         </member>
+        <member name="M:Jypeli.PhysicsObject.AddCollisionIgnoreGroup(System.Int32)">
+            <summary>
+            Lisää uuden törmäyksenvälttelyryhmän.
+            </summary>
+            <param name="group">Ryhmän numero (indeksi).</param>
+        </member>
+        <member name="M:Jypeli.PhysicsObject.RemoveCollisionIgnoreGroup(System.Int32)">
+            <summary>
+            Poistaa annetun törmäyksenvälttelyryhmän.
+            </summary>
+            <param name="group">Ryhmän numero (indeksi).</param>
+        </member>
+        <member name="M:Jypeli.PhysicsObject.ClearCollisionIgnoreGroups">
+            <summary>
+            Poistaa kaikki törmäysryhmät, jolloin olio saa törmäillä vapaasti.
+            </summary>
+        </member>
         <member name="P:Jypeli.PhysicsObject.CollisionIgnorer">
             <summary>
             Olio, jolla voi välttää oliota osumasta tiettyihin muihin olioihin.
@@ -1018,6 +1035,11 @@
         <member name="P:Jypeli.PhysicsObject.CanRotate">
             <summary>
             Jos <c>false</c>, olio ei voi pyöriä.
+            </summary>
+        </member>
+        <member name="E:Jypeli.PhysicsObject.Destroying">
+            <summary>
+            Onko olio tuhoutumassa.
             </summary>
         </member>
         <member name="M:Jypeli.Assets.Projectile.#ctor(System.Double,System.Double,System.String)">
@@ -10086,6 +10108,16 @@
             <summary>
             A collision ignorer that uses group numbers to do collision ignoring.
             If 2 objects are members of the same group then they will not collide.
+            </summary>
+        </member>
+        <member name="F:Jypeli.JypeliGroupIgnorer.IgnoreMask">
+            <summary>
+            Törmäysmaski: 0 = törmää, 1 = ei törmää.
+            </summary>
+        </member>
+        <member name="P:Jypeli.JypeliGroupIgnorer.LegacyGroup">
+            <summary>
+            Vanha törmäysryhmä yhteensopivuutta varten.
             </summary>
         </member>
         <member name="T:Jypeli.ObjectIgnorer">

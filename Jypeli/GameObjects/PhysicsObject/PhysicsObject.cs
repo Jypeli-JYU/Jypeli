@@ -10,15 +10,22 @@ namespace Jypeli
     public partial class PhysicsObject : GameObject, IPhysicsObjectInternal
     {
         [Save]
-        private int _ignoreGroup = 0;
-
-        [Save]
         private double _storedMomentOfInertia = 1;
+
+        private Ignorer _collisionIgnorer = null;
 
         /// <summary>
         /// Olio, jolla voi välttää oliota osumasta tiettyihin muihin olioihin.
         /// </summary>
-        public virtual Ignorer CollisionIgnorer { get; set; }
+        public virtual Ignorer CollisionIgnorer
+        {
+            get { return _collisionIgnorer; }
+            set
+            {
+                _collisionIgnorer = value;
+                Body.SetCollisionIgnorer( value );
+            }
+        }
 
         /// <summary>
         /// Törmäysryhmä.
@@ -27,21 +34,19 @@ namespace Jypeli
         /// </summary>
         public virtual int CollisionIgnoreGroup
         {
-            get { return _ignoreGroup; }
+            get
+            {
+                var groupIgnorer = CollisionIgnorer as JypeliGroupIgnorer;
+                return groupIgnorer != null ? groupIgnorer.LegacyGroup : 0;
+            }
             set
             {
-                _ignoreGroup = value;
-                
-                if ( _ignoreGroup == 0 )
-                {
-                    this.CollisionIgnorer = null;
-                }
-                else
-                {
-                    var ignorer = new GroupIgnorer();
-                    ignorer.Groups.Add( value );
-                    this.CollisionIgnorer = ignorer;
-                }
+                var groupIgnorer = CollisionIgnorer as JypeliGroupIgnorer;
+
+                if (groupIgnorer == null)
+                    CollisionIgnorer = groupIgnorer = new JypeliGroupIgnorer();
+
+                groupIgnorer.LegacyGroup = value;
             }
         }
 
@@ -255,6 +260,45 @@ namespace Jypeli
             return !this.CollisionIgnorer.CanCollide( this.Body, target.Body, target.CollisionIgnorer );
         }
 
+        /// <summary>
+        /// Lisää uuden törmäyksenvälttelyryhmän.
+        /// </summary>
+        /// <param name="group">Ryhmän numero (indeksi).</param>
+        public void AddCollisionIgnoreGroup( int group )
+        {
+            var groupIgnorer = CollisionIgnorer as JypeliGroupIgnorer;
+
+            if (groupIgnorer == null)
+                CollisionIgnorer = groupIgnorer = new JypeliGroupIgnorer();
+
+            groupIgnorer.AddGroup( group );
+        }
+
+        /// <summary>
+        /// Poistaa annetun törmäyksenvälttelyryhmän.
+        /// </summary>
+        /// <param name="group">Ryhmän numero (indeksi).</param>
+        public void RemoveCollisionIgnoreGroup( int group )
+        {
+            var groupIgnorer = CollisionIgnorer as JypeliGroupIgnorer;
+
+            if ( groupIgnorer == null )
+                return;
+
+            groupIgnorer.RemoveGroup( group );
+        }
+
+        /// <summary>
+        /// Poistaa kaikki törmäysryhmät, jolloin olio saa törmäillä vapaasti.
+        /// </summary>
+        public void ClearCollisionIgnoreGroups()
+        {
+            CollisionIgnorer = new JypeliGroupIgnorer();
+        }
+
+        /// <summary>
+        /// Onko olio tuhoutumassa.
+        /// </summary>
         public event Action Destroying;
     }
 }

@@ -203,6 +203,29 @@ namespace Jypeli
             return BoundingRectangle.Intersects( obj1.BoundingRectangle, obj2.BoundingRectangle );
         }
 
+        private bool CanCollide( PhysicsObject obj1, PhysicsObject obj2 )
+        {
+            if ( obj1.IgnoresCollisionResponse || obj2.IgnoresCollisionResponse )
+                return false;
+
+            if ( obj1.CollisionIgnorer != null )
+            {
+                if ( !obj1.CollisionIgnorer.CanCollide( obj1.Body, obj2.Body, obj2.CollisionIgnorer ) )
+                    return false;
+
+                if ( !obj1.CollisionIgnorer.BothNeeded )
+                    return true;
+            }
+
+            if ( obj2.CollisionIgnorer != null )
+            {
+                if ( !obj2.CollisionIgnorer.CanCollide( obj2.Body, obj1.Body, obj1.CollisionIgnorer ) )
+                    return false;
+            }
+
+            return true;
+        }
+
         private void SolveCollisions( double dt )
         {
             for ( int i = 0; i < physObjects.Count; i++ )
@@ -243,7 +266,7 @@ namespace Jypeli
                             if ( v_n > 0 )
                             {
                                 // Approaching the wall
-                                if ( !physObjects[i].IgnoresCollisionResponse && !physObjects[j].IgnoresCollisionResponse )
+                                if ( CanCollide( physObjects[i], physObjects[j] ) )
                                 {
                                     // Collision response
                                     Vector p = n.LeftNormal;
@@ -264,7 +287,7 @@ namespace Jypeli
                             Vector v_j = ( p_sum - p_diff ) / 2;
                             Vector v_i = p_sum - v_j;
 
-                            if ( !physObjects[i].IgnoresCollisionResponse && !physObjects[j].IgnoresCollisionResponse )
+                            if ( CanCollide( physObjects[i], physObjects[j] ) )
                             {
                                 // Collision response
                                 physObjects[i].Velocity = v_i;

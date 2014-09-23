@@ -167,7 +167,7 @@
     <Compile Include="Game\Game.cs">
       <SubType>Code</SubType>
     </Compile>
-	<Compile Include="Game\Storage.cs" />
+    <Compile Include="Game\Storage.cs" />
     <Compile Include="Game\Graphics.cs" />
     <Compile Include="Game\Layers.cs" />
     <Compile Include="Game\Physics.cs" />
@@ -198,6 +198,7 @@
     <Compile Include="Physics\Ignorers\GroupCollection.cs" />
     <Compile Include="Physics\Ignorers\GroupIgnorer.cs" />
     <Compile Include="Physics\Ignorers\Ignorer.cs" />
+    <Compile Include="Physics\Ignorers\JypeliGroupIgnorer.cs" />
     <Compile Include="Physics\Ignorers\ObjectIgnorer.cs" />
     <Compile Include="Physics\IPhysicsClient.cs" />
     <Compile Include="Physics\PhysicsInterface.cs" />
@@ -205,7 +206,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Storage\SaveAttribute.cs" />
-	<Compile Include="Storage\FileManager\Assert.cs" />
+    <Compile Include="Storage\FileManager\Assert.cs" />
     <Compile Include="Storage\FileManager\Directories.cs" />
     <Compile Include="Storage\FileManager\Files.cs" />
     <Compile Include="Storage\FileManager\HTTP.cs" />
@@ -258,12 +259,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Jypeli.MonoGame.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\Jypeli.MonoGame.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
-    <Reference Include="Jypeli.MonoGame.Framework">
-      <HintPath>..\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\Jypeli.MonoGame.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="Lidgren.Network">
       <HintPath>..\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\Lidgren.Network.dll</HintPath>
     </Reference>

@@ -171,6 +171,11 @@ namespace Jypeli.Physics
         }
 
         /// <summary>
+        /// Olio, jolla voi välttää oliota osumasta tiettyihin muihin olioihin.
+        /// </summary>
+        public virtual Ignorer CollisionIgnorer { get; set; }
+
+        /// <summary>
         /// Jätetäänkö törmäykset huomiotta.
         /// Huomaa että törmäystapahtuma tulee silti.
         /// </summary>
@@ -197,6 +202,7 @@ namespace Jypeli.Physics
         {
             Shape = shape;
             Size = new Vector( width, height );
+            CollisionIgnorer = new ObjectIgnorer();
         }
 
         /// <summary>
@@ -216,6 +222,15 @@ namespace Jypeli.Physics
         {
             _mass = double.PositiveInfinity;
             _massInv = 0;
+        }
+
+        /// <summary>
+        /// Asettaa törmäyksenvälttelyryhmän.
+        /// </summary>
+        /// <param name="ignorer"></param>
+        public void SetCollisionIgnorer( Ignorer ignorer )
+        {
+            this.CollisionIgnorer = ignorer;
         }
 
         /// <summary>

@@ -152,6 +152,12 @@
             Tekee kappaleesta staattisen.
             </summary>
         </member>
+        <member name="M:Jypeli.Physics.PhysicsBody.SetCollisionIgnorer(Jypeli.Ignorer)">
+            <summary>
+            Asettaa törmäyksenvälttelyryhmän.
+            </summary>
+            <param name="ignorer"></param>
+        </member>
         <member name="M:Jypeli.Physics.PhysicsBody.ApplyForce(Jypeli.Vector)">
             <summary>
             Työntää kappaletta tietyllä voimalla.
@@ -283,6 +289,11 @@
         <member name="P:Jypeli.Physics.PhysicsBody.AngularAcceleration">
             <summary>
             Kappaleen kulmakiihtyvyys (aina 0 tällä moottorilla)
+            </summary>
+        </member>
+        <member name="P:Jypeli.Physics.PhysicsBody.CollisionIgnorer">
+            <summary>
+            Olio, jolla voi välttää oliota osumasta tiettyihin muihin olioihin.
             </summary>
         </member>
         <member name="P:Jypeli.Physics.PhysicsBody.IgnoresCollisionResponse">

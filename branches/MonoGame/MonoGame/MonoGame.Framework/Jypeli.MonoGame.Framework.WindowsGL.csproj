@@ -100,13 +100,60 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\AudioCategory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\AudioChannels.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\AudioEmitter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\AudioEngine.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\AudioListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\AudioStopOptions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\Cue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\DynamicSoundEffectInstance.cs" />
+    <Compile Include="Audio\InstancePlayLimitException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\MSADPCMToPCM.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\NoAudioHardwareException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\SoundBank.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\SoundEffect.cs" />
+    <Compile Include="Audio\SoundState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\WaveBank.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\XactClip.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Audio\XactSound.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Content\ContentReaders\Texture3DReader.cs" />
+    <Compile Include="Desktop\Audio\AudioLoader.cs" />
     <Compile Include="Graphics\IRenderTarget.cs" />
     <Compile Include="Graphics\RenderTargetCube.cs" />
     <Compile Include="Graphics\GraphicsCapabilities.cs" />
     <Compile Include="Graphics\ResourceCreatedEventArgs.cs" />
     <Compile Include="Graphics\ResourceDestroyedEventArgs.cs" />
-    <Compile Include="Audio\AudioCategory.cs" />
     <Compile Include="Content\ContentExtensions.cs" />
     <Compile Include="Content\ContentReaders\DualTextureEffectReader.cs" />
     <Compile Include="Content\ContentReaders\EffectReader.cs" />
@@ -127,7 +174,6 @@
     <Compile Include="Content\ContentReaders\VertexBufferReader.cs" />
     <Compile Include="Content\ContentReaders\VertexDeclarationReader.cs" />
     <Compile Include="Content\ResourceContentManager.cs" />
-    <Compile Include="Desktop\Audio\SoundEffect.cs" />
     <Compile Include="Desktop\Audio\SoundEffectInstance.cs" />
     <Compile Include="Desktop\Input\Axis.cs" />
     <Compile Include="Desktop\Input\Capabilities.cs" />
@@ -166,11 +212,8 @@
     <Compile Include="Graphics\ModelMeshPart.cs" />
     <Compile Include="Graphics\ModelMeshPartCollection.cs" />
     <Compile Include="Graphics\PackedVector\Bgr565.cs" />
-	
     <Compile Include="Graphics\PackedVector\Bgra4444.cs" />
-	
     <Compile Include="Graphics\PackedVector\Byte4.cs" />
-	
     <Compile Include="Graphics\PackedVector\HalfSingle.cs" />
     <Compile Include="Graphics\PackedVector\HalfTypeHelper.cs" />
     <Compile Include="Graphics\PackedVector\HalfVector2.cs" />
@@ -201,17 +244,6 @@
     <Compile Include="LaunchParameters.cs" />
     <Compile Include="Media\VideoSoundtrackType.cs" />
     <Compile Include="Properties\AssemblyInfo.Jypeli.cs" />
-    <Compile Include="Audio\AudioChannels.cs" />
-    <Compile Include="Audio\AudioEmitter.cs" />
-    <Compile Include="Audio\AudioEngine.cs" />
-    <Compile Include="Audio\AudioListener.cs" />
-    <Compile Include="Audio\AudioStopOptions.cs" />
-    <Compile Include="Audio\Cue.cs" />
-    <Compile Include="Audio\InstancePlayLimitException.cs" />
-    <Compile Include="Audio\NoAudioHardwareException.cs" />
-    <Compile Include="Audio\SoundBank.cs" />
-    <Compile Include="Audio\SoundState.cs" />
-    <Compile Include="Audio\WaveBank.cs" />
     <Compile Include="Content\ContentManager.Jypeli.cs" />
     <Compile Include="Content\ContentReaders\ArrayReader.cs" />
     <Compile Include="Content\ContentReaders\BooleanReader.cs" />
@@ -344,8 +376,6 @@
     <Compile Include="Storage\StorageDeviceHelper.cs" />
     <Compile Include="TextInputEventArgs.cs" />
     <Compile Include="Utilities\Hash.cs" />
-    <Compile Include="Windows\Audio\AudioLoader.cs" />
-    <Compile Include="Windows\Audio\Sound.cs" />
     <Compile Include="Windows\Content\ContentReaders\SoundEffectReader.cs" />
     <Compile Include="Windows\GamerServices\Guide.cs" />
     <Compile Include="Windows\GamerServices\MonoGameGamerServicesHelper.cs" />
@@ -460,8 +490,6 @@
     <Compile Include="TitleContainer.cs" />
     <Compile Include="Content\ContentReaders\CurveReader.cs" />
     <Compile Include="Graphics\Vertices\VertexElementColor.cs" />
-    <Compile Include="Audio\XactClip.cs" />
-    <Compile Include="Audio\XactSound.cs" />
     <Compile Include="Desktop\Audio\OALSoundBuffer.cs" />
     <Compile Include="Desktop\Audio\OpenALSoundController.cs" />
     <Compile Include="Content\ContentReaders\EffectMaterialReader.cs" />
@@ -471,9 +499,7 @@
     <Compile Include="Media\MediaLibrary.cs" />
     <Compile Include="Media\MediaSource.cs" />
     <Compile Include="FrameworkDispatcher.cs" />
-    <Compile Include="Audio\MSADPCMToPCM.cs" />
-	<Compile Include="Utilities\ObjectFactoryWithReset.cs" />
-    
+    <Compile Include="Utilities\ObjectFactoryWithReset.cs" />
     <Compile Include="GamerServices\LeaderboardEntry.cs" />
     <Compile Include="GamerServices\LeaderboardIdentity.cs" />
     <Compile Include="GamerServices\LeaderboardKey.cs" />

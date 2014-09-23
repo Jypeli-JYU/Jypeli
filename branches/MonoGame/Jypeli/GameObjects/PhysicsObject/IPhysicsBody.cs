@@ -45,6 +45,8 @@ namespace Jypeli.Physics
         void StopAxial( Vector axis );
         void StopAngular();
 
+        void SetCollisionIgnorer( Ignorer ignorer );
+
         event CollisionHandler<IPhysicsBody, IPhysicsBody> Collided;
     }
 }

@@ -130,5 +130,34 @@ namespace Jypeli
 
             //base.Update( time );
         }
+
+        public void SetCollisionIgnorer( Ignorer ignorer )
+        {
+            this.Body.CollisionIgnorer = new CollisionIgnorerAdapter( ignorer );
+        }
+    }
+
+    class CollisionIgnorerAdapter : Physics2DDotNet.Ignorers.Ignorer
+    {
+        private Jypeli.Ignorer innerIgnorer;
+
+        public override bool BothNeeded
+        {
+            get { return innerIgnorer.BothNeeded; }
+        }
+
+        protected override bool CanCollide( Body thisBody, Body otherBody, Physics2DDotNet.Ignorers.Ignorer other )
+        {
+            var body1 = (Jypeli.PhysicsBody)( thisBody.Tag );
+            var body2 = (Jypeli.PhysicsBody)( otherBody.Tag );
+            var otherIgnorer = ( (CollisionIgnorerAdapter)other ).innerIgnorer;
+
+            return innerIgnorer.CanCollide( body1, body2, otherIgnorer );
+        }
+
+        public CollisionIgnorerAdapter( Jypeli.Ignorer adaptee )
+        {
+            this.innerIgnorer = adaptee;
+        }
     }
 }

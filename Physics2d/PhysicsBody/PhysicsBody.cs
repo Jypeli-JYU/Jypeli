@@ -150,7 +150,7 @@ namespace Jypeli
         {
             var body1 = (Jypeli.PhysicsBody)( thisBody.Tag );
             var body2 = (Jypeli.PhysicsBody)( otherBody.Tag );
-            var otherIgnorer = ( (CollisionIgnorerAdapter)other ).innerIgnorer;
+            var otherIgnorer = other == null ? null : ( (CollisionIgnorerAdapter)other ).innerIgnorer;
 
             return innerIgnorer.CanCollide( body1, body2, otherIgnorer );
         }

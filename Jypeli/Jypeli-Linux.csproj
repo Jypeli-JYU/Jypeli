@@ -222,6 +222,7 @@
     <Compile Include="Physics\Ignorers\GroupCollection.cs" />
     <Compile Include="Physics\Ignorers\GroupIgnorer.cs" />
     <Compile Include="Physics\Ignorers\Ignorer.cs" />
+    <Compile Include="Physics\Ignorers\JypeliGroupIgnorer.cs" />
     <Compile Include="Physics\Ignorers\ObjectIgnorer.cs" />
     <Compile Include="Physics\IPhysicsClient.cs" />
     <Compile Include="Physics\PhysicsInterface.cs" />

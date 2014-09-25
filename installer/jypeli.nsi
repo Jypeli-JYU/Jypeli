@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "The Jypeli Game Programming Library with MonoGame"
+Name "MonoJypeli 6.0.6"
 
 OutFile "MonoJypeli_setup.exe"
 

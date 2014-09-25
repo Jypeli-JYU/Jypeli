@@ -90,6 +90,33 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Lisää kaikille kentän vaakasivuille reunat, joihin oliot voivat törmätä.
+        /// </summary>
+        public Surfaces CreateHorizontalBorders()
+        {
+            return CreateHorizontalBorders( 1, true );
+        }
+
+        /// <summary>
+        /// Lisää kaikille kentän vaakasivuille reunat, joihin oliot voivat törmätä.
+        /// </summary>
+        /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
+        public Surfaces CreateHorizontalBorders( bool isVisible )
+        {
+            return CreateHorizontalBorders( 1, isVisible );
+        }
+
+        /// <summary>
+        /// Lisää kaikille kentän vaakasivuille reunat, joihin oliot voivat törmätä.
+        /// </summary>
+        /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
+        /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
+        public Surfaces CreateHorizontalBorders( double restitution, bool isVisible )
+        {
+            return CreateHorizontalBorders( restitution, isVisible, Color.Gray );
+        }
+
+        /// <summary>
         /// Lisää kentän vaakasivuille reunat, joihin oliot voivat törmätä.
         /// </summary>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
@@ -129,6 +156,33 @@ namespace Jypeli
             borders.l = CreateBorder( Direction.Left, restitution, isVisible, borderImage, Color.Gray );
             borders.r = CreateBorder( Direction.Right, restitution, isVisible, borderImage, Color.Gray );
             return borders;
+        }
+
+        /// <summary>
+        /// Lisää kaikille kentän pystysivuille reunat, joihin oliot voivat törmätä.
+        /// </summary>
+        public Surfaces CreateVerticalBorders()
+        {
+            return CreateVerticalBorders( 1, true );
+        }
+
+        /// <summary>
+        /// Lisää kaikille kentän pystysivuille reunat, joihin oliot voivat törmätä.
+        /// </summary>
+        /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
+        public Surfaces CreateVerticalBorders( bool isVisible )
+        {
+            return CreateVerticalBorders( 1, isVisible );
+        }
+
+        /// <summary>
+        /// Lisää kaikille kentän pystysivuille reunat, joihin oliot voivat törmätä.
+        /// </summary>
+        /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
+        /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
+        public Surfaces CreateVerticalBorders( double restitution, bool isVisible )
+        {
+            return CreateVerticalBorders( restitution, isVisible, Color.Gray );
         }
 
         /// <summary>

@@ -10,8 +10,8 @@ namespace Jypeli
     {
         class Contact
         {
-            public PhysicsObject obj1;
-            public PhysicsObject obj2;
+            public PhysicsBody body1;
+            public PhysicsBody body2;
             public Vector normal;
             public int deadcycles;
 
@@ -20,18 +20,18 @@ namespace Jypeli
                 get { return deadcycles == 0; }
             }
 
-            public Contact( PhysicsObject obj1, PhysicsObject obj2, Vector n )
+            public Contact( PhysicsBody body1, PhysicsBody body2, Vector n )
             {
-                this.obj1 = obj1;
-                this.obj2 = obj2;
+                this.body1 = body1;
+                this.body2 = body2;
                 this.normal = n;
                 this.deadcycles = 0;
             }
 
             public void UpdateContact()
             {
-                BoundingRectangle intsect = BoundingRectangle.GetIntersection( obj1.BoundingRectangle, obj2.BoundingRectangle );
-                Vector n = ( intsect.Position - obj1.Position ).Normalize();
+                BoundingRectangle intsect = BoundingRectangle.GetIntersection( body1.GetBoundingRect(), body2.GetBoundingRect() );
+                Vector n = ( intsect.Position - body1.Position ).Normalize();
                 deadcycles = 0;
             }
 
@@ -64,9 +64,17 @@ namespace Jypeli
         /// <param name="layer">Kerros jolle lisätään</param>
         public override void Add( IGameObject o, int layer )
         {
-            if ( o is PhysicsObject )
+            PhysicsObject po = o as PhysicsObject;
+
+            if ( po != null )
             {
-                physObjects.Add( (PhysicsObject)o );
+                if ( po.Body == null )
+                    throw new ArgumentException( "Physics object has no body." );
+
+                if ( !(po.Body is PhysicsBody) )
+                    throw new ArgumentException( "Physics object has unrecognizable body type." );
+                
+                physObjects.Add( po );
             }
 
             base.Add( o, layer );
@@ -103,8 +111,8 @@ namespace Jypeli
 
             for ( int i = contacts.Count - 1; i >= 0; i-- )
             {
-                if ( contacts[i].obj1 == null || contacts[i].obj2 == null
-                    || contacts[i].obj1.IsDestroyed || contacts[i].obj2.IsDestroyed
+                if ( contacts[i].body1 == null || contacts[i].body2 == null
+                    || contacts[i].body1.Owner.IsDestroyed || contacts[i].body2.Owner.IsDestroyed
                     || contacts[i].deadcycles > 1000 )
                 {
                     //MessageDisplay.Add( "Contact removed", RandomGen.NextColor( contacts[i] ) );
@@ -126,12 +134,12 @@ namespace Jypeli
                     body.Velocity += Gravity * body.MassInv * dt;
 
                 temp = body.Acceleration;
-                NullifyContactForces( physObjects[i], ref temp );
+                NullifyContactForces( body, ref temp );
                 body.Acceleration = temp;
                 body.Velocity += temp * dt;
 
                 temp = body.Velocity;
-                NullifyContactForces( physObjects[i], ref temp );
+                NullifyContactForces( body, ref temp );
                 body.Velocity = temp;
                 body.Position += temp * dt;
                 
@@ -142,20 +150,20 @@ namespace Jypeli
             SolveCollisions( dt );
         }
 
-        private bool HasContact( PhysicsObject obj1, PhysicsObject obj2 )
+        private bool HasContact( PhysicsBody body1, PhysicsBody body2 )
         {
-            Contact contact = GetContact( obj1, obj2 );
+            Contact contact = GetContact( body1, body2 );
             return contact != null && contact.Active;
         }
 
-        private Contact GetContact( PhysicsObject obj1, PhysicsObject obj2 )
+        private Contact GetContact( PhysicsBody body1, PhysicsBody body2 )
         {
-            return contacts.Find<Contact>( c => c.obj1 == obj1 && c.obj2 == obj2 || c.obj1 == obj2 && c.obj2 == obj1 );
+            return contacts.Find<Contact>( c => c.body1 == body1 && c.body2 == body2 || c.body1 == body2 && c.body2 == body1 );
         }
 
-        private void AddContact( PhysicsObject obj1, PhysicsObject obj2, Vector n )
+        private void AddContact( PhysicsBody body1, PhysicsBody body2, Vector n )
         {
-            Contact contact = GetContact( obj1, obj2 );
+            Contact contact = GetContact( body1, body2 );
 
             if ( contact != null )
             {
@@ -164,32 +172,32 @@ namespace Jypeli
             }
             else
             {
-                contact = new Contact( obj1, obj2, n );
+                contact = new Contact( body1, body2, n );
                 //MessageDisplay.Add( "New contact!", RandomGen.NextColor( contact ) );
                 contacts.Add( contact );
             }
         }
 
-        private void NullifyContactForces( PhysicsObject obj, ref Vector vector )
+        private void NullifyContactForces( PhysicsBody body, ref Vector vector )
         {
-            foreach ( var contact in contacts.FindAll( c => c.obj1 == obj ) )
+            foreach ( var contact in contacts.FindAll( c => c.body1 == body ) )
             {
                 if ( !contact.Active )
                     continue;
 
-                var target = contact.obj2;
+                var target = contact.body2;
                 double par = vector.ScalarProjection( contact.normal );
                 double perp = vector.ScalarProjection( contact.normal.LeftNormal );
 
                 vector = perp * contact.normal.LeftNormal + ( par < 0 ? par : 0 ) * contact.normal;
             }
 
-            foreach ( var contact in contacts.FindAll( c => c.obj2 == obj ) )
+            foreach ( var contact in contacts.FindAll( c => c.body2 == body ) )
             {
                 if ( !contact.Active )
                     continue;
 
-                var target = contact.obj1;
+                var target = contact.body1;
                 double par = vector.ScalarProjection( contact.normal );
                 double perp = vector.ScalarProjection( contact.normal.LeftNormal );
 
@@ -197,10 +205,10 @@ namespace Jypeli
             }
         }
 
-        private bool IsOverlapping( PhysicsObject obj1, PhysicsObject obj2 )
+        private bool IsOverlapping( PhysicsBody body1, PhysicsBody body2 )
         {
             // Just a simple rectangle check for now
-            return BoundingRectangle.Intersects( obj1.BoundingRectangle, obj2.BoundingRectangle );
+            return BoundingRectangle.Intersects( body1.GetBoundingRect(), body2.GetBoundingRect() );
         }
 
         private bool CanCollide( PhysicsObject obj1, PhysicsObject obj2 )
@@ -242,9 +250,9 @@ namespace Jypeli
                     if ( iStatic && jStatic )
                         continue;
 
-                    Contact contact = GetContact( physObjects[i], physObjects[j] );
+                    Contact contact = GetContact( iBody, jBody );
 
-                    if ( IsOverlapping( physObjects[i], physObjects[j] ) )
+                    if ( IsOverlapping( iBody, jBody ) )
                     {
                         if ( contact != null && contact.Active )
                         {
@@ -254,7 +262,7 @@ namespace Jypeli
                         }
 
                         // Collision (perfectly elastic)
-                        BoundingRectangle intsect = BoundingRectangle.GetIntersection( physObjects[i].BoundingRectangle, physObjects[j].BoundingRectangle );
+                        BoundingRectangle intsect = BoundingRectangle.GetIntersection( iBody.GetBoundingRect(), jBody.GetBoundingRect() );
                         double rest = physObjects[i].Restitution * physObjects[j].Restitution;
 
                         if ( iStatic || jStatic )
@@ -298,7 +306,7 @@ namespace Jypeli
                         // Collision event
                         iBody.OnCollided( jBody );
                         jBody.OnCollided( iBody );
-                        AddContact( physObjects[i], physObjects[j], n );
+                        AddContact( iBody, jBody, n );
                     }
                     else
                     {

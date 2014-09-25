@@ -229,6 +229,7 @@
     <Compile Include="Physics\Ignorers\GroupCollection.cs" />
     <Compile Include="Physics\Ignorers\GroupIgnorer.cs" />
     <Compile Include="Physics\Ignorers\Ignorer.cs" />
+    <Compile Include="Physics\Ignorers\JypeliGroupIgnorer.cs" />
     <Compile Include="Physics\Ignorers\ObjectIgnorer.cs" />
     <Compile Include="Physics\IPhysicsClient.cs" />
     <Compile Include="Physics\PhysicsInterface.cs" />
@@ -236,7 +237,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Storage\SaveAttribute.cs" />
-	<Compile Include="Storage\FileManager\Assert.cs" />
+    <Compile Include="Storage\FileManager\Assert.cs" />
     <Compile Include="Storage\FileManager\Directories.cs" />
     <Compile Include="Storage\FileManager\Files.cs" />
     <Compile Include="Storage\FileManager\HTTP.cs" />

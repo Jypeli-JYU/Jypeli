@@ -17,6 +17,12 @@ namespace Jypeli.Physics
         [Save] private double _staticFriction = 0.0;
         [Save] private double _kineticFriction = 0.0;
 
+        [Save] double _angle = 0;
+        [Save] int _anglemul = 0;
+
+        BoundingRectangle boundingRect = new BoundingRectangle();
+
+
         /// <summary>
         /// Törmäystapahtuma.
         /// </summary>
@@ -144,12 +150,22 @@ namespace Jypeli.Physics
         public Vector Size { get; set; }
 
         /// <summary>
-        /// Kappaleen kulma (aina 0 tällä moottorilla)
+        /// Kappaleen kulma (vain 90 asteen monikertoja tällä moottorilla)
         /// </summary>
         public double Angle
         {
-            get { return 0; }
-            set { }
+            get { return _angle; }
+            set
+            {
+                int mul = (int)( Math.Sign( value ) * 0.5 + 2 * value / Math.PI );
+
+                while ( mul < 0 )
+                    mul += 4;
+
+                _anglemul = ( mul % 4 );
+                //_angle = _anglemul * Math.PI / 2;
+                _angle = value;
+            }
         }
 
         /// <summary>
@@ -222,6 +238,22 @@ namespace Jypeli.Physics
         {
             _mass = double.PositiveInfinity;
             _massInv = 0;
+        }
+
+        /// <summary>
+        /// Palauttaa olion (efektiiviset) reunat.
+        /// </summary>
+        /// <returns></returns>
+        internal BoundingRectangle GetBoundingRect()
+        {
+            bool rotated = _anglemul == 1 || _anglemul == 3;
+
+            boundingRect.X = this.Position.X;
+            boundingRect.Y = this.Position.Y;
+            boundingRect.Width = rotated ? this.Size.Y : this.Size.X;
+            boundingRect.Height = rotated ? this.Size.X : this.Size.Y;
+
+            return boundingRect;
         }
 
         /// <summary>

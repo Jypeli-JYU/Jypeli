@@ -6759,6 +6759,28 @@
             <param name="otherObject">
             </param>
         </member>
+        <member name="M:Jypeli.PhysicsObject.AddCollisionIgnoreGroup(System.Int32)">
+            <summary>
+            Lisää uuden törmäyksenvälttelyryhmän.
+            </summary>
+            <param name="group">Ryhmän numero (indeksi).</param>
+        </member>
+        <member name="M:Jypeli.PhysicsObject.RemoveCollisionIgnoreGroup(System.Int32)">
+            <summary>
+            Poistaa annetun törmäyksenvälttelyryhmän.
+            </summary>
+            <param name="group">Ryhmän numero (indeksi).</param>
+        </member>
+        <member name="M:Jypeli.PhysicsObject.ClearCollisionIgnoreGroups">
+            <summary>
+            Poistaa kaikki törmäysryhmät, jolloin olio saa törmäillä vapaasti.
+            </summary>
+        </member>
+        <member name="E:Jypeli.PhysicsObject.Destroying">
+            <summary>
+            Onko olio tuhoutumassa.
+            </summary>
+        </member>
         <member name="T:Jypeli.IPhysicsObject">
             <summary>
             Yhteinen rajapinta kaikille fysiikkaolioille.
@@ -10121,6 +10143,24 @@
             <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
             <param name="borderImage">Reunojen kuva / tekstuuri.</param>
         </member>
+        <member name="M:Jypeli.Level.CreateHorizontalBorders">
+            <summary>
+            Lisää kaikille kentän vaakasivuille reunat, joihin oliot voivat törmätä.
+            </summary>
+        </member>
+        <member name="M:Jypeli.Level.CreateHorizontalBorders(System.Boolean)">
+            <summary>
+            Lisää kaikille kentän vaakasivuille reunat, joihin oliot voivat törmätä.
+            </summary>
+            <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
+        </member>
+        <member name="M:Jypeli.Level.CreateHorizontalBorders(System.Double,System.Boolean)">
+            <summary>
+            Lisää kaikille kentän vaakasivuille reunat, joihin oliot voivat törmätä.
+            </summary>
+            <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
+            <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
+        </member>
         <member name="M:Jypeli.Level.CreateHorizontalBorders(System.Double,System.Boolean,Jypeli.Color)">
             <summary>
             Lisää kentän vaakasivuille reunat, joihin oliot voivat törmätä.
@@ -10144,6 +10184,24 @@
             <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
             <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
             <param name="borderImage">Reunojen kuva / tekstuuri.</param>
+        </member>
+        <member name="M:Jypeli.Level.CreateVerticalBorders">
+            <summary>
+            Lisää kaikille kentän pystysivuille reunat, joihin oliot voivat törmätä.
+            </summary>
+        </member>
+        <member name="M:Jypeli.Level.CreateVerticalBorders(System.Boolean)">
+            <summary>
+            Lisää kaikille kentän pystysivuille reunat, joihin oliot voivat törmätä.
+            </summary>
+            <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
+        </member>
+        <member name="M:Jypeli.Level.CreateVerticalBorders(System.Double,System.Boolean)">
+            <summary>
+            Lisää kaikille kentän pystysivuille reunat, joihin oliot voivat törmätä.
+            </summary>
+            <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
+            <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
         </member>
         <member name="M:Jypeli.Level.CreateVerticalBorders(System.Double,System.Boolean,Jypeli.Image)">
             <summary>
@@ -12818,6 +12876,16 @@
             </summary>
             <param name="objStream">Virta</param>
             <param name="fileName">Tiedoston nimi</param>
+        </member>
+        <member name="P:Jypeli.JypeliGroupIgnorer.LegacyGroup">
+            <summary>
+            Vanha törmäysryhmä yhteensopivuutta varten.
+            </summary>
+        </member>
+        <member name="F:Jypeli.JypeliGroupIgnorer.IgnoreMask">
+            <summary>
+            Törmäysmaski: 0 = törmää, 1 = ei törmää.
+            </summary>
         </member>
     </members>
 </doc>

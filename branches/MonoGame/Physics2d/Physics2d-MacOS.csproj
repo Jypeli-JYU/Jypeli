@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>bin\MacOS\Debug</OutputPath>
     <DefineConstants>DEBUG;UseDouble</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,11 +30,11 @@
     <CreatePackage>false</CreatePackage>
     <AssemblyName>Jypeli.Physics2d</AssemblyName>
     <GenerateDocumentation>True</GenerateDocumentation>
-    <DocumentationFile>bin\Debug\Jypeli.Physics2d.xml</DocumentationFile>
+    <DocumentationFile>bin\MacOS\Debug\Jypeli.Physics2d.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>bin\MacOS\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
@@ -47,12 +47,12 @@
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
     <DefineConstants>UseDouble</DefineConstants>
-    <AssemblyName>Physics2d</AssemblyName>
-    <DocumentationFile>bin\Release\Physics2d.xml</DocumentationFile>
+    <AssemblyName>Jypeli.Physics2d</AssemblyName>
+    <DocumentationFile>bin\MacOS\Release\Jypeli.Physics2d.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|x86' ">
     <Optimize>true</Optimize>
-    <OutputPath>bin\x86\AppStore</OutputPath>
+    <OutputPath>bin\MacOS\AppStore</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>

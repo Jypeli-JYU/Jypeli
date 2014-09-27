@@ -11,6 +11,8 @@
     <AssemblyName>Jypeli</AssemblyName>
     <ReleaseVersion>6.0</ReleaseVersion>
     <SynchReleaseVersion>false</SynchReleaseVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -301,6 +303,7 @@
     <Compile Include="Storage\FileManager\Serialization.cs" />
     <Compile Include="Storage\FileManager\XnaSerialization.cs" />
     <Compile Include="Game\Storage.cs" />
+    <Compile Include="Physics\Ignorers\JypeliGroupIgnorer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\v0.0\Xamarin.Mac.targets" />

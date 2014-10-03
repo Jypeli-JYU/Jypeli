@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E67DEA04-C3D9-4F13-98AF-D15860CEAF89}</ProjectGuid>
+    <ProjectGuid>{8C947360-3642-4A44-A83B-FEC21039FCC9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>MonoDevelop.Jypeli.Linux</RootNamespace>
     <AssemblyName>MonoDevelop.Jypeli.Linux</AssemblyName>

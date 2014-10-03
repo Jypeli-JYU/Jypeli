@@ -9688,6 +9688,24 @@
             <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
             <param name="borderImage">Reunojen kuva / tekstuuri.</param>
         </member>
+        <member name="M:Jypeli.Level.CreateHorizontalBorders">
+            <summary>
+            Lisää kaikille kentän vaakasivuille reunat, joihin oliot voivat törmätä.
+            </summary>
+        </member>
+        <member name="M:Jypeli.Level.CreateHorizontalBorders(System.Boolean)">
+            <summary>
+            Lisää kaikille kentän vaakasivuille reunat, joihin oliot voivat törmätä.
+            </summary>
+            <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
+        </member>
+        <member name="M:Jypeli.Level.CreateHorizontalBorders(System.Double,System.Boolean)">
+            <summary>
+            Lisää kaikille kentän vaakasivuille reunat, joihin oliot voivat törmätä.
+            </summary>
+            <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
+            <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
+        </member>
         <member name="M:Jypeli.Level.CreateHorizontalBorders(System.Double,System.Boolean,Jypeli.Color)">
             <summary>
             Lisää kentän vaakasivuille reunat, joihin oliot voivat törmätä.
@@ -9711,6 +9729,24 @@
             <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
             <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
             <param name="borderImage">Reunojen kuva / tekstuuri.</param>
+        </member>
+        <member name="M:Jypeli.Level.CreateVerticalBorders">
+            <summary>
+            Lisää kaikille kentän pystysivuille reunat, joihin oliot voivat törmätä.
+            </summary>
+        </member>
+        <member name="M:Jypeli.Level.CreateVerticalBorders(System.Boolean)">
+            <summary>
+            Lisää kaikille kentän pystysivuille reunat, joihin oliot voivat törmätä.
+            </summary>
+            <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
+        </member>
+        <member name="M:Jypeli.Level.CreateVerticalBorders(System.Double,System.Boolean)">
+            <summary>
+            Lisää kaikille kentän pystysivuille reunat, joihin oliot voivat törmätä.
+            </summary>
+            <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
+            <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
         </member>
         <member name="M:Jypeli.Level.CreateVerticalBorders(System.Double,System.Boolean,Jypeli.Image)">
             <summary>

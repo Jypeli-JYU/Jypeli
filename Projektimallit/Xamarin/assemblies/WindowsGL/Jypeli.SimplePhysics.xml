@@ -152,6 +152,12 @@
             Tekee kappaleesta staattisen.
             </summary>
         </member>
+        <member name="M:Jypeli.Physics.PhysicsBody.GetBoundingRect">
+            <summary>
+            Palauttaa olion (efektiiviset) reunat.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Jypeli.Physics.PhysicsBody.SetCollisionIgnorer(Jypeli.Ignorer)">
             <summary>
             Asettaa törmäyksenvälttelyryhmän.
@@ -278,7 +284,7 @@
         </member>
         <member name="P:Jypeli.Physics.PhysicsBody.Angle">
             <summary>
-            Kappaleen kulma (aina 0 tällä moottorilla)
+            Kappaleen kulma (vain 90 asteen monikertoja tällä moottorilla)
             </summary>
         </member>
         <member name="P:Jypeli.Physics.PhysicsBody.AngularVelocity">

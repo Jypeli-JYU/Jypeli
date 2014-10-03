@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>/media/minka/DynData/Versiohallinta/MonoKaannos/Physics2d/bin/Linux/x86/Debug/Jypeli.Physics2d</name>
+        <name>Jypeli.Physics2d</name>
     </assembly>
     <members>
         <member name="T:Jypeli.PlatformWandererBrain">
@@ -40,6 +40,23 @@
             Alustaa uuden tankin.
             </summary>
         </member>
+        <member name="M:Jypeli.Assets.Tank.Accelerate(System.Double)">
+            <summary>
+            Kiihdyttää tankkia.
+            </summary>
+            <param name="power">Teho välillä <c>-1.0</c>-<c>1.0</c></param>
+        </member>
+        <member name="M:Jypeli.Assets.Tank.Shoot(System.Double)">
+            <summary>
+            Ampuu halutulla voimalla.
+            </summary>
+            <param name="power">Voima.</param>
+        </member>
+        <member name="M:Jypeli.Assets.Tank.Shoot">
+            <summary>
+            Ampuu tankin tykillä, jos ammuksia on vielä jäljellä.
+            </summary>
+        </member>
         <member name="P:Jypeli.Assets.Tank.Size">
             <summary>
             Tankin koko. Tätä ei voi muuttaa.
@@ -61,23 +78,6 @@
             Tankin piippu.
             </summary>
         </member>
-        <member name="M:Jypeli.Assets.Tank.Accelerate(System.Double)">
-            <summary>
-            Kiihdyttää tankkia.
-            </summary>
-            <param name="power">Teho välillä <c>-1.0</c>-<c>1.0</c></param>
-        </member>
-        <member name="M:Jypeli.Assets.Tank.Shoot(System.Double)">
-            <summary>
-            Ampuu halutulla voimalla.
-            </summary>
-            <param name="power">Voima.</param>
-        </member>
-        <member name="M:Jypeli.Assets.Tank.Shoot">
-            <summary>
-            Ampuu tankin tykillä, jos ammuksia on vielä jäljellä.
-            </summary>
-        </member>
         <member name="T:Jypeli.Assets.Weapon">
             <summary>
             Ase.
@@ -89,6 +89,25 @@
             </summary>
             <param name="width">Leveys.</param>
             <param name="height">Korkeus.</param>
+        </member>
+        <member name="M:Jypeli.Assets.Weapon.CreateProjectile">
+            <summary>
+            Luo uuden ammuksen.
+            Ylikirjoitetaan aliluokissa.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jypeli.Assets.Weapon.Shoot">
+            <summary>
+            Ampuu aseella, ja palauttaa ammuksen tai <c>null</c>, jos
+            ampuminen ei onnistu (esimerkiksi jos panokset ovat lopussa).
+            </summary>
+            <remarks>
+            Tätä metodia käyttämällä pääsee muokkaamaan ammusta, esimerkiksi muuttamaan
+            sen fysiikkaominaisuuksia. Huomaa kuitenkin, että tällöin tulee aina
+            tarkistaa että ammus ei ole <c>null</c>.
+            </remarks>
+            <returns>Ammuttu panos tai <c>null</c>.</returns>
         </member>
         <member name="P:Jypeli.Assets.Weapon.IsReady">
             <summary>
@@ -152,26 +171,6 @@
             Tapahtumankäsittelijä ammuksen törmäykselle.
             </summary>
         </member>
-        <member name="M:Jypeli.Assets.Weapon.CreateProjectile">
-            <summary>
-            Luo uuden ammuksen.
-            Ylikirjoitetaan aliluokissa.
-            </summary>
-            <returns>
-            </returns>
-        </member>
-        <member name="M:Jypeli.Assets.Weapon.Shoot">
-            <summary>
-            Ampuu aseella, ja palauttaa ammuksen tai <c>null</c>, jos
-            ampuminen ei onnistu (esimerkiksi jos panokset ovat lopussa).
-            </summary>
-            <remarks>
-            Tätä metodia käyttämällä pääsee muokkaamaan ammusta, esimerkiksi muuttamaan
-            sen fysiikkaominaisuuksia. Huomaa kuitenkin, että tällöin tulee aina
-            tarkistaa että ammus ei ole <c>null</c>.
-            </remarks>
-            <returns>Ammuttu panos tai <c>null</c>.</returns>
-        </member>
         <member name="T:Jypeli.Assets.Cannon">
             <summary>
             Yksinkertainen tykki, joka ampuu kuulia tai muuta ammuksia.
@@ -231,8 +230,7 @@
             <summary>
             Luo uuden kranaatin, joka räjähtää kolmen sekunnin päästä.
             </summary>
-            <param name="radius">
-            </param>
+            <param name="radius"></param>
         </member>
         <member name="M:Jypeli.Assets.Grenade.#ctor(System.Double,System.TimeSpan)">
             <summary>
@@ -240,6 +238,11 @@
             </summary>
             <param name="radius">Säde.</param>
             <param name="fuseTime">Kuinka kauan kestää ennen räjähdystä.</param>
+        </member>
+        <member name="M:Jypeli.Assets.Grenade.Explode">
+            <summary>
+            Räjäytä kranaatti.
+            </summary>
         </member>
         <member name="P:Jypeli.Assets.Grenade.Explosion">
             <summary>
@@ -266,11 +269,6 @@
             Aika, jonka päästä ammus räjähtää itsestään.
             </summary>
         </member>
-        <member name="M:Jypeli.Assets.Grenade.Explode">
-            <summary>
-            Räjäytä kranaatti.
-            </summary>
-        </member>
         <member name="T:Jypeli.Assets.ClusterGrenade">
             <summary>
             Rypälepommi. Hajoaa räjähtäessään pienempiin osiin, jotka
@@ -283,6 +281,11 @@
             </summary>
             <param name="radius">Säde.</param>
             <param name="cl">Kuinka monta kertaa rypäleet hajoavat edelleen. Kuitenkin vähintään yhden kerran.</param>
+        </member>
+        <member name="M:Jypeli.Assets.ClusterGrenade.Explode">
+            <summary>
+            Räjäyttää kranaatin sirpaleiksi.
+            </summary>
         </member>
         <member name="P:Jypeli.Assets.ClusterGrenade.NumberOfClusters">
             <summary>
@@ -299,18 +302,13 @@
             Sirpaleiden hajontakaari.
             </summary>
         </member>
-        <member name="M:Jypeli.Assets.ClusterGrenade.Explode">
+        <member name="M:Physics2DDotNet.Shapes.VertexHelper.CreateFromBitmap(System.Boolean[0:,0:])">
             <summary>
-            Räjäyttää kranaatin sirpaleiksi.
-            </summary>
-        </member>
-        <member name="M:Physics2DDotNet.Shapes.VertexHelper.CreateFromBitmap(System.Boolean[,])">
-            <summary>
-            Takes a 2D Boolean array with a true value representing a collidable pixel and converts
-            it to an array of vertex that surrounds that bitmap. The bitmap should be a single piece
-            if there are many pieces it will only return the geometry of the first piece it comes
-            across. Make sure there are at least 3 pixels in a piece otherwise an exception will be
-            thrown (it wont be a polygon).
+            Takes a 2D Boolean array with a true value representing a collidable pixel and converts 
+            it to an array of vertex that surrounds that bitmap. The bitmap should be a single piece 
+            if there are many pieces it will only return the geometry of the first piece it comes 
+            across. Make sure there are at least 3 pixels in a piece otherwise an exception will be 
+            thrown (it wont be a polygon). 
             </summary>
             <param name="bitmap">a bitmap to be converted. true means its collidable.</param>
             <returns>A Vector2D[] representing the bitmap.</returns>
@@ -319,8 +317,7 @@
             <summary>
             creates vertexes that describe a Rectangle.
             </summary>
-            <param name="width">
-            </param>
+            <param name="width"></param>
             <param name="height">The length of the Rectangle</param>
             <returns>array of vectors the describe a rectangle</returns>
         </member>
@@ -328,20 +325,16 @@
             <summary>
             Calculates the moment of inertia for a polygon
             </summary>
-            <param name="vertexes">
-            </param>
+            <param name="vertexes"></param>
             <returns>the moment of inertia</returns>
         </member>
         <member name="M:Physics2DDotNet.Shapes.VertexHelper.GetIntersection(AdvanceMath.Vector2D[],System.Double)">
             <summary>
             INCOMPLETE! TODO: FINISH
             </summary>
-            <param name="vertexes">
-            </param>
-            <param name="radius">
-            </param>
-            <returns>
-            </returns>
+            <param name="vertexes"></param>
+            <param name="radius"></param>
+            <returns></returns>
         </member>
         <member name="M:Physics2DDotNet.Shapes.VertexHelper.Subdivide(AdvanceMath.Vector2D[],System.Double)">
             <summary>
@@ -374,7 +367,7 @@
             <param name="vertexes">The Polygon to reduce.</param>
             <param name="areaTolerance">
             The amount the removal of a vertex is allowed to change the area of the polygon.
-            (Setting this value to 0 will reverse what the Subdivide method does)
+            (Setting this value to 0 will reverse what the Subdivide method does) 
             </param>
             <returns>The reduced vertexes.</returns>
         </member>
@@ -417,12 +410,60 @@
         <member name="M:PlatformCharacter.#ctor(System.Double,System.Double,Jypeli.Shape)">
             <summary>
             Luo uuden tasohyppelyhahmon.
-            <param name="width">Hahmon leveys</param><param name="height">Hahmon korkeus</param></summary>
-        </member>
-        <member name="E:PlatformCharacter.DirectionChanged">
-            <summary>
-            Hahmon suunnan muutos.
+            <param name="width">Hahmon leveys</param>
+            <param name="height">Hahmon korkeus</param>
             </summary>
+        </member>
+        <member name="M:PlatformCharacter.Walk(System.Double)">
+            <summary>
+            Liikuttaa hahmoa.
+            </summary>
+            <param name="horizontalVelocity">Nopeus vaakasuunnassa.</param>
+        </member>
+        <member name="M:PlatformCharacter.Turn(Jypeli.Direction)">
+            <summary>
+            Kääntyy.
+            </summary>
+            <param name="direction">Suunta</param>
+        </member>
+        <member name="M:PlatformCharacter.Jump(System.Double)">
+            <summary>
+            Hyppää, jos hahmo on staattisen olion päällä.
+            </summary>
+            <param name="speed">Lähtönopeus maasta.</param>
+            <returns><code>true</code> jos hyppäys onnistui.</returns>
+        </member>
+        <member name="M:PlatformCharacter.IsAboutToFall">
+            <summary>
+            Onko hahmo astumassa tyhjän päälle.
+            </summary>
+            <returns><code>true</code> jos on menossa tyhjän päälle.</returns>
+        </member>
+        <member name="M:PlatformCharacter.ForceJump(System.Double)">
+            <summary>
+            Hyppää vaikka olio ei olisikaan toisen päällä.
+            </summary>
+            <param name="speed">Lähtönopeus maasta.</param>
+        </member>
+        <member name="M:PlatformCharacter.IsStandingOn(Jypeli.PhysicsObject,System.Double)">
+            <summary>
+            Checks if the character is located on top of the target.
+            </summary>
+            <param name="target">Another object</param>
+            <param name="yTolerance">How close must the distance on the y-axis must be</param>
+        </member>
+        <member name="M:PlatformCharacter.Update(Jypeli.Time)">
+            <summary>
+            Ajetaan kun pelitilannetta päivitetään. Päivityksen voi toteuttaa omassa luokassa toteuttamalla tämän
+            metodin. Perityn luokan metodissa tulee kutsua kantaluokan metodia.
+            </summary>
+            <param name="time">Peliaika.</param>
+        </member>
+        <member name="M:PlatformCharacter.Move(Jypeli.Vector)">
+            <summary>
+            Siirtää oliota.
+            </summary>
+            <param name="movement">Vektori, joka määrittää kuinka paljon siirretään.</param>
         </member>
         <member name="P:PlatformCharacter.FacingDirection">
             <summary>
@@ -484,58 +525,10 @@
             Toistetaanko kävelyanimaatiota ilmassa liikuttaessa?
             </summary>
         </member>
-        <member name="M:PlatformCharacter.Walk(System.Double)">
+        <member name="E:PlatformCharacter.DirectionChanged">
             <summary>
-            Liikuttaa hahmoa.
+            Hahmon suunnan muutos.
             </summary>
-            <param name="horizontalVelocity">Nopeus vaakasuunnassa.</param>
-        </member>
-        <member name="M:PlatformCharacter.Turn(Jypeli.Direction)">
-            <summary>
-            Kääntyy.
-            </summary>
-            <param name="direction">Suunta</param>
-        </member>
-        <member name="M:PlatformCharacter.Jump(System.Double)">
-            <summary>
-            Hyppää, jos hahmo on staattisen olion päällä.
-            </summary>
-            <param name="speed">Lähtönopeus maasta.</param>
-            <returns>
-                <code>true</code> jos hyppäys onnistui.</returns>
-        </member>
-        <member name="M:PlatformCharacter.IsAboutToFall">
-            <summary>
-            Onko hahmo astumassa tyhjän päälle.
-            </summary>
-            <returns>
-                <code>true</code> jos on menossa tyhjän päälle.</returns>
-        </member>
-        <member name="M:PlatformCharacter.ForceJump(System.Double)">
-            <summary>
-            Hyppää vaikka olio ei olisikaan toisen päällä.
-            </summary>
-            <param name="speed">Lähtönopeus maasta.</param>
-        </member>
-        <member name="M:PlatformCharacter.IsStandingOn(Jypeli.PhysicsObject,System.Double)">
-            <summary>
-            Checks if the character is located on top of the target.
-            </summary>
-            <param name="target">Another object</param>
-            <param name="yTolerance">How close must the distance on the y-axis must be</param>
-        </member>
-        <member name="M:PlatformCharacter.Update(Jypeli.Time)">
-            <summary>
-            Ajetaan kun pelitilannetta päivitetään. Päivityksen voi toteuttaa omassa luokassa toteuttamalla tämän
-            metodin. Perityn luokan metodissa tulee kutsua kantaluokan metodia.
-            </summary>
-            <param name="time">Peliaika.</param>
-        </member>
-        <member name="M:PlatformCharacter.Move(Jypeli.Vector)">
-            <summary>
-            Siirtää oliota.
-            </summary>
-            <param name="movement">Vektori, joka määrittää kuinka paljon siirretään.</param>
         </member>
         <member name="T:Jypeli.AxleJoint">
             <summary>
@@ -571,9 +564,9 @@
             <param name="firstObject">Ensimmäinen olio</param>
             <param name="secondObject">Toinen olio</param>
         </member>
-        <member name="E:Jypeli.AxleJoint.Destroyed">
+        <member name="M:Jypeli.AxleJoint.Destroy">
             <summary>
-            Tapahtuu kun liitos on tuhottu.
+            Tuhoaa liitoksen.
             </summary>
         </member>
         <member name="P:Jypeli.AxleJoint.Object1">
@@ -601,182 +594,15 @@
             Onko liitos tuhottu.
             </summary>
         </member>
-        <member name="M:Jypeli.AxleJoint.Destroy">
+        <member name="E:Jypeli.AxleJoint.Destroyed">
             <summary>
-            Tuhoaa liitoksen.
+            Tapahtuu kun liitos on tuhottu.
             </summary>
         </member>
         <member name="T:Jypeli.PhysicsBody">
             <summary>
             Peliolio, joka noudattaa fysiikkamoottorin määräämiä fysiikan lakeja.
             Voidaan kuitenkin myös laittaa noudattamaan lakeja valikoidusti.
-            </summary>
-        </member>
-        <member name="M:Jypeli.PhysicsBody.#ctor(System.Double,System.Double)">
-            <summary>
-            Luo uuden fysiikkaolion.
-            </summary>
-            <param name="width">Leveys.</param>
-            <param name="height">Korkeus.</param>
-        </member>
-        <member name="M:Jypeli.PhysicsBody.#ctor(System.Double,System.Double,Jypeli.Shape)">
-            <summary>
-            Luo uuden fysiikkaolion.
-            </summary>
-            <param name="width">Leveys.</param>
-            <param name="height">Korkeus.</param>
-            <param name="shape">Muoto.</param>
-        </member>
-        <member name="M:Jypeli.PhysicsBody.#ctor(Jypeli.RaySegment)">
-            <summary>
-            Luo fysiikkaolion, jonka muotona on säde.
-            </summary>
-            <param name="raySegment">Säde.</param>
-        </member>
-        <member name="M:Jypeli.PhysicsBody.#ctor(System.Double,System.Double,Jypeli.Shape,Physics2DDotNet.Shapes.IShape)">
-            <summary>
-            Initializes the object with the given physics shape. The size of
-            the physicsShape must be the one given.
-            </summary>
-        </member>
-        <member name="E:Jypeli.PhysicsBody.Collided">
-            <summary>
-            Tapahtuu kun olio törmää toiseen.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.StaticFriction">
-            <summary>
-            Lepokitka. Liikkeen alkamista vastustava voima, joka ilmenee kun olio yrittää lähteä liikkeelle
-            toisen olion pinnalta (esim. laatikkoa yritetään työntää eteenpäin).
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.KineticFriction">
-            <summary>
-            Liikekitka. Liikettä vastustava voima joka ilmenee kun kaksi oliota liikkuu toisiaan vasten
-            (esim. laatikko liukuu maata pitkin). Arvot välillä 0.0 (ei kitkaa) ja 1.0 (täysi kitka).
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.Restitution">
-            <summary>
-            Olion kimmoisuus. Arvo välillä 0.0-1.0.
-            Arvolla 1.0 olio säilyttää kaiken vauhtinsa törmäyksessä. Mitä pienempi arvo,
-            sitä enemmän olion vauhti hidastuu törmäyksessä.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.CollisionIgnorer">
-            <summary>
-            Olio, jolla voi välttää oliota osumasta tiettyihin muihin olioihin.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.IgnoresCollisionResponse">
-            <summary>
-            Jättääkö olio törmäyksen huomioimatta. Jos tosi, törmäyksestä
-            tulee tapahtuma, mutta itse törmäystä ei tapahdu.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.Body">
-            <summary>
-            Fysiikkamoottorin käyttämä tietorakenne.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.Position">
-            <summary>
-            Olion paikka koordinaatistossa. Käsittää sekä X- että Y-koordinaatin.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.Size">
-            <summary>
-            Olion koko (x on leveys, y on korkeus).
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.Angle">
-            <summary>
-            Kulma, jossa olio on. Oliota voi pyörittää kulmaa vaihtamalla.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.Shape">
-            <summary>
-            Olion muoto.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.CanRotate">
-            <summary>
-            Jos <c>false</c>, olio ei voi pyöriä.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.Mass">
-            <summary>
-            Olion massa. Mitä suurempi massa, sitä suurempi voima tarvitaan olion liikuttamiseksi.
-            </summary>
-            <remarks>
-            Massan asettaminen muuttaa myös hitausmomenttia (<c>MomentOfInertia</c>).
-            </remarks>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.MomentOfInertia">
-            <summary>
-            Olion hitausmomentti. Mitä suurempi hitausmomentti, sitä enemmän vääntöä tarvitaan
-            olion pyörittämiseksi.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.LinearDamping">
-            <summary>
-            Olion hidastuminen. Hidastaa olion vauhtia, vaikka se ei
-            osuisi mihinkään. Vähän kuin väliaineen (esim. ilman tai veden)
-            vastus. Oletusarvo on 1.0, jolloin hidastumista ei ole. Mitä
-            pienempi arvo, sitä enemmän kappale hidastuu.
-            Yleensä kannattaa käyttää arvoja, jotka ovat lähellä ykköstä,
-            esim. 0.95.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.AngularDamping">
-            <summary>
-            Olion pyörimisen hidastuminen.
-            <see cref="P:Jypeli.PhysicsBody.LinearDamping" /></summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.Velocity">
-            <summary>
-            Olion nopeus.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.AngularVelocity">
-            <summary>
-            Olion kulmanopeus.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.MaxVelocity">
-            <summary>
-            Suurin nopeus, jonka olio voi saavuttaa.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.MaxAngularVelocity">
-            <summary>
-            Suurin kulmanopeus, jonka olio voi saavuttaa.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.Acceleration">
-            <summary>
-            Olion kiihtyvyys.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.AngularAcceleration">
-            <summary>
-            Olion kulmakiihtyvyys.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.Owner">
-            <summary>
-            Kappaleen omistajaolio.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.IgnoresGravity">
-            <summary>
-            Jättääkö olio painovoiman huomioimatta.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsBody.IgnoresPhysicsLogics">
-            <summary>
-            Jättääkö olio kaikki fysiikkalogiikat (ks. <c>AddPhysicsLogic</c>)
-            huomiotta. Vaikuttaa esim. painovoimaan, mutta ei törmäyksiin.
             </summary>
         </member>
         <member name="M:Jypeli.PhysicsBody.MakeOneWay">
@@ -842,6 +668,186 @@
             Pysäyttää kaiken pyörimisliikkeen.
             </summary>
         </member>
+        <member name="M:Jypeli.PhysicsBody.#ctor(System.Double,System.Double)">
+            <summary>
+            Luo uuden fysiikkaolion.
+            </summary>
+            <param name="width">Leveys.</param>
+            <param name="height">Korkeus.</param>
+        </member>
+        <member name="M:Jypeli.PhysicsBody.#ctor(System.Double,System.Double,Jypeli.Shape)">
+            <summary>
+            Luo uuden fysiikkaolion.
+            </summary>
+            <param name="width">Leveys.</param>
+            <param name="height">Korkeus.</param>
+            <param name="shape">Muoto.</param>
+        </member>
+        <member name="M:Jypeli.PhysicsBody.#ctor(Jypeli.RaySegment)">
+            <summary>
+            Luo fysiikkaolion, jonka muotona on säde.
+            </summary>
+            <param name="raySegment">Säde.</param>
+        </member>
+        <member name="M:Jypeli.PhysicsBody.#ctor(System.Double,System.Double,Jypeli.Shape,Physics2DDotNet.Shapes.IShape)">
+            <summary>
+            Initializes the object with the given physics shape. The size of
+            the physicsShape must be the one given.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.StaticFriction">
+            <summary>
+            Lepokitka. Liikkeen alkamista vastustava voima, joka ilmenee kun olio yrittää lähteä liikkeelle
+            toisen olion pinnalta (esim. laatikkoa yritetään työntää eteenpäin).
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.KineticFriction">
+            <summary>
+            Liikekitka. Liikettä vastustava voima joka ilmenee kun kaksi oliota liikkuu toisiaan vasten
+            (esim. laatikko liukuu maata pitkin). Arvot välillä 0.0 (ei kitkaa) ja 1.0 (täysi kitka).
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.Restitution">
+            <summary>
+            Olion kimmoisuus. Arvo välillä 0.0-1.0.
+            Arvolla 1.0 olio säilyttää kaiken vauhtinsa törmäyksessä. Mitä pienempi arvo,
+            sitä enemmän olion vauhti hidastuu törmäyksessä.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.CollisionIgnorer">
+            <summary>
+            Olio, jolla voi välttää oliota osumasta tiettyihin muihin olioihin.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.IgnoresCollisionResponse">
+            <summary>
+            Jättääkö olio törmäyksen huomioimatta. Jos tosi, törmäyksestä
+            tulee tapahtuma, mutta itse törmäystä ei tapahdu.
+            </summary>
+        </member>
+        <member name="E:Jypeli.PhysicsBody.Collided">
+            <summary>
+            Tapahtuu kun olio törmää toiseen.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.Body">
+            <summary>
+            Fysiikkamoottorin käyttämä tietorakenne.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.Position">
+            <summary>
+            Olion paikka koordinaatistossa. Käsittää sekä X- että Y-koordinaatin.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.Size">
+            <summary>
+            Olion koko (x on leveys, y on korkeus).
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.Angle">
+            <summary>
+            Kulma, jossa olio on. Oliota voi pyörittää kulmaa vaihtamalla.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.Shape">
+            <summary>
+            Olion muoto.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.CanRotate">
+            <summary>
+            Jos <c>false</c>, olio ei voi pyöriä.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.Mass">
+            <summary>
+            Olion massa. Mitä suurempi massa, sitä suurempi voima tarvitaan olion liikuttamiseksi.
+            </summary>
+            <remarks>
+            Massan asettaminen muuttaa myös hitausmomenttia (<c>MomentOfInertia</c>).
+            </remarks>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.MomentOfInertia">
+            <summary>
+            Olion hitausmomentti. Mitä suurempi hitausmomentti, sitä enemmän vääntöä tarvitaan
+            olion pyörittämiseksi.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.LinearDamping">
+            <summary>
+            Olion hidastuminen. Hidastaa olion vauhtia, vaikka se ei
+            osuisi mihinkään. Vähän kuin väliaineen (esim. ilman tai veden)
+            vastus. Oletusarvo on 1.0, jolloin hidastumista ei ole. Mitä
+            pienempi arvo, sitä enemmän kappale hidastuu.
+            
+            Yleensä kannattaa käyttää arvoja, jotka ovat lähellä ykköstä,
+            esim. 0.95.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.AngularDamping">
+            <summary>
+            Olion pyörimisen hidastuminen.
+            
+            <see cref="P:Jypeli.PhysicsBody.LinearDamping"/>
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.Velocity">
+            <summary>
+            Olion nopeus.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.AngularVelocity">
+            <summary>
+            Olion kulmanopeus.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.MaxVelocity">
+            <summary>
+            Suurin nopeus, jonka olio voi saavuttaa.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.MaxAngularVelocity">
+            <summary>
+            Suurin kulmanopeus, jonka olio voi saavuttaa.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.Acceleration">
+            <summary>
+            Olion kiihtyvyys.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.AngularAcceleration">
+            <summary>
+            Olion kulmakiihtyvyys.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.Owner">
+            <summary>
+            Kappaleen omistajaolio.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.IgnoresGravity">
+            <summary>
+            Jättääkö olio painovoiman huomioimatta.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsBody.IgnoresPhysicsLogics">
+            <summary>
+            Jättääkö olio kaikki fysiikkalogiikat (ks. <c>AddPhysicsLogic</c>)
+            huomiotta. Vaikuttaa esim. painovoimaan, mutta ei törmäyksiin.
+            </summary>
+        </member>
+        <member name="T:Physics2DDotNet.Ignorers.Ignorer">
+            <summary>
+            Base class for Collision Ignorers to impliment.
+            </summary>
+        </member>
+        <member name="P:Physics2DDotNet.Ignorers.Ignorer.IsInverted">
+            <summary>
+            Get and sets if the result of this ignorer is inverted.
+            </summary>
+        </member>
         <member name="T:Jypeli.CollisionShapeParameters">
             <summary>
             Törmäyskuvion laatuun vaikuttavat parametrit.
@@ -849,7 +855,7 @@
         </member>
         <member name="T:Jypeli.CollisionShapeQuality">
             <summary>
-            Kappaleen kuvion laatu t�rm�yksentunnistuksessa.
+            Kappaleen kuvion laatu törmäyksentunnistuksessa.
             </summary>
         </member>
         <member name="F:Jypeli.CollisionShapeQuality.Value">
@@ -857,19 +863,25 @@
             Laatuarvo.
             </summary>
         </member>
+        <member name="M:Jypeli.CollisionShapeQuality.FromValue(System.Double)">
+            <summary>
+            Alustaa uuden laatuattribuutin.
+            </summary>
+            <param name="value">Lukuarvo välillä <c>0.0</c> (huonoin) ja <c>1.0</c> (paras).</param>
+        </member>
         <member name="F:Jypeli.CollisionShapeQuality.Worst">
             <summary>
-            Huonoin mahdollinen laatu, nopea mutta ep�tarkka.
+            Huonoin mahdollinen laatu, nopea mutta epätarkka.
             </summary>
         </member>
         <member name="F:Jypeli.CollisionShapeQuality.Tolerable">
             <summary>
-            V�ltt�v� laatu.
+            Välttävä laatu.
             </summary>
         </member>
         <member name="F:Jypeli.CollisionShapeQuality.Good">
             <summary>
-            Hyv� laatu.
+            Hyvä laatu.
             </summary>
         </member>
         <member name="F:Jypeli.CollisionShapeQuality.Best">
@@ -877,25 +889,9 @@
             Paras mahdollinen laatu, tarkka mutta hidas.
             </summary>
         </member>
-        <member name="M:Jypeli.CollisionShapeQuality.FromValue(System.Double)">
-            <summary>
-            Alustaa uuden laatuattribuutin.
-            </summary>
-            <param name="value">Lukuarvo v�lill� <c>0.0</c> (huonoin) ja <c>1.0</c> (paras).</param>
-        </member>
         <member name="T:Jypeli.PhysicsGameBase">
             <summary>
             Kantaluokka fysiikkapeleille.
-            </summary>
-        </member>
-        <member name="M:Jypeli.PhysicsGameBase.#ctor">
-            <summary>
-            Alustaa uuden fysiikkapelin.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsGameBase.PhysicsEnabled">
-            <summary>
-            Onko fysiikan laskenta käytössä vai ei.
             </summary>
         </member>
         <member name="M:Jypeli.PhysicsGameBase.Add(Physics2DDotNet.Joints.Joint)">
@@ -907,19 +903,22 @@
             <summary>
             Poistaa liitoksen pelistä.
             </summary>
-            <param name="j">
-            </param>
+            <param name="j"></param>
         </member>
         <member name="M:Jypeli.PhysicsGameBase.Remove(Jypeli.AxleJoint)">
             <summary>
             Poistaa liitoksen pelistä.
             </summary>
-            <param name="j">
-            </param>
+            <param name="j"></param>
         </member>
         <member name="M:Jypeli.PhysicsGameBase.Add(Jypeli.AxleJoint)">
             <summary>
             Lisää liitoksen peliin.
+            </summary>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.#ctor">
+            <summary>
+            Alustaa uuden fysiikkapelin.
             </summary>
         </member>
         <member name="M:Jypeli.PhysicsGameBase.StopAll">
@@ -942,8 +941,7 @@
             Ajetaan kun pelin tilannetta päivitetään. Päivittämisen voi toteuttaa perityssä luokassa
             toteuttamalla tämän metodin. Perityn luokan metodissa tulee kutsua kantaluokan metodia.
             </summary>
-            <param name="time">
-            </param>
+            <param name="time"></param>
         </member>
         <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandler``2(``0,Jypeli.CollisionHandler{``0,``1})">
             <summary>
@@ -988,7 +986,7 @@
         </member>
         <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandlerByTag``2(``0,System.Object,Jypeli.CollisionHandler{``0,``1})">
             <summary>
-            Määrää, mihin aliohjelmaan siirrytään kun
+            Määrää, mihin aliohjelmaan siirrytään kun 
             olio <code>obj</code> törmää toiseen olioon, jolla on tietty tagi <code>tag</code>.
             </summary>
             <param name="obj">Törmäävä olio.</param>
@@ -997,7 +995,7 @@
         </member>
         <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandler``2(``0,System.Object,Jypeli.CollisionHandler{``0,``1})">
             <summary>
-            Määrää, mihin aliohjelmaan siirrytään kun
+            Määrää, mihin aliohjelmaan siirrytään kun 
             olio <code>obj</code> törmää toiseen olioon.
             </summary>
             <param name="obj">Törmäävä olio.</param>
@@ -1006,7 +1004,7 @@
         </member>
         <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandler(Jypeli.IPhysicsObject,System.Object,Jypeli.CollisionHandler{Jypeli.IPhysicsObject,Jypeli.IPhysicsObject})">
             <summary>
-            Määrää, mihin aliohjelmaan siirrytään kun
+            Määrää, mihin aliohjelmaan siirrytään kun 
             yleinen fysiikkaolio <code>obj</code> törmää toiseen yleiseen fysiikkaolioon, jolla on tietty tagi <code>tag</code>.
             </summary>
             <param name="obj">Törmäävä olio.</param>
@@ -1015,7 +1013,7 @@
         </member>
         <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandler(Jypeli.PhysicsObject,System.Object,Jypeli.CollisionHandler{Jypeli.PhysicsObject,Jypeli.PhysicsObject})">
             <summary>
-            Määrää, mihin aliohjelmaan siirrytään kun
+            Määrää, mihin aliohjelmaan siirrytään kun 
             fysiikkaolio <code>obj</code> törmää toiseen fysiikkaolioon, jolla on tietty tagi <code>tag</code>.
             </summary>
             <param name="obj">Törmäävä olio.</param>
@@ -1041,6 +1039,11 @@
             <param name="tag">Törmäyksen kohteen tagi. null jos ei väliä.</param>
             <param name="handler">Törmäyksenkäsittelijä. null jos ei väliä.</param>
         </member>
+        <member name="P:Jypeli.PhysicsGameBase.PhysicsEnabled">
+            <summary>
+            Onko fysiikan laskenta käytössä vai ei.
+            </summary>
+        </member>
         <member name="T:Jypeli.PhysicsGame">
             <summary>
             Peli, jossa on fysiikan laskenta mukana. Peliin lisätyt <code>PhysicsObject</code>-oliot
@@ -1059,15 +1062,8 @@
         </member>
         <member name="T:Physics2DDotNet.ALVector2D">
             <summary>
-            Class Used to store a Linear Value along with an Angular Value. Like Position and Orientation.
+            Class Used to store a Linear Value along with an Angular Value. Like Position and Orientation. 
             </summary>
-        </member>
-        <member name="M:Physics2DDotNet.ALVector2D.#ctor(System.Double,AdvanceMath.Vector2D)">
-            <summary>
-            Creates a new ALVector2D instance on the stack.
-            </summary>
-            <param name="Angular">The Angular value.</param>
-            <param name="Linear">The Linear value.</param>
         </member>
         <member name="F:Physics2DDotNet.ALVector2D.Zero">
             <summary>
@@ -1076,25 +1072,22 @@
         </member>
         <member name="F:Physics2DDotNet.ALVector2D.Angular">
             <summary>
-            This is the Angular value of this ALVector2D.
+            This is the Angular value of this ALVector2D. 
             </summary>
             <remarks>Example: Angular would be Orientation and Linear would be Location Completly describing a Position.</remarks>
         </member>
         <member name="F:Physics2DDotNet.ALVector2D.Linear">
             <summary>
-            This is the Linear value of this ALVector2D.
+            This is the Linear value of this ALVector2D. 
             </summary>
             <remarks>Example: Angular would be Orientation and Linear would be Location Completly describing a Position.</remarks>
         </member>
-        <member name="P:Physics2DDotNet.ALVector2D.X">
+        <member name="M:Physics2DDotNet.ALVector2D.#ctor(System.Double,AdvanceMath.Vector2D)">
             <summary>
-            The Linear.X component
+            Creates a new ALVector2D instance on the stack.
             </summary>
-        </member>
-        <member name="P:Physics2DDotNet.ALVector2D.Y">
-            <summary>
-            The Linear.Y component
-            </summary>
+            <param name="Angular">The Angular value.</param>
+            <param name="Linear">The Linear value.</param>
         </member>
         <member name="M:Physics2DDotNet.ALVector2D.op_Addition(Physics2DDotNet.ALVector2D,Physics2DDotNet.ALVector2D)">
             <summary>
@@ -1114,7 +1107,7 @@
         </member>
         <member name="M:Physics2DDotNet.ALVector2D.op_Multiply(Physics2DDotNet.ALVector2D,System.Double)">
             <summary>
-            Does Multiplication of 2 ALVector2Ds
+            Does Multiplication of 2 ALVector2Ds 
             </summary>
             <param name="source">The ALVector2D to be Multiplied.</param>
             <param name="scalar">The Scalar multiplier.</param>
@@ -1123,12 +1116,22 @@
         </member>
         <member name="M:Physics2DDotNet.ALVector2D.op_Multiply(System.Double,Physics2DDotNet.ALVector2D)">
             <summary>
-            Does Multiplication of 2 ALVector2Ds
+            Does Multiplication of 2 ALVector2Ds 
             </summary>
             <param name="scalar">The Scalar multiplier.</param>
             <param name="source">The ALVector2D to be Multiplied.</param>
             <returns>The Product of the ALVector2Ds.</returns>
             <remarks>It does normal Multiplication of the Angular value but does Scalar Multiplication of the Linear value.</remarks>
+        </member>
+        <member name="P:Physics2DDotNet.ALVector2D.X">
+            <summary>
+            The Linear.X component
+            </summary>
+        </member>
+        <member name="P:Physics2DDotNet.ALVector2D.Y">
+            <summary>
+            The Linear.Y component
+            </summary>
         </member>
         <member name="T:Physics2DDotNet.Body">
             <summary>
@@ -1155,6 +1158,89 @@
             <param name="coefficients">A object containing coefficients.</param>
             <param name="lifeTime">A object Describing how long the object will be in the engine.</param>
         </member>
+        <member name="M:Physics2DDotNet.Body.ApplyProxy">
+            <summary>
+            This applys the proxy.
+            This will cause all other bodies in the proxy list to have their velocity set 
+            to this body’s. 
+            With the appropriate transformations applied. 
+            </summary>
+        </member>
+        <member name="M:Physics2DDotNet.Body.RemoveFromProxy">
+            <summary>
+            This will remove this body from any proxy list it is a part of.
+            </summary>
+        </member>
+        <member name="M:Physics2DDotNet.Body.ApplyPosition">
+            <summary>
+            Updates all the values caluclated from the State.Position.
+            Re-calculates the Matrices property the re-calculates the Rectangle property
+            from that.
+            </summary>
+        </member>
+        <member name="M:Physics2DDotNet.Body.ClearForces">
+            <summary>
+            Sets Acceleration and ForceAccumulator to Zero.
+            </summary>
+        </member>
+        <member name="M:Physics2DDotNet.Body.ApplyForce(AdvanceMath.Vector2D)">
+            <summary>
+            Applys a Force
+            </summary>
+            <param name="force">The direction and magnitude of the force</param>
+        </member>
+        <member name="M:Physics2DDotNet.Body.ApplyForce(AdvanceMath.Vector2D@)">
+            <summary>
+            Applys a Force
+            </summary>
+            <param name="force">The direction and magnitude of the force</param>
+        </member>
+        <member name="M:Physics2DDotNet.Body.ApplyForce(AdvanceMath.Vector2D,AdvanceMath.Vector2D)">
+            <summary>
+            Applys a Force
+            </summary>
+            <param name="force">The direction and magnitude of the force</param>
+            <param name="position">The Location where the force will be applied (Offset: Body Rotation: World) </param>
+        </member>
+        <member name="M:Physics2DDotNet.Body.ApplyForce(AdvanceMath.Vector2D@,AdvanceMath.Vector2D@)">
+            <summary>
+            Applys a Force
+            </summary>
+            <param name="force">The direction and magnitude of the force</param>
+            <param name="position">The Location where the force will be applied (Offset: Body Rotation: World) </param>
+        </member>
+        <member name="M:Physics2DDotNet.Body.ApplyTorque(System.Double)">
+            <summary>
+            Applys Torque
+            </summary>
+            <param name="torque">The direction and magnitude of the torque</param>
+        </member>
+        <member name="M:Physics2DDotNet.Body.ApplyImpulse(AdvanceMath.Vector2D)">
+            <summary>
+            Applys Impulse
+            </summary>
+            <param name="impulse">The direction and magnitude of the impulse</param>
+        </member>
+        <member name="M:Physics2DDotNet.Body.ApplyImpulse(AdvanceMath.Vector2D@)">
+            <summary>
+            Applys Impulse
+            </summary>
+            <param name="impulse">The direction and magnitude of the impulse.</param>
+        </member>
+        <member name="M:Physics2DDotNet.Body.ApplyImpulse(AdvanceMath.Vector2D,AdvanceMath.Vector2D)">
+            <summary>
+            Applys Impulse
+            </summary>
+            <param name="impulse">The direction and magnitude of the impulse.</param>
+            <param name="position">The Location where the impulse will be applied (Offset: Body Rotation: World)</param>
+        </member>
+        <member name="M:Physics2DDotNet.Body.ApplyImpulse(AdvanceMath.Vector2D@,AdvanceMath.Vector2D@)">
+            <summary>
+            Applys Impulse
+            </summary>
+            <param name="impulse">The direction and magnitude of the impulse.</param>
+            <param name="position">The Location where the impulse will be applied (Offset: Body Rotation: World)</param>
+        </member>
         <member name="E:Physics2DDotNet.Body.LifetimeChanged">
             <summary>
             Raised when the Lifetime property has been Changed.
@@ -1177,7 +1263,7 @@
         </member>
         <member name="E:Physics2DDotNet.Body.Removed">
             <summary>
-            Raised when the object is Removed from a Physics Engine.
+            Raised when the object is Removed from a Physics Engine. 
             </summary>
         </member>
         <member name="E:Physics2DDotNet.Body.PositionChanged">
@@ -1223,19 +1309,19 @@
         </member>
         <member name="P:Physics2DDotNet.Body.LinearDamping">
             <summary>
-            Gets and Sets The value represents how much Linear velocity is kept each time step.
-            This Dampens the Body's Linear velocity a little per time step. Valid values are zero exclusive to one inclusive.
+            Gets and Sets The value represents how much Linear velocity is kept each time step. 
+            This Dampens the Body's Linear velocity a little per time step. Valid values are zero exclusive to one inclusive.  
             </summary>
         </member>
         <member name="P:Physics2DDotNet.Body.AngularDamping">
             <summary>
-            Gets and Sets The value represents how much Angular velocity is kept each time step.
-            This Dampens the Body's Angular velocity a little per time step. Valid values are zero exclusive to one inclusive.
+            Gets and Sets The value represents how much Angular velocity is kept each time step. 
+            This Dampens the Body's Angular velocity a little per time step. Valid values are zero exclusive to one inclusive.  
             </summary>
         </member>
         <member name="P:Physics2DDotNet.Body.Proxies">
             <summary>
-            These are bodies that are mirrors of this body.
+            These are bodies that are mirrors of this body. 
             It's useful for bodies that are being teleported.
             </summary>
         </member>
@@ -1257,12 +1343,12 @@
         </member>
         <member name="P:Physics2DDotNet.Body.State">
             <summary>
-            Gets The current State of the object IE Velocity
+            Gets The current State of the object IE Velocity 
             </summary>
         </member>
         <member name="P:Physics2DDotNet.Body.Shape">
             <summary>
-            Gets and Sets the Shape of the Body.
+            Gets and Sets the Shape of the Body. 
             If setting the shape to a shape another body has it will duplicate the shape.
             </summary>
         </member>
@@ -1348,7 +1434,7 @@
         </member>
         <member name="P:Physics2DDotNet.Body.IsEventable">
             <summary>
-            Gets and Sets if other objects will have their collided
+            Gets and Sets if other objects will have their collided 
             event raised when colliding with this body
             </summary>
         </member>
@@ -1366,89 +1452,6 @@
             <summary>
             Gets and Sets the Matrix2x3 that transforms the Shape belonging to the Body.
             </summary>
-        </member>
-        <member name="M:Physics2DDotNet.Body.ApplyProxy">
-            <summary>
-            This applys the proxy.
-            This will cause all other bodies in the proxy list to have their velocity set
-            to this body�s.
-            With the appropriate transformations applied.
-            </summary>
-        </member>
-        <member name="M:Physics2DDotNet.Body.RemoveFromProxy">
-            <summary>
-            This will remove this body from any proxy list it is a part of.
-            </summary>
-        </member>
-        <member name="M:Physics2DDotNet.Body.ApplyPosition">
-            <summary>
-            Updates all the values caluclated from the State.Position.
-            Re-calculates the Matrices property the re-calculates the Rectangle property
-            from that.
-            </summary>
-        </member>
-        <member name="M:Physics2DDotNet.Body.ClearForces">
-            <summary>
-            Sets Acceleration and ForceAccumulator to Zero.
-            </summary>
-        </member>
-        <member name="M:Physics2DDotNet.Body.ApplyForce(AdvanceMath.Vector2D)">
-            <summary>
-            Applys a Force
-            </summary>
-            <param name="force">The direction and magnitude of the force</param>
-        </member>
-        <member name="M:Physics2DDotNet.Body.ApplyForce(AdvanceMath.Vector2D@)">
-            <summary>
-            Applys a Force
-            </summary>
-            <param name="force">The direction and magnitude of the force</param>
-        </member>
-        <member name="M:Physics2DDotNet.Body.ApplyForce(AdvanceMath.Vector2D,AdvanceMath.Vector2D)">
-            <summary>
-            Applys a Force
-            </summary>
-            <param name="force">The direction and magnitude of the force</param>
-            <param name="position">The Location where the force will be applied (Offset: Body Rotation: World) </param>
-        </member>
-        <member name="M:Physics2DDotNet.Body.ApplyForce(AdvanceMath.Vector2D@,AdvanceMath.Vector2D@)">
-            <summary>
-            Applys a Force
-            </summary>
-            <param name="force">The direction and magnitude of the force</param>
-            <param name="position">The Location where the force will be applied (Offset: Body Rotation: World) </param>
-        </member>
-        <member name="M:Physics2DDotNet.Body.ApplyTorque(System.Double)">
-            <summary>
-            Applys Torque
-            </summary>
-            <param name="torque">The direction and magnitude of the torque</param>
-        </member>
-        <member name="M:Physics2DDotNet.Body.ApplyImpulse(AdvanceMath.Vector2D)">
-            <summary>
-            Applys Impulse
-            </summary>
-            <param name="impulse">The direction and magnitude of the impulse</param>
-        </member>
-        <member name="M:Physics2DDotNet.Body.ApplyImpulse(AdvanceMath.Vector2D@)">
-            <summary>
-            Applys Impulse
-            </summary>
-            <param name="impulse">The direction and magnitude of the impulse.</param>
-        </member>
-        <member name="M:Physics2DDotNet.Body.ApplyImpulse(AdvanceMath.Vector2D,AdvanceMath.Vector2D)">
-            <summary>
-            Applys Impulse
-            </summary>
-            <param name="impulse">The direction and magnitude of the impulse.</param>
-            <param name="position">The Location where the impulse will be applied (Offset: Body Rotation: World)</param>
-        </member>
-        <member name="M:Physics2DDotNet.Body.ApplyImpulse(AdvanceMath.Vector2D@,AdvanceMath.Vector2D@)">
-            <summary>
-            Applys Impulse
-            </summary>
-            <param name="impulse">The direction and magnitude of the impulse.</param>
-            <param name="position">The Location where the impulse will be applied (Offset: Body Rotation: World)</param>
         </member>
         <member name="T:Physics2DDotNet.DistanceGrid">
             <summary>
@@ -1510,6 +1513,13 @@
             <param name="age">How old the item is. (in seconds)</param>
             <param name="maxAge">How long the item will stay in the engine. (in seconds)</param>
         </member>
+        <member name="M:Physics2DDotNet.Lifespan.Update(Physics2DDotNet.TimeStep)">
+            <summary>
+            Increases the Age of object by a change in time.
+            </summary>
+            <param name="update">the update's number (It wont age more then once on a update)</param>
+            <param name="step">The TimeStep describing the change in time.</param>
+        </member>
         <member name="P:Physics2DDotNet.Lifespan.IsExpired">
             <summary>
             Gets and Sets if it IsExpired and should be removed from the engine.
@@ -1540,13 +1550,6 @@
             Gets and Sets The current age of the object.
             </summary>
         </member>
-        <member name="M:Physics2DDotNet.Lifespan.Update(Physics2DDotNet.TimeStep)">
-            <summary>
-            Increases the Age of object by a change in time.
-            </summary>
-            <param name="update">the update's number (It wont age more then once on a update)</param>
-            <param name="step">The TimeStep describing the change in time.</param>
-        </member>
         <member name="T:Physics2DDotNet.PhysicsEngine">
             <summary>
             The Engine that will Apply Physics to object added to it.
@@ -1555,6 +1558,82 @@
         <member name="F:Physics2DDotNet.PhysicsEngine.firstBodyID">
             <summary>
             This is the ID the first body added to the engine will get.
+            </summary>
+        </member>
+        <member name="M:Physics2DDotNet.PhysicsEngine.AddBody(Physics2DDotNet.Body)">
+            <summary>
+            Adds a Body to the pending queue and will be truly added on a call to Update.
+            </summary>
+            <param name="item">The Body to be added.</param>
+        </member>
+        <member name="M:Physics2DDotNet.PhysicsEngine.AddBodyRange(System.Collections.Generic.ICollection{Physics2DDotNet.Body})">
+            <summary>
+            Adds a collection of Bodies to the pending queue and will be truly added on a call to Update.
+            </summary>
+            <param name="collection">The collection to be Added</param>
+        </member>
+        <member name="M:Physics2DDotNet.PhysicsEngine.AddJoint(Physics2DDotNet.Joints.Joint)">
+            <summary>
+            Adds a Joint to the pending queue and will be truly added on a call to Update.
+            </summary>
+            <param name="item">The Joint to be added.</param>
+        </member>
+        <member name="M:Physics2DDotNet.PhysicsEngine.AddJointRange(System.Collections.Generic.ICollection{Physics2DDotNet.Joints.Joint})">
+            <summary>
+            Adds a collection of Joints to the pending queue and will be truly added on a call to Update.
+            </summary>
+            <param name="collection">The collection to be Added</param>
+        </member>
+        <member name="M:Physics2DDotNet.PhysicsEngine.AddJointRange``1(System.Collections.Generic.ICollection{``0})">
+            <summary>
+            Adds a collection of Joints to the pending queue and will be truly added on a call to Update.
+            </summary>
+            <param name="collection">The collection to be Added</param>
+            <typeparam name="T">A Type inherited from Joint</typeparam>
+        </member>
+        <member name="M:Physics2DDotNet.PhysicsEngine.AddLogic(Physics2DDotNet.PhysicsLogics.PhysicsLogic)">
+            <summary>
+            Adds a PhysicsLogic to the pending queue and will be truly added on a call to Update.
+            </summary>
+            <param name="item">The PhysicsLogic to be added.</param>
+        </member>
+        <member name="M:Physics2DDotNet.PhysicsEngine.AddLogicRange(System.Collections.Generic.ICollection{Physics2DDotNet.PhysicsLogics.PhysicsLogic})">
+            <summary>
+            Adds a collection of PhysicsLogics to the pending queue and will be truly added on a call to Update.
+            </summary>
+            <param name="collection">The collection to be Added</param>
+        </member>
+        <member name="M:Physics2DDotNet.PhysicsEngine.AddLogicRange``1(System.Collections.Generic.ICollection{``0})">
+            <summary>
+            Adds a collection of PhysicsLogics to the pending queue and will be truly added on a call to Update.
+            </summary>
+            <param name="collection">The collection to be Added</param>
+            <typeparam name="T">A Type inherited from PhysicsLogic</typeparam>
+        </member>
+        <member name="M:Physics2DDotNet.PhysicsEngine.AddProxy(Physics2DDotNet.Body,Physics2DDotNet.Body,AdvanceMath.Matrix2x2)">
+            <summary>
+            Adds 2 bodies to the same proxy list. 
+            If they are both already part of their own proxy list then the lists will merge.
+            The transformations will be calcualted automatically. 
+            </summary>
+            <param name="body1">The first Body.</param>
+            <param name="body2">The second Body.</param>
+            <param name="transformation">How velocities will be transformed from body1 to body2.</param>
+            <remarks>
+            This will most likely be removed if i ever figure out how to make a joint like this.
+            </remarks>
+        </member>
+        <member name="M:Physics2DDotNet.PhysicsEngine.Update(System.Double)">
+            <summary>
+            Updates the Engine with a change in time. 
+            This call will block all access to the engine while it is running.
+            A complete call to this method is also known as a timestep.
+            </summary>
+            <param name="dt">The change in time since the last call to this method. (In Seconds)</param>
+        </member>
+        <member name="M:Physics2DDotNet.PhysicsEngine.Clear">
+            <summary>
+            Clears the Engine of all objects. Also clears the Detector and Solver.
             </summary>
         </member>
         <member name="E:Physics2DDotNet.PhysicsEngine.BodiesAdded">
@@ -1625,82 +1704,6 @@
             This is used for making sure actions are not duplicated on a single time step.
             </remarks>
         </member>
-        <member name="M:Physics2DDotNet.PhysicsEngine.AddBody(Physics2DDotNet.Body)">
-            <summary>
-            Adds a Body to the pending queue and will be truly added on a call to Update.
-            </summary>
-            <param name="item">The Body to be added.</param>
-        </member>
-        <member name="M:Physics2DDotNet.PhysicsEngine.AddBodyRange(System.Collections.Generic.ICollection{Physics2DDotNet.Body})">
-            <summary>
-            Adds a collection of Bodies to the pending queue and will be truly added on a call to Update.
-            </summary>
-            <param name="collection">The collection to be Added</param>
-        </member>
-        <member name="M:Physics2DDotNet.PhysicsEngine.AddJoint(Physics2DDotNet.Joints.Joint)">
-            <summary>
-            Adds a Joint to the pending queue and will be truly added on a call to Update.
-            </summary>
-            <param name="item">The Joint to be added.</param>
-        </member>
-        <member name="M:Physics2DDotNet.PhysicsEngine.AddJointRange(System.Collections.Generic.ICollection{Physics2DDotNet.Joints.Joint})">
-            <summary>
-            Adds a collection of Joints to the pending queue and will be truly added on a call to Update.
-            </summary>
-            <param name="collection">The collection to be Added</param>
-        </member>
-        <member name="M:Physics2DDotNet.PhysicsEngine.AddJointRange``1(System.Collections.Generic.ICollection{``0})">
-            <summary>
-            Adds a collection of Joints to the pending queue and will be truly added on a call to Update.
-            </summary>
-            <param name="collection">The collection to be Added</param>
-            <typeparam name="T">A Type inherited from Joint</typeparam>
-        </member>
-        <member name="M:Physics2DDotNet.PhysicsEngine.AddLogic(Physics2DDotNet.PhysicsLogics.PhysicsLogic)">
-            <summary>
-            Adds a PhysicsLogic to the pending queue and will be truly added on a call to Update.
-            </summary>
-            <param name="item">The PhysicsLogic to be added.</param>
-        </member>
-        <member name="M:Physics2DDotNet.PhysicsEngine.AddLogicRange(System.Collections.Generic.ICollection{Physics2DDotNet.PhysicsLogics.PhysicsLogic})">
-            <summary>
-            Adds a collection of PhysicsLogics to the pending queue and will be truly added on a call to Update.
-            </summary>
-            <param name="collection">The collection to be Added</param>
-        </member>
-        <member name="M:Physics2DDotNet.PhysicsEngine.AddLogicRange``1(System.Collections.Generic.ICollection{``0})">
-            <summary>
-            Adds a collection of PhysicsLogics to the pending queue and will be truly added on a call to Update.
-            </summary>
-            <param name="collection">The collection to be Added</param>
-            <typeparam name="T">A Type inherited from PhysicsLogic</typeparam>
-        </member>
-        <member name="M:Physics2DDotNet.PhysicsEngine.AddProxy(Physics2DDotNet.Body,Physics2DDotNet.Body,AdvanceMath.Matrix2x2)">
-            <summary>
-            Adds 2 bodies to the same proxy list.
-            If they are both already part of their own proxy list then the lists will merge.
-            The transformations will be calcualted automatically.
-            </summary>
-            <param name="body1">The first Body.</param>
-            <param name="body2">The second Body.</param>
-            <param name="transformation">How velocities will be transformed from body1 to body2.</param>
-            <remarks>
-            This will most likely be removed if i ever figure out how to make a joint like this.
-            </remarks>
-        </member>
-        <member name="M:Physics2DDotNet.PhysicsEngine.Update(System.Double)">
-            <summary>
-            Updates the Engine with a change in time.
-            This call will block all access to the engine while it is running.
-            A complete call to this method is also known as a timestep.
-            </summary>
-            <param name="dt">The change in time since the last call to this method. (In Seconds)</param>
-        </member>
-        <member name="M:Physics2DDotNet.PhysicsEngine.Clear">
-            <summary>
-            Clears the Engine of all objects. Also clears the Detector and Solver.
-            </summary>
-        </member>
         <member name="T:Physics2DDotNet.PhysicsHelper">
             <summary>
             contains some methods to do physics calculations.
@@ -1754,6 +1757,11 @@
             <param name="callback">The callback to call.</param>
             <param name="targetDt">The target change in time. (in seconds)</param>
         </member>
+        <member name="M:Physics2DDotNet.PhysicsTimer.Dispose">
+            <summary>
+            Stops the Timer 
+            </summary>
+        </member>
         <member name="P:Physics2DDotNet.PhysicsTimer.IsBackground">
             <summary>
             Gets or sets a value indicating whether or not the thread that runs the time is a background thread.
@@ -1779,14 +1787,9 @@
             Gets and Sets the current Callback that will be called.
             </summary>
         </member>
-        <member name="M:Physics2DDotNet.PhysicsTimer.Dispose">
-            <summary>
-            Stops the Timer
-            </summary>
-        </member>
         <member name="T:Physics2DDotNet.BodyProxy">
             <summary>
-            This is a Proxy. That keeps 2 bodies velocities synchronized.
+            This is a Proxy. That keeps 2 bodies velocities synchronized. 
             </summary>
         </member>
         <member name="P:Physics2DDotNet.BodyProxy.Body1">
@@ -1868,23 +1871,23 @@
         </member>
         <member name="F:Physics2DDotNet.Matrices.ToWorld">
             <summary>
-            The matrix that is multiplied against to transform a vertex from relative
+            The matrix that is multiplied against to transform a vertex from relative 
             to the Body to the vertex relative to the World.
             </summary>
         </member>
         <member name="F:Physics2DDotNet.Matrices.ToBody">
             <summary>
-            The matrix that is multiplied against to transform a vertex from relative
+            The matrix that is multiplied against to transform a vertex from relative 
             to the World to the vertex relative to the Body.
             </summary>
         </member>
         <member name="F:Physics2DDotNet.Matrices.ToWorldNormal">
             <summary>
-            The matrix that is multiplied against to transform a normal (unit vector) from relative
+            The matrix that is multiplied against to transform a normal (unit vector) from relative 
             to the Body to the normal relative to the World.
             </summary>
         </member>
-        <!--FIXME: Invalid documentation markup was found for member F:Physics2DDotNet.Matrices.ToBodyNormal-->
+        <!-- Badly formed XML comment ignored for member "F:Physics2DDotNet.Matrices.ToBodyNormal" -->
         <member name="T:Physics2DDotNet.PhysicsState">
             <summary>
             This class holds the variables usually changed mulitple times  each update like the postion of an object.
@@ -1895,7 +1898,7 @@
             This is Position and Orientation.
             </summary>
             <remarks>
-                <seealso href="http://en.wikipedia.org/wiki/Position" />
+            <seealso href="http://en.wikipedia.org/wiki/Position"/>
             </remarks>
         </member>
         <member name="F:Physics2DDotNet.PhysicsState.Velocity">
@@ -1903,7 +1906,7 @@
             Angular and Linear Velocity.
             </summary>
             <remarks>
-                <seealso href="http://en.wikipedia.org/wiki/Velocity" />
+            <seealso href="http://en.wikipedia.org/wiki/Velocity"/>
             </remarks>
         </member>
         <member name="F:Physics2DDotNet.PhysicsState.Acceleration">
@@ -1911,7 +1914,7 @@
             Angular and Linear Acceleration.
             </summary>
             <remarks>
-                <seealso href="http://en.wikipedia.org/wiki/Acceleration" />
+            <seealso href="http://en.wikipedia.org/wiki/Acceleration"/>
             </remarks>
         </member>
         <member name="F:Physics2DDotNet.PhysicsState.ForceAccumulator">
@@ -1919,8 +1922,8 @@
             Torque and Force
             </summary>
             <remarks>
-                <seealso href="http://en.wikipedia.org/wiki/Torque" />
-                <seealso href="http://en.wikipedia.org/wiki/Force" />
+            <seealso href="http://en.wikipedia.org/wiki/Torque"/>
+            <seealso href="http://en.wikipedia.org/wiki/Force"/>
             </remarks>
         </member>
         <member name="T:Physics2DDotNet.TimeStep">
@@ -1962,78 +1965,15 @@
         </member>
         <member name="T:Physics2DDotNet.Detectors.FrameCoherentSAPDetector">
             <summary>
-            Full name is Frame Coherent Sweep and Prune.
+            Full name is Frame Coherent Sweep and Prune. 
             This class is used to isolate the AABB pairs that are currently in a collision
             state without having to check all pair combinations. It relies heavily on frame
             coherence or the idea that objects will typically be near their last position
             from frame to frame. The class caches the various state information and doesn't
             update it unless an extent on an axis "swaps" positions with its neighbor.
-            Note: If your application has "teleporting" objects or objects that are
+            Note: If your application has "teleporting" objects or objects that are 
             extremely high-speed in relation to other objects, then this Sweep and Prune
-            method may breakdown.
-            </summary>
-        </member>
-        <member name="T:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.ExtentInfoList">
-            <summary>
-            This class keeps a list of information that relates extents to geometries.
-            </summary>
-        </member>
-        <member name="T:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.CollisionPairDictionary">
-            <summary>
-            This class is used to keep track of the pairs of geometry that need to be
-            passed on to the narrow phase. The keys stored in the dictionary are
-            the actual geometry pairs (the boolean value is currently unused).
-            NOTE: May eventually want to add OnEnterCollisionState /
-            OnExitCollisionState callbacks which might be useful for debugging
-            or possibly in user applications.
-            </summary>
-        </member>
-        <member name="T:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.CollisionPair">
-            <summary>
-            Houses collision pairs as geom1 and geom2. The pairs are always ordered such
-            that the lower id geometry is first. This allows the CollisionPairDictionary
-            to have a consistent key / hash code for a pair of geometry.
-            </summary>
-        </member>
-        <member name="T:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.Extent">
-            <summary>
-            This class represents a single extent of an AABB on a single axis. It has a
-            reference to ExtentInfo which has information about the geometry it belongs
-            to.
-            </summary>
-        </member>
-        <member name="T:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.ExtentList">
-            <summary>
-            Represents a lists of extents for a given axis. This list will be kept
-            sorted incrementally.
-            </summary>
-        </member>
-        <member name="M:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.ExtentList.IncrementalSort">
-            <summary>
-            Inserts a new Extent into the already sorted list. As the ExtentList
-            class is currently derived from the generic List class, insertions
-            of new geometry (and extents) are going to be somewhat slow right
-            off the bat. Additionally, this function currently performs
-            linear insertion. Two big optimizations in the future would be to
-            (1) make this function perform a binary search and (2) allow for
-            a "hint" of what index to start with. The reason for this is because
-            there is always a min and max extents that need inserting and we
-            know the max extent is always after the min extent.
-            </summary>
-            <summary>
-            Incrementally sorts ExtentList. It is assumed that there is a high level
-            of frame coherence and that much of the list is already fairly well
-            sorted. This algorithm makes use of "insert sort" which is notoriously
-            slow - except for when a list is already almost sorted - which is the
-            case when there is high frame coherence.
-            </summary>
-        </member>
-        <member name="T:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.ExtentInfo">
-            <summary>
-            This class contains represents additional extent info for a particular axis
-            It has a reference to the geometry whose extents are being tracked. It
-            also has a min and max extent reference into the ExtentList itself.
-            The class keeps track of overlaps with other geometries.
+            method may breakdown. 
             </summary>
         </member>
         <member name="M:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.TestForCollisions(Physics2DDotNet.Body,Physics2DDotNet.Body)">
@@ -2045,7 +1985,7 @@
         </member>
         <member name="M:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.AddGeom(Physics2DDotNet.Body)">
             <summary>
-            This method is used by the PhysicsSimulator to notify Sweep and Prune that
+            This method is used by the PhysicsSimulator to notify Sweep and Prune that 
             new geometry is to be tracked.
             </summary>
             <param name="g">The geometry to be added</param>
@@ -2080,6 +2020,58 @@
             frame-coherence was lost, you might consider this function.
             </summary>
         </member>
+        <member name="T:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.ExtentInfoList">
+            <summary>
+            This class keeps a list of information that relates extents to geometries.
+            </summary>
+        </member>
+        <member name="T:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.CollisionPairDictionary">
+            <summary>
+            This class is used to keep track of the pairs of geometry that need to be
+            passed on to the narrow phase. The keys stored in the dictionary are
+            the actual geometry pairs (the boolean value is currently unused).
+            NOTE: May eventually want to add OnEnterCollisionState / 
+            OnExitCollisionState callbacks which might be useful for debugging
+            or possibly in user applications.
+            </summary>
+        </member>
+        <member name="T:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.CollisionPair">
+            <summary>
+            Houses collision pairs as geom1 and geom2. The pairs are always ordered such
+            that the lower id geometry is first. This allows the CollisionPairDictionary
+            to have a consistent key / hash code for a pair of geometry.
+            </summary>
+        </member>
+        <member name="T:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.Extent">
+            <summary>
+            This class represents a single extent of an AABB on a single axis. It has a
+            reference to ExtentInfo which has information about the geometry it belongs
+            to.
+            </summary>
+        </member>
+        <member name="T:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.ExtentList">
+            <summary>
+            Represents a lists of extents for a given axis. This list will be kept
+            sorted incrementally.
+            </summary>
+        </member>
+        <member name="M:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.ExtentList.IncrementalSort">
+            <summary>
+            Incrementally sorts ExtentList. It is assumed that there is a high level
+            of frame coherence and that much of the list is already fairly well
+            sorted. This algorithm makes use of "insert sort" which is notoriously
+            slow - except for when a list is already almost sorted - which is the
+            case when there is high frame coherence.
+            </summary>
+        </member>
+        <member name="T:Physics2DDotNet.Detectors.FrameCoherentSAPDetector.ExtentInfo">
+            <summary>
+            This class contains represents additional extent info for a particular axis
+            It has a reference to the geometry whose extents are being tracked. It
+            also has a min and max extent reference into the ExtentList itself.
+            The class keeps track of overlaps with other geometries.
+            </summary>
+        </member>
         <member name="T:Physics2DDotNet.Detectors.SelectiveSweepDetector">
             <summary>
             Faster then sweep and prune and does not stutter like SingleSweep
@@ -2098,31 +2090,19 @@
         </member>
         <member name="T:Physics2DDotNet.Detectors.SweepAndPruneDetector">
             <summary>
-            The Sweep and Prune detector should be O(nlogn), but can be O(n^2) if everything is colliding.
+            The Sweep and Prune detector should be O(nlogn), but can be O(n^2) if everything is colliding.  
             </summary>
         </member>
         <member name="T:Physics2DDotNet.Ignorers.AdvGroupIgnorer">
             <summary>
             A collision ignorer that uses group numbers to do collision ignoring.
-            If a object is member of a group that the other body is ignoring then they will not collide.
+            If a object is member of a group that the other body is ignoring then they will not collide. 
             </summary>
         </member>
         <member name="T:Physics2DDotNet.Ignorers.GroupCollection">
             <summary>
             A collection that stores ints that represent groups
             </summary>
-        </member>
-        <member name="P:Physics2DDotNet.Ignorers.GroupCollection.Count">
-            <summary>
-            Gets the number of collison Groups the ignorer is part of.
-            </summary>
-        </member>
-        <member name="M:Physics2DDotNet.Ignorers.GroupCollection.System#Collections#Generic#ICollection&lt;int&gt;#Add(System.Int32)">
-            <summary>
-            returns if the 2 ignores are not part of the same group.
-            </summary>
-            <param name="other">the other CollisionGroupIgnorer</param>
-            <returns>true if they are not part of the same group; otherwiase false.</returns>
         </member>
         <member name="M:Physics2DDotNet.Ignorers.GroupCollection.Add(System.Int32)">
             <summary>
@@ -2166,9 +2146,21 @@
             <param name="array">The array of group IDs. (this will be sorted)</param>
             <returns>the number of groups the ignore was removed from.</returns>
         </member>
+        <member name="M:Physics2DDotNet.Ignorers.GroupCollection.System#Collections#Generic#ICollection{System#Int32}#Add(System.Int32)">
+            <summary>
+            returns if the 2 ignores are not part of the same group.
+            </summary>
+            <param name="other">the other CollisionGroupIgnorer</param>
+            <returns>true if they are not part of the same group; otherwiase false.</returns>
+        </member>
         <member name="M:Physics2DDotNet.Ignorers.GroupCollection.Clear">
             <summary>
             removes the ignorer from all groups.
+            </summary>
+        </member>
+        <member name="P:Physics2DDotNet.Ignorers.GroupCollection.Count">
+            <summary>
+            Gets the number of collison Groups the ignorer is part of.
             </summary>
         </member>
         <member name="T:Physics2DDotNet.Ignorers.GroupIgnorer">
@@ -2177,19 +2169,9 @@
             If 2 objects are members of the same group then they will not collide.
             </summary>
         </member>
-        <member name="T:Physics2DDotNet.Ignorers.Ignorer">
-            <summary>
-            Base class for Collision Ignorers to impliment.
-            </summary>
-        </member>
-        <member name="P:Physics2DDotNet.Ignorers.Ignorer.IsInverted">
-            <summary>
-            Get and sets if the result of this ignorer is inverted.
-            </summary>
-        </member>
         <member name="T:Physics2DDotNet.Ignorers.ObjectIgnorer">
             <summary>
-            A collision ignorer that uses reference comparison.
+            A collision ignorer that uses reference comparison. 
             All Bodies with the same instance of this ignorer then they will not collide.
             </summary>
         </member>
@@ -2208,44 +2190,17 @@
             A Joint between 2 Bodies that will keep the Angles between the 2 bodies at a certain amount.
             </summary>
         </member>
-        <member name="T:Physics2DDotNet.Joints.FixedAngleJoint">
-            <summary>
-            A Joint between 2 Bodies that will keep the Angles between the 2 bodies at a certain amount.
-            </summary>
-        </member>
-        <member name="T:Physics2DDotNet.Joints.FixedHingeJoint">
-            <summary>
-            A joint that makes a single Body Pivot around an Anchor.
-            </summary>
-        </member>
-        <member name="P:Physics2DDotNet.Joints.FixedHingeJoint.DistanceTolerance">
-            <summary>
-            The distance the joint can stretch before breaking.
-            </summary>
-        </member>
-        <member name="T:Physics2DDotNet.Joints.HingeJoint">
-            <summary>
-            A Joint Between 2 Bodies that will pivot around an Anchor.
-            </summary>
-        </member>
-        <member name="M:Physics2DDotNet.Joints.HingeJoint.#ctor(Physics2DDotNet.Body,Physics2DDotNet.Body,AdvanceMath.Vector2D,Physics2DDotNet.Lifespan)">
-            <summary>
-            Creates a new HingeJoint Instance.
-            </summary>
-            <param name="body1">One of the bodies to be Jointed.</param>
-            <param name="body2">One of the bodies to be Jointed.</param>
-            <param name="anchor">The location of the Hinge.</param>
-            <param name="lifeTime">A object Describing how long the object will be in the engine.</param>
-        </member>
-        <member name="P:Physics2DDotNet.Joints.HingeJoint.DistanceTolerance">
-            <summary>
-            The Distance the joint can stretch before breaking.
-            </summary>
-        </member>
         <member name="T:Physics2DDotNet.Joints.Joint">
             <summary>
-            Describes a Connection between 2 objects.
+            Describes a Connection between 2 objects. 
             </summary>
+        </member>
+        <member name="M:Physics2DDotNet.Joints.Joint.BeforeAddCheck(Physics2DDotNet.PhysicsEngine)">
+            <summary>
+            Before the item is allowed to be added to pending this method is called to 
+            throw any exceptions without corrupting the state of the Physics engine.
+            </summary>
+            <param name="engine">The engine the item is about to be added too.</param>
         </member>
         <member name="E:Physics2DDotNet.Joints.Joint.LifetimeChanged">
             <summary>
@@ -2264,7 +2219,7 @@
         </member>
         <member name="E:Physics2DDotNet.Joints.Joint.Removed">
             <summary>
-            Raised when the object is Removed from a Physics Engine.
+            Raised when the object is Removed from a Physics Engine. 
             </summary>
         </member>
         <member name="P:Physics2DDotNet.Joints.Joint.IsPending">
@@ -2297,16 +2252,108 @@
             Gets the bodies the Joint effects.
             </summary>
         </member>
-        <member name="M:Physics2DDotNet.Joints.Joint.BeforeAddCheck(Physics2DDotNet.PhysicsEngine)">
+        <member name="T:Physics2DDotNet.Joints.FixedAngleJoint">
             <summary>
-            Before the item is allowed to be added to pending this method is called to
+            A Joint between 2 Bodies that will keep the Angles between the 2 bodies at a certain amount.
+            </summary>
+        </member>
+        <member name="T:Physics2DDotNet.Joints.FixedHingeJoint">
+            <summary>
+            A joint that makes a single Body Pivot around an Anchor.
+            </summary>
+        </member>
+        <member name="P:Physics2DDotNet.Joints.FixedHingeJoint.DistanceTolerance">
+            <summary>
+            The distance the joint can stretch before breaking. 
+            </summary>
+        </member>
+        <member name="T:Physics2DDotNet.Joints.HingeJoint">
+            <summary>
+            A Joint Between 2 Bodies that will pivot around an Anchor.
+            </summary>
+        </member>
+        <member name="M:Physics2DDotNet.Joints.HingeJoint.#ctor(Physics2DDotNet.Body,Physics2DDotNet.Body,AdvanceMath.Vector2D,Physics2DDotNet.Lifespan)">
+            <summary>
+            Creates a new HingeJoint Instance.
+            </summary>
+            <param name="body1">One of the bodies to be Jointed.</param>
+            <param name="body2">One of the bodies to be Jointed.</param>
+            <param name="anchor">The location of the Hinge.</param>
+            <param name="lifeTime">A object Describing how long the object will be in the engine.</param>
+        </member>
+        <member name="P:Physics2DDotNet.Joints.HingeJoint.DistanceTolerance">
+            <summary>
+            The Distance the joint can stretch before breaking. 
+            </summary>
+        </member>
+        <member name="T:Physics2DDotNet.PhysicsLogics.ExplosionLogic">
+            <summary>
+            Simulates a simple explosion.  
+            </summary>
+        </member>
+        <member name="T:Physics2DDotNet.PhysicsLogics.PhysicsLogic">
+            <summary>
+            A physics logic is a way for the engine to effect object within the Update call.
+            Gravity is a Example of a PhysicsLogic.
+            </summary>
+        </member>
+        <member name="M:Physics2DDotNet.PhysicsLogics.PhysicsLogic.BeforeAddCheck(Physics2DDotNet.PhysicsEngine)">
+            <summary>
+            Before the item is allowed to be added to pending this method is called to 
             throw any exceptions without corrupting the state of the Physics engine.
             </summary>
             <param name="engine">The engine the item is about to be added too.</param>
         </member>
-        <member name="T:Physics2DDotNet.PhysicsLogics.ExplosionLogic">
+        <member name="E:Physics2DDotNet.PhysicsLogics.PhysicsLogic.LifetimeChanged">
             <summary>
-            Simulates a simple explosion.
+            Raised when the Lifetime property has been Changed.
+            </summary>
+        </member>
+        <member name="E:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Added">
+            <summary>
+            Raised when the object is added to a Physics Engine.
+            </summary>
+        </member>
+        <member name="E:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Pending">
+            <summary>
+            Raised when the object is Added to the engine but is not yet part of the update process.
+            </summary>
+        </member>
+        <member name="E:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Removed">
+            <summary>
+            Raised when the object is Removed from a Physics Engine. 
+            </summary>
+        </member>
+        <member name="P:Physics2DDotNet.PhysicsLogics.PhysicsLogic.IsPending">
+            <summary>
+            Gets if it has been added the the Engine's PendingQueue, but not yet added to the engine.
+            </summary>
+        </member>
+        <member name="P:Physics2DDotNet.PhysicsLogics.PhysicsLogic.IsAdded">
+            <summary>
+            Gets if the object has been added to the engine.
+            </summary>
+        </member>
+        <member name="P:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Engine">
+            <summary>
+            Gets The PhysicsEngine the object is currently in. Null if it is in none.
+            </summary>
+        </member>
+        <member name="P:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Tag">
+            <summary>
+            Gets and Sets a User defined object.
+            </summary>
+        </member>
+        <member name="P:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Lifetime">
+            <summary>
+            Gets and Sets the LifeTime of the object. The object will be removed from the engine when it is Expired.
+            </summary>
+        </member>
+        <member name="P:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Order">
+            <summary>
+            Get and Sets The order number of when it will be ran.
+            All Logics with a higher order will run after this one and all logics
+            with a lower order number will be ran before this one.
             </summary>
         </member>
         <member name="M:Physics2DDotNet.PhysicsLogics.ExplosionLogic.#ctor(AdvanceMath.Vector2D,AdvanceMath.Vector2D,System.Double,System.Double,System.Double,Physics2DDotNet.Lifespan)">
@@ -2318,8 +2365,7 @@
             <param name="pressurePulseSpeed">the speed at which the explosion expands</param>
             <param name="dragCoefficient">the drag Coefficient</param>
             <param name="mass">the mass of the expanding cloud</param>
-            <param name="lifetime">
-            </param>
+            <param name="lifetime"></param>
         </member>
         <member name="T:Physics2DDotNet.PhysicsLogics.GlobalFluidLogic">
             <summary>
@@ -2348,14 +2394,12 @@
             Creates a new GravityPointField Instance.
             </summary>
             <param name="location">The location of the Gravity point.</param>
-            <param name="gravity">
-            </param>
-            <param name="lifetime">
-            </param>
+            <param name="gravity"></param>
+            <param name="lifetime"></param>
         </member>
         <member name="T:Physics2DDotNet.PhysicsLogics.GravityPointMass">
             <summary>
-            A PhysicsLogic to causes a Body to have a realistic pull of Gravity with a exponential drop-off.
+            A PhysicsLogic to causes a Body to have a realistic pull of Gravity with a exponential drop-off. 
             </summary>
         </member>
         <member name="M:Physics2DDotNet.PhysicsLogics.GravityPointMass.#ctor(Physics2DDotNet.Body)">
@@ -2400,71 +2444,6 @@
             <param name="maxAcceleration">The maximum acceleration to be applied to the Body</param>
             <param name="maxVelocity">The maximum velocity this logic will accelerate the Body too.</param>
         </member>
-        <member name="T:Physics2DDotNet.PhysicsLogics.PhysicsLogic">
-            <summary>
-            A physics logic is a way for the engine to effect object within the Update call.
-            Gravity is a Example of a PhysicsLogic.
-            </summary>
-        </member>
-        <member name="E:Physics2DDotNet.PhysicsLogics.PhysicsLogic.LifetimeChanged">
-            <summary>
-            Raised when the Lifetime property has been Changed.
-            </summary>
-        </member>
-        <member name="E:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Added">
-            <summary>
-            Raised when the object is added to a Physics Engine.
-            </summary>
-        </member>
-        <member name="E:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Pending">
-            <summary>
-            Raised when the object is Added to the engine but is not yet part of the update process.
-            </summary>
-        </member>
-        <member name="E:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Removed">
-            <summary>
-            Raised when the object is Removed from a Physics Engine.
-            </summary>
-        </member>
-        <member name="P:Physics2DDotNet.PhysicsLogics.PhysicsLogic.IsPending">
-            <summary>
-            Gets if it has been added the the Engine's PendingQueue, but not yet added to the engine.
-            </summary>
-        </member>
-        <member name="P:Physics2DDotNet.PhysicsLogics.PhysicsLogic.IsAdded">
-            <summary>
-            Gets if the object has been added to the engine.
-            </summary>
-        </member>
-        <member name="P:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Engine">
-            <summary>
-            Gets The PhysicsEngine the object is currently in. Null if it is in none.
-            </summary>
-        </member>
-        <member name="P:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Tag">
-            <summary>
-            Gets and Sets a User defined object.
-            </summary>
-        </member>
-        <member name="P:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Lifetime">
-            <summary>
-            Gets and Sets the LifeTime of the object. The object will be removed from the engine when it is Expired.
-            </summary>
-        </member>
-        <member name="P:Physics2DDotNet.PhysicsLogics.PhysicsLogic.Order">
-            <summary>
-            Get and Sets The order number of when it will be ran.
-            All Logics with a higher order will run after this one and all logics
-            with a lower order number will be ran before this one.
-            </summary>
-        </member>
-        <member name="M:Physics2DDotNet.PhysicsLogics.PhysicsLogic.BeforeAddCheck(Physics2DDotNet.PhysicsEngine)">
-            <summary>
-            Before the item is allowed to be added to pending this method is called to
-            throw any exceptions without corrupting the state of the Physics engine.
-            </summary>
-            <param name="engine">The engine the item is about to be added too.</param>
-        </member>
         <member name="T:Physics2DDotNet.PhysicsLogics.RaySegmentsCollisionLogic">
             <summary>
             A class to manage a RaySegmentsShape collisions
@@ -2475,13 +2454,18 @@
             A Circle
             </summary>
         </member>
+        <member name="P:Physics2DDotNet.Shapes.IShape.VertexNormals">
+            <summary>
+            These are the normals for the original vertexes.
+            </summary>
+        </member>
         <member name="M:Physics2DDotNet.Shapes.CircleShape.#ctor(System.Double,System.Int32)">
             <summary>
             Creates a new Circle Instance.
             </summary>
             <param name="radius">how large the circle is.</param>
             <param name="vertexCount">
-            The number or vertex that will be generated along the perimeter of the circle.
+            The number or vertex that will be generated along the perimeter of the circle. 
             This is for collision detection.
             </param>
         </member>
@@ -2491,11 +2475,11 @@
             </summary>
             <param name="radius">how large the circle is.</param>
             <param name="vertexCount">
-            The number or vertex that will be generated along the perimeter of the circle.
+            The number or vertex that will be generated along the perimeter of the circle. 
             This is for collision detection.
             </param>
             <param name="inertia">
-            How hard it is to turn the shape. Depending on the construtor in the
+            How hard it is to turn the shape. Depending on the construtor in the 
             Body this will be multiplied with the mass to determine the moment of inertia.
             </param>
         </member>
@@ -2514,14 +2498,14 @@
             Represents a Single point.
             </summary>
         </member>
-        <member name="M:Physics2DDotNet.Shapes.ParticleShape.#ctor">
-            <summary>
-            Creates a new Particle Instance.
-            </summary>
-        </member>
         <member name="F:Physics2DDotNet.Shapes.ParticleShape.Default">
             <summary>
             All particles are the same! so use this one!
+            </summary>
+        </member>
+        <member name="M:Physics2DDotNet.Shapes.ParticleShape.#ctor">
+            <summary>
+            Creates a new Particle Instance.
             </summary>
         </member>
         <member name="T:Physics2DDotNet.Shapes.PolygonShape">
@@ -2529,7 +2513,7 @@
             Use this to Represent a Polygon in the engine
             </summary>
         </member>
-        <!--FIXME: Invalid documentation markup was found for member M:Physics2DDotNet.Shapes.PolygonShape.#ctor(AdvanceMath.Vector2D[],System.Double)-->
+        <!-- Badly formed XML comment ignored for member "M:Physics2DDotNet.Shapes.PolygonShape.#ctor(AdvanceMath.Vector2D[],System.Double)" -->
         <member name="M:Physics2DDotNet.Shapes.PolygonShape.#ctor(AdvanceMath.Vector2D[],System.Double,System.Double)">
             <summary>
             Creates a new Polygon Instance.
@@ -2537,42 +2521,37 @@
             <param name="vertexes">the vertexes that make up the shape of the Polygon</param>
             <param name="gridSpacing">
             How large a grid cell is. Usualy you will want at least 2 cells between major vertexes.
-            The smaller this is the better precision you get, but higher cost in memory.
+            The smaller this is the better precision you get, but higher cost in memory. 
             The larger the less precision and if it's to high collision detection may fail completely.
             </param>
             <param name="momentOfInertiaMultiplier">
-            How hard it is to turn the shape. Depending on the construtor in the
+            How hard it is to turn the shape. Depending on the construtor in the 
             Body this will be multiplied with the mass to determine the moment of inertia.
             </param>
         </member>
         <member name="T:Physics2DDotNet.Shapes.RaySegment">
             <summary>
-            A Ray Segment is a Ray that has a length. It can be used to represent
+            A Ray Segment is a Ray that has a length. It can be used to represent 
             lasers or very fast projectiles.
             </summary>
         </member>
         <member name="T:Physics2DDotNet.Shapes.RaySegmentIntersectionInfo">
             <summary>
-            The information of an intersection with another shape.
+            The information of an intersection with another shape. 
             </summary>
         </member>
         <member name="P:Physics2DDotNet.Shapes.RaySegmentIntersectionInfo.Distances">
             <summary>
-            An collection of distances away from the Ray Segments.
-            The indexes match up with the Segments in the Ray Segments class.
-            A negative value means there was no intersection.
+            An collection of distances away from the Ray Segments. 
+            The indexes match up with the Segments in the Ray Segments class. 
+            A negative value means there was no intersection. 
             </summary>
         </member>
         <member name="T:Physics2DDotNet.Shapes.RaySegmentsShape">
             <summary>
-            A shape that holds multiple Ray Segments and generates custom collision events
-            for when they intersect something. The Sequential Impulses Solver does not
+            A shape that holds multiple Ray Segments and generates custom collision events 
+            for when they intersect something. The Sequential Impulses Solver does not 
             handle collisions with this shape.
-            </summary>
-        </member>
-        <member name="P:Physics2DDotNet.Shapes.IShape.VertexNormals">
-            <summary>
-            These are the normals for the original vertexes.
             </summary>
         </member>
         <member name="P:Physics2DDotNet.Solvers.CollisionSolver.Engine">

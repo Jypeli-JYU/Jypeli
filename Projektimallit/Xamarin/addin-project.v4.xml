@@ -1,0 +1,7 @@
+<AddinProject appVersion="5.0">
+   <Project platforms="Linux">
+		<AddinFile>bin/Linux/Release/MonoDevelop.Jypeli.Linux.v4.dll</AddinFile>
+      <BuildFile>MonoDevelop.Jypeli.Linux.v4.sln</BuildFile>
+      <BuildConfiguration>Release</BuildConfiguration>
+	</Project>
+</AddinProject>

@@ -1,22 +1,12 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>/media/minka/DynData/Versiohallinta/MonoKaannos/SimplePhysics/bin/Linux/x86/Debug/Jypeli.SimplePhysics</name>
+        <name>Jypeli.SimplePhysics</name>
     </assembly>
     <members>
         <member name="T:Jypeli.PhysicsGame">
             <summary>
             Fysiikkapeli (SimplePhysics)
-            </summary>
-        </member>
-        <member name="M:Jypeli.PhysicsGame.#ctor">
-            <summary>
-            Luo uuden fysiikkapelin.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PhysicsGame.Gravity">
-            <summary>
-            Painovoima.
             </summary>
         </member>
         <member name="M:Jypeli.PhysicsGame.AddCollisionHandler``2(``0,Jypeli.CollisionHandler{``0,``1})">
@@ -63,7 +53,7 @@
         </member>
         <member name="M:Jypeli.PhysicsGame.AddCollisionHandler``2(``0,System.Object,Jypeli.CollisionHandler{``0,``1})">
             <summary>
-            Määrää, mihin aliohjelmaan siirrytään kun
+            Määrää, mihin aliohjelmaan siirrytään kun 
             olio <code>obj</code> törmää toiseen olioon, jolla on tietty tagi <code>tag</code>.
             </summary>
             <param name="obj">Törmäävä olio.</param>
@@ -72,7 +62,7 @@
         </member>
         <member name="M:Jypeli.PhysicsGame.AddCollisionHandler(Jypeli.IPhysicsObject,System.Object,Jypeli.CollisionHandler{Jypeli.IPhysicsObject,Jypeli.IPhysicsObject})">
             <summary>
-            Määrää, mihin aliohjelmaan siirrytään kun
+            Määrää, mihin aliohjelmaan siirrytään kun 
             yleinen fysiikkaolio <code>obj</code> törmää toiseen yleiseen fysiikkaolioon, jolla on tietty tagi <code>tag</code>.
             </summary>
             <param name="obj">Törmäävä olio.</param>
@@ -98,6 +88,11 @@
             <param name="tag">Törmäyksen kohteen tagi. null jos ei väliä.</param>
             <param name="handler">Törmäyksenkäsittelijä. null jos ei väliä.</param>
         </member>
+        <member name="M:Jypeli.PhysicsGame.#ctor">
+            <summary>
+            Luo uuden fysiikkapelin.
+            </summary>
+        </member>
         <member name="M:Jypeli.PhysicsGame.Add(Jypeli.IGameObject,System.Int32)">
             <summary>
             Lisää olion peliin.
@@ -111,6 +106,11 @@
             </summary>
             <param name="time">Olio joka kertoo ajan viime päivityksestä ja pelin alusta</param>
         </member>
+        <member name="P:Jypeli.PhysicsGame.Gravity">
+            <summary>
+            Painovoima.
+            </summary>
+        </member>
         <member name="T:Jypeli.Physics.PhysicsClient">
             <summary>
             Fysiikkarajapinta Jypelille.
@@ -121,16 +121,11 @@
             Luo uuden kappaleen.
             PhysicsObject kutsuu syntyessään.
             </summary>
-            <param name="owner">
-            </param>
-            <param name="width">
-            </param>
-            <param name="height">
-            </param>
-            <param name="shape">
-            </param>
-            <returns>
-            </returns>
+            <param name="owner"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="shape"></param>
+            <returns></returns>
         </member>
         <member name="T:Jypeli.Physics.PhysicsBody">
             <summary>
@@ -142,12 +137,70 @@
             Luo uuden fyysisen kappaleen.
             Ei yleensä tarvetta käyttää itse (tee mieluummin PhysicsObject)
             </summary>
-            <param name="width">
-            </param>
-            <param name="height">
-            </param>
-            <param name="shape">
-            </param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="shape"></param>
+        </member>
+        <member name="M:Jypeli.Physics.PhysicsBody.OnCollided(Jypeli.Physics.PhysicsBody)">
+            <summary>
+            Laukaisee törmäystapahtuman.
+            </summary>
+            <param name="anotherBody"></param>
+        </member>
+        <member name="M:Jypeli.Physics.PhysicsBody.MakeStatic">
+            <summary>
+            Tekee kappaleesta staattisen.
+            </summary>
+        </member>
+        <member name="M:Jypeli.Physics.PhysicsBody.GetBoundingRect">
+            <summary>
+            Palauttaa olion (efektiiviset) reunat.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jypeli.Physics.PhysicsBody.SetCollisionIgnorer(Jypeli.Ignorer)">
+            <summary>
+            Asettaa törmäyksenvälttelyryhmän.
+            </summary>
+            <param name="ignorer"></param>
+        </member>
+        <member name="M:Jypeli.Physics.PhysicsBody.ApplyForce(Jypeli.Vector)">
+            <summary>
+            Työntää kappaletta tietyllä voimalla.
+            Voima = massa * kiihtyvyys (Newton II)
+            </summary>
+            <param name="force">Voimavektori</param>
+        </member>
+        <member name="M:Jypeli.Physics.PhysicsBody.ApplyImpulse(Jypeli.Vector)">
+            <summary>
+            Lyö kappaletta tietyllä impulssilla.
+            Impulssi = massa * nopeus
+            </summary>
+            <param name="impulse">Impulssivektori</param>
+        </member>
+        <member name="M:Jypeli.Physics.PhysicsBody.ApplyTorque(System.Double)">
+            <summary>
+            Antaa kappaleelle vääntövoiman.
+            Ei tee mitään tällä moottorilla (ei pyörimisliikettä)
+            </summary>
+            <param name="torque"></param>
+        </member>
+        <member name="M:Jypeli.Physics.PhysicsBody.Stop">
+            <summary>
+            Pysäyttää kappaleen.
+            </summary>
+        </member>
+        <member name="M:Jypeli.Physics.PhysicsBody.StopAngular">
+            <summary>
+            Pysäyttää kappaleen pyörimisen.
+            Ei vaikutusta tällä moottorilla (ei pyörimisliikettä muutenkaan)
+            </summary>
+        </member>
+        <member name="M:Jypeli.Physics.PhysicsBody.StopAxial(Jypeli.Vector)">
+            <summary>
+            Pysäyttää kappaleen liikkeen vektorin suuntaisella akselilla.
+            </summary>
+            <param name="axis">Akseli</param>
         </member>
         <member name="E:Jypeli.Physics.PhysicsBody.Collided">
             <summary>
@@ -231,7 +284,7 @@
         </member>
         <member name="P:Jypeli.Physics.PhysicsBody.Angle">
             <summary>
-            Kappaleen kulma (aina 0 tällä moottorilla)
+            Kappaleen kulma (vain 90 asteen monikertoja tällä moottorilla)
             </summary>
         </member>
         <member name="P:Jypeli.Physics.PhysicsBody.AngularVelocity">
@@ -242,6 +295,11 @@
         <member name="P:Jypeli.Physics.PhysicsBody.AngularAcceleration">
             <summary>
             Kappaleen kulmakiihtyvyys (aina 0 tällä moottorilla)
+            </summary>
+        </member>
+        <member name="P:Jypeli.Physics.PhysicsBody.CollisionIgnorer">
+            <summary>
+            Olio, jolla voi välttää oliota osumasta tiettyihin muihin olioihin.
             </summary>
         </member>
         <member name="P:Jypeli.Physics.PhysicsBody.IgnoresCollisionResponse">
@@ -259,57 +317,6 @@
             <summary>
             Jätetäänkö kaikki fysiikan logiikat huomiotta.
             </summary>
-        </member>
-        <member name="M:Jypeli.Physics.PhysicsBody.OnCollided(Jypeli.Physics.PhysicsBody)">
-            <summary>
-            Laukaisee törmäystapahtuman.
-            </summary>
-            <param name="anotherBody">
-            </param>
-        </member>
-        <member name="M:Jypeli.Physics.PhysicsBody.MakeStatic">
-            <summary>
-            Tekee kappaleesta staattisen.
-            </summary>
-        </member>
-        <member name="M:Jypeli.Physics.PhysicsBody.ApplyForce(Jypeli.Vector)">
-            <summary>
-            Työntää kappaletta tietyllä voimalla.
-            Voima = massa * kiihtyvyys (Newton II)
-            </summary>
-            <param name="force">Voimavektori</param>
-        </member>
-        <member name="M:Jypeli.Physics.PhysicsBody.ApplyImpulse(Jypeli.Vector)">
-            <summary>
-            Lyö kappaletta tietyllä impulssilla.
-            Impulssi = massa * nopeus
-            </summary>
-            <param name="impulse">Impulssivektori</param>
-        </member>
-        <member name="M:Jypeli.Physics.PhysicsBody.ApplyTorque(System.Double)">
-            <summary>
-            Antaa kappaleelle vääntövoiman.
-            Ei tee mitään tällä moottorilla (ei pyörimisliikettä)
-            </summary>
-            <param name="torque">
-            </param>
-        </member>
-        <member name="M:Jypeli.Physics.PhysicsBody.Stop">
-            <summary>
-            Pysäyttää kappaleen.
-            </summary>
-        </member>
-        <member name="M:Jypeli.Physics.PhysicsBody.StopAngular">
-            <summary>
-            Pysäyttää kappaleen pyörimisen.
-            Ei vaikutusta tällä moottorilla (ei pyörimisliikettä muutenkaan)
-            </summary>
-        </member>
-        <member name="M:Jypeli.Physics.PhysicsBody.StopAxial(Jypeli.Vector)">
-            <summary>
-            Pysäyttää kappaleen liikkeen vektorin suuntaisella akselilla.
-            </summary>
-            <param name="axis">Akseli</param>
         </member>
     </members>
 </doc>

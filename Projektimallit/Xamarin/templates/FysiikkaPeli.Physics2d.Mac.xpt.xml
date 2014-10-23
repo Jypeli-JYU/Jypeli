@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
           created      = "2014/03/07"
-          lastModified = "2014/09/18">
+          lastModified = "2014/10/23">
 
     <TemplateConfiguration>
 		<_Name>FysiikkaPeli (Physics2d)</_Name>
@@ -10,10 +10,6 @@
 		<LanguageName>C#</LanguageName>
 		<_Description>Fysiikkapeli joka käyttää Physics2d-fysiikkamoottoria.</_Description>
 	</TemplateConfiguration>
-
-    <Actions>
-       <Open filename = "Peli.cs"/>
-    </Actions>
 
    <Options>
       <StartupProject>${ProjectName}</StartupProject>
@@ -37,7 +33,7 @@
 
           <Files>
              <FileTemplateReference TemplateID="CSharpAssemblyInfo" name="AssemblyInfo.cs" />
-             <File name="Peli.cs" src="FysiikkaPeli/Peli.cs" />
+             <File name="${ProjectName}.cs" src="FysiikkaPeli/Peli.cs" />
              <File name="Ohjelma.cs" src="PerusPeli/Ohjelma.MacOS.cs" />
              <File name="Info.plist" AddStandardHeader="False" src="PerusPeli/Info.plist" />
              <RawFile name="Icon.png" src="FysiikkaPeli/Icon-hd.png" />

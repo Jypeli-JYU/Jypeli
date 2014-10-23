@@ -19,11 +19,11 @@ static class Program
 
 class AppDelegate : NSApplicationDelegate
 {
-	Peli peli;
+	${ProjectName} peli;
 
 	public override void FinishedLaunching (NSObject notification)
 	{
-		peli = new Peli();
+		peli = new ${ProjectName}();
 		peli.Run ();
 	}
 

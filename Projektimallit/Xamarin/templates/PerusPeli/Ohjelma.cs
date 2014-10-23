@@ -13,7 +13,7 @@ public static class Program
    [STAThread]
    static void Main()
    {
-      using (var peli = new Peli())
-          peli.Run();
+		using (var peli = new ${ProjectName}())
+			peli.Run();
    }
 }

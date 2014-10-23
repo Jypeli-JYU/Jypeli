@@ -263,6 +263,8 @@ namespace Jypeli
                     Draw( o, ref worldMatrix );
             }
 
+            DrawChildObjects( worldMatrix );
+
             Renderer.LightingEnabled = false;
         }
 
@@ -290,6 +292,7 @@ namespace Jypeli
             DrawObjectsWithoutImages( worldMatrix );
             DrawObjectsWithImages( worldMatrix );
             DrawCustomDrawables( worldMatrix );
+            DrawChildObjects( worldMatrix );
             Renderer.LightingEnabled = false;
         }
 
@@ -366,6 +369,41 @@ namespace Jypeli
             {
                 if ( o.IsVisible )
                     o.Draw( worldMatrix );
+            }
+        }
+
+        private void DrawChildObjects( Matrix worldMatrix )
+        {
+            Vector drawScale = new Vector( 1, 1 );
+
+            for ( int i = 0; i < Objects.Count; i++ )
+            {
+                var go = Objects[i] as GameObject;
+                if ( go == null || go._childObjects == null )
+                    continue;
+
+                if ( go.Shape.IsUnitSize )
+                    drawScale = go.Size;
+
+                Vector2 position = new Vector2( (float)go.Position.X, (float)go.Position.Y );
+                Vector2 scale = new Vector2( (float)drawScale.X, (float)drawScale.Y );
+                float rotation = go.RotateImage ? (float)go.Angle.Radians : 0;
+
+                Matrix childTransformation =
+                    Matrix.CreateRotationZ( rotation )
+                    * Matrix.CreateTranslation( position.X, position.Y, 0f )
+                    * worldMatrix;
+
+                // light positioning for child objects has not been implemented, so
+                // let's not use it.
+                Renderer.LightingEnabled = false;
+
+                for ( int j = 0; j < go._childObjects.Count; j++ )
+                {
+                    Draw( go._childObjects[j], ref childTransformation );
+                }
+
+                Renderer.LightingEnabled = true;
             }
         }
 
@@ -489,25 +527,6 @@ namespace Jypeli
                 {
                     Renderer.DrawShape( o.Shape, ref transformation, o.Color );
                 }
-            }
-
-            if ( o.Objects.Count > 0 )
-            {
-                Matrix childTransformation =
-                    Matrix.CreateRotationZ( rotation )
-                    * Matrix.CreateTranslation( position.X, position.Y, 0f )
-                    * parentTransformation;
-
-                // light positioning for child objects has not been implemented, so
-                // let's not use it.
-                Renderer.LightingEnabled = false;
-
-                foreach ( var child in o.Objects )
-                {
-                    Draw( child, ref childTransformation );
-                }
-
-                Renderer.LightingEnabled = true;
             }
         }
 

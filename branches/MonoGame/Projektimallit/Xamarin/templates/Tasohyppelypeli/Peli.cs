@@ -5,7 +5,7 @@ using Jypeli.Assets;
 using Jypeli.Controls;
 using Jypeli.Widgets;
 
-public class Peli : PhysicsGame
+public class ${ProjectName} : PhysicsGame
 {
     const double nopeus = 200;
     const double hyppyNopeus = 750;

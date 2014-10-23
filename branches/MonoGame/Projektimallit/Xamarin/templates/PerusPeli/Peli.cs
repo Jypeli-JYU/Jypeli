@@ -5,7 +5,7 @@ using Jypeli.Assets;
 using Jypeli.Controls;
 using Jypeli.Widgets;
 
-public class Peli : Game
+public class ${ProjectName} : Game
 {
     public override void Begin()
     {

@@ -2,7 +2,7 @@
 <Template Originator   = "Tomi Karppinen"
           Language     = "C#"
           Created      = "2014/01/27"
-          LastModified = "2014/01/27">	
+          LastModified = "2014/10/23">	
 	
 	<TemplateConfiguration>
 		<_Name>Empty game class</_Name>
@@ -13,7 +13,7 @@
 	</TemplateConfiguration>
 	
 	<TemplateFiles>
-		<File Name="Peli.cs" AddStandardHeader="False" src="PerusPeli/Peli.cs"/>
+		<File Name="Peli.cs" AddStandardHeader="True" src="PerusPeli/Peli.cs"/>
 	</TemplateFiles>
 	
 	<FileOptions/>

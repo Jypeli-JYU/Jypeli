@@ -44,30 +44,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="C:\Program Files %28x86%29\MonoGame\v3.0\Assemblies\WindowsGL\SDL.dll">
-      <Link>SDL.dll</Link>
+    <Content Include="Content\kentta.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Jypeli\Jypeli-VS2012.csproj">
+    <ProjectReference Include="..\..\Jypeli\Jypeli-WindowsGL.csproj">
       <Project>{76cc55a2-bece-4f80-b491-ddcab9f061fb}</Project>
-      <Name>Jypeli-VS2012</Name>
+      <Name>Jypeli-WindowsGL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
-      <Project>{7de47032-a904-4c29-bd22-2d235e8d91ba}</Project>
-      <Name>MonoGame.Framework.WindowsGL</Name>
+    <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.WindowsGL.csproj">
+      <Project>{da65b249-9290-4a09-a48c-443a65845583}</Project>
+      <Name>Jypeli.MonoGame.Framework.WindowsGL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Physics2d\Physics2d.csproj">
+    <ProjectReference Include="..\..\Physics2d\Physics2d-WindowsGL.csproj">
       <Project>{041d26c6-a261-4843-906e-7326ab1dba4c}</Project>
-      <Name>Physics2d</Name>
+      <Name>Physics2d-WindowsGL</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\kentta.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

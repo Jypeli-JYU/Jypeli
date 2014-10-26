@@ -21,6 +21,7 @@ using ColorConverter = System.Converter<Jypeli.Color, Jypeli.Color>;
 using XnaColorConverter = System.Converter<Microsoft.Xna.Framework.Color, Microsoft.Xna.Framework.Color>;
 #endif
 
+
 namespace Jypeli
 {
     /// <summary>
@@ -28,6 +29,12 @@ namespace Jypeli
     /// </summary>
     public class Image
     {
+
+        private const int MONOGETDATAMUL = 2;
+        private const int MONOGETDATAINC = 1;
+        // private static const int MONOGETDATAMUL = 1;  
+        // private static const int MONOGETDATAINC = 0; // tavallinen
+
         private Image parentImage;
         private XnaRectangle parentRectangle;
 
@@ -95,12 +102,15 @@ namespace Jypeli
             Color[,] bmp = new Color[ny, nx];
 
             XnaRectangle rect = new XnaRectangle( ox, oy, nx, ny );
-            Color[] buffer = new Color[ny * nx];
+            Color[] buffer = new Color[ny * nx * MONOGETDATAMUL];
             xnaTexture.GetData<Color>( 0, rect, buffer, 0, buffer.Length );
             int i = 0;
-            for ( int iy = 0; iy < ny; iy++ )
-                for ( int ix = 0; ix < nx; ix++ )
+            for (int iy = 0; iy < ny; iy++)
+            {
+                for (int ix = 0; ix < nx; ix++)
                     bmp[iy, ix] = buffer[i++];
+                i += nx * MONOGETDATAINC;
+            }
             return bmp;
         }
 
@@ -162,12 +172,15 @@ namespace Jypeli
             uint[,] bmp = new uint[ny, nx];
 
             XnaRectangle rect = new XnaRectangle( ox, oy, nx, ny );
-            Color[] buffer = new Color[ny * nx];
-            xnaTexture.GetData<Color>( 0, rect, buffer, 0, buffer.Length );
+            Color[] buffer = new Color[ny * nx * MONOGETDATAMUL];
+            xnaTexture.GetData<Color>( 0, rect, buffer, 0, 20 );
             int i = 0;
-            for ( int iy = 0; iy < ny; iy++ )
-                for ( int ix = 0; ix < nx; ix++ )
+            for (int iy = 0; iy < ny; iy++)
+            {
+                for (int ix = 0; ix < nx; ix++)
                     bmp[iy, ix] = buffer[i++].ToUInt();
+                i += nx * MONOGETDATAINC;
+            }
             return bmp;
         }
 
@@ -194,7 +207,7 @@ namespace Jypeli
             uint[][] bmp = new uint[ny][];
 
             XnaRectangle rect = new XnaRectangle( ox, oy, nx, ny );
-            Color[] buffer = new Color[ny * nx];
+            Color[] buffer = new Color[ny * nx * MONOGETDATAMUL];
             xnaTexture.GetData<Color>( 0, rect, buffer, 0, buffer.Length );
             int i = 0;
             for ( int iy = 0; iy < ny; iy++ )
@@ -203,6 +216,7 @@ namespace Jypeli
                 bmp[iy] = row;
                 for ( int ix = 0; ix < nx; ix++ )
                     row[ix] = buffer[i++].ToUInt();
+                i += nx * MONOGETDATAINC;
             }
             return bmp;
         }

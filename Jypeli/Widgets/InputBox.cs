@@ -154,7 +154,7 @@ namespace Jypeli
         {
             cursorBlinkTimer.Start();
 
-#if WINDOWS || LINUX
+#if WINDOWS || LINUX || MACOS
             Game.Instance.Window.TextInput += InputText;
 #endif
         }
@@ -163,7 +163,7 @@ namespace Jypeli
         {
             cursorBlinkTimer.Stop();
 
-#if WINDOWS || LINUX
+#if WINDOWS || LINUX || MACOS
             Game.Instance.Window.TextInput -= InputText;
 #endif
         }
@@ -178,12 +178,16 @@ namespace Jypeli
             Cursor.Left = Math.Min( -Width / 2 + XMargin + TextSize.X, Width / 2 - Font.CharacterWidth );
         }
 
-#if WINDOWS || LINUX
+#if WINDOWS || LINUX  || MACOS
         void InputText( object sender, TextInputEventArgs e )
         {
             if ( !this.ControlContext.Active ) return;
 
+#if MACOS
+			if ( e.Character == 127 )
+#else
             if ( e.Character == '\b' )
+#endif
             {
                 // Erase
                 if ( Text.Length == 0 ) return;

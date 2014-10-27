@@ -248,6 +248,12 @@ namespace Jypeli
                     Vector n;
 
                     if ( iStatic && jStatic )
+                        // No collision checking between two static objects
+                        continue;
+
+                    if ( iBody.Position == jBody.Position )
+                        // No collision checking if there's no collision normal. Usually this happens only if
+                        // two objects are manually placed in the same coordinates.
                         continue;
 
                     Contact contact = GetContact( iBody, jBody );

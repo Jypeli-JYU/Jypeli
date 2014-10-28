@@ -87,16 +87,10 @@ namespace Jypeli
             get { return base.Text; }
             set
             {
-                if ( value.Length <= MaxCharacters )
-                {
-                    base.Text = value;
-
-                }
-                else
-                {
-                    base.Text = value.Substring( 0, MaxCharacters );
-                }
-                UpdateCursorPosition();
+				base.Text = value.Length > MaxCharacters ?
+					base.Text = value.Substring (0, MaxCharacters) : value;
+ 
+				UpdateCursorPosition();
             }
         }
 
@@ -156,6 +150,7 @@ namespace Jypeli
 
 #if WINDOWS || LINUX || MACOS
             Game.Instance.Window.TextInput += InputText;
+			Game.Instance.Keyboard.Listen(Key.Back, ButtonState.Pressed, EraseText, null).InContext(this);
 #endif
         }
 
@@ -182,31 +177,24 @@ namespace Jypeli
         void InputText( object sender, TextInputEventArgs e )
         {
             if ( !this.ControlContext.Active ) return;
+			if ( e.Character == 0x7F || e.Character == 0x08 ) return;
 
-#if MACOS
-			if ( e.Character == 127 )
-#else
-            if ( e.Character == '\b' )
-#endif
+			if ( !this.Font.XnaFont.Characters.Contains( e.Character ) )
             {
-                // Erase
-                if ( Text.Length == 0 ) return;
-                Text = Text.Remove( Text.Length - 1 );
+                // Unsupported character
+                return;
             }
-            else
-            {
-                // Type
-                if ( !this.Font.XnaFont.Characters.Contains( e.Character ) )
-                {
-                    // Unsupported character
-                    return;
-                }
 
-                Text += e.Character;
-            }
-            
+            Text += e.Character;
             OnTextChanged();
         }
+
+		void EraseText()
+		{
+			if ( Text.Length == 0 ) return;
+			Text = Text.Substring (0, Text.Length - 1);
+			OnTextChanged();
+		}
 #endif
 
 #if WINDOWS_PHONE

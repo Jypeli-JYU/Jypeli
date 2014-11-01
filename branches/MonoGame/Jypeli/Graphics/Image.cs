@@ -30,8 +30,8 @@ namespace Jypeli
     public class Image
     {
 
-        private const int MONOGETDATAMUL = 2;
-        private const int MONOGETDATAINC = 1;
+        private static int MONOGETDATAMUL = 2;
+        private static int MONOGETDATAINC = 1;
         // private static const int MONOGETDATAMUL = 1;  
         // private static const int MONOGETDATAINC = 0; // tavallinen
 
@@ -46,6 +46,26 @@ namespace Jypeli
 
         int _width = -1;
         int _height = -1;
+
+        /// <summary>
+        /// Asetetaan bitmapin rivikorjaus Mono:n bugin (???) takia
+        /// </summary>
+        /// <param name="n">0 = ei korjausta, 1 = hypätään joka toinen rivi yli</param>
+        public static void SetLineCorrection(int n)
+        {
+            if ( n == 1 ) 
+            {
+                MONOGETDATAMUL = 2;
+                MONOGETDATAINC = 1;
+                return;
+            }
+            if (n == 0)
+            {
+                MONOGETDATAMUL = 1;
+                MONOGETDATAINC = 0;
+                return;
+            }
+        }
 
         internal Texture2D XNATexture
         {

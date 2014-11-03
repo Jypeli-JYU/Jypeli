@@ -46,10 +46,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Jypeli">
-      <HintPath>..\Jypeli\bin\Linux\x86\Debug\Jypeli.dll</HintPath>
+      <HintPath>..\Jypeli\bin\Linux\x86\Release\Jypeli.dll</HintPath>
     </Reference>
     <Reference Include="Jypeli.MonoGame.Framework">
-      <HintPath>..\Jypeli\bin\Linux\x86\Debug\Jypeli.MonoGame.Framework.dll</HintPath>
+      <HintPath>..\Jypeli\bin\Linux\x86\Release\Jypeli.MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

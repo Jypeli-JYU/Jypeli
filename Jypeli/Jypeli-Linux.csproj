@@ -14,7 +14,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Linux\Debug</OutputPath>
+    <OutputPath>bin\Linux\x86\Debug</OutputPath>
     <DefineConstants>DEBUG;JYPELI;LINUX;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -23,7 +23,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Linux\Release</OutputPath>
+    <OutputPath>bin\Linux\x86\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -32,7 +32,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <OutputPath>bin\Linux\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;JYPELI;LINUX;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>DEBUG;JYPELI;LINUX;UseDouble;DISABLE_EFFECTS</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -40,15 +40,16 @@
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
     <GenerateDocumentation>true</GenerateDocumentation>
+    <DocumentationFile>bin\Linux\x86\Debug\Jypeli.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\WindowsGL\x86\Release\</OutputPath>
-    <DefineConstants>JYPELI;LINUX;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <OutputPath>bin\Linux\x86\Release\</OutputPath>
+    <DefineConstants>JYPELI;LINUX;UseDouble;DISABLE_EFFECTS</DefineConstants>
     <Optimize>true</Optimize>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\WindowsGL\x86\Release\Jypeli.xml</DocumentationFile>
+    <DocumentationFile>bin\Linux\x86\Release\Jypeli.xml</DocumentationFile>
     <DebugType>none</DebugType>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>

@@ -8604,6 +8604,12 @@
             Kuva.
             </summary>
         </member>
+        <member name="M:Jypeli.Image.SetLineCorrection(System.Int32)">
+            <summary>
+            Asetetaan bitmapin rivikorjaus Mono:n bugin (???) takia
+            </summary>
+            <param name="n">0 = ei korjausta, 1 = hypätään joka toinen rivi yli</param>
+        </member>
         <member name="M:Jypeli.Image.GetData(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             Kuvan pikselit Color-taulukkona

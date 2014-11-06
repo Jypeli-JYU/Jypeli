@@ -3,6 +3,7 @@ using MonoDevelop.Projects;
 using System.Xml;
 using MonoDevelop.Core.Assemblies;
 using System.Text;
+using System.Reflection;
 
 namespace MonoDevelop.Jypeli
 {	
@@ -63,10 +64,24 @@ namespace MonoDevelop.Jypeli
 		
 		public override bool SupportsFramework (MonoDevelop.Core.Assemblies.TargetFramework framework)
 		{
-			if (!framework.CanReferenceAssembliesTargetingFramework(MonoDevelop.Core.Assemblies.TargetFrameworkMoniker.NET_4_0))
+			Type fw = typeof(MonoDevelop.Core.Assemblies.TargetFramework);
+			Type[] ptypes = new Type[] { typeof(TargetFrameworkMoniker) };
+
+			var method = fw.GetMethod ("CanReferenceAssembliesTargetingFramework", ptypes);
+			if (method == null) {
+				method = fw.GetMethod ("IsCompatibleWithFramework", ptypes);
+				if (method == null)
+					throw new MissingMethodException ("CanReferenceAssembliesTargetingFramework / IsCompatibleWithFramework");
+			}
+
+			object[] parameters = new object[] { MonoDevelop.Core.Assemblies.TargetFrameworkMoniker.NET_4_0 };
+			return (bool)method.Invoke(framework, parameters) && base.SupportsFramework(framework);
+
+			/*if (!framework.IsCompatibleWithFramework(MonoDevelop.Core.Assemblies.TargetFrameworkMoniker.NET_4_0))
+			//if (!framework.CanReferenceAssembliesTargetingFramework(MonoDevelop.Core.Assemblies.TargetFrameworkMoniker.NET_4_0))
 				return false;
 			else
-				return base.SupportsFramework (framework);
+				return base.SupportsFramework (framework);*/
 		}
 		
 		protected override System.Collections.Generic.IList<string> GetCommonBuildActions ()

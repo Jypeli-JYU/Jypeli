@@ -217,7 +217,6 @@
     <Compile Include="Storage\FileManager\Serialization.cs" />
     <Compile Include="Storage\FileManager\XnaSerialization.cs" />
     <Compile Include="Storage\AnimationReader.cs" />
-    <Compile Include="Storage\IsolatedStorageManager.cs" />
     <Compile Include="Storage\LoadState.cs" />
     <Compile Include="Storage\SaveState.cs" />
     <Compile Include="Storage\StorageFile.cs" />

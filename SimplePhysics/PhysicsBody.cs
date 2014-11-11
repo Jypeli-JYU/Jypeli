@@ -29,6 +29,12 @@ namespace Jypeli.Physics
         public event CollisionHandler<IPhysicsBody, IPhysicsBody> Collided;
 
         /// <summary>
+        /// Onko olio tuhottu.
+        /// </summary>
+        [Save]
+        public bool IsDestroyed { get; private set; }
+
+        /// <summary>
         /// Kappaleen omistava fysiikkaolio.
         /// </summary>
         [Save]
@@ -229,6 +235,14 @@ namespace Jypeli.Physics
         {
             if ( Collided != null )
                 Collided( this, anotherBody );
+        }
+
+        /// <summary>
+        /// Tuhoaa kappaleen.
+        /// </summary>
+        public void Destroy()
+        {
+            IsDestroyed = true;
         }
 
         /// <summary>

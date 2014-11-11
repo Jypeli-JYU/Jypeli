@@ -11,23 +11,47 @@ public class Peli : PhysicsGame
 {
     public override void Begin()
     {
+        PhysicsStructure ukko = new PhysicsStructure();
+
+        var pallo1 = new PhysicsObject( 60, 60, Shape.Circle );
+        ukko.Add( pallo1 );
+
+        var pallo2 = new PhysicsObject( 40, 40, Shape.Circle );
+        pallo2.Bottom = pallo1.Top;
+        ukko.Add( pallo2 );
+
+        Gravity = Vector.UnitY * -200;
         Level.CreateBorders();
+        Camera.ZoomToLevel();
 
-        for (int i = 0; i < 10; i++)
-        {
-            PhysicsObject olio = new PhysicsObject( RandomGen.NextDouble( 10, 40 ), RandomGen.NextDouble( 10, 40 ) );
-            olio.Angle = RandomGen.NextAngle();
-            olio.Position = RandomGen.NextVector( 100, 150 );
-            Add( olio );
-        }
+        Mouse.Listen( MouseButton.Left, ButtonState.Pressed, ValitseOlio, null );
+        Mouse.Listen( MouseButton.Left, ButtonState.Down, Liikuta, null );
+        Mouse.Listen( MouseButton.Left, ButtonState.Released, IrroitaOlio, null );
 
-        MediaPlayer.Play( "AbracaZebra" );
-        Keyboard.Listen( Key.Space, ButtonState.Pressed, Pum, null );
+        Add( ukko );
     }
 
-    void Pum()
+    PhysicsObject obj = null;
+
+    void ValitseOlio()
     {
-        Explosion rajahdys = new Explosion( 150 );
-        Add( rajahdys );
+        obj = GetObjectAt( Mouse.PositionOnWorld ) as PhysicsObject;
+    }
+
+    void Liikuta()
+    {
+        if ( obj == null )
+            return;
+
+        Vector d = Mouse.PositionOnWorld - obj.AbsolutePosition;
+        if ( d == Vector.Zero )
+            return;
+
+        obj.Velocity = d;
+    }
+
+    void IrroitaOlio()
+    {
+        obj = null;
     }
 }

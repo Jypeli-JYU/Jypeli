@@ -125,7 +125,6 @@ namespace Jypeli
             Phone.ResetScreen();
             InitControls();
             InitLayers();
-            InitPhysics();
             InitDebugScreen();
 
             if ( InstanceInitialized != null )

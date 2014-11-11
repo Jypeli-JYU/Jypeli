@@ -14,13 +14,21 @@ namespace Jypeli.Physics
 {
     internal static class PhysicsInterface
     {
+        private static IPhysicsClient _client = null;
+
         public static IPhysicsClient GetClient()
         {
+            if ( _client != null )
+                return _client;
+
             foreach ( var assembly in GetAssemblies() )
             {
                 Type clientClass = assembly.GetType( "Jypeli.Physics.PhysicsClient" );
                 if ( clientClass != null )
-                     return (IPhysicsClient)Activator.CreateInstance( clientClass );
+                {
+                    _client = (IPhysicsClient)Activator.CreateInstance( clientClass );
+                    return _client;
+                }
             }
 
             return null;

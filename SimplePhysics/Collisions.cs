@@ -8,7 +8,7 @@ namespace Jypeli
     /// <summary>
     /// Fysiikkapeli (SimplePhysics)
     /// </summary>
-    public partial class PhysicsGame
+    public partial class SimplePhysicsEngine
     {
         private struct CollisionRecord
         {

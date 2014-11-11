@@ -168,10 +168,10 @@
     <Compile Include="Game\Game.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Physics\PhysicsGameBase.cs" />
     <Compile Include="Game\Storage.cs" />
     <Compile Include="Game\Graphics.cs" />
     <Compile Include="Game\Layers.cs" />
-    <Compile Include="Game\Physics.cs" />
     <Compile Include="Game\Time.cs" />
     <Compile Include="Game\Widgets.cs" />
     <Compile Include="Graphics\Animation.cs" />
@@ -202,6 +202,7 @@
     <Compile Include="Physics\Ignorers\JypeliGroupIgnorer.cs" />
     <Compile Include="Physics\Ignorers\ObjectIgnorer.cs" />
     <Compile Include="Physics\IPhysicsClient.cs" />
+    <Compile Include="Physics\IPhysicsEngine.cs" />
     <Compile Include="Physics\Joints\IAxleJoint.cs" />
     <Compile Include="Physics\PhysicsInterface.cs" />
     <Compile Include="Shapes\Shapes.cs">

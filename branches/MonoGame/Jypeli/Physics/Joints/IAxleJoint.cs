@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using AdvanceMath;
@@ -56,5 +57,11 @@ namespace Jypeli
         /// Liitoksen pehmeys eli kuinka paljon sillä on liikkumavaraa.
         /// </summary>
         double Softness { get; set; }
+
+        [EditorBrowsable( EditorBrowsableState.Never )]
+        void SetEngine( Jypeli.Physics.IPhysicsEngine engine );
+
+        [EditorBrowsable( EditorBrowsableState.Never)]
+        void AddToEngine();
     }
 }

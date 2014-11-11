@@ -160,14 +160,21 @@ namespace Jypeli
             initialPosition = secondObject.AbsolutePosition;
         }
 
-        internal void DelayedAddJoint()
-        {
-            if ( !Object1.IsAddedToGame || ( Object2 != null && !Object2.IsAddedToGame ) )
-                return;
+        Physics.IPhysicsEngine engine = null;
 
-            ( (PhysicsGameBase)( Game.Instance ) ).Add( innerJoint );
-            Object1.AddedToGame -= this.DelayedAddJoint;
-            if ( Object2 != null ) Object2.AddedToGame -= this.DelayedAddJoint;
+        public void SetEngine( Physics.IPhysicsEngine engine )
+        {
+            this.engine = engine;
+        }
+
+        public void AddToEngine()
+        {
+            if ( this.engine == null ) throw new InvalidOperationException( "AddToEngine: physics engine not set" );
+            if ( this.Object1 == null ) throw new InvalidOperationException( "AddToEngine: joint.Object1 == null" );
+            if ( !this.Object1.IsAddedToGame ) throw new InvalidOperationException( "AddToEngine: object 1 not added to game" );
+            if ( this.Object2 == null && !this.Object2.IsAddedToGame ) throw new InvalidOperationException( "AddToEngine: object 2 not added to game" );
+
+            engine.AddJoint( this );
         }
 
         #region Destroyable

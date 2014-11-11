@@ -58,13 +58,13 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Collisions.cs" />
-    <Compile Include="PhysicsClient.cs" />
-    <Compile Include="PhysicsGame.cs" />
+    <Compile Include="SimplePhysicsEngine.cs" />
     <Compile Include="PhysicsBody.cs" />
+    <Compile Include="PhysicsGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jypeli\Jypeli-WindowsGL.csproj">
-      <Project>{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}</Project>
+      <Project>{76cc55a2-bece-4f80-b491-ddcab9f061fb}</Project>
       <Name>Jypeli-WindowsGL</Name>
     </ProjectReference>
   </ItemGroup>

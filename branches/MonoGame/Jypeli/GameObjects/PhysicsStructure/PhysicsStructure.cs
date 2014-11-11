@@ -455,16 +455,12 @@ namespace Jypeli
 
         private void AddJoints()
         {
-            //Joints.ForEach( ( (PhysicsGameBase)Game.Instance ).Add );
-            var physClient = Physics.PhysicsInterface.GetClient();
-            Joints.ForEach( physClient.AddJoint );
+            Joints.ForEach( PhysicsGameBase.Instance.Add );
         }
 
         private void RemoveJoints()
         {
-            //Joints.ForEach( ( (PhysicsGameBase)Game.Instance ).Remove );
-            var physClient = Physics.PhysicsInterface.GetClient();
-            Joints.ForEach( physClient.RemoveJoint );
+            Joints.ForEach( PhysicsGameBase.Instance.Remove );
         }
 
         /// <summary>
@@ -571,14 +567,14 @@ namespace Jypeli
 
             physObj.Collided += this.OnCollided;
 
-            var physClient = Physics.PhysicsInterface.GetClient();
+            var game = PhysicsGameBase.Instance;
 
             foreach ( var existing in objects )
             {
-                IAxleJoint joint = physClient.CreateJoint( physObj, existing );
+                IAxleJoint joint = game.Engine.CreateJoint( physObj, existing );
                 joint.Softness = _softness;
                 Joints.Add( joint );
-                //( (PhysicsGameBase)Game.Instance ).Add( joint );
+                game.Add( joint );
             }
 
             objects.Add( physObj );
@@ -603,7 +599,7 @@ namespace Jypeli
             foreach ( var joint in Joints.FindAll( j => j.Object1 == physObj || j.Object2 == physObj ) )
             {
                 joint.Destroy();
-                //( (PhysicsGameBase)Game.Instance ).Remove( joint );
+                PhysicsGameBase.Instance.Remove( joint );
             }
 
             objects.Remove( physObj );

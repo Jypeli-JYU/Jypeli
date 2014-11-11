@@ -24,5 +24,25 @@ namespace Jypeli.Physics
         {
             return new PhysicsBody( width, height, shape ) { Owner = owner };
         }
+
+        public IAxleJoint CreateJoint( IPhysicsObject obj1, IPhysicsObject obj2 )
+        {
+            throw new NotImplementedException("Joints are not implemented in SimplePhysics yet.");
+        }
+
+        public IAxleJoint CreateJoint( IPhysicsObject obj1, Vector pivot )
+        {
+            throw new NotImplementedException( "Joints are not implemented in SimplePhysics yet." );
+        }
+
+        public void AddJoint( IAxleJoint joint )
+        {
+            throw new NotImplementedException( "Joints are not implemented in SimplePhysics yet." );
+        }
+
+        public void RemoveJoint( IAxleJoint joint )
+        {
+            throw new NotImplementedException( "Joints are not implemented in SimplePhysics yet." );
+        }
     }
 }

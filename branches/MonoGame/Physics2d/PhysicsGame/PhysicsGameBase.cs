@@ -140,53 +140,6 @@ namespace Jypeli
             b.Lifetime.IsExpired = true;
         }
 
-#if joints
-        /// <summary>
-        /// Lisää liitoksen peliin.
-        /// </summary>
-        public void Add( Physics2DDotNet.Joints.Joint j )
-        {
-            Joints.Add( j );
-        }
-
-        /// <summary>
-        /// Poistaa liitoksen pelistä.
-        /// </summary>
-        /// <param name="j"></param>
-        internal void Remove( Physics2DDotNet.Joints.Joint j )
-        {
-            Joints.Remove( j );
-        }
-
-        /// <summary>
-        /// Poistaa liitoksen pelistä.
-        /// </summary>
-        /// <param name="j"></param>
-        internal void Remove( AxleJoint j )
-        {
-            Joints.Remove( j.innerJoint );
-        }
-
-        /// <summary>
-        /// Lisää liitoksen peliin.
-        /// </summary>
-        public void Add( AxleJoint j )
-        {
-            bool obj1ok = j.Object1.IsAddedToGame;
-            bool obj2ok = j.Object2 == null || j.Object2.IsAddedToGame;
-
-            if ( obj1ok && obj2ok )
-            {
-                Add( j.innerJoint );
-            }
-            else
-            {
-                if ( !obj1ok ) j.Object1.AddedToGame += j.DelayedAddJoint;
-                if ( !obj2ok ) j.Object2.AddedToGame += j.DelayedAddJoint;
-            }
-        }
-#endif
-
         /// <summary>
         /// Ajetaan kun pelin tilannetta päivitetään. Päivittämisen voi toteuttaa perityssä luokassa
         /// toteuttamalla tämän metodin. Perityn luokan metodissa tulee kutsua kantaluokan metodia.
@@ -280,7 +233,6 @@ namespace Jypeli
             AddCollisionHandler<PhysicsObject, PhysicsObject>( obj, handler );
         }
 
-#if structs
         /// <summary>
         /// Määrää, mihin aliohjelmaan siirrytään kun fysiikkaolio <code>obj</code> törmää johonkin fysiikkarakenteeseen.
         /// </summary>
@@ -310,7 +262,6 @@ namespace Jypeli
         {
             AddCollisionHandler<PhysicsStructure, PhysicsStructure>( obj, handler );
         }
-#endif
 
         /// <summary>
         /// Määrää, mihin aliohjelmaan siirrytään kun

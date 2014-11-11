@@ -304,7 +304,7 @@ namespace Jypeli
                 if ( !o.IsVisible )
                     continue;
 
-                bool hasChildObjects = o.Objects.Count > 0;
+                bool hasChildObjects = o.ObjectCount > 0;
                 bool isSimple = !hasChildObjects && !o.TextureFillsShape;
 
                 if ( isSimple && ( o.Image == null ) && ( o.Shape == Shape.Rectangle || o.Shape == Shape.Triangle ) )
@@ -338,7 +338,7 @@ namespace Jypeli
                 if ( !o.IsVisible )
                     continue;
 
-                bool hasChildObjects = o.Objects.Count > 0;
+                bool hasChildObjects = o.ObjectCount > 0;
                 bool isSimple = !hasChildObjects && !o.TextureFillsShape;
 
                 if ( isSimple && ( o.Image != null ) )

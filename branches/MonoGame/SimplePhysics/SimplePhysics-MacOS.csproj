@@ -83,8 +83,8 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Collisions.cs" />
+    <Compile Include="SimplePhysicsEngine.cs" />
     <Compile Include="PhysicsBody.cs" />
-    <Compile Include="PhysicsClient.cs" />
     <Compile Include="PhysicsGame.cs" />
   </ItemGroup>
   <ItemGroup>

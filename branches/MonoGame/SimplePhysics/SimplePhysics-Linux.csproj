@@ -45,9 +45,9 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Collisions.cs" />
-    <Compile Include="PhysicsClient.cs" />
-    <Compile Include="PhysicsGame.cs" />
+    <Compile Include="SimplePhysicsEngine.cs" />
     <Compile Include="PhysicsBody.cs" />
+    <Compile Include="PhysicsGame.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

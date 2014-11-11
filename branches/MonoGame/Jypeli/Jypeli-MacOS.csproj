@@ -249,10 +249,8 @@
     <Compile Include="Physics\Ignorers\Ignorer.cs" />
     <Compile Include="Physics\Ignorers\JypeliGroupIgnorer.cs" />
     <Compile Include="Physics\Ignorers\ObjectIgnorer.cs" />
-    <Compile Include="Physics\IPhysicsClient.cs" />
     <Compile Include="Physics\IPhysicsEngine.cs" />
     <Compile Include="Physics\Joints\IAxleJoint.cs" />
-    <Compile Include="Physics\PhysicsInterface.cs" />
     <Compile Include="Shapes\Shapes.cs">
       <SubType>Code</SubType>
     </Compile>

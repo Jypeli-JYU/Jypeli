@@ -2268,6 +2268,86 @@
             <param name="point">tutkittavan pisteen koordinaatti</param>
             <returns>true jos sisällä, muuten false</returns>
         </member>
+        <member name="T:Jypeli.Dimensional">
+            <summary>
+            Olio jolla on reunat.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Dimensional.Left">
+            <summary>
+            Vasen reuna.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Dimensional.Right">
+            <summary>
+            Oikea reuna.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Dimensional.Top">
+            <summary>
+            Yläreuna.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Dimensional.Bottom">
+            <summary>
+            Alareuna.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Dimensional.Size">
+            <summary>
+            Koko.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Dimensional.Width">
+            <summary>
+            Leveys.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Dimensional.Height">
+            <summary>
+            Korkeus.
+            </summary>
+        </member>
+        <member name="T:Jypeli.DimensionalRW">
+            <summary>
+            Olio jolla on reunat joita voi muuttaa.
+            </summary>
+        </member>
+        <member name="P:Jypeli.DimensionalRW.Left">
+            <summary>
+            Vasen reuna.
+            </summary>
+        </member>
+        <member name="P:Jypeli.DimensionalRW.Right">
+            <summary>
+            Oikea reuna.
+            </summary>
+        </member>
+        <member name="P:Jypeli.DimensionalRW.Top">
+            <summary>
+            Yläreuna.
+            </summary>
+        </member>
+        <member name="P:Jypeli.DimensionalRW.Bottom">
+            <summary>
+            Alareuna.
+            </summary>
+        </member>
+        <member name="P:Jypeli.DimensionalRW.Size">
+            <summary>
+            Koko.
+            </summary>
+        </member>
+        <member name="P:Jypeli.DimensionalRW.Width">
+            <summary>
+            Leveys.
+            </summary>
+        </member>
+        <member name="P:Jypeli.DimensionalRW.Height">
+            <summary>
+            Korkeus.
+            </summary>
+        </member>
         <member name="T:Jypeli.Direction">
             <summary>
             Perussuunta tasossa.
@@ -2374,6 +2454,46 @@
         <member name="E:Jypeli.INotifyList`1.Changed">
             <summary>
             Tapahtuu kun listan sisältö muuttuu.
+            </summary>
+        </member>
+        <member name="T:Jypeli.Positional">
+            <summary>
+            Olio jolla on paikka.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Positional.Position">
+            <summary>
+            Paikka.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Positional.X">
+            <summary>
+            Paikan X-koordinaatti.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Positional.Y">
+            <summary>
+            Paikan Y-koordinaatti.
+            </summary>
+        </member>
+        <member name="T:Jypeli.PositionalRW">
+            <summary>
+            Olio jolla on paikka jota voi muuttaa.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PositionalRW.Position">
+            <summary>
+            Paikka.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PositionalRW.X">
+            <summary>
+            Paikan X-koordinaatti.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PositionalRW.Y">
+            <summary>
+            Paikan Y-koordinaatti.
             </summary>
         </member>
         <member name="T:Jypeli.ScoreList">
@@ -6020,6 +6140,22 @@
             Kuten Objects.Count, mutta optimoitu.
             </summary>
         </member>
+        <member name="M:Jypeli.GameObject.GetChildObjects``1">
+            <summary>
+            Palauttaa olion lapsioliot.
+            </summary>
+            <typeparam name="T">Olion tyyppi rakenteessa (esim. PhysicsObject)</typeparam>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:Jypeli.GameObject.GetChildObjects``1(System.Predicate{``0})">
+            <summary>
+            Palauttaa olion lapsioliot.
+            </summary>
+            <typeparam name="T">Olion tyyppi rakenteessa (esim. PhysicsObject)</typeparam>
+            <returns>
+            </returns>
+        </member>
         <member name="M:Jypeli.GameObject.Add(Jypeli.IGameObject)">
             <summary>
             Lis�� annetun peliolion t�m�n olion lapseksi. Lapsiolio liikkuu t�m�n olion mukana,
@@ -6752,6 +6888,11 @@
             Jos <c>false</c>, olio ei voi pyöriä.
             </summary>
         </member>
+        <member name="P:Jypeli.PhysicsObject.ParentStructure">
+            <summary>
+            Rakenneolio, johon tämä olio kuuluu.
+            </summary>
+        </member>
         <member name="M:Jypeli.PhysicsObject.OnCollided(Jypeli.Physics.IPhysicsBody,Jypeli.Physics.IPhysicsBody)">
             <summary>
             Fysiikkamoottori kutsuu kun törmäys tapahtuu
@@ -6810,6 +6951,109 @@
             T�rm�ystapahtumiin liitett�v�n metodin tyyppi. T�rm�yksen k�sittelev�ll�
             metodilla ei ole paluuarvoa ja se ottaa yhden <code>Collision</code>-tyyppisen
             parametrin.
+            </summary>
+        </member>
+        <member name="T:Jypeli.PhysicsStructure">
+            <summary>
+            Rakenne, joka pitää fysiikkaoliot kiinteän matkan päässä toisistaan.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsStructure.IsAddedToGame">
+            <summary>
+            Onko rakenne lisätty peliin.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsStructure.Objects">
+            <summary>
+            Rakenteeseen kuuluvat oliot.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsStructure.ObjectCount">
+            <summary>
+            Rakenteeseen kuuluvien olioiden määrä.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsStructure.Joints">
+            <summary>
+            Rakenteeseen kuuluvat liitokset.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsStructure.Softness">
+            <summary>
+            Olioiden välisten liitosten pehmeys.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsStructure.Position">
+            <summary>
+            Rakenteen paikka pelimaailmassa.
+            </summary>
+        </member>
+        <member name="E:Jypeli.PhysicsStructure.Collided">
+            <summary>
+            Tapahtuu kun olio törmää toiseen.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsStructure.ParentStructure">
+            <summary>
+            Rakenneolio, johon tämä olio kuuluu.
+            </summary>
+        </member>
+        <member name="P:Jypeli.PhysicsStructure.CanRotate">
+            <summary>
+            Jos <c>false</c>, olio ei voi pyöriä.
+            </summary>
+        </member>
+        <member name="M:Jypeli.PhysicsStructure.#ctor">
+            <summary>
+            Luo uuden tyhjän rakenteen.
+            </summary>
+        </member>
+        <member name="M:Jypeli.PhysicsStructure.#ctor(Jypeli.PhysicsObject[])">
+            <summary>
+            Luo uuden rakenteen ja varustaa sen fysiikkaolioilla.
+            </summary>
+            <param name="objs">Fysiikkaoliot</param>
+        </member>
+        <member name="M:Jypeli.PhysicsStructure.OnAddedToGame">
+            <summary>
+            Kutsutaan kun olio lisätään peliin.
+            </summary>
+        </member>
+        <member name="M:Jypeli.PhysicsStructure.OnCollided(Jypeli.IPhysicsObject,Jypeli.IPhysicsObject)">
+            <summary>
+            Kutsutaan kun törmätään.
+            </summary>
+        </member>
+        <member name="M:Jypeli.PhysicsStructure.GetChildObjects``1">
+            <summary>
+            Palauttaa rakenteeseen kuuluvat oliot.
+            </summary>
+            <typeparam name="T">Olion tyyppi rakenteessa (esim. PhysicsObject)</typeparam>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:Jypeli.PhysicsStructure.GetChildObjects``1(System.Predicate{``0})">
+            <summary>
+            Palauttaa rakenteeseen kuuluvat oliot.
+            </summary>
+            <typeparam name="T">Olion tyyppi rakenteessa (esim. PhysicsObject)</typeparam>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:Jypeli.PhysicsStructure.Add(Jypeli.IGameObject)">
+            <summary>
+            Lisää olion rakenteeseen.
+            </summary>
+            <param name="obj">Lisättävä olio</param>
+        </member>
+        <member name="P:Jypeli.PhysicsStructure.IsDestroying">
+            <summary>
+            Onko olio tuhoutumassa.
+            </summary>
+        </member>
+        <member name="E:Jypeli.PhysicsStructure.Destroying">
+            <summary>
+            Tapahtuu, kun olion tuhoaminen alkaa.
             </summary>
         </member>
         <member name="T:Jypeli.Surface">
@@ -7331,6 +7575,42 @@
             Näyttää kontrollien ohjetekstit tietylle ohjaimelle.
             </summary>
         </member>
+        <member name="P:Jypeli.Game.DebugLayer">
+            <summary>
+            Debug-ruutukerros, joka näkyy kun painetaan F12.
+            Voit lisätä olioita myös tälle kerrokselle.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Game.DebugKeyEnabled">
+            <summary>
+            Debug-ruutu F12-näppäimestä päällä / pois.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Game.DebugScreenVisible">
+            <summary>
+            Debug-ruutu näkyvissä / pois.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Game.FPSWindow">
+            <summary>
+            FPS-ikkuna.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Game.FPSDisplay">
+            <summary>
+            FPS-näyttö.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Game.LayerWindow">
+            <summary>
+            "Layers"-ikkuna. Huom. asettaa kokonsa automaattisesti.
+            </summary>
+        </member>
+        <member name="P:Jypeli.Game.LayerDisplay">
+            <summary>
+            "Layers"-näyttö.
+            </summary>
+        </member>
         <member name="E:Jypeli.Game.InstanceInitialized">
             <summary>
             Tapahtuu kun Game.Instance on alustettu.
@@ -7482,6 +7762,12 @@
             </summary>
             <param name="canvas">
             </param>
+        </member>
+        <member name="P:Jypeli.Game.DataStorage">
+            <summary>
+            Tietovarasto, johon voi tallentaa tiedostoja pidempiaikaisesti.
+            Sopii esimerkiksi pelitilanteen lataamiseen ja tallentamiseen.
+            </summary>
         </member>
         <member name="P:Jypeli.Game.GraphicsDevice">
             <summary>
@@ -7808,47 +8094,182 @@
             </summary>
             <value>Viestinäyttö.</value>
         </member>
-        <member name="P:Jypeli.Game.DebugLayer">
+        <member name="T:Jypeli.PhysicsGameBase">
             <summary>
-            Debug-ruutukerros, joka näkyy kun painetaan F12.
-            Voit lisätä olioita myös tälle kerrokselle.
+            Kantaluokka fysiikkapeleille.
             </summary>
         </member>
-        <member name="P:Jypeli.Game.DebugKeyEnabled">
+        <member name="P:Jypeli.PhysicsGameBase.Gravity">
             <summary>
-            Debug-ruutu F12-näppäimestä päällä / pois.
+            Painovoima. Voimavektori, joka vaikuttaa kaikkiin ei-staattisiin kappaleisiin.
             </summary>
         </member>
-        <member name="P:Jypeli.Game.DebugScreenVisible">
+        <member name="P:Jypeli.PhysicsGameBase.Instance">
             <summary>
-            Debug-ruutu näkyvissä / pois.
+            Käynnissä olevan fysiikkapelin pääolio.
             </summary>
         </member>
-        <member name="P:Jypeli.Game.FPSWindow">
+        <member name="P:Jypeli.PhysicsGameBase.PhysicsEnabled">
             <summary>
-            FPS-ikkuna.
+            Onko fysiikan laskenta käytössä vai ei.
             </summary>
         </member>
-        <member name="P:Jypeli.Game.FPSDisplay">
+        <member name="M:Jypeli.PhysicsGameBase.#ctor(Jypeli.Physics.IPhysicsEngine)">
             <summary>
-            FPS-näyttö.
+            Alustaa uuden fysiikkapelin.
             </summary>
         </member>
-        <member name="P:Jypeli.Game.LayerWindow">
+        <member name="M:Jypeli.PhysicsGameBase.StopAll">
             <summary>
-            "Layers"-ikkuna. Huom. asettaa kokonsa automaattisesti.
+            Pysäyttää kaiken liikkeen.
             </summary>
         </member>
-        <member name="P:Jypeli.Game.LayerDisplay">
+        <member name="M:Jypeli.PhysicsGameBase.ClearAll">
             <summary>
-            "Layers"-näyttö.
+            Nollaa kaiken (kontrollit, näyttöobjektit, ajastimet ja fysiikkamoottorin).
             </summary>
         </member>
-        <member name="P:Jypeli.Game.DataStorage">
+        <member name="M:Jypeli.PhysicsGameBase.ClearPhysics">
             <summary>
-            Tietovarasto, johon voi tallentaa tiedostoja pidempiaikaisesti.
-            Sopii esimerkiksi pelitilanteen lataamiseen ja tallentamiseen.
+            Nollaa fysiikkamoottorin.
             </summary>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.Update(Jypeli.Time)">
+            <summary>
+            Ajetaan kun pelin tilannetta päivitetään. Päivittämisen voi toteuttaa perityssä luokassa
+            toteuttamalla tämän metodin. Perityn luokan metodissa tulee kutsua kantaluokan metodia.
+            </summary>
+            <param name="time">
+            </param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.Add(Jypeli.IAxleJoint)">
+            <summary>
+            Lisää liitoksen peliin.
+            </summary>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.Remove(Jypeli.IAxleJoint)">
+            <summary>
+            Poistaa liitoksen pelistä.
+            </summary>
+            <param name="j">
+            </param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandler``2(``0,Jypeli.CollisionHandler{``0,``1})">
+            <summary>
+            Määrää, mihin aliohjelmaan siirrytään kun olio <code>obj</code> törmää johonkin toiseen olioon.
+            </summary>
+            <typeparam name="T">Kohdeolion tyyppi.</typeparam>
+            <param name="obj">Törmäävä olio</param>
+            <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.AddProtectedCollisionHandler``2(``0,Jypeli.CollisionHandler{``0,``1})">
+            <summary>
+            Määrää, mihin aliohjelmaan siirrytään kun olio <code>obj</code> törmää johonkin toiseen olioon.
+            Jypelin sisäiseen käyttöön!
+            </summary>
+            <typeparam name="T">Kohdeolion tyyppi.</typeparam>
+            <param name="obj">Törmäävä olio</param>
+            <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandler(Jypeli.IPhysicsObject,Jypeli.CollisionHandler{Jypeli.IPhysicsObject,Jypeli.IPhysicsObject})">
+            <summary>
+            Määrää, mihin aliohjelmaan siirrytään kun yleinen fysiikkaolio <code>obj</code>
+            törmää johonkin toiseen yleiseen fysiikkaolioon.
+            </summary>
+            <param name="obj">Törmäävä olio</param>
+            <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandler(Jypeli.PhysicsObject,Jypeli.CollisionHandler{Jypeli.PhysicsObject,Jypeli.PhysicsObject})">
+            <summary>
+            Määrää, mihin aliohjelmaan siirrytään kun fysiikkaolio <code>obj</code> törmää johonkin toiseen fysiikkaolioon.
+            </summary>
+            <param name="obj">Törmäävä olio</param>
+            <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandler(Jypeli.PhysicsObject,Jypeli.CollisionHandler{Jypeli.PhysicsObject,Jypeli.PhysicsStructure})">
+            <summary>
+            Määrää, mihin aliohjelmaan siirrytään kun fysiikkaolio <code>obj</code> törmää johonkin fysiikkarakenteeseen.
+            </summary>
+            <param name="obj">Törmäävä olio</param>
+            <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandler(Jypeli.PhysicsStructure,Jypeli.CollisionHandler{Jypeli.PhysicsStructure,Jypeli.PhysicsObject})">
+            <summary>
+            Määrää, mihin aliohjelmaan siirrytään kun fysiikkarakenne <code>o</code> törmää johonkin fysiikkaolioon.
+            </summary>
+            <param name="obj">Törmäävä fysiikkarakenne</param>
+            <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandler(Jypeli.PhysicsStructure,Jypeli.CollisionHandler{Jypeli.PhysicsStructure,Jypeli.PhysicsStructure})">
+            <summary>
+            Määrää, mihin aliohjelmaan siirrytään kun fysiikkarakenne <code>o</code> törmää toiseen fysiikkarakenteeseen.
+            </summary>
+            <param name="obj">Törmäävä fysiikkarakenne</param>
+            <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandlerByRef``2(``0,``1,Jypeli.CollisionHandler{``0,``1})">
+            <summary>
+            Määrää, mihin aliohjelmaan siirrytään kun
+            olio <code>obj</code> törmää tiettyyn toiseen olioon <code>target</code>.
+            </summary>
+            <param name="obj">Törmäävä olio.</param>
+            <param name="target">Olio johon törmätään.</param>
+            <param name="handler">Metodi, joka käsittelee törmäyksen (ei parametreja).</param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandlerByTag``2(``0,System.Object,Jypeli.CollisionHandler{``0,``1})">
+            <summary>
+            Määrää, mihin aliohjelmaan siirrytään kun
+            olio <code>obj</code> törmää toiseen olioon, jolla on tietty tagi <code>tag</code>.
+            </summary>
+            <param name="obj">Törmäävä olio.</param>
+            <param name="tag">Törmättävän olion tagi.</param>
+            <param name="handler">Metodi, joka käsittelee törmäyksen (ei parametreja).</param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandler``2(``0,System.Object,Jypeli.CollisionHandler{``0,``1})">
+            <summary>
+            Määrää, mihin aliohjelmaan siirrytään kun
+            olio <code>obj</code> törmää toiseen olioon.
+            </summary>
+            <param name="obj">Törmäävä olio.</param>
+            <param name="target">Törmättävän olion viite tai tagi.</param>
+            <param name="handler">Metodi, joka käsittelee törmäyksen (ei parametreja).</param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandler(Jypeli.IPhysicsObject,System.Object,Jypeli.CollisionHandler{Jypeli.IPhysicsObject,Jypeli.IPhysicsObject})">
+            <summary>
+            Määrää, mihin aliohjelmaan siirrytään kun
+            yleinen fysiikkaolio <code>obj</code> törmää toiseen yleiseen fysiikkaolioon, jolla on tietty tagi <code>tag</code>.
+            </summary>
+            <param name="obj">Törmäävä olio.</param>
+            <param name="tag">Törmättävän olion tagi.</param>
+            <param name="handler">Metodi, joka käsittelee törmäyksen (ei parametreja).</param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.AddCollisionHandler(Jypeli.PhysicsObject,System.Object,Jypeli.CollisionHandler{Jypeli.PhysicsObject,Jypeli.PhysicsObject})">
+            <summary>
+            Määrää, mihin aliohjelmaan siirrytään kun
+            fysiikkaolio <code>obj</code> törmää toiseen fysiikkaolioon, jolla on tietty tagi <code>tag</code>.
+            </summary>
+            <param name="obj">Törmäävä olio.</param>
+            <param name="tag">Törmättävän olion tagi.</param>
+            <param name="handler">Metodi, joka käsittelee törmäyksen (ei parametreja).</param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.RemoveCollisionHandlers(Jypeli.PhysicsObject,Jypeli.PhysicsObject,System.Object,System.Delegate)">
+            <summary>
+            Poistaa kaikki ehdot täyttävät törmäyksenkäsittelijät.
+            </summary>
+            <param name="obj">Törmäävä olio. null jos ei väliä.</param>
+            <param name="target">Törmäyksen kohde. null jos ei väliä.</param>
+            <param name="tag">Törmäyksen kohteen tagi. null jos ei väliä.</param>
+            <param name="handler">Törmäyksenkäsittelijä. null jos ei väliä.</param>
+        </member>
+        <member name="M:Jypeli.PhysicsGameBase.RemoveProtectedCollisionHandlers(Jypeli.PhysicsObject,Jypeli.PhysicsObject,System.Object,System.Delegate)">
+            <summary>
+            Poistaa kaikki ehdot täyttävät törmäyksenkäsittelijät.
+            Jypelin sisäiseen käyttöön!
+            </summary>
+            <param name="obj">Törmäävä olio. null jos ei väliä.</param>
+            <param name="target">Törmäyksen kohde. null jos ei väliä.</param>
+            <param name="tag">Törmäyksen kohteen tagi. null jos ei väliä.</param>
+            <param name="handler">Törmäyksenkäsittelijä. null jos ei väliä.</param>
         </member>
         <member name="T:Jypeli.Animation">
             <summary>
@@ -8991,6 +9412,12 @@
             <summary>
             Kuva.
             </summary>
+        </member>
+        <member name="M:Jypeli.Image.SetLineCorrection(System.Int32)">
+            <summary>
+            Asetetaan bitmapin rivikorjaus Mono:n bugin (???) takia
+            </summary>
+            <param name="n">0 = ei korjausta, 1 = hypätään joka toinen rivi yli</param>
         </member>
         <member name="M:Jypeli.Image.GetData(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -10552,10 +10979,40 @@
             Get and sets if the result of this ignorer is inverted.
             </summary>
         </member>
+        <member name="P:Jypeli.JypeliGroupIgnorer.LegacyGroup">
+            <summary>
+            Vanha törmäysryhmä yhteensopivuutta varten.
+            </summary>
+        </member>
+        <member name="F:Jypeli.JypeliGroupIgnorer.IgnoreMask">
+            <summary>
+            Törmäysmaski: 0 = törmää, 1 = ei törmää.
+            </summary>
+        </member>
         <member name="T:Jypeli.ObjectIgnorer">
             <summary>
             A collision ignorer that uses reference comparison.
             All Bodies with the same instance of this ignorer then they will not collide.
+            </summary>
+        </member>
+        <member name="P:Jypeli.IAxleJoint.Object1">
+            <summary>
+            Ensimmäinen olio.
+            </summary>
+        </member>
+        <member name="P:Jypeli.IAxleJoint.Object2">
+            <summary>
+            Toinen olio (null jos ensimmäinen olio on sidottu pisteeseen)
+            </summary>
+        </member>
+        <member name="P:Jypeli.IAxleJoint.AxlePoint">
+            <summary>
+            Pyörimisakselin (tämänhetkiset) koordinaatit.
+            </summary>
+        </member>
+        <member name="P:Jypeli.IAxleJoint.Softness">
+            <summary>
+            Liitoksen pehmeys eli kuinka paljon sillä on liikkumavaraa.
             </summary>
         </member>
         <member name="T:Jypeli.Shape">
@@ -10811,6 +11268,257 @@
             </summary>
             <param name="c">Pikselin väri.</param>
             <returns>Läpinäkyvyys.</returns>
+        </member>
+        <member name="P:Jypeli.FileManager.CurrentDirectory">
+            <summary>
+            Nykyinen ty�hakemisto.
+            </summary>
+        </member>
+        <member name="M:Jypeli.FileManager.ChDir(System.String)">
+            <summary>
+            Vaihtaa nykyist� hakemistoa.
+            </summary>
+            <param name="path">Hakemistopolku</param>
+            <returns>Vaihdettiinko hakemistoa</returns>
+        </member>
+        <member name="M:Jypeli.FileManager.MkDir(System.String)">
+            <summary>
+            Luo uuden hakemiston.
+            </summary>
+            <param name="path">Luotavan hakemiston nimi.</param>
+        </member>
+        <member name="M:Jypeli.FileManager.RmDir(System.String)">
+            <summary>
+            Poistaa hakemiston.
+            </summary>
+            <param name="path">Poistettavan hakemiston nimi.</param>
+        </member>
+        <member name="M:Jypeli.FileManager.PushDir(System.String)">
+            <summary>
+            Vaihtaa ty�hakemistoa j�tt�en edellisen hakemiston muistiin.
+            Kutsu PopDir kun haluat palauttaa ty�hakemiston edelliseen arvoonsa.
+            </summary>
+            <param name="dir">
+            </param>
+        </member>
+        <member name="M:Jypeli.FileManager.PopDir">
+            <summary>
+            Palauttaa edellisen ty�hakemiston.
+            Jos edellist� ty�hakemistoa ei ole tallennettu, s�ilytet��n nykyinen.
+            </summary>
+        </member>
+        <member name="M:Jypeli.FileManager.DoWith(System.String,System.Action{Jypeli.StorageFile})">
+            <summary>
+            Avaa tiedoston (lukua varten) ja tekee sill� jotain.
+            </summary>
+            <param name="fileName">Tiedoston nimi</param>
+            <param name="callback">Mit� tehd��n (aliohjelman nimi)</param>
+            <example>
+            {
+            DoWith( "kuva.png", AsetaKuva );
+            }
+            void AsetaKuva( StorageFile kuva )
+            {
+            olio.Image = new Image( kuva );
+            }
+            </example>
+        </member>
+        <member name="M:Jypeli.FileManager.DoWithURL(System.String,System.Action{Jypeli.StorageFile})">
+            <summary>
+            Avaa tiedoston netist� (lukua varten) ja tekee sill� jotain.
+            </summary>
+            <param name="url">Nettiosoite</param>
+            <param name="callback">Mit� tehd��n (aliohjelman nimi)</param>
+            <example>
+            {
+            DoWith( "http://www.google.fi/images/srpr/logo3w.png", AsetaKuva );
+            }
+            void AsetaKuva( StorageFile kuva )
+            {
+            olio.Image = new Image( kuva );
+            }
+            </example>
+        </member>
+        <member name="M:Jypeli.FileManager.DoWithURL(System.String,System.TimeSpan,System.Action{Jypeli.StorageFile})">
+            <summary>
+            Avaa tiedoston netist� (lukua varten) ja tekee sill� jotain.
+            </summary>
+            <param name="url">Nettiosoite</param>
+            <param name="callback">Mit� tehd��n (aliohjelman nimi)</param>
+            <example>
+            {
+            DoWith( "http://www.google.fi/images/srpr/logo3w.png", AsetaKuva );
+            }
+            void AsetaKuva( StorageFile kuva )
+            {
+            olio.Image = new Image( kuva );
+            }
+            </example>
+        </member>
+        <member name="M:Jypeli.FileManager.TriggerOnComplete(System.Action,Jypeli.FileManager.AsyncOperation[])">
+            <summary>
+            Laukaisee aliohjelman kun annetut operaatiot on suoritettu.
+            </summary>
+            <param name="callback">Aliohjelma</param>
+            <param name="actions">Operaatiot</param>
+        </member>
+        <member name="M:Jypeli.FileManager.TriggerOnComplete(System.Action,System.TimeSpan,Jypeli.FileManager.AsyncOperation[])">
+            <summary>
+            Laukaisee aliohjelman kun annetut operaatiot on suoritettu.
+            </summary>
+            <param name="callback">Aliohjelma</param>
+            <param name="timeout">Kuinka pitk��n odotetaan yksitt�ist� operaatiota ennen kuin luovutetaan</param>
+            <param name="actions">Operaatiot</param>
+        </member>
+        <member name="M:Jypeli.FileManager.Export(System.IO.Stream,System.String)">
+            <summary>
+            Vie virran sis�ll�n tiedostoon.
+            </summary>
+            <param name="objStream">Virta</param>
+            <param name="fileName">Tiedoston nimi</param>
+        </member>
+        <member name="T:Jypeli.StorageFile">
+            <summary>
+            Tiedosto.
+            </summary>
+        </member>
+        <member name="T:Jypeli.LinuxFileManager">
+            <summary>
+            Tiedostonhallintaluokka Linuxia varten.
+            </summary>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.#ctor(System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jypeli.LinuxFileManager" /> class.
+            </summary>
+            <param name="pathCandidates">
+            Path candidates.
+            </param>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.Initialize">
+            <summary>
+            Initialize this instance.
+            </summary>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jypeli.LinuxFileManager" /> class.
+            </summary>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.Exists(System.String)">
+            <summary>
+            Kertoo onko tiedosto tai hakemisto olemassa.
+            </summary>
+            <param name="fileName">Tiedoston tai hakemiston nimi</param>
+            <returns>Onko olemassa</returns>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.ChDir(System.String)">
+            <summary>
+            Vaihtaa työhakemistoa.
+            </summary>
+            <param name="path">Hakemistopolku.</param>
+            <returns>Onnistuiko hakemiston vaihtaminen (palauttaa false jos hakemistoa ei ole).</returns>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.MkDir(System.String)">
+            <summary>
+            Luo uuden hakemiston.
+            </summary>
+            <param name="path">Hakemistopolku.</param>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.RmDir(System.String)">
+            <summary>
+            Tuhoaa hakemiston. Heittää poikkeuksen jos hakemisto ei ole tyhjä.
+            Ei heitä poikkeusta, jos hakemistoa ei ole olemassa.
+            </summary>
+            <param name="path">
+            </param>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.GetFileList">
+            <summary>
+            Antaa listan nykyisessä hakemistossa olevista tiedostoista.
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.Open(System.String,System.Boolean)">
+            <summary>
+            Avaa tiedoston.
+            </summary>
+            <param name="fileName">Tiedoston nimi.</param>
+            <param name="write">Tarvitaanko tiedostoon kirjoitusoikeus.</param>
+            <returns>StorageFile-olio</returns>
+        </member>
+        <member name="M:Jypeli.LinuxFileManager.Delete(System.String)">
+            <summary>
+            Poistaa tiedoston.
+            Ei heitä poikkeusta, jos tiedostoa ei ole olemassa.
+            </summary>
+            <param name="fileName">Tiedoston nimi</param>
+        </member>
+        <member name="T:Jypeli.LinuxLocation">
+            <summary>
+            Usein käytettyjä polkuja Linuxissa.
+            </summary>
+        </member>
+        <member name="F:Jypeli.LinuxLocation.ExePath">
+            <summary>
+            Ohjelman hakemisto.
+            </summary>
+        </member>
+        <member name="F:Jypeli.LinuxLocation.UserHome">
+            <summary>
+            Käyttäjän kotihakemisto.
+            </summary>
+        </member>
+        <member name="F:Jypeli.LinuxLocation.DataPath">
+            <summary>
+            Ohjelman data-alihakemisto.
+            </summary>
+        </member>
+        <member name="F:Jypeli.LinuxLocation.ContentPath">
+            <summary>
+            Ohjelman content-alihakemisto.
+            </summary>
+        </member>
+        <member name="T:Jypeli.WindowsLocation">
+            <summary>
+            Usein käytettyjä polkuja Windowsissa (yhteensopivuutta varten)
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.MyDocuments">
+            <summary>
+            Omat tiedostot.
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.MyMusic">
+            <summary>
+            Oma musiikki.
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.MyPictures">
+            <summary>
+            Omat kuvatiedostot.
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.MyVideos">
+            <summary>
+            Omat videot.
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.ExePath">
+            <summary>
+            Ohjelman hakemisto.
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.DataPath">
+            <summary>
+            Ohjelman data-alihakemisto.
+            </summary>
+        </member>
+        <member name="F:Jypeli.WindowsLocation.ContentPath">
+            <summary>
+            Ohjelman content-alihakemisto.
+            </summary>
         </member>
         <member name="T:Jypeli.Destroyable">
             <summary>
@@ -12504,387 +13212,6 @@
         <member name="M:Jypeli.Phone.StopVibrating">
             <summary>
             Lopettaa puhelimen värinän.
-            </summary>
-        </member>
-        <member name="T:Jypeli.Dimensional">
-            <summary>
-            Olio jolla on reunat.
-            </summary>
-        </member>
-        <member name="P:Jypeli.Dimensional.Left">
-            <summary>
-            Vasen reuna.
-            </summary>
-        </member>
-        <member name="P:Jypeli.Dimensional.Right">
-            <summary>
-            Oikea reuna.
-            </summary>
-        </member>
-        <member name="P:Jypeli.Dimensional.Top">
-            <summary>
-            Yläreuna.
-            </summary>
-        </member>
-        <member name="P:Jypeli.Dimensional.Bottom">
-            <summary>
-            Alareuna.
-            </summary>
-        </member>
-        <member name="P:Jypeli.Dimensional.Size">
-            <summary>
-            Koko.
-            </summary>
-        </member>
-        <member name="P:Jypeli.Dimensional.Width">
-            <summary>
-            Leveys.
-            </summary>
-        </member>
-        <member name="P:Jypeli.Dimensional.Height">
-            <summary>
-            Korkeus.
-            </summary>
-        </member>
-        <member name="T:Jypeli.DimensionalRW">
-            <summary>
-            Olio jolla on reunat joita voi muuttaa.
-            </summary>
-        </member>
-        <member name="P:Jypeli.DimensionalRW.Left">
-            <summary>
-            Vasen reuna.
-            </summary>
-        </member>
-        <member name="P:Jypeli.DimensionalRW.Right">
-            <summary>
-            Oikea reuna.
-            </summary>
-        </member>
-        <member name="P:Jypeli.DimensionalRW.Top">
-            <summary>
-            Yläreuna.
-            </summary>
-        </member>
-        <member name="P:Jypeli.DimensionalRW.Bottom">
-            <summary>
-            Alareuna.
-            </summary>
-        </member>
-        <member name="P:Jypeli.DimensionalRW.Size">
-            <summary>
-            Koko.
-            </summary>
-        </member>
-        <member name="P:Jypeli.DimensionalRW.Width">
-            <summary>
-            Leveys.
-            </summary>
-        </member>
-        <member name="P:Jypeli.DimensionalRW.Height">
-            <summary>
-            Korkeus.
-            </summary>
-        </member>
-        <member name="T:Jypeli.Positional">
-            <summary>
-            Olio jolla on paikka.
-            </summary>
-        </member>
-        <member name="P:Jypeli.Positional.Position">
-            <summary>
-            Paikka.
-            </summary>
-        </member>
-        <member name="P:Jypeli.Positional.X">
-            <summary>
-            Paikan X-koordinaatti.
-            </summary>
-        </member>
-        <member name="P:Jypeli.Positional.Y">
-            <summary>
-            Paikan Y-koordinaatti.
-            </summary>
-        </member>
-        <member name="T:Jypeli.PositionalRW">
-            <summary>
-            Olio jolla on paikka jota voi muuttaa.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PositionalRW.Position">
-            <summary>
-            Paikka.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PositionalRW.X">
-            <summary>
-            Paikan X-koordinaatti.
-            </summary>
-        </member>
-        <member name="P:Jypeli.PositionalRW.Y">
-            <summary>
-            Paikan Y-koordinaatti.
-            </summary>
-        </member>
-        <member name="T:Jypeli.LinuxFileManager">
-            <summary>
-            Tiedostonhallintaluokka Linuxia varten.
-            </summary>
-        </member>
-        <member name="M:Jypeli.LinuxFileManager.#ctor(System.String[])">
-            <summary>
-            Initializes a new instance of the <see cref="T:Jypeli.LinuxFileManager" /> class.
-            </summary>
-            <param name="pathCandidates">
-            Path candidates.
-            </param>
-        </member>
-        <member name="M:Jypeli.LinuxFileManager.Initialize">
-            <summary>
-            Initialize this instance.
-            </summary>
-        </member>
-        <member name="M:Jypeli.LinuxFileManager.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Jypeli.LinuxFileManager" /> class.
-            </summary>
-        </member>
-        <member name="M:Jypeli.LinuxFileManager.Exists(System.String)">
-            <summary>
-            Kertoo onko tiedosto tai hakemisto olemassa.
-            </summary>
-            <param name="fileName">Tiedoston tai hakemiston nimi</param>
-            <returns>Onko olemassa</returns>
-        </member>
-        <member name="M:Jypeli.LinuxFileManager.ChDir(System.String)">
-            <summary>
-            Vaihtaa työhakemistoa.
-            </summary>
-            <param name="path">Hakemistopolku.</param>
-            <returns>Onnistuiko hakemiston vaihtaminen (palauttaa false jos hakemistoa ei ole).</returns>
-        </member>
-        <member name="M:Jypeli.LinuxFileManager.MkDir(System.String)">
-            <summary>
-            Luo uuden hakemiston.
-            </summary>
-            <param name="path">Hakemistopolku.</param>
-        </member>
-        <member name="M:Jypeli.LinuxFileManager.RmDir(System.String)">
-            <summary>
-            Tuhoaa hakemiston. Heittää poikkeuksen jos hakemisto ei ole tyhjä.
-            Ei heitä poikkeusta, jos hakemistoa ei ole olemassa.
-            </summary>
-            <param name="path">
-            </param>
-        </member>
-        <member name="M:Jypeli.LinuxFileManager.GetFileList">
-            <summary>
-            Antaa listan nykyisessä hakemistossa olevista tiedostoista.
-            </summary>
-            <returns>
-            </returns>
-        </member>
-        <member name="M:Jypeli.LinuxFileManager.Open(System.String,System.Boolean)">
-            <summary>
-            Avaa tiedoston.
-            </summary>
-            <param name="fileName">Tiedoston nimi.</param>
-            <param name="write">Tarvitaanko tiedostoon kirjoitusoikeus.</param>
-            <returns>StorageFile-olio</returns>
-        </member>
-        <member name="M:Jypeli.LinuxFileManager.Delete(System.String)">
-            <summary>
-            Poistaa tiedoston.
-            Ei heitä poikkeusta, jos tiedostoa ei ole olemassa.
-            </summary>
-            <param name="fileName">Tiedoston nimi</param>
-        </member>
-        <member name="T:Jypeli.LinuxLocation">
-            <summary>
-            Usein käytettyjä polkuja Linuxissa.
-            </summary>
-        </member>
-        <member name="F:Jypeli.LinuxLocation.ExePath">
-            <summary>
-            Ohjelman hakemisto.
-            </summary>
-        </member>
-        <member name="F:Jypeli.LinuxLocation.UserHome">
-            <summary>
-            Käyttäjän kotihakemisto.
-            </summary>
-        </member>
-        <member name="F:Jypeli.LinuxLocation.DataPath">
-            <summary>
-            Ohjelman data-alihakemisto.
-            </summary>
-        </member>
-        <member name="F:Jypeli.LinuxLocation.ContentPath">
-            <summary>
-            Ohjelman content-alihakemisto.
-            </summary>
-        </member>
-        <member name="T:Jypeli.WindowsLocation">
-            <summary>
-            Usein käytettyjä polkuja Windowsissa (yhteensopivuutta varten)
-            </summary>
-        </member>
-        <member name="F:Jypeli.WindowsLocation.MyDocuments">
-            <summary>
-            Omat tiedostot.
-            </summary>
-        </member>
-        <member name="F:Jypeli.WindowsLocation.MyMusic">
-            <summary>
-            Oma musiikki.
-            </summary>
-        </member>
-        <member name="F:Jypeli.WindowsLocation.MyPictures">
-            <summary>
-            Omat kuvatiedostot.
-            </summary>
-        </member>
-        <member name="F:Jypeli.WindowsLocation.MyVideos">
-            <summary>
-            Omat videot.
-            </summary>
-        </member>
-        <member name="F:Jypeli.WindowsLocation.ExePath">
-            <summary>
-            Ohjelman hakemisto.
-            </summary>
-        </member>
-        <member name="F:Jypeli.WindowsLocation.DataPath">
-            <summary>
-            Ohjelman data-alihakemisto.
-            </summary>
-        </member>
-        <member name="F:Jypeli.WindowsLocation.ContentPath">
-            <summary>
-            Ohjelman content-alihakemisto.
-            </summary>
-        </member>
-        <member name="T:Jypeli.StorageFile">
-            <summary>
-            Tiedosto.
-            </summary>
-        </member>
-        <member name="P:Jypeli.FileManager.CurrentDirectory">
-            <summary>
-            Nykyinen ty�hakemisto.
-            </summary>
-        </member>
-        <member name="M:Jypeli.FileManager.ChDir(System.String)">
-            <summary>
-            Vaihtaa nykyist� hakemistoa.
-            </summary>
-            <param name="path">Hakemistopolku</param>
-            <returns>Vaihdettiinko hakemistoa</returns>
-        </member>
-        <member name="M:Jypeli.FileManager.MkDir(System.String)">
-            <summary>
-            Luo uuden hakemiston.
-            </summary>
-            <param name="path">Luotavan hakemiston nimi.</param>
-        </member>
-        <member name="M:Jypeli.FileManager.RmDir(System.String)">
-            <summary>
-            Poistaa hakemiston.
-            </summary>
-            <param name="path">Poistettavan hakemiston nimi.</param>
-        </member>
-        <member name="M:Jypeli.FileManager.PushDir(System.String)">
-            <summary>
-            Vaihtaa ty�hakemistoa j�tt�en edellisen hakemiston muistiin.
-            Kutsu PopDir kun haluat palauttaa ty�hakemiston edelliseen arvoonsa.
-            </summary>
-            <param name="dir">
-            </param>
-        </member>
-        <member name="M:Jypeli.FileManager.PopDir">
-            <summary>
-            Palauttaa edellisen ty�hakemiston.
-            Jos edellist� ty�hakemistoa ei ole tallennettu, s�ilytet��n nykyinen.
-            </summary>
-        </member>
-        <member name="M:Jypeli.FileManager.DoWith(System.String,System.Action{Jypeli.StorageFile})">
-            <summary>
-            Avaa tiedoston (lukua varten) ja tekee sill� jotain.
-            </summary>
-            <param name="fileName">Tiedoston nimi</param>
-            <param name="callback">Mit� tehd��n (aliohjelman nimi)</param>
-            <example>
-            {
-            DoWith( "kuva.png", AsetaKuva );
-            }
-            void AsetaKuva( StorageFile kuva )
-            {
-            olio.Image = new Image( kuva );
-            }
-            </example>
-        </member>
-        <member name="M:Jypeli.FileManager.DoWithURL(System.String,System.Action{Jypeli.StorageFile})">
-            <summary>
-            Avaa tiedoston netist� (lukua varten) ja tekee sill� jotain.
-            </summary>
-            <param name="url">Nettiosoite</param>
-            <param name="callback">Mit� tehd��n (aliohjelman nimi)</param>
-            <example>
-            {
-            DoWith( "http://www.google.fi/images/srpr/logo3w.png", AsetaKuva );
-            }
-            void AsetaKuva( StorageFile kuva )
-            {
-            olio.Image = new Image( kuva );
-            }
-            </example>
-        </member>
-        <member name="M:Jypeli.FileManager.DoWithURL(System.String,System.TimeSpan,System.Action{Jypeli.StorageFile})">
-            <summary>
-            Avaa tiedoston netist� (lukua varten) ja tekee sill� jotain.
-            </summary>
-            <param name="url">Nettiosoite</param>
-            <param name="callback">Mit� tehd��n (aliohjelman nimi)</param>
-            <example>
-            {
-            DoWith( "http://www.google.fi/images/srpr/logo3w.png", AsetaKuva );
-            }
-            void AsetaKuva( StorageFile kuva )
-            {
-            olio.Image = new Image( kuva );
-            }
-            </example>
-        </member>
-        <member name="M:Jypeli.FileManager.TriggerOnComplete(System.Action,Jypeli.FileManager.AsyncOperation[])">
-            <summary>
-            Laukaisee aliohjelman kun annetut operaatiot on suoritettu.
-            </summary>
-            <param name="callback">Aliohjelma</param>
-            <param name="actions">Operaatiot</param>
-        </member>
-        <member name="M:Jypeli.FileManager.TriggerOnComplete(System.Action,System.TimeSpan,Jypeli.FileManager.AsyncOperation[])">
-            <summary>
-            Laukaisee aliohjelman kun annetut operaatiot on suoritettu.
-            </summary>
-            <param name="callback">Aliohjelma</param>
-            <param name="timeout">Kuinka pitk��n odotetaan yksitt�ist� operaatiota ennen kuin luovutetaan</param>
-            <param name="actions">Operaatiot</param>
-        </member>
-        <member name="M:Jypeli.FileManager.Export(System.IO.Stream,System.String)">
-            <summary>
-            Vie virran sis�ll�n tiedostoon.
-            </summary>
-            <param name="objStream">Virta</param>
-            <param name="fileName">Tiedoston nimi</param>
-        </member>
-        <member name="P:Jypeli.JypeliGroupIgnorer.LegacyGroup">
-            <summary>
-            Vanha törmäysryhmä yhteensopivuutta varten.
-            </summary>
-        </member>
-        <member name="F:Jypeli.JypeliGroupIgnorer.IgnoreMask">
-            <summary>
-            Törmäysmaski: 0 = törmää, 1 = ei törmää.
             </summary>
         </member>
     </members>

@@ -42,7 +42,7 @@ namespace Jypeli
     /// <summary>
     /// Saranaliitos kahden olion välille.
     /// </summary>
-    public class AxleJoint : Destroyable, IDisposable
+    public class AxleJoint : IAxleJoint
     {
         Vector pivot;
         Vector initialPosition;

@@ -57,6 +57,34 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Palauttaa olion lapsioliot.
+        /// </summary>
+        /// <typeparam name="T">Olion tyyppi rakenteessa (esim. PhysicsObject)</typeparam>
+        /// <returns></returns>
+        public IEnumerable<T> GetChildObjects<T>() where T : IGameObject
+        {
+            foreach ( IGameObject o in Objects )
+            {
+                if ( o is T )
+                    yield return (T)o;
+            }
+        }
+
+        /// <summary>
+        /// Palauttaa olion lapsioliot.
+        /// </summary>
+        /// <typeparam name="T">Olion tyyppi rakenteessa (esim. PhysicsObject)</typeparam>
+        /// <returns></returns>
+        public IEnumerable<T> GetChildObjects<T>( Predicate<T> predicate ) where T : IGameObject
+        {
+            foreach ( IGameObject o in Objects )
+            {
+                if ( o is T && predicate( (T)o ) )
+                    yield return (T)o;
+            }
+        }
+
+        /// <summary>
         /// Lis‰‰ annetun peliolion t‰m‰n olion lapseksi. Lapsiolio liikkuu t‰m‰n olion mukana,
         /// ja sen paikka ja koko ilmaistaan suhteessa t‰h‰n olioon.
         /// </summary>

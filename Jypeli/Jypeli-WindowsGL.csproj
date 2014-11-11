@@ -153,6 +153,7 @@
     <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
     <Compile Include="GameObjects\PhysicsObject\Movement.cs" />
     <Compile Include="GameObjects\PhysicsObject\PhysicsObject.cs" />
+    <Compile Include="GameObjects\PhysicsStructure\PhysicsStructure.cs" />
     <Compile Include="GameObjects\Surface\Surface.cs" />
     <Compile Include="GameObjects\Surface\Surfaces.cs" />
     <Compile Include="GameObjects\Widget\Appearance.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="Physics\Ignorers\JypeliGroupIgnorer.cs" />
     <Compile Include="Physics\Ignorers\ObjectIgnorer.cs" />
     <Compile Include="Physics\IPhysicsClient.cs" />
+    <Compile Include="Physics\Joints\IAxleJoint.cs" />
     <Compile Include="Physics\PhysicsInterface.cs" />
     <Compile Include="Shapes\Shapes.cs">
       <SubType>Code</SubType>

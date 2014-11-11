@@ -17,7 +17,8 @@ namespace Jypeli
         IGameObject Parent { get; set; }
         Brain Brain { get; set; }
 
-        SynchronousList<GameObject> Objects { get; }
+        //SynchronousList<GameObject> Objects { get; }
+        int ObjectCount { get; }
 
         bool IsVisible { get; set; }
         bool IsAddedToGame { get; }
@@ -51,6 +52,9 @@ namespace Jypeli
         void Move( Vector movement );
         void MoveTo( Vector location, double speed, Action doWhenArrived );
         void StopMoveTo();
+
+        IEnumerable<T> GetChildObjects<T>() where T : IGameObject;
+        IEnumerable<T> GetChildObjects<T>( Predicate<T> predicate ) where T : IGameObject;
     }
 
     /// <summary>

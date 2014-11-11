@@ -12,7 +12,7 @@ namespace Jypeli
     /// </summary>
     public interface IPhysicsObject : IGameObject, DelayedDestroyable
     {
-        //PhysicsStructure ParentStructure { get; }
+        PhysicsStructure ParentStructure { get; }
 
         //Body Body { get; }
 

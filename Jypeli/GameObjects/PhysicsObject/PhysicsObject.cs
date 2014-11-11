@@ -174,6 +174,11 @@ namespace Jypeli
             set { Body.IgnoresPhysicsLogics = value; }
         }
 
+        /// <summary>
+        /// Rakenneolio, johon tämä olio kuuluu.
+        /// </summary>
+        public PhysicsStructure ParentStructure { get; internal set; }
+
         [Save]
         public bool IgnoresExplosions { get; set; }
 
@@ -204,7 +209,7 @@ namespace Jypeli
 
             if ( Collided != null )
             {
-                //if ( otherObject.ParentStructure != null ) Collided( this, otherObject.ParentStructure );
+                if ( otherObject.ParentStructure != null ) Collided( this, otherObject.ParentStructure );
                 Collided( this, otherObject );
             }
             

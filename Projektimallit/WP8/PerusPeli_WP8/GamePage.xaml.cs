@@ -15,14 +15,14 @@ namespace $safeprojectname$
 {
     public partial class GamePage : PhoneApplicationPage
     {
-        private Peli _game;
+        private $safeprojectname$ _game;
 
         // Constructor
         public GamePage()
         {
             InitializeComponent();
 
-            _game = XamlGame<Peli>.Create("", this);
+            _game = XamlGame<$safeprojectname$>.Create("", this);
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();

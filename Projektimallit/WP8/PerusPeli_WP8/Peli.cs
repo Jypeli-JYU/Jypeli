@@ -7,7 +7,7 @@ using Jypeli.Widgets;
 
 namespace $safeprojectname$
 {
-	public class Peli : Game
+	public class $safeprojectname$ : Game
 	{
 		public override void Begin()
 		{

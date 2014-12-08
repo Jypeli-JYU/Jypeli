@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 6.1.0"
+Name "MonoJypeli 6.1.1"
 
 OutFile "MonoJypeli_setup.exe"
 
@@ -50,10 +50,12 @@ Section "MonoJypeli for Windows Phone 8"
   SetOutPath "$INSTDIR\WP8-ARM"
   File "..\Compiled\WP8-ARM\*.dll"
   File "..\Compiled\WP8-ARM\*.xml"
+  File "..\Compiled\WP8-ARM\*.winmd"
     
   SetOutPath "$INSTDIR\WP8-x86"
   File "..\Compiled\WP8-x86\*.dll"
   File "..\Compiled\WP8-x86\*.xml"
+  File "..\Compiled\WP8-x86\*.winmd"
 SectionEnd
 
 Section "MonoJypeli for Windows Store 8 / WinRT"

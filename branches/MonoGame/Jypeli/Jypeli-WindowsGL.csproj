@@ -259,10 +259,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Jypeli.MonoGame.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\Jypeli.MonoGame.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -274,6 +270,9 @@
     </Reference>
     <Reference Include="Tao.Sdl">
       <HintPath>..\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\Tao.Sdl.dll</HintPath>
+    </Reference>
+    <Reference Include="Jypeli.MonoGame.Framework">
+      <HintPath>..\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\Jypeli.MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

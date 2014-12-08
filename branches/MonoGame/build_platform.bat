@@ -70,15 +70,13 @@ popd
 pushd SimplePhysics
 %msbuild% SimplePhysics-%platform%.sln /t:Rebuild /p:Configuration=Release;Platform=%arch%
 if errorlevel 1 goto error
-copy bin\%platform%\%arch%\Release\Jypeli.SimplePhysics.dll ..\%outputDir%\
-copy bin\%platform%\%arch%\Release\Jypeli.SimplePhysics.xml ..\%outputDir%\
+copy bin\%platform%\%arch%\Release\* ..\%outputDir%\
 popd
 
 pushd Physics2d
 %msbuild% Physics2d-%platform%.sln /t:Rebuild /p:Configuration=Release;Platform=%arch%
 if errorlevel 1 goto error
-copy bin\%platform%\%arch%\Release\Jypeli.Physics2d.dll ..\%outputDir%\
-copy bin\%platform%\%arch%\Release\Jypeli.Physics2d.xml ..\%outputDir%\
+copy bin\%platform%\%arch%\Release\* ..\%outputDir%\
 popd
 
 goto end

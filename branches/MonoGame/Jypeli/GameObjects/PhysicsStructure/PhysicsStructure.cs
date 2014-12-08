@@ -26,7 +26,7 @@ namespace Jypeli
         /// </summary>
         public IList<PhysicsObject> Objects
         {
-            get { return objects.AsReadOnly(); }
+            get { return objects; }
         }
 
         /// <summary>

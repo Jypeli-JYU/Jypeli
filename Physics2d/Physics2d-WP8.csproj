@@ -92,11 +92,9 @@
     <Compile Include="PhysicsBody\Dimensions.cs" />
     <Compile Include="PhysicsBody\Inertia.cs" />
     <Compile Include="PhysicsBody\Movement.cs" />
-    <Compile Include="PhysicsClient.cs" />
+    <Compile Include="Physics2dEngine.cs" />
+    <Compile Include="PhysicsGame.cs" />
     <Compile Include="PhysicsBody\PhysicsBody.cs" />
-    <Compile Include="PhysicsGame\Joints.cs" />
-    <Compile Include="PhysicsGame\PhysicsGame.cs" />
-    <Compile Include="PhysicsGame\PhysicsGameBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Physics2DDotNet\ALVector2D.cs" />
     <Compile Include="Physics2DDotNet\Body.cs" />

@@ -474,18 +474,17 @@ namespace Jypeli
 
             int w = srcRect.Width;
             int h = srcRect.Height;
-            Color[] buffer = new Color[w * h];
-            //XnaRectangle srcScan = new XnaRectangle( 0, 0, w, 1 );
-            //Color[] scanline = new Color[w];
+			XnaRectangle srcScan = new XnaRectangle( srcRect.X, srcRect.Y, w, 1 );
+			XnaRectangle destScan = new XnaRectangle( destRect.X, destRect.Y, w, 1 );
+			Color[] scanline = new Color[w];
 
-            //for ( rect.Y = 0; rect.Y < h; rect.Y++ )
-            //{
-            //    src.xnaTexture.GetData<Color>( 0, rect, scanline, 0, w );
-            //    dest.xnaTexture.SetData<Color>( 0, rect, scanline, 0, w );
-            //}
-
-            src.xnaTexture.GetData<Color>( 0, srcRect, buffer, 0, w * h );
-            dest.xnaTexture.SetData<Color>( 0, destRect, buffer, 0, w * h );
+			for ( int i = 0; i < h; i++ )
+            {
+				src.xnaTexture.GetData<Color>( 0, srcScan, scanline, 0, w );
+				dest.xnaTexture.SetData<Color>( 0, destScan, scanline, 0, w );
+				srcScan.Y += MONOGETDATAINC;
+				destScan.Y += MONOGETDATAINC;
+            }
         }
 
         /// <summary>

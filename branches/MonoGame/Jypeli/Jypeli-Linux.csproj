@@ -57,9 +57,11 @@
     <Reference Include="System" />
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4">
       <Private>False</Private>
+      <HintPath>..\MonoGame\MonoGame.Framework\bin\Linux\x86\Debug\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="Tao.Sdl, Version=1.2.13.0, Culture=neutral, PublicKeyToken=9c7a200e36c0094e">
       <Private>False</Private>
+      <HintPath>..\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\Tao.Sdl.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>

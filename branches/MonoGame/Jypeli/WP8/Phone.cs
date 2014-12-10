@@ -85,7 +85,9 @@ namespace Jypeli
         /// <param name="milliSeconds">Värinän kesto millisekunteina.</param>
         public void Vibrate( int milliSeconds )
         {
+			#if WINDOWS_PHONE
             VibrateController.Default.Start( TimeSpan.FromMilliseconds( milliSeconds ) );
+			#endif
         }
 
         /// <summary>
@@ -93,7 +95,9 @@ namespace Jypeli
         /// </summary>
         public void StopVibrating()
         {
+			#if WINDOWS_PHONE
             VibrateController.Default.Stop();
+			#endif
         }
 
         private static void GetScreenSize( DisplayResolution resolution, out int width, out int height )

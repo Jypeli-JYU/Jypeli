@@ -168,6 +168,7 @@
     <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />
     <Compile Include="GameObjects\PhysicsObject\Movement.cs" />
     <Compile Include="GameObjects\PhysicsObject\PhysicsObject.cs" />
+	<Compile Include="GameObjects\PhysicsStructure\PhysicsStructure.cs" />
     <Compile Include="GameObjects\Surface\Surface.cs" />
     <Compile Include="GameObjects\Surface\Surfaces.cs" />
     <Compile Include="GameObjects\Widget\Appearance.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="GameObjects\Widget\Widget.cs" />
     <Compile Include="Game\Content.cs" />
     <Compile Include="Game\Controls.cs" />
+    <Compile Include="Game\DebugScreen.cs" />
     <Compile Include="Game\DelayedActions.cs" />
     <Compile Include="Game\Factory.cs" />
     <Compile Include="Game\Game.cs">
@@ -183,7 +185,7 @@
     </Compile>
     <Compile Include="Game\Graphics.cs" />
     <Compile Include="Game\Layers.cs" />
-    <Compile Include="Game\Physics.cs" />
+    <Compile Include="Game\Storage.cs" />
     <Compile Include="Game\Time.cs" />
     <Compile Include="Game\Widgets.cs" />
     <Compile Include="Graphics\Animation.cs" />
@@ -211,13 +213,28 @@
     <Compile Include="Physics\Ignorers\GroupCollection.cs" />
     <Compile Include="Physics\Ignorers\GroupIgnorer.cs" />
     <Compile Include="Physics\Ignorers\Ignorer.cs" />
+    <Compile Include="Physics\Ignorers\JypeliGroupIgnorer.cs" />
     <Compile Include="Physics\Ignorers\ObjectIgnorer.cs" />
-    <Compile Include="Physics\IPhysicsClient.cs" />
-    <Compile Include="Physics\PhysicsInterface.cs" />
+    <Compile Include="Physics\PhysicsGameBase.cs" />
+	<Compile Include="Physics\IPhysicsEngine.cs" />
+    <Compile Include="Physics\Joints\IAxleJoint.cs" />
     <Compile Include="Shapes\Shapes.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Storage\SaveAttribute.cs" />
+    <Compile Include="Storage\FileManager\Assert.cs" />
+    <Compile Include="Storage\FileManager\Directories.cs" />
+    <Compile Include="Storage\FileManager\Files.cs" />
+    <Compile Include="Storage\FileManager\HTTP.cs" />
+    <Compile Include="Storage\FileManager\NameHelpers.cs" />
+    <Compile Include="Storage\FileManager\Serialization.cs" />
+    <Compile Include="Storage\FileManager\XnaSerialization.cs" />
+    <Compile Include="Storage\AnimationReader.cs" />
+    <Compile Include="Storage\IsolatedStorageManager.cs" />
+    <Compile Include="Storage\LoadState.cs" />
+    <Compile Include="Storage\SaveState.cs" />
+    <Compile Include="Storage\StorageFile.cs" />
+    <Compile Include="Storage\TypeHelper.cs" />
     <Compile Include="DataTypes\Destroyable.cs" />
     <Compile Include="DataTypes\Tagged.cs" />
     <Compile Include="Helpers\ListHelpers.cs" />

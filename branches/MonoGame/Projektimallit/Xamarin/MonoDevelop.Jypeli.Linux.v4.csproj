@@ -137,7 +137,6 @@
     <EmbeddedResource Include="templates\FysiikkaPeli.SimplePhysics.xpt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties-v4\MonoDevelop.Jypeli.Linux.addin.xml" />
     <EmbeddedResource Include="assemblies\Linux\OpenTK.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -148,6 +147,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\ConsoleMain.xpt.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\MonoDevelop.Jypeli.Linux-v4.addin.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

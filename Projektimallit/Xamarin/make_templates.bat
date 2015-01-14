@@ -27,28 +27,31 @@ mkdir bin\mpack\MonoDevelop-4.0\Linux
 mkdir bin\mpack\MonoDevelop-5.0\Linux
 mkdir bin\mpack\MonoDevelop-5.0\Windows
 
+del /s /f /q obj
 %msbuild% /p:Configuration=Release MonoDevelop.Jypeli.Windows.sln
 pushd bin\Windows\Release
 %mdtool% setup pack MonoDevelop.Jypeli.Windows.dll
 popd
 move bin\Windows\Release\*.mpack bin\mpack\MonoDevelop-5.0\Windows\
 
+del /s /f /q obj
 %msbuild% /p:Configuration=Release MonoDevelop.Jypeli.Linux.v4.sln
 pushd bin\Linux\Release-v4
 %mdtool% setup pack MonoDevelop.Jypeli.Linux.dll
 popd
 move bin\Linux\Release-v4\*.mpack bin\mpack\MonoDevelop-4.0\Linux\
 
+del /s /f /q obj
 %msbuild% /p:Configuration=Release MonoDevelop.Jypeli.Linux.sln
 pushd bin\Linux\Release
 %mdtool% setup pack MonoDevelop.Jypeli.Linux.dll
 popd
 move bin\Linux\Release\*.mpack bin\mpack\MonoDevelop-5.0\Linux\
+del /s /f /q obj
 
 %mdtool% setup rep-build bin\mpack\MonoDevelop-4.0\Linux
 %mdtool% setup rep-build bin\mpack\MonoDevelop-5.0\Linux
 %mdtool% setup rep-build bin\mpack\MonoDevelop-5.0\Windows
-%mdtool% setup rep-build bin\mpack\MonoDevelop-5.0\Mac
 
 del bin\mpack\MonoDevelop-4.0\Linux\index.html
 del bin\mpack\MonoDevelop-5.0\Linux\index.html

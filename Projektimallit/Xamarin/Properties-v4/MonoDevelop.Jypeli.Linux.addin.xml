@@ -37,8 +37,6 @@
 		<Import file="assemblies/Linux/OpenTK.dll.config" />
 		<Import file="assemblies/Linux/Tao.Sdl.dll" />
 		<Import file="assemblies/Linux/Tao.Sdl.dll.config" />
-		<Import file="assemblies/Linux/sdl.dll" />
-		<Import file="assemblies/Linux/sdl_mixer.dll" />
 		<Import file="assemblies/Linux/Jypeli.dll" />
 		<Import file="assemblies/Linux/Jypeli.xml" />
 		<Import file="assemblies/Linux/Jypeli.Physics2d.dll" />

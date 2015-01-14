@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Addin id="Jypeli" namespace="MonoDevelop" name="Jypeli" author="Jyvaskylan yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.1.1">
+<Addin id="Jypeli" namespace="MonoDevelop" name="Jypeli" author="Jyväskylän yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.1.1">
 	<Dependencies>
 		<Addin id="::MonoDevelop.Core" version="5.0" />
 		<Addin id="::MonoDevelop.Ide" version="5.0" />
@@ -37,8 +37,6 @@
 		<Import file="assemblies/Linux/OpenTK.dll.config" />
 		<Import file="assemblies/Linux/Tao.Sdl.dll" />
 		<Import file="assemblies/Linux/Tao.Sdl.dll.config" />
-		<Import file="assemblies/Linux/sdl.dll" />
-		<Import file="assemblies/Linux/sdl_mixer.dll" />
 		<Import file="assemblies/Linux/Jypeli.dll" />
 		<Import file="assemblies/Linux/Jypeli.xml" />
 		<Import file="assemblies/Linux/Jypeli.Physics2d.dll" />

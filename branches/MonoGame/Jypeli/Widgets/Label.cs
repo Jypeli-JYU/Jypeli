@@ -461,7 +461,7 @@ namespace Jypeli
                 case HorizontalAlignment.Left:
                     return ( -Width + TextSize.X ) / 2 + XMargin;
                 case HorizontalAlignment.Right:
-                    return ( Width / 2 - TextSize.X ) - XMargin;
+                    return ( Width - TextSize.X ) / 2 - XMargin;
                 default:
                     return XMargin;
             }

@@ -241,6 +241,8 @@
     <Compile Include="Widgets\Background.cs" />
     <Compile Include="Widgets\BarGauge.cs" />
     <Compile Include="Widgets\CustomQueryWindow.cs" />
+    <Compile Include="Widgets\EasyHighScore.cs" />
+    <Compile Include="Widgets\HighScoreWindow.cs" />
     <Compile Include="Widgets\InputBox.cs" />
     <Compile Include="Widgets\InputWindow.cs" />
     <Compile Include="Widgets\Label.cs" />
@@ -249,6 +251,7 @@
     <Compile Include="Widgets\MessageWindow.cs" />
     <Compile Include="Widgets\MultiSelectWindow.cs" />
     <Compile Include="Widgets\PushButton.cs" />
+    <Compile Include="Widgets\ScoreListWidget.cs" />
     <Compile Include="Widgets\StringListWidget.cs" />
     <Compile Include="Widgets\StringListWindow.cs" />
     <Compile Include="Widgets\Window.cs" />

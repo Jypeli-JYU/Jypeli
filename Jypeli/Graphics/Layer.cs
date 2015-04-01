@@ -379,7 +379,7 @@ namespace Jypeli
             for ( int i = 0; i < Objects.Count; i++ )
             {
                 var go = Objects[i] as GameObject;
-                if ( go == null || go._childObjects == null )
+                if ( go == null || go._childObjects == null || go is Window )
                     continue;
 
                 if ( go.Shape.IsUnitSize )

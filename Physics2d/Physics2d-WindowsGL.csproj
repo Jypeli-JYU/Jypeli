@@ -11,7 +11,7 @@
     <AssemblyName>Jypeli.Physics2d</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -38,12 +38,12 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\WindowsGL\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;UseDouble</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\WindowsGL\x86\Release\</OutputPath>
@@ -54,12 +54,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\WindowsGL\x86\Release\Jypeli.Physics2d.xml</DocumentationFile>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Jypeli.MonoGame.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\Jypeli.MonoGame.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -167,9 +164,13 @@
   -->
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
+      <Project>{6D75E618-19CA-4C51-9546-F10965FBC0B8}</Project>
+      <Name>MonoGame.Framework.WindowsGL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Jypeli\Jypeli-WindowsGL.csproj">
-      <Project>{76cc55a2-bece-4f80-b491-ddcab9f061fb}</Project>
-      <Name>Jypeli-VS2012</Name>
+      <Project>{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}</Project>
+      <Name>Jypeli-WindowsGL</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -94,8 +94,9 @@ namespace Jypeli
             BasicColorEffect.VertexColorEnabled = true;
             BasicColorEffect.TextureEnabled = false;
 
-#if JYPELI_EFFECTS
-            LightingEffect = Game.ResourceContent.Load<Effect>( "Lighting" );
+#if !WINDOWS_PHONE && !DISABLE_EFFECTS
+            // A hack until we can use Game.ResourceContent.Load<Effect>( "Lighting" )
+            LightingEffect = new Effect(Game.GraphicsDevice, Jypeli.Content.Lighting.rawData);
 #endif
 
             SpriteBatch = new SpriteBatch( device );

@@ -16,6 +16,7 @@ namespace Jypeli
         private void InitAppearance()
         {
             this.BorderColor = Color.Transparent;
+            this.IgnoresLighting = true;
         }
 
         public virtual void Draw( Matrix parentTransformation, Matrix transformation )
@@ -32,6 +33,9 @@ namespace Jypeli
                 * Matrix.CreateRotationZ( (float)Angle.Radians )
                 * Matrix.CreateTranslation( (float)Position.X, (float)Position.Y, 0f )
                 * parentTransformation;
+
+            var lightingEnabled = Renderer.LightingEnabled;
+            Renderer.LightingEnabled &= !IgnoresLighting;
 
             if ( Image != null && ( !TextureFillsShape ) )
             {
@@ -71,6 +75,8 @@ namespace Jypeli
 
                 DrawChildObjects( ref parentTransformation, ref transformation, ref childTransformation );
             }
+
+            Renderer.LightingEnabled = lightingEnabled;
         }
 
         internal protected virtual void DrawChildObjects( ref Matrix parentTransformation, ref Matrix transformation, ref Matrix childTransformation )

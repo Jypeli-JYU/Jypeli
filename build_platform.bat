@@ -42,6 +42,8 @@ if "%platform%"=="WindowsGL" (
   if errorlevel 1 goto error
   copy bin\Windows\Release\Lidgren.Network.dll ..\..\..\%outputDir%\
   popd
+
+  copy MonoGame\ThirdParty\GamepadConfig\SDL_mixer.dll %outputdir%
 )
 
 if "%platform%"=="Linux" (
@@ -50,21 +52,23 @@ if "%platform%"=="Linux" (
   if errorlevel 1 goto error
   copy bin\Linux\Release\Lidgren.Network.dll ..\..\..\%outputDir%\
   popd
+  
+  copy MonoGame\ThirdParty\Libs\OpenTK.dll.config %outputDir%
 )
 
 pushd MonoGame
 %msbuild% Jypeli.MonoGame.Framework.%platform%.sln /t:Rebuild /p:Configuration=Release;Platform=%arch%
 if errorlevel 1 goto error
 copy MonoGame.Framework\bin\%platform%\%arch%\Release\*.dll ..\%outputDir%\
+copy MonoGame.Framework\bin\%platform%\%arch%\Release\*.config ..\%outputDir%\
 popd
 
 pushd Jypeli
 %msbuild% Jypeli-%platform%.sln /t:Rebuild /p:Configuration=Release;Platform=%arch%
 if errorlevel 1 goto error
-copy bin\%platform%\%arch%\Release\Jypeli.dll ..\%outputDir%\
-copy bin\%platform%\%arch%\Release\Jypeli.xml ..\%outputDir%\
-copy bin\%platform%\%arch%\Release\SDL.dll ..\%outputDir%\
-copy bin\%platform%\%arch%\Release\smpeg.dll ..\%outputDir%\
+copy bin\%platform%\%arch%\Release\*.dll ..\%outputDir%\
+copy bin\%platform%\%arch%\Release\*.xml ..\%outputDir%\
+copy bin\%platform%\%arch%\Release\*.config ..\%outputDir%\
 popd
 
 pushd SimplePhysics

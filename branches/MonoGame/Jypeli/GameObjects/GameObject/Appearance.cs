@@ -87,6 +87,12 @@ namespace Jypeli
             set { _textureFillsShape = value; }
         }
 
+        /// <summary>
+        /// Jättääkö olio kentän valaistuksen huomiotta.
+        /// Asetettu oletuksena käyttöliittymäkomponenteilla (widget).
+        /// </summary>
+        public bool IgnoresLighting { get; set; }
+
         private void InitAppearance()
         {
             this.IsVisible = true;

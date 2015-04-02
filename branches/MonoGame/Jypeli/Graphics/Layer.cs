@@ -5,9 +5,11 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Jypeli.Effects;
 
 using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
 using XnaColor = Microsoft.Xna.Framework.Color;
+
 
 namespace Jypeli
 {
@@ -79,6 +81,10 @@ namespace Jypeli
 
         public SynchronousList<IGameObject> Objects = new SynchronousList<IGameObject>();
 
+#if !DISABLE_EFFECTS
+        public SynchronousList<ParticleSystem> Effects = new SynchronousList<ParticleSystem>();
+#endif
+
         private List<IGameObject> objectsWithImage = new List<IGameObject>();
         private List<IGameObject> objectsWithoutImage = new List<IGameObject>();
         private List<IGameObject> objectsWithDrawMethod = new List<IGameObject>();
@@ -135,17 +141,24 @@ namespace Jypeli
 
         private void ObjectAdded( IGameObject obj )
         {
-            if ( obj is CustomDrawable )
+#if !DISABLE_EFFECTS
+            if (obj is ParticleSystem)
             {
-                objectsWithDrawMethod.Add( obj );
+                Effects.Add((ParticleSystem)obj);
             }
-            else if ( obj.Image != null )
+            else
+#endif
+            if (obj is CustomDrawable)
             {
-                objectsWithImage.Add( obj );
+                objectsWithDrawMethod.Add(obj);
+            }
+            else if (obj.Image != null)
+            {
+                objectsWithImage.Add(obj);
             }
             else
             {
-                objectsWithoutImage.Add( obj );
+                objectsWithoutImage.Add(obj);
             }
 
             ( (IGameObjectInternal)obj ).Layer = this;
@@ -153,9 +166,19 @@ namespace Jypeli
 
         private void ObjectRemoved( IGameObject obj )
         {
-            objectsWithDrawMethod.Remove( obj );
-            objectsWithImage.Remove( obj );
-            objectsWithoutImage.Remove( obj );
+#if !DISABLE_EFFECTS
+            if (obj is ParticleSystem)
+            {
+                Effects.Remove((ParticleSystem)obj);
+            }
+            else
+#endif
+            {
+                objectsWithDrawMethod.Remove(obj);
+                objectsWithImage.Remove(obj);
+                objectsWithoutImage.Remove(obj);
+            }
+
             ( (IGameObjectInternal)obj ).Layer = null;
         }
 
@@ -171,6 +194,9 @@ namespace Jypeli
 
         public void Clear()
         {
+#if !DISABLE_EFFECTS
+            Effects.Clear();
+#endif
             Objects.Clear();
             objectsWithImage.Clear();
             objectsWithoutImage.Clear();
@@ -180,6 +206,10 @@ namespace Jypeli
         public void Update( Time time )
         {
             Objects.Update( time );
+
+#if !DISABLE_EFFECTS
+            Effects.Update(time);
+#endif
         }
 
         internal void Draw( Camera camera )
@@ -200,6 +230,10 @@ namespace Jypeli
                 default:
                     break;
             }
+
+#if !DISABLE_EFFECTS
+            Effects.ForEach( e => e.Draw(worldMatrix) );
+#endif
 
             if ( Grid != null )
             {
@@ -255,12 +289,15 @@ namespace Jypeli
 
             foreach ( var o in Objects )
             {
-                if ( o is CustomDrawable )
+                if (o is CustomDrawable)
                 {
-                    if ( o.IsVisible ) ( (CustomDrawable)o ).Draw( worldMatrix );
+                    if (o.IsVisible) ((CustomDrawable)o).Draw(worldMatrix);
                 }
                 else
-                    Draw( o, ref worldMatrix );
+                {
+                    Renderer.LightingEnabled = !o.IgnoresLighting;
+                    Draw(o, ref worldMatrix);
+                }
             }
 
             DrawChildObjects( worldMatrix );
@@ -307,6 +344,8 @@ namespace Jypeli
                 bool hasChildObjects = o.ObjectCount > 0;
                 bool isSimple = !hasChildObjects && !o.TextureFillsShape;
 
+                Renderer.LightingEnabled = !o.IgnoresLighting;
+
                 if ( isSimple && ( o.Image == null ) && ( o.Shape == Shape.Rectangle || o.Shape == Shape.Triangle ) )
                 {
                     DrawShape( o, ref worldMatrix );
@@ -340,6 +379,8 @@ namespace Jypeli
 
                 bool hasChildObjects = o.ObjectCount > 0;
                 bool isSimple = !hasChildObjects && !o.TextureFillsShape;
+
+                Renderer.LightingEnabled = !o.IgnoresLighting;
 
                 if ( isSimple && ( o.Image != null ) )
                 {

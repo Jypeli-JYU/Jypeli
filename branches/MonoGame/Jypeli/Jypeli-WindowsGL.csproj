@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\WindowsGL\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINDOWS;JYPELI;UseDouble;DISABLE_EFFECTS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS;JYPELI;UseDouble</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -28,7 +28,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\WindowsGL\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS;JYPELI;UseDouble;DISABLE_EFFECTS</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS;JYPELI;UseDouble</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\WindowsGL\x86\Release\Jypeli.xml</DocumentationFile>
@@ -68,6 +68,7 @@
     <Compile Include="Content\Smoke.cs" />
     <Compile Include="Content\Tank.cs" />
     <Compile Include="Content\UpArrow.cs" />
+    <Compile Include="EffectContent\Lighting.cs" />
     <Compile Include="ContentExtensions\TextReader.cs" />
     <Compile Include="Controls\Controller\AnalogControl.cs" />
     <Compile Include="Controls\Controller\AnalogState.cs" />
@@ -134,6 +135,12 @@
     <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
     <Compile Include="AdvanceMath\IO\MathReader.cs" />
     <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="Effects\ExplosionSystem.cs" />
+    <Compile Include="Effects\Light.cs" />
+    <Compile Include="Effects\Lightning.cs" />
+    <Compile Include="Effects\Particle.cs" />
+    <Compile Include="Effects\ParticleSystem.cs" />
+    <Compile Include="Effects\Smoke.cs" />
     <Compile Include="GameObjects\GameObject\Appearance.cs" />
     <Compile Include="GameObjects\GameObject\ChildObjects.cs" />
     <Compile Include="GameObjects\GameObject\Dimensions.cs" />
@@ -164,6 +171,7 @@
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DebugScreen.cs" />
     <Compile Include="Game\DelayedActions.cs" />
+    <Compile Include="Game\Effects.cs" />
     <Compile Include="Game\Factory.cs" />
     <Compile Include="Game\Game.cs">
       <SubType>Code</SubType>
@@ -236,6 +244,7 @@
     <Compile Include="DataTypes\DoubleMeter.cs" />
     <Compile Include="Events\MeterAddOperation.cs" />
     <Compile Include="Events\Operation.cs" />
+    <Compile Include="Effects\Flame.cs" />
     <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
     <Compile Include="Widgets\Background.cs" />
@@ -274,9 +283,6 @@
     <Reference Include="Tao.Sdl">
       <HintPath>..\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\Tao.Sdl.dll</HintPath>
     </Reference>
-    <Reference Include="Jypeli.MonoGame.Framework">
-      <HintPath>..\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\Jypeli.MonoGame.Framework.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\MonoGame\MonoGame.Framework\bin\WindowsGL\x86\Debug\SDL.dll">
@@ -287,6 +293,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
+      <Project>{6D75E618-19CA-4C51-9546-F10965FBC0B8}</Project>
+      <Name>MonoGame.Framework.WindowsGL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

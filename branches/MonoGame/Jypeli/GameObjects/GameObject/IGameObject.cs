@@ -22,6 +22,7 @@ namespace Jypeli
 
         bool IsVisible { get; set; }
         bool IsAddedToGame { get; }
+        bool IgnoresLighting { get; set; }
 
         TimeSpan CreationTime { get; }
         TimeSpan Lifetime { get; }

@@ -94,6 +94,7 @@ namespace Jypeli
         public event Action AddedToGame;
 
         bool _isVisible = true;
+        bool _ignoresLighting = false;
         PhysicsObject centerObject;
 
         public bool IsVisible
@@ -107,6 +108,19 @@ namespace Jypeli
                 }
 
                 _isVisible = value;
+            }
+        }
+
+        /// <summary>
+        /// Jättääkö olio kentän valaistuksen huomiotta.
+        /// </summary>
+        public bool IgnoresLighting
+        {
+            get { return _ignoresLighting; }
+            set
+            {
+                objects.ForEach(o => o.IgnoresLighting = value);
+                _ignoresLighting = value;
             }
         }
 

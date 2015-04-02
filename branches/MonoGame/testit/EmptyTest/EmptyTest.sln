@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmptyTest", "EmptyTest\EmptyTest\EmptyTest.csproj", "{AB69E111-F4EC-4E90-A81C-6BDEF30476AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmptyTest", "EmptyTest\EmptyTest.csproj", "{AB69E111-F4EC-4E90-A81C-6BDEF30476AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.MonoGame.Framework.WindowsGL", "..\..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.WindowsGL.csproj", "{DA65B249-9290-4A09-A48C-443A65845583}"
 EndProject

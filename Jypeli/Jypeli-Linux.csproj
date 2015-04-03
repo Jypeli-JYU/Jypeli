@@ -15,7 +15,7 @@
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Linux\x86\Debug</OutputPath>
-    <DefineConstants>DEBUG;JYPELI;LINUX;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>DEBUG;JYPELI;LINUX;UseDouble</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -27,12 +27,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <DefineConstants>JYPELI;LINUX;UseDouble;DISABLE_EFFECTS;DISABLE_STORAGE</DefineConstants>
+    <DefineConstants>JYPELI;LINUX;UseDouble</DefineConstants>
     <DocumentationFile>bin\Linux\Release\Jypeli.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <OutputPath>bin\Linux\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;JYPELI;LINUX;UseDouble;DISABLE_EFFECTS</DefineConstants>
+    <DefineConstants>DEBUG;JYPELI;LINUX;UseDouble</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -44,7 +44,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\Linux\x86\Release\</OutputPath>
-    <DefineConstants>JYPELI;LINUX;UseDouble;DISABLE_EFFECTS</DefineConstants>
+    <DefineConstants>JYPELI;LINUX;UseDouble</DefineConstants>
     <Optimize>true</Optimize>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -96,6 +96,7 @@
     <Compile Include="Content\Smoke.cs" />
     <Compile Include="Content\Tank.cs" />
     <Compile Include="Content\UpArrow.cs" />
+    <Compile Include="EffectContent\Lighting.cs" />
     <Compile Include="ContentExtensions\TextReader.cs" />
     <Compile Include="Controls\Controller\AnalogControl.cs" />
     <Compile Include="Controls\Controller\AnalogState.cs" />
@@ -162,6 +163,12 @@
     <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
     <Compile Include="AdvanceMath\IO\MathReader.cs" />
     <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="Effects\ExplosionSystem.cs" />
+    <Compile Include="Effects\Light.cs" />
+    <Compile Include="Effects\Lightning.cs" />
+    <Compile Include="Effects\Particle.cs" />
+    <Compile Include="Effects\ParticleSystem.cs" />
+    <Compile Include="Effects\Smoke.cs" />
     <Compile Include="GameObjects\GameObject\Appearance.cs" />
     <Compile Include="GameObjects\GameObject\ChildObjects.cs" />
     <Compile Include="GameObjects\GameObject\Dimensions.cs" />
@@ -192,6 +199,7 @@
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DebugScreen.cs" />
     <Compile Include="Game\DelayedActions.cs" />
+    <Compile Include="Game\Effects.cs" />
     <Compile Include="Game\Factory.cs" />
     <Compile Include="Game\Game.cs">
       <SubType>Code</SubType>
@@ -264,6 +272,7 @@
     <Compile Include="DataTypes\DoubleMeter.cs" />
     <Compile Include="Events\MeterAddOperation.cs" />
     <Compile Include="Events\Operation.cs" />
+    <Compile Include="Effects\Flame.cs" />
     <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
     <Compile Include="Widgets\Background.cs" />
@@ -292,13 +301,9 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Linux.csproj">
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.Linux.csproj">
       <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
-      <Name>Jypeli.MonoGame.Framework.Linux</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.Linux.csproj">
-      <Project>{AE483C29-042E-4226-BA52-D247CE7676DA}</Project>
-      <Name>Lidgren.Network.Linux</Name>
+      <Name>MonoGame.Framework.Linux</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

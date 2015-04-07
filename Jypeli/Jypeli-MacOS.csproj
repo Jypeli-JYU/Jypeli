@@ -13,13 +13,14 @@
     <SynchReleaseVersion>false</SynchReleaseVersion>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\MacOS\Debug</OutputPath>
-    <DefineConstants>DEBUG;JYPELI;UseDouble;DISABLE_EFFECTS;MACOS</DefineConstants>
+    <DefineConstants>DEBUG;JYPELI;UseDouble;MACOS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
@@ -35,6 +36,7 @@
     </I18n>
     <GenerateDocumentation>True</GenerateDocumentation>
     <DocumentationFile>bin\MacOS\Debug\Jypeli.xml</DocumentationFile>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
@@ -50,8 +52,9 @@
     <CodeSigningKey>Developer ID Application</CodeSigningKey>
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
-    <DefineConstants>JYPELI;UseDouble;DISABLE_EFFECTS;MACOS</DefineConstants>
+    <DefineConstants>JYPELI;UseDouble;MACOS</DefineConstants>
     <DocumentationFile>bin\MacOS\Release\Jypeli.xml</DocumentationFile>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|x86' ">
     <Optimize>true</Optimize>
@@ -68,8 +71,9 @@
     <CodeSigningKey>3rd Party Mac Developer Application</CodeSigningKey>
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>true</EnablePackageSigning>
-    <DefineConstants>JYPELI;UseDouble;DISABLE_EFFECTS;MACOS</DefineConstants>
+    <DefineConstants>JYPELI;UseDouble;MACOS</DefineConstants>
     <DocumentationFile>bin\MacOS\AppStore\Jypeli.xml</DocumentationFile>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -78,12 +82,6 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="MonoMac" />
-    <Reference Include="Jypeli.MonoGame.Framework">
-      <HintPath>..\MonoGame\MonoGame.Framework\bin\MacOS\Debug\Jypeli.MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\MonoGame\MonoGame.Framework\bin\MacOS\Debug\Lidgren.Network.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\CollisionHandler.cs" />
@@ -116,6 +114,7 @@
     <Compile Include="Content\Smoke.cs" />
     <Compile Include="Content\Tank.cs" />
     <Compile Include="Content\UpArrow.cs" />
+    <Compile Include="EffectContent\Lighting.cs" />
     <Compile Include="ContentExtensions\TextReader.cs" />
     <Compile Include="Controls\Controller\AnalogControl.cs" />
     <Compile Include="Controls\Controller\AnalogState.cs" />
@@ -182,6 +181,12 @@
     <Compile Include="AdvanceMath\Geometry2D\Ray.cs" />
     <Compile Include="AdvanceMath\IO\MathReader.cs" />
     <Compile Include="AdvanceMath\IO\MathWriter.cs" />
+    <Compile Include="Effects\ExplosionSystem.cs" />
+    <Compile Include="Effects\Light.cs" />
+    <Compile Include="Effects\Lightning.cs" />
+    <Compile Include="Effects\Particle.cs" />
+    <Compile Include="Effects\ParticleSystem.cs" />
+    <Compile Include="Effects\Smoke.cs" />
     <Compile Include="GameObjects\GameObject\Appearance.cs" />
     <Compile Include="GameObjects\GameObject\ChildObjects.cs" />
     <Compile Include="GameObjects\GameObject\Dimensions.cs" />
@@ -212,6 +217,7 @@
     <Compile Include="Game\Controls.cs" />
     <Compile Include="Game\DebugScreen.cs" />
     <Compile Include="Game\DelayedActions.cs" />
+    <Compile Include="Game\Effects.cs" />
     <Compile Include="Game\Factory.cs" />
     <Compile Include="Game\Game.cs">
       <SubType>Code</SubType>
@@ -284,6 +290,7 @@
     <Compile Include="DataTypes\DoubleMeter.cs" />
     <Compile Include="Events\MeterAddOperation.cs" />
     <Compile Include="Events\Operation.cs" />
+    <Compile Include="Effects\Flame.cs" />
     <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
     <Compile Include="Widgets\Background.cs" />
@@ -294,12 +301,12 @@
     <Compile Include="Widgets\InputBox.cs" />
     <Compile Include="Widgets\InputWindow.cs" />
     <Compile Include="Widgets\Label.cs" />
-    <Compile Include="Widgets\ScoreListWidget.cs" />
     <Compile Include="Widgets\ListWidget.cs" />
     <Compile Include="Widgets\MessageDisplay.cs" />
     <Compile Include="Widgets\MessageWindow.cs" />
     <Compile Include="Widgets\MultiSelectWindow.cs" />
     <Compile Include="Widgets\PushButton.cs" />
+    <Compile Include="Widgets\ScoreListWidget.cs" />
     <Compile Include="Widgets\StringListWidget.cs" />
     <Compile Include="Widgets\StringListWindow.cs" />
     <Compile Include="Widgets\Window.cs" />
@@ -311,4 +318,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\v0.0\Xamarin.Mac.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.MacOS.csproj">
+      <Project>{36C538E6-C32A-4A8D-A39C-566173D7118E}</Project>
+      <Name>MonoGame.Framework.MacOS</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

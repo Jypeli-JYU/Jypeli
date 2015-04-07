@@ -3,14 +3,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C4EFECB3-7397-4DCF-990D-26A0EF6E8445}</ProjectGuid>
     <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>Physics2d</RootNamespace>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
-    <ReleaseVersion>1.0</ReleaseVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +31,7 @@
     <AssemblyName>Jypeli.Physics2d</AssemblyName>
     <GenerateDocumentation>True</GenerateDocumentation>
     <DocumentationFile>bin\MacOS\Debug\Jypeli.Physics2d.xml</DocumentationFile>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
@@ -49,6 +50,7 @@
     <DefineConstants>UseDouble</DefineConstants>
     <AssemblyName>Jypeli.Physics2d</AssemblyName>
     <DocumentationFile>bin\MacOS\Release\Jypeli.Physics2d.xml</DocumentationFile>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|x86' ">
     <Optimize>true</Optimize>
@@ -67,6 +69,7 @@
     <EnablePackageSigning>true</EnablePackageSigning>
     <DefineConstants>UseDouble</DefineConstants>
     <AssemblyName>Physics2d</AssemblyName>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -75,18 +78,9 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="MonoMac" />
-    <Reference Include="Jypeli.MonoGame.Framework">
-      <HintPath>..\MonoGame\MonoGame.Framework\bin\MacOS\Debug\Jypeli.MonoGame.Framework.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\v0.0\Xamarin.Mac.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\Jypeli\Jypeli-MacOS.csproj">
-      <Project>{21146E75-35F4-4E05-B6E9-E58903D9A4C2}</Project>
-      <Name>Jypeli-MacOS</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\PlatformWandererBrain.cs" />
     <Compile Include="Assets\Tank.cs" />
@@ -175,5 +169,15 @@
     <Compile Include="Physics2DDotNet\Solvers\CollisionSolver.cs" />
     <Compile Include="Physics2DDotNet\Solvers\ISequentialImpulsesJoint.cs" />
     <Compile Include="Physics2DDotNet\Solvers\SequentialImpulses.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jypeli\Jypeli-MacOS.csproj">
+      <Project>{21146E75-35F4-4E05-B6E9-E58903D9A4C2}</Project>
+      <Name>Jypeli-MacOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.MacOS.csproj">
+      <Project>{36C538E6-C32A-4A8D-A39C-566173D7118E}</Project>
+      <Name>MonoGame.Framework.MacOS</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

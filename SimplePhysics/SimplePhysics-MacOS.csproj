@@ -3,14 +3,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C1D0DBDE-071F-4812-81B4-FE39C3DAB581}</ProjectGuid>
     <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>SimplePhysics</RootNamespace>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
     <ReleaseVersion>1.0</ReleaseVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +31,7 @@
     <AssemblyName>Jypeli.SimplePhysics</AssemblyName>
     <GenerateDocumentation>True</GenerateDocumentation>
     <DocumentationFile>bin\MacOS\Debug\Jypeli.SimplePhysics.xml</DocumentationFile>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <Optimize>true</Optimize>
@@ -48,6 +49,7 @@
     <EnablePackageSigning>false</EnablePackageSigning>
     <AssemblyName>Jypeli.SimplePhysics</AssemblyName>
     <DocumentationFile>bin\MacOS\Release\Jypeli.SimplePhysics.xml</DocumentationFile>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|x86' ">
     <Optimize>true</Optimize>
@@ -66,6 +68,7 @@
     <EnablePackageSigning>true</EnablePackageSigning>
     <AssemblyName>SimplePhysics</AssemblyName>
     <DocumentationFile>bin\MacOS\AppStore\Jypeli.SimplePhysics.xml</DocumentationFile>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -91,6 +94,10 @@
     <ProjectReference Include="..\Jypeli\Jypeli-MacOS.csproj">
       <Project>{21146E75-35F4-4E05-B6E9-E58903D9A4C2}</Project>
       <Name>Jypeli-MacOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.MacOS.csproj">
+      <Project>{36C538E6-C32A-4A8D-A39C-566173D7118E}</Project>
+      <Name>MonoGame.Framework.MacOS</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

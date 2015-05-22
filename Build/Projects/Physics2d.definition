@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Name="Physics2d" Path="Physics2d" Type="Library" Platforms="Android,Angle,iOS,Linux,MacOS,Ouya,PSMobile,Windows,Windows8,WindowsGL,WindowsPhone,WindowsPhone81,Web">
+
+<ProjectGuids>
+    <Platform Name="Android">F9BEBE7C-93D0-480A-8F6B-08B3F741D105</Platform>
+    <Platform Name="Angle">4B9F97A7-06B0-412E-B840-8632333FF6EF</Platform>
+    <Platform Name="iOS">CE1A210D-FC0A-44B9-B9FB-7876C413882A</Platform>
+    <Platform Name="Linux">041D26C6-A261-4843-906E-7326AB1DBA4C</Platform>
+    <Platform Name="MacOS">C4EFECB3-7397-4DCF-990D-26A0EF6E8445</Platform>
+    <Platform Name="Ouya">E24225D5-A9DE-4878-AD7F-A2E8D2DAC1D9</Platform>
+    <Platform Name="PSMobile">85223B65-46B7-4461-B336-3B9C90DC540D</Platform>
+    <Platform Name="Windows">0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8</Platform>
+    <Platform Name="Windows8">71BC3527-F603-4C6A-B5A1-DF07B97AF02B</Platform>
+    <Platform Name="WindowsGL">041D26C6-A261-4843-906E-7326AB1DBA4C</Platform>
+    <Platform Name="WindowsPhone">EA4AF887-A85F-4ED4-9AD0-64B34CCAD7D6</Platform>
+	<Platform Name="WindowsPhone81">1FBAD5D8-8E98-4C83-9C9A-0AECD386718E</Platform>
+</ProjectGuids>
+
+<!-- Common assembly references -->
+<References>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Runtime.Serialization" />
+
+    <!-- See FrameworkRefs.definition for the platform specific references -->
+    <Reference Include="FrameworkRefs" />
+
+	<!-- Jypeli -->
+	<Reference Include="Jypeli" />
+	
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
+</References>
+
+<Properties>
+    <NoWarn>1591,0436</NoWarn>
+    <RootNamespace>Jypeli</RootNamespace>
+    <RemoveXnaAssembliesOnWP8>True</RemoveXnaAssembliesOnWP8>
+    <PlatformSpecificOutputFolder>True</PlatformSpecificOutputFolder>
+
+     <CustomDefinitions>
+        <Platform Name="Android">JYPELI;UseDouble;TRACE;ANDROID;GLES;OPENGL;OPENAL</Platform>
+        <Platform Name="iOS">JYPELI;UseDouble;IOS;GLES;OPENGL;OPENAL</Platform>
+        <Platform Name="Linux">JYPELI;UseDouble;TRACE;LINUX;OPENGL;OPENAL</Platform>
+        <Platform Name="MacOS">JYPELI;UseDouble;MONOMAC;OPENGL;OPENAL</Platform>
+        <Platform Name="Ouya">JYPELI;UseDouble;TRACE;ANDROID;GLES;OPENGL;OUYA;OPENAL</Platform>
+        <Platform Name="PSMobile">JYPELI;UseDouble;PSM</Platform>
+        <Platform Name="WindowsGL">JYPELI;UseDouble;TRACE;WINDOWS</Platform>
+        <Platform Name="Windows">JYPELI;UseDouble;TRACE;WINDOWS;DIRECTX;WINDOWS_MEDIA_SESSION</Platform>
+        <Platform Name="Windows8">JYPELI;UseDouble;TRACE;NETFX_CORE;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE</Platform>
+		<Platform Name="WindowsPhone">JYPELI;UseDouble;TRACE;SILVERLIGHT;WINDOWS_PHONE;DIRECTX</Platform>
+		<Platform Name="WindowsPhone81">JYPELI;UseDouble;TRACE;WINDOWS_PHONE;WINDOWS_PHONE81;DIRECTX;WINDOWS_STOREAPP</Platform>
+        <Platform Name="Web">JYPELI;UseDouble;TRACE;WEB</Platform>
+     </CustomDefinitions>
+</Properties>
+
+<Dependencies>
+    <Uses Name="ANGLEGraphics">
+        <Platforms>Angle</Platforms>
+    </Uses>
+    <Uses Name="OpenGLGraphics">
+        <Platforms>iOS,WindowsGL,Ouya,Android</Platforms>
+    </Uses>
+    <Uses Name="DirectXGraphics">
+        <Platforms>Windows8,WindowsPhone,WindowsPhone81</Platforms>
+    </Uses>
+    <Uses Name="PSMGraphics">
+        <Platforms>PSMobile</Platforms>
+    </Uses>
+    <Uses Name="WebGraphics">
+        <Platforms>Web</Platforms>
+    </Uses>
+    <Uses Name="_XNADesignProvided">
+        <Platforms>Windows,WindowsGL,Linux,MacOS</Platforms>
+    </Uses>
+    <Uses Name="_FrameworkDispatcherProvided">
+        <Platforms>Windows,WindowsGL,MacOS</Platforms>
+    </Uses>
+    <Recommends Name="DirectXGraphics">
+        <Platforms>Windows</Platforms>
+    </Recommends>
+    <Recommends Name="OpenGLGraphics">
+        <Platforms>Linux,MacOS</Platforms>
+    </Recommends>
+</Dependencies>
+
+<Services>
+    <!-- Graphics APIs -->
+    <Service Name="ANGLEGraphics">
+        <RemoveDefine>DIRECTX;WINDOWS_MEDIA_SESSION;WINDOWS;MONOMAC;LINUX</RemoveDefine>
+        <AddDefine>OPENGL;OPENAL;GLES;ANGLE</AddDefine>
+        <Platforms>Windows,MacOS,Linux,Angle</Platforms>
+        <Conflicts>OpenGLGraphics,DirectXGraphics,PSMGraphics,WebGraphics</Conflicts>
+        <Requires>OpenALAudio,_GLCompatible</Requires>
+    </Service>
+    <Service Name="OpenGLGraphics">
+        <RemoveDefine>DIRECTX;WINDOWS_MEDIA_SESSION</RemoveDefine>
+        <AddDefine>OPENGL;OPENAL</AddDefine>
+        <Platforms>iOS,MacOS,Linux,Windows,WindowsGL,Ouya,Android</Platforms>
+        <Conflicts>ANGLEGraphics,DirectXGraphics,PSMGraphics,WebGraphics</Conflicts>
+        <Requires>OpenALAudio,_GLCompatible</Requires>
+    </Service>
+    <Service Name="DirectXGraphics">
+        <Platforms>Windows,Windows8,WindowsPhone,WindowsPhone81</Platforms>
+        <Conflicts>ANGLEGraphics,OpenGLGraphics,PSMGraphics,WebGraphics</Conflicts>
+        <Requires>XAudioAudio</Requires>
+    </Service>
+    <Service Name="PSMGraphics">
+        <Platforms>PSMobile</Platforms>
+        <Conflicts>ANGLEGraphics,OpenGLGraphics,DirectXGraphics,WebGraphics</Conflicts>
+        <Requires>PSMAudio</Requires>
+    </Service>
+    <Service Name="WebGraphics">
+        <Platforms>Web</Platforms>
+        <Conflicts>ANGLEGraphics,OpenGLGraphics,DirectXGraphics,PSMGraphics</Conflicts>
+        <Requires>WebAudio</Requires>
+    </Service>
+
+     <!-- Audio APIs -->
+    <Service Name="OpenALAudio">
+        <Platforms>Angle,iOS,Linux,Windows,WindowsGL,MacOS,Android,Ouya</Platforms>
+        <Conflicts>XAudioAudio,PSMAudio,WebAudio</Conflicts>
+    </Service>
+    <Service Name="XAudioAudio">
+        <Platforms>Windows,Windows8,WindowsPhone,WindowsPhone81</Platforms>
+        <Conflicts>OpenALAudio,PSMAudio,WebAudio</Conflicts>
+    </Service>
+        <Service Name="PSMAudio">
+        <Platforms>PSMobile</Platforms>
+        <Conflicts>OpenALAudio,XAudioAudio,WebAudio</Conflicts>
+    </Service>
+    <Service Name="WebAudio">
+        <Platforms>Web</Platforms>
+        <Conflicts>OpenALAudio,XAudioAudio,PSMAudio</Conflicts>
+    </Service>
+
+     <!-- Base supporting features -->
+    <Service Name="_GLCompatible">
+        <!-- Covers compatible GL implementations, such as ANGLE and OpenGL -->
+    </Service>
+        <Service Name="_XNADesignProvided">
+        <!-- Allows the Microsoft.Xna.Framework.Design framework to be present -->
+    </Service>
+    <Service Name="_FrameworkDispatcherProvided">
+        <!-- Allows the FrameworkDispatcher class to be present -->
+    </Service>
+</Services>
+
+<Files>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+
+    <None Include="..\MonoGame\ThirdParty\GamepadConfig\Tao.Sdl.dll.config">
+        <Platforms>Linux,MacOS</Platforms>
+        <Link>Tao.Sdl.dll.config</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\MonoGame\ThirdParty\Dependencies\OpenTK.dll.config">
+        <Platforms>Linux,MacOS</Platforms>
+        <Link>OpenTK.dll.config</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
+    <EmbeddedNativeLibrary Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\armeabi-v7a\libopenal32.so">
+        <Platforms>Android,Ouya</Platforms>
+        <Link>libs\armeabi-v7a\libopenal32.so</Link>
+    </EmbeddedNativeLibrary>
+
+    <EmbeddedNativeLibrary Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\armeabi\libopenal32.so">
+        <Platforms>Android,Ouya</Platforms>
+        <Link>libs\armeabi\libopenal32.so</Link>
+    </EmbeddedNativeLibrary>
+
+    <EmbeddedNativeLibrary Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\x86\libopenal32.so">
+        <Platforms>Android,Ouya</Platforms>
+        <Link>libs\x86\libopenal32.so</Link>
+    </EmbeddedNativeLibrary>
+
+    <!-- Physics2d.net -->
+    <Compile Include="Assets\PlatformWandererBrain.cs" />
+    <Compile Include="Assets\Tank.cs" />
+    <Compile Include="Assets\Weapon.cs" />
+    <Compile Include="Assets\WeaponTemplates.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\ShapeHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Assets\PlatformCharacter.cs" />
+    <Compile Include="Joints\AxleJoint.cs" />
+    <Compile Include="PhysicsBody\Coefficients.cs" />
+    <Compile Include="PhysicsBody\Collisions.cs" />
+    <Compile Include="PhysicsBody\CollisionShapeParameters.cs" />
+    <Compile Include="PhysicsBody\CollisionShapeQuality.cs" />
+    <Compile Include="PhysicsBody\Dimensions.cs" />
+    <Compile Include="PhysicsBody\Inertia.cs" />
+    <Compile Include="PhysicsBody\Movement.cs" />
+    <Compile Include="PhysicsBody\PhysicsBody.cs" />
+    <Compile Include="Physics2dEngine.cs" />
+    <Compile Include="PhysicsGame.cs" />
+    <Compile Include="Physics2DDotNet\ALVector2D.cs" />
+    <Compile Include="Physics2DDotNet\Body.cs" />
+    <Compile Include="Physics2DDotNet\DistanceGrid.cs" />
+    <Compile Include="Physics2DDotNet\Interfaces.cs" />
+    <Compile Include="Physics2DDotNet\Lifespan.cs" />
+    <Compile Include="Physics2DDotNet\ListExtension.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsEngine.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsHelper.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsTimer.cs" />
+    <Compile Include="Physics2DDotNet\Collections\AdvReaderWriterLock.cs" />
+    <Compile Include="Physics2DDotNet\Collections\ImplicitCastCollection.cs" />
+    <Compile Include="Physics2DDotNet\Collections\ReadOnlyThreadSafeCollection.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\BodyJointEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\BodyProxy.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\Coefficients.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\CollectionEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\CollisionEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\DragInfo.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\IntersectionInfo.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\LinkedList2.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\MassInfo.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\Matrices.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\PairID.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\PhysicsState.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\RemovedEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\TimeStep.cs" />
+    <Compile Include="Physics2DDotNet\DataTypes\UpdatedEventArgs.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\BroadPhaseCollisionDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\BruteForceDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\FrameCoherentSAPDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\SelectiveSweepDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\SpatialHashDetector.cs" />
+    <Compile Include="Physics2DDotNet\Detectors\SweepAndPruneDetector.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\AdvGroupIgnorer.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\GroupCollection.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\GroupIgnorer.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\Ignorer.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\ObjectIgnorer.cs" />
+    <Compile Include="Physics2DDotNet\Ignorers\OneWayPlatformIgnorer.cs" />
+    <Compile Include="Physics2DDotNet\Joints\AngleJoint.cs" />
+    <Compile Include="Physics2DDotNet\Joints\FixedAngleJoint.cs" />
+    <Compile Include="Physics2DDotNet\Joints\FixedHingeJoint.cs" />
+    <Compile Include="Physics2DDotNet\Joints\HingeJoint.cs" />
+    <Compile Include="Physics2DDotNet\Joints\Joint.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\ExplosionLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\GlobalFluidLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\GravityField.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\GravityPointField.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\GravityPointMass.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\LineFluidLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\MoveToPointLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\PhysicsLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\RaySegmentsCollisionLogic.cs" />
+    <Compile Include="Physics2DDotNet\PhysicsLogics\VelocityLimitLogic.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\CircleShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\MultiPolygonShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\ParticleShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\PolygonShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\RaySegmentsShape.cs" />
+    <Compile Include="Physics2DDotNet\Shapes\Shape.cs" />
+    <Compile Include="Physics2DDotNet\Solvers\CollisionSolver.cs" />
+    <Compile Include="Physics2DDotNet\Solvers\ISequentialImpulsesJoint.cs" />
+    <Compile Include="Physics2DDotNet\Solvers\SequentialImpulses.cs" />
+</Files>
+</Project>

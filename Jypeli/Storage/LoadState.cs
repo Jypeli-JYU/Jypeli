@@ -32,7 +32,7 @@ namespace Jypeli
 
         public void EndLoad()
         {
-#if WINRT
+#if WINDOWS_STOREAPP
             reader.Dispose();
 #else
             reader.Close();
@@ -42,7 +42,7 @@ namespace Jypeli
 
         public void Dispose()
         {
-#if WINRT
+#if WINDOWS_STOREAPP
             reader.Dispose();
 #else
             reader.Close();
@@ -52,7 +52,7 @@ namespace Jypeli
 
         private void ResetFile()
         {
-#if WINRT
+#if WINDOWS_STOREAPP
             reader.Dispose();
 #else
             reader.Close();

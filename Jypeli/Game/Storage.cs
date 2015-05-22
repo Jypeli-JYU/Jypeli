@@ -18,7 +18,7 @@ namespace Jypeli
 			dataStorage = new WindowsFileManager( WindowsLocation.DataPath, WindowsLocation.MyDocuments );
 			#elif LINUX || MACOS
 			dataStorage = new LinuxFileManager();
-            #elif WINRT
+            #elif WINDOWS_STOREAPP
             dataStorage = new RTFileManager();
             #elif WINDOWS_PHONE
             dataStorage = new IsolatedStorageManager();

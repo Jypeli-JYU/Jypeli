@@ -32,8 +32,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Devices;
 using Microsoft.Xna.Framework;
+
+#if WINDOWS_STOREAPP
+using Windows.Phone.Devices.Notification;
+#else
+using Microsoft.Devices;
+#endif
 
 namespace Jypeli
 {
@@ -85,9 +90,12 @@ namespace Jypeli
         /// <param name="milliSeconds">Värinän kesto millisekunteina.</param>
         public void Vibrate( int milliSeconds )
         {
-			#if WINDOWS_PHONE
+#if WINDOWS_STOREAPP
+            VibrationDevice testVibrationDevice = VibrationDevice.GetDefault();
+            testVibrationDevice.Vibrate( TimeSpan.FromMilliseconds( milliSeconds ) );
+#else
             VibrateController.Default.Start( TimeSpan.FromMilliseconds( milliSeconds ) );
-			#endif
+#endif
         }
 
         /// <summary>
@@ -95,22 +103,29 @@ namespace Jypeli
         /// </summary>
         public void StopVibrating()
         {
-			#if WINDOWS_PHONE
+#if WINDOWS_STOREAPP
+            VibrationDevice testVibrationDevice = VibrationDevice.GetDefault();
+            testVibrationDevice.Cancel();
+#else
             VibrateController.Default.Stop();
-			#endif
+#endif
         }
 
         private static void GetScreenSize( DisplayResolution resolution, out int width, out int height )
         {
             switch ( resolution )
             {
+                case DisplayResolution.HD1080:
+                    width = 1920;
+                    height = 1080;
+                    break;
                 case DisplayResolution.HD720:
                     width = 720;
                     height = 1280;
                     break;
                 default:
-                    width = 480;
-                    height = 800;
+                    width = 800;
+                    height = 480;
                     break;
             }
         }
@@ -122,19 +137,21 @@ namespace Jypeli
 
             if ( _displayResolution == DisplayResolution.Small )
             {
-                defaultSize = new Vector( 240, 400 );
-                defaultScale = new Vector( Game.Screen.ViewportSize.Y / defaultSize.X, Game.Screen.ViewportSize.X / defaultSize.Y );
+                defaultSize = new Vector( 400, 240 );
+                defaultScale = new Vector( Game.Screen.ViewportSize.X / defaultSize.X, Game.Screen.ViewportSize.Y / defaultSize.Y );
             }
 
             if ( _displayOrientation == DisplayOrientation.Portrait || _displayOrientation == DisplayOrientation.PortraitInverse )
             {
-                Game.Screen.Size = defaultSize;
-                Game.Screen.Angle = _displayOrientation == DisplayOrientation.PortraitInverse ? Angle.StraightAngle : Angle.Zero;
+                Game.Screen.Size = defaultSize.Transpose();
+                Game.Screen.Scale = defaultScale.Transpose();
+                Game.Screen.Angle = _displayOrientation == DisplayOrientation.PortraitInverse ? -Angle.RightAngle : Angle.RightAngle;
             }
             else
             {
-                Game.Screen.Size = defaultSize.Transpose();
-                Game.Screen.Angle = _displayOrientation == DisplayOrientation.LandscapeRight ? Angle.RightAngle : -Angle.RightAngle;
+                Game.Screen.Size = defaultSize;
+                Game.Screen.Scale = defaultScale;
+                Game.Screen.Angle = _displayOrientation == DisplayOrientation.LandscapeRight ?  Angle.StraightAngle : Angle.Zero;
             }
         }
 

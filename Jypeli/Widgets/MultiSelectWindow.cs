@@ -176,14 +176,12 @@ namespace Jypeli
 
         private void SelectButton( int p )
         {
-#if !WINDOWS_PHONE
             UnselectButton();
             if ( p < 0 || p >= Buttons.Length ) return;
 
             _selectedIndex = p;
             _selectedColor = SelectedButton.Color;
             SelectedButton.Color = SelectionColor;
-#endif
         }
 
         private void UnselectButton()

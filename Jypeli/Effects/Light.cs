@@ -27,7 +27,6 @@ using System;
 
 namespace Jypeli.Effects
 {
-#if !WINDOWS_PHONE
     /// <summary>
     /// Pistemäinen valonlähde.
     /// </summary>
@@ -85,5 +84,4 @@ namespace Jypeli.Effects
             Intensity = 0.5;
         }
     }
-#endif
 }

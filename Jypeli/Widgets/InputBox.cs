@@ -34,9 +34,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-//using Microsoft.Xna.Framework.GamerServices;
 using Jypeli.Controls;
 using Jypeli.GameObjects;
+
+// TODO: text input on Windows Phone
 
 namespace Jypeli
 {
@@ -138,8 +139,8 @@ namespace Jypeli
 
             AddedToGame += onAdded;
             Removed += onRemoved;
-            
-#if WINDOWS_PHONE
+
+#if WINDOWS_PHONE && !WINDOWS_PHONE81
             AddedToGame += AddTouchListener;
 #endif
         }
@@ -197,7 +198,7 @@ namespace Jypeli
 		}
 #endif
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE && !WINDOWS_PHONE81
         void AddTouchListener()
         {
             Game.Instance.TouchPanel.ListenOn( this, ButtonState.Pressed, ShowTouchKeyboard, null ).InContext( this );

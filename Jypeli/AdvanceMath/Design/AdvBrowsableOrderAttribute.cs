@@ -47,7 +47,7 @@ namespace AdvanceMath.Design
 
         public static string[] GetOrder(Type type)
         {
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
             object[] arr = type.GetCustomAttributes(typeof(AdvBrowsableOrderAttribute), false);
             if (arr.Length > 0)
             {

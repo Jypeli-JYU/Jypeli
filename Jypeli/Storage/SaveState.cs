@@ -52,7 +52,7 @@ namespace Jypeli
             writer.WriteStartElement( "Object" );
             writer.WriteAttributeString( "Name", name );
 
-#if WINRT
+#if WINDOWS_STOREAPP
             writer.WriteAttributeString( "TypeAssembly", objType.AssemblyQualifiedName );
 #else
             writer.WriteAttributeString( "TypeAssembly", objType.Assembly.FullName );
@@ -75,7 +75,7 @@ namespace Jypeli
 
             if ( writer != null )
             {
-#if WINRT
+#if WINDOWS_STOREAPP
                 writer.Dispose();
 #else
                 writer.Close();

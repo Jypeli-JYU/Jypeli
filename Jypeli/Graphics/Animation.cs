@@ -30,7 +30,7 @@
 using System;
 using System.Collections.Generic;
 
-#if NETFX_CORE
+#if WINDOWS_STOREAPP
 using ImageConverter = Jypeli.ListHelpers.Converter<Jypeli.Image, Jypeli.Image>;
 #else
 using ImageConverter = System.Converter<Jypeli.Image, Jypeli.Image>;

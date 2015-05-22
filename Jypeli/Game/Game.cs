@@ -81,8 +81,8 @@ namespace Jypeli
         }
 
 		void InitGlobals ()
-		{
-#if WINRT
+        {
+#if WINDOWS_STOREAPP
             Name = this.GetType().AssemblyQualifiedName.Split( ',' )[0];
 #else
 			Name = this.GetType().Assembly.FullName.Split( ',' )[0];

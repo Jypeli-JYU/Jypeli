@@ -219,7 +219,7 @@ namespace Jypeli
             return this;
         }
 
-#if !NETFX_CORE        
+#if !WINDOWS_STOREAPP
         /// <summary>
         /// Lukee merkkijonolistan tiedostosta.
         /// Huom. toimii vain PC:llä, käytä mieluummin

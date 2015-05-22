@@ -27,6 +27,12 @@ namespace Jypeli
         /// HD720-tarkkuus (720p, 1280 x 720).
         /// Ei toimi kaikilla puhelimilla.
         /// </summary>
-        HD720
+        HD720,
+
+        /// <summary>
+        /// HD1080-tarkkuus (1080p, 1920 x 1080).
+        /// Ei toimi kaikilla puhelimilla.
+        /// </summary>
+        HD1080,
     }
 }

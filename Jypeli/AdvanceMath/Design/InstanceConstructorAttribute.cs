@@ -50,7 +50,7 @@ namespace AdvanceMath.Design
             get { return parameterNames; }
         }
 
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         public static ConstructorInfo GetConstructor(Type t, out string[] paramNames)
         {
             foreach (ConstructorInfo method in t.GetConstructors())

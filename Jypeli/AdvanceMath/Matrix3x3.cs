@@ -1222,7 +1222,7 @@ namespace AdvanceMath
         #endregion
         #region Properties
         [AdvBrowsable]
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         [System.ComponentModel.Description("The First row of the Matrix3x3")]
 #endif
         public Vector3D Rx
@@ -1243,7 +1243,7 @@ namespace AdvanceMath
             }
         }
         [AdvBrowsable]
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         [System.ComponentModel.Description("The Second row of the Matrix3x3")]
 #endif
         public Vector3D Ry
@@ -1264,7 +1264,7 @@ namespace AdvanceMath
             }
         }
         [AdvBrowsable]
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         [System.ComponentModel.Description("The Third row of the Matrix3x3")]
 #endif
         public Vector3D Rz

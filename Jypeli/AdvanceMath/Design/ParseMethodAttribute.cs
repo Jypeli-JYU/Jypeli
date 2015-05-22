@@ -32,7 +32,7 @@ namespace AdvanceMath.Design
     [global::System.AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
     public sealed class ParseMethodAttribute : Attribute
     {
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         public static MethodInfo GetParseMethod(Type t)
         {
             foreach (MethodInfo method in t.GetMethods())

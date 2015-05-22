@@ -686,7 +686,7 @@ namespace AdvanceMath
         /// </summary>
         [AdvBrowsable]
         [XmlAttribute]
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         [System.ComponentModel.Description("The Magnitude on the X-Axis")]
 #endif
         public Scalar X;
@@ -695,7 +695,7 @@ namespace AdvanceMath
         /// </summary>
         [AdvBrowsable]
         [XmlAttribute]
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         [System.ComponentModel.Description("The Magnitude on the Y-Axis")]
 #endif
         public Scalar Y;
@@ -704,7 +704,7 @@ namespace AdvanceMath
         /// </summary>
         [AdvBrowsable]
         [XmlAttribute]
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         [System.ComponentModel.Description("The Magnitude on the Z-Axis")]
 #endif
         public Scalar Z;

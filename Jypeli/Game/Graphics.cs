@@ -86,7 +86,7 @@ namespace Jypeli
                 }
                 else if ( ( GraphicsDeviceManager.IsFullScreen != value ) )
                 {
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE && !WINDOWS_PHONE81
                     //Phone.ResetScreen();
 #else
                     SetWindowSize( GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, value );
@@ -107,7 +107,7 @@ namespace Jypeli
 
         private void SetDefaultResolution()
         {
-#if WINDOWS_PHONE || WINRT
+#if WINDOWS_STOREAPP
             isFullScreenRequested = true;
 #elif LINUX
             // Let Linux use the default 800x480 window size for now, seems to work best with OpenTK
@@ -124,6 +124,7 @@ namespace Jypeli
         public void SetWindowPosition( int x, int y )
         {
 #if WINDOWS || LINUX
+#if OPENGL
             OpenTK.GameWindow OTKWindow = GetForm( this.Window );
 
             if ( OTKWindow != null )
@@ -131,10 +132,13 @@ namespace Jypeli
                 OTKWindow.X = x;
                 OTKWindow.Y = y;
             }
+#else
+            throw new NotSupportedException();
+#endif            
 #endif
         }
 
-#if WINDOWS || LINUX
+#if OPENGL && (WINDOWS || LINUX)
         private static OpenTK.GameWindow GetForm( Microsoft.Xna.Framework.GameWindow gameWindow )
         {
             Type type = typeof( OpenTKGameWindow );

@@ -22,7 +22,7 @@ namespace Jypeli
         {
             get
             {
-#if NETFX_CORE
+#if WINDOWS_STOREAPP
                 return Layers.FindAll( l => l.IgnoresZoom && l.RelativeTransition == Vector.Zero );
 #else
                 return Layers.FindAll( l => l.IgnoresZoom && l.RelativeTransition == Vector.Zero ).AsReadOnly();
@@ -35,7 +35,7 @@ namespace Jypeli
         /// </summary>
         public IList<Layer> DynamicLayers
         {
-#if NETFX_CORE
+#if WINDOWS_STOREAPP
             get { return Layers.FindAll( l => !l.IgnoresZoom || l.RelativeTransition != Vector.Zero ); }
 #else
             get { return Layers.FindAll( l => !l.IgnoresZoom || l.RelativeTransition != Vector.Zero ).AsReadOnly(); }

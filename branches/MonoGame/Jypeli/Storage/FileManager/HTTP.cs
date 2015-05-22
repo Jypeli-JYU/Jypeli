@@ -173,7 +173,7 @@ namespace Jypeli
                 resStream.CopyStreamTo( memStream );
                 resStream.Dispose();
 
-#if WINRT
+#if WINDOWS_STOREAPP
                 response.Dispose();
 #else
                 response.Close();

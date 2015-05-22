@@ -87,7 +87,7 @@ namespace Jypeli
 
 #endif
 
-#if NETFX_CORE
+#if WINDOWS_STOREAPP
         /// <summary>
         /// Tyyppi metodille joka muuttaa annetun arvon tyypistä toiseen.
         /// Löytyy kirjastosta mscorlib.dll.

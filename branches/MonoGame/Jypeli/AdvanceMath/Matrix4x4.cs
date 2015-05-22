@@ -1787,7 +1787,7 @@ namespace AdvanceMath
         #endregion
         #region Properties
         [AdvBrowsable]
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         [System.ComponentModel.Description("The First row of the Matrix4x4")]
 #endif
         public Vector4D Rx
@@ -1810,7 +1810,7 @@ namespace AdvanceMath
             }
         }
         [AdvBrowsable]
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         [System.ComponentModel.Description("The Second row of the Matrix4x4")]
 #endif
         public Vector4D Ry
@@ -1833,7 +1833,7 @@ namespace AdvanceMath
             }
         }
         [AdvBrowsable]
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         [System.ComponentModel.Description("The Third row of the Matrix4x4")]
 #endif
         public Vector4D Rz
@@ -1856,7 +1856,7 @@ namespace AdvanceMath
             }
         }
         [AdvBrowsable]
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         [System.ComponentModel.Description("The Forth row of the Matrix4x4")]
 #endif
         public Vector4D Rw

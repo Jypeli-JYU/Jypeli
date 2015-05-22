@@ -144,7 +144,7 @@ namespace Jypeli
         /// <returns></returns>
         public static Shape FromString( string shapeStr )
         {
-#if NETFX_CORE
+#if WINDOWS_STOREAPP
             return typeof( Shape ).GetTypeInfo().GetDeclaredField( shapeStr ).GetValue( null ) as Shape;
 #else
             Type shapeClass = typeof( Shape );

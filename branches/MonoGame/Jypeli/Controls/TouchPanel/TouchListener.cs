@@ -101,7 +101,7 @@ namespace Jypeli
 
         public void Invoke( Touch touch )
         {
-#if NETFX_CORE
+#if WINDOWS_STOREAPP
             // Win8
             MethodInfo handlerMethod = handler.GetMethodInfo();
 #else

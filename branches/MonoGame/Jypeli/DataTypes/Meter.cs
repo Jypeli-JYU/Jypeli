@@ -78,7 +78,7 @@ namespace Jypeli
         {
             Type meterType = this.GetType();
 
-#if NETFX_CORE
+#if WINDOWS_STOREAPP
             Type[] genargs = meterType.GenericTypeArguments;
 #else
             Type[] genargs = meterType.GetGenericArguments();

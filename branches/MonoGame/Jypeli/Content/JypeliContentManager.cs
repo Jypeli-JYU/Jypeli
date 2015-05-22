@@ -19,7 +19,7 @@ namespace Microsoft.Xna.Framework.Content
 
         protected override System.IO.Stream OpenStream(string assetName)
         {
-#if WINRT
+#if WINDOWS_STOREAPP
             var assembly = typeof( JypeliContentManager ).GetTypeInfo().Assembly;
             var assetType = assembly.GetType( "Jypeli.Content." + assetName );
             var fieldInfo = assetType.GetTypeInfo().GetDeclaredField( "rawData" );

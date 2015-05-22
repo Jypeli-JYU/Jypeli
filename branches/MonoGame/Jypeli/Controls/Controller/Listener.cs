@@ -134,7 +134,7 @@ namespace Jypeli
 
         public void Invoke()
         {
-#if NETFX_CORE
+#if WINDOWS_STOREAPP
             // Win8
             MethodInfo handlerMethod = handler.GetMethodInfo();
 #else

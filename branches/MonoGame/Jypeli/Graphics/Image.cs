@@ -13,7 +13,7 @@ using XnaV2 = Microsoft.Xna.Framework.Vector2;
 using XnaColor = Microsoft.Xna.Framework.Color;
 using JyColor = Jypeli.Color;
 
-#if NETFX_CORE
+#if WINDOWS_STOREAPP
 using ColorConverter = Jypeli.ListHelpers.Converter<Jypeli.Color, Jypeli.Color>;
 using XnaColorConverter = Jypeli.ListHelpers.Converter<Microsoft.Xna.Framework.Color, Microsoft.Xna.Framework.Color>;
 #else
@@ -561,7 +561,7 @@ namespace Jypeli
 
         #region static methods
 
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         /// <summary>
         /// Lataa kuvan tiedostosta. Kuvan ei tarvitse olla lisättynä
         /// Content-projektiin.

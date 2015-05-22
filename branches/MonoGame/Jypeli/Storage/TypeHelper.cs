@@ -7,7 +7,7 @@ namespace Jypeli
 {
     public abstract class TypeHelper
     {
-#if !WINRT
+#if !WINDOWS_STOREAPP
 
         public static bool InheritsFrom( Type actual, Type expected )
         {
@@ -44,7 +44,7 @@ namespace Jypeli
 
             StringBuilder sb = new StringBuilder( type.AssemblyQualifiedName );
 
-#if WINRT
+#if WINDOWS_STOREAPP
             if ( !type.IsConstructedGenericType ) return sb.ToString();
             Type[] genargs = type.GenericTypeArguments;
 #else

@@ -582,7 +582,7 @@ namespace AdvanceMath
         /// The X Row or row zero.
         /// </summary>
         [AdvBrowsable]
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         [System.ComponentModel.Description("The First row of the Matrix2x2")]
 #endif
         public Vector2D Rx
@@ -604,7 +604,7 @@ namespace AdvanceMath
         /// The Y Row or row one.
         /// </summary>
         [AdvBrowsable]
-#if !NETFX_CORE
+#if !WINDOWS_STOREAPP
         [System.ComponentModel.Description("The Second row of the Matrix2x2")]
 #endif
         public Vector2D Ry

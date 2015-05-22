@@ -36,7 +36,6 @@ using System.ComponentModel;
 
 #if WINDOWS_PHONE
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.GamerServices;
 #endif
 
 namespace Jypeli
@@ -131,7 +130,7 @@ namespace Jypeli
 
         private void AddListeners()
         {
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE && TESTING
             if ( !ShowWindowOnPhone )
             {
                 if ( !Guide.IsVisible )
@@ -144,7 +143,7 @@ namespace Jypeli
             Game.Instance.PhoneBackButton.Listen( Cancel, null ).InContext( this );
         }
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE && TESTING
         void TouchTextEntered( IAsyncResult result )
         {
             string typedText = Guide.EndShowKeyboardInput( result );

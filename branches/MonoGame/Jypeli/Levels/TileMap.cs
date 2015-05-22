@@ -38,7 +38,7 @@ namespace Jypeli
         {
         }
 
-#if !WINRT
+#if !WINDOWS_STOREAPP
 
         /// <summary>
         /// Lukee ruutukentän tiedostosta.
@@ -118,7 +118,7 @@ namespace Jypeli
             }
         }
 
-#if !WINRT
+#if !WINDOWS_STOREAPP
 
         /// <summary>
         /// Lukee kentän ruudut tiedostosta.

@@ -113,6 +113,8 @@ namespace Jypeli
         /// </summary>
         public void ConfirmExit()
         {
+#if !WINRT  // Win8 programs cannot be closed with Exit()
+
             bool cursorVisible = IsMouseVisible;
 
             YesNoWindow kyselyIkkuna = new YesNoWindow( "Do you want to quit?" );
@@ -121,6 +123,7 @@ namespace Jypeli
             Add( kyselyIkkuna );
 
             IsPaused = true;
+#endif
         }
 
         protected override void OnExiting( object sender, EventArgs args )

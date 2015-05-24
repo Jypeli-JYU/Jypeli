@@ -174,7 +174,7 @@
     </EmbeddedNativeLibrary>
 
     <!-- SimplePhysics -->
-	<Compile Include="Properties\AssemblyInfo.cs" />
+	<Compile Include="AssemblyInfo.cs" />
     <Compile Include="Collisions.cs" />
     <Compile Include="SimplePhysicsEngine.cs" />
     <Compile Include="PhysicsBody.cs" />

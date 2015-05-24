@@ -418,10 +418,10 @@
     <Compile Include="WP8\DisplayOrientation.cs" />
     <Compile Include="WP8\DisplayResolution.cs" />
     <Compile Include="WP8\Phone.cs">
-        <Platforms>WindowsPhone,WindowsPhone81,Windows8</Platforms>
+        <Platforms>WindowsPhone,WindowsPhone81</Platforms>
     </Compile>
     <Compile Include="WP8\PhoneStub.cs">
-        <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms>
+        <ExcludePlatforms>WindowsPhone,WindowsPhone81</ExcludePlatforms>
     </Compile>
 </Files>
 </Project>

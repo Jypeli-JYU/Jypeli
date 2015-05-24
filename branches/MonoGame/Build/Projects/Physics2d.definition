@@ -207,10 +207,10 @@
     <Compile Include="Physics2DDotNet\PhysicsEngine.cs" />
     <Compile Include="Physics2DDotNet\PhysicsHelper.cs" />
     <Compile Include="Physics2DDotNet\PhysicsTimer.cs">
-		<ExcludePlatforms>Windows8</ExcludePlatforms>
+		<ExcludePlatforms>Windows8,WindowsPhone81</ExcludePlatforms>
 	</Compile>
 	<Compile Include="Physics2DDotNet\WinRTCompat.cs">
-		<Platforms>Windows8</Platforms>
+		<Platforms>Windows8,WindowsPhone81</Platforms>
 	</Compile>
     <Compile Include="Physics2DDotNet\Collections\AdvReaderWriterLock.cs" />
     <Compile Include="Physics2DDotNet\Collections\ImplicitCastCollection.cs" />

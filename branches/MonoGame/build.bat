@@ -2,22 +2,22 @@
 setlocal
 rem | Compiles the library
 
-call build_platform WindowsGL x86
+call build_platform WindowsGL
 if errorlevel 1 goto error
 
-call build_platform Linux x86
+call build_platform Linux
 if errorlevel 1 goto error
 
-call build_platform WP8 x86
+call build_platform Windows8
 if errorlevel 1 goto error
 
-call build_platform WP8 ARM
+rem call build_platform WindowsPhone81
+rem if errorlevel 1 goto error
+
+call build_platform WindowsPhone x86
 if errorlevel 1 goto error
 
-call build_platform Win8 x86
-if errorlevel 1 goto error
-
-call build_platform Win8 ARM
+call build_platform WindowsPhone ARM
 if errorlevel 1 goto error
 
 goto end

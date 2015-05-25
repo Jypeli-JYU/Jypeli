@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 6.1.1"
+Name "MonoJypeli 6.1.2"
 
 OutFile "MonoJypeli_setup.exe"
 
@@ -42,36 +42,45 @@ SectionEnd
 
 Section "MonoJypeli for Windows"
   SetOutPath "$INSTDIR\WindowsGL"
-  File "..\Compiled\WindowsGL-x86\*.dll"
-  File "..\Compiled\WindowsGL-x86\*.xml"
+  File "..\Compiled\WindowsGL-AnyCPU\*.dll"
+  File "..\Compiled\WindowsGL-AnyCPU\*.xml"
 SectionEnd
 
-Section "MonoJypeli for Windows Phone 8"
+Section "MonoJypeli for Windows Phone 8.1"
+  SetOutPath "$INSTDIR\WP81"
+  File "..\Compiled\WindowsPhone81-AnyCPU\*.dll"
+  File "..\Compiled\WindowsPhone81-AnyCPU\*.pri"
+  File "..\Compiled\WindowsPhone81-AnyCPU\*.xml"
+  SetOutPath "$INSTDIR\WP81\MonoGame.Framework"
+  File "..\Compiled\WindowsPhone81-AnyCPU\MonoGame.Framework\MonoGame.Framework.xr.xml"
+  SetOutPath "$INSTDIR\WP81\MonoGame.Framework\Themes"
+  File "..\Compiled\WindowsPhone81-AnyCPU\MonoGame.Framework\Themes\generic.xbf"
+SectionEnd
+
+
+Section "MonoJypeli for Windows Phone 8.0"
   SetOutPath "$INSTDIR\WP8-ARM"
-  File "..\Compiled\WP8-ARM\*.dll"
-  File "..\Compiled\WP8-ARM\*.xml"
-  File "..\Compiled\WP8-ARM\*.winmd"
+  File "..\Compiled\WindowsPhone-ARM\*.dll"
+  File "..\Compiled\WindowsPhone-ARM\*.xml"
+  File "..\Compiled\WindowsPhone-ARM\*.winmd"
     
   SetOutPath "$INSTDIR\WP8-x86"
-  File "..\Compiled\WP8-x86\*.dll"
-  File "..\Compiled\WP8-x86\*.xml"
-  File "..\Compiled\WP8-x86\*.winmd"
+  File "..\Compiled\WindowsPhone-x86\*.dll"
+  File "..\Compiled\WindowsPhone-x86\*.xml"
+  File "..\Compiled\WindowsPhone-x86\*.winmd"
 SectionEnd
 
 Section "MonoJypeli for Windows Store 8 / WinRT"
-  SetOutPath "$INSTDIR\Win8-ARM"
-  File "..\Compiled\Win8-ARM\*.dll"
-  File "..\Compiled\Win8-ARM\*.xml"
-    
-  SetOutPath "$INSTDIR\Win8-x86"
-  File "..\Compiled\Win8-x86\*.dll"
-  File "..\Compiled\Win8-x86\*.xml"
+  SetOutPath "$INSTDIR\Win8"
+  File "..\Compiled\Windows8-AnyCPU\*.dll"
+  File "..\Compiled\Windows8-AnyCPU\*.pri"
+  File "..\Compiled\Windows8-AnyCPU\*.xml"
 SectionEnd
 
 Section "MonoJypeli for Linux"
   SetOutPath "$INSTDIR\Linux"
-  File "..\Compiled\Linux-x86\*.dll"
-  File "..\Compiled\Linux-x86\*.xml"
+  File "..\Compiled\Linux-AnyCPU\*.dll"
+  File "..\Compiled\Linux-AnyCPU\*.xml"
 SectionEnd
 
 SubSection "Visual Studio 2013 project templates"
@@ -97,7 +106,7 @@ Section "Windows 8 Store / RT"
   ${Endif}
 SectionEnd
 
-Section "Windows Phone 8"
+Section "Windows Phone 8.0"
   ReadEnvStr $R0 VS120COMNTOOLS
   ${If} $R0 != ""
     Push $R0
@@ -106,6 +115,17 @@ Section "Windows Phone 8"
     DetailPrint "Could not find Visual Studio 2013, skipping template installation."
   ${Endif}
 SectionEnd
+
+Section "Windows Phone 8.1"
+  ReadEnvStr $R0 VS120COMNTOOLS
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyWp81Templates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
+  ${Endif}
+SectionEnd
+
 
 Section "Run template installer"
   ReadEnvStr $R0 VS120COMNTOOLS
@@ -142,7 +162,7 @@ Section "Windows 8 Store / RT"
   ${Endif}
 SectionEnd
 
-Section "Windows Phone 8"
+Section "Windows Phone 8.0"
   ReadEnvStr $R0 VS110COMNTOOLS
   ${If} $R0 != ""
     Push $R0
@@ -203,6 +223,25 @@ Function CopyWpTemplates
   Done:
 FunctionEnd
 
+Function CopyWp81Templates
+   Pop $0
+   
+   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
+    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
+	SetOutPath $1
+    File "..\projektimallit\WP81\*.zip"
+	Goto VSPro
+	
+  VSPro:
+	IfFileExists "$0..\IDE\devenv.exe" 0 Done
+      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows Phone 8.1"
+      CreateDirectory $1
+      SetOutPath $1
+      File "..\projektimallit\WP81\*.zip"
+
+  Done:
+FunctionEnd
+
 Function CopyRTTemplates
    Pop $0
    
@@ -243,8 +282,10 @@ Function un.RemoveVsTemplateDir
   Delete "$0\*.zip"
   Delete "$0\Windows 8\*.zip"
   Delete "$0\Windows Phone 8\*.zip"
+  Delete "$0\Windows Phone 8.1\*.zip"
   RMDir "$0\Windows 8"
   RMDir "$0\Windows Phone 8"
+  RMDir "$0\Windows Phone 8.1"
   RMDir "$0"  
 FunctionEnd
 

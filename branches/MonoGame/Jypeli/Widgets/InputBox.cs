@@ -140,7 +140,7 @@ namespace Jypeli
             AddedToGame += onAdded;
             Removed += onRemoved;
 
-#if WINDOWS_PHONE && !WINDOWS_PHONE81
+#if WINDOWS_PHONE_TODO
             AddedToGame += AddTouchListener;
 #endif
         }
@@ -198,7 +198,7 @@ namespace Jypeli
 		}
 #endif
 
-#if WINDOWS_PHONE && !WINDOWS_PHONE81
+#if WINDOWS_PHONE_TODO
         void AddTouchListener()
         {
             Game.Instance.TouchPanel.ListenOn( this, ButtonState.Pressed, ShowTouchKeyboard, null ).InContext( this );

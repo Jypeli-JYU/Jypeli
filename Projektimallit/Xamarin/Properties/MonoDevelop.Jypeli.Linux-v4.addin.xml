@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Addin id="Jypeli" namespace="MonoDevelop" name="Jypeli" author="Jyvaskylan yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.1.1">
+<Addin id="Jypeli" namespace="MonoDevelop" name="Jypeli" author="Jyvaskylan yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.2.0">
 	<Dependencies>
 		<Addin id="::MonoDevelop.Core" version="4.0" />
 		<Addin id="::MonoDevelop.Ide" version="4.0" />
@@ -31,9 +31,10 @@
 		<Import file="templates/FysiikkaPeli.Physics2d.xpt.xml" />
 		<Import file="templates/ConsoleMain.xpt.xml" />
 		<Import file="templates/ConsoleMain/Program.cs" />
-		<Import file="assemblies/Linux/Jypeli.MonoGame.Framework.dll" />
-		<Import file="assemblies/Linux/Lidgren.Network.dll" />
+		<Import file="assemblies/Linux/MonoGame.Framework.dll" />
+		<Import file="assemblies/Linux/MonoGame.Framework.xml" />
 		<Import file="assemblies/Linux/OpenTK.dll" />
+		<Import file="assemblies/Linux/OpenTK.xml" />
 		<Import file="assemblies/Linux/OpenTK.dll.config" />
 		<Import file="assemblies/Linux/Tao.Sdl.dll" />
 		<Import file="assemblies/Linux/Tao.Sdl.dll.config" />
@@ -72,14 +73,11 @@
 				<Assembly file="assemblies/Linux/Jypeli.dll" />
 				<Assembly file="assemblies/Linux/Jypeli.SimplePhysics.dll" />
 				<Assembly file="assemblies/Linux/Jypeli.Physics2d.dll" />
-				<Assembly file="assemblies/Linux/Jypeli.MonoGame.Framework.dll" />
-				<Assembly file="assemblies/Linux/Lidgren.Network.dll" />
+				<Assembly file="assemblies/Linux/MonoGame.Framework.dll" />
 				<Assembly file="assemblies/Linux/OpenTK.dll" />
 				<Assembly file="assemblies/Linux/OpenTK.dll.config" />
 				<Assembly file="assemblies/Linux/Tao.Sdl.dll" />
 				<Assembly file="assemblies/Linux/Tao.Sdl.dll.config" />
-				<Assembly file="assemblies/Linux/sdl.dll" />
-				<Assembly file="assemblies/Linux/sdl_mixer.dll" />
 			</Package>
 		</Condition>
 	</Extension>

@@ -82,7 +82,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Win8\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;UseDouble;WINRT</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;UseDouble;WINRT;WINDOWS_STOREAPP</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -102,17 +102,6 @@
     <Prefer32Bit>true</Prefer32Bit>
     <DocumentationFile>bin\Win8\x86\Release\Jypeli.Physics2d.xml</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <ProjectReference Include="..\Jypeli\Jypeli-Win8.csproj">
-      <Project>{f2642dd9-9e8c-479d-87d1-8b6572d5529a}</Project>
-      <Name>Jypeli-Win8</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Win8.csproj">
-      <Project>{e3b82eb8-5725-49f0-876f-e857123c0799}</Project>
-      <Name>Jypeli.MonoGame.Framework.Win8</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\PlatformWandererBrain.cs" />
     <Compile Include="Assets\Tank.cs" />
@@ -201,6 +190,16 @@
     <Compile Include="Physics2DDotNet\Solvers\CollisionSolver.cs" />
     <Compile Include="Physics2DDotNet\Solvers\ISequentialImpulsesJoint.cs" />
     <Compile Include="Physics2DDotNet\Solvers\SequentialImpulses.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jypeli\Jypeli-Win8.csproj">
+      <Project>{f2642dd9-9e8c-479d-87d1-8b6572d5529a}</Project>
+      <Name>Jypeli-Win8</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows8.csproj">
+      <Project>{0518563c-acca-4a14-8c5d-ddbe93e2605f}</Project>
+      <Name>MonoGame.Framework.Windows8</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

@@ -48,15 +48,16 @@ namespace Jypeli
             this.Speed = speed;
         }
 
-        public void Turn(Angle angle)
+        public void Turn( Angle angle )
         {
-            if ( !TurnWhileMoving || Game.Time.SinceLastUpdate.TotalSeconds == 0) return;
+            if ( !TurnWhileMoving || Game.Time.SinceLastUpdate.TotalSeconds == 0 || Owner == null || Owner.Angle == angle ) return;
 
             double maxTurn = TurnSpeed.Radians * Game.Time.SinceLastUpdate.TotalSeconds;
+
             if ( Math.Abs( angle.Radians - Owner.Angle.Radians ) <= maxTurn )
                 Owner.Angle = angle;
             else
-                Owner.Angle = Angle.FromRadians( Owner.Angle.Radians + Math.Sign( angle.Radians - Owner.Angle.Radians ) * maxTurn );
+                Owner.Angle = Angle.FromRadians( Owner.Angle.Radians + Math.Sign( angle.GetPositiveRadians() - Owner.Angle.GetPositiveRadians() ) * maxTurn );
         }
 
         protected void Move( Vector direction )

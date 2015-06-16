@@ -168,9 +168,5 @@
       <Project>{6D75E618-19CA-4C51-9546-F10965FBC0B8}</Project>
       <Name>MonoGame.Framework.WindowsGL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Jypeli\Jypeli-WindowsGL.csproj">
-      <Project>{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}</Project>
-      <Name>Jypeli-WindowsGL</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>

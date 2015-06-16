@@ -226,7 +226,7 @@ namespace Physics2DDotNet
                     {
                         state = TimerState.Fast;
                         int sleep = (int)Math.Ceiling(desiredDt - currentDt);
-#if SILVERLIGHT || WINDOWS_PHONE || XBOX
+#if SILVERLIGHT || WINDOWS_PHONE || XBOX || WINRT
                         waitHandle.WaitOne(sleep);
 #else
                         waitHandle.WaitOne(sleep, false);

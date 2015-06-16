@@ -156,7 +156,7 @@ namespace Jypeli
         /// <returns>Kulmien erotus.</returns>
         public static Angle operator -( Angle a, Angle b )
         {
-            return FromRadians( a.Radians - b.Radians );
+            return FromRadians( a.GetPositiveRadians() - b.GetPositiveRadians() );
         }
 
         /// <summary>

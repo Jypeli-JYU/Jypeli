@@ -54,6 +54,7 @@ goto nocopywin
 
 :copywin
 copy MonoGame\ThirdParty\GamepadConfig\SDL_mixer.dll %outputdir%
+copy MonoGame\ThirdParty\GamepadConfig\sdl.dll %outputdir%
 :nocopywin
 
 if "%platform%"=="Linux" (

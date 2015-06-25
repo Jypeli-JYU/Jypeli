@@ -27,6 +27,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="AfterBuild" command="mdtool setup pack ${TargetFile}" workingdir="${TargetDir}" />
+        <Command type="AfterBuild" command="mdtool setup rep-build ." workingdir="${TargetDir}" />
+        <Command type="BeforeBuild" command="./copy_mac_assemblies.sh" workingdir="${ProjectDir}" />
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -71,10 +78,7 @@
     <EmbeddedResource Include="assemblies\Mac\Jypeli.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Mac\Jypeli.MonoGame.Framework.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Mac\Lidgren.Network.dll">
+    <EmbeddedResource Include="assemblies\Mac\MonoGame.Framework.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="assemblies\Mac\Tao.Sdl.dll">

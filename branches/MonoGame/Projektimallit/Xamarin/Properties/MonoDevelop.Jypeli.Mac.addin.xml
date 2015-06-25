@@ -51,8 +51,7 @@
 		<Import file="templates/Tasohyppelypeli.Mac.xpt.xml" />
 		<Import file="templates/ConsoleMain.xpt.xml" />
 		<Import file="templates/ConsoleMain/Program.cs" />
-		<Import file="assemblies/Mac/Jypeli.MonoGame.Framework.dll" />
-		<Import file="assemblies/Mac/Lidgren.Network.dll" />
+		<Import file="assemblies/Mac/MonoGame.Framework.dll" />
 		<Import file="assemblies/Mac/Tao.Sdl.dll" />
 		<Import file="assemblies/Mac/Jypeli.dll" />
 		<Import file="assemblies/Mac/Jypeli.xml" />
@@ -91,10 +90,10 @@
 				<Assembly file="assemblies/Mac/Jypeli.dll" />
 				<Assembly file="assemblies/Mac/Jypeli.SimplePhysics.dll" />
 				<Assembly file="assemblies/Mac/Jypeli.Physics2d.dll" />
-				<Assembly file="assemblies/Mac/Jypeli.MonoGame.Framework.dll" />
+				<Assembly file="assemblies/Mac/MonoGame.Framework.dll" />
 				<Assembly file="assemblies/Mac/Lidgren.Network.dll" />
 				<Assembly file="assemblies/Mac/Tao.Sdl.dll" />
 			</Package>
-		</Condition>xx
+		</Condition>
 	</Extension>
 </Addin>

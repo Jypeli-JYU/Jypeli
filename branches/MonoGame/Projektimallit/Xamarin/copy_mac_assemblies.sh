@@ -1,4 +1,5 @@
 #!/bin/sh
+mkdir -p assemblies/Mac
 cp ../../Jypeli/bin/MacOS/Release/*.dll assemblies/Mac/
 cp ../../Jypeli/bin/MacOS/Release/*.xml assemblies/Mac/
 cp ../../SimplePhysics/bin/MacOS/Release/Jypeli.SimplePhysics.dll assemblies/Mac/

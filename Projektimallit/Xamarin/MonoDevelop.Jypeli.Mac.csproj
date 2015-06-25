@@ -31,14 +31,20 @@
       <CustomCommands>
         <Command type="AfterBuild" command="mdtool setup pack ${TargetFile}" workingdir="${TargetDir}" />
         <Command type="AfterBuild" command="mdtool setup rep-build ." workingdir="${TargetDir}" />
-        <Command type="BeforeBuild" command="./copy_mac_assemblies.sh" workingdir="${ProjectDir}" />
+        <Command type="BeforeBuild" command="sh copy_mac_assemblies.sh" workingdir="${ProjectDir}" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
+    <Reference Include="System">
+      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/AddIns/Xamarin.Sketches/XamarinInteractiveAgentsMac.app/Contents/MonoBundle/System.dll</Package>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/AddIns/Xamarin.Sketches/XamarinInteractiveAgentsMac.app/Contents/MonoBundle/System.Xml.dll</Package>
+    </Reference>
+    <Reference Include="System.Core">
+      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/AddIns/Xamarin.Sketches/XamarinInteractiveAgentsMac.app/Contents/MonoBundle/System.Core.dll</Package>
+    </Reference>
     <Reference Include="Mono.Addins">
       <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/bin/Mono.Addins.dll</Package>
     </Reference>

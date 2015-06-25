@@ -22,12 +22,11 @@
           <References>
              <Reference type = "Package" refto = "Jypeli" SpecificVersion="false" LocalCopy="true" />
              <Reference type = "Package" refto = "Jypeli.SimplePhysics" SpecificVersion="false" LocalCopy="true" />
-             <Reference type = "Package" refto = "Jypeli.MonoGame.Framework" SpecificVersion="false" LocalCopy="true" />
+             <Reference type = "Package" refto = "MonoGame.Framework" SpecificVersion="false" LocalCopy="true" />
              <Reference type = "Package" refto = "System" />
              <Reference type = "Package" refto = "System.Xml" />
              <Reference type = "Package" refto = "System.Core" />
              <Reference type = "Package" refto = "MonoMac" SpecificVersion="false" />
-             <Reference type = "Package" refto = "Lidgren.Network" SpecificVersion="false" LocalCopy="true" />
              <Reference type = "Package" refto = "Tao.Sdl" SpecificVersion="false" LocalCopy="true" />
           </References>
 

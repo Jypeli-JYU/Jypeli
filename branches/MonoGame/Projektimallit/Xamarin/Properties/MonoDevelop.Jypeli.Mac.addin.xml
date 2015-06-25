@@ -91,7 +91,6 @@
 				<Assembly file="assemblies/Mac/Jypeli.SimplePhysics.dll" />
 				<Assembly file="assemblies/Mac/Jypeli.Physics2d.dll" />
 				<Assembly file="assemblies/Mac/MonoGame.Framework.dll" />
-				<Assembly file="assemblies/Mac/Lidgren.Network.dll" />
 				<Assembly file="assemblies/Mac/Tao.Sdl.dll" />
 			</Package>
 		</Condition>

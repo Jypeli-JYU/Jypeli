@@ -1,0 +1,13 @@
+diff --git a/MonoGame.Framework/Graphics/GraphicsExtensions.cs b/MonoGame.Framework/Graphics/GraphicsExtensions.cs
+index c507df2..9986dda 100644
+--- a/MonoGame.Framework/Graphics/GraphicsExtensions.cs
++++ b/MonoGame.Framework/Graphics/GraphicsExtensions.cs
+@@ -802,7 +802,7 @@ namespace Microsoft.Xna.Framework.Graphics
+ #else
+             var error = GL.GetError();
+ #endif
+-            if (error != ErrorCode.NoError)
++			if (error != ErrorCode.NoError && error != ErrorCode.InvalidFramebufferOperationExt)
+                 throw new MonoGameGLException("GL.GetError() returned " + error.ToString());
+         }
+ #endif

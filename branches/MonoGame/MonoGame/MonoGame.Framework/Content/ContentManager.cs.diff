@@ -1,0 +1,51 @@
+diff --git a/MonoGame.Framework/Content/ContentManager.cs b/MonoGame.Framework/Content/ContentManager.cs
+index a0e74a7..6656488 100644
+--- a/MonoGame.Framework/Content/ContentManager.cs
++++ b/MonoGame.Framework/Content/ContentManager.cs
+@@ -359,6 +359,10 @@ namespace Microsoft.Xna.Framework.Content
+             {
+                 return EffectReader.Normalize(assetName);
+             }
++            else if ((typeof(T) == typeof(string[])))
++            {
++                return ContentTypeReader<string[]>.Normalize(assetName, new string[]{"", ".txt"});
++            }
+             return null;
+         }
+ 
+@@ -369,7 +373,7 @@ namespace Microsoft.Xna.Framework.Content
+                 using (Stream assetStream = TitleContainer.OpenStream(assetName))
+                 {
+                     Texture2D texture = Texture2D.FromStream(
+-                        graphicsDeviceService.GraphicsDevice, assetStream);
++                                            graphicsDeviceService.GraphicsDevice, assetStream);
+                     texture.Name = originalAssetName;
+                     return texture;
+                 }
+@@ -399,6 +403,26 @@ namespace Microsoft.Xna.Framework.Content
+                     return new Effect(this.graphicsDeviceService.GraphicsDevice, data);
+                 }
+             }
++            else if (typeof(T) == typeof(string[]))
++            {
++                // Jypeli addition
++                using (Stream assetStream = TitleContainer.OpenStream(assetName))
++                {
++                    List<string> strings = new List<string>();
++                    var reader = new StreamReader(assetStream);
++
++                    while (true)
++                    {
++                        string line = reader.ReadLine();
++                        if (line == null)
++                            break;
++                        strings.Add(line);
++                    }
++
++                    return strings.ToArray();
++                }
++            }
++
+             return null;
+         }
+ 

@@ -131,11 +131,19 @@ namespace Jypeli
 
         private void StartPlaying( Sound sound )
         {
-            sound.Play();
-            Instances.Add( sound );
-            Position.Reset();
-            posTimer.Start();
-            IsPlaying = true;
+			try
+			{
+	            sound.Play();
+	            Instances.Add( sound );
+	            Position.Reset();
+	            posTimer.Start();
+	            IsPlaying = true;
+			}
+			catch (InstancePlayLimitException)
+			{
+				// Too many sounds are playing at once
+				// Just ignore this for now...
+			}
         }
 
         /// <summary>

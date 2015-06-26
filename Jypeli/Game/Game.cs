@@ -187,12 +187,12 @@ namespace Jypeli
             Level.Clear();
             ResetLayers();
             ClearTimers();
-/*#if !WINDOWS_PHONE
             ClearLights();
-#endif*/
             ClearControls();
             GC.Collect();
             ControlContext.Enable();
+            addMessageDisplay();
+            Camera.Reset();
         }
 
         /// <summary>

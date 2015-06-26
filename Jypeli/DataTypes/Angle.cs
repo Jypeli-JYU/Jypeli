@@ -428,20 +428,20 @@ namespace Jypeli
         /// Palauttaa kulman radiaaneina siten, että se on aina positiivinen.
         /// Hyödyllinen esimerkiksi ympyrän kaarien käsittelyssä.
         /// </summary>
-        /// <returns>]0,2pi]</returns>
+        /// <returns>[0,2pi[</returns>
         public double GetPositiveRadians()
         {
-            return Radians > 0 ? Radians : Math.PI * 2 + Radians;
+            return Radians >= 0 ? Radians : Math.PI * 2 + Radians;
         }
 
         /// <summary>
         /// Palauttaa kulman asteina siten, että se on aina positiivinen.
         /// Hyödyllinen esimerkiksi ympyrän kaarien käsittelyssä.
         /// </summary>
-        /// <returns>]0,360]</returns>
+        /// <returns>[0,360[</returns>
         public double GetPositiveDegrees()
         {
-            return Degrees > 0 ? Degrees : 360 + Degrees;
+            return Degrees >= 0 ? Degrees : 360 + Degrees;
         }
 
         public Vector GetVector()

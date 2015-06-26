@@ -41,8 +41,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Jypeli.MonoGame.Framework">
-	  <HintPath>$(registry:HKEY_LOCAL_MACHINE\Software\MonoJypeli@Install_Dir)\Common\Jypeli.MonoGame.Framework.dll</HintPath>
+    <Reference Include="MonoGame.Framework">
+	  <HintPath>$(registry:HKEY_LOCAL_MACHINE\Software\MonoJypeli@Install_Dir)\Common\MonoGame.Framework.dll</HintPath>
 	</Reference>
     <Reference Include="Jypeli>
 	  <HintPath>$(registry:HKEY_LOCAL_MACHINE\Software\MonoJypeli@Install_Dir)\Common\Jypeli.dll</HintPath>

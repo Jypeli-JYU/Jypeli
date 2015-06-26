@@ -22,7 +22,7 @@
           <References>
              <Reference type = "Package" refto = "Jypeli"/>
              <Reference type = "Package" refto = "Jypeli.Physics2d"/>
-             <Reference type = "Package" refto = "Jypeli.MonoGame.Framework"/>
+             <Reference type = "Package" refto = "MonoGame.Framework"/>
              <Reference type = "Package" refto = "System" />
              <Reference type = "Package" refto = "System.Xml" />
              <Reference type = "Package" refto = "System.Core" />

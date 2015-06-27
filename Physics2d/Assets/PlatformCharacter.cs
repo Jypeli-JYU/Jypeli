@@ -79,6 +79,7 @@ public class PlatformCharacter : PhysicsObject
     private PhysicsObject lastPlatform = null;
     private bool isWalking = false;
     private bool _turnsWhenWalking = true;
+    private double lastDt = 0;
 
     private double lowTolerance { get { return Height * 0.1; } }
     private double highTolerance { get { return Height * 0.2; } }
@@ -117,6 +118,12 @@ public class PlatformCharacter : PhysicsObject
                 collisionHelpers[i].Object.Size = new Vector(value.X / 3, value.Y);
         }
     }
+
+    /// <summary>
+    /// Voiko hahmo kävellä kun sen edessä on seinä.
+    /// Oletus false.
+    /// </summary>
+    public bool CanWalkAgainstWalls { get; set; }
 
     public override Jypeli.Ignorer CollisionIgnorer
     {
@@ -381,18 +388,14 @@ public class PlatformCharacter : PhysicsObject
     /// <param name="horizontalVelocity">Nopeus vaakasuunnassa.</param>
     public void Walk(double horizontalVelocity)
     {
-        // TODO: Don't walk when against a wall. The character doesn't
-        // fall down when walking against the wall (because of the friction,
-        // I guess).
-
         if ( horizontalVelocity > 0 && TurnsWhenWalking )
             Turn( Direction.Right );
         else if ( horizontalVelocity < 0 && TurnsWhenWalking )
             Turn( Direction.Left );
 
-        if (CanMoveOnAir || collisionHelpers.Any(c => IsStandingOn(c.LastHitObject, lowTolerance)))
+        if ( CanWalk( horizontalVelocity * lastDt ) )
         {
-            this.Velocity = new Vector(horizontalVelocity, this.Velocity.Y);
+            this.Velocity = new Vector( horizontalVelocity, this.Velocity.Y );
         }
 
         if ( state == PlatformCharacterState.Idle || WalkOnAir )
@@ -583,7 +586,30 @@ public class PlatformCharacter : PhysicsObject
             StopWalking();
         isWalking = false;
 
+        lastDt = time.SinceLastUpdate.TotalSeconds;
         base.Update(time);
+    }
+
+    private bool CanWalk(double dx)
+    {
+        if ( !CanMoveOnAir && !collisionHelpers.Any( c => IsStandingOn( c.LastHitObject, lowTolerance ) ) )
+            return false;
+
+        if ( CanWalkAgainstWalls || Game == null || Math.Abs( dx ) < float.Epsilon )
+            return true;
+
+        Vector wallPos = this.AbsolutePosition + ( Math.Sign(dx) * this.Width / 2 + dx ) * Vector.UnitX;
+
+        foreach ( var obj in Game.GetObjectsAt( wallPos ) )
+        {
+            if ( !( obj is PhysicsObject ) )
+                continue;
+
+            if ( !this.IgnoresCollisionWith( (PhysicsObject)obj ) )
+                return false;
+        }
+
+        return true;
     }
 
     private void Visualize()

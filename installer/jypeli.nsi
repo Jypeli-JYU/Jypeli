@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 6.3.0"
+Name "MonoJypeli 6.3.1"
 
 OutFile "MonoJypeli_setup.exe"
 
@@ -82,6 +82,63 @@ Section "MonoJypeli for Linux"
   File "..\Compiled\Linux-AnyCPU\*.dll"
   File "..\Compiled\Linux-AnyCPU\*.xml"
 SectionEnd
+
+SubSection "Visual Studio 2015 project templates"
+
+Section "Windows"
+  ReadEnvStr $R0 VS140COMNTOOLS
+  
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyVsTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
+  ${Endif}
+SectionEnd
+
+Section "Windows 8 Store / RT"
+  ReadEnvStr $R0 VS140COMNTOOLS
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyRTTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
+  ${Endif}
+SectionEnd
+
+Section "Windows Phone 8.0"
+  ReadEnvStr $R0 VS140COMNTOOLS
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyWpTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
+  ${Endif}
+SectionEnd
+
+Section "Windows Phone 8.1"
+  ReadEnvStr $R0 VS140COMNTOOLS
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyWp81Templates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
+  ${Endif}
+SectionEnd
+
+
+Section "Run template installer"
+  ReadEnvStr $R0 VS140COMNTOOLS
+  ${If} $R0 != ""
+    DetailPrint "Installing project templates for VS2013 (may take a while)..."
+    Push $R0
+    Call InstallVsTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
+  ${Endif}
+SectionEnd
+
+SubSectionEnd
 
 SubSection "Visual Studio 2013 project templates"
 

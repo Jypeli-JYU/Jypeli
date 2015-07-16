@@ -50,6 +50,11 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Olion massa (paino).
+        /// Mitä enemmän massaa, sitä enemmän voimaa tarvitaan saamaan olio liikkeelle / pysähtymään.
+        /// </summary>
+        /// <value>The mass.</value>
         public double Mass
         {
             get { return Body.Mass; }
@@ -60,6 +65,12 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Olion hitausmomentti eli massa/paino kääntyessä.
+        /// Mitä suurempi, sitä hitaampi olio on kääntymään / sitä enemmän vääntöä tarvitaan.
+        /// Äärettömällä hitausmomentilla olio ei käänny lainkaan (paitsi suoraan kulmaa muuttamalla).
+        /// </summary>
+        /// <value>The moment of inertia.</value>
         public double MomentOfInertia
         {
             get { return Body.MomentOfInertia; }
@@ -90,12 +101,21 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Kimmoisuuskerroin (0 = ei kimmoisa, 1 = täysin kimmoisa, yli 1 = saa energiaa tyhjästä)
+        /// </summary>
+        /// <value>The restitution.</value>
         public double Restitution
         {
             get { return Body.Restitution; }
             set { Body.Restitution = value; }
         }
 
+        /// <summary>
+        /// Lepokitka (hidastaa liikkeelle lähtiessä).
+        /// Ks. <see cref="KineticFriction"/> (liikekitka)
+        /// </summary>
+        /// <value>The static friction.</value>
         public double StaticFriction
         {
             get
@@ -108,6 +128,11 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Liikekitka (hidastaa kun olio on jo liikkeessä).
+        /// Ks. <see cref="StaticFriction"/> (lepokitka)
+        /// </summary>
+        /// <value>The kinetic friction.</value>
         public double KineticFriction
         {
             get
@@ -120,54 +145,92 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Nopeus.
+        /// </summary>
+        /// <value>The velocity.</value>
         public Vector Velocity
         {
             get { return Body.Velocity; }
             set { Body.Velocity = value; }
         }
 
+        /// <summary>
+        /// Kiihtyvyys.
+        /// </summary>
+        /// <value>The acceleration.</value>
         public Vector Acceleration
         {
             get { return Body.Acceleration; }
             set { Body.Acceleration = value; }
         }
 
+        /// <summary>
+        /// Kulmanopeus.
+        /// </summary>
+        /// <value>The angular velocity.</value>
         public double AngularVelocity
         {
             get { return Body.AngularVelocity; }
             set { Body.AngularVelocity = value; }
         }
 
+        /// <summary>
+        /// Kulmakiihtyvyys.
+        /// </summary>
+        /// <value>The angular acceleration.</value>
         public double AngularAcceleration
         {
             get { return Body.AngularAcceleration; }
             set { Body.AngularAcceleration = value; }
         }
 
+        /// <summary>
+        /// Nopeuskerroin.
+        /// Pienempi arvo kuin 1 (esim. 0.998) toimii kuten kitka / ilmanvastus.
+        /// </summary>
+        /// <value>The linear damping.</value>
         public double LinearDamping
         {
             get { return Body.LinearDamping; }
             set { Body.LinearDamping = value; }
         }
 
+        /// <summary>
+        /// Kulmanopeuskerroin.
+        /// Pienempi arvo kuin 1 (esim. 0.998) toimii kuten kitka / ilmanvastus.
+        /// </summary>
+        /// <value>The angular damping.</value>
         public double AngularDamping
         {
             get { return Body.AngularDamping; }
             set { Body.AngularDamping = value; }
         }
-        
+
+        /// <summary>
+        /// Jättääkö törmäykset huomiotta.
+        /// </summary>
+        /// <value><c>true</c> if ignores collision response; otherwise, <c>false</c>.</value>
         public bool IgnoresCollisionResponse
         {
             get { return Body.IgnoresCollisionResponse; }
             set { Body.IgnoresCollisionResponse = value; }
         }
 
+        /// <summary>
+        /// Jättääkö painovoiman huomiotta.
+        /// </summary>
+        /// <value><c>true</c> if ignores gravity; otherwise, <c>false</c>.</value>
         public bool IgnoresGravity
         {
             get { return Body.IgnoresGravity; }
             set { Body.IgnoresGravity = value; }
         }
 
+        /// <summary>
+        /// Jättääkö fysiikkakentät (esim. painovoiman) huomiotta.
+        /// </summary>
+        /// <value><c>true</c> if ignores physics logics; otherwise, <c>false</c>.</value>
         public bool IgnoresPhysicsLogics
         {
             get { return Body.IgnoresPhysicsLogics; }
@@ -184,6 +247,10 @@ namespace Jypeli
 
         private BoundingRectangle _bRect = new BoundingRectangle();
 
+        /// <summary>
+        /// Olion sisältävä laatikko törmäyskäsittelyä varten.
+        /// </summary>
+        /// <value>The bounding rectangle.</value>
         public BoundingRectangle BoundingRectangle
         {
             get
@@ -194,6 +261,9 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Tapahtuu, kun törmätään toiseen fysiikkaolioon.
+        /// </summary>
         public event CollisionHandler<IPhysicsObject, IPhysicsObject> Collided;
 
         /// <summary>
@@ -216,18 +286,50 @@ namespace Jypeli
             Brain.OnCollision( otherObject );
         }
 
+        /// <summary>
+        /// Alustaa fysiikkaolion käyttöön.
+        /// </summary>
+        /// <param name="width">Leveys.</param>
+        /// <param name="height">Korkeus.</param>
+        /// <param name="shape">Muoto (esim. Shape.Circle).</param>
         public PhysicsObject( double width, double height, Shape shape )
             : base( width, height, shape )
         {
-            Body = PhysicsGameBase.Instance.Engine.CreateBody( this, width, height, shape );
-            Body.Collided += this.OnCollided;
+            Initialize( width, height, shape );
         }
 
+        /// <summary>
+        /// Alustaa fysiikkaolion käyttöön.
+        /// </summary>
+        /// <param name="width">Leveys.</param>
+        /// <param name="height">Korkeus.</param>
         public PhysicsObject( double width, double height )
             : this( width, height, Shape.Rectangle )
         {
         }
 
+        /// <summary>
+        /// Alustaa fysiikkaolion käyttöön.
+        /// </summary>
+        /// <param name="animation">Animaatio tai kuva.</param>
+		public PhysicsObject(Animation animation)
+			: base( animation )
+		{
+            Initialize( animation.Width, animation.Height, Shape.Rectangle );
+		}
+
+        private void Initialize( double width, double height, Shape shape )
+		{
+            Body = PhysicsGameBase.Instance.Engine.CreateBody( this, width, height, shape );
+			Body.Collided += this.OnCollided;
+		}
+
+        /// <summary>
+        /// Alustaa fysiikkaolion käyttöön ja tekee siitä staattisen (liikkumattoman).
+        /// </summary>
+        /// <param name="width">Leveys.</param>
+        /// <param name="height">Korkeus</param> 
+        /// <param name="shape">Muoto (esim. Shape.Circle).</param>
         public static PhysicsObject CreateStaticObject( double width, double height, Shape shape )
         {
             var obj = new PhysicsObject( width, height, shape );
@@ -235,6 +337,11 @@ namespace Jypeli
             return obj;
         }
 
+        /// <summary>
+        /// Alustaa fysiikkaolion käyttöön ja tekee siitä staattisen (liikkumattoman).
+        /// </summary>
+        /// <param name="width">Leveys.</param>
+        /// <param name="height">Korkeus</param> 
         public static PhysicsObject CreateStaticObject( double width, double height )
         {
             var obj = new PhysicsObject( width, height );
@@ -242,16 +349,39 @@ namespace Jypeli
             return obj;
         }
 
+        /// <summary>
+        /// Alustaa fysiikkaolion käyttöön.
+        /// </summary>
+        /// <param name="animation">Animaatio tai kuva.</param>
+        public static PhysicsObject CreateStaticObject( Animation animation )
+        {
+            var obj = new PhysicsObject( animation );
+            obj.MakeStatic();
+            return obj;
+        }
+
+        /// <summary>
+        /// Tekee oliosta staattisen eli liikkumattoman.
+        /// </summary>
         public void MakeStatic()
         {
             Body.MakeStatic();
         }
 
+        /// <summary>
+        /// Onko olio tuhoutumassa.
+        /// </summary>
+        /// <value><c>true</c> if this instance is destroying; otherwise, <c>false</c>.</value>
         public bool IsDestroying
         {
             get { throw new NotImplementedException(); }
         }
 
+        /// <summary>
+        /// Tarkistaa, jätetäänkö törmäämättä toiseen olioon.
+        /// </summary>
+        /// <returns><c>true</c>, jos ei törmätä, <c>false</c> jos törmätään.</returns>
+        /// <param name="target">Olio johon törmäystä tutkitaan.</param>
         public bool IgnoresCollisionWith( PhysicsObject target )
         {
             if ( this.IgnoresCollisionResponse || target.IgnoresCollisionResponse )
@@ -299,7 +429,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Onko olio tuhoutumassa.
+        /// Tapahtuu kun olio on tuhoutumassa.
         /// </summary>
         public event Action Destroying;
     }

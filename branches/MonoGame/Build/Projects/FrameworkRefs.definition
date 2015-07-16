@@ -19,6 +19,18 @@
     </Service>
   </Platform>
 
+  <Platform Type="Linux.headless">
+    <Service Name="MonoGame.Framework/OpenGLGraphics">
+      <Reference Include="System.Drawing" />
+      <Binary
+        Name="Tao.Sdl"
+        Path="MonoGame/ThirdParty/GamepadConfig/Tao.Sdl.dll" />
+      <Binary
+        Name="OpenTK"
+        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
+    </Service>
+  </Platform>
+
   <Platform Type="MacOS">
     <Service Name="MonoGame.Framework/OpenGLGraphics">
       <Reference Include="System.Core" />
@@ -124,6 +136,22 @@
   </Platform>
 
   <Platform Type="WindowsGL">
+    <Service Name="MonoGame.Framework/OpenGLGraphics">
+      <Reference Include="System.Core" />
+      <Reference Include="System.Drawing" />
+      <Reference Include="System.Web" />
+      <Reference Include="System.Web.Services" />
+      <Reference Include="System.Windows.Forms" />
+      <Binary
+        Name="Tao.Sdl"
+        Path="MonoGame/ThirdParty/GamepadConfig/Tao.Sdl.dll" />
+      <Binary
+        Name="OpenTK"
+        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
+    </Service>
+  </Platform>
+
+  <Platform Type="WindowsGL.headless">
     <Service Name="MonoGame.Framework/OpenGLGraphics">
       <Reference Include="System.Core" />
       <Reference Include="System.Drawing" />

@@ -21,6 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+using System.IO;
+
+
 #endregion
 
 /*
@@ -71,6 +74,9 @@ namespace Jypeli
         /// </summary>
         public Level Level { get; private set; }
 
+		/// <summary>
+		/// Alustaa pelin.
+		/// </summary>
         public Game()
             : base()
         {
@@ -78,6 +84,43 @@ namespace Jypeli
             InitXnaContent();
             InitXnaGraphics();
 			InitStorage();
+        }
+
+#if HEADLESS
+        /// <summary>
+        /// Ajaa pelin. Kutsutaan Ohjelma.cs:stä.
+        /// Tämä versio ajaa vain yhden päivityksen ja tallentaa
+        /// ruudun tiedostoon output.bmp.
+        /// </summary>
+        public new void Run()
+        {
+			this.RunOneFrame( "output.bmp" );
+			this.Exit();
+			base.Run();
+        }
+#else
+		/// <summary>
+		/// Ajaa pelin. Kutsutaan Ohjelma.cs:stä.
+		/// </summary>
+		public new void Run()
+        {
+            base.Run();
+        }
+#endif
+
+		/// <summary>
+		/// Ajaa yhden päivityksen ja tallentaa ruudun tiedostoon.
+		/// </summary>
+		/// <param name="bmpOutName">Bmp file to write to.</param>
+		public void RunOneFrame( string bmpOutName )
+        {
+            base.RunOneFrame();
+            FileStream screenFile = new FileStream( bmpOutName, FileMode.Create );
+            Screencap.WriteBmp( screenFile, Screen.Image );
+            screenFile.Close();
+			OnExiting(this, EventArgs.Empty);
+			UnloadContent();
+			Exit();
         }
 
 		void InitGlobals ()

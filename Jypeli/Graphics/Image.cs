@@ -169,6 +169,17 @@ namespace Jypeli
             UpdateTexture();
         }
 
+		/// <summary>
+		/// Kuvan pikselit byte-taulukkona
+		/// </summary>
+		/// <returns>pikselit byte-taulukkona</returns>
+		public byte[] GetByteArray()
+		{
+			DoInitTexture();
+			byte[] buffer = new byte[4 * Width * Height];
+			xnaTexture.GetData<byte>( buffer );
+			return buffer;
+		}
 
         /// <summary>
         /// Palalutetaan kuvan pikselit ARGB-uint[,] -taulukkona

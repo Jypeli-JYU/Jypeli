@@ -1,0 +1,589 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{21146E75-35F4-4E05-B6E9-E58903D9A4C2}</ProjectGuid>
+    <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Jypeli</RootNamespace>
+    <AssemblyName>Jypeli</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>1591,0436</NoWarn>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SuppressXamMacUpsell>True</SuppressXamMacUpsell>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+    <OutputPath>bin\MacOS\AnyCPU\Debug</OutputPath>
+    <IntermediateOutputPath>obj\MacOS\AnyCPU\Debug</IntermediateOutputPath>
+    <DocumentationFile>bin\MacOS\AnyCPU\Debug\Jypeli.xml</DocumentationFile>
+    <DefineConstants>DEBUG;OPENGL;OPENAL;JYPELI;UseDouble;MONOMAC</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <EnableCodeSigning>False</EnableCodeSigning>
+    <CreatePackage>False</CreatePackage>
+    <EnablePackageSigning>False</EnablePackageSigning>
+    <IncludeMonoRuntime>False</IncludeMonoRuntime>
+    <UseSGen>False</UseSGen>
+    <UseRefCounting>false</UseRefCounting>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <OutputPath>bin\MacOS\AnyCPU\Release</OutputPath>
+    <IntermediateOutputPath>obj\MacOS\AnyCPU\Release</IntermediateOutputPath>
+    <DocumentationFile>bin\MacOS\AnyCPU\Release\Jypeli.xml</DocumentationFile>
+    <DefineConstants>OPENGL;OPENAL;JYPELI;UseDouble;MONOMAC</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <EnableCodeSigning>False</EnableCodeSigning>
+    <CreatePackage>False</CreatePackage>
+    <EnablePackageSigning>False</EnablePackageSigning>
+    <IncludeMonoRuntime>False</IncludeMonoRuntime>
+    <UseSGen>False</UseSGen>
+    <UseRefCounting>false</UseRefCounting>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MonoMac" />
+    <Reference Include="System">
+    </Reference>
+    <Reference Include="System.Xml">
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+    </Reference>
+    <Reference Include="System.Core">
+    </Reference>
+    <Reference Include="System.Drawing">
+    </Reference>
+    <Reference Include="Tao.Sdl">
+      <HintPath>..\MonoGame\ThirdParty\GamepadConfig\Tao.Sdl.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+    </Compile>
+    <Compile Include="Assets\CollisionHandler.cs">
+    </Compile>
+    <Compile Include="Assets\Explosion.cs">
+    </Compile>
+    <Compile Include="Assets\Projectile.cs">
+    </Compile>
+    <Compile Include="Brains\AbstractMoverBrain.cs">
+    </Compile>
+    <Compile Include="Brains\Brain.cs">
+    </Compile>
+    <Compile Include="Brains\FollowerBrain.cs">
+    </Compile>
+    <Compile Include="Brains\LabyrinthWandererBrain.cs">
+    </Compile>
+    <Compile Include="Brains\PathFollowerBrain.cs">
+    </Compile>
+    <Compile Include="Brains\RandomMoverBrain.cs">
+    </Compile>
+    <Compile Include="Content\AsRifle.cs">
+    </Compile>
+    <Compile Include="Content\Auto.cs">
+    </Compile>
+    <Compile Include="Content\Bullet.cs">
+    </Compile>
+    <Compile Include="Content\Cannon.cs">
+    </Compile>
+    <Compile Include="Content\CannonBall.cs">
+    </Compile>
+    <Compile Include="Content\CannonFire.cs">
+    </Compile>
+    <Compile Include="Content\DownArrow.cs">
+    </Compile>
+    <Compile Include="Content\Explosion.cs">
+    </Compile>
+    <Compile Include="Content\Explosion2.cs">
+    </Compile>
+    <Compile Include="Content\ExplosionSound.cs">
+    </Compile>
+    <Compile Include="Content\Grenade.cs">
+    </Compile>
+    <Compile Include="Content\ImplosionSound.cs">
+    </Compile>
+    <Compile Include="Content\JypeliContentManager.cs">
+    </Compile>
+    <Compile Include="Content\Laser.cs">
+    </Compile>
+    <Compile Include="Content\MediumFont.cs">
+    </Compile>
+    <Compile Include="Content\MGAttack.cs">
+    </Compile>
+    <Compile Include="Content\PlasmaAttack.cs">
+    </Compile>
+    <Compile Include="Content\PlasmaCannon.cs">
+    </Compile>
+    <Compile Include="Content\Smoke.cs">
+    </Compile>
+    <Compile Include="Content\Tank.cs">
+    </Compile>
+    <Compile Include="Content\UpArrow.cs">
+    </Compile>
+    <Compile Include="EffectContent\Lighting.cs">
+    </Compile>
+    <Compile Include="ContentExtensions\TextReader.cs">
+    </Compile>
+    <Compile Include="Controls\Controller\AnalogControl.cs">
+    </Compile>
+    <Compile Include="Controls\Controller\AnalogState.cs">
+    </Compile>
+    <Compile Include="Controls\Controller\ButtonState.cs">
+    </Compile>
+    <Compile Include="Controls\Controller\Controller.cs">
+    </Compile>
+    <Compile Include="Controls\Controller\HoverState.cs">
+    </Compile>
+    <Compile Include="Controls\Controller\Listener.cs">
+    </Compile>
+    <Compile Include="Controls\GamePad\Button.cs">
+    </Compile>
+    <Compile Include="Controls\GamePad\GamePad.cs">
+    </Compile>
+    <Compile Include="Controls\GamePad\Vibration.cs">
+    </Compile>
+    <Compile Include="Controls\Keyboard\Key.cs">
+    </Compile>
+    <Compile Include="Controls\Keyboard\Keyboard.cs">
+    </Compile>
+    <Compile Include="Controls\ListenContext.cs">
+    </Compile>
+    <Compile Include="Controls\Mouse\Mouse.cs">
+    </Compile>
+    <Compile Include="Controls\Mouse\MouseButton.cs">
+    </Compile>
+    <Compile Include="Controls\TouchPanel\Touch.cs">
+    </Compile>
+    <Compile Include="Controls\TouchPanel\TouchListener.cs">
+    </Compile>
+    <Compile Include="Controls\TouchPanel\TouchPanel.cs">
+    </Compile>
+    <Compile Include="Controls\BackButton\BackButton.cs">
+    </Compile>
+    <Compile Include="DataTypes\Angle.cs">
+    </Compile>
+    <Compile Include="DataTypes\BoundingRectangle.cs">
+    </Compile>
+    <Compile Include="DataTypes\Dimensional.cs">
+    </Compile>
+    <Compile Include="DataTypes\Direction.cs">
+    </Compile>
+    <Compile Include="DataTypes\GameObjectContainer.cs">
+    </Compile>
+    <Compile Include="DataTypes\INotifyList.cs">
+    </Compile>
+    <Compile Include="DataTypes\Positional.cs">
+    </Compile>
+    <Compile Include="DataTypes\ScoreList.cs">
+    </Compile>
+    <Compile Include="DataTypes\StringList.cs">
+    </Compile>
+    <Compile Include="DataTypes\SynchronousList.cs">
+    </Compile>
+    <Compile Include="DataTypes\Time.cs">
+    </Compile>
+    <Compile Include="DataTypes\UnlimitedAngle.cs">
+    </Compile>
+    <Compile Include="DataTypes\Vector.cs">
+    </Compile>
+    <Compile Include="DataTypes\Updatable.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\CFFauxAttributes.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Clamped.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\ContainmentType.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Interfaces.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\MathHelper.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Matrix2x2.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Matrix2x3.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Matrix3x3.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Matrix4x4.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\MatrixHelper.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\OperationHelper.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\ParseHelper.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Point2D.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\PrimeNumberGenerator.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Quaternion.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\ThrowHelper.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Vector2D.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Vector3D.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Vector4D.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Design\AdvBrowsableAttribute.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Design\AdvBrowsableOrderAttribute.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Design\AdvPropertyDescriptor.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Design\AdvTypeConverter%27.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Design\InstanceConstructorAttribute.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Design\ParseMethodAttribute.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Geometry2D\BoundingCircle.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Geometry2D\BoundingPolygon.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Geometry2D\BoundingRectangle.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Geometry2D\Line.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Geometry2D\LineSegment.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\Geometry2D\Ray.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\IO\MathReader.cs">
+    </Compile>
+    <Compile Include="AdvanceMath\IO\MathWriter.cs">
+    </Compile>
+    <Compile Include="Effects\ExplosionSystem.cs">
+    </Compile>
+    <Compile Include="Effects\Light.cs">
+    </Compile>
+    <Compile Include="Effects\Lightning.cs">
+    </Compile>
+    <Compile Include="Effects\Particle.cs">
+    </Compile>
+    <Compile Include="Effects\ParticleSystem.cs">
+    </Compile>
+    <Compile Include="Effects\Smoke.cs">
+    </Compile>
+    <Compile Include="GameObjects\GameObject\Appearance.cs">
+    </Compile>
+    <Compile Include="GameObjects\GameObject\ChildObjects.cs">
+    </Compile>
+    <Compile Include="GameObjects\GameObject\Dimensions.cs">
+    </Compile>
+    <Compile Include="GameObjects\GameObject\GameConnection.cs">
+    </Compile>
+    <Compile Include="GameObjects\GameObject\GameObject.cs">
+    </Compile>
+    <Compile Include="GameObjects\GameObject\GameObjectBase.cs">
+    </Compile>
+    <Compile Include="GameObjects\GameObject\IGameObject.cs">
+    </Compile>
+    <Compile Include="GameObjects\GameObject\Layout.cs">
+    </Compile>
+    <Compile Include="GameObjects\GameObject\Movement.cs">
+    </Compile>
+    <Compile Include="GameObjects\GameObject\Oscillator.cs">
+    </Compile>
+    <Compile Include="GameObjects\Layouts\HorizontalLayout.cs">
+    </Compile>
+    <Compile Include="GameObjects\Layouts\ILayout.cs">
+    </Compile>
+    <Compile Include="GameObjects\Layouts\VerticalLayout.cs">
+    </Compile>
+    <Compile Include="GameObjects\Layouts\VerticalScrollLayout.cs">
+    </Compile>
+    <Compile Include="GameObjects\PhysicsObject\Dimensions.cs">
+    </Compile>
+    <Compile Include="GameObjects\PhysicsObject\IPhysicsBody.cs">
+    </Compile>
+    <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs">
+    </Compile>
+    <Compile Include="GameObjects\PhysicsObject\Movement.cs">
+    </Compile>
+    <Compile Include="GameObjects\PhysicsObject\PhysicsObject.cs">
+    </Compile>
+    <Compile Include="GameObjects\PhysicsStructure\PhysicsStructure.cs">
+    </Compile>
+    <Compile Include="GameObjects\Surface\Surface.cs">
+    </Compile>
+    <Compile Include="GameObjects\Surface\Surfaces.cs">
+    </Compile>
+    <Compile Include="GameObjects\Widget\Appearance.cs">
+    </Compile>
+    <Compile Include="GameObjects\Widget\BindableWidget.cs">
+    </Compile>
+    <Compile Include="GameObjects\Widget\Control.cs">
+    </Compile>
+    <Compile Include="GameObjects\Widget\Widget.cs">
+    </Compile>
+    <Compile Include="Game\Content.cs">
+    </Compile>
+    <Compile Include="Game\Controls.cs">
+    </Compile>
+    <Compile Include="Game\DebugScreen.cs">
+    </Compile>
+    <Compile Include="Game\DelayedActions.cs">
+    </Compile>
+    <Compile Include="Game\Effects.cs">
+    </Compile>
+    <Compile Include="Game\Factory.cs">
+    </Compile>
+    <Compile Include="Game\Game.cs">
+    </Compile>
+    <Compile Include="Physics\PhysicsGameBase.cs">
+    </Compile>
+    <Compile Include="Game\Storage.cs">
+    </Compile>
+    <Compile Include="Game\Graphics.cs">
+    </Compile>
+    <Compile Include="Game\Layers.cs">
+    </Compile>
+    <Compile Include="Game\Time.cs">
+    </Compile>
+    <Compile Include="Game\Widgets.cs">
+    </Compile>
+    <Compile Include="Graphics\Animation.cs">
+    </Compile>
+    <Compile Include="Graphics\Camera.cs">
+    </Compile>
+    <Compile Include="Graphics\Canvas.cs">
+    </Compile>
+    <Compile Include="Graphics\Color.cs">
+    </Compile>
+    <Compile Include="Graphics\CustomDrawable.cs">
+    </Compile>
+    <Compile Include="Graphics\Font.cs">
+    </Compile>
+    <Compile Include="Graphics\Graphics.cs">
+    </Compile>
+    <Compile Include="Graphics\Grid.cs">
+    </Compile>
+    <Compile Include="Graphics\Image.cs">
+    </Compile>
+    <Compile Include="Graphics\ImageBatch.cs">
+    </Compile>
+    <Compile Include="Graphics\Layer.cs">
+    </Compile>
+    <Compile Include="Graphics\LineBatch.cs">
+    </Compile>
+    <Compile Include="Graphics\Renderer.cs">
+    </Compile>
+    <Compile Include="Graphics\Screencap.cs">
+    </Compile>
+    <Compile Include="Graphics\ShapeBatch.cs">
+    </Compile>
+    <Compile Include="Graphics\View.cs">
+    </Compile>
+    <Compile Include="Helpers\RandomGen.cs">
+    </Compile>
+    <Compile Include="Levels\AbstractTileMap.cs">
+    </Compile>
+    <Compile Include="Levels\ColorTileMap.cs">
+    </Compile>
+    <Compile Include="Levels\Level.cs">
+    </Compile>
+    <Compile Include="Levels\Borders.cs">
+    </Compile>
+    <Compile Include="Levels\TileMap.cs">
+    </Compile>
+    <Compile Include="Physics\Ignorers\AdvGroupIgnorer.cs">
+    </Compile>
+    <Compile Include="Physics\Ignorers\GroupCollection.cs">
+    </Compile>
+    <Compile Include="Physics\Ignorers\GroupIgnorer.cs">
+    </Compile>
+    <Compile Include="Physics\Ignorers\Ignorer.cs">
+    </Compile>
+    <Compile Include="Physics\Ignorers\JypeliGroupIgnorer.cs">
+    </Compile>
+    <Compile Include="Physics\Ignorers\ObjectIgnorer.cs">
+    </Compile>
+    <Compile Include="Physics\IPhysicsEngine.cs">
+    </Compile>
+    <Compile Include="Physics\Joints\IAxleJoint.cs">
+    </Compile>
+    <Compile Include="Shapes\Shapes.cs">
+    </Compile>
+    <Compile Include="Storage\SaveAttribute.cs">
+    </Compile>
+    <Compile Include="Storage\FileManager\Assert.cs">
+    </Compile>
+    <Compile Include="Storage\FileManager\Directories.cs">
+    </Compile>
+    <Compile Include="Storage\FileManager\Files.cs">
+    </Compile>
+    <Compile Include="Storage\FileManager\HTTP.cs">
+    </Compile>
+    <Compile Include="Storage\FileManager\NameHelpers.cs">
+    </Compile>
+    <Compile Include="Storage\FileManager\Serialization.cs">
+    </Compile>
+    <Compile Include="Storage\FileManager\XnaSerialization.cs">
+    </Compile>
+    <Compile Include="Storage\AnimationReader.cs">
+    </Compile>
+    <Compile Include="Storage\LoadState.cs">
+    </Compile>
+    <Compile Include="Storage\SaveState.cs">
+    </Compile>
+    <Compile Include="Storage\StorageFile.cs">
+      <ExcludePlatforms>Windows8,WindowsPhone81</ExcludePlatforms>
+    </Compile>
+    <Compile Include="Storage\TypeHelper.cs">
+    </Compile>
+    <Compile Include="Storage\LinuxFileManager.cs">
+      <ExcludePlatforms>Windows,WindowsGL,WindowsGL.headless,Windows8,WindowsPhone,WindowsPhone81</ExcludePlatforms>
+    </Compile>
+    <Compile Include="DataTypes\Destroyable.cs">
+    </Compile>
+    <Compile Include="DataTypes\Tagged.cs">
+    </Compile>
+    <Compile Include="Helpers\ListHelpers.cs">
+    </Compile>
+    <Compile Include="Helpers\ObjectHelper.cs">
+    </Compile>
+    <Compile Include="Helpers\ReturnHelper.cs">
+    </Compile>
+    <Compile Include="Helpers\StreamHelpers.cs">
+    </Compile>
+    <Compile Include="Helpers\StringHelpers.cs">
+    </Compile>
+    <Compile Include="Sound\MediaPlayer.cs">
+    </Compile>
+    <Compile Include="Sound\Sound.cs">
+    </Compile>
+    <Compile Include="Sound\SoundEffect.cs">
+    </Compile>
+    <Compile Include="Events\Timer.cs">
+    </Compile>
+    <Compile Include="DataTypes\Meter.cs">
+    </Compile>
+    <Compile Include="DataTypes\IntMeter.cs">
+    </Compile>
+    <Compile Include="DataTypes\DoubleMeter.cs">
+    </Compile>
+    <Compile Include="Events\MeterAddOperation.cs">
+    </Compile>
+    <Compile Include="Events\Operation.cs">
+    </Compile>
+    <Compile Include="Effects\Flame.cs">
+    </Compile>
+    <Compile Include="Physics2DDotNet\Shapes\BitmapHelper.cs">
+    </Compile>
+    <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs">
+    </Compile>
+    <Compile Include="Widgets\Background.cs">
+    </Compile>
+    <Compile Include="Widgets\BarGauge.cs">
+    </Compile>
+    <Compile Include="Widgets\CustomQueryWindow.cs">
+    </Compile>
+    <Compile Include="Widgets\EasyHighScore.cs">
+    </Compile>
+    <Compile Include="Widgets\HighScoreWindow.cs">
+    </Compile>
+    <Compile Include="Widgets\InputBox.cs">
+    </Compile>
+    <Compile Include="Widgets\InputWindow.cs">
+    </Compile>
+    <Compile Include="Widgets\Label.cs">
+    </Compile>
+    <Compile Include="Widgets\ListWidget.cs">
+    </Compile>
+    <Compile Include="Widgets\MessageDisplay.cs">
+    </Compile>
+    <Compile Include="Widgets\MessageWindow.cs">
+    </Compile>
+    <Compile Include="Widgets\MultiSelectWindow.cs">
+    </Compile>
+    <Compile Include="Widgets\PushButton.cs">
+    </Compile>
+    <Compile Include="Widgets\ScoreListWidget.cs">
+    </Compile>
+    <Compile Include="Widgets\StringListWidget.cs">
+    </Compile>
+    <Compile Include="Widgets\StringListWindow.cs">
+    </Compile>
+    <Compile Include="Widgets\Window.cs">
+    </Compile>
+    <Compile Include="Widgets\YesNoWindow.cs">
+    </Compile>
+    <Compile Include="WP8\DisplayOrientation.cs">
+    </Compile>
+    <Compile Include="WP8\DisplayResolution.cs">
+    </Compile>
+    <Compile Include="WP8\PhoneStub.cs">
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81</ExcludePlatforms>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\MonoGame\ThirdParty\GamepadConfig\Tao.Sdl.dll.config">
+      <Platforms>Linux,Linux.headless,MacOS,MacOS.headless</Platforms>
+      <Link>Tao.Sdl.dll.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\MonoGame\ThirdParty\Dependencies\OpenTK.dll.config">
+      <Platforms>Linux,Linux.headless,MacOS,MacOS.headless</Platforms>
+      <Link>OpenTK.dll.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.MacOS.csproj">
+      <Project>{36C538E6-C32A-4A8D-A39C-566173D7118E}</Project>
+      <Name>MonoGame.Framework.MacOS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
+          <CSharpFormattingPolicy IndentSwitchBody="True" IndentBlocksInsideExpressions="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ElseNewLinePlacement="NewLine" CatchNewLinePlacement="NewLine" FinallyNewLinePlacement="NewLine" WhileNewLinePlacement="DoNotCare" ArrayInitializerWrapping="DoNotChange" ArrayInitializerBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" WithinMethodDeclarationParentheses="True" BeforeMethodCallParentheses="False" WithinMethodCallParentheses="True" BeforeConstructorDeclarationParentheses="False" WithinConstructorDeclarationParentheses="True" NewLineBeforeConstructorInitializerColon="NewLine" NewLineAfterConstructorInitializerColon="SameLine" BeforeIndexerDeclarationBracket="False" BeforeDelegateDeclarationParentheses="False" WithinDelegateDeclarationParentheses="True" NewParentheses="False" WithinParentheses="True" WithinIfParentheses="True" WithinWhileParentheses="True" WithinForParentheses="True" WithinForEachParentheses="True" WithinCatchParentheses="True" WithinSwitchParentheses="True" WithinLockParentheses="True" WithinUsingParentheses="True" WithinSizeOfParentheses="True" WithinTypeOfParentheses="True" WithinNewParentheses="True" SpacesBeforeBrackets="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+</Project>

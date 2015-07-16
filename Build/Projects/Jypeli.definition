@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Name="Jypeli" Path="Jypeli" Type="Library" Platforms="Android,Angle,iOS,Linux,MacOS,Ouya,PSMobile,Windows,Windows8,WindowsGL,WindowsPhone,WindowsPhone81,Web">
+<Project Name="Jypeli" Path="Jypeli" Type="Library" Platforms="Android,Angle,iOS,Linux,Linux.headless,MacOS,Ouya,PSMobile,Windows,Windows8,WindowsGL,WindowsGL.headless,WindowsPhone,WindowsPhone81,Web">
 
 <ProjectGuids>
     <Platform Name="Android">F5D93EB7-50FA-482C-8A1C-F4CAD5CFB16D</Platform>
     <Platform Name="Angle">AD67AD3E-11DD-4D55-93DA-C8ADB8F3F377</Platform>
     <Platform Name="iOS">79DF20A8-B4C2-4AFD-BCA2-48DB93163A64</Platform>
     <Platform Name="Linux">6B7DA771-B6DC-45C6-844E-CE67BCD476F2</Platform>
+    <Platform Name="Linux.headless">6B7DA771-B6DC-45C6-844E-CE67BCD476F3</Platform>
     <Platform Name="MacOS">21146E75-35F4-4E05-B6E9-E58903D9A4C2</Platform>
     <Platform Name="Ouya">2F5538B2-214B-4ADE-9405-F6B5970EC26B</Platform>
     <Platform Name="PSMobile">CDC0D830-51FF-4C7B-B289-A755A93073AC</Platform>
     <Platform Name="Windows">0CE0EBFA-81E9-4B0A-AEAC-3558BF95C0E0</Platform>
     <Platform Name="Windows8">F2642DD9-9E8C-479D-87D1-8B6572D5529A</Platform>
     <Platform Name="WindowsGL">76CC55A2-BECE-4F80-B491-DDCAB9F061FB</Platform>
+    <Platform Name="WindowsGL.headless">76CC55A2-BECE-4F80-B491-DDCAB9F061FC</Platform>
     <Platform Name="WindowsPhone">86788B50-91AD-480E-8A06-E9C94FD1F07A</Platform>
 	<Platform Name="WindowsPhone81">86788B50-91AD-480E-8A06-E9C94FD1F07B</Platform>
 </ProjectGuids>
@@ -39,10 +41,12 @@
         <Platform Name="Android">JYPELI;UseDouble;TRACE;ANDROID;GLES;OPENGL;OPENAL</Platform>
         <Platform Name="iOS">JYPELI;UseDouble;IOS;GLES;OPENGL;OPENAL</Platform>
         <Platform Name="Linux">JYPELI;UseDouble;TRACE;LINUX;OPENGL;OPENAL</Platform>
+        <Platform Name="Linux.headless">JYPELI;UseDouble;TRACE;LINUX;OPENGL;OPENAL;HEADLESS</Platform>
         <Platform Name="MacOS">JYPELI;UseDouble;MONOMAC;OPENGL;OPENAL</Platform>
         <Platform Name="Ouya">JYPELI;UseDouble;TRACE;ANDROID;GLES;OPENGL;OUYA;OPENAL</Platform>
         <Platform Name="PSMobile">JYPELI;UseDouble;PSM</Platform>
         <Platform Name="WindowsGL">JYPELI;UseDouble;TRACE;WINDOWS</Platform>
+        <Platform Name="WindowsGL">JYPELI;UseDouble;TRACE;WINDOWS;HEADLESS</Platform>
         <Platform Name="Windows">JYPELI;UseDouble;TRACE;WINDOWS;DIRECTX;WINDOWS_MEDIA_SESSION</Platform>
         <Platform Name="Windows8">JYPELI;UseDouble;TRACE;NETFX_CORE;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE</Platform>
 		<Platform Name="WindowsPhone">JYPELI;UseDouble;TRACE;SILVERLIGHT;WINDOWS_PHONE;DIRECTX</Platform>
@@ -56,7 +60,7 @@
         <Platforms>Angle</Platforms>
     </Uses>
     <Uses Name="OpenGLGraphics">
-        <Platforms>iOS,WindowsGL,Ouya,Android</Platforms>
+        <Platforms>iOS,WindowsGL,WindowsGL.headless,Ouya,Android</Platforms>
     </Uses>
     <Uses Name="DirectXGraphics">
         <Platforms>Windows8,WindowsPhone,WindowsPhone81</Platforms>
@@ -68,16 +72,16 @@
         <Platforms>Web</Platforms>
     </Uses>
     <Uses Name="_XNADesignProvided">
-        <Platforms>Windows,WindowsGL,Linux,MacOS</Platforms>
+        <Platforms>Windows,WindowsGL,WindowsGL.headless,Linux,Linux.headless,MacOS</Platforms>
     </Uses>
     <Uses Name="_FrameworkDispatcherProvided">
-        <Platforms>Windows,WindowsGL,MacOS</Platforms>
+        <Platforms>Windows,WindowsGL,WindowsGL.headless,MacOS</Platforms>
     </Uses>
     <Recommends Name="DirectXGraphics">
         <Platforms>Windows</Platforms>
     </Recommends>
     <Recommends Name="OpenGLGraphics">
-        <Platforms>Linux,MacOS</Platforms>
+        <Platforms>Linux,MacOS,Linux.headless</Platforms>
     </Recommends>
 </Dependencies>
 
@@ -86,14 +90,14 @@
     <Service Name="ANGLEGraphics">
         <RemoveDefine>DIRECTX;WINDOWS_MEDIA_SESSION;WINDOWS;MONOMAC;LINUX</RemoveDefine>
         <AddDefine>OPENGL;OPENAL;GLES;ANGLE</AddDefine>
-        <Platforms>Windows,MacOS,Linux,Angle</Platforms>
+        <Platforms>Windows,MacOS,Linux,Linux.headless,Angle</Platforms>
         <Conflicts>OpenGLGraphics,DirectXGraphics,PSMGraphics,WebGraphics</Conflicts>
         <Requires>OpenALAudio,_GLCompatible</Requires>
     </Service>
     <Service Name="OpenGLGraphics">
         <RemoveDefine>DIRECTX;WINDOWS_MEDIA_SESSION</RemoveDefine>
         <AddDefine>OPENGL;OPENAL</AddDefine>
-        <Platforms>iOS,MacOS,Linux,Windows,WindowsGL,Ouya,Android</Platforms>
+        <Platforms>iOS,MacOS,Linux,Linux.headless,Windows,WindowsGL,WindowsGL.headless,Ouya,Android</Platforms>
         <Conflicts>ANGLEGraphics,DirectXGraphics,PSMGraphics,WebGraphics</Conflicts>
         <Requires>OpenALAudio,_GLCompatible</Requires>
     </Service>
@@ -115,7 +119,7 @@
 
      <!-- Audio APIs -->
     <Service Name="OpenALAudio">
-        <Platforms>Angle,iOS,Linux,Windows,WindowsGL,MacOS,Android,Ouya</Platforms>
+        <Platforms>Angle,iOS,Linux,Linux.headless,Windows,WindowsGL,WindowsGL.headless,,MacOS,Android,Ouya</Platforms>
         <Conflicts>XAudioAudio,PSMAudio,WebAudio</Conflicts>
     </Service>
     <Service Name="XAudioAudio">
@@ -147,12 +151,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
 
     <None Include="..\MonoGame\ThirdParty\GamepadConfig\Tao.Sdl.dll.config">
-        <Platforms>Linux,MacOS</Platforms>
+        <Platforms>Linux,Linux.headless,MacOS</Platforms>
         <Link>Tao.Sdl.dll.config</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\MonoGame\ThirdParty\Dependencies\OpenTK.dll.config">
-        <Platforms>Linux,MacOS</Platforms>
+        <Platforms>Linux,Linux.headless,MacOS</Platforms>
         <Link>OpenTK.dll.config</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -328,6 +332,7 @@
     <Compile Include="Graphics\Layer.cs" />
     <Compile Include="Graphics\LineBatch.cs" />
     <Compile Include="Graphics\Renderer.cs" />
+    <Compile Include="Graphics\Screencap.cs" />
     <Compile Include="Graphics\ShapeBatch.cs" />
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Helpers\RandomGen.cs" />
@@ -361,7 +366,7 @@
 	</Compile>
     <Compile Include="Storage\TypeHelper.cs" />
     <Compile Include="Storage\WindowsFileManager.cs">
-        <Platforms>Windows,WindowsGL</Platforms>
+        <Platforms>Windows,WindowsGL,WindowsGL.headless</Platforms>
     </Compile>
     <Compile Include="Storage\RtFileManager.cs">
         <Platforms>Windows8,WindowsPhone81</Platforms>
@@ -376,7 +381,7 @@
         <Platforms>WindowsPhone</Platforms>
     </Compile>
     <Compile Include="Storage\LinuxFileManager.cs">
-        <ExcludePlatforms>Windows,WindowsGL,Windows8,WindowsPhone,WindowsPhone81</ExcludePlatforms>
+        <ExcludePlatforms>Windows,WindowsGL,WindowsGL.headless,Windows8,WindowsPhone,WindowsPhone81</ExcludePlatforms>
     </Compile>
     <Compile Include="DataTypes\Destroyable.cs" />
     <Compile Include="DataTypes\Tagged.cs" />

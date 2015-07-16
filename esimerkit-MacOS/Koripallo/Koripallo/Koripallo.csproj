@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E5BAAC86-3874-48A3-B7AD-1E52AA94691C}</ProjectGuid>
     <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{D425DB69-D9EA-4523-A522-C706A2FF6738};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -28,6 +28,7 @@
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
@@ -44,6 +45,7 @@
     <CodeSigningKey>Developer ID Application</CodeSigningKey>
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|x86' ">
     <DebugType>full</DebugType>
@@ -61,6 +63,7 @@
     <CodeSigningKey>3rd Party Mac Developer Application</CodeSigningKey>
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>true</EnablePackageSigning>
+    <UseRefCounting>false</UseRefCounting>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -68,12 +71,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
-    <Reference Include="Jypeli.MonoGame.Framework">
-      <HintPath>..\..\..\MonoGame\MonoGame.Framework\bin\MacOS\Debug\Jypeli.MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral">
-      <Private>False</Private>
-    </Reference>
+    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -112,13 +110,17 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Jypeli\Jypeli-MacOS.csproj">
-      <Project>{21146E75-35F4-4E05-B6E9-E58903D9A4C2}</Project>
-      <Name>Jypeli-MacOS</Name>
+    <ProjectReference Include="..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.MacOS.csproj">
+      <Project>{36C538E6-C32A-4A8D-A39C-566173D7118E}</Project>
+      <Name>MonoGame.Framework.MacOS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Physics2d\Physics2d-MacOS.csproj">
+    <ProjectReference Include="..\..\..\Jypeli\Jypeli.MacOS.csproj">
+      <Project>{21146E75-35F4-4E05-B6E9-E58903D9A4C2}</Project>
+      <Name>Jypeli.MacOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Physics2d\Jypeli.Physics2d.MacOS.csproj">
       <Project>{C4EFECB3-7397-4DCF-990D-26A0EF6E8445}</Project>
-      <Name>Physics2d-MacOS</Name>
+      <Name>Jypeli.Physics2d.MacOS</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

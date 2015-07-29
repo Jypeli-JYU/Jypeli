@@ -1,38 +1,33 @@
+from __future__ import with_statement
+
 import sys
+import os
 import re
 from tempfile import mkstemp
-from shutil import move
-from os import remove, close
 
 
 def file_findfirst(file_path, pattern):
-	f = open(file_path)
-	for line in f:
-		if re.search(pattern, line):
-			f.close();
-			return line
-		
-	f.close()
-	return None
+    with open(file_path, 'r') as f:
+        for line in f:
+            print line
+            if pattern.search(line):
+                return line
+    
+    return None
 
 def file_replace(file_path, pattern, replacement):
-	f = open(file_path)
-	tmph, tmpname = mkstemp()
-	tmp = open(tmpname, 'w')
-	cpat = re.compile(pattern)
-	for line in f:
-		tmp.write(re.sub(cpat, replacement, line))
-	
-	tmp.close()
-	close(tmph)
-	f.close()
-	
-	remove(file_path)
-	move(tmpname, file_path)
+    tmph, tmpname = mkstemp()
+    cpat = re.compile(pattern)
+    with open(file_path, 'r') as f_src, open(tmpname, 'w') as f_tmp:
+        for line in f_src:
+            f_tmp.write(re.sub(cpat, replacement, line))
+
+	os.remove(file_path)
+	os.rename(tmpname, file_path)
 
 def main():
-	vlinepattern = re.compile('^(\\s)*\\[assembly: AssemblyVersion\\(.*\\)\\]$')
-	verline = file_findfirst('..\\Jypeli\\Properties\\AssemblyInfo.cs', vlinepattern)
+	vlinepattern = re.compile('^(\\s)*\\[assembly: AssemblyVersion\\(.*\\)\\]')
+	verline = file_findfirst('../Jypeli/Properties/AssemblyInfo.cs', vlinepattern)
 	if verline == None:
 		print "Version number line not found!"
 		return 1

@@ -15,7 +15,7 @@ namespace Jypeli.Effects
         /// Savu, johon vaikuttaa tuuli
         /// </summary>
         public Smoke()
-            : base(Game.LoadImageFromResources("smoke"), 100)
+            : base(Game.LoadImageFromResources("Smoke"), 100)
         {
             this.Angle = Angle.FromDegrees(90);
             this.width = 5;

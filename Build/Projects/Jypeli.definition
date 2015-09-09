@@ -42,7 +42,7 @@
         <Platform Name="iOS">JYPELI;UseDouble;IOS;GLES;OPENGL;OPENAL</Platform>
         <Platform Name="Linux">JYPELI;UseDouble;TRACE;LINUX;OPENGL;OPENAL</Platform>
         <Platform Name="Linux.headless">JYPELI;UseDouble;TRACE;LINUX;OPENGL;OPENAL;HEADLESS</Platform>
-        <Platform Name="MacOS">JYPELI;UseDouble;MONOMAC;OPENGL;OPENAL</Platform>
+        <Platform Name="MacOS">JYPELI;UseDouble;MONOMAC;OPENGL;OPENAL;MACOS</Platform>
         <Platform Name="Ouya">JYPELI;UseDouble;TRACE;ANDROID;GLES;OPENGL;OUYA;OPENAL</Platform>
         <Platform Name="PSMobile">JYPELI;UseDouble;PSM</Platform>
         <Platform Name="WindowsGL">JYPELI;UseDouble;TRACE;WINDOWS</Platform>

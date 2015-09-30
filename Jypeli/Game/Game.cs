@@ -168,18 +168,23 @@ namespace Jypeli
             }
             catch ( Microsoft.Xna.Framework.Audio.NoAudioHardwareException )
             {
-                MessageDisplay.Add( "No audio hardware was detected. All sound is disabled." );
-#if WINDOWS
-                MessageDisplay.Add( "You might need to install OpenAL drivers." );
-                MessageDisplay.Add( "Press Ctrl+Alt+I to try downloading and installing them now." );
-
-                Keyboard.Listen( Key.I, ButtonState.Pressed, TryInstallOpenAL, null );
-#endif
+				OnNoAudioHardwareException();
             }
 #else
             AudioEnabled = true;
 #endif
         }
+
+		internal void OnNoAudioHardwareException()
+		{
+			MessageDisplay.Add( "No audio hardware was detected. All sound is disabled." );
+#if WINDOWS
+			MessageDisplay.Add( "You might need to install OpenAL drivers." );
+			MessageDisplay.Add( "Press Ctrl+Alt+I to try downloading and installing them now." );
+
+			Keyboard.Listen( Key.I, ButtonState.Pressed, TryInstallOpenAL, null );
+#endif
+		}
 
 #if WINDOWS
         private void TryInstallOpenAL()

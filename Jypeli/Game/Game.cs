@@ -35,6 +35,10 @@ using System.ComponentModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+#if WINDOWS
+using System.Net;
+#endif
+
 using XnaColor = Microsoft.Xna.Framework.Color;
 using XnaSoundEffect = Microsoft.Xna.Framework.Audio.SoundEffect;
 using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
@@ -70,6 +74,11 @@ namespace Jypeli
 		public static string Name { get; private set; }
 
         /// <summary>
+        /// Voiko ääniä soittaa.
+        /// </summary>
+        public static bool AudioEnabled { get; private set; }
+
+        /// <summary>
         /// Aktiivinen kenttä.
         /// </summary>
         public Level Level { get; private set; }
@@ -84,6 +93,7 @@ namespace Jypeli
             InitXnaContent();
             InitXnaGraphics();
 			InitStorage();
+            InitAudio();
         }
 
 #if HEADLESS
@@ -139,6 +149,76 @@ namespace Jypeli
             GraphicsDeviceManager = new GraphicsDeviceManager( this );
             GraphicsDeviceManager.PreferredDepthStencilFormat = Jypeli.Graphics.SelectStencilMode();
         }
+
+        private void InitAudio()
+        {
+#if HEADLESS
+            // No audio if running on headless mode
+            AudioEnabled = false;
+            return;
+#endif
+
+#if OPENAL
+            try
+            {
+                var dev = OpenTK.Audio.OpenAL.Alc.OpenDevice( null );
+                AudioEnabled = dev != IntPtr.Zero;
+                if ( dev != IntPtr.Zero )
+                    OpenTK.Audio.OpenAL.Alc.CloseDevice( dev );
+            }
+            catch ( Microsoft.Xna.Framework.Audio.NoAudioHardwareException )
+            {
+                MessageDisplay.Add( "No audio hardware was detected. All sound is disabled." );
+#if WINDOWS
+                MessageDisplay.Add( "You might need to install OpenAL drivers." );
+                MessageDisplay.Add( "Press Ctrl+Alt+I to try downloading and installing them now." );
+
+                Keyboard.Listen( Key.I, ButtonState.Pressed, TryInstallOpenAL, null );
+#endif
+            }
+#else
+            AudioEnabled = true;
+#endif
+        }
+
+#if WINDOWS
+        private void TryInstallOpenAL()
+        {
+            if ( !Keyboard.IsCtrlDown() || !Keyboard.IsAltDown() )
+                return;
+
+            MessageDisplay.Add( "Starting download of OpenAL installer..." );
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create( "https://github.com/Mono-Game/MonoGame.Dependencies/raw/master/oalinst.exe" );
+            request.BeginGetResponse( OpenALDownloaded, request );
+        }
+
+        private void OpenALDownloaded(IAsyncResult result)
+        {
+            HttpWebResponse response = ( result.AsyncState as HttpWebRequest ).EndGetResponse( result ) as HttpWebResponse;
+
+            if ( response == null )
+            {
+                MessageDisplay.Add( "Download failed." );
+                return;
+            }
+
+            MessageDisplay.Add( "Download completed. Launching installer..." );
+            Stream resStream = response.GetResponseStream();
+
+            string fileName = Path.Combine( Path.GetTempPath(), "oalinst.exe" );
+            FileStream fs = new FileStream( fileName, FileMode.Create, FileAccess.Write );
+            resStream.CopyTo( fs );
+            fs.Close();
+
+            var startInfo = new System.Diagnostics.ProcessStartInfo( fileName );
+            startInfo.Verb = "runas";
+            var process = System.Diagnostics.Process.Start( startInfo );
+            process.WaitForExit();
+
+            MessageDisplay.Add( "Installation complete. Trying to enable sound..." );
+            InitAudio();
+        }
+#endif
 
         /// <summary>
         /// This gets called after the GraphicsDevice has been created. So, this is

@@ -25,9 +25,9 @@ namespace Jypeli
             {
 #if WINDOWS_PHONE
                 //Microsoft.Xna.Framework.FrameworkDispatcher.Update();
-                return Microsoft.Xna.Framework.Media.MediaPlayer.GameHasControl;
+                return Game.AudioEnabled && Microsoft.Xna.Framework.Media.MediaPlayer.GameHasControl;
 #else
-                return true;
+                return Game.AudioEnabled;
 #endif
             }
         }

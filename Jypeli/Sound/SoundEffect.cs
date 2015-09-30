@@ -90,6 +90,9 @@ namespace Jypeli
         /// <returns></returns>
         public Sound CreateSound()
         {
+            if ( !Game.AudioEnabled )
+                return null;
+
             DoLoad();
             return new Sound( xnaEffect.CreateInstance() );
         }

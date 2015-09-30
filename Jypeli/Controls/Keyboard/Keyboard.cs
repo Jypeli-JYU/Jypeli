@@ -107,6 +107,39 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Tarkistaa, onko kumpikaan shift-näppäimistä painettuna.
+        /// </summary>
+        /// <returns>
+        /// 	<c>true</c> jos alhaalla, muuten <c>painettuna</c>.
+        /// </returns>
+        public bool IsShiftDown()
+        {
+            return CurrentState.IsKeyDown( Keys.LeftShift ) || CurrentState.IsKeyDown( Keys.RightShift );
+        }
+
+        /// <summary>
+        /// Tarkistaa, onko kumpikaan ctrl-näppäimistä painettuna.
+        /// </summary>
+        /// <returns>
+        /// 	<c>true</c> jos alhaalla, muuten <c>painettuna</c>.
+        /// </returns>
+        public bool IsCtrlDown()
+        {
+            return CurrentState.IsKeyDown( Keys.LeftControl ) || CurrentState.IsKeyDown( Keys.RightControl );
+        }
+
+        /// <summary>
+        /// Tarkistaa, onko kumpikaan alt-näppäimistä painettuna.
+        /// </summary>
+        /// <returns>
+        /// 	<c>true</c> jos alhaalla, muuten <c>painettuna</c>.
+        /// </returns>
+        public bool IsAltDown()
+        {
+            return CurrentState.IsKeyDown( Keys.LeftAlt ) || CurrentState.IsKeyDown( Keys.RightAlt );
+        }
+
+        /// <summary>
         /// Kuuntelee näppäinten painalluksia.
         /// </summary>
         /// <param name="k">Näppäin</param>
@@ -134,17 +167,17 @@ namespace Jypeli
             return AddListener( rule, GetKeyName( k ), helpText, handler, p );
         }
 
-		/// <summary>
+        /// <summary>
         /// Kuuntelee näppäinten painalluksia.
         /// </summary>
         /// <typeparam name="T1">1. parametrin tyyppi</typeparam>
-		/// <typeparam name="T2">2. parametrin tyyppi</typeparam>
+        /// <typeparam name="T2">2. parametrin tyyppi</typeparam>
         /// <param name="k">Näppäin</param>
         /// <param name="state">Näppäimen tila</param>
         /// <param name="handler">Mitä tehdään</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri</param>
-		/// <param name="p2">2. parametri</param>
+        /// <param name="p2">2. parametri</param>
         public Listener Listen<T1, T2>( Key k, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
@@ -168,5 +201,162 @@ namespace Jypeli
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
             return AddListener( rule, GetKeyName( k ), helpText, handler, p1, p2, p3 );
         }
+
+        /// <summary>
+        /// Kuuntelee näppäinten painalluksia.
+        /// </summary>
+        /// <typeparam name="T1">1. parametrin tyyppi</typeparam>
+        /// <typeparam name="T2">2. parametrin tyyppi</typeparam>
+        /// <typeparam name="T3">3. parametrin tyyppi</typeparam>
+        /// <typeparam name="T4">4. parametrin tyyppi</typeparam>
+        /// <param name="k">Näppäin</param>
+        /// <param name="state">Näppäimen tila</param>
+        /// <param name="handler">Mitä tehdään</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <param name="p2">2. parametri</param>
+        /// <param name="p3">3. parametri</param>
+        /// <param name="p3">4. parametri</param>
+        public Listener Listen<T1, T2, T3, T4>( Key k, ButtonState state, Action<T1, T2, T3, T4> handler, string helpText, T1 p1, T2 p2, T3 p3, T4 p4 )
+        {
+            ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
+            return AddListener( rule, GetKeyName( k ), helpText, handler, p1, p2, p3, p4 );
+        }
+
+        #region ListenWSAD
+        /// <summary>
+        /// Kuuntelee W, S, A ja D -näppäimiä.
+        /// </summary>
+        /// <param name="state">Näppäinten kuunneltava tila</param>
+        /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
+        /// <param name="helpText">Ohjeteksti.</param>
+        public void ListenWSAD( ButtonState state, Action<Vector> handler, String helpText )
+        {
+            Listen( Key.W, state, handler, helpText, Vector.UnitY );
+            Listen( Key.S, state, handler, helpText, -Vector.UnitY );
+            Listen( Key.A, state, handler, helpText, -Vector.UnitX );
+            Listen( Key.D, state, handler, helpText, Vector.UnitX );
+        }
+
+        /// <summary>
+        /// Kuuntelee W, S, A ja D -näppäimiä.
+        /// </summary>
+        /// <typeparam name="T1">Ensimmäisen oman parametrin tyyppi</typeparam>
+        /// <param name="state">Näppäinten kuunneltava tila</param>
+        /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
+        /// <param name="helpText">Ohjeteksti.</param>
+        /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
+        public void ListenWSAD<T1>( ButtonState state, Action<Vector, T1> handler, String helpText, T1 p1 )
+        {
+            Listen( Key.W, state, handler, helpText, Vector.UnitY, p1 );
+            Listen( Key.S, state, handler, helpText, -Vector.UnitY, p1 );
+            Listen( Key.A, state, handler, helpText, -Vector.UnitX, p1 );
+            Listen( Key.D, state, handler, helpText, Vector.UnitX, p1 );
+        }
+
+        /// <summary>
+        /// Kuuntelee W, S, A ja D -näppäimiä.
+        /// </summary>
+        /// <typeparam name="T1">Ensimmäisen oman parametrin tyyppi</typeparam>
+        /// <typeparam name="T2">Toisen oman parametrin tyyppi</typeparam>
+        /// <param name="state">Näppäinten kuunneltava tila</param>
+        /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
+        /// <param name="helpText">Ohjeteksti.</param>
+        /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
+        /// <param name="p2">Toisen oman parametrin arvo</param>
+        public void ListenWSAD<T1, T2>( ButtonState state, Action<Vector, T1, T2> handler, String helpText, T1 p1, T2 p2 )
+        {
+            Listen( Key.W, state, handler, helpText, Vector.UnitY, p1, p2 );
+            Listen( Key.S, state, handler, helpText, -Vector.UnitY, p1, p2 );
+            Listen( Key.A, state, handler, helpText, -Vector.UnitX, p1, p2 );
+            Listen( Key.D, state, handler, helpText, Vector.UnitX, p1, p2 );
+        }
+
+        /// <summary>
+        /// Kuuntelee W, S, A ja D -näppäimiä.
+        /// </summary>
+        /// <typeparam name="T1">Ensimmäisen oman parametrin tyyppi</typeparam>
+        /// <typeparam name="T2">Toisen oman parametrin tyyppi</typeparam>
+        /// <param name="state">Näppäinten kuunneltava tila</param>
+        /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
+        /// <param name="helpText">Ohjeteksti.</param>
+        /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
+        /// <param name="p2">Toisen oman parametrin arvo</param>
+        public void ListenWSAD<T1, T2, T3>( ButtonState state, Action<Vector, T1, T2, T3> handler, String helpText, T1 p1, T2 p2, T3 p3 )
+        {
+            Listen( Key.W, state, handler, helpText, Vector.UnitY, p1, p2, p3 );
+            Listen( Key.S, state, handler, helpText, -Vector.UnitY, p1, p2, p3 );
+            Listen( Key.A, state, handler, helpText, -Vector.UnitX, p1, p2, p3 );
+            Listen( Key.D, state, handler, helpText, Vector.UnitX, p1, p2, p3 );
+        }
+        #endregion
+
+        #region ListenArrows
+        /// <summary>
+        /// Kuuntelee nuolinäppäimiä.
+        /// </summary>
+        /// <param name="state">Näppäinten kuunneltava tila</param>
+        /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
+        /// <param name="helpText">Ohjeteksti.</param>
+        public void ListenArrows( ButtonState state, Action<Vector> handler, String helpText )
+        {
+            Listen( Key.Up, state, handler, helpText, Vector.UnitY );
+            Listen( Key.Down, state, handler, helpText, -Vector.UnitY );
+            Listen( Key.Left, state, handler, helpText, -Vector.UnitX );
+            Listen( Key.Right, state, handler, helpText, Vector.UnitX );
+        }
+
+        /// <summary>
+        /// Kuuntelee nuolinäppäimiä.
+        /// </summary>
+        /// <typeparam name="T1">Ensimmäisen oman parametrin tyyppi</typeparam>
+        /// <param name="state">Näppäinten kuunneltava tila</param>
+        /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
+        /// <param name="helpText">Ohjeteksti.</param>
+        /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
+        public void ListenArrows<T1>( ButtonState state, Action<Vector, T1> handler, String helpText, T1 p1 )
+        {
+            Listen( Key.Up, state, handler, helpText, Vector.UnitY, p1 );
+            Listen( Key.Down, state, handler, helpText, -Vector.UnitY, p1 );
+            Listen( Key.Left, state, handler, helpText, -Vector.UnitX, p1 );
+            Listen( Key.Right, state, handler, helpText, Vector.UnitX, p1 );
+        }
+
+        /// <summary>
+        /// Kuuntelee nuolinäppäimiä.
+        /// </summary>
+        /// <typeparam name="T1">Ensimmäisen oman parametrin tyyppi</typeparam>
+        /// <typeparam name="T2">Toisen oman parametrin tyyppi</typeparam>
+        /// <param name="state">Näppäinten kuunneltava tila</param>
+        /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
+        /// <param name="helpText">Ohjeteksti.</param>
+        /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
+        /// <param name="p2">Toisen oman parametrin arvo</param>
+        public void ListenArrows<T1, T2>( ButtonState state, Action<Vector, T1, T2> handler, String helpText, T1 p1, T2 p2 )
+        {
+            Listen( Key.Up, state, handler, helpText, Vector.UnitY, p1, p2 );
+            Listen( Key.Down, state, handler, helpText, -Vector.UnitY, p1, p2 );
+            Listen( Key.Left, state, handler, helpText, -Vector.UnitX, p1, p2 );
+            Listen( Key.Right, state, handler, helpText, Vector.UnitX, p1, p2 );
+        }
+
+        /// <summary>
+        /// Kuuntelee nuolinäppäimiä.
+        /// </summary>
+        /// <typeparam name="T1">Ensimmäisen oman parametrin tyyppi</typeparam>
+        /// <typeparam name="T2">Toisen oman parametrin tyyppi</typeparam>
+        /// <param name="state">Näppäinten kuunneltava tila</param>
+        /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
+        /// <param name="helpText">Ohjeteksti.</param>
+        /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
+        /// <param name="p2">Toisen oman parametrin arvo</param>
+        public void ListenArrows<T1, T2, T3>( ButtonState state, Action<Vector, T1, T2, T3> handler, String helpText, T1 p1, T2 p2, T3 p3 )
+        {
+            Listen( Key.Up, state, handler, helpText, Vector.UnitY, p1, p2, p3 );
+            Listen( Key.Down, state, handler, helpText, -Vector.UnitY, p1, p2, p3 );
+            Listen( Key.Left, state, handler, helpText, -Vector.UnitX, p1, p2, p3 );
+            Listen( Key.Right, state, handler, helpText, Vector.UnitX, p1, p2, p3 );
+        }
+        #endregion
     }
 }

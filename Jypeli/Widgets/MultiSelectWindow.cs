@@ -171,7 +171,9 @@ namespace Jypeli
         {
             AddControls();
             AddDefaultControls();
+#if !WINDOWS_PHONE
             SelectButton( ( RememberSelection && _selectedIndex >= 0 ) ? _selectedIndex : 0 );
+#endif
         }
 
         private void SelectButton( int p )

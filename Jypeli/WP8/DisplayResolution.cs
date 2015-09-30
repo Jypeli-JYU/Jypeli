@@ -4,6 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+namespace Jypeli.WP7
+{
+    /// <summary>
+    /// Puhelimen näytön tarkkuus.
+    /// </summary>
+    public enum DisplayResolution
+    {
+        /// <summary>
+        /// Pieni tarkkuus (WVGA, 400 x 240).
+        /// </summary>
+        Small,
+
+        /// <summary>
+        /// Suuri tarkkuus (WVGA, 800 x 480).
+        /// </summary>
+        Large,
+    }
+}
+
 namespace Jypeli
 {
     /// <summary>

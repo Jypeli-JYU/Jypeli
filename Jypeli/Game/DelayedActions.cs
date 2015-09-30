@@ -115,8 +115,6 @@ namespace Jypeli
         {
 #if !WINRT  // Win8 programs cannot be closed with Exit()
 
-            bool cursorVisible = IsMouseVisible;
-
             YesNoWindow kyselyIkkuna = new YesNoWindow( "Do you want to quit?" );
             kyselyIkkuna.Yes += Exit;
             kyselyIkkuna.Closed += delegate { IsPaused = false; };

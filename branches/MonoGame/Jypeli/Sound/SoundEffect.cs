@@ -93,8 +93,16 @@ namespace Jypeli
             if ( !Game.AudioEnabled )
                 return null;
 
-            DoLoad();
-            return new Sound( xnaEffect.CreateInstance() );
+			try
+			{
+            	DoLoad();
+            	return new Sound( xnaEffect.CreateInstance() );
+			}
+			catch (NoAudioHardwareException)
+			{
+				Game.Instance.OnNoAudioHardwareException();
+				return null;
+			}
         }
 
         /// <summary>

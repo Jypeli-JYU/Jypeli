@@ -306,5 +306,10 @@ namespace Jypeli
                 protectedCollisionHandlers.Remove( key );
             }
         }
+
+        public IAxleJoint CreateJoint(IPhysicsObject obj1, IPhysicsObject obj2, Vector pivot)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

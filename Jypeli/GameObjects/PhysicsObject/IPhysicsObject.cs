@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 //using Physics2DDotNet;
 //using Physics2DDotNet.Ignorers;
+using Jypeli.Physics;
 
 namespace Jypeli
 {
@@ -79,5 +80,12 @@ namespace Jypeli
     /// metodilla ei ole paluuarvoa ja se ottaa yhden <code>Collision</code>-tyyppisen
     /// parametrin.
     /// </summary>
-    public delegate void CollisionHandler<O,T>( O collidingObject, T otherObject );
+    public delegate void CollisionHandler<O, T>( O collidingObject, T otherObject );
+
+    /// <summary>
+    /// Törmäystapahtumiin liitettävän metodin tyyppi. Törmäyksen käsittelevällä
+    /// metodilla ei ole paluuarvoa ja se ottaa yhden <code>Collision</code>-tyyppisen
+    /// parametrin.
+    /// </summary>
+    public delegate void AdvancedCollisionHandler<O, T>( O collidingObject, T otherObject, Collision collision );
 }

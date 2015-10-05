@@ -48,5 +48,6 @@ namespace Jypeli.Physics
         void SetCollisionIgnorer( Ignorer ignorer );
 
         event CollisionHandler<IPhysicsBody, IPhysicsBody> Collided;
+        event AdvancedCollisionHandler<IPhysicsBody, IPhysicsBody> Colliding;
     }
 }

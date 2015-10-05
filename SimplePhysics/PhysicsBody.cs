@@ -29,6 +29,11 @@ namespace Jypeli.Physics
         public event CollisionHandler<IPhysicsBody, IPhysicsBody> Collided;
 
         /// <summary>
+        /// Törmäystapahtuma.
+        /// </summary>
+        public event AdvancedCollisionHandler<IPhysicsBody, IPhysicsBody> Colliding;
+
+        /// <summary>
         /// Onko olio tuhottu.
         /// </summary>
         [Save]
@@ -235,6 +240,18 @@ namespace Jypeli.Physics
         {
             if ( Collided != null )
                 Collided( this, anotherBody );
+        }
+
+        /// <summary>
+        /// Laukaisee törmäystapahtuman.
+        /// </summary>
+        /// <param name="anotherBody"></param>
+        internal void OnColliding( Collision collision )
+        {
+            if ( Colliding != null )
+            {
+                Colliding( this, collision.Object2, collision );
+            }
         }
 
         /// <summary>

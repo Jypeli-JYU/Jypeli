@@ -585,7 +585,7 @@ namespace Jypeli
 
             foreach ( var existing in objects )
             {
-                IAxleJoint joint = game.Engine.CreateJoint( physObj, existing );
+                IAxleJoint joint = game.Engine.CreateJoint( physObj, existing, existing.AbsolutePosition );
                 joint.Softness = _softness;
                 Joints.Add( joint );
                 game.Add( joint );

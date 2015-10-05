@@ -28,7 +28,7 @@ namespace Jypeli
             }
         }
 
-        internal IPhysicsEngine Engine { get; private set; }
+        public IPhysicsEngine Engine { get; private set; }
 
         private SynchronousList<IAxleJoint> Joints = new SynchronousList<IAxleJoint>();
         protected Dictionary<CollisionRecord, CollisionHandler<IPhysicsObject, IPhysicsObject>> collisionHandlers =

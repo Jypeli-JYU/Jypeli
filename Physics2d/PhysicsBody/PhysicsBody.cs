@@ -114,6 +114,7 @@ namespace Jypeli
             Body = new Body( new PhysicsState( ALVector2D.Zero ), physicsShape, DefaultMass, c, new Lifespan() );
             Body.Tag = this;
             Body.Collided += OnCollided;
+            Body.Colliding += OnColliding;
 
             this._size = new Vector( width, height );
             this._shape = shape;

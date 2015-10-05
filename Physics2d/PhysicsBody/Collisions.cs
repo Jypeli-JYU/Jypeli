@@ -95,6 +95,22 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Tapahtuu kun olio on törmäyksessä toiseen.
+        /// </summary>
+        public event AdvancedCollisionHandler<IPhysicsBody, IPhysicsBody> Colliding;
+
+        private void OnColliding( object sender, CollisionEventArgs e )
+        {
+            if ( Colliding != null )
+            {
+                var other = e.Other.Tag as IPhysicsBody;
+                var contacts = new List<Collision.ContactPoint>();
+                contacts.AddRange( e.Contact.Points.ConvertAll( p => new Collision.ContactPoint(p.Position, p.Normal) ) );
+                Colliding( this, other, new Collision(this, other, contacts) );
+            }
+        }
+
         private static CollisionShapeParameters GetDefaultParameters( double width, double height )
         {
             CollisionShapeParameters p;

@@ -481,32 +481,32 @@ namespace Jypeli
             return !( left == right );
         }
 
-        public static explicit operator Vector( Vector2D v )
+        public static implicit operator Vector( Vector2D v )
         {
             return new Vector( v.X, v.Y );
         }
 
-        public static explicit operator Vector2D( Vector v )
+        public static implicit operator Vector2D( Vector v )
         {
             return new Vector2D( v.X, v.Y );
         }
 
-        public static explicit operator Vector( Microsoft.Xna.Framework.Vector2 v )
+        public static implicit operator Vector( Microsoft.Xna.Framework.Vector2 v )
         {
             return new Vector( v.X, v.Y );
         }
 
-        public static explicit operator Microsoft.Xna.Framework.Vector2( Vector v )
+        public static implicit operator Microsoft.Xna.Framework.Vector2( Vector v )
         {
             return new Microsoft.Xna.Framework.Vector2( (float)v.X, (float)v.Y );
         }
 
-        public static explicit operator Vector( Microsoft.Xna.Framework.Vector3 v )
+        public static implicit operator Vector( Microsoft.Xna.Framework.Vector3 v )
         {
             return new Vector( v.X, v.Y );
         }
 
-        public static explicit operator Microsoft.Xna.Framework.Vector3( Vector v )
+        public static implicit operator Microsoft.Xna.Framework.Vector3( Vector v )
         {
             return new Microsoft.Xna.Framework.Vector3( (float)v.X, (float)v.Y, 0 );
         }

@@ -149,14 +149,14 @@
 
 <Files>
     <Compile Include="Properties\AssemblyInfo.cs" />
-
+    
     <None Include="..\MonoGame\ThirdParty\GamepadConfig\Tao.Sdl.dll.config">
-        <Platforms>Linux,Linux.headless,MacOS</Platforms>
+        <Platforms>Linux,Linux.headless,MacOS,MacOS.headless</Platforms>
         <Link>Tao.Sdl.dll.config</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\MonoGame\ThirdParty\Dependencies\OpenTK.dll.config">
-        <Platforms>Linux,Linux.headless,MacOS</Platforms>
+        <Platforms>Linux,Linux.headless,MacOS,MacOS.headless</Platforms>
         <Link>OpenTK.dll.config</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -179,7 +179,13 @@
     <!-- Jypeli -->
     <Compile Include="Assets\CollisionHandler.cs" />
     <Compile Include="Assets\Explosion.cs" />
+    <Compile Include="Assets\PlatformCharacter.cs" />
+    <Compile Include="Assets\PlatformCharacter2.cs" />
+    <Compile Include="Assets\PlatformWandererBrain.cs" />
     <Compile Include="Assets\Projectile.cs" />
+    <Compile Include="Assets\Tank.cs" />
+    <Compile Include="Assets\Weapon.cs" />
+    <Compile Include="Assets\WeaponTemplates.cs" />
     <Compile Include="Brains\AbstractMoverBrain.cs" />
     <Compile Include="Brains\Brain.cs" />
     <Compile Include="Brains\FollowerBrain.cs" />
@@ -294,6 +300,7 @@
     <Compile Include="GameObjects\Layouts\ILayout.cs" />
     <Compile Include="GameObjects\Layouts\VerticalLayout.cs" />
     <Compile Include="GameObjects\Layouts\VerticalScrollLayout.cs" />
+    <Compile Include="GameObjects\PhysicsObject\Collision.cs" />
     <Compile Include="GameObjects\PhysicsObject\Dimensions.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsBody.cs" />
     <Compile Include="GameObjects\PhysicsObject\IPhysicsObject.cs" />

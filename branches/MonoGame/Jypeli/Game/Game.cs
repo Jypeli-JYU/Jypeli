@@ -158,7 +158,7 @@ namespace Jypeli
             return;
 #endif
 
-#if OPENAL
+#if OPENAL && !MACOS
             try
             {
                 var dev = OpenTK.Audio.OpenAL.Alc.OpenDevice( null );

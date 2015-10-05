@@ -10,7 +10,7 @@ namespace Jypeli.Physics
         Vector Gravity { get; set; }
 
         IPhysicsBody CreateBody( IPhysicsObject owner, double width, double height, Shape shape );
-        IAxleJoint CreateJoint( IPhysicsObject obj1, IPhysicsObject obj2 );
+        IAxleJoint CreateJoint( IPhysicsObject obj1, IPhysicsObject obj2, Vector pivot );
         IAxleJoint CreateJoint( IPhysicsObject obj1, Vector pivot );
 
         void AddBody( IPhysicsBody body );

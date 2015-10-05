@@ -30,9 +30,6 @@
 using System;
 using System.Collections.Generic;
 using AdvanceMath;
-using Physics2DDotNet;
-using Physics2DDotNet.Ignorers;
-using Physics2DDotNet.Joints;
 
 namespace Jypeli.Assets
 {
@@ -46,7 +43,7 @@ namespace Jypeli.Assets
 
         private Cannon cannon;
         private List<PhysicsObject> wheels = new List<PhysicsObject>();
-        private List<AxleJoint> joints = new List<AxleJoint>();
+        private List<IAxleJoint> joints = new List<IAxleJoint>();
         //private IntMeter ammo = new IntMeter( 10 );
         private IntMeter hitPoints = new IntMeter( 10 );
 
@@ -105,7 +102,7 @@ namespace Jypeli.Assets
 
         private void AddWheels()
         {
-            PhysicsGame pg = Game.Instance as PhysicsGame;
+            PhysicsGameBase pg = Game.Instance as PhysicsGameBase;
             if ( pg == null ) throw new InvalidOperationException( "Cannot have a tank in non-physics game" );
 
             const int wheelCount = 6;
@@ -130,7 +127,7 @@ namespace Jypeli.Assets
 
                 Vector axlePos = new Vector( left + i * ( this.Width / wheelCount ), wheelYPositions[i] );
                 wheel.Position = axlePos;
-                AxleJoint joint = new AxleJoint( this, wheel, new Vector( axlePos.X, axlePos.Y ) );
+                IAxleJoint joint = pg.Engine.CreateJoint( this, wheel, new Vector( axlePos.X, axlePos.Y ) );
                 joint.Softness = 0.01f;
                 joints.Add( joint );
                 pg.Add( joint );

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using Jypeli;
@@ -10,9 +11,8 @@ namespace Jypeli
     {
         class Contact
         {
-            public PhysicsBody body1;
-            public PhysicsBody body2;
-            public Vector normal;
+            public Collision collision;
+            public Collision invcollision;
             public int deadcycles;
 
             public bool Active
@@ -20,18 +20,39 @@ namespace Jypeli
                 get { return deadcycles == 0; }
             }
 
-            public Contact( PhysicsBody body1, PhysicsBody body2, Vector n )
+            public PhysicsBody body1
             {
-                this.body1 = body1;
-                this.body2 = body2;
-                this.normal = n;
+                get { return (PhysicsBody)collision.Object1; }
+            }
+
+            public PhysicsBody body2
+            {
+                get { return (PhysicsBody)collision.Object2; }
+            }
+
+            public Vector normal
+            {
+                get { return collision.Contacts.First().Normal; }
+            }
+
+            public Contact( PhysicsBody body1, PhysicsBody body2, Vector point, Vector n1, Vector n2 )
+            {
+                var contacts = new List<Collision.ContactPoint>();
+                var invcontacts = new List<Collision.ContactPoint>();
+                contacts.Add(new Collision.ContactPoint(point, n1));
+                invcontacts.Add(new Collision.ContactPoint(point, n2));
+
+                this.collision = new Collision(body1, body2, contacts);
+                this.invcollision = new Collision(body2, body1, invcontacts);
                 this.deadcycles = 0;
             }
 
-            public void UpdateContact()
+            public void UpdateContact(Vector pos, Vector n1, Vector n2)
             {
-                BoundingRectangle intsect = BoundingRectangle.GetIntersection( body1.GetBoundingRect(), body2.GetBoundingRect() );
-                Vector n = ( intsect.Position - body1.Position ).Normalize();
+                collision.Contacts.First().Position = pos;
+                collision.Contacts.First().Normal = n1;
+                invcollision.Contacts.First().Position = pos;
+                invcollision.Contacts.First().Normal = n2;
                 deadcycles = 0;
             }
 
@@ -192,21 +213,23 @@ namespace Jypeli
             return contacts.Find<Contact>( c => c.body1 == body1 && c.body2 == body2 || c.body1 == body2 && c.body2 == body1 );
         }
 
-        private void AddContact( PhysicsBody body1, PhysicsBody body2, Vector n )
+        private Contact AddContact( PhysicsBody body1, PhysicsBody body2, Vector pos, Vector n1, Vector n2 )
         {
             Contact contact = GetContact( body1, body2 );
 
             if ( contact != null )
             {
                 //MessageDisplay.Add( "Contact enabled", RandomGen.NextColor( contact ) );
-                contact.UpdateContact();
+                contact.UpdateContact(pos, n1, n2);
             }
             else
             {
-                contact = new Contact( body1, body2, n );
+                contact = new Contact( body1, body2, pos, n1, n2 );
                 //MessageDisplay.Add( "New contact!", RandomGen.NextColor( contact ) );
                 contacts.Add( contact );
             }
+
+            return contact;
         }
 
         private void NullifyContactForces( PhysicsBody body, ref Vector vector )
@@ -291,15 +314,23 @@ namespace Jypeli
 
                     if ( IsOverlapping( iBody, jBody ) )
                     {
+                        BoundingRectangle intsect = BoundingRectangle.GetIntersection( iBody.GetBoundingRect(), jBody.GetBoundingRect() );
+                        Vector n_i = ( intsect.Position - bodies[i].Position ).Normalize();
+                        Vector n_j = ( intsect.Position - bodies[j].Position ).Normalize();
+
                         if ( contact != null && contact.Active )
                         {
                             // Already responded to this collision
-                            contact.UpdateContact();
+                            contact.UpdateContact(intsect.Position, n_i, n_j);
+
+                            // Still raise the Colliding event if set
+                            iBody.OnColliding( contact.collision );
+                            jBody.OnColliding( contact.invcollision );
+
                             continue;
                         }
 
                         // Collision (perfectly elastic)
-                        BoundingRectangle intsect = BoundingRectangle.GetIntersection( iBody.GetBoundingRect(), jBody.GetBoundingRect() );
                         double rest = bodies[i].Restitution * bodies[j].Restitution;
 
                         if ( iStatic || jStatic )
@@ -340,10 +371,13 @@ namespace Jypeli
                             }
                         }
 
-                        // Collision event
+                        contact = AddContact( iBody, jBody, intsect.Position, n_i, n_j );
+
+                        // Collision events
+                        iBody.OnColliding( contact.collision );
+                        jBody.OnColliding( contact.invcollision );
                         iBody.OnCollided( jBody );
                         jBody.OnCollided( iBody );
-                        AddContact( iBody, jBody, n );
                     }
                     else
                     {

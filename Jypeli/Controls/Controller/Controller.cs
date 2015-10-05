@@ -59,12 +59,14 @@ namespace Jypeli.Controls
     /// Mikä tahansa ohjauslaite.
     /// </summary>
     /// <typeparam name="ControllerState">Ohjauslaitteen tilaolio</typeparam>
-    public abstract class Controller<ControllerState> : Controller
+    /// <typeparam name="Control">Ohjauslaitteen ohjain (näppäin tms)</typeparam>
+    public abstract class Controller<ControllerState, Control> : Controller where Control : IComparable
     {
         protected static readonly ChangePredicate<ControllerState> AlwaysTrigger
             = delegate { return true; };
 
-        private SynchronousList<Listener<ControllerState>> listeners = new SynchronousList<Listener<ControllerState>>();
+        private SynchronousList<Listener<ControllerState, Control>> listeners = new SynchronousList<Listener<ControllerState, Control>>();
+        private SynchronousList<Listener<ControllerState, Control>> disabledListeners = new SynchronousList<Listener<ControllerState, Control>>();
 
         /// <summary>
         /// Viimeisin tila.
@@ -94,9 +96,9 @@ namespace Jypeli.Controls
             listeners.ForEach( l => l.CheckAndInvoke( PrevState, CurrentState ) );
         }
 
-        protected Listener AddListener( ChangePredicate<ControllerState> rule, string controlName, string helpText, Delegate handler, params object[] args )
+        protected Listener AddListener( ChangePredicate<ControllerState> rule, Control control, string controlName, string helpText, Delegate handler, params object[] args )
         {
-            var l = new Listener<ControllerState>( rule, Game.Instance.ControlContext, controlName, helpText, handler, args );
+            var l = new Listener<ControllerState, Control>( rule, Game.Instance.ControlContext, control, controlName, helpText, handler, args );
             listeners.Add( l );
             return l;
         }
@@ -104,6 +106,75 @@ namespace Jypeli.Controls
         public void Clear()
         {
             listeners.Clear();
+        }
+
+        /// <summary>
+        /// Poistaa tietyt kuuntelutapahtumat käytöstä.
+        /// </summary>
+        /// <param name="predicate">Ehto, jonka tapahtuman on toteutettava.</param>
+        public void Disable( Predicate<Listener<ControllerState, Control>> predicate )
+        {
+            foreach ( var l in listeners )
+            {
+                if ( predicate( l ) )
+                {
+                    // Note: synchronous list, does not actually change the list while iterating
+                    listeners.Remove( l );
+                    disabledListeners.Add( l );
+                }
+            }
+        }
+
+        /// <summary>
+        /// Ottaa käytöstä poistetun kontrollin takaisin käyttöön.
+        /// </summary>
+        /// <param name="predicate">Ehto, jonka tapahtuman on toteutettava.</param>
+        public void Enable( Predicate<Listener<ControllerState, Control>> predicate )
+        {
+            foreach ( var l in disabledListeners )
+            {
+                if ( predicate( l ) )
+                {
+                    // Note: synchronous list, does not actually change the list while iterating
+                    listeners.Add( l );
+                    disabledListeners.Remove( l );
+                }
+            }
+        }
+
+        /// <summary>
+        /// Poistaa kontrollin käytöstä.
+        /// </summary>
+        /// <param name="c">Kontrolli.</param>
+        public void Disable( Control c )
+        {
+            Enum e;
+            Disable( l => l.Control.Equals( c ) );
+        }
+
+        /// <summary>
+        /// Ottaa kontrollin takaisin käyttöön.
+        /// </summary>
+        /// <param name="c">Kontrolli.</param>
+        public void Enable( Control c )
+        {
+            Enable( l => l.Control.Equals( c ) );
+        }
+
+        /// <summary>
+        /// Ottaa takaisin käyttöön kaikki <c>Disable</c>-metodilla poistetut kontrollit.
+        /// </summary>
+        public void EnableAll()
+        {
+            Enable( x => true );
+        }
+
+        /// <summary>
+        /// Poistaa kaikki kontrollit käytöstä.
+        /// </summary>
+        public void DisableAll()
+        {
+            Disable( x => true );
         }
 
         public IEnumerable<string> GetHelpTexts()

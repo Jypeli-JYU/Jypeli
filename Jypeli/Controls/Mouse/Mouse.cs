@@ -46,7 +46,7 @@ namespace Jypeli
     /// <summary>
     /// Hiiri.
     /// </summary>
-    public class Mouse : Controller<MouseState>
+    public class Mouse : Controller<MouseState, MouseButton>
     {
         private static readonly Dictionary<MouseButton, Func<MouseState, bool>> GetButtonDown = new Dictionary<MouseButton, Func<MouseState, bool>>( 5 )
         {
@@ -341,7 +341,7 @@ namespace Jypeli
         public Listener Listen( MouseButton button, ButtonState state, Action handler, string helpText )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, GetButtonName( button ), helpText, handler );
+            return AddListener( rule, button, GetButtonName( button ), helpText, handler );
         }
 
         /// <summary>
@@ -356,7 +356,7 @@ namespace Jypeli
         public Listener Listen<T>( MouseButton button, ButtonState state, Action<T> handler, string helpText, T p )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, GetButtonName( button ), helpText, handler, p );
+            return AddListener( rule, button, GetButtonName( button ), helpText, handler, p );
         }
 
         /// <summary>
@@ -373,7 +373,7 @@ namespace Jypeli
         public Listener Listen<T1, T2>( MouseButton button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, GetButtonName( button ), helpText, handler, p1, p2 );
+            return AddListener( rule, button, GetButtonName( button ), helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -392,7 +392,7 @@ namespace Jypeli
         public Listener Listen<T1, T2, T3>( MouseButton button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, GetButtonName( button ), helpText, handler, p1, p2, p3 );
+            return AddListener( rule, button, GetButtonName( button ), helpText, handler, p1, p2, p3 );
         }
 
         /// <summary>
@@ -404,7 +404,7 @@ namespace Jypeli
         public Listener ListenMovement( double trigger, Action handler, string helpText )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            return AddListener( rule, "Mouse movement", helpText, handler );
+            return AddListener( rule, MouseButton.None, "Mouse movement", helpText, handler );
         }
 
         /// <summary>
@@ -418,7 +418,7 @@ namespace Jypeli
         public Listener ListenMovement<T>( double trigger, Action<T> handler, string helpText, T p )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            return AddListener( rule, "Mouse movement", helpText, handler, p );
+            return AddListener( rule, MouseButton.None, "Mouse movement", helpText, handler, p );
         }
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace Jypeli
         public Listener ListenMovement<T1, T2>( double trigger, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            return AddListener( rule, "Mouse movement", helpText, handler, p1, p2 );
+            return AddListener( rule, MouseButton.None, "Mouse movement", helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -452,7 +452,7 @@ namespace Jypeli
         public Listener ListenMovement<T1, T2, T3>( double trigger, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            return AddListener( rule, "Mouse movement", helpText, handler, p1, p2, p3 );
+            return AddListener( rule, MouseButton.None, "Mouse movement", helpText, handler, p1, p2, p3 );
         }
 
         /// <summary>
@@ -467,7 +467,7 @@ namespace Jypeli
         public Listener ListenOn( GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action handler, string helpText )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, hoverstate, button, state );
-            return AddListener( rule, GetButtonName( button, obj ), helpText, handler );
+            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler );
         }
 
         /// <summary>
@@ -483,7 +483,7 @@ namespace Jypeli
         public Listener ListenOn<T>( GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action<T> handler, string helpText, T p )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, hoverstate, button, state );
-            return AddListener( rule, GetButtonName( button, obj ), helpText, handler, p );
+            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p );
         }
 
         /// <summary>
@@ -501,7 +501,7 @@ namespace Jypeli
         public Listener ListenOn<T1, T2>( GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, hoverstate, button, state );
-            return AddListener( rule, GetButtonName( button, obj ), helpText, handler, p1, p2 );
+            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -521,7 +521,7 @@ namespace Jypeli
         public Listener ListenOn<T1, T2, T3>( GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, hoverstate, button, state );
-            return AddListener( rule, GetButtonName( button, obj ), helpText, handler, p1, p2, p3 );
+            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p1, p2, p3 );
         }
         
         #region Backwards compatibility
@@ -567,7 +567,7 @@ namespace Jypeli
         public Listener Listen( MouseButton button, ButtonState state, Action<AnalogState> handler, string helpText )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, GetButtonName( button ), helpText, handler, new MouseAnalogState( this ) );
+            return AddListener( rule, button, GetButtonName( button ), helpText, handler, new MouseAnalogState( this ) );
         }
 
         /// <summary>
@@ -583,7 +583,7 @@ namespace Jypeli
         public Listener Listen<T>( MouseButton button, ButtonState state, Action<AnalogState, T> handler, string helpText, T p )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, GetButtonName( button ), helpText, handler, new MouseAnalogState( this ), p );
+            return AddListener( rule, button, GetButtonName( button ), helpText, handler, new MouseAnalogState( this ), p );
         }
 
         /// <summary>
@@ -601,7 +601,7 @@ namespace Jypeli
         public Listener Listen<T1, T2>( MouseButton button, ButtonState state, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, GetButtonName( button ), helpText, handler, new MouseAnalogState( this ), p1, p2 );
+            return AddListener( rule, button, GetButtonName( button ), helpText, handler, new MouseAnalogState( this ), p1, p2 );
         }
 
         /// <summary>
@@ -621,7 +621,7 @@ namespace Jypeli
         public Listener Listen<T1, T2, T3>( MouseButton button, ButtonState state, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, GetButtonName( button ), helpText, handler, new MouseAnalogState( this ), p1, p2, p3 );
+            return AddListener( rule, button, GetButtonName( button ), helpText, handler, new MouseAnalogState( this ), p1, p2, p3 );
         }
 
         /// <summary>
@@ -634,7 +634,7 @@ namespace Jypeli
         public Listener ListenMovement( double trigger, Action<AnalogState> handler, string helpText )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            return AddListener( rule, "Mouse movement", helpText, handler, new MouseAnalogState( this ) );
+            return AddListener( rule, MouseButton.None, "Mouse movement", helpText, handler, new MouseAnalogState( this ) );
         }
 
         /// <summary>
@@ -649,7 +649,7 @@ namespace Jypeli
         public Listener ListenMovement<T>( double trigger, Action<AnalogState, T> handler, string helpText, T p )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            return AddListener( rule, "Mouse movement", helpText, handler, new MouseAnalogState( this ), p );
+            return AddListener( rule, MouseButton.None, "Mouse movement", helpText, handler, new MouseAnalogState( this ), p );
         }
 
         /// <summary>
@@ -666,7 +666,7 @@ namespace Jypeli
         public Listener ListenMovement<T1, T2>( double trigger, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            return AddListener( rule, "Mouse movement", helpText, handler, new MouseAnalogState( this ), p1, p2 );
+            return AddListener( rule, MouseButton.None, "Mouse movement", helpText, handler, new MouseAnalogState( this ), p1, p2 );
         }
 
         /// <summary>
@@ -685,7 +685,7 @@ namespace Jypeli
         public Listener ListenMovement<T1, T2, T3>( double trigger, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            return AddListener( rule, "Mouse movement", helpText, handler, new MouseAnalogState( this ), p1, p2, p3 );
+            return AddListener( rule, MouseButton.None, "Mouse movement", helpText, handler, new MouseAnalogState( this ), p1, p2, p3 );
         }
 
         /// <summary>
@@ -699,7 +699,7 @@ namespace Jypeli
         public Listener ListenOn( GameObject obj, MouseButton button, ButtonState state, Action handler, string helpText )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, HoverState.On, button, state );
-            return AddListener( rule, GetButtonName( button, obj ), helpText, handler );
+            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler );
         }
 
         /// <summary>
@@ -715,7 +715,7 @@ namespace Jypeli
         public Listener ListenOn<T>( GameObject obj, MouseButton button, ButtonState state, Action<T> handler, string helpText, T p )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, HoverState.On, button, state );
-            return AddListener( rule, GetButtonName( button, obj ), helpText, handler, p );
+            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p );
         }
 
         /// <summary>
@@ -733,7 +733,7 @@ namespace Jypeli
         public Listener ListenOn<T1, T2>( GameObject obj, MouseButton button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, HoverState.On, button, state );
-            return AddListener( rule, GetButtonName( button, obj ), helpText, handler, p1, p2 );
+            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -753,7 +753,7 @@ namespace Jypeli
         public Listener ListenOn<T1, T2, T3>( GameObject obj, MouseButton button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, HoverState.On, button, state );
-            return AddListener( rule, GetButtonName( button, obj ), helpText, handler, p1, p2, p3 );
+            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p1, p2, p3 );
         }
         
 #endregion

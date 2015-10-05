@@ -67,7 +67,7 @@ namespace Jypeli
     /// Ohjaintapahtumien kuuntelija.
     /// </summary>
     /// <typeparam name="State">Tila</typeparam>
-    public class Listener<State> : Listener
+    public class Listener<State, Ctrl> : Listener
     {
         private ChangePredicate<State> isTriggered;
         private Delegate handler;
@@ -81,10 +81,20 @@ namespace Jypeli
         private ListenContext context;
         private ControlContexted contextedObject;
 
+        /// <summary>
+        /// Konteksti, jossa kontrolleja kuunnellaan.
+        /// </summary>
+        /// <value>The context.</value>
         internal ListenContext Context
         {
             get { return ( dynamicContext ? contextedObject.ControlContext : context ); }
         }
+
+        /// <summary>
+        /// Kontrolli, jota kuunnellaan.
+        /// </summary>
+        /// <value>The control.</value>
+        public Ctrl Control { get; private set; }
 
         /// <summary>
         /// Kontrollin nimi jota kuunnellaan. Käytetään vain ohjeen yhteydessä.
@@ -104,11 +114,12 @@ namespace Jypeli
             set { _helpText = value; }
         }
 
-        public Listener( ChangePredicate<State> triggerRule, ListenContext context, string controlName, string helpText, Delegate handler, params object[] args )
+        public Listener( ChangePredicate<State> triggerRule, ListenContext context, Ctrl ctrl, string controlName, string helpText, Delegate handler, params object[] args )
         {
             this.isDestroyed = false;
             this.isTriggered = triggerRule;
             this.handler = handler;
+            this.Control = ctrl;
             this._controlName = controlName;
             this._helpText = helpText;
             this.handlerParams = args;
@@ -118,11 +129,12 @@ namespace Jypeli
             this.contextedObject = null;
         }
 
-        public Listener( ChangePredicate<State> triggerRule, ControlContexted contexted, string controlName, string helpText, Delegate handler, params object[] args )
+        public Listener( ChangePredicate<State> triggerRule, ControlContexted contexted, Ctrl ctrl, string controlName, string helpText, Delegate handler, params object[] args )
         {
             this.isDestroyed = false;
             this.isTriggered = triggerRule;
             this.handler = handler;
+            this.Control = ctrl;
             this._controlName = controlName;
             this._helpText = helpText;
             this.handlerParams = args;

@@ -36,7 +36,7 @@ namespace Jypeli
     /// <summary>
     /// Näppäimistö.
     /// </summary>
-    public class Keyboard : Controller<KeyboardState>
+    public class Keyboard : Controller<KeyboardState, Key>
     {
         internal Keyboard()
         {
@@ -149,7 +149,7 @@ namespace Jypeli
         public Listener Listen( Key k, ButtonState state, Action handler, string helpText )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, GetKeyName( k ), helpText, handler );
+            return AddListener( rule, k, GetKeyName( k ), helpText, handler );
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace Jypeli
         public Listener Listen<T>( Key k, ButtonState state, Action<T> handler, string helpText, T p )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, GetKeyName( k ), helpText, handler, p );
+            return AddListener( rule, k, GetKeyName( k ), helpText, handler, p );
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Jypeli
         public Listener Listen<T1, T2>( Key k, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, GetKeyName( k ), helpText, handler, p1, p2 );
+            return AddListener( rule, k, GetKeyName( k ), helpText, handler, p1, p2 );
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace Jypeli
         public Listener Listen<T1, T2, T3>( Key k, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, GetKeyName( k ), helpText, handler, p1, p2, p3 );
+            return AddListener( rule, k, GetKeyName( k ), helpText, handler, p1, p2, p3 );
         }
 
         /// <summary>
@@ -216,11 +216,11 @@ namespace Jypeli
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
         /// <param name="p3">3. parametri</param>
-        /// <param name="p3">4. parametri</param>
+        /// <param name="p4">4. parametri</param>
         public Listener Listen<T1, T2, T3, T4>( Key k, ButtonState state, Action<T1, T2, T3, T4> handler, string helpText, T1 p1, T2 p2, T3 p3, T4 p4 )
         {
             ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, GetKeyName( k ), helpText, handler, p1, p2, p3, p4 );
+            return AddListener( rule, k, GetKeyName( k ), helpText, handler, p1, p2, p3, p4 );
         }
 
         #region ListenWSAD

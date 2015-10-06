@@ -339,7 +339,9 @@
     <Compile Include="Graphics\Layer.cs" />
     <Compile Include="Graphics\LineBatch.cs" />
     <Compile Include="Graphics\Renderer.cs" />
-    <Compile Include="Graphics\Screencap.cs" />
+    <Compile Include="Graphics\Screencap.cs">
+        <Platforms>Windows, WindowsGL, WindowsGL.headless, Linux, Linux.headless, MacOS</Platforms>
+    </Compile>
     <Compile Include="Graphics\ShapeBatch.cs" />
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Helpers\RandomGen.cs" />

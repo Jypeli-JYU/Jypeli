@@ -118,6 +118,7 @@ namespace Jypeli
         }
 #endif
 
+#if WINDOWS || MACOS || LINUX
 		/// <summary>
 		/// Ajaa yhden päivityksen ja tallentaa ruudun tiedostoon.
 		/// </summary>
@@ -132,6 +133,7 @@ namespace Jypeli
 			UnloadContent();
 			Exit();
         }
+#endif
 
 		void InitGlobals ()
         {

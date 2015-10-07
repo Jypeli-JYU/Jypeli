@@ -3,8 +3,8 @@
   <Name>Jypeli</Name>
   <ModuleAssemblies />
   <DefaultAction>Generate</DefaultAction>
-  <SupportedPlatforms>Android,Angle,Linux,Linux.headless,Ouya,PSMobile,Windows8,Windows,WindowsGL,WindowsGL.headless,WindowsPhone,WindowsPhone81,iOS,MacOS,Web</SupportedPlatforms>
-  <DefaultWindowsPlatforms>Android,Angle,Linux,Linux.headless,Ouya,PSMobile,Windows8,Windows,WindowsGL,WindowsGL.headless,WindowsPhone,WindowsPhone81,iOS</DefaultWindowsPlatforms>
+  <SupportedPlatforms>Android,Angle,Linux,Linux.headless,Ouya,PSMobile,Windows8,Windows,WindowsGL,WindowsGL.headless,WindowsPhone81,iOS,MacOS,Web</SupportedPlatforms>
+  <DefaultWindowsPlatforms>Android,Angle,Linux,Linux.headless,Ouya,PSMobile,Windows8,Windows,WindowsGL,WindowsGL.headless,WindowsPhone81,iOS</DefaultWindowsPlatforms>
   <DefaultMacOSPlatforms>Angle,Linux,Linux.headless,MacOS,iOS,WindowsGL,Android</DefaultMacOSPlatforms>
   <DefaultLinuxPlatforms>Angle,Linux,Linux.headless,WindowsGL</DefaultLinuxPlatforms>
   <DisableSynchronisation>true</DisableSynchronisation>

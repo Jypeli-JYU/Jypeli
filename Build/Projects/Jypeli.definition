@@ -14,7 +14,6 @@
     <Platform Name="Windows8">F2642DD9-9E8C-479D-87D1-8B6572D5529A</Platform>
     <Platform Name="WindowsGL">76CC55A2-BECE-4F80-B491-DDCAB9F061FB</Platform>
     <Platform Name="WindowsGL.headless">76CC55A2-BECE-4F80-B491-DDCAB9F061FC</Platform>
-    <Platform Name="WindowsPhone">86788B50-91AD-480E-8A06-E9C94FD1F07A</Platform>
 	<Platform Name="WindowsPhone81">86788B50-91AD-480E-8A06-E9C94FD1F07B</Platform>
 </ProjectGuids>
 
@@ -49,7 +48,6 @@
         <Platform Name="WindowsGL.headless">JYPELI;UseDouble;TRACE;WINDOWS;HEADLESS</Platform>
         <Platform Name="Windows">JYPELI;UseDouble;TRACE;WINDOWS;DIRECTX;WINDOWS_MEDIA_SESSION</Platform>
         <Platform Name="Windows8">JYPELI;UseDouble;TRACE;NETFX_CORE;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE</Platform>
-        <Platform Name="WindowsPhone">JYPELI;UseDouble;TRACE;SILVERLIGHT;WINDOWS_PHONE;DIRECTX</Platform>
         <Platform Name="WindowsPhone81">JYPELI;UseDouble;TRACE;WINDOWS_PHONE;WINDOWS_PHONE81;DIRECTX;WINDOWS_STOREAPP</Platform>
         <Platform Name="Web">JYPELI;UseDouble;TRACE;WEB</Platform>
      </CustomDefinitions>
@@ -63,7 +61,7 @@
         <Platforms>iOS,WindowsGL,WindowsGL.headless,Ouya,Android</Platforms>
     </Uses>
     <Uses Name="DirectXGraphics">
-        <Platforms>Windows8,WindowsPhone,WindowsPhone81</Platforms>
+        <Platforms>Windows8,WindowsPhone81</Platforms>
     </Uses>
     <Uses Name="PSMGraphics">
         <Platforms>PSMobile</Platforms>
@@ -102,7 +100,7 @@
         <Requires>OpenALAudio,_GLCompatible</Requires>
     </Service>
     <Service Name="DirectXGraphics">
-        <Platforms>Windows,Windows8,WindowsPhone,WindowsPhone81</Platforms>
+        <Platforms>Windows,Windows8,WindowsPhone81</Platforms>
         <Conflicts>ANGLEGraphics,OpenGLGraphics,PSMGraphics,WebGraphics</Conflicts>
         <Requires>XAudioAudio</Requires>
     </Service>
@@ -123,7 +121,7 @@
         <Conflicts>XAudioAudio,PSMAudio,WebAudio</Conflicts>
     </Service>
     <Service Name="XAudioAudio">
-        <Platforms>Windows,Windows8,WindowsPhone,WindowsPhone81</Platforms>
+        <Platforms>Windows,Windows8,WindowsPhone81</Platforms>
         <Conflicts>OpenALAudio,PSMAudio,WebAudio</Conflicts>
     </Service>
         <Service Name="PSMAudio">
@@ -213,7 +211,12 @@
     <Compile Include="Content\Smoke.cs" />
     <Compile Include="Content\Tank.cs" />
     <Compile Include="Content\UpArrow.cs" />
-    <Compile Include="EffectContent\Lighting.cs" />
+    <Compile Include="EffectContent\Lighting.cs">
+		<ExcludePlatforms>Windows,Windows8</ExcludePlatforms>
+	</Compile>
+	<Compile Include="EffectContent\Lighting_dx11.cs">
+		<Platforms>Windows,Windows8</Platforms>
+	</Compile>
     <Compile Include="ContentExtensions\TextReader.cs" />
     <Compile Include="Controls\Controller\AnalogControl.cs" />
     <Compile Include="Controls\Controller\AnalogState.cs" />
@@ -340,7 +343,7 @@
     <Compile Include="Graphics\LineBatch.cs" />
     <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Graphics\Screencap.cs">
-        <Platforms>Windows, WindowsGL, WindowsGL.headless, Linux, Linux.headless, MacOS</Platforms>
+        <Platforms>Windows,WindowsGL,WindowsGL.headless,Linux,Linux.headless,MacOS</Platforms>
     </Compile>
     <Compile Include="Graphics\ShapeBatch.cs" />
     <Compile Include="Graphics\View.cs" />
@@ -386,11 +389,8 @@
     <Compile Include="Storage\RtStorageSerializer.cs">
         <Platforms>Windows8,WindowsPhone81</Platforms>
     </Compile>
-    <Compile Include="Storage\IsolatedStorageManager.cs">
-        <Platforms>WindowsPhone</Platforms>
-    </Compile>
     <Compile Include="Storage\LinuxFileManager.cs">
-        <ExcludePlatforms>Windows,WindowsGL,WindowsGL.headless,Windows8,WindowsPhone,WindowsPhone81</ExcludePlatforms>
+        <ExcludePlatforms>Windows,WindowsGL,WindowsGL.headless,Windows8,WindowsPhone81</ExcludePlatforms>
     </Compile>
     <Compile Include="DataTypes\Destroyable.cs" />
     <Compile Include="DataTypes\Tagged.cs" />
@@ -434,10 +434,10 @@
     <Compile Include="WP8\DisplayOrientation.cs" />
     <Compile Include="WP8\DisplayResolution.cs" />
     <Compile Include="WP8\Phone.cs">
-        <Platforms>WindowsPhone,WindowsPhone81</Platforms>
+        <Platforms>WindowsPhone81</Platforms><
     </Compile>
     <Compile Include="WP8\PhoneStub.cs">
-        <ExcludePlatforms>WindowsPhone,WindowsPhone81</ExcludePlatforms>
+        <ExcludePlatforms>WindowsPhone81</ExcludePlatforms>
     </Compile>
 </Files>
 </Project>

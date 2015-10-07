@@ -1,29 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Addin id="Jypeli" namespace="MonoDevelop" name="Jypeli" author="Jyväskylän yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.4.0">
-	<Dependencies>
-		<Addin id="::MonoDevelop.Core" version="5.0" />
-		<Addin id="::MonoDevelop.Ide" version="5.0" />
-		<Addin id="::MonoDevelop.MacDev" version="5.0" />
-		<Addin id="::MonoDevelop.MonoMac" version="5.0" />
-
-		<!-- MonoMac dependencies -->
-		<Addin id="::MonoDevelop.MacPlatform" version="5.0" />
-		<Addin id="::MonoDevelop.MacDev" version="5.0" />
-		<Addin id="::MonoDevelop.Xamarin.Ide" version="5.0" />
-		<Addin id="::MonoDevelop.Debugger" version="5.0" />
-		<Addin id="::MonoDevelop.Debugger.Soft" version="5.0" />
-
-		<!-- MacDev dependencies -->
-		<Addin id="::MonoDevelop.Refactoring" version="5.0" />
-		<Addin id="::MonoDevelop.CSharpBinding" version="5.0" />
-		<Addin id="::MonoDevelop.DesignerSupport" version="5.0" />
-		<Addin id="::MonoDevelop.VersionControl" version="5.0" />
-		<Addin id="::MonoDevelop.Xamarin.Ide.Mac" version="5.0" />
-
-		<!-- Xamarin.Ide dependencies -->
-		<Addin id="::MonoDevelop.DesignerSupport" version="5.0" />
-		x
-	</Dependencies>
+<Addin id="Jypeli" namespace="MonoDevelop" name="Jypeli" author="Jyväskylän yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.5.0">
 	<Runtime>
 		<Import file="icons/Jypeli-32.png" />
 		<Import file="icons/PerusPeli-16.png" />
@@ -85,8 +61,8 @@
 		<FileTemplate id="PerusPeliCs" file="templates/PerusPeliCs.xft.xml" />
 	</Extension>
 	<Extension path="/MonoDevelop/Core/SupportPackages">
-		<Condition id="PackageNotInstalled" name="jypeli" version="6.0">
-			<Package name="jypeli" version="6.0" clrVersion="Default">
+		<Condition id="PackageNotInstalled" name="jypeli">
+			<Package name="jypeli" version="6.5" clrVersion="Default">
 				<Assembly file="assemblies/Mac/Jypeli.dll" />
 				<Assembly file="assemblies/Mac/Jypeli.SimplePhysics.dll" />
 				<Assembly file="assemblies/Mac/Jypeli.Physics2d.dll" />

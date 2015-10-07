@@ -6,10 +6,11 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B2608E4D-C8C4-4CDF-860D-9668ADE97D97}</ProjectGuid>
-    <ProjectTypeGuids>{7DBEB09D-BB9F-4D92-A141-A009135475EF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{86F6BF2A-E449-4B3E-813B-9ACC37E5545F};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>MonoDevelop.Jypeli.Mac</RootNamespace>
     <AssemblyName>MonoDevelop.Jypeli.Mac</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,44 +37,11 @@
     </CustomCommands>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System">
-      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/AddIns/Xamarin.Sketches/XamarinInteractiveAgentsMac.app/Contents/MonoBundle/System.dll</Package>
-    </Reference>
-    <Reference Include="System.Xml">
-      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/AddIns/Xamarin.Sketches/XamarinInteractiveAgentsMac.app/Contents/MonoBundle/System.Xml.dll</Package>
-    </Reference>
-    <Reference Include="System.Core">
-      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/AddIns/Xamarin.Sketches/XamarinInteractiveAgentsMac.app/Contents/MonoBundle/System.Core.dll</Package>
-    </Reference>
-    <Reference Include="Mono.Addins">
-      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/bin/Mono.Addins.dll</Package>
-    </Reference>
-    <Reference Include="MonoDevelop.Core">
-      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/bin/MonoDevelop.Core.dll</Package>
-    </Reference>
-    <Reference Include="MonoDevelop.Ide">
-      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/bin/MonoDevelop.Ide.dll</Package>
-    </Reference>
-    <Reference Include="Mono.TextEditor">
-      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/bin/Mono.TextEditor.dll</Package>
-    </Reference>
-    <Reference Include="ICSharpCode.NRefactory">
-      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/bin/ICSharpCode.NRefactory.dll</Package>
-    </Reference>
     <Reference Include="gtk-sharp" />
     <Reference Include="glib-sharp" />
     <Reference Include="gdk-sharp" />
     <Reference Include="pango-sharp" />
     <Reference Include="Mono.Cairo" />
-    <Reference Include="MonoDevelop.MonoMac, Version=4.0.0.0, Culture=neutral">
-      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/AddIns/MonoDevelop.MonoMac/MonoDevelop.MonoMac.dll</Package>
-    </Reference>
-    <Reference Include="Xamarin.Ide, Version=1.0.0.0, Culture=neutral">
-      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/AddIns/Xamarin.Ide/Xamarin.Ide.dll</Package>
-    </Reference>
-    <Reference Include="MonoDevelop.MacDev, Version=4.0.0.0, Culture=neutral">
-      <Package>/Applications/Xamarin Studio.app/Contents/Resources/lib/monodevelop/AddIns/MonoDevelop.MacDev/MonoDevelop.MacDev.dll</Package>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -185,6 +153,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\MonoDevelop.Addins.0.2.3\build\net40\MonoDevelop.Addins.targets" Condition="Exists('packages\MonoDevelop.Addins.0.2.3\build\net40\MonoDevelop.Addins.targets')" />
   <ItemGroup>
     <Folder Include="icons\" />
     <Folder Include="templates\" />
@@ -193,5 +162,15 @@
     <Folder Include="templates\FysiikkaPeli\" />
     <Folder Include="templates\Tasohyppelypeli\" />
     <Folder Include="templates\ConsoleMain\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <AddinReference Include="MonoDevelop.MacPlatform" />
+    <AddinReference Include="MonoDevelop.MonoMac" />
+    <AddinReference Include="MonoDevelop.Xamarin.Ide" />
+    <AddinReference Include="MonoDevelop.Xamarin.Ide.Mac" />
+    <AddinReference Include="MonoDevelop.MacDev" />
   </ItemGroup>
 </Project>

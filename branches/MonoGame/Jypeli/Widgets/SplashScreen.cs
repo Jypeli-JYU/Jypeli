@@ -87,7 +87,7 @@ namespace Jypeli.Widgets
             get
             {
 #if WINDOWS_PHONE
-                return Game.Instance.Phone.DisplayResolution == WP7.DisplayResolution.Small ? 300 : 500;
+                return Game.Instance.Phone.DisplayResolution == DisplayResolution.Small ? 300 : 500;
 #else
                 return 500;
 #endif

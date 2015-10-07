@@ -36,9 +36,7 @@ if not exist %FrameworkDir%\v4.0.30319 (
 )
 
 rem Protobuild
-if not exist "Jypeli.%platform%.sln" (
-  protobuild /generate %platform%
-)
+protobuild -generate %platform%
 
 rem Directories
 if not exist %baseDir% mkdir %baseDir%

@@ -124,6 +124,16 @@ namespace Jypeli
 #endif
         }
 
+#if WINRT
+        public new void Exit()
+        {
+            ClearAll();
+            
+            Label exitLabel = new Label("Game over. You can close the app now.");
+            Add( exitLabel );
+        }
+#endif
+
         protected override void OnExiting( object sender, EventArgs args )
         {
             if ( Exiting != null )

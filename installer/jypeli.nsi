@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 6.4.0"
+Name "MonoJypeli 6.5.0"
 
 OutFile "MonoJypeli_setup.exe"
 
@@ -40,7 +40,13 @@ Section "Jypeli"
   WriteUninstaller "uninstall.exe"
 SectionEnd
 
-Section "MonoJypeli for Windows"
+Section "MonoJypeli for Windows, DirectX 11"
+  SetOutPath "$INSTDIR\Windows"
+  File "..\Compiled\Windows-AnyCPU\*.dll"
+  File "..\Compiled\Windows-AnyCPU\*.xml"
+SectionEnd
+
+Section "MonoJypeli for Windows, OpenGL"
   SetOutPath "$INSTDIR\WindowsGL"
   File "..\Compiled\WindowsGL-AnyCPU\*.dll"
   File "..\Compiled\WindowsGL-AnyCPU\*.xml"
@@ -57,18 +63,6 @@ Section "MonoJypeli for Windows Phone 8.1"
   File "..\Compiled\WindowsPhone81-AnyCPU\MonoGame.Framework\Themes\generic.xbf"
 SectionEnd
 
-
-Section "MonoJypeli for Windows Phone 8.0"
-  SetOutPath "$INSTDIR\WP8-ARM"
-  File "..\Compiled\WindowsPhone-ARM\*.dll"
-  File "..\Compiled\WindowsPhone-ARM\*.xml"
-  File "..\Compiled\WindowsPhone-ARM\*.winmd"
-    
-  SetOutPath "$INSTDIR\WP8-x86"
-  File "..\Compiled\WindowsPhone-x86\*.dll"
-  File "..\Compiled\WindowsPhone-x86\*.xml"
-  File "..\Compiled\WindowsPhone-x86\*.winmd"
-SectionEnd
 
 Section "MonoJypeli for Windows Store 8 / WinRT"
   SetOutPath "$INSTDIR\Win8"
@@ -96,21 +90,22 @@ Section "Windows"
   ${Endif}
 SectionEnd
 
-Section "Windows 8 Store / RT"
+Section "Windows OpenGL"
   ReadEnvStr $R0 VS140COMNTOOLS
+  
   ${If} $R0 != ""
     Push $R0
-    Call CopyRTTemplates
+    Call CopyGLTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2015, skipping template installation."
   ${Endif}
 SectionEnd
 
-Section "Windows Phone 8.0"
+Section "Windows 8 Store / RT"
   ReadEnvStr $R0 VS140COMNTOOLS
   ${If} $R0 != ""
     Push $R0
-    Call CopyWpTemplates
+    Call CopyRTTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2015, skipping template installation."
   ${Endif}
@@ -153,21 +148,22 @@ Section "Windows"
   ${Endif}
 SectionEnd
 
-Section "Windows 8 Store / RT"
+Section "Windows OpenGL"
   ReadEnvStr $R0 VS120COMNTOOLS
+  
   ${If} $R0 != ""
     Push $R0
-    Call CopyRTTemplates
+    Call CopyGLTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2013, skipping template installation."
   ${Endif}
 SectionEnd
 
-Section "Windows Phone 8.0"
+Section "Windows 8 Store / RT"
   ReadEnvStr $R0 VS120COMNTOOLS
   ${If} $R0 != ""
     Push $R0
-    Call CopyWpTemplates
+    Call CopyRTTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2013, skipping template installation."
   ${Endif}
@@ -209,21 +205,21 @@ Section "Windows"
   ${Endif}
 SectionEnd
 
-Section "Windows 8 Store / RT"
+Section "WindowsGL"
   ReadEnvStr $R0 VS110COMNTOOLS
   ${If} $R0 != ""
     Push $R0
-    Call CopyRTTemplates
+    Call CopyGLTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2012, skipping template installation."
   ${Endif}
 SectionEnd
 
-Section "Windows Phone 8.0"
+Section "Windows 8 Store / RT"
   ReadEnvStr $R0 VS110COMNTOOLS
   ${If} $R0 != ""
     Push $R0
-    Call CopyWpTemplates
+    Call CopyRTTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2012, skipping template installation."
   ${Endif}
@@ -248,7 +244,7 @@ Function CopyVsTemplates
    IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
     StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
 	SetOutPath $1
-    File "..\projektimallit\VS2012\*.zip"
+    File "..\projektimallit\Windows\*.zip"
 	Goto VSPro
 	
   VSPro:
@@ -256,26 +252,26 @@ Function CopyVsTemplates
       StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
       CreateDirectory $1
       SetOutPath $1
-      File "..\projektimallit\VS2012\*.zip"
+      File "..\projektimallit\Windows\*.zip"
 
   Done:
 FunctionEnd
 
-Function CopyWpTemplates
+Function CopyGLTemplates
    Pop $0
    
    IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
     StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
 	SetOutPath $1
-    File "..\projektimallit\WP8\*.zip"
+    File "..\projektimallit\WindowsGL\*.zip"
 	Goto VSPro
 	
   VSPro:
 	IfFileExists "$0..\IDE\devenv.exe" 0 Done
-      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows Phone 8"
+      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows OpenGL"
       CreateDirectory $1
       SetOutPath $1
-      File "..\projektimallit\WP8\*.zip"
+      File "..\projektimallit\WindowsGL\*.zip"
 
   Done:
 FunctionEnd
@@ -337,6 +333,8 @@ FunctionEnd
 Function un.RemoveVsTemplateDir
   Pop $0
   Delete "$0\*.zip"
+  Delete "$0\Windows OpenGL\*.zip"
+  Delete "$0\Linux\*.zip"
   Delete "$0\Windows 8\*.zip"
   Delete "$0\Windows Phone 8\*.zip"
   Delete "$0\Windows Phone 8.1\*.zip"

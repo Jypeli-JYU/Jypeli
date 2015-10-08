@@ -52,6 +52,7 @@ namespace Jypeli
         // fullscreen isn't used as default, because debug mode doesn't work well with it
         private bool isFullScreenRequested = false;
         private bool windowSizeSet = false;
+        private bool windowPositionSet = false;
 
         /// <summary>
         /// XNA:n grafiikkakortti.
@@ -123,31 +124,9 @@ namespace Jypeli
         /// <param name="y">Ikkunan yläreunan y-koordinaatti (kasvaa alaspäin)</param>
         public void SetWindowPosition( int x, int y )
         {
-#if WINDOWS || LINUX
-#if OPENGL
-            OpenTK.GameWindow OTKWindow = GetForm( this.Window );
-
-            if ( OTKWindow != null )
-            {
-                OTKWindow.X = x;
-                OTKWindow.Y = y;
-            }
-#else
-            throw new NotSupportedException();
-#endif            
-#endif
+            Window.Position = new Point( x, y );
+            windowPositionSet = true;
         }
-
-#if OPENGL && (WINDOWS || LINUX)
-        private static OpenTK.GameWindow GetForm( Microsoft.Xna.Framework.GameWindow gameWindow )
-        {
-            Type type = typeof( OpenTKGameWindow );
-            System.Reflection.FieldInfo field = type.GetField( "window", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance );
-            if ( field != null )
-                return field.GetValue( gameWindow ) as OpenTK.GameWindow;
-            return null;
-        }
-#endif
 
         /// <summary>
         /// Asettaa ikkunan ruudun keskelle.
@@ -157,8 +136,6 @@ namespace Jypeli
 #if WINDOWS || LINUX
             int W = (int)GraphicsDevice.DisplayMode.Width;
             int H = (int)GraphicsDevice.DisplayMode.Height;
-            //int w = (int)GraphicsDevice.Viewport.Width;
-            //int h = (int)GraphicsDevice.Viewport.Height;
 			int w = (int)GraphicsDeviceManager.PreferredBackBufferWidth;
 			int h = (int)GraphicsDeviceManager.PreferredBackBufferHeight;
 

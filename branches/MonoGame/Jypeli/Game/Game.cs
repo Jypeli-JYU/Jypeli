@@ -238,8 +238,8 @@ namespace Jypeli
             if ( !windowSizeSet )
                 SetDefaultResolution();
 
-            // Center the window on next update (aka the OpenTK fix)
-            DoNextUpdate( CenterWindow );
+            if ( !windowPositionSet )
+                CenterWindow();
             
             Level = new Level( this );
             base.Initialize();

@@ -1,0 +1,40 @@
+diff --git "a/C:\\Users\\Seven\\AppData\\Local\\Temp\\TortoiseGit\\Thr4D19.tmp\\Threading-74fef2d-left.cs" "b/R:\\Versiohallinta\\MonoKaannos\\MonoGame\\MonoGame.Framework\\Threading.cs"
+index 2fce883..2578624 100644
+--- "a/C:\\Users\\Seven\\AppData\\Local\\Temp\\TortoiseGit\\Thr4D19.tmp\\Threading-74fef2d-left.cs"
++++ "b/R:\\Versiohallinta\\MonoKaannos\\MonoGame\\MonoGame.Framework\\Threading.cs"
+@@ -192,17 +192,25 @@ namespace Microsoft.Xna.Framework
+                 GraphicsExtensions.CheckGLError();
+             }
+ #elif WINDOWS || LINUX || ANGLE
+-            lock (BackgroundContext)
++            try
+             {
+-                // Make the context current on this thread
+-                BackgroundContext.MakeCurrent(WindowInfo);
+-                // Execute the action
+-                action();
+-                // Must flush the GL calls so the texture is ready for the main context to use
+-                GL.Flush();
+-                GraphicsExtensions.CheckGLError();
+-                // Must make the context not current on this thread or the next thread will get error 170 from the MakeCurrent call
+-                BackgroundContext.MakeCurrent(null);
++                lock ( BackgroundContext )
++                {
++                    // Make the context current on this thread
++                    BackgroundContext.MakeCurrent( WindowInfo );
++                    // Execute the action
++                    action();
++                    // Must flush the GL calls so the texture is ready for the main context to use
++                    GL.Flush();
++                    GraphicsExtensions.CheckGLError();
++                    // Must make the context not current on this thread or the next thread will get error 170 from the MakeCurrent call
++                    BackgroundContext.MakeCurrent( null );
++                }
++            }
++            catch (GraphicsContextException)
++            {
++                // Thread has been terminated, ignore the call
++                // Happens when closing the window with the close button
+             }
+ #elif WINDOWS_PHONE
+             BlockOnContainerThread(Deployment.Current.Dispatcher, action);

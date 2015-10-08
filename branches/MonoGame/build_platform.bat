@@ -46,14 +46,13 @@ if not exist %outputDir% mkdir %outputDir%
 rem Build
 set msbuild=%FrameworkDir%\v4.0.30319\MSBuild.exe
 
-if "%platform%"=="Windows" goto copywin
-if "%platform%"=="WindowsGL" goto copywin
-goto nocopywin
+if "%platform%"=="WindowsGL" goto copysdl
+goto nocopysdl
 
-:copywin
+:copysdl
 copy MonoGame\ThirdParty\GamepadConfig\SDL_mixer.dll %outputdir%
 copy MonoGame\ThirdParty\GamepadConfig\sdl.dll %outputdir%
-:nocopywin
+:nocopysdl
 
 if "%platform%"=="Linux" (
   copy MonoGame\ThirdParty\Libs\OpenTK.dll.config %outputDir%

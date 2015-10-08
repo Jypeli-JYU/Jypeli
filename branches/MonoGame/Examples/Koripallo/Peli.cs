@@ -409,7 +409,7 @@ public class Peli : PhysicsGame
 	public Peli()
 	{
 		SetWindowSize( 1024, 768 );
-		//SetWindowPosition( 0, 0 );
+		SetWindowPosition( 0, 0 );
 	}
 
 	public override void Begin()

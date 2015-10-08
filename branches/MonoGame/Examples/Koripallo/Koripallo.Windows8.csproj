@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6972A7BE-6170-6C6C-6F2E-57696E646F77}</ProjectGuid>
+    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>AppContainerExe</OutputType>
+    <RootNamespace>Koripallo</RootNamespace>
+    <AssemblyName>Koripallo</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>1591,0436</NoWarn>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <PackageCertificateKeyFile>Koripallo_TemporaryKey.pfx</PackageCertificateKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
+    <OutputPath>bin\Windows8\AnyCPU\Debug</OutputPath>
+    <IntermediateOutputPath>obj\Windows8\AnyCPU\Debug</IntermediateOutputPath>
+    <DocumentationFile>bin\Windows8\AnyCPU\Debug\Koripallo.xml</DocumentationFile>
+    <DefineConstants>DEBUG;JYPELI;UseDouble;TRACE;NETFX_CORE;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <OutputPath>bin\Windows8\AnyCPU\Release</OutputPath>
+    <IntermediateOutputPath>obj\Windows8\AnyCPU\Release</IntermediateOutputPath>
+    <DocumentationFile>bin\Windows8\AnyCPU\Release\Koripallo.xml</DocumentationFile>
+    <DefineConstants>JYPELI;UseDouble;TRACE;NETFX_CORE;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="SharpDX">
+      <HintPath>..\..\MonoGame\ThirdParty\Dependencies\SharpDX\Windows%208%20Metro\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1">
+      <HintPath>..\..\MonoGame\ThirdParty\Dependencies\SharpDX\Windows%208%20Metro\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11">
+      <HintPath>..\..\MonoGame\ThirdParty\Dependencies\SharpDX\Windows%208%20Metro\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI">
+      <HintPath>..\..\MonoGame\ThirdParty\Dependencies\SharpDX\Windows%208%20Metro\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation">
+      <HintPath>..\..\MonoGame\ThirdParty\Dependencies\SharpDX\Windows%208%20Metro\SharpDX.MediaFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XAudio2">
+      <HintPath>..\..\MonoGame\ThirdParty\Dependencies\SharpDX\Windows%208%20Metro\SharpDX.XAudio2.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput">
+      <HintPath>..\..\MonoGame\ThirdParty\Dependencies\SharpDX\Windows%208%20Metro\SharpDX.XInput.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Peli.cs" />
+    <Compile Include="Ohjelma.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Koripallo_TemporaryKey.pfx">
+      <Platforms>Windows8</Platforms>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Logo.png">
+      <Platforms>Windows8</Platforms>
+    </Content>
+    <Content Include="Assets\SmallLogo.png">
+      <Platforms>Windows8</Platforms>
+    </Content>
+    <Content Include="Assets\SplashScreen.png">
+      <Platforms>Windows8</Platforms>
+    </Content>
+    <Content Include="Assets\StoreLogo.png">
+      <Platforms>Windows8</Platforms>
+    </Content>
+    <Content Include="Content\tausta.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\heittaja1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\heittaja2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\heittaja3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\kori.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\koripallo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\hit.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <Platforms>Windows8</Platforms>
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup />
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
+    <VisualStudioVersion>11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Physics2d\Jypeli.Physics2d.Windows8.csproj">
+      <Project>{71BC3527-F603-4C6A-B5A1-DF07B97AF02B}</Project>
+      <Name>Jypeli.Physics2d.Windows8</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Jypeli\Jypeli.Windows8.csproj">
+      <Project>{F2642DD9-9E8C-479D-87D1-8B6572D5529A}</Project>
+      <Name>Jypeli.Windows8</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows8.csproj">
+      <Project>{0518563C-ACCA-4A14-8C5D-DDBE93E2605F}</Project>
+      <Name>MonoGame.Framework.Windows8</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

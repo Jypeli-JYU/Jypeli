@@ -1,4 +1,7 @@
 @echo off
+mkdir assemblies\Windows
+copy ..\..\Compiled\Windows-AnyCPU\*.* assemblies\Windows
+
 mkdir assemblies\WindowsGL
 copy ..\..\Compiled\WindowsGL-AnyCPU\*.* assemblies\WindowsGL
 

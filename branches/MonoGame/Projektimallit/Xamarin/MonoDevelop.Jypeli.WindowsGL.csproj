@@ -5,18 +5,18 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6B2F9E23-E9BB-4461-8F7F-E81BCD39150A}</ProjectGuid>
+    <ProjectGuid>{6B2F9E23-E9BB-4461-8F7F-A11BCD39150A}</ProjectGuid>
     <ProjectTypeGuids>{86F6BF2A-E449-4B3E-813B-9ACC37E5545F};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>MonoDevelop.Jypeli.Windows</RootNamespace>
-    <AssemblyName>MonoDevelop.Jypeli.Windows</AssemblyName>
+    <RootNamespace>MonoDevelop.Jypeli.WindowsGL</RootNamespace>
+    <AssemblyName>MonoDevelop.Jypeli.WindowsGL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Windows\Debug</OutputPath>
+    <OutputPath>bin\WindowsGL\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Windows\Release</OutputPath>
+    <OutputPath>bin\WindowsGL\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -134,7 +134,7 @@
     <EmbeddedResource Include="templates\Tasohyppelypeli.xpt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\MonoDevelop.Jypeli.Windows.addin.xml" />
+    <EmbeddedResource Include="Properties\MonoDevelop.Jypeli.WindowsGL.addin.xml" />
     <EmbeddedResource Include="assemblies\WindowsGL\SDL.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

@@ -84,7 +84,7 @@ Section "Windows"
   
   ${If} $R0 != ""
     Push $R0
-    Call CopyVsTemplates
+    Call CopyDxTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2015, skipping template installation."
   ${Endif}
@@ -142,7 +142,7 @@ Section "Windows"
   
   ${If} $R0 != ""
     Push $R0
-    Call CopyVsTemplates
+    Call CopyDxTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2013, skipping template installation."
   ${Endif}
@@ -199,7 +199,7 @@ Section "Windows"
   ReadEnvStr $R0 VS110COMNTOOLS
   ${If} $R0 != ""
     Push $R0
-    Call CopyVsTemplates
+    Call CopyDxTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2012, skipping template installation."
   ${Endif}
@@ -238,7 +238,7 @@ SectionEnd
 
 SubSectionEnd
 
-Function CopyVsTemplates
+Function CopyDxTemplates
    Pop $0
    
    IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
@@ -249,7 +249,7 @@ Function CopyVsTemplates
 	
   VSPro:
 	IfFileExists "$0..\IDE\devenv.exe" 0 Done
-      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
+      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\DirectX 11"
       CreateDirectory $1
       SetOutPath $1
       File "..\projektimallit\Windows\*.zip"
@@ -268,7 +268,7 @@ Function CopyGLTemplates
 	
   VSPro:
 	IfFileExists "$0..\IDE\devenv.exe" 0 Done
-      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows OpenGL"
+      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
       CreateDirectory $1
       SetOutPath $1
       File "..\projektimallit\WindowsGL\*.zip"

@@ -31,7 +31,6 @@
     <ConsolePause>false</ConsolePause>
     <CustomCommands>
       <CustomCommands>
-        <Command type="BeforeBuild" command="sh copy_linux_assemblies.sh" workingdir="${ProjectDir}" />
         <Command type="AfterBuild" command="mdtool setup pack ${ProjectName}.dll" workingdir="${TargetDir}" />
         <Command type="AfterBuild" command="mdtool setup rep-build ." workingdir="${TargetDir}" />
       </CustomCommands>
@@ -99,30 +98,6 @@
     <EmbeddedResource Include="templates\Tasohyppelypeli\Content\tahti.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Linux\Jypeli.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Linux\Jypeli.Physics2d.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Linux\Jypeli.Physics2d.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Linux\Jypeli.SimplePhysics.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Linux\Jypeli.SimplePhysics.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Linux\Jypeli.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Linux\OpenTK.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Linux\Tao.Sdl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="templates\PerusPeli.xpt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -138,23 +113,59 @@
     <EmbeddedResource Include="Properties\MonoDevelop.Jypeli.Linux.addin.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Linux\OpenTK.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Linux\Tao.Sdl.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="templates\ConsoleMain\Program.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\ConsoleMain.xpt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Linux\MonoGame.Framework.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Linux\AnyCPU\Debug\Jypeli.dll">
+      <Link>assemblies\Linux\Jypeli.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Linux\MonoGame.Framework.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Linux\AnyCPU\Debug\Jypeli.xml">
+      <Link>assemblies\Linux\Jypeli.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Linux\AnyCPU\Debug\Jypeli.Physics2d.dll">
+      <Link>assemblies\Linux\Jypeli.Physics2d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Linux\AnyCPU\Debug\Jypeli.Physics2d.xml">
+      <Link>assemblies\Linux\Jypeli.Physics2d.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\SimplePhysics\bin\Linux\AnyCPU\Debug\Jypeli.SimplePhysics.dll">
+      <Link>assemblies\Linux\Jypeli.SimplePhysics.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\SimplePhysics\bin\Linux\AnyCPU\Debug\Jypeli.SimplePhysics.xml">
+      <Link>assemblies\Linux\Jypeli.SimplePhysics.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Linux\AnyCPU\Debug\MonoGame.Framework.dll">
+      <Link>assemblies\Linux\MonoGame.Framework.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Linux\AnyCPU\Debug\MonoGame.Framework.xml">
+      <Link>assemblies\Linux\MonoGame.Framework.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Linux\AnyCPU\Debug\OpenTK.dll">
+      <Link>assemblies\Linux\OpenTK.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Linux\AnyCPU\Debug\OpenTK.dll.config">
+      <Link>assemblies\Linux\OpenTK.dll.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Linux\AnyCPU\Debug\Tao.Sdl.dll">
+      <Link>assemblies\Linux\Tao.Sdl.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Linux\AnyCPU\Debug\Tao.Sdl.dll.config">
+      <Link>assemblies\Linux\Tao.Sdl.dll.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -163,6 +174,7 @@
     <Folder Include="icons\" />
     <Folder Include="templates\" />
     <Folder Include="assemblies\" />
+    <Folder Include="assemblies\Linux\" />
     <Folder Include="templates\PerusPeli\" />
     <Folder Include="templates\FysiikkaPeli\" />
     <Folder Include="templates\Tasohyppelypeli\" />

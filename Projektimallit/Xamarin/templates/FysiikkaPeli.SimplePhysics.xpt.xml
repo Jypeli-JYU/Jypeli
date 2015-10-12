@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
           created      = "2014/03/07"
-          lastModified = "2014/10/23">
+          lastModified = "2015/12/10">
 
     <TemplateConfiguration>
 		<_Name>FysiikkaPeli (SimplePhysics)</_Name>
@@ -26,9 +26,6 @@
              <Reference type = "Package" refto = "System" />
              <Reference type = "Package" refto = "System.Xml" />
              <Reference type = "Package" refto = "System.Core" />
-             <Reference type = "Package" refto = "OpenTK" />
-             <Reference type = "Package" refto = "Lidgren.Network" />
-             <Reference type = "Package" refto = "Tao.Sdl" />
           </References>
 
           <Files>

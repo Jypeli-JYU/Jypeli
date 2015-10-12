@@ -110,8 +110,6 @@ namespace Jypeli
         {
 #if WINDOWS_STOREAPP
             isFullScreenRequested = true;
-#elif LINUX
-            // Let Linux use the default 800x480 window size for now, seems to work best with OpenTK
 #else
             SetWindowSize( 1024, 768, isFullScreenRequested );
 #endif

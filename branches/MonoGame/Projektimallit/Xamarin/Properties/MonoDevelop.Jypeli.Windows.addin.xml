@@ -1,9 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Addin id="Jypeli" namespace="MonoDevelop" name="Jypeli" author="Jyvaskylan yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.5.0">
-	<Dependencies>
-		<Addin id="::MonoDevelop.Core" version="5.0" />
-		<Addin id="::MonoDevelop.Ide" version="5.0" />
-	</Dependencies>
+<Addin id="Jypeli-dx" namespace="MonoDevelop" name="Jypeli (DirectX)" author="Jyvaskylan yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.5.1">
 	<Runtime>
 		<Import file="icons/Jypeli-32.png" />
 		<Import file="icons/PerusPeli-16.png" />
@@ -19,11 +15,11 @@
 		<Import file="templates/FysiikkaPeli/Peli.cs" />
 		<Import file="templates/Tasohyppelypeli/Icon-md.png" />
 		<Import file="templates/Tasohyppelypeli/Peli.cs" />
-		<Import file="templates/Tasohyppelypeli.xpt.xml" />
+		<Import file="templates/Tasohyppelypeli.DirectX.xpt.xml" />
 		<Import file="templates/Tasohyppelypeli/Content/kentta1.txt" />
 		<Import file="templates/Tasohyppelypeli/Content/norsu.png" />
 		<Import file="templates/Tasohyppelypeli/Content/tahti.png" />
-		<Import file="templates/Tasohyppelypeli/Content/maali.wav" />
+		<Import file="templates/Tasohyppelypeli/Content/maali.xnb" />
 		<Import file="templates/PerusPeliCs.xft.xml" />
 		<Import file="templates/PerusPeli.xpt.xml" />
 		<Import file="templates/FysiikkaPeli.SimplePhysics.xpt.xml" />
@@ -65,14 +61,14 @@
 		<ProjectTemplate id="PerusPeli" file="templates/PerusPeli.xpt.xml" />
 		<ProjectTemplate id="FysiikkaPeli.SimplePhysics" file="templates/FysiikkaPeli.SimplePhysics.xpt.xml" />
 		<ProjectTemplate id="FysiikkaPeli.Physics2d" file="templates/FysiikkaPeli.Physics2d.xpt.xml" />
-		<ProjectTemplate id="Tasohyppelypeli" file="templates/Tasohyppelypeli.xpt.xml" />
+		<ProjectTemplate id="Tasohyppelypeli" file="templates/Tasohyppelypeli.DirectX.xpt.xml" />
 	</Extension>
 	<Extension path="/MonoDevelop/Ide/FileTemplates">
 		<FileTemplate id="PerusPeliCs" file="templates/PerusPeliCs.xft.xml" />
 	</Extension>
 	<Extension path="/MonoDevelop/Core/SupportPackages">
-		<Condition id="PackageNotInstalled" name="jypeli">
-			<Package name="jypeli" version="6.5" clrVersion="Default">
+		<Condition id="PackageNotInstalled" name="jypeli-dx" version="6.5.1">
+			<Package name="jypeli" version="6.5.1" clrVersion="Default">
 				<Assembly file="assemblies\Windows\MonoGame.Framework.dll" />
 				<Assembly file="assemblies\Windows\Jypeli.dll" />
 				<Assembly file="assemblies\Windows\Jypeli.Physics2d.dll" />

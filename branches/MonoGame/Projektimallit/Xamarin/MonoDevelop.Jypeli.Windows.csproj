@@ -65,30 +65,6 @@
     <EmbeddedResource Include="templates\PerusPeli\Peli.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\WindowsGL\Jypeli.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\WindowsGL\Jypeli.Physics2d.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\WindowsGL\Jypeli.Physics2d.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\WindowsGL\Jypeli.SimplePhysics.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\WindowsGL\Jypeli.SimplePhysics.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\WindowsGL\Jypeli.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\WindowsGL\OpenTK.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\WindowsGL\Tao.Sdl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="icons\FysiikkaPeli-16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -116,9 +92,6 @@
     <EmbeddedResource Include="templates\Tasohyppelypeli\Content\kentta1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\Tasohyppelypeli\Content\maali.wav">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="templates\Tasohyppelypeli\Content\norsu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -131,83 +104,121 @@
     <EmbeddedResource Include="templates\Tasohyppelypeli\Peli.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\Tasohyppelypeli.xpt.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\MonoDevelop.Jypeli.Windows.addin.xml" />
-    <EmbeddedResource Include="assemblies\WindowsGL\SDL.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\WindowsGL\SDL_mixer.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\WindowsGL\smpeg.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="templates\ConsoleMain\Program.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\ConsoleMain.xpt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\WindowsGL\MonoGame.Framework.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\Jypeli.dll">
+      <Link>assemblies\Windows\Jypeli.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\WindowsGL\MonoGame.Framework.xml">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\Jypeli.xml">
+      <Link>assemblies\Windows\Jypeli.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\WindowsGL\OpenTK.xml">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\Jypeli.Physics2d.dll">
+      <Link>assemblies\Windows\Jypeli.Physics2d.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\Jypeli.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\Jypeli.Physics2d.xml">
+      <Link>assemblies\Windows\Jypeli.Physics2d.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\Jypeli.Physics2d.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\MonoGame.Framework.dll">
+      <Link>assemblies\Windows\MonoGame.Framework.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\Jypeli.Physics2d.xml">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\MonoGame.Framework.xml">
+      <Link>assemblies\Windows\MonoGame.Framework.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\Jypeli.SimplePhysics.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.Direct2D1.dll">
+      <Link>assemblies\Windows\SharpDX.Direct2D1.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\Jypeli.SimplePhysics.xml">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.Direct2D1.xml">
+      <Link>assemblies\Windows\SharpDX.Direct2D1.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\Jypeli.xml">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.Direct3D9.dll">
+      <Link>assemblies\Windows\SharpDX.Direct3D9.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\MonoGame.Framework.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.Direct3D9.xml">
+      <Link>assemblies\Windows\SharpDX.Direct3D9.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\MonoGame.Framework.xml">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.Direct3D11.dll">
+      <Link>assemblies\Windows\SharpDX.Direct3D11.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\SharpDX.Direct2D1.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.Direct3D11.xml">
+      <Link>assemblies\Windows\SharpDX.Direct3D11.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\SharpDX.Direct3D9.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.dll">
+      <Link>assemblies\Windows\SharpDX.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\SharpDX.Direct3D11.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.DXGI.dll">
+      <Link>assemblies\Windows\SharpDX.DXGI.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\SharpDX.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.DXGI.xml">
+      <Link>assemblies\Windows\SharpDX.DXGI.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\SharpDX.DXGI.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.MediaFoundation.dll">
+      <Link>assemblies\Windows\SharpDX.MediaFoundation.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\SharpDX.MediaFoundation.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.MediaFoundation.xml">
+      <Link>assemblies\Windows\SharpDX.MediaFoundation.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\SharpDX.RawInput.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.RawInput.dll">
+      <Link>assemblies\Windows\SharpDX.RawInput.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\SharpDX.XAudio2.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.RawInput.xml">
+      <Link>assemblies\Windows\SharpDX.RawInput.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Windows\SharpDX.XInput.dll">
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.XAudio2.dll">
+      <Link>assemblies\Windows\SharpDX.XAudio2.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.XAudio2.xml">
+      <Link>assemblies\Windows\SharpDX.XAudio2.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.XInput.dll">
+      <Link>assemblies\Windows\SharpDX.XInput.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.XInput.xml">
+      <Link>assemblies\Windows\SharpDX.XInput.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\Windows\AnyCPU\Debug\SharpDX.xml">
+      <Link>assemblies\Windows\SharpDX.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\SimplePhysics\bin\Windows\AnyCPU\Debug\Jypeli.SimplePhysics.dll">
+      <Link>assemblies\Windows\Jypeli.SimplePhysics.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\SimplePhysics\bin\Windows\AnyCPU\Debug\Jypeli.SimplePhysics.xml">
+      <Link>assemblies\Windows\Jypeli.SimplePhysics.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Tasohyppelypeli.DirectX.xpt.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Tasohyppelypeli\Content\maali.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -217,7 +228,6 @@
     <Folder Include="icons\" />
     <Folder Include="templates\" />
     <Folder Include="assemblies\" />
-    <Folder Include="assemblies\WindowsGL\" />
     <Folder Include="templates\PerusPeli\" />
     <Folder Include="templates\FysiikkaPeli\" />
     <Folder Include="templates\Tasohyppelypeli\" />

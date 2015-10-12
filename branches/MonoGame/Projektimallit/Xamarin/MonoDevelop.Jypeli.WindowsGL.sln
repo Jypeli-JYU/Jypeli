@@ -3,18 +3,39 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.Jypeli.WindowsGL", "MonoDevelop.Jypeli.WindowsGL.csproj", "{6B2F9E23-E9BB-4461-8F7F-A11BCD39150A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.WindowsGL", "..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj", "{6D75E618-19CA-4C51-9546-F10965FBC0B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.WindowsGL", "..\..\Jypeli\Jypeli.WindowsGL.csproj", "{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.SimplePhysics.WindowsGL", "..\..\SimplePhysics\Jypeli.SimplePhysics.WindowsGL.csproj", "{7E51D9E3-3B1F-44D5-8376-90253690C95A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.Physics2d.WindowsGL", "..\..\Physics2d\Jypeli.Physics2d.WindowsGL.csproj", "{041D26C6-A261-4843-906E-7326AB1DBA4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{041D26C6-A261-4843-906E-7326AB1DBA4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{041D26C6-A261-4843-906E-7326AB1DBA4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{041D26C6-A261-4843-906E-7326AB1DBA4C}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{041D26C6-A261-4843-906E-7326AB1DBA4C}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{6B2F9E23-E9BB-4461-8F7F-A11BCD39150A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6B2F9E23-E9BB-4461-8F7F-A11BCD39150A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B2F9E23-E9BB-4461-8F7F-A11BCD39150A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B2F9E23-E9BB-4461-8F7F-A11BCD39150A}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MonoDevelop.Jypeli.Windows.csproj
+		{6D75E618-19CA-4C51-9546-F10965FBC0B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D75E618-19CA-4C51-9546-F10965FBC0B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D75E618-19CA-4C51-9546-F10965FBC0B8}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D75E618-19CA-4C51-9546-F10965FBC0B8}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{7E51D9E3-3B1F-44D5-8376-90253690C95A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E51D9E3-3B1F-44D5-8376-90253690C95A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E51D9E3-3B1F-44D5-8376-90253690C95A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E51D9E3-3B1F-44D5-8376-90253690C95A}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

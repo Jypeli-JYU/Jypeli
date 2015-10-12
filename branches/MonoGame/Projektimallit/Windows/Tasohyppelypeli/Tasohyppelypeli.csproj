@@ -57,7 +57,7 @@
     <Content Include="Content\kentta1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\maali.wav">
+    <Content Include="Content\maali.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\norsu.png">

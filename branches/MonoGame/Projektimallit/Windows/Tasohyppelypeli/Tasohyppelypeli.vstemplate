@@ -17,7 +17,7 @@
     <Project TargetFileName="$safeprojectname$.csproj" File="Tasohyppelypeli.csproj" ReplaceParameters="true">
       <Folder Name="Content" TargetFolderName="Content">
         <ProjectItem ReplaceParameters="true" TargetFileName="kentta1.txt">kentta1.txt</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="maali.wav">maali.wav</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="maali.xnb">maali.xnb</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="norsu.png">norsu.png</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="tahti.png">tahti.png</ProjectItem>
       </Folder>

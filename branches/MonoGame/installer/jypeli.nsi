@@ -79,7 +79,7 @@ SectionEnd
 
 SubSection "Visual Studio 2015 project templates"
 
-Section "Windows"
+Section "Windows DirectX"
   ReadEnvStr $R0 VS140COMNTOOLS
   
   ${If} $R0 != ""
@@ -137,7 +137,7 @@ SubSectionEnd
 
 SubSection "Visual Studio 2013 project templates"
 
-Section "Windows"
+Section "Windows DirectX"
   ReadEnvStr $R0 VS120COMNTOOLS
   
   ${If} $R0 != ""
@@ -195,7 +195,7 @@ SubSectionEnd
 
 SubSection "Visual Studio 2012 project templates"
 
-Section "Windows"
+Section "Windows DirectX"
   ReadEnvStr $R0 VS110COMNTOOLS
   ${If} $R0 != ""
     Push $R0

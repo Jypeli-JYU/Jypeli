@@ -3,13 +3,14 @@
           created      = "2014/03/07"
           lastModified = "2015/12/10">
 
-    <TemplateConfiguration>
+     <TemplateConfiguration>
 		<_Name>FysiikkaPeli (SimplePhysics)</_Name>
-		<_Category>C#/Jypeli</_Category>
+		<Category>other/net/Jypeli</Category>
 		<Icon>FysiikkaPeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Fysiikkapeli joka käyttää yksinkertaista fysiikkaa. Physics game with SimplePhysics engine.</_Description>
+		<_Description>Fysiikkapeli joka käyttää yksinkertaista fysiikkaa ja OpenGL-grafiikkaa. Physics game with SimplePhysics engine and OpenGL graphics.</_Description>
 	</TemplateConfiguration>
+
 
    <Options>
       <StartupProject>${ProjectName}</StartupProject>

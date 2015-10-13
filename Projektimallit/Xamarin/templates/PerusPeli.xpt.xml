@@ -5,10 +5,10 @@
 
     <TemplateConfiguration>
 		<_Name>PerusPeli</_Name>
-		<_Category>C#/Jypeli</_Category>
+		<Category>other/net/Jypeli</Category>
 		<Icon>PerusPeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Peli ilman fysiikkaa. Game without physics.</_Description>
+		<_Description>Peli OpenGL-grafiikalla ilman fysiikkaa. Game with OpenGL graphics and no physics.</_Description>
 	</TemplateConfiguration>
 
    <Options>

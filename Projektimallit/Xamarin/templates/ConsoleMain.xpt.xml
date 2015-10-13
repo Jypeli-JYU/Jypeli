@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
           created      = "2014/09/18"
-          lastModified = "2014/09/18">
+          lastModified = "2015/12/10">
 
     <TemplateConfiguration>
 		<_Name>ConsoleMain</_Name>
-		<_Category>C#/Jypeli</_Category>
+		<Category>other/net/general</Category>
 		<Icon>md-project-console</Icon>
 		<LanguageName>C#</LanguageName>
 		<_Description>Tyhjä Console Main -projekti, jossa kommenttien paikka valmiina.</_Description>

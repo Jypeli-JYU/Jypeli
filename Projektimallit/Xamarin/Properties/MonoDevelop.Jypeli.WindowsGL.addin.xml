@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Addin id="Jypeli-opengl" namespace="MonoDevelop" name="Jypeli (OpenGL)" author="Jyvaskylan yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.5.1">
+<Addin id="Jypeli-opengl" namespace="MonoDevelop" name="Jypeli" author="Jyvaskylan yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.5.1">
 	<Runtime>
 		<Import file="icons/Jypeli-32.png" />
 		<Import file="icons/PerusPeli-16.png" />

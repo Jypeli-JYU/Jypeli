@@ -3,18 +3,39 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.Jypeli.Mac", "MonoDevelop.Jypeli.Mac.csproj", "{B2608E4D-C8C4-4CDF-860D-9668ADE97D97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.MacOS", "..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.MacOS.csproj", "{36C538E6-C32A-4A8D-A39C-566173D7118E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.MacOS", "..\..\Jypeli\Jypeli.MacOS.csproj", "{21146E75-35F4-4E05-B6E9-E58903D9A4C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.Physics2d.MacOS", "..\..\Physics2d\Jypeli.Physics2d.MacOS.csproj", "{C4EFECB3-7397-4DCF-990D-26A0EF6E8445}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.SimplePhysics.MacOS", "..\..\SimplePhysics\Jypeli.SimplePhysics.MacOS.csproj", "{C1D0DBDE-071F-4812-81B4-FE39C3DAB581}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21146E75-35F4-4E05-B6E9-E58903D9A4C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21146E75-35F4-4E05-B6E9-E58903D9A4C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21146E75-35F4-4E05-B6E9-E58903D9A4C2}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{21146E75-35F4-4E05-B6E9-E58903D9A4C2}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{36C538E6-C32A-4A8D-A39C-566173D7118E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36C538E6-C32A-4A8D-A39C-566173D7118E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36C538E6-C32A-4A8D-A39C-566173D7118E}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{36C538E6-C32A-4A8D-A39C-566173D7118E}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{B2608E4D-C8C4-4CDF-860D-9668ADE97D97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B2608E4D-C8C4-4CDF-860D-9668ADE97D97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2608E4D-C8C4-4CDF-860D-9668ADE97D97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2608E4D-C8C4-4CDF-860D-9668ADE97D97}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MonoDevelop.Jypeli.Mac.csproj
+		{C1D0DBDE-071F-4812-81B4-FE39C3DAB581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1D0DBDE-071F-4812-81B4-FE39C3DAB581}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1D0DBDE-071F-4812-81B4-FE39C3DAB581}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1D0DBDE-071F-4812-81B4-FE39C3DAB581}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{C4EFECB3-7397-4DCF-990D-26A0EF6E8445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4EFECB3-7397-4DCF-990D-26A0EF6E8445}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4EFECB3-7397-4DCF-990D-26A0EF6E8445}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4EFECB3-7397-4DCF-990D-26A0EF6E8445}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -29,6 +29,9 @@
 		<Import file="templates/ConsoleMain/Program.cs" />
 		<Import file="assemblies/Mac/MonoGame.Framework.dll" />
 		<Import file="assemblies/Mac/Tao.Sdl.dll" />
+		<Import file="assemblies/Mac/Tao.Sdl.dll.config" />
+		<Import file="assemblies/Mac/OpenTK.dll" />
+		<Import file="assemblies/Mac/OpenTK.dll.config" />
 		<Import file="assemblies/Mac/Jypeli.dll" />
 		<Import file="assemblies/Mac/Jypeli.xml" />
 		<Import file="assemblies/Mac/Jypeli.Physics2d.dll" />
@@ -79,6 +82,7 @@
 				<Assembly file="assemblies/Mac/Jypeli.Physics2d.dll" />
 				<Assembly file="assemblies/Mac/MonoGame.Framework.dll" />
 				<Assembly file="assemblies/Mac/Tao.Sdl.dll" />
+				<Assembly file="assemblies/Mac/OpenTK.dll" />
 			</Package>
 		</Condition>
 	</Extension>

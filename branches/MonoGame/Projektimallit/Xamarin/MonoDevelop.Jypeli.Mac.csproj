@@ -33,6 +33,8 @@
         <Command type="AfterBuild" command="mdtool setup pack ${TargetFile}" workingdir="${TargetDir}" />
         <Command type="AfterBuild" command="mdtool setup rep-build ." workingdir="${TargetDir}" />
         <Command type="BeforeBuild" command="sh copy_mac_assemblies.sh" workingdir="${ProjectDir}" />
+        <Command type="AfterExecute" command="mdtool setup pack ${TargetFile}" workingdir="${TargetDir}" />
+        <Command type="AfterExecute" command="mdtool setup rep-build ." workingdir="${TargetDir}" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -49,15 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\MonoDevelop.Jypeli.Mac.addin.xml" />
-    <EmbeddedResource Include="assemblies\Mac\Jypeli.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Mac\MonoGame.Framework.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Mac\Tao.Sdl.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="icons\FysiikkaPeli-16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -130,25 +123,54 @@
     <EmbeddedResource Include="templates\PerusPeli\Info.plist">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Mac\Jypeli.Physics2d.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Mac\Jypeli.Physics2d.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Mac\Jypeli.SimplePhysics.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Mac\Jypeli.SimplePhysics.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="assemblies\Mac\Jypeli.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="templates\ConsoleMain\Program.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\ConsoleMain.xpt.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Jypeli\bin\MacOS\AnyCPU\Debug\Jypeli.dll">
+      <Link>assemblies\Mac\Jypeli.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Jypeli\bin\MacOS\AnyCPU\Debug\Jypeli.xml">
+      <Link>assemblies\Mac\Jypeli.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\SimplePhysics\bin\MacOS\AnyCPU\Debug\Jypeli.SimplePhysics.dll">
+      <Link>assemblies\Mac\Jypeli.SimplePhysics.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\SimplePhysics\bin\MacOS\AnyCPU\Debug\Jypeli.SimplePhysics.xml">
+      <Link>assemblies\Mac\Jypeli.SimplePhysics.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\MacOS\AnyCPU\Debug\Jypeli.Physics2d.dll">
+      <Link>assemblies\Mac\Jypeli.Physics2d.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Physics2d\bin\MacOS\AnyCPU\Debug\Jypeli.Physics2d.xml">
+      <Link>assemblies\Mac\Jypeli.Physics2d.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Jypeli\bin\MacOS\AnyCPU\Debug\MonoGame.Framework.dll">
+      <Link>assemblies\Mac\MonoGame.Framework.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Jypeli\bin\MacOS\AnyCPU\Debug\OpenTK.dll">
+      <Link>assemblies\Mac\OpenTK.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Jypeli\bin\MacOS\AnyCPU\Debug\OpenTK.dll.config">
+      <Link>assemblies\Mac\OpenTK.dll.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Jypeli\bin\MacOS\AnyCPU\Debug\Tao.Sdl.dll">
+      <Link>assemblies\Mac\Tao.Sdl.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\Jypeli\bin\MacOS\AnyCPU\Debug\Tao.Sdl.dll.config">
+      <Link>assemblies\Mac\Tao.Sdl.dll.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -169,8 +191,7 @@
   <ItemGroup>
     <AddinReference Include="MonoDevelop.MacPlatform" />
     <AddinReference Include="MonoDevelop.MonoMac" />
-    <AddinReference Include="MonoDevelop.Xamarin.Ide" />
-    <AddinReference Include="MonoDevelop.Xamarin.Ide.Mac" />
     <AddinReference Include="MonoDevelop.MacDev" />
+    <AddinReference Include="MonoDevelop.Xamarin.Ide" />
   </ItemGroup>
 </Project>

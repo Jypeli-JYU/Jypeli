@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
           created      = "2014/03/07"
-          lastModified = "2014/10/23">
+          lastModified = "2015/29/10">
 
     <TemplateConfiguration>
 		<_Name>Tasohyppelypeli (Physics2d)</_Name>
-		<_Category>C#/Jypeli</_Category>
+		<Category>jypeli/mac/jypeli</Category>
 		<Icon>Tasohyppelypeli-project</Icon>
 		<LanguageName>C#</LanguageName>
 		<_Description>Peli, jossa on valmiina tasohyppelyhahmo ja tasoja.</_Description>

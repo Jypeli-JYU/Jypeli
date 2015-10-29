@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
           created      = "2014/01/27"
-          lastModified = "2014/10/23">
+          lastModified = "2015/29/10">
 
     <TemplateConfiguration>
 		<_Name>PerusPeli</_Name>
-		<_Category>C#/Jypeli</_Category>
+		<Category>jypeli/mac/jypeli</Category>
 		<Icon>PerusPeli-project</Icon>
 		<LanguageName>C#</LanguageName>
 		<_Description>Peli ilman fysiikkaa.</_Description>

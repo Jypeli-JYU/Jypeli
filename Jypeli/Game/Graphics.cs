@@ -122,7 +122,7 @@ namespace Jypeli
         /// <param name="y">Ikkunan yläreunan y-koordinaatti (kasvaa alaspäin)</param>
         public void SetWindowPosition( int x, int y )
         {
-#if WINDOWS || LINUX || MACOS
+#if WINDOWS || LINUX
             Window.Position = new Point( x, y );
             windowPositionSet = true;
 #endif

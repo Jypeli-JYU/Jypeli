@@ -206,19 +206,19 @@
       <Link>assemblies\Windows\Jypeli.SimplePhysics.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\Tasohyppelypeli.DirectX.xpt.xml">
+    <EmbeddedResource Include="templates\Tasohyppelypeli.xpt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="templates\Tasohyppelypeli\Content\maali.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\FysiikkaPeli.Physics2d.DirectX.xpt.xml">
+    <EmbeddedResource Include="templates\FysiikkaPeli.Physics2d.xpt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\FysiikkaPeli.SimplePhysics.DirectX.xpt.xml">
+    <EmbeddedResource Include="templates\FysiikkaPeli.SimplePhysics.xpt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="templates\PerusPeli.DirectX.xpt.xml">
+    <EmbeddedResource Include="templates\PerusPeli.xpt.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Addin id="Jypeli-opengl" namespace="MonoDevelop" name="Jypeli" author="Jyvaskylan yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.5.1">
+<Addin id="Jypeli-opengl" namespace="MonoDevelop" name="Jypeli" author="Jyvaskylan yliopisto" copyright="MIT" url="http://bit.ly/pelikurssi" description="Jypeli game programming library" category="Jypeli" version="6.5.2">
 	<Runtime>
 		<Import file="icons/Jypeli-32.png" />
 		<Import file="icons/PerusPeli-16.png" />
@@ -42,13 +42,14 @@
 		<Import file="assemblies/WindowsGL/smpeg.dll" />
 	</Runtime>
 	<Extension path="/MonoDevelop/Core/StockIcons">
+		<StockIcon stockid="Jypeli-project" file="icons/Jypeli-32.png" />
 		<StockIcon stockid="PerusPeli-project" file="icons/PerusPeli-32.png" />
 		<StockIcon stockid="FysiikkaPeli-project" file="icons/FysiikkaPeli-32.png" />
 		<StockIcon stockid="Tasohyppelypeli-project" file="icons/Tasohyppelypeli-32.png" />
 	</Extension>
 	<Extension path="/MonoDevelop/ProjectModel/MSBuildItemTypes">
-		<DotNetProjectSubtype id="Jypeli" guid="{D425DB69-D9EA-4523-A522-C706A2FF6736}" type="MonoDevelop.Jypeli.JypeliProject">
-		</DotNetProjectSubtype>
+		<DotNetProjectSubtype id="Jypeli" guid="{D425DB69-D9EA-4523-A522-C706A2FF6736}" type="MonoDevelop.Jypeli.JypeliProject" />
+		<DotNetProjectSubtype id="Jypeli-Linux" guid="{D425DB69-D9EA-4523-A522-C706A2FF6737}" type="MonoDevelop.Jypeli.JypeliProject" />
 	</Extension>
 	<Extension path="/MonoDevelop/ProjectModel/ProjectBindings">
 		<ProjectBinding id="Jypeli" class="MonoDevelop.Jypeli.JypeliProjectBinding" />
@@ -63,9 +64,17 @@
 	<Extension path="/MonoDevelop/Ide/FileTemplates">
 		<FileTemplate id="PerusPeliCs" file="templates/PerusPeliCs.xft.xml" />
 	</Extension>
+	<Extension path="/MonoDevelop/Ide/ProjectTemplateCategories">
+		<Category id="jypeli" name="Jypeli" icon="Jypeli-project">
+			<Category id="crossplatform" name="Cross-platform">
+				<Category id="console" name="Console" />
+				<Category id="jypeli" name="Jypeli" />
+			</Category>
+		</Category>
+	</Extension>
 	<Extension path="/MonoDevelop/Core/SupportPackages">
-		<Condition id="PackageNotInstalled" name="jypeli" version="6.5.1">
-			<Package name="jypeli" version="6.5.1" clrVersion="Default">
+		<Condition id="PackageNotInstalled" name="jypeli" version="6.5.2">
+			<Package name="jypeli" version="6.5.2" clrVersion="Default">
                 <Assembly file="assemblies/WindowsGL/MonoGame.Framework.dll" />
                 <Assembly file="assemblies/WindowsGL/MonoGame.Framework.xml" />
                 <Assembly file="assemblies/WindowsGL/OpenTK.dll" />

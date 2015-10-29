@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
           created      = "2014/03/07"
-          lastModified = "2015/12/10">
+          lastModified = "2015/29/10">
 
     <TemplateConfiguration>
 		<_Name>Tasohyppelypeli (Physics2d)</_Name>
-		<Category>other/net/Jypeli</Category>
+		<Category>jypeli/crossplatform/jypeli</Category>
 		<Icon>Tasohyppelypeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Peli, jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää OpenGL-grafiikkaa ja Physics2d-fysiikkamoottoria. Platform game template. Uses OpenGL graphics and Physics2d physics engine.</_Description>
+		<_Description>Peli, jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää Physics2d-fysiikkamoottoria. Platform game template. Uses Physics2d physics engine.</_Description>
 	</TemplateConfiguration>
 
    <Options>

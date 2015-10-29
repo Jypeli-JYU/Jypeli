@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
           created      = "2014/03/07"
-          lastModified = "2015/12/10">
+          lastModified = "2015/29/10">
 
      <TemplateConfiguration>
 		<_Name>FysiikkaPeli (SimplePhysics)</_Name>
-		<Category>other/net/Jypeli</Category>
+		<Category>jypeli/crossplatform/jypeli</Category>
 		<Icon>FysiikkaPeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Fysiikkapeli joka käyttää yksinkertaista fysiikkaa ja OpenGL-grafiikkaa. Physics game with SimplePhysics engine and OpenGL graphics.</_Description>
+		<_Description>Fysiikkapeli joka käyttää yksinkertaista fysiikkaa. Physics game with SimplePhysics engine.</_Description>
 	</TemplateConfiguration>
 
 

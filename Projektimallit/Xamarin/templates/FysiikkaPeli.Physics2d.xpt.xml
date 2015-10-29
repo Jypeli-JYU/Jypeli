@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
           created      = "2014/03/07"
-          lastModified = "2015/12/10">
+          lastModified = "2015/29/10">
 
     <TemplateConfiguration>
 		<_Name>FysiikkaPeli (Physics2d)</_Name>
-		<Category>other/net/Jypeli</Category>
+		<Category>jypeli/crossplatform/jypeli</Category>
 		<Icon>FysiikkaPeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Fysiikkapeli joka käyttää Physics2d-fysiikkamoottoria ja OpenGL-grafiikkaa. Physics game with Physics2d engine and OpenGL graphics.</_Description>
+		<_Description>Fysiikkapeli joka käyttää Physics2d-fysiikkamoottoria. Physics game with Physics2d engine.</_Description>
 	</TemplateConfiguration>
 
    <Options>

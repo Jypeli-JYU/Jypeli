@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
           created      = "2014/01/27"
-          lastModified = "2015/12/10">
+          lastModified = "2015/29/10">
 
     <TemplateConfiguration>
 		<_Name>PerusPeli</_Name>
-		<Category>other/net/Jypeli</Category>
+		<Category>jypeli/crossplatform/jypeli</Category>
 		<Icon>PerusPeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Peli OpenGL-grafiikalla ilman fysiikkaa. Game with OpenGL graphics and no physics.</_Description>
+		<_Description>Peli ilman fysiikkaa. Game without physics.</_Description>
 	</TemplateConfiguration>
 
    <Options>

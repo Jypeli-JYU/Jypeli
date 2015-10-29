@@ -32,9 +32,6 @@
       <CustomCommands>
         <Command type="AfterBuild" command="mdtool setup pack ${TargetFile}" workingdir="${TargetDir}" />
         <Command type="AfterBuild" command="mdtool setup rep-build ." workingdir="${TargetDir}" />
-        <Command type="BeforeBuild" command="sh copy_mac_assemblies.sh" workingdir="${ProjectDir}" />
-        <Command type="AfterExecute" command="mdtool setup pack ${TargetFile}" workingdir="${TargetDir}" />
-        <Command type="AfterExecute" command="mdtool setup rep-build ." workingdir="${TargetDir}" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>

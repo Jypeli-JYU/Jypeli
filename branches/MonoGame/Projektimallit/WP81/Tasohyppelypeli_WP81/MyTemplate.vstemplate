@@ -19,24 +19,24 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="App.xaml.cs">App.xaml.cs</ProjectItem>
       <Folder Name="Assets" TargetFolderName="Assets">
         <ProjectItem ReplaceParameters="false" TargetFileName="Logo.scale-240.png">Logo.scale-240.png</ProjectItem>
-		<ProjectItem ReplaceParameters="false" TargetFileName="SmallLogo.scale-240.png">SmallLogo.scale-240.png</ProjectItem>
-		<ProjectItem ReplaceParameters="false" TargetFileName="SplashScreen.scale-240.png">SplashScreen.scale-240.png</ProjectItem>
-		<ProjectItem ReplaceParameters="false" TargetFileName="Square71x71Logo.scale-240.png">Square71x71Logo.scale-240.png</ProjectItem>
-		<ProjectItem ReplaceParameters="false" TargetFileName="StoreLogo.scale-240.png">StoreLogo.scale-240.png</ProjectItem>
-		<ProjectItem ReplaceParameters="false" TargetFileName="WideLogo.scale-240.png">WideLogo.scale-240.png</ProjectItem>
-      </Folder>
-      <ProjectItem ReplaceParameters="true" TargetFileName="GamePage.xaml">GamePage.xaml</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="GamePage.xaml.cs">GamePage.xaml.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true" TargetFileName="Peli.cs">Peli.cs</ProjectItem>
-	  <ProjectItem ReplaceParameters="true" TargetFileName="Package.appxmanifest">Package.appxmanifest</ProjectItem>
-      <Folder Name="Properties" TargetFolderName="Properties">
-        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SmallLogo.scale-240.png">SmallLogo.scale-240.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="SplashScreen.scale-240.png">SplashScreen.scale-240.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Square71x71Logo.scale-240.png">Square71x71Logo.scale-240.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="StoreLogo.scale-240.png">StoreLogo.scale-240.png</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="WideLogo.scale-240.png">WideLogo.scale-240.png</ProjectItem>
       </Folder>
       <Folder Name="Content" TargetFolderName="Content">
         <ProjectItem ReplaceParameters="true" TargetFileName="kentta1.txt">kentta1.txt</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="maali.wav">maali.wav</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="norsu.png">norsu.png</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="tahti.png">tahti.png</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="true" TargetFileName="GamePage.xaml">GamePage.xaml</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="GamePage.xaml.cs">GamePage.xaml.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Package.appxmanifest">Package.appxmanifest</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Peli.cs">Peli.cs</ProjectItem>
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
       </Folder>
     </Project>
   </TemplateContent>

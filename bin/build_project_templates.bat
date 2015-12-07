@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-set zip="Q:\Programs\Archive\7zip\7z.exe"
+set zip="C:\Program Files\7-zip\7z.exe"
 if not exist %zip% (
   echo ERROR: 7-Zip not found
   goto error

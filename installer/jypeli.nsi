@@ -125,7 +125,7 @@ SectionEnd
 Section "Run template installer"
   ReadEnvStr $R0 VS140COMNTOOLS
   ${If} $R0 != ""
-    DetailPrint "Installing project templates for VS2013 (may take a while)..."
+    DetailPrint "Installing project templates for VS2015 (may take a while)..."
     Push $R0
     Call InstallVsTemplates
   ${Else}

@@ -36,15 +36,20 @@ if "%platform%"=="Linux" (
   copy MonoGame\ThirdParty\Libs\OpenTK.dll.config %outputDir%
 )
 
-if "%platform%"=="WindowsPhone81" (
-  set monosrc=MonoGame\MonoGame.Framework\bin\WindowsPhone81\AnyCPU\Release
-  copy %monosrc%\SharpDX.dll %outputDir%\
-  copy %monosrc%\SharpDX.xml %outputDir%\
+if "%platform%"=="Windows8" goto copyw8
+if "%platform%"=="WindowsPhone8" goto copyw8
+goto nocopyw8
 
-  mkdir %outputDir%\MonoGame.Framework\Themes
-  copy %monosrc%\MonoGame.Framework.xr.xml %outputDir%\MonoGame.Framework\
-  copy %monosrc%\Themes\generic.xbf %outputDir%\MonoGame.Framework\Themes\
-)
+:copyw8
+set monosrc=MonoGame\MonoGame.Framework\bin\WindowsPhone81\AnyCPU\Release
+copy %monosrc%\SharpDX.dll %outputDir%\
+copy %monosrc%\SharpDX.xml %outputDir%\
+
+mkdir %outputDir%\MonoGame.Framework\Themes
+copy %monosrc%\MonoGame.Framework.xr.xml %outputDir%\MonoGame.Framework\
+copy %monosrc%\Themes\generic.xbf %outputDir%\MonoGame.Framework\Themes\
+:nocopyw8
+
 rem Common files
 copy Jypeli\bin\%platform%\%arch%\Release\*.dll %outputDir%\
 copy Jypeli\bin\%platform%\%arch%\Release\*.xml %outputDir%\

@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 6.5.4"
+Name "MonoJypeli 6.5.5"
 
 OutFile "MonoJypeli_setup.exe"
 
@@ -42,21 +42,17 @@ SectionEnd
 
 Section "MonoJypeli for Windows, DirectX 11"
   SetOutPath "$INSTDIR\Windows"
-  File "..\Compiled\Windows-AnyCPU\*.dll"
-  File "..\Compiled\Windows-AnyCPU\*.xml"
+  File "..\Compiled\Windows-AnyCPU\*"
 SectionEnd
 
 Section "MonoJypeli for Windows, OpenGL"
   SetOutPath "$INSTDIR\WindowsGL"
-  File "..\Compiled\WindowsGL-AnyCPU\*.dll"
-  File "..\Compiled\WindowsGL-AnyCPU\*.xml"
+  File "..\Compiled\WindowsGL-AnyCPU\*"
 SectionEnd
 
 Section "MonoJypeli for Windows Phone 8.1"
   SetOutPath "$INSTDIR\WP81"
-  File "..\Compiled\WindowsPhone81-AnyCPU\*.dll"
-  File "..\Compiled\WindowsPhone81-AnyCPU\*.pri"
-  File "..\Compiled\WindowsPhone81-AnyCPU\*.xml"
+  File "..\Compiled\WindowsPhone81-AnyCPU\*"
   SetOutPath "$INSTDIR\WP81\MonoGame.Framework"
   File "..\Compiled\WindowsPhone81-AnyCPU\MonoGame.Framework\MonoGame.Framework.xr.xml"
   SetOutPath "$INSTDIR\WP81\MonoGame.Framework\Themes"
@@ -66,15 +62,16 @@ SectionEnd
 
 Section "MonoJypeli for Windows Store 8 / WinRT"
   SetOutPath "$INSTDIR\Win8"
-  File "..\Compiled\Windows8-AnyCPU\*.dll"
-  File "..\Compiled\Windows8-AnyCPU\*.pri"
-  File "..\Compiled\Windows8-AnyCPU\*.xml"
+  File "..\Compiled\Windows8-AnyCPU\*"
+  SetOutPath "$INSTDIR\Win8\MonoGame.Framework"
+  File "..\Compiled\Windows8-AnyCPU\MonoGame.Framework\MonoGame.Framework.xr.xml"
+  SetOutPath "$INSTDIR\Win8\MonoGame.Framework\Themes"
+  File "..\Compiled\Windows8-AnyCPU\MonoGame.Framework\Themes\generic.xbf"
 SectionEnd
 
 Section "MonoJypeli for Linux"
   SetOutPath "$INSTDIR\Linux"
-  File "..\Compiled\Linux-AnyCPU\*.dll"
-  File "..\Compiled\Linux-AnyCPU\*.xml"
+  File "..\Compiled\Linux-AnyCPU\*"
 SectionEnd
 
 Section "OpenAL" OpenAL

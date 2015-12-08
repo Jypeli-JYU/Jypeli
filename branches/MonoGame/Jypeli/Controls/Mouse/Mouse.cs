@@ -68,14 +68,7 @@ namespace Jypeli
         /// </summary>
         public bool IsCursorVisible
         {
-            get
-            {
-#if WINDOWS_PHONE
-                return false;
-#else
-                return Game.Instance.IsMouseVisible;
-#endif
-            }
+            get { return Game.Instance.IsMouseVisible; }
             set { Game.Instance.IsMouseVisible = value; }
         }
 
@@ -90,7 +83,7 @@ namespace Jypeli
             }
             set
             {
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE
                 // Not supported on WinRT... only sets xna coords
                 Vector pos = value.Transform( screen.GetScreenInverse() );
                 XnaV2 xnapos = ScreenView.ToXnaCoords( pos, screen.ViewportSize, Vector.Zero );
@@ -203,7 +196,7 @@ namespace Jypeli
 
         private void SetPosition( Vector pos )
         {
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE
             // Not supported on WinRT... only sets xna coords
             Vector screenpos = pos.Transform( screen.GetScreenInverse() );
             XnaV2 center = ScreenView.ToXnaCoords( screenpos, screen.ViewportSize, Vector.Zero );
@@ -213,6 +206,10 @@ namespace Jypeli
 
         internal override MouseState GetState()
         {
+#if WINDOWS_PHONE
+            return new MouseState();
+#endif
+
 #if !WINRT
             if ( !IsCursorVisible )
             {
@@ -226,6 +223,10 @@ namespace Jypeli
 
         private static ButtonState GetButtonState( MouseState oldState, MouseState newState, MouseButton button )
         {
+#if WINDOWS_PHONE
+            return ButtonState.Up;
+#endif
+
             bool prevDown = GetButtonDown[button]( oldState );
             bool currDown = GetButtonDown[button]( newState );
 
@@ -237,6 +238,10 @@ namespace Jypeli
 
         private static HoverState GetHoverState( MouseState oldState, MouseState newState, GameObject obj )
         {
+#if WINDOWS_PHONE
+            return HoverState.Off;
+#endif
+
             bool prevOn = IsCursorOn( Game.Screen, oldState, obj );
             bool currOn = IsCursorOn( Game.Screen, newState, obj );
 

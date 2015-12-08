@@ -99,6 +99,14 @@ namespace Jypeli
             get { return false; }
         }
 
+#if WINDOWS_PHONE
+        public new bool IsMouseVisible
+        {
+            get { return false; }
+            set { }
+        }
+#endif
+
         private void InitControls()
         {
             _context = new ListenContext() { Active = true };

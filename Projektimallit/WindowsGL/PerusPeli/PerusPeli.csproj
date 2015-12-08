@@ -42,11 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
-	  <HintPath>$(registry:HKEY_LOCAL_MACHINE\Software\MonoJypeli@Install_Dir)\Common\MonoGame.Framework.dll</HintPath>
-	</Reference>
+      <HintPath>$(registry:HKEY_LOCAL_MACHINE\Software\MonoJypeli@Install_Dir)\Common\MonoGame.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="Jypeli">
-	  <HintPath>$(registry:HKEY_LOCAL_MACHINE\Software\MonoJypeli@Install_Dir)\Common\Jypeli.dll</HintPath>
-	</Reference>
+      <HintPath>$(registry:HKEY_LOCAL_MACHINE\Software\MonoJypeli@Install_Dir)\Common\Jypeli.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
   </ItemGroup>

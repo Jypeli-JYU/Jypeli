@@ -1,5 +1,6 @@
 @echo off
 setlocal
+rem | Copies the output files for a specific platform to Compiled directory
 
 rem Globals
 set baseDir=Compiled
@@ -22,6 +23,19 @@ if not exist %outputDir% mkdir %outputDir%
 
 rem Platform specific files
 
+if "%platform%"=="Windows" goto copywin
+if "%platform%"=="WindowsGL" goto copywin
+goto nocopywin
+
+:copywin
+copy MonoGame\ThirdParty\GamepadConfig\SDL_mixer.dll %outputdir%
+copy MonoGame\ThirdParty\GamepadConfig\sdl.dll %outputdir%
+:nocopywin
+
+if "%platform%"=="Linux" (
+  copy MonoGame\ThirdParty\Libs\OpenTK.dll.config %outputDir%
+)
+
 if "%platform%"=="WindowsPhone81" (
   set monosrc=MonoGame\MonoGame.Framework\bin\WindowsPhone81\AnyCPU\Release
   copy %monosrc%\SharpDX.dll %outputDir%\
@@ -31,13 +45,13 @@ if "%platform%"=="WindowsPhone81" (
   copy %monosrc%\MonoGame.Framework.xr.xml %outputDir%\MonoGame.Framework\
   copy %monosrc%\Themes\generic.xbf %outputDir%\MonoGame.Framework\Themes\
 )
-
 rem Common files
 copy Jypeli\bin\%platform%\%arch%\Release\*.dll %outputDir%\
 copy Jypeli\bin\%platform%\%arch%\Release\*.xml %outputDir%\
 copy Jypeli\bin\%platform%\%arch%\Release\*.config %outputDir%\
 copy SimplePhysics\bin\%platform%\%arch%\Release\* %outputDir%\
 copy Physics2d\bin\%platform%\%arch%\Release\* %outputDir%\
+
 goto end
 
 :argfail

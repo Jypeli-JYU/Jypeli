@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 6.5.0"
+Name "MonoJypeli 6.5.4"
 
 OutFile "MonoJypeli_setup.exe"
 
@@ -75,6 +75,12 @@ Section "MonoJypeli for Linux"
   SetOutPath "$INSTDIR\Linux"
   File "..\Compiled\Linux-AnyCPU\*.dll"
   File "..\Compiled\Linux-AnyCPU\*.xml"
+SectionEnd
+
+Section "OpenAL" OpenAL
+  SetOutPath "$INSTDIR\WindowsGL"
+  File '..\MonoGame\ThirdParty\Dependencies\oalinst.exe'
+  ExecWait '"$INSTDIR\WindowsGL\oalinst.exe /S"'
 SectionEnd
 
 SubSection "Visual Studio 2015 project templates"
@@ -243,12 +249,12 @@ Function CopyDxTemplates
    
    IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
     StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-	SetOutPath $1
+    SetOutPath $1
     File "..\projektimallit\Windows\*.zip"
-	Goto VSPro
-	
+    Goto VSPro
+    
   VSPro:
-	IfFileExists "$0..\IDE\devenv.exe" 0 Done
+    IfFileExists "$0..\IDE\devenv.exe" 0 Done
       StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\DirectX 11"
       CreateDirectory $1
       SetOutPath $1
@@ -262,12 +268,12 @@ Function CopyGLTemplates
    
    IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
     StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-	SetOutPath $1
+    SetOutPath $1
     File "..\projektimallit\WindowsGL\*.zip"
-	Goto VSPro
-	
+    Goto VSPro
+    
   VSPro:
-	IfFileExists "$0..\IDE\devenv.exe" 0 Done
+    IfFileExists "$0..\IDE\devenv.exe" 0 Done
       StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
       CreateDirectory $1
       SetOutPath $1
@@ -281,12 +287,12 @@ Function CopyWp81Templates
    
    IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
     StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-	SetOutPath $1
+    SetOutPath $1
     File "..\projektimallit\WP81\*.zip"
-	Goto VSPro
-	
+    Goto VSPro
+    
   VSPro:
-	IfFileExists "$0..\IDE\devenv.exe" 0 Done
+    IfFileExists "$0..\IDE\devenv.exe" 0 Done
       StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows Phone 8.1"
       CreateDirectory $1
       SetOutPath $1
@@ -300,12 +306,12 @@ Function CopyRTTemplates
    
    IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
     StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-	SetOutPath $1
+    SetOutPath $1
     File "..\projektimallit\Win8\*.zip"
-	Goto VSPro
-	
+    Goto VSPro
+    
   VSPro:
-	IfFileExists "$0..\IDE\devenv.exe" 0 Done
+    IfFileExists "$0..\IDE\devenv.exe" 0 Done
       StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows 8"
       CreateDirectory $1
       SetOutPath $1
@@ -320,7 +326,7 @@ Function InstallVsTemplates
    IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
      ExecWait '"$0..\IDE\vcsexpress.exe" /installvstemplates'
      Goto VSPro
-	
+    
   VSPro:
     IfFileExists "$0..\IDE\devenv.exe" 0 Done
       ExecWait '"$0..\IDE\devenv" /installvstemplates'

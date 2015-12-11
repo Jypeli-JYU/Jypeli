@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>PerusPeliRT</Name>
-    <Description>Peli ilman fysiikkaa Windows RT:lle (Windows 8 Store)</Description>
+    <Name>PerusPeli Win8.1</Name>
+    <Description>Peli ilman fysiikkaa Windows 8.1:lle (Store App). Toimii Windows 8.1 -tableteilla.</Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>
     </ProjectSubType>

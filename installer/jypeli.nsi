@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 6.5.5"
+Name "MonoJypeli 6.5.6"
 
 OutFile "MonoJypeli_setup.exe"
 
@@ -60,7 +60,7 @@ Section "MonoJypeli for Windows Phone 8.1"
 SectionEnd
 
 
-Section "MonoJypeli for Windows Store 8 / WinRT"
+Section "MonoJypeli for Windows Store 8.1"
   SetOutPath "$INSTDIR\Win8"
   File "..\Compiled\Windows8-AnyCPU\*"
   SetOutPath "$INSTDIR\Win8\MonoGame.Framework"
@@ -104,7 +104,7 @@ Section "Windows OpenGL"
   ${Endif}
 SectionEnd
 
-Section "Windows 8 Store / RT"
+Section "Windows 8.1 Store App"
   ReadEnvStr $R0 VS140COMNTOOLS
   ${If} $R0 != ""
     Push $R0
@@ -162,7 +162,7 @@ Section "Windows OpenGL"
   ${Endif}
 SectionEnd
 
-Section "Windows 8 Store / RT"
+Section "Windows 8.1 Store App"
   ReadEnvStr $R0 VS120COMNTOOLS
   ${If} $R0 != ""
     Push $R0
@@ -218,7 +218,7 @@ Section "WindowsGL"
   ${Endif}
 SectionEnd
 
-Section "Windows 8 Store / RT"
+Section "Windows 8.1 Store App"
   ReadEnvStr $R0 VS110COMNTOOLS
   ${If} $R0 != ""
     Push $R0
@@ -309,7 +309,8 @@ Function CopyRTTemplates
     
   VSPro:
     IfFileExists "$0..\IDE\devenv.exe" 0 Done
-      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows 8"
+      RMDir /r /REBOOTOK "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows 8"
+      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows 8.1"
       CreateDirectory $1
       SetOutPath $1
       File "..\projektimallit\Win8\*.zip"

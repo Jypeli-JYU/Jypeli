@@ -37,7 +37,7 @@ if "%platform%"=="Linux" (
 )
 
 if "%platform%"=="Windows8" goto copyw8
-if "%platform%"=="WindowsPhone8" goto copyw8
+if "%platform%"=="WindowsPhone81" goto copyw8
 goto nocopyw8
 
 :copyw8

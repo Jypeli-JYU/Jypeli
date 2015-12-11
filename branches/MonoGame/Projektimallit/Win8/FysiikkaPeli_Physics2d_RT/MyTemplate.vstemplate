@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>FysiikkaPeli RT (Physics2d)</Name>
-    <Description>Fysiikkapeli Windows RT:lle (Windows 8 Store). Käyttää Physics2d-fysiikkamoottoria.</Description>
+    <Name>FysiikkaPeli Win8.1 (Physics2d)</Name>
+    <Description>Fysiikkapeli Windows 8.1:lle (Store App). Käyttää Physics2d-fysiikkamoottoria. Toimii Windows 8.1 -tableteilla.</Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>
     </ProjectSubType>

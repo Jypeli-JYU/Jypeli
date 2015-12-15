@@ -17,8 +17,10 @@ if %argC% NEQ 1 (
 )
 
 rem Directories
-if not exist %baseDir% mkdir %baseDir%
+set monosrc=MonoGame\MonoGame.Framework\bin\%platform%\%arch%\Release
 set outputDir=%baseDir%\%platform%-%arch%
+
+if not exist %baseDir% mkdir %baseDir%
 if not exist %outputDir% mkdir %outputDir%
 
 rem Platform specific files
@@ -41,21 +43,20 @@ if "%platform%"=="WindowsPhone81" goto copyw8
 goto nocopyw8
 
 :copyw8
-set monosrc=MonoGame\MonoGame.Framework\bin\WindowsPhone81\AnyCPU\Release
-copy %monosrc%\SharpDX.dll %outputDir%\
-copy %monosrc%\SharpDX.xml %outputDir%\
-
 mkdir %outputDir%\MonoGame.Framework\Themes
 copy %monosrc%\MonoGame.Framework.xr.xml %outputDir%\MonoGame.Framework\
 copy %monosrc%\Themes\generic.xbf %outputDir%\MonoGame.Framework\Themes\
 :nocopyw8
 
 rem Common files
+copy %monosrc%\SharpDX.* %outputDir%\
 copy Jypeli\bin\%platform%\%arch%\Release\*.dll %outputDir%\
 copy Jypeli\bin\%platform%\%arch%\Release\*.xml %outputDir%\
 copy Jypeli\bin\%platform%\%arch%\Release\*.config %outputDir%\
 copy SimplePhysics\bin\%platform%\%arch%\Release\* %outputDir%\
 copy Physics2d\bin\%platform%\%arch%\Release\* %outputDir%\
+
+del %outputDir%\*.pdb
 
 goto end
 

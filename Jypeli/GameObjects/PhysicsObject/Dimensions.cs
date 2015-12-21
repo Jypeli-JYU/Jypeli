@@ -9,8 +9,24 @@ namespace Jypeli
 {
     public partial class PhysicsObject : GameObject, IPhysicsObjectInternal
     {
+        private BoundingRectangle _bRect = new BoundingRectangle();
+
         [Save]
         public IPhysicsBody Body { get; private set; }
+
+        /// <summary>
+        /// Olion sisältävä laatikko törmäyskäsittelyä varten.
+        /// </summary>
+        /// <value>The bounding rectangle.</value>
+        public BoundingRectangle BoundingRectangle
+        {
+            get
+            {
+                _bRect.Position = this.Position;
+                _bRect.Size = this.Size;
+                return _bRect;
+            }
+        }
 
         public override Vector Position
         {

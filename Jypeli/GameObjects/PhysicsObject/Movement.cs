@@ -7,6 +7,69 @@ namespace Jypeli
 {
     public partial class PhysicsObject
     {
+        private double _maxAngularV = double.PositiveInfinity;
+        private double _maxLinearV = double.PositiveInfinity;
+
+        /// <summary>
+        /// Nopeus.
+        /// </summary>
+        /// <value>The velocity.</value>
+        public Vector Velocity
+        {
+            get { return Body.Velocity; }
+            set { Body.Velocity = value; }
+        }
+
+        /// <summary>
+        /// Kiihtyvyys.
+        /// </summary>
+        /// <value>The acceleration.</value>
+        public Vector Acceleration
+        {
+            get { return Body.Acceleration; }
+            set { Body.Acceleration = value; }
+        }
+
+        /// <summary>
+        /// Kulmanopeus.
+        /// </summary>
+        /// <value>The angular velocity.</value>
+        public double AngularVelocity
+        {
+            get { return Body.AngularVelocity; }
+            set { Body.AngularVelocity = value; }
+        }
+
+        /// <summary>
+        /// Kulmakiihtyvyys.
+        /// </summary>
+        /// <value>The angular acceleration.</value>
+        public double AngularAcceleration
+        {
+            get { return Body.AngularAcceleration; }
+            set { Body.AngularAcceleration = value; }
+        }
+
+        /// <summary>
+        /// Suurin nopeus, jonka olio voi saavuttaa.
+        /// </summary>
+        [Save]
+        public double MaxVelocity
+        {
+            get { return _maxLinearV; }
+            set { _maxLinearV = value; IsUpdated = true; }
+        }
+
+        /// <summary>
+        /// Suurin kulmanopeus, jonka olio voi saavuttaa.
+        /// </summary>
+        [Save]
+        public double MaxAngularVelocity
+        {
+            get { return _maxAngularV; }
+            set { _maxAngularV = value; IsUpdated = true; }
+        }
+
         /// <summary>
         /// Työntää oliota.
         /// </summary>

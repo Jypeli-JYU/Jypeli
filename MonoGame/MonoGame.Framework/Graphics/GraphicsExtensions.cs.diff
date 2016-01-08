@@ -1,13 +1,17 @@
-diff --git "a/C:\\Users\\Tomi\\AppData\\Local\\Temp\\TortoiseGit\\Gra5EC7.tmp\\GraphicsExtensions-74fef2d-left.cs" "b/C:\\Versiohallinta\\MonoJypeli\\MonoGame\\MonoGame.Framework\\Graphics\\GraphicsExtensions.cs"
-index a96fc03..be6a59c 100644
---- "a/C:\\Users\\Tomi\\AppData\\Local\\Temp\\TortoiseGit\\Gra5EC7.tmp\\GraphicsExtensions-74fef2d-left.cs"
-+++ "b/C:\\Versiohallinta\\MonoJypeli\\MonoGame\\MonoGame.Framework\\Graphics\\GraphicsExtensions.cs"
-@@ -879,7 +879,7 @@ namespace Microsoft.Xna.Framework.Graphics
+diff --git "a/C:\\Users\\SCREWB~1\\AppData\\Local\\Temp\\TortoiseGit\\GraF64B.tmp\\GraphicsExtensions-74fef2d-left.cs" "b/R:\\Versiohallinta\\MonoKaannos\\MonoGame\\MonoGame.Framework\\Graphics\\GraphicsExtensions.cs"
+index a96fc03..54033b3 100644
+--- "a/C:\\Users\\SCREWB~1\\AppData\\Local\\Temp\\TortoiseGit\\GraF64B.tmp\\GraphicsExtensions-74fef2d-left.cs"
++++ "b/R:\\Versiohallinta\\MonoKaannos\\MonoGame\\MonoGame.Framework\\Graphics\\GraphicsExtensions.cs"
+@@ -876,10 +876,11 @@ namespace Microsoft.Xna.Framework.Graphics
+         {
+ #if GLES
+             var error = GL.GetErrorCode();
++			if (error != ErrorCode.NoError)
  #else
              var error = GL.GetError();
++			if (error != ErrorCode.NoError && error != ErrorCode.InvalidFramebufferOperationExt)
  #endif
 -            if (error != ErrorCode.NoError)
-+            if (error != ErrorCode.NoError && error != ErrorCode.InvalidFramebufferOperationExt)
                  throw new MonoGameGLException("GL.GetError() returned " + error.ToString());
          }
  #endif

@@ -78,20 +78,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
-      <Project>{6D75E618-19CA-4C51-9546-F10965FBC0B8}</Project>
-      <Name>MonoGame.Framework.WindowsGL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Jypeli\Jypeli-WindowsGL.csproj">
-      <Project>{76CC55A2-BECE-4F80-B491-DDCAB9F061FB}</Project>
-      <Name>Jypeli-WindowsGL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Physics2d\Physics2d-WindowsGL.csproj">
-      <Project>{041D26C6-A261-4843-906E-7326AB1DBA4C}</Project>
-      <Name>Physics2d-WindowsGL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
@@ -112,6 +98,20 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Jypeli\Jypeli.WindowsGL.csproj">
+      <Project>{76cc55a2-bece-4f80-b491-ddcab9f061fb}</Project>
+      <Name>Jypeli.WindowsGL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
+      <Project>{6d75e618-19ca-4c51-9546-f10965fbc0b8}</Project>
+      <Name>MonoGame.Framework.WindowsGL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Physics2d\Jypeli.Physics2d.WindowsGL.csproj">
+      <Project>{041d26c6-a261-4843-906e-7326ab1dba4c}</Project>
+      <Name>Jypeli.Physics2d.WindowsGL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!--

@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-#if EFFECTS
 using Jypeli.Effects;
-#endif
 
 namespace Jypeli.Assets
 {
@@ -45,8 +43,6 @@ namespace Jypeli.Assets
             collidingObject.Destroy();
             targetObject.Destroy();
         }
-
-#if EXPLOSIONS
 
         /// <summary>
         /// Räjäyttää törmäävän olion.
@@ -108,8 +104,6 @@ namespace Jypeli.Assets
                 }
             };
         }
-
-#endif
 
         /// <summary>
         /// Lisää mittarin arvoa halutulla määrällä.
@@ -182,8 +176,6 @@ namespace Jypeli.Assets
             };
         }
 
-#if EFFECTS
-
         /// <summary>
         /// Lisää efektin törmäävän olion kohdalle.
         /// </summary>
@@ -211,8 +203,6 @@ namespace Jypeli.Assets
                 expSystem.AddEffect( targetObject.Position, numParticles );
             };
         }
-
-#endif
 
         /// <summary>
         /// Kasvattaa törmäävän olion kokoa (tai pienentää negatiivisilla arvoilla)

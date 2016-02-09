@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.Jypeli.Linux", "MonoDevelop.Jypeli.Linux.csproj", "{E67DEA04-C3D9-4F13-98AF-D15860CEAF89}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.Jypeli.Linux", "Linux\MonoDevelop.Jypeli.Linux.csproj", "{E67DEA04-C3D9-4F13-98AF-D15860CEAF89}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{483ACED9-E6D3-4B26-A39C-3B1F40D6C61A}"
 EndProject

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.Jypeli.Windows", "MonoDevelop.Jypeli.Windows.csproj", "{6B2F9E23-E9BB-4461-8F7F-E81BCD39150A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDevelop.Jypeli.Windows", "Windows\MonoDevelop.Jypeli.Windows.csproj", "{6B2F9E23-E9BB-4461-8F7F-E81BCD39150A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.Windows", "..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows.csproj", "{7DE47032-A904-4C29-BD22-2D235E8D91BA}"
 EndProject

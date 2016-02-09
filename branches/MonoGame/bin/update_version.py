@@ -61,6 +61,7 @@ def main():
     addinpattern = re.compile('category="Jypeli" version=".*"')
     newaddinmatch = 'category="Jypeli" version="%s"' % newver
     file_replace('../Projektimallit/Xamarin/Properties/MonoDevelop.Jypeli.Windows.addin.xml', addinpattern, newaddinmatch)
+    file_replace('../Projektimallit/Xamarin/Properties/MonoDevelop.Jypeli.WindowsGL.addin.xml', addinpattern, newaddinmatch)
     file_replace('../Projektimallit/Xamarin/Properties/MonoDevelop.Jypeli.Linux.addin.xml', addinpattern, newaddinmatch)
     file_replace('../Projektimallit/Xamarin/Properties/MonoDevelop.Jypeli.Mac.addin.xml', addinpattern, newaddinmatch)
     

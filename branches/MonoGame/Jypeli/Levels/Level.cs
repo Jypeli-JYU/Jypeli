@@ -230,5 +230,35 @@ namespace Jypeli
 
             return new BoundingRectangle( new Vector( left, top ), new Vector( right, bottom ) );
         }
+
+        /// <summary>
+        /// Palauttaa satunnaisen kohdan kentän reunojen sisältä.
+        /// </summary>
+        /// <returns>Vektori.</returns>
+        public Vector GetRandomPosition()
+        {
+            return new Vector( RandomGen.NextDouble( Left, Right ), RandomGen.NextDouble( Bottom, Top ) );
+        }
+
+        /// <summary>
+        /// Palauttaa satunnaisen vapaan kohdan kentän reunojen sisältä.
+        /// </summary>
+        /// <param name="radius">Säde jonka sisällä ei saa olla olioita</param>
+        /// <returns></returns>
+        public Vector GetRandomFreePosition(double radius)
+        {
+            if (radius < 0) throw new ArgumentException("Radius cannot be negative!");
+            if (radius == 0) return GetRandomPosition();
+
+            Vector position;
+
+            do
+            {
+                position = GetRandomPosition();
+            }
+            while (Game.Instance.GetObjectAt(position, radius) != null);
+
+            return position;
+        }
     }
 }

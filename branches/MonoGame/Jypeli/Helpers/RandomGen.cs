@@ -158,6 +158,24 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Palauttaa satunnaisen vaalean värin.
+        /// </summary>
+        /// <returns>Satunnainen vaalea väri</returns>
+        public static Color NextLightColor()
+        {
+            return Color.Mix( NextColor(), Color.White );
+        }
+
+        /// <summary>
+        /// Palauttaa satunnaisen tumman värin.
+        /// </summary>
+        /// <returns>Satunnainen tumma väri</returns>
+        public static Color NextDarkColor()
+        {
+            return Color.Mix( NextColor(), Color.Black );
+        }
+
+        /// <summary>
         /// Palauttaa satunnaisen värin olioilmentymän perusteella.
         /// Sama olio palauttaa aina saman värin.
         /// </summary>

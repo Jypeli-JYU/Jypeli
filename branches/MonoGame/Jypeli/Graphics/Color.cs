@@ -443,6 +443,33 @@ namespace Jypeli
             Microsoft.Xna.Framework.Color x = c.AsXnaColor();
             return new Color( (byte)r, (byte)g, (byte)b, c.AlphaComponent );
         }
+        /// <summary>
+        /// Sekoittaa kahta tai useampaa väriä.
+        /// </summary>
+        /// <param name="colors">Värit parametreina.</param>
+        /// <returns>Sekoitettu väri</returns>
+        public static Color Mix( params Color[] colors )
+        {
+            if (colors.Length == 0)
+                throw new ArgumentException("Color.Average needs at least one argument");
+
+            double[] sums = new double[4];
+
+            for (int i = 0; i < colors.Length; i++)
+            {
+                sums[0] += colors[i].RedComponent / 255.0;
+                sums[1] += colors[i].GreenComponent / 255.0;
+                sums[2] += colors[i].BlueComponent / 255.0;
+                sums[3] += colors[i].AlphaComponent / 255.0;
+            }
+
+            return new Color(
+                sums[0] / colors.Length,
+                sums[1] / colors.Length,
+                sums[2] / colors.Length,
+                sums[3] / colors.Length
+            );
+        }
 
         /// <summary>
         /// Tuhkanharmaa.

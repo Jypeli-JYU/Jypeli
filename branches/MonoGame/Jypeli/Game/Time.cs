@@ -72,6 +72,7 @@ namespace Jypeli
             this.Camera.Update( time );
             Layers.Update( time );
             Timer.UpdateAll( time );
+            UpdateHandlers( time );
             ExecutePendingActions();
         }
 

@@ -28,6 +28,7 @@
     <EnableCodeSigning>false</EnableCodeSigning>
     <CreatePackage>false</CreatePackage>
     <UseRefCounting>false</UseRefCounting>
+    <Profiling>false</Profiling>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
@@ -45,6 +46,7 @@
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
     <UseRefCounting>false</UseRefCounting>
+    <Profiling>false</Profiling>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|x86' ">
     <DebugType>full</DebugType>
@@ -63,6 +65,7 @@
     <EnableCodeSigning>true</EnableCodeSigning>
     <EnablePackageSigning>true</EnablePackageSigning>
     <UseRefCounting>false</UseRefCounting>
+    <Profiling>false</Profiling>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -70,9 +73,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
-    <Reference Include="Jypeli.MonoGame.Framework">
-      <HintPath>..\..\..\MonoGame\MonoGame.Framework\bin\MacOS\Debug\Jypeli.MonoGame.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral" />
   </ItemGroup>
   <ItemGroup>
@@ -89,13 +89,13 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\v0.0\Xamarin.Mac.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Jypeli\Jypeli-MacOS.csproj">
+    <ProjectReference Include="..\..\..\Jypeli\Jypeli.MacOS.csproj">
       <Project>{21146E75-35F4-4E05-B6E9-E58903D9A4C2}</Project>
-      <Name>Jypeli-MacOS</Name>
+      <Name>Jypeli.MacOS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Physics2d\Physics2d-MacOS.csproj">
+    <ProjectReference Include="..\..\..\Physics2d\Jypeli.Physics2d.MacOS.csproj">
       <Project>{C4EFECB3-7397-4DCF-990D-26A0EF6E8445}</Project>
-      <Name>Physics2d-MacOS</Name>
+      <Name>Jypeli.Physics2d.MacOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.MacOS.csproj">
       <Project>{36C538E6-C32A-4A8D-A39C-566173D7118E}</Project>

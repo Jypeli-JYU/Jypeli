@@ -5,7 +5,7 @@ index 2fce883..2578624 100644
 @@ -192,17 +192,25 @@ namespace Microsoft.Xna.Framework
                  GraphicsExtensions.CheckGLError();
              }
- #elif WINDOWS || LINUX || ANGLE
+ #elif WINDOWS || DESKTOPGL || ANGLE
 -            lock (BackgroundContext)
 +            try
              {

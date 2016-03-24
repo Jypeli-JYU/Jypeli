@@ -323,6 +323,7 @@
     <Compile Include="Game\DebugScreen.cs" />
     <Compile Include="Game\DelayedActions.cs" />
     <Compile Include="Game\Effects.cs" />
+	<Compile Include="Game\Events.cs" />
     <Compile Include="Game\Factory.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Physics\PhysicsGameBase.cs" />

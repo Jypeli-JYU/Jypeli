@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 #endregion
 
-namespace $safeprojectname$
+namespace Program
 {
 #if WINDOWS || LINUX
     /// <summary>
@@ -18,8 +18,8 @@ namespace $safeprojectname$
         [STAThread]
         static void Main()
         {
-            using (var peli = new $safeprojectname$())
-                peli.Run();
+            using ( var game = new $safeprojectname$() )
+                game.Run();
         }
     }
 #endif

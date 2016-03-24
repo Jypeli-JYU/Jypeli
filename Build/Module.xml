@@ -1,11 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ModuleInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Module>
   <Name>Jypeli</Name>
-  <ModuleAssemblies />
   <DefaultAction>Generate</DefaultAction>
-  <SupportedPlatforms>Android,Angle,Linux,Linux.headless,Ouya,PSMobile,Windows8,Windows,WindowsGL,WindowsGL.headless,WindowsPhone81,iOS,MacOS,Web</SupportedPlatforms>
-  <DefaultWindowsPlatforms>Android,Angle,Linux,Linux.headless,Ouya,PSMobile,Windows8,Windows,WindowsGL,WindowsGL.headless,WindowsPhone81,iOS</DefaultWindowsPlatforms>
-  <DefaultMacOSPlatforms>Angle,Linux,Linux.headless,MacOS,iOS,WindowsGL,Android</DefaultMacOSPlatforms>
-  <DefaultLinuxPlatforms>Angle,Linux,Linux.headless,WindowsGL</DefaultLinuxPlatforms>
+  <DefaultLinuxPlatforms>Angle,Linux,WindowsGL</DefaultLinuxPlatforms>
+  <DefaultMacOSPlatforms>Angle,MacOS,iOS,WindowsGL,Android,tvOS</DefaultMacOSPlatforms>
+  <DefaultWindowsPlatforms>Android,Angle,Linux,Ouya,Windows8,Windows,WindowsGL,WindowsPhone,WindowsPhone81,WindowsUniversal,iOS,tvOS</DefaultWindowsPlatforms>
+  <SupportedPlatforms>Android,Angle,Linux,Ouya,Windows8,Windows,WindowsGL,WindowsPhone,WindowsPhone81,WindowsUniversal,iOS,MacOS,Web,tvOS</SupportedPlatforms>
   <DisableSynchronisation>true</DisableSynchronisation>
-</ModuleInfo>
+  <FeatureSet>
+    <Feature>PackageManagement</Feature>
+  </FeatureSet>
+</Module>

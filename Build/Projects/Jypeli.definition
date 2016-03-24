@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Name="Jypeli" Path="Jypeli" Type="Library" Platforms="Android,Angle,iOS,Linux,Linux.headless,MacOS,Ouya,PSMobile,Windows,Windows8,WindowsGL,WindowsGL.headless,WindowsPhone,WindowsPhone81,Web">
+<Project Name="Jypeli" Path="Jypeli" Type="Library" Platforms="Android,Angle,iOS,Linux,Linux.headless,MacOS,Ouya,PSMobile,Windows,Windows8,WindowsGL,WindowsGL.headless,WindowsPhone,WindowsPhone81,WindowsUniversal,Web">
 
 <ProjectGuids>
     <Platform Name="Android">F5D93EB7-50FA-482C-8A1C-F4CAD5CFB16D</Platform>
@@ -15,6 +15,7 @@
     <Platform Name="WindowsGL">76CC55A2-BECE-4F80-B491-DDCAB9F061FB</Platform>
     <Platform Name="WindowsGL.headless">76CC55A2-BECE-4F80-B491-DDCAB9F061FC</Platform>
 	<Platform Name="WindowsPhone81">86788B50-91AD-480E-8A06-E9C94FD1F07B</Platform>
+	<Platform Name="WindowsUniversal">C944EF39-20B8-4FCA-B523-9CE7088464E7</Platform>
 </ProjectGuids>
 
 <!-- Common assembly references -->
@@ -49,8 +50,15 @@
         <Platform Name="Windows">JYPELI;UseDouble;TRACE;WINDOWS;DIRECTX;WINDOWS_MEDIA_SESSION</Platform>
         <Platform Name="Windows8">JYPELI;UseDouble;TRACE;NETFX_CORE;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE</Platform>
         <Platform Name="WindowsPhone81">JYPELI;UseDouble;TRACE;WINDOWS_PHONE;WINDOWS_PHONE81;DIRECTX;WINDOWS_STOREAPP</Platform>
+		<Platform Name="WindowsUniversal">JYPELI;UseDouble;TRACE;NETFX_CORE;WINDOWS_UAP;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE</Platform>
         <Platform Name="Web">JYPELI;UseDouble;TRACE;WEB</Platform>
      </CustomDefinitions>
+	 
+	<FrameworkVersions>
+	  <Platform Name="Windows8">
+	    <Version>v4.5.1</Version>
+	  </Platform>
+    </FrameworkVersions>
 </Properties>
 
 <Dependencies>
@@ -61,7 +69,7 @@
         <Platforms>iOS,WindowsGL,WindowsGL.headless,Ouya,Android</Platforms>
     </Uses>
     <Uses Name="DirectXGraphics">
-        <Platforms>Windows8,WindowsPhone81</Platforms>
+        <Platforms>Windows8,WindowsPhone81,WindowsUniversal</Platforms>
     </Uses>
     <Uses Name="PSMGraphics">
         <Platforms>PSMobile</Platforms>
@@ -100,7 +108,7 @@
         <Requires>OpenALAudio,_GLCompatible</Requires>
     </Service>
     <Service Name="DirectXGraphics">
-        <Platforms>Windows,Windows8,WindowsPhone81</Platforms>
+        <Platforms>Windows,Windows8,WindowsPhone81,WindowsUniversal</Platforms>
         <Conflicts>ANGLEGraphics,OpenGLGraphics,PSMGraphics,WebGraphics</Conflicts>
         <Requires>XAudioAudio</Requires>
     </Service>
@@ -121,7 +129,7 @@
         <Conflicts>XAudioAudio,PSMAudio,WebAudio</Conflicts>
     </Service>
     <Service Name="XAudioAudio">
-        <Platforms>Windows,Windows8,WindowsPhone81</Platforms>
+        <Platforms>Windows,Windows8,WindowsPhone81,WindowsUniversal</Platforms>
         <Conflicts>OpenALAudio,PSMAudio,WebAudio</Conflicts>
     </Service>
         <Service Name="PSMAudio">
@@ -212,10 +220,10 @@
     <Compile Include="Content\Tank.cs" />
     <Compile Include="Content\UpArrow.cs" />
     <Compile Include="EffectContent\Lighting.cs">
-		<ExcludePlatforms>Windows,Windows8</ExcludePlatforms>
+		<ExcludePlatforms>Windows,Windows8,WindowsUniversal</ExcludePlatforms>
 	</Compile>
 	<Compile Include="EffectContent\Lighting_dx11.cs">
-		<Platforms>Windows,Windows8</Platforms>
+		<Platforms>Windows,Windows8,WindowsUniversal</Platforms>
 	</Compile>
     <Compile Include="ContentExtensions\TextReader.cs" />
     <Compile Include="Controls\Controller\AnalogControl.cs" />
@@ -377,23 +385,23 @@
     <Compile Include="Storage\LoadState.cs" />
     <Compile Include="Storage\SaveState.cs" />
     <Compile Include="Storage\StorageFile.cs">
-		<ExcludePlatforms>Windows8,WindowsPhone81</ExcludePlatforms>
+		<ExcludePlatforms>Windows8,WindowsPhone81,WindowsUniversal</ExcludePlatforms>
 	</Compile>
     <Compile Include="Storage\TypeHelper.cs" />
     <Compile Include="Storage\WindowsFileManager.cs">
         <Platforms>Windows,WindowsGL,WindowsGL.headless</Platforms>
     </Compile>
     <Compile Include="Storage\RtFileManager.cs">
-        <Platforms>Windows8,WindowsPhone81</Platforms>
+        <Platforms>Windows8,WindowsPhone81,WindowsUniversal</Platforms>
     </Compile>
     <Compile Include="Storage\RtStorageFile.cs">
-        <Platforms>Windows8,WindowsPhone81</Platforms>
+        <Platforms>Windows8,WindowsPhone81,WindowsUniversal</Platforms>
     </Compile>
     <Compile Include="Storage\RtStorageSerializer.cs">
-        <Platforms>Windows8,WindowsPhone81</Platforms>
+        <Platforms>Windows8,WindowsPhone81,WindowsUniversal</Platforms>
     </Compile>
     <Compile Include="Storage\LinuxFileManager.cs">
-        <ExcludePlatforms>Windows,WindowsGL,WindowsGL.headless,Windows8,WindowsPhone81</ExcludePlatforms>
+        <ExcludePlatforms>Windows,WindowsGL,WindowsGL.headless,Windows8,WindowsPhone81,WindowsUniversal</ExcludePlatforms>
     </Compile>
     <Compile Include="DataTypes\Destroyable.cs" />
     <Compile Include="DataTypes\Tagged.cs" />
@@ -437,10 +445,10 @@
     <Compile Include="WP8\DisplayOrientation.cs" />
     <Compile Include="WP8\DisplayResolution.cs" />
     <Compile Include="WP8\Phone.cs">
-        <Platforms>WindowsPhone81</Platforms>
+        <Platforms>WindowsPhone81,WindowsUniversal</Platforms>
     </Compile>
     <Compile Include="WP8\PhoneStub.cs">
-        <ExcludePlatforms>WindowsPhone81</ExcludePlatforms>
+        <ExcludePlatforms>WindowsPhone81,WindowsUniversal</ExcludePlatforms>
     </Compile>
 </Files>
 </Project>

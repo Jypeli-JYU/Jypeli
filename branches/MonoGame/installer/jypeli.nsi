@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 6.6.0"
+Name "MonoJypeli 6.6.1"
 
 OutFile "MonoJypeli_setup.exe"
 
@@ -66,7 +66,7 @@ Section "MonoJypeli for Windows Store 8.1"
   SetOutPath "$INSTDIR\Win8\MonoGame.Framework"
   File "..\Compiled\Windows8-AnyCPU\MonoGame.Framework\MonoGame.Framework.xr.xml"
   SetOutPath "$INSTDIR\Win8\MonoGame.Framework\Themes"
-  File "..\Compiled\Windows8-AnyCPU\MonoGame.Framework\Themes\generic.xbf"
+  File "..\Compiled\Windows8-AnyCPU\MonoGame.Framework\Themes\generic.xaml"
 SectionEnd
 
 Section "MonoJypeli for Linux"

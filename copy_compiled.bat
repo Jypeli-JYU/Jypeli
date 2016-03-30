@@ -45,7 +45,7 @@ goto nocopyw8
 :copyw8
 mkdir %outputDir%\MonoGame.Framework\Themes
 copy %monosrc%\MonoGame.Framework.xr.xml %outputDir%\MonoGame.Framework\
-copy %monosrc%\Themes\generic.xbf %outputDir%\MonoGame.Framework\Themes\
+copy %monosrc%\Themes\* %outputDir%\MonoGame.Framework\Themes\
 :nocopyw8
 
 rem Common files

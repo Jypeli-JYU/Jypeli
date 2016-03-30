@@ -57,12 +57,7 @@ if "%platform%"=="Linux" (
 %msbuild% Jypeli.%platform%.sln /t:Rebuild /p:Configuration=Release;Platform=%arch2%
 if errorlevel 1 goto error
 
-copy Jypeli\bin\%platform%\%arch%\Release\*.dll %outputDir%\
-copy Jypeli\bin\%platform%\%arch%\Release\*.xml %outputDir%\
-copy Jypeli\bin\%platform%\%arch%\Release\*.config %outputDir%\
-copy SimplePhysics\bin\%platform%\%arch%\Release\* %outputDir%\
-copy Physics2d\bin\%platform%\%arch%\Release\* %outputDir%\
-
+call copy_compiled.bat %platform% %arch%
 goto end
 
 :argfail

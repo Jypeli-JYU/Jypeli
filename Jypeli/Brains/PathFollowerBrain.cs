@@ -8,10 +8,11 @@ namespace Jypeli.Assets
     /// </summary>
     public class PathFollowerBrain : AbstractMoverBrain
     {
-        private IList<Vector> path;
+        private List<Vector> path;
         private int wayPointIndex = 0;
         private int step = 1;
         private double _waypointRadius = 10;
+        private int stoppedAtCount = -1;
 
         /// <summary>
         /// Polku, eli lista pisteistä joita aivot seuraa.
@@ -21,9 +22,37 @@ namespace Jypeli.Assets
             get { return path; }
             set
             {
-                path = value;
+                path = new List<Vector>( value );
                 wayPointIndex = 0;
             }
+        }
+
+        /// <summary>
+        /// Seuraavan pisteen indeksi.
+        /// </summary>
+        public int NextWaypointIndex
+        {
+            get { return wayPointIndex; }
+            set { wayPointIndex = value; }
+        }
+
+        /// <summary>
+        /// Seuraavan pisteen paikka.
+        /// </summary>
+        public Vector NextWaypoint
+        {
+            get { return Path[wayPointIndex]; }
+        }
+
+        /// <summary>
+        /// Askel (listassa).
+        /// Seuraavan pisteen indeksi = tämän pisteen indeksi + askel.
+        /// Voi olla myös negatiivinen (mennään reittiä toiseen suuntaan).
+        /// </summary>
+        public int Step
+        {
+            get { return step; }
+            set { step = value; }
         }
 
         /// <summary>
@@ -49,6 +78,11 @@ namespace Jypeli.Assets
         /// Palataanko samaa reittiä takaisin.
         /// </summary>
         public bool ReverseReturn { get; set; }
+
+        /// <summary>
+        /// Tapahtuu, kun saavutetaan reitin piste.
+        /// </summary>
+        public event Action ArrivedAtWaypoint;
 
         /// <summary>
         /// Tapahtuu, kun saavutaan reitin päähän.
@@ -114,13 +148,26 @@ namespace Jypeli.Assets
 
         protected override void Update(Time time)
         {
-            if ( Owner == null || Path == null || wayPointIndex < 0 || wayPointIndex >= Path.Count ) return;
+            if ( Owner == null || Path == null || Path.Count == 0 ) return;
+
+            if ( wayPointIndex < 0 )
+                wayPointIndex = 0;
+            else if ( wayPointIndex >= Path.Count )
+                wayPointIndex = Path.Count - 1;
+
+            if ( stoppedAtCount >= 0 )
+            {
+                if ( stoppedAtCount == Path.Count )
+                    return;
+
+                stoppedAtCount = -1;
+            }
 
             Vector target = path[wayPointIndex];
             Vector dist = target - Owner.AbsolutePosition;
             DistanceToWaypoint.Value = dist.Magnitude;
 
-            if (DistanceToWaypoint.Value < WaypointRadius)
+            if ( DistanceToWaypoint.Value < WaypointRadius )
             {
                 // Arrived at waypoint
                 Arrived();
@@ -134,6 +181,12 @@ namespace Jypeli.Assets
             base.Update(time);
         }
 
+        private void OnArrivedAtWaypoint()
+        {
+            if ( ArrivedAtWaypoint != null )
+                ArrivedAtWaypoint();
+        }
+
         private void OnArrivedAtEnd()
         {
             if ( ArrivedAtEnd != null )
@@ -143,40 +196,38 @@ namespace Jypeli.Assets
                 ( (PhysicsObject)Owner ).Stop();
         }
 
-        void Arrived()
+        private void Arrived()
         {
-            if ( Path.Count == 0 || wayPointIndex >= path.Count ) return;
+            if ( Path == null || Path.Count == 0 || wayPointIndex >= path.Count )
+                return;
+
+            OnArrivedAtWaypoint();
 
             int nextIndex = wayPointIndex + step;
 
-            if ( nextIndex < 0 )
+            if ( nextIndex < 0 || nextIndex >= path.Count )
             {
                 OnArrivedAtEnd();
 
-                if ( Loop )
-                {
-                    step = Math.Abs( step );
-                    wayPointIndex = 0;
-                    return;
-                }
-            }
-            else if ( nextIndex >= path.Count )
-            {
-                OnArrivedAtEnd();
-                
                 if ( ReverseReturn )
                 {
-                    step = -Math.Abs( step );
-                    wayPointIndex += step;
-                    return;
+                    step = -step;
+                    wayPointIndex = nextIndex + step;
                 }
                 else if ( Loop )
                 {
-                    wayPointIndex = 0;
-                    return;
+                    wayPointIndex = nextIndex + Math.Sign( step ) * Path.Count;
+                    while ( wayPointIndex < 0 ) wayPointIndex += Path.Count;
+                    while ( wayPointIndex >= Path.Count ) wayPointIndex -= Path.Count;
                 }
+                else
+                {
+                    stoppedAtCount = Path.Count;
+                }
+
+                return;
             }
-            
+
             wayPointIndex = nextIndex;
         }
     }

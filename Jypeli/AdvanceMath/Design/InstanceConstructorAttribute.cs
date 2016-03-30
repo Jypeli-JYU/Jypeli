@@ -37,10 +37,6 @@ namespace AdvanceMath.Design
 
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="order">"CSV list"</param>
         public InstanceConstructorAttribute( string parameterNames)
         {
             this.parameterNames = parameterNames.Split(',');

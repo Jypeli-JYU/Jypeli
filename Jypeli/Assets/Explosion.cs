@@ -171,7 +171,7 @@ namespace Jypeli.Assets
         /// <summary>
         /// Laukaisee aliohjelman handler, kun tämän räjähdyksen paineaalto osuu olioon o.
         /// </summary>
-        /// <param name="o">Olio, johon paineaallon on osuttava</param>
+        /// <param name="tag">Olion tagi, johon paineaallon on osuttava</param>
         /// <param name="handler">Tapahtuman käsittelevä aliohjelma</param>
         public void AddShockwaveHandler(string tag, Action<IPhysicsObject, Vector> handler)
         {

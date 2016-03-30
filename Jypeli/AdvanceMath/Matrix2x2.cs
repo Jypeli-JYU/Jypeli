@@ -301,8 +301,6 @@ namespace AdvanceMath
         /// <summary>
         ///	Negates a Matrix2x2.
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
         /// <returns></returns>
         public static Matrix2x2 Negate(Matrix2x2 source)
         {

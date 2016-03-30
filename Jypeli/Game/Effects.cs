@@ -20,7 +20,7 @@ namespace Jypeli
 
         /// <summary>
         /// Tuuli. Vaikuttaa vain efekteihin
-        /// 
+        /// </summary>
         public static Vector Wind { get; set; }
 
         /// <summary>

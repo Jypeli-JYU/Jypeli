@@ -18,22 +18,18 @@ if %argC% NEQ 1 (
   set arch2=%2%
 )
 
-rem Framework dir
-set DefaultFrameworkDir=%WINDIR%\Microsoft.NET\Framework
+rem MSBuild
+set msbuild="C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
 
-if not defined FrameworkDir (
-   set FrameworkDir=%DefaultFrameworkDir%
-)
+if exist %msbuild% goto msbuildok
+ECHO.
+ECHO.
+echo MSBuild 14.0 (Visual Studio 2015) required.
+ECHO.
+ECHO.
+goto error
 
-echo %FrameworkDir%
-if not exist %FrameworkDir%\v4.0.30319 (
-  ECHO.
-  ECHO.
-  echo .NET Framework 4.0 required.
-  ECHO.
-  ECHO.
-  goto error
-)
+:msbuildok
 
 rem Protobuild
 protobuild -generate %platform%
@@ -44,7 +40,6 @@ set outputDir=%baseDir%\%platform%-%arch%
 if not exist %outputDir% mkdir %outputDir%
 
 rem Build
-set msbuild=%FrameworkDir%\v4.0.30319\MSBuild.exe
 
 if "%platform%"=="WindowsGL" goto copysdl
 goto nocopysdl

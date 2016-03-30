@@ -59,7 +59,7 @@ namespace AdvanceMath
         /// <param name="index">A 32-bit integer that represents the index in array at which copying begins.</param>
         void CopyTo(Scalar[] array, int index);
         /// <summary>
-        /// Copies all the elements, up to the <see cref="Length"/> of the IAdvanceValueType, of the specified one-dimensional Array to the IAdvanceValueType. 
+        /// Copies all the elements of the IAdvanceValueType, of the specified one-dimensional Array to the IAdvanceValueType. 
         /// </summary>
         /// <param name="array">The one-dimensional Array that is the source of the elements copied to the IAdvanceValueType.</param>
         /// <param name="index">A 32-bit integer that represents the index in array at which copying begins.</param>

@@ -122,8 +122,8 @@ namespace AdvanceMath
         /// Binds a value to 
         /// </summary>
         /// <param name="value"></param>
-        /// <param name="lower"></param>
-        /// <param name="upper"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
         /// <returns></returns>
         public static Vector2D Clamp(Vector2D value, Vector2D min, Vector2D max)
         {

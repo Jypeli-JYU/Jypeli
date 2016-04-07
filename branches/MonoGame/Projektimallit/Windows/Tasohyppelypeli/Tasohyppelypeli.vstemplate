@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
     <Name>Tasohyppelypeli</Name>
-    <Description>Peli jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää Physics2d-fysiikkamoottoria ja DirectX-grafiikkaa</Description>
+    <Description>Peli jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää Physics2d-fysiikkamoottoria ja OpenGL-grafiikkakirjastoa.</Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>
     </ProjectSubType>
@@ -16,8 +16,9 @@
   <TemplateContent>
     <Project TargetFileName="$safeprojectname$.csproj" File="Tasohyppelypeli.csproj" ReplaceParameters="true">
       <Folder Name="Content" TargetFolderName="Content">
-        <ProjectItem ReplaceParameters="true" TargetFileName="kentta1.txt">kentta1.txt</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="maali.xnb">maali.xnb</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="Content.mgcb">Content.mgcb</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="kentta1.txt">kentta1.txt</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="maali.wav">maali.wav</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="norsu.png">norsu.png</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="tahti.png">tahti.png</ProjectItem>
       </Folder>

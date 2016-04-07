@@ -15,9 +15,12 @@
   </TemplateData>
   <TemplateContent>
     <Project TargetFileName="$safeprojectname$.csproj" File="PerusPeli.csproj" ReplaceParameters="true">
-      <Folder Name="Content" TargetFolderName="Content" />
+      <Folder Name="Content" TargetFolderName="Content">
+        <ProjectItem ReplaceParameters="true" TargetFileName="Content.mgcb">Content.mgcb</ProjectItem>
+	  </Folder>
       <ProjectItem ReplaceParameters="false" TargetFileName="Icon.ico">Icon.ico</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Ohjelma.cs">Ohjelma.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="OpenTK.dll.config">OpenTK.dll.config</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.cs">Peli.cs</ProjectItem>
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>

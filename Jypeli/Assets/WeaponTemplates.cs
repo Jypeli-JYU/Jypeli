@@ -109,8 +109,6 @@ namespace Jypeli.Assets
         }
     }
 
-#if TODO
-
     /// <summary>
     /// Lasertykki
     /// </summary>
@@ -141,8 +139,6 @@ namespace Jypeli.Assets
             return beam;
         }
     }
-
-#endif
 
     /// <summary>
     /// Tykinkuula.

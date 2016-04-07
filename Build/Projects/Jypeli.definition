@@ -190,7 +190,9 @@
     </EmbeddedNativeLibrary>
 
 	<!-- Jypeli -->
-    <Compile Include="Assets\CollisionHandler.cs" />
+    <Compile Include="Assets\Automobile.cs" />
+	<Compile Include="Assets\CollisionHandler.cs" />
+	<Compile Include="Assets\DriverBrain.cs" />
     <Compile Include="Assets\Explosion.cs" />
     <Compile Include="Assets\PlatformCharacter.cs" />
     <Compile Include="Assets\PlatformCharacter2.cs" />

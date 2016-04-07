@@ -121,6 +121,19 @@ namespace Jypeli.Assets
         }
 
         /// <summary>
+        /// Tapahtumankäsittelijä ampumiselle, parametrinä ammus.
+        /// Voit antaa kaikille aseesta lähteville ammuksille ominaisuuksia
+        /// tällä tapahtumankäsittelijällä.
+        /// </summary>
+        public event Action<PhysicsObject> Shooting;
+
+        protected void OnShooting( PhysicsObject projectile )
+        {
+            if ( Shooting != null )
+                Shooting( projectile );
+        }
+
+        /// <summary>
         /// Tapahtumankäsittelijä ammuksen törmäykselle.
         /// </summary>
         public CollisionHandler<PhysicsObject, PhysicsObject> ProjectileCollision { get; set; }
@@ -176,6 +189,7 @@ namespace Jypeli.Assets
                 ShootProjectile( p, Power.Value );
                 if ( !InfiniteAmmo ) Ammo.Value--;
                 Power.Reset();
+                OnShooting( p );
 
                 return p;
             }

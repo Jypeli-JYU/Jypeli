@@ -31,6 +31,13 @@
     <Reference Include="MonoGame.Framework" />
 </References>
 
+<SDKReferences>
+	<SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+		<Name>Windows Mobile Extensions for the UWP</Name>
+	</SDKReference>
+</SDKReferences>
+
+
 <Properties>
     <NoWarn>1591,0436</NoWarn>
     <RootNamespace>Jypeli</RootNamespace>
@@ -182,7 +189,7 @@
         <Link>libs\x86\libopenal32.so</Link>
     </EmbeddedNativeLibrary>
 
-    <!-- Jypeli -->
+	<!-- Jypeli -->
     <Compile Include="Assets\CollisionHandler.cs" />
     <Compile Include="Assets\Explosion.cs" />
     <Compile Include="Assets\PlatformCharacter.cs" />

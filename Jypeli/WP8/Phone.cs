@@ -35,6 +35,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 #if WINDOWS_STOREAPP
+using Windows.Foundation.Metadata;
 using Windows.Phone.Devices.Notification;
 #else
 using Microsoft.Devices;
@@ -91,8 +92,10 @@ namespace Jypeli
         public void Vibrate( int milliSeconds )
         {
 #if WINDOWS_STOREAPP
-            VibrationDevice testVibrationDevice = VibrationDevice.GetDefault();
-            testVibrationDevice.Vibrate( TimeSpan.FromMilliseconds( milliSeconds ) );
+            if (ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0))
+            {
+                VibrationDevice.GetDefault()?.Vibrate(TimeSpan.FromSeconds(1));
+            }
 #else
             VibrateController.Default.Start( TimeSpan.FromMilliseconds( milliSeconds ) );
 #endif
@@ -104,8 +107,10 @@ namespace Jypeli
         public void StopVibrating()
         {
 #if WINDOWS_STOREAPP
-            VibrationDevice testVibrationDevice = VibrationDevice.GetDefault();
-            testVibrationDevice.Cancel();
+            if (ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0))
+            {
+                VibrationDevice.GetDefault()?.Cancel();
+            }
 #else
             VibrateController.Default.Stop();
 #endif

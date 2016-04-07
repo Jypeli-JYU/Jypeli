@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>PerusPeli (Windows 10 Universal)</Name>
-    <Description>PerusPeli Windows Universal 10 -alustalle, joka käsittää Windows 10 -työpöytäkoneet ja tabletit, sekä Windows Phone 10 -puhelimet.</Description>
+    <Name>FysiikkaPeli SimplePhysics (Windows 10 Universal)</Name>
+    <Description>Fysiikkapeli Windows Universal 10 -alustalle, joka käsittää Windows 10 -työpöytäkoneet ja tabletit, sekä Windows Phone 10 -puhelimet. Käyttää SimplePhysics-fysiikkamoottoria.</Description>
     <Icon>__TemplateIcon.png</Icon>
     <PreviewImage>__PreviewImage.png</PreviewImage>
-    <TemplateID>Jypeli.CS.WinRT.UAPGame</TemplateID>
+    <TemplateID>Jypeli.CS.WinRT.SimplePhysGame</TemplateID>
     <TemplateGroupID>WinRT-Managed</TemplateGroupID>
     <ProjectType>CSharp</ProjectType>
-    <SortOrder>43160</SortOrder>
+    <SortOrder>43161</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>PerusPeli</DefaultName>
+    <DefaultName>FysiikkaPeli</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>

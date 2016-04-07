@@ -16,6 +16,11 @@ namespace Jypeli
         private DisplayResolution _displayResolution = DisplayResolution.Large;
 
         /// <summary>
+        /// Onko laite puhelin.
+        /// </summary>
+        public bool IsPhone { get { return false; } }
+
+        /// <summary>
         /// Puhelimen näytön tarkkuus.
         /// </summary>
         public DisplayResolution DisplayResolution

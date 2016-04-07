@@ -53,6 +53,23 @@ namespace Jypeli
         private DisplayResolution _displayResolution = DisplayResolution.Large;
 
         /// <summary>
+        /// Onko laite puhelin.
+        /// </summary>
+        public bool IsPhone
+        {
+            get
+            {
+#if WINDOWS_PHONE
+                return true;
+#elif WINDOWS_UAP
+                return ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0);
+#else
+                return false;
+#endif
+            }
+        }
+
+        /// <summary>
         /// Puhelimen näytön tarkkuus.
         /// </summary>
         public DisplayResolution DisplayResolution
@@ -91,14 +108,15 @@ namespace Jypeli
         /// <param name="milliSeconds">Värinän kesto millisekunteina.</param>
         public void Vibrate( int milliSeconds )
         {
-#if WINDOWS_STOREAPP
-            if (ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0))
+            if ( IsPhone )
             {
-                VibrationDevice.GetDefault()?.Vibrate(TimeSpan.FromSeconds(1));
+                var controller = VibrationDevice.GetDefault();
+                if (controller != null) controller.Vibrate( TimeSpan.FromSeconds( 1  ) );
             }
-#else
+
+            #if !WINDOWS_STOREAPP
             VibrateController.Default.Start( TimeSpan.FromMilliseconds( milliSeconds ) );
-#endif
+            #endif
         }
 
         /// <summary>
@@ -106,12 +124,13 @@ namespace Jypeli
         /// </summary>
         public void StopVibrating()
         {
-#if WINDOWS_STOREAPP
-            if (ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0))
+            if ( IsPhone )
             {
-                VibrationDevice.GetDefault()?.Cancel();
+                var controller = VibrationDevice.GetDefault();
+                if (controller != null) controller.Vibrate(TimeSpan.FromSeconds(1));
             }
-#else
+
+#if !WINDOWS_STOREAPP
             VibrateController.Default.Stop();
 #endif
         }

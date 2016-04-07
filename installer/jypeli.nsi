@@ -70,34 +70,41 @@ Section "MonoJypeli for Windows Universal platform"
   #File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.SimplePhysics.xml"
 SectionEnd
 
+Section "MonoJypeli for Windows Phone 8.1"
+  SetOutPath "$INSTDIR\WP81"
+  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.dll"
+  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.xml"
+  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.Physics2d.dll"
+  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.Physics2d.xml"
+  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.SimplePhysics.dll"
+  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.SimplePhysics.xml"
+SectionEnd
+
+
+Section "MonoJypeli for Windows Store 8"
+  SetOutPath "$INSTDIR\Win8"
+  File "..\Compiled\Windows8-AnyCPU\Jypeli.dll"
+  File "..\Compiled\Windows8-AnyCPU\Jypeli.xml"
+  File "..\Compiled\Windows8-AnyCPU\Jypeli.Physics2d.dll"
+  File "..\Compiled\Windows8-AnyCPU\Jypeli.Physics2d.xml"
+  File "..\Compiled\Windows8-AnyCPU\Jypeli.SimplePhysics.dll"
+  File "..\Compiled\Windows8-AnyCPU\Jypeli.SimplePhysics.xml"
+SectionEnd
+
+Section "MonoJypeli for Linux"
+  SetOutPath "$INSTDIR\Linux"
+  File "..\Compiled\Linux-AnyCPU\Jypeli.dll"
+  File "..\Compiled\Linux-AnyCPU\Jypeli.xml"
+  File "..\Compiled\Linux-AnyCPU\Jypeli.Physics2d.dll"
+  File "..\Compiled\Linux-AnyCPU\Jypeli.Physics2d.xml"
+  File "..\Compiled\Linux-AnyCPU\Jypeli.SimplePhysics.dll"
+  File "..\Compiled\Linux-AnyCPU\Jypeli.SimplePhysics.xml"
+SectionEnd
+
 Section "MonoJypeli content extensions"
   SetOutPath "C:\Program Files (x86)\MonoJypeli\ContentExtensions"
   File "..\Compiled\ContentExtensions\*"
 SectionEnd
-
-#Section "MonoJypeli for Windows Phone 8.1"
-#  SetOutPath "$INSTDIR\WP81"
-#  File "..\Compiled\WindowsPhone81-AnyCPU\*"
-#  SetOutPath "$INSTDIR\WP81\MonoGame.Framework"
-#  File "..\Compiled\WindowsPhone81-AnyCPU\MonoGame.Framework\MonoGame.Framework.xr.xml"
-#  SetOutPath "$INSTDIR\WP81\MonoGame.Framework\Themes"
-#  File "..\Compiled\WindowsPhone81-AnyCPU\MonoGame.Framework\Themes\generic.xbf"
-#SectionEnd
-
-
-#Section "MonoJypeli for Windows Store 8.1"
-#  SetOutPath "$INSTDIR\Win8"
-#  File "..\Compiled\Windows8-AnyCPU\*"
-#  SetOutPath "$INSTDIR\Win8\MonoGame.Framework"
-#  File "..\Compiled\Windows8-AnyCPU\MonoGame.Framework\MonoGame.Framework.xr.xml"
-#  SetOutPath "$INSTDIR\Win8\MonoGame.Framework\Themes"
-#  File "..\Compiled\Windows8-AnyCPU\MonoGame.Framework\Themes\generic.xaml"
-#SectionEnd
-
-#Section "MonoJypeli for Linux"
-#  SetOutPath "$INSTDIR\Linux"
-#  File "..\Compiled\Linux-AnyCPU\*"
-#SectionEnd
 
 Section "OpenAL" OpenAL
   SetOutPath "$INSTDIR\WindowsGL"
@@ -129,11 +136,11 @@ Section "Windows OpenGL"
   ${Endif}
 SectionEnd
 
-Section "Windows 8.1 Store App"
+Section "Windows Universal App"
   ReadEnvStr $R0 VS140COMNTOOLS
   ${If} $R0 != ""
     Push $R0
-    Call CopyRTTemplates
+    Call CopyUniversalTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2015, skipping template installation."
   ${Endif}
@@ -149,6 +156,15 @@ Section "Windows Phone 8.1"
   ${Endif}
 SectionEnd
 
+Section "Windows Store 8"
+  ReadEnvStr $R0 VS140COMNTOOLS
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyRTTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
+  ${Endif}
+SectionEnd
 
 Section "Run template installer"
   ReadEnvStr $R0 VS140COMNTOOLS
@@ -187,16 +203,6 @@ Section "Windows OpenGL"
   ${Endif}
 SectionEnd
 
-Section "Windows 8.1 Store App"
-  ReadEnvStr $R0 VS120COMNTOOLS
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyRTTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
-  ${Endif}
-SectionEnd
-
 Section "Windows Phone 8.1"
   ReadEnvStr $R0 VS120COMNTOOLS
   ${If} $R0 != ""
@@ -207,6 +213,15 @@ Section "Windows Phone 8.1"
   ${Endif}
 SectionEnd
 
+Section "Windows Store 8"
+  ReadEnvStr $R0 VS120COMNTOOLS
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyRTTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
+  ${Endif}
+SectionEnd
 
 Section "Run template installer"
   ReadEnvStr $R0 VS120COMNTOOLS
@@ -243,22 +258,11 @@ Section "WindowsGL"
   ${Endif}
 SectionEnd
 
-Section "Windows 8.1 Store App"
+Section "Windows Store 8"
   ReadEnvStr $R0 VS110COMNTOOLS
   ${If} $R0 != ""
     Push $R0
     Call CopyRTTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2012, skipping template installation."
-  ${Endif}
-SectionEnd
-
-Section "Run template installer"
-  ReadEnvStr $R0 VS110COMNTOOLS
-  ${If} $R0 != ""
-    DetailPrint "Installing project templates for VS2012 (may take a while)..."
-    Push $R0
-    Call InstallVsTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2012, skipping template installation."
   ${Endif}
@@ -300,6 +304,25 @@ Function CopyGLTemplates
       CreateDirectory $1
       SetOutPath $1
       File "..\projektimallit\WindowsGL\*.zip"
+
+  Done:
+FunctionEnd
+
+Function CopyUniversalTemplates
+   Pop $0
+   
+   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
+    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
+    SetOutPath $1
+    File "..\projektimallit\WindowsUniversal\*.zip"
+    Goto VSPro
+    
+  VSPro:
+    IfFileExists "$0..\IDE\devenv.exe" 0 Done
+      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows Universal"
+      CreateDirectory $1
+      SetOutPath $1
+      File "..\projektimallit\WindowsUniversal\*.zip"
 
   Done:
 FunctionEnd

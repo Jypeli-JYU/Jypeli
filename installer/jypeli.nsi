@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 6.6.1"
+Name "MonoJypeli 6.7.0"
 
 OutFile "MonoJypeli_setup.exe"
 
@@ -42,37 +42,62 @@ SectionEnd
 
 Section "MonoJypeli for Windows, DirectX 11"
   SetOutPath "$INSTDIR\Windows"
-  File "..\Compiled\Windows-AnyCPU\*"
+  File "..\Compiled\Windows-AnyCPU\Jypeli.dll"
+  File "..\Compiled\Windows-AnyCPU\Jypeli.xml"
+  File "..\Compiled\Windows-AnyCPU\Jypeli.Physics2d.dll"
+  File "..\Compiled\Windows-AnyCPU\Jypeli.Physics2d.xml"
+  File "..\Compiled\Windows-AnyCPU\Jypeli.SimplePhysics.dll"
+  File "..\Compiled\Windows-AnyCPU\Jypeli.SimplePhysics.xml"
 SectionEnd
 
 Section "MonoJypeli for Windows, OpenGL"
   SetOutPath "$INSTDIR\WindowsGL"
-  File "..\Compiled\WindowsGL-AnyCPU\*"
+  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.dll"
+  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.xml"
+  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.Physics2d.dll"
+  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.Physics2d.xml"
+  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.SimplePhysics.dll"
+  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.SimplePhysics.xml"
 SectionEnd
 
-Section "MonoJypeli for Windows Phone 8.1"
-  SetOutPath "$INSTDIR\WP81"
-  File "..\Compiled\WindowsPhone81-AnyCPU\*"
-  SetOutPath "$INSTDIR\WP81\MonoGame.Framework"
-  File "..\Compiled\WindowsPhone81-AnyCPU\MonoGame.Framework\MonoGame.Framework.xr.xml"
-  SetOutPath "$INSTDIR\WP81\MonoGame.Framework\Themes"
-  File "..\Compiled\WindowsPhone81-AnyCPU\MonoGame.Framework\Themes\generic.xbf"
+Section "MonoJypeli for Windows Universal platform"
+  SetOutPath "$INSTDIR\WindowsUniversal"
+  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.dll"
+  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.xml"
+  #File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.Physics2d.dll"
+  #File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.Physics2d.xml"
+  #File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.SimplePhysics.dll"
+  #File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.SimplePhysics.xml"
 SectionEnd
 
-
-Section "MonoJypeli for Windows Store 8.1"
-  SetOutPath "$INSTDIR\Win8"
-  File "..\Compiled\Windows8-AnyCPU\*"
-  SetOutPath "$INSTDIR\Win8\MonoGame.Framework"
-  File "..\Compiled\Windows8-AnyCPU\MonoGame.Framework\MonoGame.Framework.xr.xml"
-  SetOutPath "$INSTDIR\Win8\MonoGame.Framework\Themes"
-  File "..\Compiled\Windows8-AnyCPU\MonoGame.Framework\Themes\generic.xaml"
+Section "MonoJypeli content extensions"
+  SetOutPath "C:\Program Files (x86)\MonoJypeli\ContentExtensions"
+  File "..\Compiled\ContentExtensions\*"
 SectionEnd
 
-Section "MonoJypeli for Linux"
-  SetOutPath "$INSTDIR\Linux"
-  File "..\Compiled\Linux-AnyCPU\*"
-SectionEnd
+#Section "MonoJypeli for Windows Phone 8.1"
+#  SetOutPath "$INSTDIR\WP81"
+#  File "..\Compiled\WindowsPhone81-AnyCPU\*"
+#  SetOutPath "$INSTDIR\WP81\MonoGame.Framework"
+#  File "..\Compiled\WindowsPhone81-AnyCPU\MonoGame.Framework\MonoGame.Framework.xr.xml"
+#  SetOutPath "$INSTDIR\WP81\MonoGame.Framework\Themes"
+#  File "..\Compiled\WindowsPhone81-AnyCPU\MonoGame.Framework\Themes\generic.xbf"
+#SectionEnd
+
+
+#Section "MonoJypeli for Windows Store 8.1"
+#  SetOutPath "$INSTDIR\Win8"
+#  File "..\Compiled\Windows8-AnyCPU\*"
+#  SetOutPath "$INSTDIR\Win8\MonoGame.Framework"
+#  File "..\Compiled\Windows8-AnyCPU\MonoGame.Framework\MonoGame.Framework.xr.xml"
+#  SetOutPath "$INSTDIR\Win8\MonoGame.Framework\Themes"
+#  File "..\Compiled\Windows8-AnyCPU\MonoGame.Framework\Themes\generic.xaml"
+#SectionEnd
+
+#Section "MonoJypeli for Linux"
+#  SetOutPath "$INSTDIR\Linux"
+#  File "..\Compiled\Linux-AnyCPU\*"
+#SectionEnd
 
 Section "OpenAL" OpenAL
   SetOutPath "$INSTDIR\WindowsGL"

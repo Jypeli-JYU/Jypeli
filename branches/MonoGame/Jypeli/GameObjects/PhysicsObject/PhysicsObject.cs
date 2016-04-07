@@ -63,11 +63,20 @@ namespace Jypeli
         /// Alustaa fysiikkaolion käyttöön.
         /// </summary>
         /// <param name="animation">Animaatio tai kuva.</param>
-		public PhysicsObject(Animation animation)
+		public PhysicsObject( Animation animation )
 			: base( animation )
 		{
             Initialize( animation.Width, animation.Height, Shape.Rectangle );
 		}
+
+        /// <summary>
+        /// Luo fysiikkaolion, jonka muotona on säde.
+        /// </summary>
+        /// <param name="raySegment">Säde.</param>
+        public PhysicsObject(RaySegment raySegment)
+            : this(1, 1, raySegment)
+        {
+        }
 
         private void Initialize( double width, double height, Shape shape )
 		{

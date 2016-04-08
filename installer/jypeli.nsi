@@ -385,11 +385,15 @@ FunctionEnd
 Function un.RemoveVsTemplateDir
   Pop $0
   Delete "$0\*.zip"
+  Delete "$0\DirectX 11\*.zip"
   Delete "$0\Windows OpenGL\*.zip"
   Delete "$0\Linux\*.zip"
   Delete "$0\Windows 8\*.zip"
   Delete "$0\Windows Phone 8\*.zip"
   Delete "$0\Windows Phone 8.1\*.zip"
+  RMDir "$0\DirectX 11"
+  RMDir "$0\Windows OpenGL"
+  RMDir "$0\Linux"
   RMDir "$0\Windows 8"
   RMDir "$0\Windows Phone 8"
   RMDir "$0\Windows Phone 8.1"
@@ -422,6 +426,16 @@ Section "Uninstall"
 
   Push "$DOCUMENTS\Visual Studio 2013\Templates\ProjectTemplates\Visual C#\Jypeli-MonoGame"
   Call un.RemoveVsTemplateDir
+
+  ; VS2015 project templates
+  ReadEnvStr $R1 VS140COMNTOOLS
+  StrCpy $R0 "$R1\..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
+  Push $R0
+  Call un.RemoveVsTemplateDir
+
+  Push "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Jypeli-MonoGame"
+  Call un.RemoveVsTemplateDir
+
   
 SectionEnd
 

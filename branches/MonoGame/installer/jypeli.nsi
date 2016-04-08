@@ -12,13 +12,17 @@ InstallDirRegKey HKLM "Software\MonoJypeli" "Install_Dir"
 
 RequestExecutionLevel admin
 
-
 ; Headers
 !include LogicLib.nsh
+!include nsDialogs.nsh
+
+
+; Globals
+Var MonoGameInstalled
 
 
 ; Pages
-
+Page custom ChkPrqCreate ChkPrqLeave
 Page components
 Page directory
 Page instfiles
@@ -26,6 +30,69 @@ Page instfiles
 UninstPage uninstConfirm
 UninstPage instfiles
 
+
+Function ChkPrqHelper
+	StrCpy $1 "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MonoGame"
+	ReadRegStr $2 HKLM "$1" "DisplayName"
+	IfErrors CheckWOW32 MonoGameDetected
+
+	CheckWOW32:
+	StrCpy $1 "SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\MonoGame"
+	ReadRegStr $2 HKLM "$1" "DisplayName"
+	IfErrors NoMonoGame MonoGameDetected
+
+	NoMonoGame:
+	GetDlgItem $1 $hwndparent 1
+	StrCpy $MonoGameInstalled 0
+	${NSD_SetText} $1 "&Try again"
+	goto ChkPrqHelper_Return
+
+	MonoGameDetected:
+	GetDlgItem $1 $hwndparent 1
+	${NSD_SetText} $1 "$(^NextBtn)"
+	StrCpy $MonoGameInstalled 1
+	
+	ChkPrqHelper_Return:
+FunctionEnd
+
+
+Function ChkPrqLeave
+	call ChkPrqHelper
+	${If} $MonoGameInstalled < 1
+	Abort
+	${EndIf}
+FunctionEnd
+
+
+Function ChkPrqCreate
+	nsDialogs::Create 1018
+	Pop $0
+
+	${NSD_CreateLabel} 10 0 100% 12u "The installer could not find MonoGame on your system."
+	Pop $0
+
+	${NSD_CreateLabel} 10 20 100% 12u "This version of Jypeli depends heavily on a working installation of MonoGame."
+	Pop $0
+
+	${NSD_CreateLink} 10 50 100% 12u "Click here to go to the download site"
+	Pop $0
+	${NSD_OnClick} $0 onClickMonogameLink
+
+	${NSD_CreateLabel} 10 150 100% 20u "You may leave this window open during the MonoGame installation and continue when it's complete."
+	Pop $0
+
+	Call ChkPrqHelper
+	${If} $MonoGameInstalled < 1
+		nsDialogs::Show
+	${EndIf}
+FunctionEnd
+
+
+Function onClickMonogameLink
+	Pop $0 ; don't forget to pop HWND of the stack
+	ExecShell "open" "http://monogame.net/downloads/"
+FunctionEnd
+	
 
 Section "Jypeli"
   SectionIn RO

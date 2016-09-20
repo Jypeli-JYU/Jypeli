@@ -2,6 +2,9 @@
 setlocal
 rem | Compiles the library
 
+call get_monogame.bat
+if errorlevel 1 goto error
+
 call build_content_extension TextFileContentExtension
 if errorlevel 1 goto error
 

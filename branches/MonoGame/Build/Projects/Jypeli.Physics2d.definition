@@ -150,7 +150,6 @@
 
 <Files>
     <Compile Include="Properties\AssemblyInfo.cs" />
-	<Compile Include="Assets\PhysicsTemplates.cs" />
 
     <None Include="..\MonoGame\ThirdParty\GamepadConfig\Tao.Sdl.dll.config">
         <Platforms>Linux,MacOS</Platforms>

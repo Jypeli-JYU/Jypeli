@@ -5,9 +5,6 @@ rem | Compiles the library
 call get_monogame.bat
 if errorlevel 1 goto error
 
-call build_content_extension TextFileContentExtension
-if errorlevel 1 goto error
-
 call build_platform Windows
 if errorlevel 1 goto error
 
@@ -23,6 +20,8 @@ if errorlevel 1 goto error
 call build_platform WindowsPhone81
 if errorlevel 1 goto error
 
+call build_content_extension TextFileContentExtension
+if errorlevel 1 goto error
 
 goto end
 

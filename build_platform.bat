@@ -47,6 +47,7 @@ goto nocopysdl
 :copysdl
 copy MonoGame\ThirdParty\GamepadConfig\SDL_mixer.dll %outputdir%
 copy MonoGame\ThirdParty\GamepadConfig\sdl.dll %outputdir%
+copy Jypeli\smpeg.dll %outputdir%
 :nocopysdl
 
 if "%platform%"=="Linux" (

@@ -1,0 +1,18 @@
+﻿<Properties StartupConfiguration="{387A7E80-FE70-4F85-A5E0-1B2986C5112D}|">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.MonoDevelop.Jypeli.Windows PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\Common\JypeliProject.cs">
+    <Files>
+      <File FileName="..\Common\JypeliProject.cs" Line="90" Column="3" />
+      <File FileName="Properties\AddinInfo.cs" Line="18" Column="1" />
+      <File FileName="Properties\Manifest.addin.xml" Line="1" Column="1" />
+      <File FileName="..\Common\JypeliBuildExtension.cs" Line="10" Column="38" />
+      <File FileName="..\Common\JypeliProjectConfiguration.cs" Line="10" Column="62" />
+      <File FileName="..\Common\JypeliProjectBinding.cs" Line="10" Column="53" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+</Properties>

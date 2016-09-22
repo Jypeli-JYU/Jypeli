@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<Template originator   = "Tomi Karppinen"
+          created      = "2014/03/07"
+          lastModified = "2015/29/10">
+
+     <TemplateConfiguration>
+		<_Name>FysiikkaPeli (SimplePhysics)</_Name>
+		<Category>jypeli/crossplatform/jypeli</Category>
+		<Icon>FysiikkaPeli-project</Icon>
+		<LanguageName>C#</LanguageName>
+		<_Description>Fysiikkapeli joka käyttää yksinkertaista fysiikkaa. Physics game with SimplePhysics engine.</_Description>
+	</TemplateConfiguration>
+
+
+   <Options>
+      <StartupProject>${ProjectName}</StartupProject>
+   </Options>
+
+    <Combine name = "${ProjectName}" directory = ".">
+       <Project name = "${ProjectName}" directory = "." type="Jypeli">
+          <Options/>
+
+          <References>
+             <Reference type = "Package" refto = "Jypeli"/>
+             <Reference type = "Package" refto = "Jypeli.SimplePhysics"/>
+             <Reference type = "Package" refto = "MonoGame.Framework"/>
+             <Reference type = "Package" refto = "System" />
+             <Reference type = "Package" refto = "System.Xml" />
+             <Reference type = "Package" refto = "System.Core" />
+          </References>
+
+          <Files>
+             <FileTemplateReference TemplateID="CSharpAssemblyInfo" name="AssemblyInfo.cs" />
+             <File name="${ProjectName}.cs" src="FysiikkaPeli/Peli.cs" />
+             <File name="Ohjelma.cs" src="PerusPeli/Ohjelma.cs" />
+             <RawFile name="Icon.png" src="FysiikkaPeli/Icon-md.png" />
+             <Directory name="Content" />
+          </Files>
+       </Project>
+    </Combine>
+</Template>
+

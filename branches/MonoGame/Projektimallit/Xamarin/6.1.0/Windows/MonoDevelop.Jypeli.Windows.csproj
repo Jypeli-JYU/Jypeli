@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{387A7E80-FE70-4F85-A5E0-1B2986C5112D}</ProjectGuid>
+    <ProjectTypeGuids>{86F6BF2A-E449-4B3E-813B-9ACC37E5545F};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MonoDevelop.Jypeli.Windows</RootNamespace>
+    <AssemblyName>MonoDevelop.Jypeli.Windows</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AddinInfo.cs" />
+    <Compile Include="..\Common\JypeliBuildAction.cs">
+      <Link>JypeliBuildAction.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\JypeliBuildExtension.cs">
+      <Link>JypeliBuildExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\JypeliContentProcessor.cs">
+      <Link>JypeliContentProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\JypeliProject.cs">
+      <Link>JypeliProject.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\JypeliProjectBinding.cs">
+      <Link>JypeliProjectBinding.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\JypeliProjectConfiguration.cs">
+      <Link>JypeliProjectConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Manifest.addin.xml" />
+    <EmbeddedResource Include="..\Common\icons\FysiikkaPeli-16.png">
+      <Link>icons\FysiikkaPeli-16.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\icons\FysiikkaPeli-32.png">
+      <Link>icons\FysiikkaPeli-32.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\icons\Jypeli-32.png">
+      <Link>icons\Jypeli-32.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\icons\PerusPeli-16.png">
+      <Link>icons\PerusPeli-16.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\icons\PerusPeli-32.png">
+      <Link>icons\PerusPeli-32.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\icons\Tasohyppelypeli-16.png">
+      <Link>icons\Tasohyppelypeli-16.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\icons\Tasohyppelypeli-32.png">
+      <Link>icons\Tasohyppelypeli-32.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\PerusPeliCs.xft.xml">
+	  <Link>templates\PerusPeliCs.xft.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\PerusPeli.xpt.xml">
+	  <Link>templates\PerusPeli.xpt.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\PerusPeli\Icon-md.png">
+	  <Link>templates\PerusPeli\Icon-md.png</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\PerusPeli\Ohjelma.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  <Link>templates\PerusPeli\Ohjelma.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\PerusPeli\Peli.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  <Link>templates\PerusPeli\Peli.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\Jypeli.dll">
+      <Link>assemblies\Windows\Jypeli.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\Jypeli.Physics2d.dll">
+      <Link>assemblies\Windows\Jypeli.Physics2d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\Jypeli.Physics2d.xml">
+      <Link>assemblies\Windows\Jypeli.Physics2d.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\Jypeli.SimplePhysics.dll">
+      <Link>assemblies\Windows\Jypeli.SimplePhysics.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\Jypeli.SimplePhysics.xml">
+      <Link>assemblies\Windows\Jypeli.SimplePhysics.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\Jypeli.xml">
+      <Link>assemblies\Windows\Jypeli.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\MonoGame.Framework.dll">
+      <Link>assemblies\Windows\MonoGame.Framework.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\MonoGame.Framework.xml">
+      <Link>assemblies\Windows\MonoGame.Framework.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SDL.dll">
+      <Link>assemblies\Windows\SDL.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SDL_mixer.dll">
+      <Link>assemblies\Windows\SDL_mixer.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.Direct2D1.dll">
+      <Link>assemblies\Windows\SharpDX.Direct2D1.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.Direct3D9.dll">
+      <Link>assemblies\Windows\SharpDX.Direct3D9.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.Direct3D11.dll">
+      <Link>assemblies\Windows\SharpDX.Direct3D11.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.dll">
+      <Link>assemblies\Windows\SharpDX.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.DXGI.dll">
+      <Link>assemblies\Windows\SharpDX.DXGI.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.MediaFoundation.dll">
+      <Link>assemblies\Windows\SharpDX.MediaFoundation.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.RawInput.dll">
+      <Link>assemblies\Windows\SharpDX.RawInput.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.XAudio2.dll">
+      <Link>assemblies\Windows\SharpDX.XAudio2.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.XInput.dll">
+      <Link>assemblies\Windows\SharpDX.XInput.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\ConsoleMain.xpt.xml">
+      <Link>templates\ConsoleMain.xpt.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\ConsoleMain\Program.cs">
+      <Link>templates\ConsoleMain\Program.cs</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="icons\" />
+    <Folder Include="assemblies\" />
+    <Folder Include="assemblies\Windows\" />
+    <Folder Include="assemblies\WindowsGL\" />
+    <Folder Include="templates\" />
+	<Folder Include="templates\ConsoleMain" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\MonoDevelop.Addins.0.3.3\build\net40\MonoDevelop.Addins.targets" Condition="Exists('packages\MonoDevelop.Addins.0.3.3\build\net40\MonoDevelop.Addins.targets')" />
+</Project>

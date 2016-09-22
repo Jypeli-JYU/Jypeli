@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Template Originator   = "Tomi Karppinen"
+          Language     = "C#"
+          Created      = "2014/01/27"
+          LastModified = "2014/10/23">	
+	
+	<TemplateConfiguration>
+		<_Name>Empty game class</_Name>
+		<Icon>md-text-file-icon</Icon>
+		<_Category>Jypeli</_Category>
+		<LanguageName>C#</LanguageName>
+		<_Description>Empty game class.</_Description>
+	</TemplateConfiguration>
+	
+	<TemplateFiles>
+		<File Name="Peli.cs" AddStandardHeader="True" src="PerusPeli/Peli.cs"/>
+	</TemplateFiles>
+	
+	<FileOptions/>
+	
+</Template>

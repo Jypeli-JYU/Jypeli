@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
-          created      = "2014/01/27"
+          created      = "2016/09/28"
           lastModified = "2016/09/28">
 
     <TemplateConfiguration>
-		<_Name>PerusPeli</_Name>
-		<Category>jypeli/multiplatform/jypeli</Category>
-		<Icon>PerusPeli-project</Icon>
+		<_Name>FysiikkaPeli (Physics2d)</_Name>
+		<Category>jypeli/windows/directx</Category>
+		<Icon>FysiikkaPeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Peli ilman fysiikkaa. Game without physics.</_Description>
+		<_Description>Fysiikkapeli Windowsille, joka käyttää Physics2d-fysiikkamoottoria. Physics game for Windows with Physics2d engine.</_Description>
 	</TemplateConfiguration>
 
    <Options>
@@ -16,11 +16,12 @@
    </Options>
 
     <Combine name = "${ProjectName}" directory = ".">
-       <Project name = "${ProjectName}" directory = "." type="Jypeli">
+       <Project name = "${ProjectName}" directory = ".">
           <Options/>
 
           <References>
              <Reference type = "Package" refto = "Jypeli"/>
+             <Reference type = "Package" refto = "Jypeli.Physics2d"/>
              <Reference type = "Package" refto = "MonoGame.Framework"/>
              <Reference type = "Package" refto = "System" />
              <Reference type = "Package" refto = "System.Xml" />
@@ -29,9 +30,9 @@
 
           <Files>
              <FileTemplateReference TemplateID="CSharpAssemblyInfo" name="AssemblyInfo.cs" />
-             <File name="${ProjectName}.cs" src="PerusPeli/Peli.cs" />
+             <File name="${ProjectName}.cs" src="FysiikkaPeli/Peli.cs" />
              <File name="Ohjelma.cs" src="PerusPeli/Ohjelma.cs" />
-             <RawFile name="Icon.png" src="PerusPeli/Icon-md.png" />
+             <RawFile name="Icon.png" src="FysiikkaPeli/Icon-md.png" />
              <Directory name="Content" />
           </Files>
        </Project>

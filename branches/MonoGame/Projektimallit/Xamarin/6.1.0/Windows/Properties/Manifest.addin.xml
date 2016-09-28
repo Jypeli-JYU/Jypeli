@@ -8,29 +8,41 @@
 		<Import file="icons/FysiikkaPeli-32.png" />
 		<Import file="icons/Tasohyppelypeli-16.png" />
 		<Import file="icons/Tasohyppelypeli-32.png" />
+		<Import file="templates/PerusPeli/Icon-md.png" />
+		<Import file="templates/PerusPeli/Ohjelma.cs" />
+		<Import file="templates/PerusPeli/Peli.cs" />
+		<Import file="templates/FysiikkaPeli/Icon-md.png" />
+		<Import file="templates/FysiikkaPeli/Peli.cs" />
+		<Import file="templates/Tasohyppelypeli/Icon-md.png" />
+		<Import file="templates/Tasohyppelypeli/Peli.cs" />
+		<Import file="templates/Tasohyppelypeli.xpt.xml" />
+		<Import file="templates/Tasohyppelypeli/Content/kentta1.txt" />
+		<Import file="templates/Tasohyppelypeli/Content/norsu.png" />
+		<Import file="templates/Tasohyppelypeli/Content/tahti.png" />
+		<Import file="templates/Tasohyppelypeli/Content/maali.xnb" />
 		<Import file="templates/ConsoleMain.xpt.xml" />
 		<Import file="templates/ConsoleMain/Program.cs" />
 		<Import file="templates/PerusPeli.xpt.xml" />
 		<Import file="templates/PerusPeliCs.xft.xml" />
-		<Import file="assemblies/Windows/MonoGame.Framework.dll" />
-		<Import file="assemblies/Windows/MonoGame.Framework.xml" />
-		<Import file="assemblies/Windows/Jypeli.dll" />
-		<Import file="assemblies/Windows/Jypeli.xml" />
-		<Import file="assemblies/Windows/Jypeli.Physics2d.dll" />
-		<Import file="assemblies/Windows/Jypeli.Physics2d.xml" />
-		<Import file="assemblies/Windows/Jypeli.SimplePhysics.dll" />
-		<Import file="assemblies/Windows/Jypeli.SimplePhysics.xml" />
-		<Import file="assemblies/Windows/SharpDX.dll" />
-		<Import file="assemblies/Windows/SharpDX.Direct2D1.dll" />
-		<Import file="assemblies/Windows/SharpDX.Direct3D11.dll" />
-		<Import file="assemblies/Windows/SharpDX.Direct3D9.dll" />
-		<Import file="assemblies/Windows/SharpDX.DXGI.dll" />
-		<Import file="assemblies/Windows/SharpDX.MediaFoundation.dll" />
-		<Import file="assemblies/Windows/SharpDX.RawInput.dll" />
-		<Import file="assemblies/Windows/SharpDX.XAudio2.dll" />
-		<Import file="assemblies/Windows/SharpDX.XInput.dll" />
-		<Import file="assemblies/Windows/SDL.dll" />
-		<Import file="assemblies/Windows/SDL_mixer.dll" />
+		<Import file="templates/FysiikkaPeli.SimplePhysics.xpt.xml" />
+		<Import file="templates/FysiikkaPeli.Physics2d.xpt.xml" />
+		<Import file="assemblies/MonoGame.Framework.dll" />
+		<Import file="assemblies/MonoGame.Framework.xml" />
+		<Import file="assemblies/Jypeli.dll" />
+		<Import file="assemblies/Jypeli.xml" />
+		<Import file="assemblies/Jypeli.Physics2d.dll" />
+		<Import file="assemblies/Jypeli.Physics2d.xml" />
+		<Import file="assemblies/Jypeli.SimplePhysics.dll" />
+		<Import file="assemblies/Jypeli.SimplePhysics.xml" />
+		<Import file="assemblies/SharpDX.dll" />
+		<Import file="assemblies/SharpDX.Direct2D1.dll" />
+		<Import file="assemblies/SharpDX.Direct3D11.dll" />
+		<Import file="assemblies/SharpDX.Direct3D9.dll" />
+		<Import file="assemblies/SharpDX.DXGI.dll" />
+		<Import file="assemblies/SharpDX.MediaFoundation.dll" />
+		<Import file="assemblies/SharpDX.RawInput.dll" />
+		<Import file="assemblies/SharpDX.XAudio2.dll" />
+		<Import file="assemblies/SharpDX.XInput.dll" />
 	</Runtime>
 	<Extension path="/MonoDevelop/Core/StockIcons">
 		<StockIcon stockid="Jypeli-project" file="icons/Jypeli-32.png" />
@@ -40,42 +52,40 @@
 	</Extension>
 	<Extension path="/MonoDevelop/Ide/ProjectTemplateCategories">
 		<Category id="jypeli" name="Jypeli" icon="Jypeli-project">
-			<Category id="crossplatform" name="Cross-platform">
+			<Category id="multiplatform" name="All platforms">
 				<Category id="console" name="Console" />
-				<Category id="jypeli" name="Jypeli" />
+			</Category>
+			<Category id="windows" name="Windows">
+				<Category id="directx" name="DirectX 11" />
 			</Category>
 		</Category>
 	</Extension>
 	<Extension path="/MonoDevelop/Ide/ProjectTemplates">
 		<ProjectTemplate id="ConsoleMain" file="templates/ConsoleMain.xpt.xml" />
 		<ProjectTemplate id="PerusPeli" file="templates/PerusPeli.xpt.xml" />
+		<ProjectTemplate id="FysiikkaPeli.SimplePhysics" file="templates/FysiikkaPeli.SimplePhysics.xpt.xml" />
+		<ProjectTemplate id="FysiikkaPeli.Physics2d" file="templates/FysiikkaPeli.Physics2d.xpt.xml" />
+		<ProjectTemplate id="Tasohyppelypeli" file="templates/Tasohyppelypeli.xpt.xml" />
 	</Extension>
 	<Extension path="/MonoDevelop/Ide/FileTemplates">
 		<FileTemplate id="PerusPeliCs" file="templates/PerusPeliCs.xft.xml" />
 	</Extension>
-	<Extension path="/MonoDevelop/ProjectModel/MSBuildItemTypes">
-		<DotNetProjectSubtype id="Jypeli" guid="{D425DB69-D9EA-4523-A522-C706A2FF6736}" type="MonoDevelop.Jypeli.JypeliProject" />
-		<DotNetProjectSubtype id="Jypeli-Linux" guid="{D425DB69-D9EA-4523-A522-C706A2FF6737}" type="MonoDevelop.Jypeli.JypeliProject" />
-	</Extension>
-	<Extension path="/MonoDevelop/ProjectModel/ProjectBindings">
-		<ProjectBinding id="Jypeli" class="MonoDevelop.Jypeli.JypeliProjectBinding" />
-	</Extension>
 	<Extension path="/MonoDevelop/Core/SupportPackages">
-		<Condition id="PackageNotInstalled" name="jypeli" version="6.8.0">
-			<Package name="jypeli" version="6.8.0" clrVersion="Default">
-				<Assembly file="assemblies\Windows\MonoGame.Framework.dll" />
-				<Assembly file="assemblies\Windows\Jypeli.dll" />
-				<Assembly file="assemblies\Windows\Jypeli.Physics2d.dll" />
-				<Assembly file="assemblies\Windows\Jypeli.SimplePhysics.dll" />
-				<Assembly file="assemblies\Windows\SharpDX.dll" />
-				<Assembly file="assemblies\Windows\SharpDX.Direct2d1.dll" />
-				<Assembly file="assemblies\Windows\SharpDX.Direct3d11.dll" />
-				<Assembly file="assemblies\Windows\SharpDX.Direct3d9.dll" />
-				<Assembly file="assemblies\Windows\SharpDX.DXGI.dll" />
-				<Assembly file="assemblies\Windows\SharpDX.MediaFoundation.dll" />
-				<Assembly file="assemblies\Windows\SharpDX.RawInput.dll" />
-				<Assembly file="assemblies\Windows\SharpDX.XAudio2.dll" />
-				<Assembly file="assemblies\Windows\SharpDX.XInput.dll" />
+		<Condition id="PackageNotInstalled" name="jypelidx" version="6.8.0">
+			<Package name="jypelidx" version="6.8.0" clrVersion="Default">
+				<Assembly file="assemblies\Jypeli.dll" />
+				<Assembly file="assemblies\Jypeli.Physics2d.dll" />
+				<Assembly file="assemblies\Jypeli.SimplePhysics.dll" />
+				<Assembly file="assemblies\MonoGame.Framework.dll" />
+				<Assembly file="assemblies\SharpDX.dll" />
+				<Assembly file="assemblies\SharpDX.Direct2d1.dll" />
+				<Assembly file="assemblies\SharpDX.Direct3d11.dll" />
+				<Assembly file="assemblies\SharpDX.Direct3d9.dll" />
+				<Assembly file="assemblies\SharpDX.DXGI.dll" />
+				<Assembly file="assemblies\SharpDX.MediaFoundation.dll" />
+				<Assembly file="assemblies\SharpDX.RawInput.dll" />
+				<Assembly file="assemblies\SharpDX.XAudio2.dll" />
+				<Assembly file="assemblies\SharpDX.XInput.dll" />
 			</Package>
 		</Condition>
 	</Extension>

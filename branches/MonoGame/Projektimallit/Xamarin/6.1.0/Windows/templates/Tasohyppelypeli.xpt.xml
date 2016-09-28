@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
-          created      = "2014/03/07"
+          created      = "2016/09/28"
           lastModified = "2016/09/28">
 
     <TemplateConfiguration>
 		<_Name>Tasohyppelypeli (Physics2d)</_Name>
-		<Category>jypeli/multiplatform/jypeli</Category>
+		<Category>jypeli/windows/directx</Category>
 		<Icon>Tasohyppelypeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Peli, jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää Physics2d-fysiikkamoottoria. Platform game template. Uses Physics2d physics engine.</_Description>
+		<_Description>Peli Windowsille, jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää Physics2d-fysiikkamoottoria. Platform game template for Windows. Uses Physics2d physics engine.</_Description>
 	</TemplateConfiguration>
 
    <Options>
@@ -16,7 +16,7 @@
    </Options>
 
     <Combine name = "${ProjectName}" directory = ".">
-       <Project name = "${ProjectName}" directory = "." type="Jypeli">
+       <Project name = "${ProjectName}" directory = ".">
           <Options/>
 
           <References>

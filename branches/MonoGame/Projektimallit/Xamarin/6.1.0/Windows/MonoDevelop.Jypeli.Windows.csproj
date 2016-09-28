@@ -24,27 +24,23 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>AfterBuild</type>
+          <command>mdtool setup pack ${TargetName}</command>
+          <workingdir>${TargetDir}</workingdir>
+        </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>mdtool setup rep-build .</command>
+          <workingdir>${TargetDir}</workingdir>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AddinInfo.cs" />
-    <Compile Include="..\Common\JypeliBuildAction.cs">
-      <Link>JypeliBuildAction.cs</Link>
-    </Compile>
-    <Compile Include="..\Common\JypeliBuildExtension.cs">
-      <Link>JypeliBuildExtension.cs</Link>
-    </Compile>
-    <Compile Include="..\Common\JypeliContentProcessor.cs">
-      <Link>JypeliContentProcessor.cs</Link>
-    </Compile>
-    <Compile Include="..\Common\JypeliProject.cs">
-      <Link>JypeliProject.cs</Link>
-    </Compile>
-    <Compile Include="..\Common\JypeliProjectBinding.cs">
-      <Link>JypeliProjectBinding.cs</Link>
-    </Compile>
-    <Compile Include="..\Common\JypeliProjectConfiguration.cs">
-      <Link>JypeliProjectConfiguration.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,10 +77,6 @@
 	  <Link>templates\PerusPeliCs.xft.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Common\templates\PerusPeli.xpt.xml">
-	  <Link>templates\PerusPeli.xpt.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Common\templates\PerusPeli\Icon-md.png">
 	  <Link>templates\PerusPeli\Icon-md.png</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -97,80 +89,84 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  <Link>templates\PerusPeli\Peli.cs</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\FysiikkaPeli\Peli.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  <Link>templates\FysiikkaPeli\Peli.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\Tasohyppelypeli\Peli.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  <Link>templates\Tasohyppelypeli\Peli.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\Tasohyppelypeli\Content\kentta1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  <Link>templates\Tasohyppelypeli\Content\kentta1.txt</Link>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\Jypeli.dll">
-      <Link>assemblies\Windows\Jypeli.dll</Link>
+      <Link>assemblies\Jypeli.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\Jypeli.Physics2d.dll">
-      <Link>assemblies\Windows\Jypeli.Physics2d.dll</Link>
+      <Link>assemblies\Jypeli.Physics2d.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\Jypeli.Physics2d.xml">
-      <Link>assemblies\Windows\Jypeli.Physics2d.xml</Link>
+      <Link>assemblies\Jypeli.Physics2d.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\Jypeli.SimplePhysics.dll">
-      <Link>assemblies\Windows\Jypeli.SimplePhysics.dll</Link>
+      <Link>assemblies\Jypeli.SimplePhysics.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\Jypeli.SimplePhysics.xml">
-      <Link>assemblies\Windows\Jypeli.SimplePhysics.xml</Link>
+      <Link>assemblies\Jypeli.SimplePhysics.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\Jypeli.xml">
-      <Link>assemblies\Windows\Jypeli.xml</Link>
+      <Link>assemblies\Jypeli.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\MonoGame.Framework.dll">
-      <Link>assemblies\Windows\MonoGame.Framework.dll</Link>
+      <Link>assemblies\MonoGame.Framework.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\MonoGame.Framework.xml">
-      <Link>assemblies\Windows\MonoGame.Framework.xml</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SDL.dll">
-      <Link>assemblies\Windows\SDL.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SDL_mixer.dll">
-      <Link>assemblies\Windows\SDL_mixer.dll</Link>
+      <Link>assemblies\MonoGame.Framework.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.Direct2D1.dll">
-      <Link>assemblies\Windows\SharpDX.Direct2D1.dll</Link>
+      <Link>assemblies\SharpDX.Direct2D1.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.Direct3D9.dll">
-      <Link>assemblies\Windows\SharpDX.Direct3D9.dll</Link>
+      <Link>assemblies\SharpDX.Direct3D9.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.Direct3D11.dll">
-      <Link>assemblies\Windows\SharpDX.Direct3D11.dll</Link>
+      <Link>assemblies\SharpDX.Direct3D11.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.dll">
-      <Link>assemblies\Windows\SharpDX.dll</Link>
+      <Link>assemblies\SharpDX.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.DXGI.dll">
-      <Link>assemblies\Windows\SharpDX.DXGI.dll</Link>
+      <Link>assemblies\SharpDX.DXGI.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.MediaFoundation.dll">
-      <Link>assemblies\Windows\SharpDX.MediaFoundation.dll</Link>
+      <Link>assemblies\SharpDX.MediaFoundation.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.RawInput.dll">
-      <Link>assemblies\Windows\SharpDX.RawInput.dll</Link>
+      <Link>assemblies\SharpDX.RawInput.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.XAudio2.dll">
-      <Link>assemblies\Windows\SharpDX.XAudio2.dll</Link>
+      <Link>assemblies\SharpDX.XAudio2.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\Compiled\Windows-AnyCPU\SharpDX.XInput.dll">
-      <Link>assemblies\Windows\SharpDX.XInput.dll</Link>
+      <Link>assemblies\SharpDX.XInput.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Common\templates\ConsoleMain.xpt.xml">
@@ -181,12 +177,46 @@
       <Link>templates\ConsoleMain\Program.cs</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="templates\PerusPeli.xpt.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\FysiikkaPeli.Physics2d.xpt.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\FysiikkaPeli.SimplePhysics.xpt.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Tasohyppelypeli.xpt.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\FysiikkaPeli\Icon-md.png">
+      <Link>templates\FysiikkaPeli\Icon-md.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\Tasohyppelypeli\Icon-md.png">
+      <Link>templates\Tasohyppelypeli\Icon-md.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\Tasohyppelypeli\Content\maali.wav">
+      <Link>templates\Tasohyppelypeli\Content\maali.wav</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\Tasohyppelypeli\Content\maali.xnb">
+      <Link>templates\Tasohyppelypeli\Content\maali.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\Tasohyppelypeli\Content\norsu.png">
+      <Link>templates\Tasohyppelypeli\Content\norsu.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\Tasohyppelypeli\Content\tahti.png">
+      <Link>templates\Tasohyppelypeli\Content\tahti.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="icons\" />
     <Folder Include="assemblies\" />
-    <Folder Include="assemblies\Windows\" />
-    <Folder Include="assemblies\WindowsGL\" />
     <Folder Include="templates\" />
 	<Folder Include="templates\ConsoleMain" />
   </ItemGroup>

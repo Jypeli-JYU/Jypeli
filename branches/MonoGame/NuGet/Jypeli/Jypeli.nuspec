@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Jypeli</id>
+    <version>0.0.2</version>
+    <authors>Jyväskylän yliopisto</authors>
+    <owners>Jyväskylän yliopisto</owners>
+    <projectUrl>http://bit.ly/pelikurssi</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>THIS IS A TESTING RELEASE\nJypeli is a game library that uses MonoGame and Physics2d.net physics engine to simplify game development</description>
+    <releaseNotes></releaseNotes>
+    <copyright></copyright>
+    <tags>jypeli xna monogame game</tags>
+    <dependencies>
+      <dependency id="MonoGame.Framework.DesktopGL" version="3.5" />
+    </dependencies>
+  </metadata>
+</package>

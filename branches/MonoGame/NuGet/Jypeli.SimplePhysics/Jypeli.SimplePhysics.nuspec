@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Jypeli.SimplePhysics</id>
+    <version>0.0.1</version>
+    <authors>Jyväskylän yliopisto</authors>
+    <owners>Jyväskylän yliopisto</owners>
+    <projectUrl>http://bit.ly/pelikurssi</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>THIS IS A TESTING RELEASE! Simple physics library implementation for Jypeli</description>
+    <releaseNotes></releaseNotes>
+    <copyright></copyright>
+    <tags>jypeli physics xna monogame game</tags>
+    <dependencies>
+      <dependency id="Jypeli" version="0.0.2" />
+    </dependencies>
+  </metadata>
+</package>

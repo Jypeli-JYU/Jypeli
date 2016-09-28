@@ -5,7 +5,7 @@
 
     <TemplateConfiguration>
 		<_Name>ConsoleMain</_Name>
-		<Category>jypeli/crossplatform/console</Category>
+		<Category>jypeli/multiplatform/console</Category>
 		<Icon>md-console-project</Icon>
 		<Image id="md-console-project" />
 		<LanguageName>C#</LanguageName>

@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <Template originator   = "Tomi Karppinen"
-          created      = "2014/01/27"
+          created      = "2016/09/28"
           lastModified = "2016/09/28">
 
     <TemplateConfiguration>
 		<_Name>PerusPeli</_Name>
-		<Category>jypeli/multiplatform/jypeli</Category>
+		<Category>jypeli/windows/directx</Category>
 		<Icon>PerusPeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Peli ilman fysiikkaa. Game without physics.</_Description>
+		<_Description>Peli ilman fysiikkaa Windowsille. Game without physics.</_Description>
 	</TemplateConfiguration>
 
    <Options>
@@ -16,7 +16,7 @@
    </Options>
 
     <Combine name = "${ProjectName}" directory = ".">
-       <Project name = "${ProjectName}" directory = "." type="Jypeli">
+       <Project name = "${ProjectName}" directory = ".">
           <Options/>
 
           <References>

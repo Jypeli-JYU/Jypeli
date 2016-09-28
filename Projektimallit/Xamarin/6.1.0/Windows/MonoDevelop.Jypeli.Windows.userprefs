@@ -5,14 +5,13 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\Common\JypeliProject.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Properties\Manifest.addin.xml">
     <Files>
-      <File FileName="..\Common\JypeliProject.cs" Line="90" Column="3" />
-      <File FileName="Properties\AddinInfo.cs" Line="18" Column="1" />
-      <File FileName="Properties\Manifest.addin.xml" Line="1" Column="1" />
-      <File FileName="..\Common\JypeliBuildExtension.cs" Line="10" Column="38" />
-      <File FileName="..\Common\JypeliProjectConfiguration.cs" Line="10" Column="62" />
-      <File FileName="..\Common\JypeliProjectBinding.cs" Line="10" Column="53" />
+      <File FileName="templates\FysiikkaPeli.Physics2d.xpt.xml" Line="6" Column="28" />
+      <File FileName="templates\FysiikkaPeli.SimplePhysics.xpt.xml" Line="8" Column="35" />
+      <File FileName="templates\PerusPeli.xpt.xml" Line="25" Column="1" />
+      <File FileName="templates\Tasohyppelypeli.xpt.xml" Line="8" Column="28" />
+      <File FileName="Properties\Manifest.addin.xml" Line="93" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
 </Properties>

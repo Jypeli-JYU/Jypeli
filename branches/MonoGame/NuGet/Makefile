@@ -1,8 +1,14 @@
 all:	windowsgl linux physics2d simplephysics
 
+rebuild:
+	make clean && make
+
 clean:
 	rm -f $$(find . -wholename '*/lib/Jypeli.*' -or -name '*.nupkg') && \
 	rm -fd $$(find . -name 'lib')
+
+release: rebuild
+	find . -name '*.nupkg' -exec nuget push {} \;
 
 windowsgl: copywindowsgl
 	sh -c "cd Jypeli.WindowsGL && nuget pack"

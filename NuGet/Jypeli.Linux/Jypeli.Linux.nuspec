@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Jypeli.SimplePhysics</id>
-    <version>0.0.2</version>
+    <id>Jypeli.Linux</id>
+    <version>0.0.3</version>
     <authors>Jyväskylän yliopisto</authors>
     <owners>Jyväskylän yliopisto</owners>
     <projectUrl>http://bit.ly/pelikurssi</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>THIS IS A TESTING RELEASE! SimplePhysics library implementation for Jypeli</description>
+    <description>THIS IS A TESTING RELEASE! Jypeli is a game library that uses MonoGame and Physics2d.net physics engine to simplify game development. This is the Linux port of Jypeli.</description>
     <releaseNotes></releaseNotes>
     <copyright></copyright>
-    <tags>jypeli physics xna monogame game</tags>
+    <tags>jypeli xna monogame game</tags>
     <dependencies>
       <dependency id="MonoGame.Framework.DesktopGL" version="3.5" />
     </dependencies>

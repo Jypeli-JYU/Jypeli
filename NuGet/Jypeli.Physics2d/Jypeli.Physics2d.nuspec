@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Jypeli.Physics2d</id>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <authors>Jyväskylän yliopisto</authors>
     <owners>Jyväskylän yliopisto</owners>
     <projectUrl>http://bit.ly/pelikurssi</projectUrl>
@@ -12,7 +12,7 @@
     <copyright></copyright>
     <tags>jypeli physics xna monogame game</tags>
     <dependencies>
-      <dependency id="Jypeli" version="0.0.2" />
+      <dependency id="MonoGame.Framework.DesktopGL" version="3.5" />
     </dependencies>
   </metadata>
 </package>

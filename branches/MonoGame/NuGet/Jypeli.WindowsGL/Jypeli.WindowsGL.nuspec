@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Jypeli.WindowsGL</id>
-    <version>0.0.3</version>
+    <version>0.0.5</version>
     <authors>Jyväskylän yliopisto</authors>
     <owners>Jyväskylän yliopisto</owners>
     <projectUrl>http://bit.ly/pelikurssi</projectUrl>
@@ -10,7 +10,7 @@
     <description>THIS IS A TESTING RELEASE! Jypeli is a game library that uses MonoGame and Physics2d.net physics engine to simplify game development. This is the Windows OpenGL port of Jypeli.</description>
     <releaseNotes></releaseNotes>
     <copyright></copyright>
-    <tags>jypeli xna monogame game</tags>
+    <tags>jypeli</tags>
     <dependencies>
       <dependency id="MonoGame.Framework.DesktopGL" version="3.5" />
     </dependencies>

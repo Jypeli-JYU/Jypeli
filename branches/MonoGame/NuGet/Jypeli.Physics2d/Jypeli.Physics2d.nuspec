@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Jypeli.Physics2d</id>
-    <version>0.0.2</version>
+    <version>0.0.5</version>
     <authors>Jyväskylän yliopisto</authors>
     <owners>Jyväskylän yliopisto</owners>
     <projectUrl>http://bit.ly/pelikurssi</projectUrl>
@@ -10,7 +10,7 @@
     <description>THIS IS A TESTING RELEASE! Physics2d.net physics library implementation for Jypeli</description>
     <releaseNotes></releaseNotes>
     <copyright></copyright>
-    <tags>jypeli physics xna monogame game</tags>
+    <tags>jypeli</tags>
     <dependencies>
       <dependency id="MonoGame.Framework.DesktopGL" version="3.5" />
     </dependencies>

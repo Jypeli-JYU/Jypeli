@@ -24,17 +24,24 @@ simplephysics:	copysimplephys
 
 copywindowsgl:
 	mkdir -p Jypeli.WindowsGL/lib ; \
-	cp ../Compiled/WindowsGL-AnyCPU/Jypeli.* Jypeli.WindowsGL/lib
+	cp ../Compiled/WindowsGL-AnyCPU/Jypeli.dll Jypeli.WindowsGL/lib
 
 copylinux:
 	mkdir -p Jypeli.Linux/lib ; \
-	cp ../Compiled/Linux-AnyCPU/Jypeli.* Jypeli.Linux/lib
+	cp ../Compiled/Linux-AnyCPU/Jypeli.dll Jypeli.Linux/lib && \
+	cp ../Compiled/Linux-AnyCPU/MonoGame.Framework.dll Jypeli.Linux/lib && \
+	cp ../Compiled/Linux-AnyCPU/NVorbis.dll Jypeli.Linux/lib && \
+	cp ../Compiled/Linux-AnyCPU/OpenTK.* Jypeli.Linux/lib && \
+	cp ../Compiled/Linux-AnyCPU/Tao.Sdl.* Jypeli.Linux/lib  
+
 
 copyphys2d:
 	mkdir -p Jypeli.Physics2d/lib ; \
-	cp ../Compiled/WindowsGL-AnyCPU/Jypeli.Physics2d.dll Jypeli.Physics2d/lib
+	cp ../Compiled/WindowsGL-AnyCPU/Jypeli.Physics2d.dll Jypeli.Physics2d/lib/Jypeli.Physics2d.WindowsGL.dll && \
+	cp ../Compiled/Linux-AnyCPU/Jypeli.Physics2d.dll Jypeli.Physics2d/lib/Jypeli.Physics2d.Linux.dll
 
 copysimplephys:
 	mkdir -p Jypeli.SimplePhysics/lib ; \
-	cp ../Compiled/WindowsGL-AnyCPU/Jypeli.SimplePhysics.dll Jypeli.Physics2d/lib
+	cp ../Compiled/WindowsGL-AnyCPU/Jypeli.SimplePhysics.dll Jypeli.SimplePhysics/lib/Jypeli.SimplePhysics.WindowsGL.dll && \
+	cp ../Compiled/Linux-AnyCPU/Jypeli.SimplePhysics.dll Jypeli.SimplePhysics/lib/Jypeli.SimplePhysics.Linux.dll
 

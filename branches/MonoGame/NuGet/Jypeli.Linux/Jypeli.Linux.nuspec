@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Jypeli.Linux</id>
-    <version>0.0.3</version>
+    <version>0.0.8</version>
     <authors>Jyväskylän yliopisto</authors>
     <owners>Jyväskylän yliopisto</owners>
     <projectUrl>http://bit.ly/pelikurssi</projectUrl>
@@ -10,9 +10,16 @@
     <description>THIS IS A TESTING RELEASE! Jypeli is a game library that uses MonoGame and Physics2d.net physics engine to simplify game development. This is the Linux port of Jypeli.</description>
     <releaseNotes></releaseNotes>
     <copyright></copyright>
-    <tags>jypeli xna monogame game</tags>
-    <dependencies>
-      <dependency id="MonoGame.Framework.DesktopGL" version="3.5" />
-    </dependencies>
+    <tags>jypeli</tags>
   </metadata>
+  <files>
+    <file src="lib\*" target="lib"/>
+    <file src="lib/NVorbis.dll" target="lib"/>
+    <file src="lib/Tao.Sdl.dll" target="lib"/>
+    <file src="lib/OpenTK.dll.config" target="lib"/>
+    <file src="lib/Tao.Sdl.dll.config" target="lib"/>
+    <file src="lib/Jypeli.dll" target="lib"/>
+    <file src="lib/OpenTK.dll" target="lib"/>
+    <file src="lib/MonoGame.Framework.dll" target="lib"/>
+  </files>
 </package>

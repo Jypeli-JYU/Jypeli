@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Jypeli.Linux</id>
-    <version>0.0.8</version>
+    <version>0.1.1</version>
     <authors>Jyväskylän yliopisto</authors>
     <owners>Jyväskylän yliopisto</owners>
     <projectUrl>http://bit.ly/pelikurssi</projectUrl>
@@ -13,13 +13,6 @@
     <tags>jypeli</tags>
   </metadata>
   <files>
-    <file src="lib\*" target="lib"/>
-    <file src="lib/NVorbis.dll" target="lib"/>
-    <file src="lib/Tao.Sdl.dll" target="lib"/>
-    <file src="lib/OpenTK.dll.config" target="lib"/>
-    <file src="lib/Tao.Sdl.dll.config" target="lib"/>
-    <file src="lib/Jypeli.dll" target="lib"/>
-    <file src="lib/OpenTK.dll" target="lib"/>
-    <file src="lib/MonoGame.Framework.dll" target="lib"/>
+    <file src="lib/**" target="lib"/>
   </files>
 </package>

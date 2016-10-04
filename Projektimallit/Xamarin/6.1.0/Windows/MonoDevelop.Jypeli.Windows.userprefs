@@ -1,17 +1,9 @@
-﻿<Properties StartupConfiguration="{387A7E80-FE70-4F85-A5E0-1B2986C5112D}|">
+﻿<Properties StartupConfiguration="{387A7E80-FE70-4F85-A5E0-1B2986C5112D}|" StartupItem="MonoDevelop.Jypeli.Windows.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.MonoDevelop.Jypeli.Windows PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Properties\Manifest.addin.xml">
-    <Files>
-      <File FileName="templates\FysiikkaPeli.Physics2d.xpt.xml" Line="6" Column="28" />
-      <File FileName="templates\FysiikkaPeli.SimplePhysics.xpt.xml" Line="8" Column="35" />
-      <File FileName="templates\PerusPeli.xpt.xml" Line="25" Column="1" />
-      <File FileName="templates\Tasohyppelypeli.xpt.xml" Line="8" Column="28" />
-      <File FileName="Properties\Manifest.addin.xml" Line="93" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.ItemProperties.MonoDevelop.Jypeli.Windows PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>

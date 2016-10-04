@@ -1,0 +1,16 @@
+﻿<Properties StartupItem="Jypeli.Linux.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="templates/PerusPeli.xpt.xml">
+    <Files>
+      <File FileName="Properties/Manifest.addin.xml" Line="59" Column="1" />
+      <File FileName="Properties/AddinInfo.cs" Line="16" Column="1" />
+      <File FileName="Properties/AssemblyInfo.cs" Line="28" Column="1" />
+      <File FileName="../Common/templates/ConsoleMain.xpt.xml" Line="30" Column="57" />
+      <File FileName="templates/PerusPeli.xpt.xml" Line="42" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

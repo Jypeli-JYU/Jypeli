@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Audio;
+using System;
 
 namespace Jypeli
 {
@@ -61,7 +62,15 @@ namespace Jypeli
 
         public void Play()
         {
-            effectInstance.Play();
+            try
+            {
+                effectInstance.Play();
+            }
+            catch (NullReferenceException)
+            {
+                Console.Error.WriteLine("Null reference exception trying to play a sound, disabling audio");
+                Game.DisableAudio();
+            }
         }
 
         public void Resume()

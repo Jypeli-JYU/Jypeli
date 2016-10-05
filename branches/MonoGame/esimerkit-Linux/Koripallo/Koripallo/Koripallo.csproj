@@ -3,13 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{46E60D1F-14DC-4E36-998A-3049FE352BEE}</ProjectGuid>
-    <ProjectTypeGuids>{9B831FEF-F496-498F-9FE8-180DA5CB4258};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>Koripallo</RootNamespace>
     <AssemblyName>Koripallo</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,17 +33,14 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="Tao.Sdl">
-      <HintPath>..\..\..\MonoGame\MonoGame.Framework\bin\Linux\Debug\Tao.Sdl.dll</HintPath>
-    </Reference>
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\..\..\MonoGame\MonoGame.Framework\bin\Linux\Debug\Lidgren.Network.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework">
-      <HintPath>..\..\..\MonoGame\MonoGame.Framework\bin\Linux\Debug\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\..\..\Jypeli\packages\MonoGame.Framework.DesktopGL.3.5.1.1679\lib\net40\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NVorbis">
+      <HintPath>..\..\..\Jypeli\packages\MonoGame.Framework.DesktopGL.3.5.1.1679\lib\net40\NVorbis.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK">
-      <HintPath>..\..\..\MonoGame\MonoGame.Framework\bin\Linux\Debug\OpenTK.dll</HintPath>
+      <HintPath>..\..\..\Jypeli\packages\MonoGame.Framework.DesktopGL.3.5.1.1679\lib\net40\OpenTK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -55,21 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Jypeli\Jypeli-Linux.csproj">
-      <Project>{6B7DA771-B6DC-45C6-844E-CE67BCD476F2}</Project>
-      <Name>Jypeli-Linux</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\SimplePhysics\SimplePhysics-Linux.csproj">
-      <Project>{7E51D9E3-3B1F-44D5-8376-90253690C95A}</Project>
-      <Name>SimplePhysics-Linux</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <Content Include="Content\heittaja1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -92,5 +75,15 @@
     <Content Include="Content\koripallo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Jypeli\Jypeli.Linux.csproj">
+      <Project>{6B7DA771-B6DC-45C6-844E-CE67BCD476F2}</Project>
+      <Name>Jypeli.Linux</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Physics2d\Jypeli.Physics2d.Linux.csproj">
+      <Project>{041D26C6-A261-4843-906E-7326AB1DBA4C}</Project>
+      <Name>Jypeli.Physics2d.Linux</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -116,6 +116,11 @@ namespace Jypeli
         {
             base.Run();
         }
+
+        internal static void DisableAudio()
+        {
+            AudioEnabled = false;
+        }
 #endif
 
 #if WINDOWS || MACOS || LINUX

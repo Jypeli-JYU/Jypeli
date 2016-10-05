@@ -58,7 +58,16 @@ namespace Jypeli
         internal TouchPanel( ScreenView screen )
         {
             this.screen = screen;
-            this.caps = XnaTouchPanel.GetCapabilities();
+
+			try
+			{
+                this.caps = XnaTouchPanel.GetCapabilities();
+			}
+			catch (System.EntryPointNotFoundException)
+            {
+                this.caps = new TouchPanelCapabilities();
+			}
+
             this.touches = new List<Touch>( caps.MaximumTouchCount );
             this.newTouches = new List<Touch>( caps.MaximumTouchCount );
         }

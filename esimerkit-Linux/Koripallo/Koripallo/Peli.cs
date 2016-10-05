@@ -304,7 +304,7 @@ public class Peli : PhysicsGame
         return Vector.Distance( paikka, pallo.Position ) < ( pallo.Width / 2 );
     }
 
-    void HeitaHiirella( AnalogState state )
+    void HeitaHiirella()
     {
         //MessageDisplay.RealTime = true;
         //MessageDisplay.Add( String.Format( "({0}, {1})", Mouse.PositionOnScreen.X, Mouse.PositionOnScreen.Y ) );
@@ -312,7 +312,7 @@ public class Peli : PhysicsGame
         if ( onHeittamassa )
         {
             pallo.Position = Mouse.PositionOnWorld;
-            LisaaLiike( state.MouseMovement );
+            LisaaLiike( Mouse.MovementOnWorld );
         }
     }
 
@@ -397,8 +397,8 @@ public class Peli : PhysicsGame
         Keyboard.Listen( Key.Right, ButtonState.Down, pyoritaPalloa, "Anna pallolle yläkierrettä.", -0.2 );
 
         /* TODO ShowControlHelp
-        Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet");
-        Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Poistu"); */
+        Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet");*/
+        Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Poistu");
 
         ControllerOne.Listen( Button.RightTrigger, ButtonState.Down, laskeVoimaPadilla, "Pidä pohjassa heiton voimakkuuden säätämiseen." );
         ControllerOne.Listen( Button.RightTrigger, ButtonState.Released, heitaPallo, null );

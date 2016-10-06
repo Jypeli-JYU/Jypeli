@@ -1,10 +1,13 @@
-all:	windowsgl linux physics2d simplephysics
+all:	windowsgl linux
 
 rebuild:
 	make clean && make
 
 clean:
-	rm -f $$(find . -wholename '*/lib/Jypeli.*' -or -name '*.nupkg') && \
+	rm -f $$(find . -wholename '*/lib/Jypeli.*') && \
+	rm -f $$(find . -wholename '*/lib/4.5/Jypeli.*' -or -name '*.nupkg') && \
+	rm -f Jypeli.Linux/lib/4.5/MonoGame.Framework.dll Jypeli.Linux/lib/4.5/NVorbis.dll Jypeli.Linux/lib/4.5/OpenTK.* Jypeli.Linux/lib/4.5/Tao.Sdl.* && \
+	rm -fd $$(find . -wholename '*/lib/4.5') && \
 	rm -fd $$(find . -name 'lib')
 
 release: rebuild
@@ -14,34 +17,29 @@ windowsgl: copywindowsgl
 	sh -c "cd Jypeli.WindowsGL && nuget pack"
 
 linux:	copylinux
-	sh -c "cd Jypeli.Linux && nuget pack"
-
-physics2d:	copyphys2d
-	sh -c "cd Jypeli.Physics2d && nuget pack"
-
-simplephysics:	copysimplephys
-	sh -c "cd Jypeli.SimplePhysics && nuget pack"
+	sh -c "cd Jypeli.Linux && nuget pack" ; \
+	sh -c "cd Jypeli.Physics2d.Linux && nuget pack" ; \
+	sh -c "cd Jypeli.SimplePhysics.Linux && nuget pack"
 
 copywindowsgl:
-	mkdir -p Jypeli.WindowsGL/lib ; \
-	cp ../Compiled/WindowsGL-AnyCPU/Jypeli.dll Jypeli.WindowsGL/lib
+	mkdir -p Jypeli.WindowsGL/lib/4.5 ; \
+	cp ../Compiled/WindowsGL-AnyCPU/Jypeli.dll Jypeli.WindowsGL/lib/4.5
 
-copylinux:
-	mkdir -p Jypeli.Linux/lib ; \
-	cp ../Compiled/Linux-AnyCPU/Jypeli.dll Jypeli.Linux/lib && \
-	cp ../Compiled/Linux-AnyCPU/MonoGame.Framework.dll Jypeli.Linux/lib && \
-	cp ../Compiled/Linux-AnyCPU/NVorbis.dll Jypeli.Linux/lib && \
-	cp ../Compiled/Linux-AnyCPU/OpenTK.* Jypeli.Linux/lib && \
-	cp ../Compiled/Linux-AnyCPU/Tao.Sdl.* Jypeli.Linux/lib  
+copylinux: copylinuxjypeli copylinuxphys2d copylinuxsimplephys
 
+copylinuxjypeli:
+	mkdir -p Jypeli.Linux/lib/4.5 ; \
+	cp ../Compiled/Linux-AnyCPU/Jypeli.dll Jypeli.Linux/lib/4.5 && \
+	cp ../Compiled/Linux-AnyCPU/MonoGame.Framework.dll Jypeli.Linux/lib/4.5 && \
+	cp ../Compiled/Linux-AnyCPU/NVorbis.dll Jypeli.Linux/lib/4.5 && \
+	cp ../Compiled/Linux-AnyCPU/OpenTK.* Jypeli.Linux/lib/4.5 && \
+	cp ../Compiled/Linux-AnyCPU/Tao.Sdl.* Jypeli.Linux/lib/4.5
 
-copyphys2d:
-	mkdir -p Jypeli.Physics2d/lib ; \
-	cp ../Compiled/WindowsGL-AnyCPU/Jypeli.Physics2d.dll Jypeli.Physics2d/lib/Jypeli.Physics2d.WindowsGL.dll && \
-	cp ../Compiled/Linux-AnyCPU/Jypeli.Physics2d.dll Jypeli.Physics2d/lib/Jypeli.Physics2d.Linux.dll
+copylinuxphys2d:
+	mkdir -p Jypeli.Physics2d.Linux/lib/4.5 ; \
+	cp ../Compiled/Linux-AnyCPU/Jypeli.Physics2d.dll Jypeli.Physics2d.Linux/lib/4.5
 
-copysimplephys:
-	mkdir -p Jypeli.SimplePhysics/lib ; \
-	cp ../Compiled/WindowsGL-AnyCPU/Jypeli.SimplePhysics.dll Jypeli.SimplePhysics/lib/Jypeli.SimplePhysics.WindowsGL.dll && \
-	cp ../Compiled/Linux-AnyCPU/Jypeli.SimplePhysics.dll Jypeli.SimplePhysics/lib/Jypeli.SimplePhysics.Linux.dll
+copylinuxsimplephys:
+	mkdir -p Jypeli.SimplePhysics.Linux/lib/4.5 ; \
+	cp ../Compiled/Linux-AnyCPU/Jypeli.SimplePhysics.dll Jypeli.SimplePhysics.Linux/lib/4.5
 

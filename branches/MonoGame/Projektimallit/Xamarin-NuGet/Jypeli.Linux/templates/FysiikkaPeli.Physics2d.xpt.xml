@@ -1,14 +1,15 @@
 <?xml version="1.0"?>
-<Template originator   = "Tomi Karppinen"
-          created      = "2016/10/04"
-          lastModified = "2016/10/04">
+<Template
+		originator		= "Tomi Karppinen"
+		created			= "2016/10/04"
+		lastModified	= "2016/10/06">
 
 	<TemplateConfiguration>
 		<_Name>FysiikkaPeli (Physics2d)</_Name>
 		<Category>jypeli/linux/fysiikka</Category>
 		<Icon>FysiikkaPeli-project</Icon>
 		<LanguageName>C#</LanguageName>
-		<_Description>Fysiikkapeli Windowsille, joka käyttää Physics2d-fysiikkamoottoria. Physics game for Windows with Physics2d engine.</_Description>
+		<_Description>Fysiikkapeli Linuxille, joka käyttää Physics2d-fysiikkamoottoria. Physics game for Linux with Physics2d engine.</_Description>
 	</TemplateConfiguration>
 
 	<Options>
@@ -18,6 +19,7 @@
 	<Combine name = "${ProjectName}" directory = ".">
 		<Project name = "${ProjectName}" directory = ".">
 			<Options/>
+
 			<References>
 				<Reference type = "Gac" refto = "System" />
 				<Reference type = "Gac" refto = "System.Xml" />
@@ -26,7 +28,7 @@
 
 			<Packages>
 				<Package id = "Jypeli.Linux" />
-				<Package id = "Jypeli.Physics2d" />
+				<Package id = "Jypeli.Physics2d.Linux" />
 			</Packages>
 
 			<Files>
@@ -34,6 +36,8 @@
 				<File name="${ProjectName}.cs" src="FysiikkaPeli/Peli.cs" AddStandardHeader="True" />
 				<File name="Ohjelma.cs" src="PerusPeli/Ohjelma.cs" AddStandardHeader="True" />
 				<RawFile name="Icon.png" src="FysiikkaPeli/Icon-md.png" />
+				<RawFile name="OpenTK.dll.config" src="lib/OpenTK.dll.config" CopyToOutputDirectory="PreserveNewest" />
+				<RawFile name="Tao.Sdl.dll.config" src="lib/Tao.Sdl.dll.config" CopyToOutputDirectory="PreserveNewest" />
 				<Directory name="Content" />
 			</Files>
 		</Project>

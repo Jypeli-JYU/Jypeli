@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0"?>
-<Template originator   = "Tomi Karppinen"
-          created      = "2014/09/18"
-          lastModified = "2016/10/04">
+<Template
+		originator		= "Tomi Karppinen"
+		created			= "2014/09/18"
+		lastModified	= "2016/10/06">
 
 	<TemplateConfiguration>
 		<_Name>ConsoleMain</_Name>

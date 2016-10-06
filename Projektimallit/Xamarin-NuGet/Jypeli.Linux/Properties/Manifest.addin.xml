@@ -26,6 +26,8 @@
 		<Import file="templates/PerusPeliCs.xft.xml" />
 		<Import file="templates/FysiikkaPeli.SimplePhysics.xpt.xml" />
 		<Import file="templates/FysiikkaPeli.Physics2d.xpt.xml" />
+		<Import file="templates/lib/OpenTK.dll.config" />
+		<Import file="templates/lib/Tao.Sdl.dll.config" />
 	</Runtime>
 	<Extension path="/MonoDevelop/Core/StockIcons">
 		<StockIcon stockid="Jypeli-project" file="icons/Jypeli-32.png" />

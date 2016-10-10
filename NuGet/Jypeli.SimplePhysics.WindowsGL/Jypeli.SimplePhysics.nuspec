@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Jypeli.SimplePhysics.Linux</id>
+    <id>Jypeli.SimplePhysics.WindowsGL</id>
     <version>0.0.7</version>
     <authors>Jyväskylän yliopisto</authors>
     <owners>Jyväskylän yliopisto</owners>
     <projectUrl>http://bit.ly/pelikurssi</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>THIS IS A TESTING RELEASE! SimplePhysics library implementation for Jypeli for Linux</description>
+    <description>THIS IS A TESTING RELEASE! SimplePhysics library implementation for Jypeli for Windows OpenGL platform</description>
     <releaseNotes></releaseNotes>
     <copyright></copyright>
     <tags>jypeli</tags>

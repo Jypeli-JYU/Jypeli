@@ -12,7 +12,4 @@
     <copyright></copyright>
     <tags>jypeli</tags>
   </metadata>
-  <files>
-    <file src="lib/**" target="lib"/>
-  </files>
 </package>

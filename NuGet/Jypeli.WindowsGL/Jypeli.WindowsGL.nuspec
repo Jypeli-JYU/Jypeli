@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Jypeli.WindowsGL</id>
-    <version>0.0.5</version>
+    <version>0.1.1</version>
     <authors>Jyväskylän yliopisto</authors>
     <owners>Jyväskylän yliopisto</owners>
     <projectUrl>http://bit.ly/pelikurssi</projectUrl>
@@ -11,8 +11,5 @@
     <releaseNotes></releaseNotes>
     <copyright></copyright>
     <tags>jypeli</tags>
-    <dependencies>
-      <dependency id="MonoGame.Framework.DesktopGL" version="3.5" />
-    </dependencies>
   </metadata>
 </package>

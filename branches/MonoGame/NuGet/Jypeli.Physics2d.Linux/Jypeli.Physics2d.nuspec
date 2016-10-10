@@ -15,7 +15,4 @@
       <dependency id="Jypeli.Linux" version="0.1.1" />
     </dependencies>
   </metadata>
-  <files>
-    <file src="lib/**" target="lib"/>
-  </files>
 </package>

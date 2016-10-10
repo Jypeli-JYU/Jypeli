@@ -63,7 +63,7 @@ namespace Jypeli
 			{
                 this.caps = XnaTouchPanel.GetCapabilities();
 			}
-			catch (System.EntryPointNotFoundException)
+			catch (TypeLoadException)
             {
                 this.caps = new TouchPanelCapabilities();
 			}

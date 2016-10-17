@@ -25,6 +25,20 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>AfterBuild</type>
+          <command>mdtool setup pack ${TargetFile}</command>
+          <workingdir>${TargetDir}</workingdir>
+        </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>mdtool setup rep-build .</command>
+          <workingdir>${TargetDir}</workingdir>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

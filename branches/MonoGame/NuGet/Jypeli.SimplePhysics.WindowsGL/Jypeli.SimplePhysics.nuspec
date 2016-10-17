@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Jypeli.SimplePhysics.WindowsGL</id>
-    <version>0.0.7</version>
+    <version>0.0.8</version>
     <authors>Jyväskylän yliopisto</authors>
     <owners>Jyväskylän yliopisto</owners>
     <projectUrl>http://bit.ly/pelikurssi</projectUrl>
@@ -12,7 +12,7 @@
     <copyright></copyright>
     <tags>jypeli</tags>
     <dependencies>
-      <dependency id="Jypeli.Linux" version="0.1.1" />
+      <dependency id="Jypeli.WindowsGL" version="0.1.1" />
     </dependencies>
   </metadata>
 </package>

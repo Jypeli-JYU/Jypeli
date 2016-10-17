@@ -50,6 +50,9 @@
 			</Category>
 		</Category>
 	</Extension>
+	<Extension path="/MonoDevelop/ProjectModel/ProjectModelExtensions">
+		<Class class="Jypeli.Projects.JypeliProjectExtension"></Class>
+	</Extension>
 	<Extension path="/MonoDevelop/Ide/ProjectTemplates">
 		<ProjectTemplate id="ConsoleMain" file="templates/ConsoleMain.xpt.xml" />
 		<ProjectTemplate id="PerusPeli" file="templates/PerusPeli.xpt.xml" />

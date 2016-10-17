@@ -49,28 +49,35 @@ namespace Jypeli.Projects
 					this.openFile = null;
 					Runtime.RunInMainThread(() => IdeApp.Workbench.OpenDocument(file, Project, true));
 				}
+			}
 
-				foreach (var item in objs)
+			base.OnItemsAdded(objs);
+		}
+
+		protected override Task<BuildResult> OnBuild(ProgressMonitor monitor, ConfigurationSelector configuration, OperationContext operationContext)
+		{
+			if (IsJypeliProject(Project))
+			{
+				foreach (var item in Project.Items)
 				{
-					if (item is ProjectFile)
+					var fileItem = item as ProjectFile;
+					if (fileItem == null)
+						continue;
+
+					// Copy DLL files to output directory
+					if (IsLibraryFile(fileItem.Name))
+						fileItem.CopyToOutputDirectory = FileCopyMode.PreserveNewest;
+
+					// Mark content files as content and copy to output directory
+					if (IsContentFile(fileItem.Name))
 					{
-						var fileItem = (ProjectFile)item;
-
-						// Copy DLL files to output directory
-						if (IsLibraryFile(fileItem.Name))
-							fileItem.CopyToOutputDirectory = FileCopyMode.PreserveNewest;
-
-						// Mark content files as content and copy to output directory
-						if (IsContentFile(fileItem.Name))
-						{
-							fileItem.BuildAction = "Content";
-							fileItem.CopyToOutputDirectory = FileCopyMode.PreserveNewest;
-						}
+						fileItem.BuildAction = "Content";
+						fileItem.CopyToOutputDirectory = FileCopyMode.PreserveNewest;
 					}
 				}
 			}
 
-			base.OnItemsAdded(objs);
+			return base.OnBuild(monitor, configuration, operationContext);
 		}
 
 		protected override ProjectItem OnCreateProjectItem(MonoDevelop.Projects.MSBuild.IMSBuildItemEvaluated item)

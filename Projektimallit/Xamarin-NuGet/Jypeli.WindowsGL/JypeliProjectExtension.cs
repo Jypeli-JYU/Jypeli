@@ -1,4 +1,5 @@
 ﻿using MonoDevelop.Core;
+using MonoDevelop.Ide;
 using MonoDevelop.Projects;
 using System;
 using System.Threading.Tasks;
@@ -7,6 +8,8 @@ namespace Jypeli.Projects
 {
 	public class JypeliProjectExtension : DotNetProjectExtension
 	{
+		private FilePath openFile = null;
+
 		public JypeliProjectExtension()
 			: base()
 		{
@@ -40,6 +43,13 @@ namespace Jypeli.Projects
 		{
 			if (IsJypeliProject(Project))
 			{
+				if (this.openFile != null)
+				{
+					var file = this.openFile;
+					this.openFile = null;
+					Runtime.RunInMainThread(() => IdeApp.Workbench.OpenDocument(file, Project, true));
+				}
+
 				foreach (var item in objs)
 				{
 					if (item is ProjectFile)
@@ -61,6 +71,17 @@ namespace Jypeli.Projects
 			}
 
 			base.OnItemsAdded(objs);
+		}
+
+		protected override ProjectItem OnCreateProjectItem(MonoDevelop.Projects.MSBuild.IMSBuildItemEvaluated item)
+		{
+			if (item.Include == Project.Name + ".cs")
+			{
+				// Open the main .cs file in editor
+				this.openFile = Project.ItemDirectory.Combine(new FilePath(item.Include));
+			}
+
+			return base.OnCreateProjectItem(item);
 		}
 	}
 }

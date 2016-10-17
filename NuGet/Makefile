@@ -23,8 +23,16 @@ linux:	copylinux
 
 copywindowsgl:
 	mkdir -p Jypeli.WindowsGL/lib/4.5 ; \
-	cp ../Compiled/WindowsGL-AnyCPU/Jypeli.dll Jypeli.WindowsGL/lib/4.5
-
+	mkdir -p Jypeli.WindowsGL/content/4.5 ; \
+	cp ../Compiled/WindowsGL-AnyCPU/Jypeli.dll Jypeli.WindowsGL/lib/4.5 && \
+	cp ../Compiled/WindowsGL-AnyCPU/MonoGame.Framework.dll Jypeli.WindowsGL/lib/4.5 && \
+	cp ../Compiled/WindowsGL-AnyCPU/NVorbis.dll Jypeli.WindowsGL/lib/4.5 && \
+	cp ../Compiled/WindowsGL-AnyCPU/OpenTK.dll Jypeli.WindowsGL/lib/4.5 && \
+	cp ../Compiled/WindowsGL-AnyCPU/Tao.Sdl.dll Jypeli.WindowsGL/lib/4.5 && \
+	cp ../Compiled/WindowsGL-AnyCPU/SDL.dll Jypeli.WindowsGL/content/4.5 && \
+	cp ../Compiled/WindowsGL-AnyCPU/SDL_mixer.dll Jypeli.WindowsGL/content/4.5 && \
+	cp ../Compiled/WindowsGL-AnyCPU/smpeg.dll Jypeli.WindowsGL/content/4.5
+	
 copylinux: copylinuxjypeli copylinuxphys2d copylinuxsimplephys
 
 copylinuxjypeli:

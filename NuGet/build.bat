@@ -4,6 +4,7 @@ setlocal
 mkdir Jypeli.WindowsGL\lib\4.5
 mkdir Jypeli.Linux\lib\4.5
 mkdir Jypeli.Physics2d.WindowsGL\lib\4.5
+mkdir Jypeli.Physics2d.WindowsGL\content\4.5
 mkdir Jypeli.SimplePhysics.WindowsGL\lib\4.5
 mkdir Jypeli.Physics2d.Linux\lib\4.5
 mkdir Jypeli.SimplePhysics.Linux\lib\4.5
@@ -13,9 +14,9 @@ copy ..\Compiled\WindowsGL-AnyCPU\MonoGame.Framework.dll Jypeli.WindowsGL\lib\4.
 copy ..\Compiled\WindowsGL-AnyCPU\OpenTK.dll Jypeli.WindowsGL\lib\4.5
 copy ..\Compiled\WindowsGL-AnyCPU\Tao.Sdl.dll Jypeli.WindowsGL\lib\4.5
 copy ..\Compiled\WindowsGL-AnyCPU\NVorbis.dll Jypeli.WindowsGL\lib\4.5
-copy ..\Compiled\WindowsGL-AnyCPU\SDL.dll Jypeli.WindowsGL\lib\4.5
-copy ..\Compiled\WindowsGL-AnyCPU\SDL_mixer.dll Jypeli.WindowsGL\lib\4.5
-copy ..\Compiled\WindowsGL-AnyCPU\smpeg.dll Jypeli.WindowsGL\lib\4.5
+copy ..\Compiled\WindowsGL-AnyCPU\SDL.dll Jypeli.WindowsGL\content\4.5
+copy ..\Compiled\WindowsGL-AnyCPU\SDL_mixer.dll Jypeli.WindowsGL\content\4.5
+copy ..\Compiled\WindowsGL-AnyCPU\smpeg.dll Jypeli.WindowsGL\content\4.5
 
 copy ..\Compiled\Linux-AnyCPU\Jypeli.dll Jypeli.Linux\lib\4.5
 copy ..\Compiled\Linux-AnyCPU\MonoGame.Framework.dll Jypeli.Linux\lib\4.5

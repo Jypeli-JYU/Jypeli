@@ -2,6 +2,7 @@
 using MonoDevelop.Ide;
 using MonoDevelop.Projects;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Jypeli.Projects
@@ -26,17 +27,15 @@ namespace Jypeli.Projects
 			return false;
 		}
 
-		private bool IsLibraryFile(string fileName)
+		private bool IsLibraryFile(FilePath file)
 		{
-			return fileName.EndsWith(".dll", StringComparison.InvariantCulture) ||
-		           fileName.EndsWith(".dylib", StringComparison.InvariantCulture) ||
-		           fileName.EndsWith(".dll.config", StringComparison.InvariantCulture);
+			return file.Extension == ".dll" || file.Extension == ".dylib" ||
+		           file.FileName.EndsWith(".dll.config", StringComparison.InvariantCulture);
 		}
 
-		private bool IsContentFile(string fileName)
+		private bool IsContentFile(FilePath file)
 		{
-			string[] parts = fileName.Split('\\', '/');
-			return parts.Length > 1 && parts[parts.Length - 2].ToLower() == "content";
+			return !file.IsDirectory && file.IsChildPathOf(Project.ItemDirectory.Combine("Content"));
 		}
 
 		protected override void OnItemsAdded(System.Collections.Generic.IEnumerable<ProjectItem> objs)
@@ -58,6 +57,19 @@ namespace Jypeli.Projects
 		{
 			if (IsJypeliProject(Project))
 			{
+				var contentDir = Project.ItemDirectory.Combine("Content");
+				var outputDir = Project.GetOutputFileName(configuration).ParentDirectory.CanonicalPath.Combine("Content").ToString();
+				MGCB mgcb = null;
+
+				try
+				{
+					mgcb = new MGCB(contentDir, outputDir);
+				}
+				catch (NotSupportedException e)
+				{
+					monitor.Log.WriteLine("Could not initialize content builder - " + e.Message);
+				}
+
 				foreach (var item in Project.Items)
 				{
 					var fileItem = item as ProjectFile;
@@ -65,14 +77,30 @@ namespace Jypeli.Projects
 						continue;
 
 					// Copy DLL files to output directory
-					if (IsLibraryFile(fileItem.Name))
+					if (IsLibraryFile(fileItem.FilePath))
 						fileItem.CopyToOutputDirectory = FileCopyMode.PreserveNewest;
 
 					// Mark content files as content and copy to output directory
-					if (IsContentFile(fileItem.Name))
+					if (IsContentFile(fileItem.FilePath))
 					{
+						if (mgcb != null && fileItem.Name.EndsWith(".wav", StringComparison.InvariantCulture))
+						{
+							// Sound effect
+							fileItem.CopyToOutputDirectory = FileCopyMode.None;
+							mgcb.BuildContent(monitor, fileItem.FilePath, "WavImporter", "SoundEffectProcessor");
+						}
+						else if (mgcb != null && fileItem.Name.EndsWith(".mp3", StringComparison.InvariantCulture))
+						{
+							// Music
+							fileItem.CopyToOutputDirectory = FileCopyMode.None;
+							mgcb.BuildContent(monitor, fileItem.FilePath, "Mp3Importer", "SongProcessor");
+						}
+						else
+						{
+							fileItem.CopyToOutputDirectory = FileCopyMode.PreserveNewest;
+						}
+
 						fileItem.BuildAction = "Content";
-						fileItem.CopyToOutputDirectory = FileCopyMode.PreserveNewest;
 					}
 				}
 			}

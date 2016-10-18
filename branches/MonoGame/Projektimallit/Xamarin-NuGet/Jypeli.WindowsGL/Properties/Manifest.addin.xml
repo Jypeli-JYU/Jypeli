@@ -31,6 +31,36 @@
 		<Import file="templates/Tasohyppelypeli/Content/maali.xnb" />
 		<Import file="templates/Tasohyppelypeli/Content/norsu.png" />
 		<Import file="templates/Tasohyppelypeli/Content/tahti.png" />
+
+		<Import file="tools/MGCB/Assimp64.dll" />
+		<Import file="tools/MGCB/AssimpNet.dll" />
+		<Import file="tools/MGCB/ATI.TextureConverter.dll" />
+		<Import file="tools/MGCB/CppNet.dll" />
+		<Import file="tools/MGCB/ffmpeg.exe" />
+		<Import file="tools/MGCB/ffprobe.exe" />
+		<Import file="tools/MGCB/FreeImage.dll" />
+		<Import file="tools/MGCB/FreeImageNET.dll" />
+		<Import file="tools/MGCB/freetype6.dll" />
+		<Import file="tools/MGCB/libmojoshader_64.dll" />
+		<Import file="tools/MGCB/MGCB.exe" />
+		<Import file="tools/MGCB/MGCB.exe.config" />
+		<Import file="tools/MGCB/MonoGame.Framework.Content.Pipeline.dll" />
+		<Import file="tools/MGCB/MonoGame.Framework.dll" />
+		<Import file="tools/MGCB/Nvidia.TextureTools.dll" />
+		<Import file="tools/MGCB/nvtt.dll" />
+		<Import file="tools/MGCB/PVRTexLibNET.dll" />
+		<Import file="tools/MGCB/PVRTexLibWrapper.dll" />
+		<Import file="tools/MGCB/SharpDX.D3DCompiler.dll" />
+		<Import file="tools/MGCB/SharpDX.Direct2D1.dll" />
+		<Import file="tools/MGCB/SharpDX.Direct3D11.dll" />
+		<Import file="tools/MGCB/SharpDX.Direct3D9.dll" />
+		<Import file="tools/MGCB/SharpDX.dll" />
+		<Import file="tools/MGCB/SharpDX.DXGI.dll" />
+		<Import file="tools/MGCB/SharpDX.MediaFoundation.dll" />
+		<Import file="tools/MGCB/SharpDX.RawInput.dll" />
+		<Import file="tools/MGCB/SharpDX.XAudio2.dll" />
+		<Import file="tools/MGCB/SharpDX.XInput.dll" />
+		<Import file="tools/MGCB/SharpFont.dll" />
 	</Runtime>
 	<Extension path="/MonoDevelop/Core/StockIcons">
 		<StockIcon stockid="Jypeli-project" file="icons/Jypeli-32.png" />

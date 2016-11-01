@@ -532,6 +532,22 @@ public class PlatformCharacter : PhysicsObject
         obj.Hit( Vector.FromLengthAndAngle( force, throwAngle ) );
     }
 
+    private double GetPlatformTopY( GameObject platform )
+    {
+        if ( platform.Angle == Angle.Zero )
+            return platform.Top;
+
+        Vector uTargetX = Vector.FromAngle( platform.Angle );
+        Vector uTargetY = uTargetX.LeftNormal;
+
+        double leftProj = new Vector( this.AbsLeft - platform.AbsolutePosition.X, this.AbsBottom - platform.AbsolutePosition.Y ).ScalarProjection( uTargetX );
+        double rightProj = new Vector( this.AbsRight - platform.AbsolutePosition.X, this.AbsBottom - platform.AbsolutePosition.Y ).ScalarProjection( uTargetX );
+        Vector leftTopPoint = leftProj * uTargetX + platform.Height / 2 * uTargetY;
+        Vector rightTopPoint = rightProj * uTargetX + platform.Height / 2 * uTargetY;
+
+        return platform.AbsolutePosition.Y + Math.Max( leftTopPoint.Y, rightTopPoint.Y );
+    }
+
     /// <summary>
     /// Checks if the character is located on top of the target.
     /// </summary>
@@ -544,8 +560,9 @@ public class PlatformCharacter : PhysicsObject
         // This prevents jumping when on the side of the wall, not on top of it.
         double epsilon = Width / 6;
 
+        double targetTop = this.GetPlatformTopY( target );
         return (target.AbsolutePosition.Y <= this.AbsolutePosition.Y
-            && (this.Bottom - target.Top) < yTolerance
+            && (this.Bottom - targetTop) < yTolerance
             && (target.Left + epsilon) < this.Right
             && this.Left < (target.Right - epsilon));
     }
@@ -639,7 +656,7 @@ public class PlatformCharacter : PhysicsObject
 
         if ( platform != null && IsStandingOn(platform, lowTolerance) )
         {
-            this.Y = platform.Top + this.Height / 2;
+            this.Y = GetPlatformTopY( platform ) + this.Height / 2;
 
             if ( lastPlatformPosition.HasValue ) this.X += platform.X - lastPlatformPosition.Value.X;
             lastPlatformPosition = platform.Position;

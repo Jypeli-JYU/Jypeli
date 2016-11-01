@@ -297,7 +297,7 @@ namespace Jypeli.GameObjects
         /// </summary>
         public double Left
         {
-            get { return Position.X - Size.X / 2; }
+            get { return Position.X - 0.5 * ( Size.Y * Math.Abs( Angle.Sin ) + Size.X * Math.Abs( Angle.Cos ) ); }
             set { Position = new Vector( value + Size.X / 2, Position.Y ); }
         }
 
@@ -306,7 +306,7 @@ namespace Jypeli.GameObjects
         /// </summary>
         public double Right
         {
-            get { return Position.X + Size.X / 2; }
+            get { return Position.X + 0.5 * ( Size.Y * Math.Abs( Angle.Sin ) + Size.X * Math.Abs( Angle.Cos ) ); }
             set { Position = new Vector( value - Size.X / 2, Position.Y ); }
         }
 
@@ -315,7 +315,7 @@ namespace Jypeli.GameObjects
         /// </summary>
         public double Top
         {
-            get { return Position.Y + Size.Y / 2; }
+            get { return Position.Y + 0.5 * ( Size.X * Math.Abs( Angle.Sin ) + Size.Y * Math.Abs( Angle.Cos ) ); }
             set { Position = new Vector( Position.X, value - Size.Y / 2 ); }
         }
 
@@ -324,8 +324,40 @@ namespace Jypeli.GameObjects
         /// </summary>
         public double Bottom
         {
-            get { return Position.Y - Size.Y / 2; }
+            get { return Position.Y - 0.5 * ( Size.X * Math.Abs( Angle.Sin ) + Size.Y * Math.Abs( Angle.Cos ) ); }
             set { Position = new Vector( Position.X, value + Size.Y / 2 ); }
+        }
+
+        /// <summary>
+        /// Olion vasemman reunan absoluuttinen x-koordinaatti.
+        /// </summary>
+        public double AbsLeft
+        {
+            get { return AbsolutePosition.X - 0.5 * ( Size.Y * Math.Abs( Angle.Sin ) + Size.X * Math.Abs( Angle.Cos ) ); }
+        }
+
+        /// <summary>
+        /// Olion oikean reunan absoluuttinen x-koordinaatti.
+        /// </summary>
+        public double AbsRight
+        {
+            get { return AbsolutePosition.X + 0.5 * ( Size.Y * Math.Abs( Angle.Sin ) + Size.X * Math.Abs( Angle.Cos ) ); }
+        }
+
+        /// <summary>
+        /// Olion yläreunan absoluuttinen y-koordinaatti.
+        /// </summary>
+        public double AbsTop
+        {
+            get { return AbsolutePosition.Y + 0.5 * ( Size.X * Math.Abs( Angle.Sin ) + Size.Y * Math.Abs( Angle.Cos ) ); }
+        }
+
+        /// <summary>
+        /// Olion alareunan absoluuttinen y-koordinaatti.
+        /// </summary>
+        public double AbsBottom
+        {
+            get { return AbsolutePosition.Y - 0.5 * ( Size.X * Math.Abs( Angle.Sin ) + Size.Y * Math.Abs( Angle.Cos ) ); }
         }
 
         /// <summary>

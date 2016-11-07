@@ -4,36 +4,37 @@ using System;
 
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MonoMac.ObjCRuntime;
 
 static class Ohjelma
 {
-	static void Main (string[] args)
-	{
-		NSApplication.Init ();
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    static void Main (string [] args)
+    {
+        NSApplication.Init ();
 
-		using (var p = new NSAutoreleasePool())
-		{
-			NSApplication.SharedApplication.Delegate = new AppDelegate ();
-			NSApplication.Main (args);
-		}
-	}
+        using (var p = new NSAutoreleasePool ()) {
+            NSApplication.SharedApplication.Delegate = new AppDelegate ();
+            NSApplication.Main (args);
+        }
+    }
 }
 
 class AppDelegate : NSApplicationDelegate
 {
-	Koripallo peli;
+    private static Peli game;
 
-	public override void FinishedLaunching (NSObject notification)
-	{
-		peli = new Koripallo ();
-		peli.Run ();
-	}
+    public override void FinishedLaunching (NSObject notification)
+    {
+        game = new Peli();
+        game.Run();
+    }
 
-	public override bool ApplicationShouldTerminateAfterLastWindowClosed (NSApplication sender)
-	{
-		return true;
-	}
+    public override bool ApplicationShouldTerminateAfterLastWindowClosed (NSApplication sender)
+    {
+        return true;
+    }
 }
 
 #else

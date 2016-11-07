@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Jypeli.Physics2d.MacOS</id>
+    <version>0.0.8</version>
+    <authors>Jyväskylän yliopisto</authors>
+    <owners>Jyväskylän yliopisto</owners>
+    <projectUrl>http://bit.ly/pelikurssi</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>THIS IS A TESTING RELEASE! Physics2d.net physics library implementation for Jypeli on Mac OS X</description>
+    <releaseNotes></releaseNotes>
+    <copyright></copyright>
+    <tags>jypeli</tags>
+    <dependencies>
+      <dependency id="Jypeli.MacOS" version="0.1.4" />
+    </dependencies>
+  </metadata>
+</package>

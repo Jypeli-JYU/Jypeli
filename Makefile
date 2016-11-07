@@ -19,10 +19,10 @@ simplephysics-linux:	jypeli-linux
 	cp SimplePhysics/bin/Linux/AnyCPU/Release/* Compiled/Linux-AnyCPU/
 
 physics2d-macos:	jypeli-macos
-	cp Physics2d/bin/MacOS/AnyCPU/Release/* Compiled/MacOS-AnyCPU/
+	cp Physics2d/bin/MacOS/AnyCPU/Debug/* Compiled/MacOS-AnyCPU/
 
 simplephysics-macos:	jypeli-macos
-	cp SimplePhysics/bin/MacOS/AnyCPU/Release/* Compiled/MacOS-AnyCPU/
+	cp SimplePhysics/bin/MacOS/AnyCPU/Debug/* Compiled/MacOS-AnyCPU/
 
 jypeli: jypeli-windowsgl jypeli-linux
 
@@ -38,11 +38,16 @@ jypeli-linux:	getmonogame
 	mkdir -p Compiled/Linux-AnyCPU && \
 	cp Jypeli/bin/Linux/AnyCPU/Release/* Compiled/Linux-AnyCPU/
 
-jypeli-macos:	getmonogame
-	mono Protobuild.exe -generate MacOS && \
-	xbuild /p:Configuration=Release Jypeli.MacOS.sln && \
+#jypeli-macos:	getmonogame
+#	mono Protobuild.exe -generate MacOS && \
+#	xbuild /p:Configuration=Release Jypeli.MacOS.sln && \
+#	mkdir -p Compiled/MacOS-AnyCPU && \
+#	cp Jypeli/bin/MacOS/AnyCPU/Release/* Compiled/MacOS-AnyCPU/
+
+jypeli-macos:
+	xbuild Jypeli.MacOS.sln && \
 	mkdir -p Compiled/MacOS-AnyCPU && \
-	cp Jypeli/bin/MacOS/AnyCPU/Release/* Compiled/MacOS-AnyCPU/
+	cp Jypeli/bin/MacOS/AnyCPU/Debug/* Compiled/MacOS-AnyCPU/
 
 getmonogame:
 	bash -c "cd MonoGame; if ! [ -a .git ]; then sh module_init.sh; fi"

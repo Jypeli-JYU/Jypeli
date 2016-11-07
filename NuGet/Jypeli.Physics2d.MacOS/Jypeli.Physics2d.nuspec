@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Jypeli.Physics2d.MacOS</id>
-    <version>0.0.8</version>
+    <version>0.0.9</version>
     <authors>Jyväskylän yliopisto</authors>
     <owners>Jyväskylän yliopisto</owners>
     <projectUrl>http://bit.ly/pelikurssi</projectUrl>
@@ -15,4 +15,7 @@
       <dependency id="Jypeli.MacOS" version="0.1.4" />
     </dependencies>
   </metadata>
+  <files>
+    <file src="lib/**" target="lib"/>
+  </files>
 </package>

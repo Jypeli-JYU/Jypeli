@@ -5,6 +5,9 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="OpenTK-1.0" />
+
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
   </Platform>
 
   <Platform Type="Linux">
@@ -17,6 +20,9 @@
         Name="OpenTK"
         Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
+
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
   </Platform>
 
   <Platform Type="Linux.headless">
@@ -29,6 +35,9 @@
         Name="OpenTK"
         Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
+
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
   </Platform>
 
   <Platform Type="MacOS">
@@ -42,6 +51,11 @@
         Name="OpenTK"
         Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
+
+    <!-- MonoGame framework -->
+      <Binary
+        Name="MonoGame.Framework"
+        Path="Precompiled/MacOS/MonoGame.Framework.dll" />
   </Platform>
 
   <Platform Type="Android">
@@ -49,6 +63,9 @@
     <Reference Include="mscorlib" />
     <Reference Include="OpenTK-1.0" />
     <Reference Include="System.Core" />
+
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
   </Platform>
 
   <Platform Type="Ouya">
@@ -59,11 +76,17 @@
     <Binary
       Name="Ouya.Console.Api"
       Path="MonoGame/ThirdParty/Dependencies/OUYA/Ouya.Console.Api.dll" />
+
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
   </Platform>
 
   <Platform Type="PSMobile">
     <Reference Include="System.Core" />
     <Reference Include="Sce.PlayStation.Core" />
+
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
   </Platform>
 
   <Platform Type="Windows">
@@ -112,6 +135,9 @@
         Name="OpenTK"
         Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
+
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
   </Platform>
 
   <Platform Type="Windows8">
@@ -136,6 +162,9 @@
     <Binary
       Name="SharpDX.XInput"
       Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows 8 Metro/SharpDX.XInput.dll" />
+
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
   </Platform>
 
   <Platform Type="WindowsGL">
@@ -152,6 +181,9 @@
         Name="OpenTK"
         Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
+
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
   </Platform>
 
   <Platform Type="WindowsGL.headless">
@@ -168,6 +200,9 @@
         Name="OpenTK"
         Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
+
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
   </Platform>
 
   <Platform Type="WindowsPhone">
@@ -192,6 +227,9 @@
     <Reference Include="Microsoft.Xna.Framework.GamerServices">
       <Alias Platform="WindowsPhone">MicrosoftXnaGamerServices</Alias>
     </Reference>
+
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
   </Platform>
   
   <Platform Type="WindowsPhone81">
@@ -216,9 +254,16 @@
     <Binary
       Name="SharpDX.XAudio2"
       Path="ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.XAudio2.dll" />
+
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
   </Platform>
+  
   <Platform Type="Web">
     <Reference Include="JSIL.Meta" />
+
+    <!-- MonoGame framework -->
+    <Reference Include="MonoGame.Framework" />
   </Platform>
   
   <Service Name="MonoGame.Framework/ANGLEGraphics">

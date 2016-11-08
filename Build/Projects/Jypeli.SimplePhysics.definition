@@ -28,9 +28,6 @@
 
 	<!-- Jypeli -->
 	<Reference Include="Jypeli" />
-	
-    <!-- MonoGame framework -->
-    <Reference Include="MonoGame.Framework" />
 </References>
 
 <Properties>

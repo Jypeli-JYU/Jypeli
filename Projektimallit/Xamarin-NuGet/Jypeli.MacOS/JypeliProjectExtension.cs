@@ -89,18 +89,20 @@ namespace Jypeli.Projects
                         fileItem.CopyToOutputDirectory = FileCopyMode.PreserveNewest;
 
 #if !NOMGCB
-                        if (mgcb != null && fileItem.Name.EndsWith(".wav", StringComparison.InvariantCulture))
-						{
-							// Sound effect
-							fileItem.CopyToOutputDirectory = FileCopyMode.None;
-							mgcb.BuildContent(monitor, fileItem.FilePath, "WavImporter", "SoundEffectProcessor");
+                        if (mgcb != null && fileItem.Name.EndsWith (".wav", StringComparison.InvariantCulture)) {
+                            // Sound effect
+                            fileItem.CopyToOutputDirectory = FileCopyMode.None;
+                            mgcb.BuildContent (monitor, fileItem.FilePath, "WavImporter", "SoundEffectProcessor");
+                        } else if (mgcb != null && fileItem.Name.EndsWith (".mp3", StringComparison.InvariantCulture)) {
+                            // Music
+                            fileItem.CopyToOutputDirectory = FileCopyMode.None;
+                            mgcb.BuildContent (monitor, fileItem.FilePath, "Mp3Importer", "SongProcessor");
 						}
-						else if (mgcb != null && fileItem.Name.EndsWith(".mp3", StringComparison.InvariantCulture))
-						{
-							// Music
-							fileItem.CopyToOutputDirectory = FileCopyMode.None;
-							mgcb.BuildContent(monitor, fileItem.FilePath, "Mp3Importer", "SongProcessor");
-						}
+                        else
+                        {
+                            fileItem.CopyToOutputDirectory = FileCopyMode.None;
+                            mgcb.BuildContent (monitor, fileItem.FilePath);
+                        }
 #endif
 					}
 				}

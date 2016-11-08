@@ -28,6 +28,50 @@
 		<Import file="templates/PerusPeliCs.xft.xml" />
 		<Import file="templates/FysiikkaPeli.SimplePhysics.xpt.xml" />
 		<Import file="templates/FysiikkaPeli.Physics2d.xpt.xml" />
+
+		<Import file="templates/tools/MGCB/ATI.TextureConverter.dll" />
+		<Import file="templates/tools/MGCB/ATI.TextureConverter.dll.config" />
+		<Import file="templates/tools/MGCB/AssimpNet.dll" />
+		<Import file="templates/tools/MGCB/AssimpNet.dll.config" />
+		<Import file="templates/tools/MGCB/FreeImage.dll.config" />
+		<Import file="templates/tools/MGCB/FreeImageNET.dll" />
+		<Import file="templates/tools/MGCB/FreeImageNET.dll.config" />
+		<Import file="templates/tools/MGCB/MGCB.exe" />
+		<Import file="templates/tools/MGCB/MGCB.exe.config" />
+		<Import file="templates/tools/MGCB/MGCB.xml" />
+		<Import file="templates/tools/MGCB/ManagedPVRTC.dll" />
+		<Import file="templates/tools/MGCB/ManagedPVRTC.dll.config" />
+		<Import file="templates/tools/MGCB/MonoGame.Framework.Content.Pipeline.dll" />
+		<Import file="templates/tools/MGCB/MonoGame.Framework.Content.Pipeline.xml" />
+		<Import file="templates/tools/MGCB/MonoGame.Framework.dll" />
+		<Import file="templates/tools/MGCB/MonoGame.Framework.xml" />
+		<Import file="templates/tools/MGCB/MonoMac.dll" />
+		<Import file="templates/tools/MGCB/Nvidia.TextureTools.dll" />
+		<Import file="templates/tools/MGCB/Nvidia.TextureTools.dll.config" />
+		<Import file="templates/tools/MGCB/OpenTK.dll" />
+		<Import file="templates/tools/MGCB/OpenTK.dll.config" />
+		<Import file="templates/tools/MGCB/OpenTK.dll.mdb" />
+		<Import file="templates/tools/MGCB/PVRTexLibNET.dll" />
+		<Import file="templates/tools/MGCB/PVRTexLibNET.dll.config" />
+		<Import file="templates/tools/MGCB/SharpFont.dll" />
+		<Import file="templates/tools/MGCB/SharpFont.dll.config" />
+		<Import file="templates/tools/MGCB/Tao.Sdl.dll" />
+		<Import file="templates/tools/MGCB/Tao.Sdl.dll.config" />
+		<Import file="templates/tools/MGCB/Xamarin.Mac.dll" />
+		<Import file="templates/tools/MGCB/ffmpeg" />
+		<Import file="templates/tools/MGCB/ffprobe" />
+		<Import file="templates/tools/MGCB/libPVRTexLibWrapper.dylib" />
+		<Import file="templates/tools/MGCB/libassimp.dylib" />
+		<Import file="templates/tools/MGCB/libfreeimage.dylib" />
+		<Import file="templates/tools/MGCB/libfreeimageplus.dylib" />
+		<Import file="templates/tools/MGCB/libfreetype.6.dylib" />
+		<Import file="templates/tools/MGCB/libnvcore.dylib" />
+		<Import file="templates/tools/MGCB/libnvimage.dylib" />
+		<Import file="templates/tools/MGCB/libnvmath.dylib" />
+		<Import file="templates/tools/MGCB/libnvtt.dylib" />
+		<Import file="templates/tools/MGCB/libpng15.15.dylib" />
+		<Import file="templates/tools/MGCB/libpvrtc.dylib" />
+
 	</Runtime>
 	<Extension path="/MonoDevelop/Core/StockIcons">
 		<StockIcon stockid="Jypeli-project" file="icons/Jypeli-32.png" />

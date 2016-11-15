@@ -99,7 +99,7 @@ namespace Jypeli
             get { return false; }
         }
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
         public new bool IsMouseVisible
         {
             get { return false; }
@@ -124,11 +124,11 @@ namespace Jypeli
 
             _controllers = new List<Controller>();
             _controllers.Add( Keyboard );
-#if !WINDOWS_PHONE
+#if !WINDOWS_PHONE && !ANDROID
             _controllers.Add( Mouse );
 #endif
             _controllers.Add( TouchPanel );
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
             _controllers.Add( PhoneBackButton );
 #endif
 

@@ -77,7 +77,7 @@ namespace Jypeli
             Message = new Label( 400, 100, question ) { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
             Add( Message );
 
-#if !WINDOWS_PHONE
+#if !WINDOWS_PHONE && !ANDROID
             OKButton = new PushButton( "OK" );
             OKButton.Clicked += new Action( Close );
             Add( OKButton );
@@ -88,9 +88,7 @@ namespace Jypeli
 
         private void AddListeners()
         {
-#if WINDOWS_PHONE
             Game.Instance.PhoneBackButton.Listen( delegate { Close(); }, null ).InContext( this );
-#else
             Game.Instance.TouchPanel.Listen( ButtonState.Pressed, delegate { Close(); }, null ).InContext( this );
             Game.Instance.Keyboard.Listen( Key.Enter, ButtonState.Pressed, Close, null ).InContext( this );
             Game.Instance.Keyboard.Listen( Key.Space, ButtonState.Pressed, Close, null ).InContext( this );
@@ -100,7 +98,6 @@ namespace Jypeli
                 controller.Listen( Button.A, ButtonState.Pressed, Close, null ).InContext( this );
                 controller.Listen( Button.B, ButtonState.Pressed, Close, null ).InContext( this );
             }
-#endif
         }
     }
 }

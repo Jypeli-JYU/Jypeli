@@ -11,14 +11,14 @@
   </Platform>
 
   <Platform Type="Linux">
-    <Service Name="MonoGame.Framework/OpenGLGraphics">
+        <Service Name="MonoGame.Framework/OpenGLGraphics">
       <Reference Include="System.Drawing" />
       <Binary
-        Name="Tao.Sdl"
-        Path="MonoGame/ThirdParty/GamepadConfig/Tao.Sdl.dll" />
+        Name="NVorbis"
+        Path="ThirdParty/Dependencies/NVorbis/NVorbis.dll" />
       <Binary
         Name="OpenTK"
-        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
+        Path="ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
 
     <!-- MonoGame framework -->
@@ -29,11 +29,11 @@
     <Service Name="MonoGame.Framework/OpenGLGraphics">
       <Reference Include="System.Drawing" />
       <Binary
-        Name="Tao.Sdl"
-        Path="MonoGame/ThirdParty/GamepadConfig/Tao.Sdl.dll" />
+        Name="NVorbis"
+        Path="ThirdParty/Dependencies/NVorbis/NVorbis.dll" />
       <Binary
         Name="OpenTK"
-        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
+        Path="ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
 
     <!-- MonoGame framework -->
@@ -59,7 +59,8 @@
   </Platform>
 
   <Platform Type="Android">
-    <Reference Include="Mono.Android" />
+    <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="mscorlib" />
     <Reference Include="OpenTK-1.0" />
     <Reference Include="System.Core" />
@@ -128,12 +129,10 @@
       <Reference Include="System.Web" />
       <Reference Include="System.Web.Services" />
       <Reference Include="System.Windows.Forms" />
-      <Binary
-        Name="Tao.Sdl"
-        Path="MonoGame/ThirdParty/GamepadConfig/Tao.Sdl.dll" />
+      <Reference Include="System.Xml" />
       <Binary
         Name="OpenTK"
-        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
+        Path="ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
 
     <!-- MonoGame framework -->
@@ -174,12 +173,13 @@
       <Reference Include="System.Web" />
       <Reference Include="System.Web.Services" />
       <Reference Include="System.Windows.Forms" />
+      <Reference Include="System.Xml" />
       <Binary
-        Name="Tao.Sdl"
-        Path="MonoGame/ThirdParty/GamepadConfig/Tao.Sdl.dll" />
+        Name="NVorbis"
+        Path="ThirdParty/Dependencies/NVorbis/NVorbis.dll" />
       <Binary
         Name="OpenTK"
-        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
+        Path="ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
 
     <!-- MonoGame framework -->
@@ -187,18 +187,19 @@
   </Platform>
 
   <Platform Type="WindowsGL.headless">
-    <Service Name="MonoGame.Framework/OpenGLGraphics">
+        <Service Name="MonoGame.Framework/OpenGLGraphics">
       <Reference Include="System.Core" />
       <Reference Include="System.Drawing" />
       <Reference Include="System.Web" />
       <Reference Include="System.Web.Services" />
       <Reference Include="System.Windows.Forms" />
+      <Reference Include="System.Xml" />
       <Binary
-        Name="Tao.Sdl"
-        Path="MonoGame/ThirdParty/GamepadConfig/Tao.Sdl.dll" />
+        Name="NVorbis"
+        Path="ThirdParty/Dependencies/NVorbis/NVorbis.dll" />
       <Binary
         Name="OpenTK"
-        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
+        Path="ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
 
     <!-- MonoGame framework -->

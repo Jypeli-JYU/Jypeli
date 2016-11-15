@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Name="Jypeli.Physics2d" Path="Physics2d" Type="Library" Platforms="Android,Angle,iOS,Linux,MacOS,Ouya,PSMobile,Windows,Windows8,WindowsGL,WindowsPhone,WindowsPhone81,WindowsUniversal,Web">
+<Project Name="Jypeli.Physics2d" Path="Physics2d" Type="Library" Platforms="Android,Linux,MacOS,Windows,Windows8,WindowsGL,WindowsPhone81,WindowsUniversal">
 
 <ProjectGuids>
     <Platform Name="Android">F9BEBE7C-93D0-480A-8F6B-08B3F741D105</Platform>
@@ -13,8 +13,8 @@
     <Platform Name="Windows8">71BC3527-F603-4C6A-B5A1-DF07B97AF02B</Platform>
     <Platform Name="WindowsGL">041D26C6-A261-4843-906E-7326AB1DBA4C</Platform>
     <Platform Name="WindowsPhone">EA4AF887-A85F-4ED4-9AD0-64B34CCAD7D6</Platform>
-	<Platform Name="WindowsPhone81">1FBAD5D8-8E98-4C83-9C9A-0AECD386718E</Platform>
-	<Platform Name="WindowsUniversal">132DEF5F-E26F-4F4D-8C60-2E00A2ADD347</Platform>
+    <Platform Name="WindowsPhone81">1FBAD5D8-8E98-4C83-9C9A-0AECD386718E</Platform>
+    <Platform Name="WindowsUniversal">132DEF5F-E26F-4F4D-8C60-2E00A2ADD347</Platform>
 </ProjectGuids>
 
 <!-- Common assembly references -->
@@ -26,14 +26,15 @@
     <!-- See FrameworkRefs.definition for the platform specific references -->
     <Reference Include="FrameworkRefs" />
 
-	<!-- Jypeli -->
-	<Reference Include="Jypeli" />
+    <!-- Jypeli -->
+    <Reference Include="Jypeli" />
 </References>
 
 <Properties>
     <NoWarn>1591,0436</NoWarn>
+    <MonoDevelopPoliciesFile>Build/MonoDevelopPolicies.xml</MonoDevelopPoliciesFile>
     <RootNamespace>Jypeli</RootNamespace>
-    <RemoveXnaAssembliesOnWP8>True</RemoveXnaAssembliesOnWP8>
+    <RemoveXnaAssembliesOnWP8>false</RemoveXnaAssembliesOnWP8>
     <PlatformSpecificOutputFolder>True</PlatformSpecificOutputFolder>
 
      <CustomDefinitions>
@@ -46,9 +47,9 @@
         <Platform Name="WindowsGL">JYPELI;UseDouble;TRACE;WINDOWS</Platform>
         <Platform Name="Windows">JYPELI;UseDouble;TRACE;WINDOWS;DIRECTX;WINDOWS_MEDIA_SESSION</Platform>
         <Platform Name="Windows8">JYPELI;UseDouble;TRACE;NETFX_CORE;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE</Platform>
-		<Platform Name="WindowsPhone">JYPELI;UseDouble;TRACE;SILVERLIGHT;WINDOWS_PHONE;DIRECTX</Platform>
-		<Platform Name="WindowsPhone81">JYPELI;UseDouble;TRACE;WINDOWS_PHONE;WINDOWS_PHONE81;DIRECTX;WINDOWS_STOREAPP</Platform>
-		<Platform Name="WindowsUniversal">JYPELI;UseDouble;TRACE;NETFX_CORE;WINDOWS_UAP;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE</Platform>
+        <Platform Name="WindowsPhone">JYPELI;UseDouble;TRACE;SILVERLIGHT;WINDOWS_PHONE;DIRECTX</Platform>
+        <Platform Name="WindowsPhone81">JYPELI;UseDouble;TRACE;WINDOWS_PHONE;WINDOWS_PHONE81;DIRECTX;WINDOWS_STOREAPP</Platform>
+        <Platform Name="WindowsUniversal">JYPELI;UseDouble;TRACE;NETFX_CORE;WINDOWS_UAP;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE</Platform>
         <Platform Name="Web">JYPELI;UseDouble;TRACE;WEB</Platform>
      </CustomDefinitions>
 </Properties>
@@ -159,21 +160,23 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
 
-    <EmbeddedNativeLibrary Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\armeabi-v7a\libopenal32.so">
-        <Platforms>Android,Ouya</Platforms>
-        <Link>libs\armeabi-v7a\libopenal32.so</Link>
+   <EmbeddedNativeLibrary Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\armeabi-v7a\libopenal32.so">
+      <Platforms>Android,Ouya</Platforms>
+      <Link>libs\armeabi-v7a\libopenal32.so</Link>
     </EmbeddedNativeLibrary>
-
-    <EmbeddedNativeLibrary Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\armeabi\libopenal32.so">
-        <Platforms>Android,Ouya</Platforms>
-        <Link>libs\armeabi\libopenal32.so</Link>
+    <EmbeddedNativeLibrary Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\arm64-v8a\libopenal32.so">
+      <Platforms>Android,Ouya</Platforms>
+      <Link>libs\arm64-v8a\libopenal32.so</Link>
     </EmbeddedNativeLibrary>
-
     <EmbeddedNativeLibrary Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\x86\libopenal32.so">
-        <Platforms>Android,Ouya</Platforms>
-        <Link>libs\x86\libopenal32.so</Link>
+      <Platforms>Android,Ouya</Platforms>
+      <Link>libs\x86\libopenal32.so</Link>
     </EmbeddedNativeLibrary>
-
+    <EmbeddedNativeLibrary Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\x86_64\libopenal32.so">
+      <Platforms>Android,Ouya</Platforms>
+      <Link>libs\x86_64\libopenal32.so</Link>
+    </EmbeddedNativeLibrary>
+    
     <!-- Physics2d.net -->
     <Compile Include="Physics2DDotNet\Shapes\ShapeHelper.cs">
       <SubType>Code</SubType>
@@ -201,11 +204,11 @@
     <Compile Include="Physics2DDotNet\PhysicsEngine.cs" />
     <Compile Include="Physics2DDotNet\PhysicsHelper.cs" />
     <Compile Include="Physics2DDotNet\PhysicsTimer.cs">
-		<ExcludePlatforms>Windows8,WindowsPhone81,WindowsUniversal</ExcludePlatforms>
-	</Compile>
-	<Compile Include="Physics2DDotNet\WinRTCompat.cs">
-		<Platforms>Windows8,WindowsPhone81,WindowsUniversal</Platforms>
-	</Compile>
+        <ExcludePlatforms>Windows8,WindowsPhone81,WindowsUniversal</ExcludePlatforms>
+    </Compile>
+    <Compile Include="Physics2DDotNet\WinRTCompat.cs">
+        <Platforms>Windows8,WindowsPhone81,WindowsUniversal</Platforms>
+    </Compile>
     <Compile Include="Physics2DDotNet\Collections\AdvReaderWriterLock.cs" />
     <Compile Include="Physics2DDotNet\Collections\ImplicitCastCollection.cs" />
     <Compile Include="Physics2DDotNet\Collections\ReadOnlyThreadSafeCollection.cs" />

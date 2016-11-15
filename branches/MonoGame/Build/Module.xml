@@ -2,10 +2,10 @@
 <Module>
   <Name>Jypeli</Name>
   <DefaultAction>Generate</DefaultAction>
-  <DefaultLinuxPlatforms>Angle,Linux,WindowsGL</DefaultLinuxPlatforms>
-  <DefaultMacOSPlatforms>Angle,MacOS,iOS,WindowsGL,Android,tvOS</DefaultMacOSPlatforms>
-  <DefaultWindowsPlatforms>Android,Angle,Linux,Ouya,Windows8,Windows,WindowsGL,WindowsPhone,WindowsPhone81,WindowsUniversal,iOS,tvOS</DefaultWindowsPlatforms>
-  <SupportedPlatforms>Android,Angle,Linux,Ouya,Windows8,Windows,WindowsGL,WindowsPhone,WindowsPhone81,WindowsUniversal,iOS,MacOS,Web,tvOS</SupportedPlatforms>
+  <DefaultLinuxPlatforms>Android,Linux,WindowsGL</DefaultLinuxPlatforms>
+  <DefaultMacOSPlatforms>MacOS,WindowsGL,Linux,Android</DefaultMacOSPlatforms>
+  <DefaultWindowsPlatforms>Android,Linux,Windows8,Windows,WindowsGL,WindowsPhone81,WindowsUniversal</DefaultWindowsPlatforms>
+  <SupportedPlatforms>Android,Linux,Windows8,Windows,WindowsGL,WindowsPhone81,WindowsUniversal,MacOS</SupportedPlatforms>
   <DisableSynchronisation>true</DisableSynchronisation>
   <FeatureSet>
     <Feature>PackageManagement</Feature>

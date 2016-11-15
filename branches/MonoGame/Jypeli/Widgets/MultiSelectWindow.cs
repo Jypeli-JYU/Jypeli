@@ -171,7 +171,7 @@ namespace Jypeli
         {
             AddControls();
             AddDefaultControls();
-#if !WINDOWS_PHONE
+#if !WINDOWS_PHONE && !ANDROID
             SelectButton( ( RememberSelection && _selectedIndex >= 0 ) ? _selectedIndex : 0 );
 #endif
         }
@@ -261,14 +261,12 @@ namespace Jypeli
             Keyboard.Listen( Key.Down, ButtonState.Pressed, selectNext, null ).InContext( this );
             Keyboard.Listen( Key.Enter, ButtonState.Pressed, confirmSelect, null ).InContext( this );
 
-#if !WINDOWS_PHONE
             foreach ( var controller in Game.Instance.GameControllers )
             {
                 controller.Listen( Button.DPadUp, ButtonState.Pressed, selectPrev, null ).InContext( this );
                 controller.Listen( Button.DPadDown, ButtonState.Pressed, selectNext, null ).InContext( this );
                 controller.Listen( Button.A, ButtonState.Pressed, confirmSelect, null ).InContext( this );
             }
-#endif
         }
 
         private void AddDefaultControls()

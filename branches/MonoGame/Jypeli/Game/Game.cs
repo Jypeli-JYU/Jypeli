@@ -155,6 +155,11 @@ namespace Jypeli
         {
             GraphicsDeviceManager = new GraphicsDeviceManager( this );
             GraphicsDeviceManager.PreferredDepthStencilFormat = Jypeli.Graphics.SelectStencilMode();
+
+#if ANDROID
+            GraphicsDeviceManager.PreferredBackBufferWidth = 800;
+            GraphicsDeviceManager.PreferredBackBufferHeight = 480;
+#endif
         }
 
         private void InitAudio()

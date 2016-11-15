@@ -59,7 +59,7 @@ namespace Jypeli
         {
             get
             {
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID || iOS
                 return true;
 #elif WINDOWS_UAP
                 return ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0);
@@ -108,6 +108,11 @@ namespace Jypeli
         /// <param name="milliSeconds">Värinän kesto millisekunteina.</param>
         public void Vibrate( int milliSeconds )
         {
+#if ANDROID
+            // TODO
+#elif iOS
+            // TODO
+#else
             if ( IsPhone )
             {
                 var controller = VibrationDevice.GetDefault();
@@ -117,6 +122,7 @@ namespace Jypeli
             #if !WINDOWS_STOREAPP
             VibrateController.Default.Start( TimeSpan.FromMilliseconds( milliSeconds ) );
             #endif
+#endif
         }
 
         /// <summary>
@@ -124,14 +130,20 @@ namespace Jypeli
         /// </summary>
         public void StopVibrating()
         {
+#if ANDROID
+            // TODO
+#elif iOS
+            // TODO
+#else
             if ( IsPhone )
             {
                 var controller = VibrationDevice.GetDefault();
                 if (controller != null) controller.Vibrate(TimeSpan.FromSeconds(1));
             }
 
-#if !WINDOWS_STOREAPP
+            #if !WINDOWS_STOREAPP
             VibrateController.Default.Stop();
+            #endif
 #endif
         }
 

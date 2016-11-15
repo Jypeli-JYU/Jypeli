@@ -63,7 +63,7 @@ namespace Jypeli
             {
                 QueryWidget.Color = value;
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
                 if ( OkButtonOnPhone )
 #endif
                 {
@@ -114,7 +114,7 @@ namespace Jypeli
             QueryWidget = CreateQueryWidget();
             Add( QueryWidget );
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
             if ( OkButtonOnPhone )
 #endif
             {
@@ -150,7 +150,7 @@ namespace Jypeli
 
         private void AddListeners()
         {
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
             if ( !OkButtonOnPhone )
                 Game.Instance.TouchPanel.Listen( ButtonState.Pressed, delegate { Close(); }, null ).InContext( this );
 #else

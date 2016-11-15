@@ -74,7 +74,7 @@ namespace Jypeli.Widgets
         {
             get
             {
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
                 return Game.Screen.Width;
 #else
                 return 600;
@@ -98,7 +98,7 @@ namespace Jypeli.Widgets
         {
             get
             {
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
                 return Game.Screen.Height;
 #else
                 return 600;
@@ -122,7 +122,7 @@ namespace Jypeli.Widgets
         {
             get
             {
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
                 return "Start the game by tapping here";
 #elif XBOX
                 return "Start the game by pressing A";
@@ -157,7 +157,7 @@ namespace Jypeli.Widgets
             TextBody.Width = DefaultTextWidth;
             TextBody.TextColor = Color.Black;
             TextBody.Color = new Color(0, 0, 255, 4);
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
             if ( DefaultTextWidth < 500 )
                 TextBody.Font = Font.DefaultSmall;
             else 

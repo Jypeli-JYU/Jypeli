@@ -83,7 +83,7 @@ namespace Jypeli
             }
             set
             {
-#if !WINRT && !WINDOWS_PHONE
+#if !WINRT && !WINDOWS_PHONE && !ANDROID
                 // Not supported on WinRT... only sets xna coords
                 Vector pos = value.Transform( screen.GetScreenInverse() );
                 XnaV2 xnapos = ScreenView.ToXnaCoords( pos, screen.ViewportSize, Vector.Zero );
@@ -206,7 +206,7 @@ namespace Jypeli
 
         internal override MouseState GetState()
         {
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
             return new MouseState();
 #endif
 
@@ -238,7 +238,7 @@ namespace Jypeli
 
         private static HoverState GetHoverState( MouseState oldState, MouseState newState, GameObject obj )
         {
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
             return HoverState.Off;
 #endif
 
@@ -328,7 +328,7 @@ namespace Jypeli
         /// </summary>
         public bool IsCursorOn( GameObject obj )
         {
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
             return false;
 #else
             if ( obj == null || obj.Layer == null || obj.IsDestroyed ) return false;

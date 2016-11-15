@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Name="Koripallo" Path="Examples\Koripallo" Type="App" Platforms="Windows,WindowsGL,Linux,MacOS">
+<Project Name="Koripallo" Path="Examples\Koripallo" Type="App" Platforms="Windows,WindowsGL,Linux,MacOS,Android,iOS">
 
 <!-- Common assembly references -->
 <References>
@@ -19,8 +19,9 @@
 
 <Properties>
     <NoWarn>1591,0436</NoWarn>
+    <MonoDevelopPoliciesFile>Build/MonoDevelopPolicies.xml</MonoDevelopPoliciesFile>
     <RootNamespace>Koripallo</RootNamespace>
-    <RemoveXnaAssembliesOnWP8>True</RemoveXnaAssembliesOnWP8>
+    <RemoveXnaAssembliesOnWP8>false</RemoveXnaAssembliesOnWP8>
     <PlatformSpecificOutputFolder>True</PlatformSpecificOutputFolder>
     
     <CustomDefinitions>
@@ -147,20 +148,20 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
 
-    <EmbeddedNativeLibrary Include="..\..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\armeabi-v7a\libopenal32.so">
+    <AndroidNativeLibrary Include="..\..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\armeabi-v7a\libopenal32.so">
         <Platforms>Android,Ouya</Platforms>
         <Link>libs\armeabi-v7a\libopenal32.so</Link>
-    </EmbeddedNativeLibrary>
+    </AndroidNativeLibrary>
 
-    <EmbeddedNativeLibrary Include="..\..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\armeabi\libopenal32.so">
+    <AndroidNativeLibrary Include="..\..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\armeabi\libopenal32.so">
         <Platforms>Android,Ouya</Platforms>
         <Link>libs\armeabi\libopenal32.so</Link>
-    </EmbeddedNativeLibrary>
+    </AndroidNativeLibrary>
 
-    <EmbeddedNativeLibrary Include="..\..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\x86\libopenal32.so">
+    <AndroidNativeLibrary Include="..\..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\x86\libopenal32.so">
         <Platforms>Android,Ouya</Platforms>
         <Link>libs\x86\libopenal32.so</Link>
-    </EmbeddedNativeLibrary>
+    </AndroidNativeLibrary>
 
     <!-- Game -->
     <Compile Include="Properties\AssemblyInfo.cs" />

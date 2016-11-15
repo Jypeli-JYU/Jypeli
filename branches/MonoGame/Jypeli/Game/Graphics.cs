@@ -108,7 +108,7 @@ namespace Jypeli
 
         private void SetDefaultResolution()
         {
-#if WINDOWS_STOREAPP
+#if WINDOWS_STOREAPP || ANDROID
             isFullScreenRequested = true;
 #else
             SetWindowSize( 1024, 768, isFullScreenRequested );

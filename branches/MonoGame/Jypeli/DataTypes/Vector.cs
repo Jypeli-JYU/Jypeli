@@ -468,7 +468,7 @@ namespace Jypeli
 
         public static bool operator ==( Vector left, Vector right )
         {
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
             // TK: Double.Epsilon is too small for the phone to recognize
             return ( Math.Abs( left.X - right.X ) < float.Epsilon ) && ( Math.Abs( left.Y - right.Y ) < float.Epsilon );
 #else

@@ -64,13 +64,13 @@ namespace Jypeli
 
         void AddListeners()
         {
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
             // TODO: gestures
             //Game.TouchPanel.ListenGestureOn( this, GestureType.VerticalDrag, Scroll, null ).InContext( this );
 #endif
         }
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
         const double MaxMoves = 5;
 
         double velocity = 0;

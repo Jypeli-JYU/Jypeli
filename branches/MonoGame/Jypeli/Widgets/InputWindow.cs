@@ -34,7 +34,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE || ANDROID
 using Microsoft.Xna.Framework;
 #endif
 

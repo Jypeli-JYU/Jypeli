@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Name="Koripallo" Path="Examples\Koripallo" Type="App" Platforms="Windows,WindowsGL,Linux,MacOS,Android,iOS">
+<Project Name="Koripallo" Path="Examples\Koripallo" Type="App" Platforms="Windows,WindowsGL,Linux,MacOS">
 
 <!-- Common assembly references -->
 <References>

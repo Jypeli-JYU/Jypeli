@@ -55,7 +55,7 @@ if "%platform%"=="Linux" (
 )
 
 
-%msbuild% Jypeli.%platform%.sln /t:Rebuild /p:Configuration=Release;Platform=%arch2%
+%msbuild% Jypeli.%platform%.sln /t:Rebuild /p:Platform=%arch2%
 if errorlevel 1 goto error
 
 call copy_compiled.bat %platform% %arch%

@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 6.7.0"
+Name "MonoJypeli 6.8.5"
 
 OutFile "MonoJypeli_setup.exe"
 
@@ -127,6 +127,19 @@ Section "MonoJypeli for Windows, OpenGL"
   File "..\Compiled\WindowsGL-AnyCPU\Jypeli.SimplePhysics.xml"
 SectionEnd
 
+Section "MonoJypeli for Android"
+  SetOutPath "$INSTDIR\Android"
+  File "..\Compiled\Android-AnyCPU\Jypeli.dll"
+  File "..\Compiled\Android-AnyCPU\Jypeli.pdb"
+  File "..\Compiled\Android-AnyCPU\Jypeli.xml"
+  File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.dll"
+  File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.pdb"
+  File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.xml"
+  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.dll"
+  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.pdb"
+  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.xml"
+SectionEnd
+
 Section "MonoJypeli for Windows Universal platform"
   SetOutPath "$INSTDIR\WindowsUniversal"
   File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.dll"
@@ -203,6 +216,16 @@ Section "Windows OpenGL"
   ${Endif}
 SectionEnd
 
+Section "Android"
+  ReadEnvStr $R0 VS140COMNTOOLS
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyAndroidTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
+  ${Endif}
+SectionEnd
+
 Section "Windows Universal App"
   ReadEnvStr $R0 VS140COMNTOOLS
   ${If} $R0 != ""
@@ -265,6 +288,16 @@ Section "Windows OpenGL"
   ${If} $R0 != ""
     Push $R0
     Call CopyGLTemplates
+  ${Else}
+    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
+  ${Endif}
+SectionEnd
+
+Section "Android"
+  ReadEnvStr $R0 VS120COMNTOOLS
+  ${If} $R0 != ""
+    Push $R0
+    Call CopyAndroidTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2013, skipping template installation."
   ${Endif}
@@ -375,6 +408,25 @@ Function CopyGLTemplates
   Done:
 FunctionEnd
 
+Function CopyAndroidTemplates
+   Pop $0
+   
+   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
+    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
+    SetOutPath $1
+    File "..\projektimallit\Android\*.zip"
+    Goto VSPro
+    
+  VSPro:
+    IfFileExists "$0..\IDE\devenv.exe" 0 Done
+      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Android"
+      CreateDirectory $1
+      SetOutPath $1
+      File "..\projektimallit\Android\*.zip"
+
+  Done:
+FunctionEnd
+
 Function CopyUniversalTemplates
    Pop $0
    
@@ -452,19 +504,40 @@ FunctionEnd
 Function un.RemoveVsTemplateDir
   Pop $0
   Delete "$0\*.zip"
+  Delete "$0\Android\*.zip"
   Delete "$0\DirectX 11\*.zip"
   Delete "$0\Windows OpenGL\*.zip"
   Delete "$0\Linux\*.zip"
   Delete "$0\Windows 8\*.zip"
+  Delete "$0\Windows 8.1\*.zip"
   Delete "$0\Windows Phone 8\*.zip"
   Delete "$0\Windows Phone 8.1\*.zip"
+  Delete "$0\Windows Universal\*.zip"
+
+  RMDir "$0\Android"
   RMDir "$0\DirectX 11"
   RMDir "$0\Windows OpenGL"
   RMDir "$0\Linux"
   RMDir "$0\Windows 8"
+  RMDir "$0\Windows 8.1"
   RMDir "$0\Windows Phone 8"
   RMDir "$0\Windows Phone 8.1"
+  RMDir "$0\Windows Universal"
   RMDir "$0"  
+FunctionEnd
+
+Function un.InstallVsTemplates
+   Pop $0
+   
+   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
+     ExecWait '"$0..\IDE\vcsexpress.exe" /installvstemplates'
+     Goto VSPro
+    
+  VSPro:
+    IfFileExists "$0..\IDE\devenv.exe" 0 Done
+      ExecWait '"$0..\IDE\devenv" /installvstemplates'
+
+  Done:
 FunctionEnd
 
 Section "Uninstall"
@@ -502,9 +575,17 @@ Section "Uninstall"
 
   Push "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Jypeli-MonoGame"
   Call un.RemoveVsTemplateDir
+  
+  ; Update VS template caches
+  ReadEnvStr $R1 VS110COMNTOOLS
+  DetailPrint "Updating Visual Studio 2012 templates (may take a while)..."
+  Call un.InstallVSTemplates
+  ReadEnvStr $R1 VS120COMNTOOLS
+  DetailPrint "Updating Visual Studio 2013 templates (may take a while)..."
+  Call un.InstallVSTemplates
+  ReadEnvStr $R1 VS140COMNTOOLS
+  DetailPrint "Updating Visual Studio 2015 templates (may take a while)..."
+  Call un.InstallVSTemplates  
 
   
 SectionEnd
-
-
-

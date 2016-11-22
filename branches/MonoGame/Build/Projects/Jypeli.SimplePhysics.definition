@@ -19,10 +19,6 @@
 
 <!-- Common assembly references -->
 <References>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Runtime.Serialization" />
-
     <!-- See FrameworkRefs.definition for the platform specific references -->
     <Reference Include="FrameworkRefs" />
 

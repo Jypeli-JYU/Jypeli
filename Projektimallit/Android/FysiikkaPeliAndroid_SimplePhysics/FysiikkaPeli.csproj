@@ -75,9 +75,12 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="MonoGame.Framework">
+       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Android\MonoGame.Framework.dll</HintPath>
+    </Reference>
+
     <Reference Include="Jypeli.SimplePhysics" />
     <Reference Include="Jypeli" />
-    <Reference Include="MonoGame.Framework" />
     <Reference Include="OpenTK-1.0" />
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />

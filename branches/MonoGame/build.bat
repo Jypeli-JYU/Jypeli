@@ -14,6 +14,9 @@ if errorlevel 1 goto error
 call build_platform Linux
 if errorlevel 1 goto error
 
+call build_platform Android
+if errorlevel 1 goto error
+
 call build_platform Windows8
 if errorlevel 1 goto error
 

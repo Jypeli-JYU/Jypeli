@@ -577,15 +577,26 @@ Section "Uninstall"
   Call un.RemoveVsTemplateDir
   
   ; Update VS template caches
-  ReadEnvStr $R1 VS110COMNTOOLS
-  DetailPrint "Updating Visual Studio 2012 templates (may take a while)..."
-  Call un.InstallVSTemplates
-  ReadEnvStr $R1 VS120COMNTOOLS
-  DetailPrint "Updating Visual Studio 2013 templates (may take a while)..."
-  Call un.InstallVSTemplates
-  ReadEnvStr $R1 VS140COMNTOOLS
-  DetailPrint "Updating Visual Studio 2015 templates (may take a while)..."
-  Call un.InstallVSTemplates  
+  ReadEnvStr $R0 VS110COMNTOOLS
+  ${If} $R0 != ""
+    DetailPrint "Updating Visual Studio 2012 templates (may take a while)..."
+    Push $R0
+    Call un.InstallVSTemplates
+  ${EndIf}}
+
+  ReadEnvStr $R0 VS120COMNTOOLS
+  ${If} $R0 != ""
+    DetailPrint "Updating Visual Studio 2013 templates (may take a while)..."
+    Push $R0
+    Call un.InstallVSTemplates
+  ${EndIf}}
+  
+  ReadEnvStr $R0 VS140COMNTOOLS
+  ${If} $R0 != ""
+    DetailPrint "Updating Visual Studio 2015 templates (may take a while)..."
+    Push $R0
+    Call un.InstallVSTemplates
+  ${EndIf}}
 
   
 SectionEnd

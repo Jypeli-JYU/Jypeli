@@ -14,6 +14,7 @@ namespace Jypeli.Projects
 	public class MGCB
 	{
 		private string mgcbPath;
+        private FilePath extensionDir;
 		private FilePath contentDir;
 		private FilePath outputDir;
 
@@ -47,13 +48,17 @@ namespace Jypeli.Projects
 					this.mgcbPath = path;
 					break;
 				}
+
+                this.extensionDir = new FilePath(this.mgcbPath).ParentDirectory;
 			}
 
 			if (this.mgcbPath == null)
 				throw new NotSupportedException("MGCB.exe not found");
 		}
 
-		public void BuildContent(ProgressMonitor monitor, FilePath contentFile, string importer = null, string processor = null)
+		public FilePath BuildContent(ProgressMonitor monitor, FilePath contentFile,
+                                     string importer = null, string processor = null,
+                                     string contentExtension = null)
 		{
 			FilePath workingDir = contentFile.CanonicalPath.ParentDirectory;
 			FilePath contentSubdir = workingDir.ToRelative(this.contentDir);
@@ -86,6 +91,12 @@ namespace Jypeli.Projects
             if (processor != null)
                 process.StartInfo.Arguments += " /Processor:" + processor;
 
+            if (contentExtension != null)
+            {
+                FilePath assemblyPath = this.extensionDir.Combine(contentExtension);
+                process.StartInfo.Arguments += " /Reference:" + assemblyPath.CanonicalPath.ToString();
+            }
+
 			process.StartInfo.Arguments += String.Format(
 				" /Incremental /Build:\"{0}\" /outputDir:\"{3}\"",
 				justFileName, importer, processor, outDir);
@@ -102,6 +113,8 @@ namespace Jypeli.Projects
 			process.Start();
 			process.BeginOutputReadLine();
 			process.WaitForExit();
+
+            return FilePath.Build(outDir, justFileName).ChangeExtension(".xnb");
 		}
 	}
 }

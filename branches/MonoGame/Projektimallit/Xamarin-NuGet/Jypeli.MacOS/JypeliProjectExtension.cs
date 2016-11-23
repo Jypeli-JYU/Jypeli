@@ -29,7 +29,7 @@ namespace Jypeli.Projects
 
 		private bool IsLibraryFile(FilePath file)
 		{
-			return file.Extension == ".dll" || file.Extension == ".dylib" ||
+			return file.Extension == ".dll" ||
 		           file.FileName.EndsWith(".dll.config", StringComparison.InvariantCulture);
 		}
 
@@ -81,6 +81,10 @@ namespace Jypeli.Projects
 					// Copy DLL files to output directory
 					if (IsLibraryFile(fileItem.FilePath))
 						fileItem.CopyToOutputDirectory = FileCopyMode.PreserveNewest;
+
+                    // Mark dylib files as native references
+                    if (fileItem.FilePath.Extension == ".dylib")
+                        fileItem.BuildAction = "NativeReference";
 
 					// Mark content files as content and copy to output directory
 					if (IsContentFile(fileItem.FilePath))

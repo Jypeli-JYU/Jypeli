@@ -7,9 +7,9 @@ rebuild-macos:
 	make clean && make macos
 
 clean:
-	rm -f Jypeli.*/lib/4.5/* && \
-	rm -fd Jypeli.*/lib/4.5 && \
-	rm -fd Jypeli.*/lib && \
+	rm -f Jypeli.*/lib/4.5/* Jypeli.*/content/4.5/* && \
+	rm -fd Jypeli.*/lib/4.5 Jypeli.*/content/4.5 && \
+	rm -fd Jypeli.*/lib Jypeli.*/content && \
 	rm -f $$(find . -wholename '*/lib/4.5/Jypeli.*' -or -name '*.nupkg')
 
 release: rebuild
@@ -64,13 +64,13 @@ copylinuxsimplephys:
 copymacos: copymacosjypeli copymacosphys2d copymacossimplephys
 
 copymacosjypeli:
-	mkdir -p Jypeli.MacOS/lib/4.5 ; \
+	mkdir -p Jypeli.MacOS/lib/4.5 Jypeli.MacOS/content/4.5 ; \
 	cp ../Compiled/MacOS-AnyCPU/Jypeli.dll Jypeli.MacOS/lib/4.5 && \
 	cp ../Compiled/MacOS-AnyCPU/Jypeli.xml Jypeli.MacOS/lib/4.5 && \
+	cp ../Compiled/MacOS-AnyCPU/Jypeli.dll.mdb Jypeli.MacOS/lib/4.5 && \
 	cp ../Compiled/MacOS-AnyCPU/MonoGame.Framework.dll Jypeli.MacOS/lib/4.5 && \
-	cp ../Compiled/MacOS-AnyCPU/OpenTK.* Jypeli.MacOS/lib/4.5 && \
-	cp ../Compiled/MacOS-AnyCPU/Tao.Sdl.* Jypeli.MacOS/lib/4.5
-	cp ../Compiled/MacOS-AnyCPU/MonoMac.dll Jypeli.MacOS/lib/4.5
+	cp ../Precompiled/DesktopGL/MonoGame.Framework.dll.config Jypeli.MacOS/lib/4.5 && \
+	cp ../Compiled/MacOS-AnyCPU/*.dylib Jypeli.MacOS/content/4.5
 
 copymacosphys2d:
 	mkdir -p Jypeli.Physics2d.MacOS/lib/4.5 ; \

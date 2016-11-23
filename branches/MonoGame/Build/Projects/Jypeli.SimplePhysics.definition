@@ -37,7 +37,7 @@
         <Platform Name="Android">JYPELI;UseDouble;TRACE;ANDROID;GLES;OPENGL;OPENAL</Platform>
         <Platform Name="iOS">JYPELI;UseDouble;IOS;GLES;OPENGL;OPENAL</Platform>
         <Platform Name="Linux">JYPELI;UseDouble;TRACE;LINUX;OPENGL;OPENAL</Platform>
-        <Platform Name="MacOS">JYPELI;UseDouble;MONOMAC;OPENGL;OPENAL</Platform>
+        <Platform Name="MacOS">JYPELI;UseDouble;OPENGL;OPENAL</Platform>
         <Platform Name="Ouya">JYPELI;UseDouble;TRACE;ANDROID;GLES;OPENGL;OUYA;OPENAL</Platform>
         <Platform Name="PSMobile">JYPELI;UseDouble;PSM</Platform>
         <Platform Name="WindowsGL">JYPELI;UseDouble;TRACE;WINDOWS</Platform>
@@ -83,7 +83,7 @@
 <Services>
     <!-- Graphics APIs -->
     <Service Name="ANGLEGraphics">
-        <RemoveDefine>DIRECTX;WINDOWS_MEDIA_SESSION;WINDOWS;MONOMAC;LINUX</RemoveDefine>
+        <RemoveDefine>DIRECTX;WINDOWS_MEDIA_SESSION;WINDOWS;LINUX</RemoveDefine>
         <AddDefine>OPENGL;OPENAL;GLES;ANGLE</AddDefine>
         <Platforms>Windows,MacOS,Linux,Angle</Platforms>
         <Conflicts>OpenGLGraphics,DirectXGraphics,PSMGraphics,WebGraphics</Conflicts>
@@ -144,12 +144,12 @@
 
 <Files>
     <None Include="..\MonoGame\ThirdParty\GamepadConfig\Tao.Sdl.dll.config">
-        <Platforms>Linux,MacOS</Platforms>
+        <Platforms>Linux</Platforms>
         <Link>Tao.Sdl.dll.config</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\MonoGame\ThirdParty\Dependencies\OpenTK.dll.config">
-        <Platforms>Linux,MacOS</Platforms>
+        <Platforms>Linux</Platforms>
         <Link>OpenTK.dll.config</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -6,6 +6,9 @@ simplephysics: simplephysics-windows simplephysics-linux
 
 macos:	jypeli-macos physics2d-macos simplephysics-macos
 
+rebuild-macos:
+	rm -f Compiled/MacOS-AnyCPU/* && make macos
+
 physics2d-windows:	jypeli-windowsgl
 	cp Physics2d/bin/WindowsGL/AnyCPU/Release/* Compiled/WindowsGL-AnyCPU/
 
@@ -38,14 +41,9 @@ jypeli-linux:	getmonogame
 	mkdir -p Compiled/Linux-AnyCPU && \
 	cp Jypeli/bin/Linux/AnyCPU/Release/* Compiled/Linux-AnyCPU/
 
-#jypeli-macos:	getmonogame
-#	mono Protobuild.exe -generate MacOS && \
-#	xbuild /p:Configuration=Release Jypeli.MacOS.sln && \
-#	mkdir -p Compiled/MacOS-AnyCPU && \
-#	cp Jypeli/bin/MacOS/AnyCPU/Release/* Compiled/MacOS-AnyCPU/
-
-jypeli-macos:
-	xbuild Jypeli.MacOS.sln && \
+jypeli-macos:	getmonogame
+	mono Protobuild.exe -generate MacOS && \
+	xbuild /t:Rebuild Jypeli.MacOS.sln && \
 	mkdir -p Compiled/MacOS-AnyCPU && \
 	cp Jypeli/bin/MacOS/AnyCPU/Debug/* Compiled/MacOS-AnyCPU/
 

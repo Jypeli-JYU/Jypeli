@@ -77,6 +77,8 @@
 		<Import file="tools/MGCB/libpng15.15.dylib" />
 		<Import file="tools/MGCB/libpvrtc.dylib" />
 
+		<Import file="tools/MGCB/TextFileContentExtension.dll" />
+
 	</Runtime>
 	<Extension path="/MonoDevelop/Core/StockIcons">
 		<StockIcon stockid="Jypeli-project" file="icons/Jypeli-32.png" />

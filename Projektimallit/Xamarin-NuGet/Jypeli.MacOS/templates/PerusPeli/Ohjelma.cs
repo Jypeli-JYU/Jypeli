@@ -1,34 +1,16 @@
 using System;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MonoMac.ObjCRuntime;
+using AppKit;
+using Foundation;
 
-static class Program
+static class Ohjelma
 {
 	static void Main (string[] args)
 	{
-		NSApplication.Init ();
+		NSApplication.Init();
 
-		using (var p = new NSAutoreleasePool())
+        using (var p = new ${ProjectName}())
 		{
-			NSApplication.SharedApplication.Delegate = new AppDelegate ();
-			NSApplication.Main (args);
+            p.Run();
 		}
-	}
-}
-
-class AppDelegate : NSApplicationDelegate
-{
-	${ProjectName} peli;
-
-	public override void FinishedLaunching (NSObject notification)
-	{
-		peli = new ${ProjectName}();
-		peli.Run ();
-	}
-
-	public override bool ApplicationShouldTerminateAfterLastWindowClosed (NSApplication sender)
-	{
-		return true;
 	}
 }

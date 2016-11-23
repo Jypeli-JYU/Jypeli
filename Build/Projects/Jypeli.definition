@@ -43,7 +43,7 @@
         <Platform Name="iOS">JYPELI;UseDouble;IOS;GLES;OPENGL;OPENAL</Platform>
         <Platform Name="Linux">JYPELI;UseDouble;TRACE;LINUX;OPENGL;OPENAL</Platform>
         <Platform Name="Linux.headless">JYPELI;UseDouble;TRACE;LINUX;OPENGL;OPENAL;HEADLESS</Platform>
-        <Platform Name="MacOS">JYPELI;UseDouble;MONOMAC;OPENGL;OPENAL;MACOS</Platform>
+        <Platform Name="MacOS">JYPELI;UseDouble;OPENGL;OPENAL;MACOS</Platform>
         <Platform Name="Ouya">JYPELI;UseDouble;TRACE;ANDROID;GLES;OPENGL;OUYA;OPENAL</Platform>
         <Platform Name="PSMobile">JYPELI;UseDouble;PSM</Platform>
         <Platform Name="WindowsGL">JYPELI;UseDouble;TRACE;WINDOWS</Platform>
@@ -95,7 +95,7 @@
 <Services>
     <!-- Graphics APIs -->
     <Service Name="ANGLEGraphics">
-        <RemoveDefine>DIRECTX;WINDOWS_MEDIA_SESSION;WINDOWS;MONOMAC;LINUX</RemoveDefine>
+        <RemoveDefine>DIRECTX;WINDOWS_MEDIA_SESSION;WINDOWS;LINUX</RemoveDefine>
         <AddDefine>OPENGL;OPENAL;GLES;ANGLE</AddDefine>
         <Platforms>Windows,MacOS,Linux,Linux.headless,Angle</Platforms>
         <Conflicts>OpenGLGraphics,DirectXGraphics,PSMGraphics,WebGraphics</Conflicts>
@@ -158,12 +158,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     
     <None Include="..\MonoGame\ThirdParty\GamepadConfig\Tao.Sdl.dll.config">
-        <Platforms>Linux,Linux.headless,MacOS</Platforms>
+        <Platforms>Linux,Linux.headless</Platforms>
         <Link>Tao.Sdl.dll.config</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\MonoGame\ThirdParty\Dependencies\OpenTK.dll.config">
-        <Platforms>Linux,Linux.headless,MacOS</Platforms>
+        <Platforms>Linux,Linux.headless</Platforms>
         <Link>OpenTK.dll.config</Link>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -225,10 +225,13 @@
     <Compile Include="Content\Tank.cs" />
     <Compile Include="Content\UpArrow.cs" />
     <Compile Include="EffectContent\Lighting.cs">
-        <ExcludePlatforms>Windows,Windows8,WindowsUniversal</ExcludePlatforms>
+        <ExcludePlatforms>Windows,Windows8,WindowsUniversal,MacOS</ExcludePlatforms>
     </Compile>
     <Compile Include="EffectContent\Lighting_dx11.cs">
         <Platforms>Windows,Windows8,WindowsUniversal</Platforms>
+    </Compile>
+    <Compile Include="EffectContent\Lighting_35.cs">
+        <Platforms>MacOS</Platforms>
     </Compile>
     <Compile Include="ContentExtensions\TextReader.cs" />
     <Compile Include="Controls\Controller\AnalogControl.cs" />

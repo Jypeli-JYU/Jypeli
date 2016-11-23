@@ -136,10 +136,23 @@
       <Link>templates\Tasohyppelypeli\Content\tahti.png</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\Precompiled\DesktopGL\libopenal.1.dylib">
+      <Link>templates\libs\libopenal.1.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\Precompiled\DesktopGL\libSDL2-2.0.0.dylib">
+      <Link>templates\libs\libSDL2-2.0.0.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\Precompiled\DesktopGL\MonoGame.Framework.dll.config">
+      <Link>templates\libs\MonoGame.Framework.dll.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="templates\" />
     <Folder Include="tools\" />
+    <Folder Include="templates\libs\" />
   </ItemGroup>
   <ItemGroup>
     <AddinReference Include="MonoDevelop.MacDev" />

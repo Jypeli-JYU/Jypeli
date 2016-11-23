@@ -2,7 +2,7 @@
 <Template
 		originator		= "Tomi Karppinen"
 		created			= "2014/03/07"
-		lastModified	= "2016/11/07">
+		lastModified	= "2016/11/23">
 	
 	<TemplateConfiguration>
 		<_Name>FysiikkaPeli (SimplePhysics)</_Name>
@@ -17,10 +17,8 @@
 	</Options>
 	
 	<Combine name="${ProjectName}" directory=".">
-		<Project name="${ProjectName}" directory="." type="MonoMac">
-			<Options
-				DefineConstants="MONOMAC"
-			/>
+		<Project name="${ProjectName}" directory="." type="XamMac2">
+			<Options TargetFrameworkVersion="v4.5" />
 			
 			<References>
 				<Reference type="Gac" refto="System" />
@@ -28,10 +26,7 @@
 				<Reference type="Gac" refto="System.Core" />
 				<Reference type="Gac" refto="System.Xml.Linq" />
 				<Reference type="Gac" refto="System.Drawing" />
-				<Reference type="Gac" refto="MonoMac" SpecificVersion="false" />
-				<Reference type="Package" refto="MonoGame.Framework" />
-				<Reference type="Package" refto="OpenTK" />
-				<Reference type="Package" refto="Tao.Sdl" />
+				<Reference type="Gac" refto="Xamarin.Mac" />
 			</References>
 			
 			<Packages>

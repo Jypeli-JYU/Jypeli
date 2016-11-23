@@ -56,18 +56,14 @@
     <Service Name="MonoGame.Framework/OpenGLGraphics">
       <Reference Include="System.Core" />
       <Reference Include="System.Drawing" />
-      <Binary
-        Name="Tao.Sdl"
-        Path="MonoGame/ThirdParty/GamepadConfig/Tao.Sdl.dll" />
-      <Binary
-        Name="OpenTK"
-        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
+      <NativeBinary Path="Precompiled/DesktopGL/libSDL2-2.0.0.dylib" />
+      <NativeBinary Path="Precompiled/DesktopGL/libopenal.1.dylib" />
     </Service>
 
     <!-- MonoGame framework -->
-      <Binary
-        Name="MonoGame.Framework"
-        Path="Precompiled/MacOS/MonoGame.Framework.dll" />
+    <Binary
+      Name="MonoGame.Framework"
+      Path="Precompiled/DesktopGL/MonoGame.Framework.dll" />
   </Platform>
 
   <Platform Type="Android">

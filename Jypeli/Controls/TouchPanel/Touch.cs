@@ -44,6 +44,7 @@ namespace Jypeli
         private ScreenView screen;
         protected Vector2 _previousPosition;
         protected Vector2 _position;
+        protected Vector2 _movement;
 
         internal long DurationInTicks = 0;
 
@@ -132,10 +133,17 @@ namespace Jypeli
             this._position = this._previousPosition = location.Position;
         }
 
+        internal Touch( Vector2 position, Vector2 movement )
+        {
+            this._position = position;
+            this._movement = movement;
+        }
+
         internal void Update( TouchLocation location )
         {
             _previousPosition = _position;
             _position = location.Position;
+            _movement = _position - _previousPosition;
             State = location.State;
             DurationInTicks++;
         }

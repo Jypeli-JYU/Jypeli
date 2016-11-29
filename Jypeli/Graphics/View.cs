@@ -361,6 +361,7 @@ namespace Jypeli
         /// Muuntaa Jypelin ruutukoordinaateista XNA:n ruutukoordinaateiksi.
         /// </summary>
         /// <param name="position"></param>
+        /// <param name="screenSize"></param>
         /// <param name="objectSize"></param>
         /// <returns></returns>
         internal static Vector2 ToXnaCoords( Vector position, Vector screenSize, Vector objectSize )
@@ -369,7 +370,7 @@ namespace Jypeli
                 xToXna( (float)position.X, (float)screenSize.X, (float)objectSize.X ),
                 yToXna( (float)position.Y, (float)screenSize.Y, (float)objectSize.Y ) );
         }
-
+        
         /// <summary>
         /// Muuntaa matriisin Jypelin ruutukoordinaateista XNA:n ruutukoordinaatteihin.
         /// </summary>

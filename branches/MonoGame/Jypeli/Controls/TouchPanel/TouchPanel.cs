@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using Jypeli.Controls;
 
 namespace Jypeli
 {
     using XnaTouchPanel = Microsoft.Xna.Framework.Input.Touch.TouchPanel;
+    using XnaGestureType = Microsoft.Xna.Framework.Input.Touch.GestureType;
 
     public delegate void TouchHandler( Touch touch );
     public delegate void TouchHandler<T>( Touch touch, T p );
@@ -26,10 +28,15 @@ namespace Jypeli
         private TouchPanelCapabilities caps;
         private List<Touch> touches;
         private List<Touch> newTouches;
+        private List<Gesture> gestures;
 
         private List<TouchListener> DownListeners = new List<TouchListener>();
         private List<TouchListener> PressListeners = new List<TouchListener>();
         private List<TouchListener> ReleaseListeners = new List<TouchListener>();
+        private List<TouchListener> GestureListeners = new List<TouchListener>();
+
+        private ListenContext _snipContext = null;
+        private ListenContext _pinchContext = null;
 
         /// <summary>
         /// Onko kosketusnäyttö kytketty.
@@ -37,6 +44,14 @@ namespace Jypeli
         public bool IsConnected
         {
             get { return caps.IsConnected; }
+        }
+
+        /// <summary>
+        /// Kuinka monta kosketusta näytöllä on aktiivisena.
+        /// </summary>
+        public int ActiveChannels
+        {
+            get { return touches.Count + gestures.Count; }
         }
 
         /// <summary>
@@ -53,6 +68,64 @@ namespace Jypeli
         public int MaxTouches
         {
             get { return caps.MaximumTouchCount; }
+        }
+
+        /// <summary>
+        /// Kuinka monta elettä näytöllä on aktiivisena.
+        /// </summary>
+        public int NumGestures
+        {
+            get { return gestures.Count; }
+        }
+
+        /// <summary>
+        /// Seurataanko kosketusta kameralla.
+        /// </summary>
+        public bool FollowSnipping
+        {
+            get { return _snipContext != null; }
+            set
+            {
+                TouchHandler handler = delegate ( Touch t ) { Game.Instance.Camera.Position -= t.MovementOnWorld; };
+                ContextHandler op = delegate ( ListenContext ctx ) { Listen( ButtonState.Down, handler, "Move around" ).InContext( ctx ); };
+                setContext( ref _snipContext, value, op );
+            }
+        }
+
+        /// <summary>
+        /// Zoomataanko kameralla kun käyttäjä tekee nipistyseleen
+        /// </summary>
+        public bool FollowPinching
+        {
+            get { return _pinchContext != null; }
+            set
+            {
+                TouchHandler handler = delegate ( Touch t )
+                {
+                    Gesture g = (Gesture)t;
+                    Game.Instance.Camera.Zoom( g.WorldDistanceAfter.Magnitude / g.WorldDistanceBefore.Magnitude );
+                };
+                ContextHandler op = delegate ( ListenContext ctx ) { ListenGesture( GestureType.Pinch, handler, "Zoom" ); };
+                setContext( ref _pinchContext, value, op );
+            }
+        }
+
+        delegate void ContextHandler( ListenContext ctx );
+
+        private void setContext( ref ListenContext context, bool enable, ContextHandler operation )
+        {
+            if ( ( context != null ) == enable ) return;
+            if ( enable )
+            {
+                context = Game.Instance.ControlContext.CreateSubcontext();
+                context.Active = true;
+                operation( context );
+            }
+            else
+            {
+                context.Destroy();
+                context = null;
+            }
         }
 
         internal TouchPanel( ScreenView screen )
@@ -103,6 +176,12 @@ namespace Jypeli
 
         public void Update()
         {
+            UpdateTouches();
+            UpdateGestures();
+        }
+
+        public void UpdateTouches()
+        {
             var xnaTouches = XnaTouchPanel.GetState();
 
             for ( int i = 0; i < xnaTouches.Count; i++ )
@@ -138,11 +217,25 @@ namespace Jypeli
             newTouches = empty;
         }
 
+        public void UpdateGestures()
+        {
+            var samples = new List<Gesture>();
+
+            if ( XnaTouchPanel.EnabledGestures == XnaGestureType.None )
+                return;
+
+            while ( XnaTouchPanel.IsGestureAvailable )
+                samples.Add( new Gesture( XnaTouchPanel.ReadGesture() ) );
+
+            this.gestures = samples;
+        }
+
         public void Clear()
         {
             DownListeners.Clear();
             PressListeners.Clear();
             ReleaseListeners.Clear();
+            GestureListeners.Clear();
         }
 
         public IEnumerable<string> GetHelpTexts()
@@ -182,6 +275,14 @@ namespace Jypeli
         {
             var l = new TouchListener( rule, Game.Instance.ControlContext, helpText, handler, args );
             list.Add( l );
+            return l;
+        }
+
+        private Listener AddGestureListener( Predicate<Gesture> rule, string helpText, Delegate handler, params object[] args )
+        {
+            Predicate<Touch> touchRule = ( Touch t ) => t is Gesture && rule( (Gesture)t );
+            var l = new TouchListener( touchRule, Game.Instance.ControlContext, helpText, handler, args );
+            GestureListeners.Add( l );
             return l;
         }
 
@@ -274,8 +375,8 @@ namespace Jypeli
         /// <summary>
         /// Kuuntelee kosketusnäyttöä olion päällä.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
         /// <param name="obj">Olio.</param>
         /// <param name="hoverstate">Tila siitä onko kursori olion päällä, pois, menossa päälle vai poistumassa</param>
         /// <param name="buttonstate">Kosketuksen tila</param>
@@ -292,8 +393,9 @@ namespace Jypeli
         /// <summary>
         /// Kuuntelee kosketusnäyttöä olion päällä.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
         /// <param name="obj">Olio.</param>
         /// <param name="hoverstate">Tila siitä onko kursori olion päällä, pois, menossa päälle vai poistumassa</param>
         /// <param name="buttonstate">Kosketuksen tila</param>
@@ -366,6 +468,194 @@ namespace Jypeli
         public Listener ListenOn<T1, T2, T3>( GameObject obj, ButtonState buttonstate, TouchHandler<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             return ListenOn( obj, HoverState.On, buttonstate, handler, helpText, p1, p2, p3 );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttön elettä.
+        /// </summary>
+        /// <param name="type">Kosketusele</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        public Listener ListenGesture( GestureType type, TouchHandler handler, string helpText )
+        {
+            XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
+            return AddGestureListener( ( Gesture g ) => g.GestureType == type, helpText, handler );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttön elettä olion päällä.
+        /// </summary>
+        /// <param name="obj">Olio.</param>
+        /// <param name="hoverstate">Tila siitä onko kursori olion päällä, pois, menossa päälle vai poistumassa</param>
+        /// <param name="type">Kosketusele</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        public Listener ListenGestureOn( GameObject obj, HoverState hoverstate, GestureType type, TouchHandler handler, string helpText )
+        {
+            Predicate<Touch> hover = MakeTriggerRule( obj, hoverstate );
+            return AddGestureListener( (Gesture g) => g.GestureType == type && hover(g), helpText, handler );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttön elettä olion päällä.
+        /// </summary>
+        /// <param name="obj">Olio.</param>
+        /// <param name="type">Kosketusele</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        public Listener ListenGestureOn( GameObject obj, GestureType type, TouchHandler handler, string helpText )
+        {
+            return ListenGestureOn( obj, HoverState.On, type, handler, helpText );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttön elettä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <param name="type">Kosketusele</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        public Listener ListenGesture<T1>( GestureType type, TouchHandler handler, string helpText, T1 p1 )
+        {
+            XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
+            return AddGestureListener( ( Gesture g ) => g.GestureType == type, helpText, handler, p1 );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttön elettä olion päällä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <param name="obj">Olio.</param>
+        /// <param name="hoverstate">Tila siitä onko kursori olion päällä, pois, menossa päälle vai poistumassa</param>
+        /// <param name="type">Kosketusele</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        public Listener ListenGestureOn<T1>( GameObject obj, HoverState hoverstate, GestureType type, TouchHandler handler, string helpText, T1 p1 )
+        {
+            Predicate<Touch> hover = MakeTriggerRule( obj, hoverstate );
+            return AddGestureListener( ( Gesture g ) => g.GestureType == type && hover( g ), helpText, handler, p1 );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttön elettä olion päällä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <param name="obj">Olio.</param>
+        /// <param name="type">Kosketusele</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        public Listener ListenGestureOn<T1>( GameObject obj, GestureType type, TouchHandler handler, string helpText, T1 p1 )
+        {
+            return ListenGestureOn( obj, HoverState.On, type, handler, helpText, p1 );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttön elettä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="type">Kosketusele</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <param name="p2">2. parametri</param>
+        public Listener ListenGesture<T1, T2>( GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2 )
+        {
+            XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
+            return AddGestureListener( ( Gesture g ) => g.GestureType == type, helpText, handler, p1, p2 );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttön elettä olion päällä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="obj">Olio.</param>
+        /// <param name="hoverstate">Tila siitä onko kursori olion päällä, pois, menossa päälle vai poistumassa</param>
+        /// <param name="type">Kosketusele</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <param name="p2">2. parametri</param>
+        public Listener ListenGestureOn<T1, T2>( GameObject obj, HoverState hoverstate, GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2 )
+        {
+            Predicate<Touch> hover = MakeTriggerRule( obj, hoverstate );
+            return AddGestureListener( ( Gesture g ) => g.GestureType == type && hover( g ), helpText, handler, p1, p2 );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttön elettä olion päällä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="obj">Olio.</param>
+        /// <param name="type">Kosketusele</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <param name="p2">2. parametri</param>
+        public Listener ListenGestureOn<T1, T2>( GameObject obj, GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2 )
+        {
+            return ListenGestureOn( obj, HoverState.On, type, handler, helpText, p1 );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttön elettä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <param name="type">Kosketusele</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <param name="p2">2. parametri</param>
+        /// <param name="p3">3. parametri</param>
+        public Listener ListenGesture<T1, T2, T3>( GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        {
+            XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
+            return AddGestureListener( ( Gesture g ) => g.GestureType == type, helpText, handler, p1, p2 );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttön elettä olion päällä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <param name="obj">Olio.</param>
+        /// <param name="hoverstate">Tila siitä onko kursori olion päällä, pois, menossa päälle vai poistumassa</param>
+        /// <param name="type">Kosketusele</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <param name="p2">2. parametri</param>
+        /// <param name="p3">3. parametri</param>
+        public Listener ListenGestureOn<T1, T2, T3>( GameObject obj, HoverState hoverstate, GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        {
+            Predicate<Touch> hover = MakeTriggerRule( obj, hoverstate );
+            return AddGestureListener( ( Gesture g ) => g.GestureType == type && hover( g ), helpText, handler, p1, p2 );
+        }
+
+        /// <summary>
+        /// Kuuntelee kosketusnäyttön elettä olion päällä.
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <param name="obj">Olio.</param>
+        /// <param name="type">Kosketusele</param>
+        /// <param name="handler">Aliohjelma</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <param name="p2">2. parametri</param>
+        /// <param name="p3">3. parametri</param>
+        public Listener ListenGestureOn<T1, T2, T3>( GameObject obj, GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        {
+            return ListenGestureOn( obj, HoverState.On, type, handler, helpText, p1 );
         }
     }
 }

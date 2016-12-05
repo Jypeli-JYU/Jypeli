@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Jypeli.Physics2d.Android</id>
+    <version>0.0.1</version>
+    <authors>Jyväskylän yliopisto</authors>
+    <owners>Jyväskylän yliopisto</owners>
+    <projectUrl>http://bit.ly/pelikurssi</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>THIS IS A TESTING RELEASE! Physics2d.net physics library implementation for Jypeli on Android</description>
+    <releaseNotes></releaseNotes>
+    <copyright></copyright>
+    <tags>jypeli</tags>
+    <dependencies>
+      <dependency id="Jypeli.Android" version="0.0.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="lib/**" target="lib"/>
+  </files>
+</package>

@@ -6,6 +6,9 @@ rebuild:
 rebuild-macos:
 	make clean && make macos
 
+rebuild-android:
+	make clean && make android
+
 clean:
 	rm -f Jypeli.*/lib/4.5/* Jypeli.*/content/4.5/* && \
 	rm -fd Jypeli.*/lib/4.5 Jypeli.*/content/4.5 && \
@@ -17,6 +20,9 @@ release: rebuild
 
 release-macos: rebuild-macos
 	find . -wholename '*MacOS/*.nupkg' -exec nuget push {} \;
+
+release-android: rebuild-android
+	find . -wholename '*Android/*.nupkg' -exec nuget push {} \;
 
 windowsgl: copywindowsgl
 	sh -c "cd Jypeli.WindowsGL && nuget pack"
@@ -30,6 +36,11 @@ macos:	copymacos
 	sh -c "cd Jypeli.MacOS && nuget pack" ; \
 	sh -c "cd Jypeli.Physics2d.MacOS && nuget pack" ; \
 	sh -c "cd Jypeli.SimplePhysics.MacOS && nuget pack"
+
+android:	copyandroid
+	sh -c "cd Jypeli.Android && nuget pack" ; \
+	sh -c "cd Jypeli.Physics2d.Android && nuget pack" ; \
+	sh -c "cd Jypeli.SimplePhysics.Android && nuget pack"
 
 copywindowsgl:
 	mkdir -p Jypeli.WindowsGL/lib/4.5 ; \
@@ -79,4 +90,23 @@ copymacosphys2d:
 copymacossimplephys:
 	mkdir -p Jypeli.SimplePhysics.MacOS/lib/4.5 ; \
 	cp ../Compiled/MacOS-AnyCPU/Jypeli.SimplePhysics.dll Jypeli.SimplePhysics.MacOS/lib/4.5
+
+copyandroid: copyandroidjypeli copyandroidphys2d copyandroidsimplephys
+
+copyandroidjypeli:
+	mkdir -p Jypeli.Android/lib/4.5 Jypeli.Android/content/4.5 ; \
+	cp ../Compiled/Android-AnyCPU/Jypeli.dll Jypeli.Android/lib/4.5 && \
+	cp ../Compiled/Android-AnyCPU/Jypeli.xml Jypeli.Android/lib/4.5 && \
+	cp ../Compiled/Android-AnyCPU/Jypeli.dll.mdb Jypeli.Android/lib/4.5 && \
+	cp ../Compiled/Android-AnyCPU/MonoGame.Framework.dll Jypeli.Android/lib/4.5 && \
+	cp ../Precompiled/DesktopGL/MonoGame.Framework.dll.config Jypeli.Android/lib/4.5
+
+copyandroidphys2d:
+	mkdir -p Jypeli.Physics2d.Android/lib/4.5 ; \
+	cp ../Compiled/Android-AnyCPU/Jypeli.Physics2d.dll Jypeli.Physics2d.Android/lib/4.5
+
+copyandroidsimplephys:
+	mkdir -p Jypeli.SimplePhysics.Android/lib/4.5 ; \
+	cp ../Compiled/Android-AnyCPU/Jypeli.SimplePhysics.dll Jypeli.SimplePhysics.Android/lib/4.5
+
 

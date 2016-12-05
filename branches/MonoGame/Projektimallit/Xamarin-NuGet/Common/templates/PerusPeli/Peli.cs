@@ -5,13 +5,16 @@ using Jypeli.Assets;
 using Jypeli.Controls;
 using Jypeli.Widgets;
 
-public class ${ProjectName} : Game
+namespace ${ProjectName}
 {
-    public override void Begin()
+    public class ${ProjectName} : Game
     {
-        // Kirjoita ohjelmakoodisi tähän
+        public override void Begin()
+        {
+            // Kirjoita ohjelmakoodisi tähän
 
-        PhoneBackButton.Listen( ConfirmExit, "Lopeta peli" );
-        Keyboard.Listen( Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli" );
+            PhoneBackButton.Listen( ConfirmExit, "Lopeta peli" );
+            Keyboard.Listen( Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli" );
+        }
     }
 }

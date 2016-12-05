@@ -5,7 +5,7 @@ using Mono.Addins.Description;
 [assembly: Addin (
     "Jypeli",
     Namespace = "Jypeli.MacOS",
-    Version = "6.8.0"
+    Version = "6.8.5"
 )]
 
 [assembly: AddinName ("Jypeli")]

@@ -94,12 +94,12 @@ copymacossimplephys:
 copyandroid: copyandroidjypeli copyandroidphys2d copyandroidsimplephys
 
 copyandroidjypeli:
-	mkdir -p Jypeli.Android/lib/4.5 Jypeli.Android/content/4.5 ; \
-	cp ../Compiled/Android-AnyCPU/Jypeli.dll Jypeli.Android/lib/4.5 && \
-	cp ../Compiled/Android-AnyCPU/Jypeli.xml Jypeli.Android/lib/4.5 && \
-	cp ../Compiled/Android-AnyCPU/Jypeli.dll.mdb Jypeli.Android/lib/4.5 && \
-	cp ../Compiled/Android-AnyCPU/MonoGame.Framework.dll Jypeli.Android/lib/4.5 && \
-	cp ../Precompiled/DesktopGL/MonoGame.Framework.dll.config Jypeli.Android/lib/4.5
+	mkdir -p Jypeli.Android/lib Jypeli.Android/content ; \
+	cp ../Compiled/Android-AnyCPU/Jypeli.dll Jypeli.Android/lib && \
+	cp ../Compiled/Android-AnyCPU/Jypeli.xml Jypeli.Android/lib && \
+	cp ../Compiled/Android-AnyCPU/Jypeli.dll.mdb Jypeli.Android/lib && \
+	cp ../Compiled/Android-AnyCPU/MonoGame.Framework.dll Jypeli.Android/lib && \
+	cp ../Precompiled/DesktopGL/MonoGame.Framework.dll.config Jypeli.Android/lib
 
 copyandroidphys2d:
 	mkdir -p Jypeli.Physics2d.Android/lib/4.5 ; \

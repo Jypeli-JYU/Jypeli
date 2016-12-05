@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Mono.Unix.Native;
 
 namespace Jypeli.Projects
 {
@@ -46,15 +47,27 @@ namespace Jypeli.Projects
 						continue;
 
 					this.mgcbPath = path;
-					break;
+                    break;
 				}
-
-                this.extensionDir = new FilePath(this.mgcbPath).ParentDirectory;
 			}
 
 			if (this.mgcbPath == null)
 				throw new NotSupportedException("MGCB.exe not found");
+            
+            this.extensionDir = new FilePath(this.mgcbPath).ParentDirectory;
+            SetUnixPermissions(this.extensionDir);
 		}
+
+        private void SetUnixPermissions(FilePath dir)
+        {
+            var p_rx = FilePermissions.S_IRUSR | FilePermissions.S_IXUSR | FilePermissions.S_IRGRP | FilePermissions.S_IXGRP | FilePermissions.S_IROTH | FilePermissions.S_IXOTH;
+
+            foreach (var file in new string[] { "ffmpeg", "ffprobe" })
+            {
+                var filePath = dir.Combine(file).CanonicalPath.ToString();
+                Syscall.chmod(filePath, p_rx);
+            }
+        }
 
 		public FilePath BuildContent(ProgressMonitor monitor, FilePath contentFile,
                                      string importer = null, string processor = null,
@@ -94,7 +107,7 @@ namespace Jypeli.Projects
             if (contentExtension != null)
             {
                 FilePath assemblyPath = this.extensionDir.Combine(contentExtension);
-                process.StartInfo.Arguments += " /Reference:" + assemblyPath.CanonicalPath.ToString();
+                process.StartInfo.Arguments += String.Format(" /Reference:\"{0}\"", assemblyPath.CanonicalPath.ToString());
             }
 
 			process.StartInfo.Arguments += String.Format(

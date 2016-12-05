@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\MonoDevelop.Addins.0.3.6\build\net40\MonoDevelop.Addins.props" Condition="Exists('packages\MonoDevelop.Addins.0.3.6\build\net40\MonoDevelop.Addins.props')" />
+  <Import Project="packages\MonoDevelop.Addins.0.3.8\build\net40\MonoDevelop.Addins.props" Condition="Exists('packages\MonoDevelop.Addins.0.3.8\build\net40\MonoDevelop.Addins.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -26,6 +26,20 @@
     <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>AfterBuild</type>
+          <command>mdtool setup pack ${TargetFile}</command>
+          <workingdir>${TargetDir}</workingdir>
+        </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>mdtool setup rep-build .</command>
+          <workingdir>${TargetDir}</workingdir>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,7 +83,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\Common\templates\PerusPeli\Icon-hd.png">
       <Link>templates\PerusPeli\Icon-hd.png</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Common\templates\PerusPeli\Peli.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -139,18 +153,52 @@
     <EmbeddedResource Include="tools\MGCB\TextFileContentExtension.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="templates\PerusPeli.Android.xpt.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\PerusPeli\Icon-md.png">
+      <Link>templates\PerusPeli\Icon-md.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Android\AboutAssets.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Android\AboutContent.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Android\AboutResources.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Android\Activity1.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Android\AndroidManifest.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Android\Resource.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Android\Splash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="templates\Android\Styles.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Common\templates\PerusPeli\Peli.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>templates\Android\PerusPeli\Peli.cs</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="templates\" />
     <Folder Include="tools\" />
+    <Folder Include="templates\Android\" />
+    <Folder Include="templates\Android\PerusPeli\" />
   </ItemGroup>
   <ItemGroup>
     <AddinReference Include="MonoDevelop.MacDev" />
     <AddinReference Include="MonoDevelop.MacPlatform" />
     <AddinReference Include="MonoDevelop.MonoMac" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="tools\MGCB\AssimpNet.dll">
@@ -280,9 +328,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Posix" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoDevelop.Addins.0.3.4\build\net40\MonoDevelop.Addins.targets" Condition="Exists('..\packages\MonoDevelop.Addins.0.3.4\build\net40\MonoDevelop.Addins.targets')" />
-  <Import Project="packages\MonoDevelop.Addins.0.3.6\build\net40\MonoDevelop.Addins.targets" Condition="Exists('packages\MonoDevelop.Addins.0.3.6\build\net40\MonoDevelop.Addins.targets')" />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
@@ -293,4 +346,5 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <Import Project="packages\MonoDevelop.Addins.0.3.8\build\net40\MonoDevelop.Addins.targets" Condition="Exists('packages\MonoDevelop.Addins.0.3.8\build\net40\MonoDevelop.Addins.targets')" />
 </Project>

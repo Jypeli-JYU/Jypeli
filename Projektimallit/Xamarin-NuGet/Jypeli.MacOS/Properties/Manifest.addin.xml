@@ -9,6 +9,7 @@
 		<Import file="icons/Tasohyppelypeli-16.png" />
 		<Import file="icons/Tasohyppelypeli-32.png" />
 		
+		<Import file="templates/PerusPeli/Icon-md.png" />
 		<Import file="templates/PerusPeli/Icon-hd.png" />
 		<Import file="templates/PerusPeli/Ohjelma.cs" />
 		<Import file="templates/PerusPeli/Peli.cs" />
@@ -30,9 +31,16 @@
 		<Import file="templates/FysiikkaPeli.SimplePhysics.xpt.xml" />
 		<Import file="templates/FysiikkaPeli.Physics2d.xpt.xml" />
 
-		<Import file="templates/libs/libopenal.1.dylib" />
-		<Import file="templates/libs/libSDL2-2.0.0.dylib" />
-		<Import file="templates/libs/MonoGame.Framework.dll.config" />
+		<Import file="templates/PerusPeli.Android.xpt.xml" />
+		<Import file="templates/Android/Activity1.cs" />
+		<Import file="templates/Android/Resource.cs" />
+		<Import file="templates/Android/AndroidManifest.xml" />
+		<Import file="templates/Android/AboutAssets.txt" />
+		<Import file="templates/Android/AboutContent.txt" />
+		<Import file="templates/Android/AboutResources.txt" />
+		<Import file="templates/Android/Splash.png" />
+		<Import file="templates/Android/Styles.xml" />
+		<Import file="templates/Android/PerusPeli/Peli.cs" />
 
 		<Import file="tools/MGCB/ATI.TextureConverter.dll" />
 		<Import file="tools/MGCB/ATI.TextureConverter.dll.config" />
@@ -87,7 +95,7 @@
 		<StockIcon stockid="Tasohyppelypeli-project" file="icons/Tasohyppelypeli-32.png" />
 	</Extension>
 	<Extension path="/MonoDevelop/Ide/ProjectTemplateCategories">
-		<Category id="jypeli" name="Jypeli" icon="Jypeli-project">
+		<Category id="jypeli" name="Jypeli" icon="Jypeli-project" insertbefore="other">
 			<Category id="multiplatform" name="All platforms">
 				<Category id="console" name="Console" />
 			</Category>
@@ -111,4 +119,18 @@
 	<Extension path="/MonoDevelop/Ide/FileTemplates">
 		<FileTemplate id="PerusPeliCs" file="templates/PerusPeliCs.xft.xml" />
 	</Extension>
+
+	<Module>
+		<Extension path="/MonoDevelop/Ide/ProjectTemplateCategories/jypeli">
+			<Category id="android" name="Android">
+				<Category id="perus" name="Pelit ilman fysiikkaa" />
+				<Category id="fysiikka" name="Pelit fysiikkamoottorilla" />
+				<Category id="pohjat" name="Valmiit pelipohjat" />
+			</Category>
+		</Extension>
+
+		<Extension path="/MonoDevelop/Ide/ProjectTemplates">
+			<ProjectTemplate id="PerusPeli" file="templates/PerusPeli.Android.xpt.xml" />
+		</Extension>
+	</Module>
 </ExtensionModel>

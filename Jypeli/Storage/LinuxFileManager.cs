@@ -9,17 +9,17 @@ namespace Jypeli
 	/// </summary>
 	public class LinuxFileManager : FileManager
 	{
-		private string[] pathCandidates;
+        private string rootPath = null;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Jypeli.LinuxFileManager"/> class.
 		/// </summary>
-		/// <param name='pathCandidates'>
-		/// Path candidates.
+		/// <param name='rootPath'>
+		/// Root path
 		/// </param>
-        public LinuxFileManager( params string[] pathCandidates )
+        public LinuxFileManager( string rootPath )
         {
-            this.pathCandidates = pathCandidates;
+            this.rootPath = rootPath;
         }
 
 		/// <summary>
@@ -27,26 +27,18 @@ namespace Jypeli
 		/// </summary>
         protected override void Initialize()
         {
-            for ( int i = 0; i < pathCandidates.Length; i++ )
-            {
-                _currentDir = pathCandidates[i];
+            if (_currentDir != null)
+                return;
 
-                if ( Directory.Exists( _currentDir ) )
-                    return;
-                else
-                {
-                    var parent = Directory.GetParent( _currentDir );
-                    if ( !parent.Exists ) continue;
-                    Directory.CreateDirectory( _currentDir );
-                }
-            }
+            Directory.CreateDirectory(rootPath);
+            _currentDir = rootPath;
         }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Jypeli.LinuxFileManager"/> class.
 		/// </summary>
         public LinuxFileManager()
-            : this(LinuxLocation.DataPath, Path.Combine(WindowsLocation.MyDocuments, Game.Name))
+            : this(LinuxLocation.DataPath)
         {
         }
 

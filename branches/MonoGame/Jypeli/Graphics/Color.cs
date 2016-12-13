@@ -47,7 +47,7 @@ namespace Jypeli
         internal XnaColor AsXnaColor()
         {
             return new XnaColor(
-                RedComponent, GreenComponent, BlueComponent, AlphaComponent );
+                (int)RedComponent, (int)GreenComponent, (int)BlueComponent, (int)AlphaComponent );
         }
 
         public Color( byte red, byte green, byte blue )

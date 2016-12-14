@@ -1,8 +1,14 @@
-all:	jypeli physics2d simplephysics
+common:	jypeli physics2d simplephysics
 
-physics2d: physics2d-windows physics2d-linux physics2d-android
+all:	jypeli-all physics2d-all simplephysics-all
 
-simplephysics: simplephysics-windows simplephysics-linux simplephysics-android
+physics2d: physics2d-windows physics2d-linux
+
+physics2d-all:	physics2d-windows physics2d-linux physics2d-android physics2d-mac
+
+simplephysics:	simplephysics-windows simplephysics-linux
+
+simplephysics-all:	simplephysics-windows simplephysics-linux simplephysics-android simplephysics-mac
 
 macos:	jypeli-macos physics2d-macos simplephysics-macos
 
@@ -12,16 +18,16 @@ rebuild-macos:
 	rm -f Compiled/MacOS-AnyCPU/* && make macos
 
 physics2d-windows:	jypeli-windowsgl
-	cp Physics2d/bin/WindowsGL/AnyCPU/Release/* Compiled/WindowsGL-AnyCPU/
+	cp Physics2d/bin/WindowsGL/AnyCPU/Debug/* Compiled/WindowsGL-AnyCPU/
 
 simplephysics-windows:	jypeli-windowsgl
-	cp SimplePhysics/bin/WindowsGL/AnyCPU/Release/* Compiled/WindowsGL-AnyCPU/
+	cp SimplePhysics/bin/WindowsGL/AnyCPU/Debug/* Compiled/WindowsGL-AnyCPU/
 
 physics2d-linux:	jypeli-linux
-	cp Physics2d/bin/Linux/AnyCPU/Release/* Compiled/Linux-AnyCPU/
+	cp Physics2d/bin/Linux/AnyCPU/Debug/* Compiled/Linux-AnyCPU/
 
 simplephysics-linux:	jypeli-linux
-	cp SimplePhysics/bin/Linux/AnyCPU/Release/* Compiled/Linux-AnyCPU/
+	cp SimplePhysics/bin/Linux/AnyCPU/Debug/* Compiled/Linux-AnyCPU/
 
 physics2d-macos:	jypeli-macos
 	cp Physics2d/bin/MacOS/AnyCPU/Debug/* Compiled/MacOS-AnyCPU/
@@ -37,17 +43,19 @@ simplephysics-android:	jypeli-android
 
 jypeli: jypeli-windowsgl jypeli-linux
 
+jypeli-all:	jypeli-windowsgl jypeli-linux jypeli-android jypeli-macos
+
 jypeli-windowsgl:	getmonogame
 	mono Protobuild.exe -generate WindowsGL && \
-	xbuild /p:Configuration=Release Jypeli.WindowsGL.sln && \
+	xbuild Jypeli.WindowsGL.sln && \
 	mkdir -p Compiled/WindowsGL-AnyCPU && \
-	cp Jypeli/bin/WindowsGL/AnyCPU/Release/* Compiled/WindowsGL-AnyCPU/
+	cp Jypeli/bin/WindowsGL/AnyCPU/Debug/* Compiled/WindowsGL-AnyCPU/
 
 jypeli-linux:	getmonogame
 	mono Protobuild.exe -generate Linux && \
-	xbuild /p:Configuration=Release Jypeli.Linux.sln && \
+	xbuild Jypeli.Linux.sln && \
 	mkdir -p Compiled/Linux-AnyCPU && \
-	cp Jypeli/bin/Linux/AnyCPU/Release/* Compiled/Linux-AnyCPU/
+	cp Jypeli/bin/Linux/AnyCPU/Debug/* Compiled/Linux-AnyCPU/
 
 jypeli-macos:	getmonogame
 	mono Protobuild.exe -generate MacOS && \

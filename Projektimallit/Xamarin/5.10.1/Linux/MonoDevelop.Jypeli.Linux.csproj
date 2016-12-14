@@ -155,58 +155,75 @@
       <Link>templates\ConsoleMain.xpt.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\Physics2d\bin\Linux\AnyCPU\Debug\Jypeli.dll">
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\Jypeli.dll">
       <Link>assemblies\Linux\Jypeli.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\Physics2d\bin\Linux\AnyCPU\Debug\Jypeli.xml">
-      <Link>assemblies\Linux\Jypeli.xml</Link>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\Jypeli.dll.mdb">
+      <Link>assemblies\Linux\Jypeli.dll.mdb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\Physics2d\bin\Linux\AnyCPU\Debug\Jypeli.Physics2d.dll">
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\Jypeli.Physics2d.dll">
       <Link>assemblies\Linux\Jypeli.Physics2d.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\Physics2d\bin\Linux\AnyCPU\Debug\Jypeli.Physics2d.xml">
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\Jypeli.Physics2d.dll.mdb">
+      <Link>assemblies\Linux\Jypeli.Physics2d.dll.mdb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\Jypeli.Physics2d.xml">
       <Link>assemblies\Linux\Jypeli.Physics2d.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\SimplePhysics\bin\Linux\AnyCPU\Debug\Jypeli.SimplePhysics.dll">
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\Jypeli.SimplePhysics.dll">
       <Link>assemblies\Linux\Jypeli.SimplePhysics.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\SimplePhysics\bin\Linux\AnyCPU\Debug\Jypeli.SimplePhysics.xml">
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\Jypeli.SimplePhysics.dll.mdb">
+      <Link>assemblies\Linux\Jypeli.SimplePhysics.dll.mdb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\Jypeli.SimplePhysics.xml">
       <Link>assemblies\Linux\Jypeli.SimplePhysics.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\Physics2d\bin\Linux\AnyCPU\Debug\MonoGame.Framework.dll">
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\Jypeli.xml">
+      <Link>assemblies\Linux\Jypeli.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\MonoGame.Framework.dll">
       <Link>assemblies\Linux\MonoGame.Framework.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\Physics2d\bin\Linux\AnyCPU\Debug\MonoGame.Framework.xml">
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\MonoGame.Framework.dll.mdb">
+      <Link>assemblies\Linux\MonoGame.Framework.dll.mdb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\MonoGame.Framework.xml">
       <Link>assemblies\Linux\MonoGame.Framework.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\Physics2d\bin\Linux\AnyCPU\Debug\OpenTK.dll">
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\OpenTK.dll">
       <Link>assemblies\Linux\OpenTK.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\Physics2d\bin\Linux\AnyCPU\Debug\OpenTK.dll.config">
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\OpenTK.dll.config">
       <Link>assemblies\Linux\OpenTK.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\Physics2d\bin\Linux\AnyCPU\Debug\Tao.Sdl.dll">
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\Tao.Sdl.dll">
       <Link>assemblies\Linux\Tao.Sdl.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\Physics2d\bin\Linux\AnyCPU\Debug\Tao.Sdl.dll.config">
+    <EmbeddedResource Include="..\..\..\..\Compiled\Linux-AnyCPU\Tao.Sdl.dll.config">
       <Link>assemblies\Linux\Tao.Sdl.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\MonoDevelop.Addins.0.2.3\build\net40\MonoDevelop.Addins.targets" Condition="Exists('packages\MonoDevelop.Addins.0.2.3\build\net40\MonoDevelop.Addins.targets')" />
-  <Import Project="..\packages\MonoDevelop.Addins.0.3.0\build\net40\MonoDevelop.Addins.targets" Condition="Exists('..\packages\MonoDevelop.Addins.0.3.0\build\net40\MonoDevelop.Addins.targets')" />
+  <Import Project="..\packages\MonoDevelop.Addins.0.3.8\build\net40\MonoDevelop.Addins.props" Condition="Exists('..\packages\MonoDevelop.Addins.0.3.8\build\net40\MonoDevelop.Addins.props')" />
+  <Import Project="..\packages\MonoDevelop.Addins.0.3.8\build\net40\MonoDevelop.Addins.targets" Condition="Exists('..\packages\MonoDevelop.Addins.0.3.8\build\net40\MonoDevelop.Addins.targets')" />
   <ItemGroup>
     <Folder Include="icons\" />
     <Folder Include="templates\" />

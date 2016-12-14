@@ -10,6 +10,10 @@ simplephysics:	simplephysics-windows simplephysics-linux
 
 simplephysics-all:	simplephysics-windows simplephysics-linux simplephysics-android simplephysics-mac
 
+windowsgl:	jypeli-windowsgl physics2d-windowsgl simplephysics-windowsgl
+
+linux:	jypeli-linux physics2d-linux simplephysics-linux
+
 macos:	jypeli-macos physics2d-macos simplephysics-macos
 
 android: jypeli-android physics2d-android simplephysics-android

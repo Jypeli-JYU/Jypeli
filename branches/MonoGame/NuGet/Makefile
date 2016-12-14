@@ -50,9 +50,9 @@ copywindowsgl:
 	cp ../Compiled/WindowsGL-AnyCPU/NVorbis.dll Jypeli.WindowsGL/lib/4.5 && \
 	cp ../Compiled/WindowsGL-AnyCPU/OpenTK.dll Jypeli.WindowsGL/lib/4.5 && \
 	cp ../Compiled/WindowsGL-AnyCPU/Tao.Sdl.dll Jypeli.WindowsGL/lib/4.5 && \
-	cp ../Compiled/WindowsGL-AnyCPU/SDL.dll Jypeli.WindowsGL/content/4.5 && \
-	cp ../Compiled/WindowsGL-AnyCPU/SDL_mixer.dll Jypeli.WindowsGL/content/4.5 && \
-	cp ../Compiled/WindowsGL-AnyCPU/smpeg.dll Jypeli.WindowsGL/content/4.5
+	cp ../MonoGame/ThirdParty/GamepadConfig/SDL.dll Jypeli.WindowsGL/content/4.5 && \
+	cp ../MonoGame/ThirdParty/GamepadConfig/SDL_mixer.dll Jypeli.WindowsGL/content/4.5 && \
+	cp ../Jypeli/smpeg.dll Jypeli.WindowsGL/content/4.5
 	
 copylinux: copylinuxjypeli copylinuxphys2d copylinuxsimplephys
 

@@ -28,7 +28,9 @@
     </Service>
 
     <!-- MonoGame framework -->
-    <Reference Include="MonoGame.Framework" />
+    <Binary
+      Name="MonoGame.Framework"
+      Path="Precompiled/Linux/MonoGame.Framework.dll" />
   </Platform>
 
   <Platform Type="Linux.headless">
@@ -46,7 +48,9 @@
     </Service>
 
     <!-- MonoGame framework -->
-    <Reference Include="MonoGame.Framework" />
+    <Binary
+      Name="MonoGame.Framework"
+      Path="Precompiled/Linux/MonoGame.Framework.dll" />
   </Platform>
 
   <Platform Type="MacOS">

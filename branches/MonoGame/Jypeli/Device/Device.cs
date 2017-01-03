@@ -112,8 +112,10 @@ namespace Jypeli.Devices
             return new AndroidDevice();
 #elif WINDOWS_PHONE81
             return new WindowsPhone81Device();
-#elif WINDOWS_STOREAPP
+#elif WINDOWS_UAP
             return new WindowsUniversalDevice();
+#elif WINRT
+            return new Windows8Device();
 #else
             return new Device();
 #endif

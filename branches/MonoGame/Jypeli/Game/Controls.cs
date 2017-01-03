@@ -52,6 +52,14 @@ namespace Jypeli
         public Mouse Mouse { get; private set; }
 
         /// <summary>
+        /// Kiihtyvyysanturi.
+        /// </summary>
+        public Accelerometer Accelerometer
+        {
+            get { return Device.Accelerometer; }
+        }
+
+        /// <summary>
         /// Kosketusnäyttö
         /// </summary>
         public TouchPanel TouchPanel { get; private set; }
@@ -127,6 +135,7 @@ namespace Jypeli
 #if !WINDOWS_PHONE && !ANDROID
             _controllers.Add( Mouse );
 #endif
+            _controllers.Add( Accelerometer );
             _controllers.Add( TouchPanel );
 #if WINDOWS_PHONE || ANDROID
             _controllers.Add( PhoneBackButton );

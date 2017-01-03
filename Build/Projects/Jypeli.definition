@@ -470,6 +470,9 @@
     <Compile Include="Widgets\StringListWindow.cs" />
     <Compile Include="Widgets\Window.cs" />
     <Compile Include="Widgets\YesNoWindow.cs" />
+    <Compile Include="Windows8\Windows8Device.cs">
+        <Platforms>Windows8</Platforms>
+	</Compile>
     <Compile Include="WindowsUniversal\WindowsUniversalDevice.cs">
         <Platforms>WindowsUniversal</Platforms>
 	</Compile>

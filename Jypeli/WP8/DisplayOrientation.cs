@@ -4,36 +4,59 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jypeli
+namespace Jypeli.WP8
 {
-    /// <summary>
-    /// Puhelimen näytön asemointi.
-    /// </summary>
-    public enum DisplayOrientation
+    public static class DisplayOrientation
     {
         /// <summary>
         /// Vaakasuuntainen.
         /// </summary>
-        Landscape,
+        public static Jypeli.DisplayOrientation Landscape = Jypeli.DisplayOrientation.Landscape;
 
         /// <summary>
         /// Vaakasuuntainen, vasemmalle käännetty.
         /// </summary>
-        LandscapeLeft,
+        public static Jypeli.DisplayOrientation LandscapeLeft = Jypeli.DisplayOrientation.LandscapeLeft;
 
         /// <summary>
         /// Vaakasuuntainen, oikealle käännetty.
         /// </summary>
-        LandscapeRight,
+        public static Jypeli.DisplayOrientation LandscapeRight = Jypeli.DisplayOrientation.LandscapeRight;
 
         /// <summary>
         /// Pystysuuntainen.
         /// </summary>
-        Portrait,
+        public static Jypeli.DisplayOrientation Portrait = Jypeli.DisplayOrientation.Portrait;
 
         /// <summary>
         /// Pystysuuntainen, ylösalaisin käännetty.
         /// </summary>
-        PortraitInverse,
+        public static Jypeli.DisplayOrientation PortraitInverse = Jypeli.DisplayOrientation.PortraitInverse;
+    }
+}
+
+namespace Jypeli.WP7
+{
+    public static class DisplayOrientation
+    {
+        /// <summary>
+        /// Vaakasuuntainen.
+        /// </summary>
+        public static Jypeli.DisplayOrientation Landscape = Jypeli.DisplayOrientation.Landscape;
+
+        /// <summary>
+        /// Vaakasuuntainen, vasemmalle käännetty.
+        /// </summary>
+        public static Jypeli.DisplayOrientation LandscapeLeft = Jypeli.DisplayOrientation.LandscapeLeft;
+
+        /// <summary>
+        /// Vaakasuuntainen, oikealle käännetty.
+        /// </summary>
+        public static Jypeli.DisplayOrientation LandscapeRight = Jypeli.DisplayOrientation.LandscapeRight;
+
+        /// <summary>
+        /// Pystysuuntainen.
+        /// </summary>
+        public static Jypeli.DisplayOrientation Portrait = Jypeli.DisplayOrientation.Portrait;
     }
 }

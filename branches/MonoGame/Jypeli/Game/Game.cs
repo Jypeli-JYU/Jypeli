@@ -34,6 +34,7 @@ using System;
 using System.ComponentModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Jypeli.Devices;
 
 #if WINDOWS
 using System.Net;

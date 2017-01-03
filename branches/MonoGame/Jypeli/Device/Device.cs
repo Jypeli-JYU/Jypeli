@@ -33,9 +33,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Jypeli.Devices;
 
-namespace Jypeli
+namespace Jypeli.Devices
 {
     /// <summary>
     /// Fyysinen laite.

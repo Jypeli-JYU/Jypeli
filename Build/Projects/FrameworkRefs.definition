@@ -21,10 +21,10 @@
       <Reference Include="System.Drawing" />
       <Binary
         Name="NVorbis"
-        Path="ThirdParty/Dependencies/NVorbis/NVorbis.dll" />
+        Path="MonoGame/ThirdParty/Dependencies/NVorbis/NVorbis.dll" />
       <Binary
         Name="OpenTK"
-        Path="ThirdParty/Dependencies/OpenTK.dll" />
+        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
 
     <!-- MonoGame framework -->
@@ -41,10 +41,10 @@
       <Reference Include="System.Drawing" />
       <Binary
         Name="NVorbis"
-        Path="ThirdParty/Dependencies/NVorbis/NVorbis.dll" />
+        Path="MonoGame/ThirdParty/Dependencies/NVorbis/NVorbis.dll" />
       <Binary
         Name="OpenTK"
-        Path="ThirdParty/Dependencies/OpenTK.dll" />
+        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
 
     <!-- MonoGame framework -->
@@ -150,7 +150,7 @@
       <Reference Include="System.Windows.Forms" />
       <Binary
         Name="OpenTK"
-        Path="ThirdParty/Dependencies/OpenTK.dll" />
+        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
 
     <!-- MonoGame framework -->
@@ -199,10 +199,10 @@
       <Reference Include="System.Windows.Forms" />
       <Binary
         Name="NVorbis"
-        Path="ThirdParty/Dependencies/NVorbis/NVorbis.dll" />
+        Path="MonoGame/ThirdParty/Dependencies/NVorbis/NVorbis.dll" />
       <Binary
         Name="OpenTK"
-        Path="ThirdParty/Dependencies/OpenTK.dll" />
+        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
 
     <!-- MonoGame framework -->
@@ -221,10 +221,10 @@
       <Reference Include="System.Windows.Forms" />
       <Binary
         Name="NVorbis"
-        Path="ThirdParty/Dependencies/NVorbis/NVorbis.dll" />
+        Path="MonoGame/ThirdParty/Dependencies/NVorbis/NVorbis.dll" />
       <Binary
         Name="OpenTK"
-        Path="ThirdParty/Dependencies/OpenTK.dll" />
+        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
 
     <!-- MonoGame framework -->
@@ -237,25 +237,25 @@
     <Reference Include="System.Xml" />
     <Binary
       Name="SharpDX"
-      Path="ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.dll" />
+      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.dll" />
     <Binary
       Name="SharpDX"
-      Path="ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.Direct2D1.dll" />
+      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.Direct2D1.dll" />
     <Binary
       Name="SharpDX"
-      Path="ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.DXGI.dll" />
+      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.DXGI.dll" />
     <Binary
       Name="SharpDX.Direct3D11"
-      Path="ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.Direct3D11.dll" />
+      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.Direct3D11.dll" />
     <Binary
       Name="SharpDX.DXGI"
-      Path="ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.DXGI.dll" />
+      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.DXGI.dll" />
     <Binary
       Name="SharpDX.MediaFoundation"
-      Path="ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.MediaFoundation.dll" />
+      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.MediaFoundation.dll" />
     <Binary
       Name="SharpDX.XAudio2"
-      Path="ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.XAudio2.dll" />
+      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.XAudio2.dll" />
 
     <!-- MonoGame framework -->
     <Reference Include="MonoGame.Framework" />
@@ -264,22 +264,22 @@
   <Platform Type="WindowsUniversal">
     <Binary
       Name="SharpDX"
-      Path="ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.dll" />
+      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.dll" />
     <Binary
       Name="SharpDX.Direct2D1"
-      Path="ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.Direct2D1.dll" />
+      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.Direct2D1.dll" />
     <Binary
       Name="SharpDX.Direct3D11"
-      Path="ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.Direct3D11.dll" />
+      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.Direct3D11.dll" />
     <Binary
       Name="SharpDX.DXGI"
-      Path="ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.DXGI.dll" />
+      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.DXGI.dll" />
     <Binary
       Name="SharpDX.MediaFoundation"
-      Path="ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.MediaFoundation.dll" />
+      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.MediaFoundation.dll" />
     <Binary
       Name="SharpDX.XAudio2"
-      Path="ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.XAudio2.dll" />
+      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.XAudio2.dll" />
 
     <!-- MonoGame framework -->
     <Reference Include="MonoGame.Framework" />

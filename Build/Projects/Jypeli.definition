@@ -216,11 +216,16 @@
     <Compile Include="Content\Grenade.cs" />
     <Compile Include="Content\ImplosionSound.cs" />
     <Compile Include="Content\JypeliContentManager.cs" />
+    <Compile Include="Content\LargeFont.cs" />
+    <Compile Include="Content\LargeFontBold.cs" />
     <Compile Include="Content\Laser.cs" />
     <Compile Include="Content\MediumFont.cs" />
+    <Compile Include="Content\MediumFontBold.cs" />
     <Compile Include="Content\MGAttack.cs" />
     <Compile Include="Content\PlasmaAttack.cs" />
     <Compile Include="Content\PlasmaCannon.cs" />
+    <Compile Include="Content\SmallFont.cs" />
+    <Compile Include="Content\SmallFontBold.cs" />
     <Compile Include="Content\Smoke.cs" />
     <Compile Include="Content\Tank.cs" />
     <Compile Include="Content\UpArrow.cs" />

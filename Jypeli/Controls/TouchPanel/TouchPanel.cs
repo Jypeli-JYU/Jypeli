@@ -30,10 +30,10 @@ namespace Jypeli
         private List<Touch> newTouches;
         private List<Gesture> gestures;
 
-        private List<TouchListener> DownListeners = new List<TouchListener>();
-        private List<TouchListener> PressListeners = new List<TouchListener>();
-        private List<TouchListener> ReleaseListeners = new List<TouchListener>();
-        private List<TouchListener> GestureListeners = new List<TouchListener>();
+        private readonly SynchronousList<TouchListener> DownListeners = new SynchronousList<TouchListener>();
+        private readonly SynchronousList<TouchListener> PressListeners = new SynchronousList<TouchListener>();
+        private readonly SynchronousList<TouchListener> ReleaseListeners = new SynchronousList<TouchListener>();
+        private readonly SynchronousList<TouchListener> GestureListeners = new SynchronousList<TouchListener>();
 
         private ListenContext _snipContext = null;
         private ListenContext _pinchContext = null;
@@ -211,6 +211,10 @@ namespace Jypeli
                 ReleaseListeners.ForEach( dl => dl.CheckAndInvoke( touches[i] ) );
             }
 
+            DownListeners.UpdateChanges();
+            PressListeners.UpdateChanges();
+            ReleaseListeners.UpdateChanges();
+
             touches.Clear();
             var empty = touches;
             touches = newTouches;
@@ -227,6 +231,7 @@ namespace Jypeli
             while ( XnaTouchPanel.IsGestureAvailable )
                 samples.Add( new Gesture( XnaTouchPanel.ReadGesture() ) );
 
+            this.GestureListeners.UpdateChanges();
             this.gestures = samples;
         }
 
@@ -259,7 +264,7 @@ namespace Jypeli
             }
         }
         
-        private List<TouchListener> GetList( ButtonState state )
+        private SynchronousList<TouchListener> GetList( ButtonState state )
         {
             switch ( state )
             {
@@ -271,7 +276,7 @@ namespace Jypeli
             throw new ArgumentException( "Button state is not supported" );
         }
 
-        private Listener AddListener( List<TouchListener> list, Predicate<Touch> rule, string helpText, Delegate handler, params object[] args )
+        private Listener AddListener( SynchronousList<TouchListener> list, Predicate<Touch> rule, string helpText, Delegate handler, params object[] args )
         {
             var l = new TouchListener( rule, Game.Instance.ControlContext, helpText, handler, args );
             list.Add( l );

@@ -25,7 +25,7 @@
 </References>
 
 <SDKReferences>
-    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+    <SDKReference Include="WindowsMobile">
         <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
 </SDKReferences>
@@ -186,6 +186,12 @@
     </EmbeddedNativeLibrary>
 
     <!-- Jypeli -->
+    <Compile Include="Android\AndroidDevice.cs">
+		<Platforms>Android</Platforms>
+	</Compile>
+    <Compile Include="Android\AndroidAccelerometer.cs">
+		<Platforms>Android</Platforms>
+	</Compile>
     <Compile Include="Assets\Automobile.cs" />
     <Compile Include="Assets\CollisionHandler.cs" />
     <Compile Include="Assets\DriverBrain.cs" />
@@ -245,6 +251,11 @@
     <Compile Include="Controls\Controller\Controller.cs" />
     <Compile Include="Controls\Controller\HoverState.cs" />
     <Compile Include="Controls\Controller\Listener.cs" />
+    <Compile Include="Controls\Accelerometer\Accelerometer.cs" />
+    <Compile Include="Controls\Accelerometer\AccelerometerSensitivity.cs" />
+    <Compile Include="Controls\Accelerometer\AccelerometerAnalogState.cs" />
+    <Compile Include="Controls\Accelerometer\AccelerometerCalibration.cs" />
+    <Compile Include="Controls\Accelerometer\AccelerometerDirection.cs" />
     <Compile Include="Controls\GamePad\Button.cs" />
     <Compile Include="Controls\GamePad\GamePad.cs" />
     <Compile Include="Controls\GamePad\Vibration.cs" />
@@ -272,6 +283,7 @@
     <Compile Include="DataTypes\UnlimitedAngle.cs" />
     <Compile Include="DataTypes\Vector.cs" />
     <Compile Include="DataTypes\Updatable.cs" />
+    <Compile Include="Device\Device.cs" />
     <Compile Include="Device\DisplayOrientation.cs" />
 	<Compile Include="Device\DisplayResolution.cs" />
     <Compile Include="AdvanceMath\CFFauxAttributes.cs" />
@@ -458,13 +470,13 @@
     <Compile Include="Widgets\StringListWindow.cs" />
     <Compile Include="Widgets\Window.cs" />
     <Compile Include="Widgets\YesNoWindow.cs" />
+    <Compile Include="WindowsUniversal\WindowsUniversalDevice.cs">
+        <Platforms>WindowsUniversal</Platforms>
+	</Compile>
     <Compile Include="WP8\DisplayOrientation.cs" />
     <Compile Include="WP8\DisplayResolution.cs" />
-    <Compile Include="WP8\Phone.cs">
-        <Platforms>WindowsPhone81,WindowsUniversal,Android,iOS</Platforms>
-    </Compile>
-    <Compile Include="WP8\PhoneStub.cs">
-        <ExcludePlatforms>WindowsPhone81,WindowsUniversal,Android,iOS</ExcludePlatforms>
-    </Compile>
+    <Compile Include="WP8\WP81Device.cs">
+        <Platforms>WindowsPhone81</Platforms>
+	</Compile>
 </Files>
 </Project>

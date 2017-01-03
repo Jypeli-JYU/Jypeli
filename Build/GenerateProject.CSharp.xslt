@@ -1759,11 +1759,11 @@
 
 	  <xsl:if test="$root/Input/Generation/Platform = 'WindowsUniversal'">
 		  <ItemGroup>
+			<xsl:variable name="sdkversion" select="user:DetectWindows10InstalledSDK()" />
 			<xsl:for-each select="$project/SDKReferences/SDKReference">
 			  <SDKReference>
 				<xsl:attribute name="Include">
-					<xsl:value-of
-					  select="@Include" />
+					<xsl:value-of select="@Include" />, Version=<xsl:value-of select="$sdkversion" />
 				</xsl:attribute>
 				<Name><xsl:value-of select="Name" /></Name>
 			  </SDKReference>

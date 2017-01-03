@@ -272,6 +272,8 @@
     <Compile Include="DataTypes\UnlimitedAngle.cs" />
     <Compile Include="DataTypes\Vector.cs" />
     <Compile Include="DataTypes\Updatable.cs" />
+    <Compile Include="Device\DisplayOrientation.cs" />
+	<Compile Include="Device\DisplayResolution.cs" />
     <Compile Include="AdvanceMath\CFFauxAttributes.cs" />
     <Compile Include="AdvanceMath\Clamped.cs" />
     <Compile Include="AdvanceMath\ContainmentType.cs" />

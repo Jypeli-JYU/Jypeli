@@ -146,26 +146,7 @@ namespace Jypeli
             #endif
 #endif
         }
-
-        private static void GetScreenSize( DisplayResolution resolution, out int width, out int height )
-        {
-            switch ( resolution )
-            {
-                case DisplayResolution.HD1080:
-                    width = 1920;
-                    height = 1080;
-                    break;
-                case DisplayResolution.HD720:
-                    width = 720;
-                    height = 1280;
-                    break;
-                default:
-                    width = 800;
-                    height = 480;
-                    break;
-            }
-        }
-
+        
         private void UpdateOrientation()
         {
             Vector defaultSize = Game.Screen.ViewportSize;
@@ -194,9 +175,9 @@ namespace Jypeli
         internal void ResetScreen()
         {
 #if WINDOWS_PHONE
-            int screenWidth, screenHeight;
             GraphicsDeviceManager graphics = Game.GraphicsDeviceManager;
-            GetScreenSize( _displayResolution, out screenWidth, out screenHeight );
+            graphics.PreferredBackBufferWidth = _displayResolution.Width;
+            graphics.PreferredBackBufferHeight = _displayResolution.Height;
             graphics.ApplyChanges();
             UpdateOrientation();
 #endif

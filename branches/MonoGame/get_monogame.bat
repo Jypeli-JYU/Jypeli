@@ -2,8 +2,8 @@
 setlocal
 
 if exist "C:\Program Files\git\bin\sh.exe" goto checkmonogame
-echo TortoiseGit not found
-echo Please go to http://tortoisegit.tigris.org and install the latest version.
+echo Git not found
+echo Please go to https://git-scm.com and install the latest version.
 goto error
 
 :checkmonogame

@@ -33,44 +33,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-
-#if WINDOWS_STOREAPP
-using Windows.Foundation.Metadata;
-using Windows.Phone.Devices.Notification;
-#else
-using Microsoft.Devices;
-#endif
+using Jypeli.Devices;
 
 namespace Jypeli
 {
     /// <summary>
-    /// Aliohjelmia ja ominaisuuksia, jotka toimivat vain puhelimessa. Voidaan kutsua myös muilla alustoilla,
-    /// mutta tällöin mitään ei yksinkertaisesti tapahdu.
+    /// Fyysinen laite.
     /// </summary>
-    public class Phone
+    public class Device
     {
         private DisplayOrientation _displayOrientation = DisplayOrientation.Landscape;
         private DisplayResolution _displayResolution = DisplayResolution.Large;
+        private readonly Accelerometer _accelerometer = new DummyAccelerometer();
+
+        /// <summary>
+        /// Laitteen kiihtyvyysanturi.
+        /// </summary>
+        public virtual Accelerometer Accelerometer
+        {
+            get { return _accelerometer; }
+        }
+
+        /// <summary>
+        /// Onko laite mobiililaite.
+        /// </summary>
+        public virtual bool IsMobileDevice
+        {
+            get { return false; }
+        }
 
         /// <summary>
         /// Onko laite puhelin.
         /// </summary>
-        public bool IsPhone
+        public virtual bool IsPhone
         {
-            get
-            {
-#if WINDOWS_PHONE || ANDROID || iOS
-                return true;
-#elif WINDOWS_UAP
-                return ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0);
-#else
-                return false;
-#endif
-            }
+            get { return false; }
         }
 
         /// <summary>
-        /// Puhelimen näytön tarkkuus.
+        /// Näytön tarkkuus.
         /// </summary>
         public DisplayResolution DisplayResolution
         {
@@ -86,7 +87,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Puhelimen näytön asemointi.
+        /// Näytön asemointi.
         /// </summary>
         public DisplayOrientation DisplayOrientation
         {
@@ -98,56 +99,43 @@ namespace Jypeli
 
                 _displayOrientation = value;
                 //Game.Instance.Accelerometer.DisplayOrientation = value;
-                if ( Game.Instance != null && Game.Screen != null ) UpdateOrientation();
+                if ( Game.Instance != null && Game.Screen != null ) UpdateScreen();
             }
+        }
+
+        protected Device()
+        {
+        }
+
+        internal static Device Create()
+        {
+#if ANDROID
+            return new AndroidDevice();
+#elif WINDOWS_PHONE81
+            return new WindowsPhone81Device();
+#elif WINDOWS_STOREAPP
+            return new WindowsUniversalDevice();
+#else
+            return new Device();
+#endif
         }
 
         /// <summary>
         /// Värisyttää puhelinta.
         /// </summary>
         /// <param name="milliSeconds">Värinän kesto millisekunteina.</param>
-        public void Vibrate( int milliSeconds )
+        public virtual void Vibrate( int milliSeconds )
         {
-#if ANDROID
-            // TODO
-#elif iOS
-            // TODO
-#else
-            if ( IsPhone )
-            {
-                var controller = VibrationDevice.GetDefault();
-                if (controller != null) controller.Vibrate( TimeSpan.FromSeconds( 1  ) );
-            }
-
-            #if !WINDOWS_STOREAPP
-            VibrateController.Default.Start( TimeSpan.FromMilliseconds( milliSeconds ) );
-            #endif
-#endif
         }
 
         /// <summary>
         /// Lopettaa puhelimen värinän.
         /// </summary>
-        public void StopVibrating()
+        public virtual void StopVibrating()
         {
-#if ANDROID
-            // TODO
-#elif iOS
-            // TODO
-#else
-            if ( IsPhone )
-            {
-                var controller = VibrationDevice.GetDefault();
-                if (controller != null) controller.Vibrate(TimeSpan.FromSeconds(1));
-            }
-
-            #if !WINDOWS_STOREAPP
-            VibrateController.Default.Stop();
-            #endif
-#endif
         }
         
-        private void UpdateOrientation()
+        protected virtual void UpdateScreen()
         {
             Vector defaultSize = Game.Screen.ViewportSize;
             Vector defaultScale = Vector.Diagonal;
@@ -172,15 +160,8 @@ namespace Jypeli
             }
         }
 
-        internal void ResetScreen()
+        internal virtual void ResetScreen()
         {
-#if WINDOWS_PHONE
-            GraphicsDeviceManager graphics = Game.GraphicsDeviceManager;
-            graphics.PreferredBackBufferWidth = _displayResolution.Width;
-            graphics.PreferredBackBufferHeight = _displayResolution.Height;
-            graphics.ApplyChanges();
-            UpdateOrientation();
-#endif
         }
     }
 }

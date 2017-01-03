@@ -64,6 +64,8 @@ namespace Jypeli.Controls
     {
         protected static readonly ChangePredicate<ControllerState> AlwaysTrigger
             = delegate { return true; };
+        protected static readonly ChangePredicate<ControllerState> NeverTrigger
+            = delegate { return false; };
 
         private SynchronousList<Listener<ControllerState, Control>> listeners = new SynchronousList<Listener<ControllerState, Control>>();
         private SynchronousList<Listener<ControllerState, Control>> disabledListeners = new SynchronousList<Listener<ControllerState, Control>>();
@@ -71,7 +73,7 @@ namespace Jypeli.Controls
         /// <summary>
         /// Viimeisin tila.
         /// </summary>
-        public ControllerState PrevState { get; private set; }
+        public ControllerState PrevState { get; protected set; }
 
         /// <summary>
         /// Nykyinen tila.

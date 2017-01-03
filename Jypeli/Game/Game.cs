@@ -57,9 +57,19 @@ namespace Jypeli
         public static Game Instance { get; private set; }
 
         /// <summary>
+        /// Laite jolla peliä pelataan.
+        /// </summary>
+        public static Device Device { get; private set; }
+
+        /// <summary>
         /// Phone-olio esim. puhelimen tärisyttämiseen.
         /// </summary>
-        public Phone Phone { get; private set; }
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete( "Käytä Device-oliota" )]
+        public Device Phone
+        {
+            get { return Device; }
+        }
 
         /// <summary>
         /// Kamera, joka näyttää ruudulla näkyvän osan kentästä.
@@ -148,7 +158,7 @@ namespace Jypeli
 			Name = this.GetType().Assembly.FullName.Split( ',' )[0];
 #endif
 			Instance = this;
-			Phone = new Phone();
+            Device = Device.Create();
 		}
 
         private void InitXnaGraphics()
@@ -262,7 +272,7 @@ namespace Jypeli
         {
             // Graphics initialization is best done here when window size is set for certain
             InitGraphics();
-            Phone.ResetScreen();
+            Device.ResetScreen();
             InitControls();
             InitLayers();
             InitDebugScreen();

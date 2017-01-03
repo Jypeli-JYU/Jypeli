@@ -36,19 +36,25 @@ namespace Jypeli
         /// </summary>
         public static DisplayOrientation PortraitInverse = new DisplayOrientation( 0, 1 );
 
+        /// <summary>
+        /// X-kerroin: 1 jos vaakasuora vasemmalle, -1 jos vaakasuora oikealle, 0 jos pystysuora.
+        /// </summary>
+        internal readonly int Xmul;
 
-        private readonly int xmul;
-        private readonly int ymul;
+        /// <summary>
+        /// Y-kerroin: 1 jos pystysuora, -1 jos ylösalaisin, 0 jos vaakasuora.
+        /// </summary>
+        internal readonly int Ymul;
 
         private DisplayOrientation(int xmul, int ymul)
         {
-            this.xmul = xmul;
-            this.ymul = ymul;
+            this.Xmul = xmul;
+            this.Ymul = ymul;
         }
 
         public override int GetHashCode()
         {
-            return xmul * 2 + ymul;
+            return Xmul * 2 + Ymul;
         }
 
         public override bool Equals( object obj )
@@ -61,7 +67,7 @@ namespace Jypeli
             if ( other == null )
                 return false;
 
-            return other.xmul == this.xmul && other.ymul == this.ymul;
+            return other.Xmul == this.Xmul && other.Ymul == this.Ymul;
         }
 
         public static bool operator ==( DisplayOrientation a, DisplayOrientation b )
@@ -71,7 +77,7 @@ namespace Jypeli
             if ( ReferenceEquals( b, null ) )
                 return false;
 
-            return a.xmul == b.xmul && a.ymul == b.ymul;
+            return a.Xmul == b.Xmul && a.Ymul == b.Ymul;
         }
 
         public static bool operator !=( DisplayOrientation a, DisplayOrientation b )
@@ -81,7 +87,7 @@ namespace Jypeli
             if ( ReferenceEquals( b, null ) )
                 return true;
 
-            return a.xmul != b.xmul || a.ymul != b.ymul;
+            return a.Xmul != b.Xmul || a.Ymul != b.Ymul;
         }
     }
 }

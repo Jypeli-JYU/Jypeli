@@ -236,13 +236,13 @@
     <Compile Include="Content\Tank.cs" />
     <Compile Include="Content\UpArrow.cs" />
     <Compile Include="EffectContent\Lighting.cs">
-        <ExcludePlatforms>Windows,Windows8,WindowsUniversal,MacOS</ExcludePlatforms>
+        <ExcludePlatforms>Windows,WindowsGL,Windows8,WindowsUniversal,MacOS</ExcludePlatforms>
     </Compile>
     <Compile Include="EffectContent\Lighting_dx11.cs">
         <Platforms>Windows,Windows8,WindowsUniversal</Platforms>
     </Compile>
     <Compile Include="EffectContent\Lighting_35.cs">
-        <Platforms>MacOS</Platforms>
+        <Platforms>WindowsGL, MacOS</Platforms>
     </Compile>
     <Compile Include="ContentExtensions\TextReader.cs" />
     <Compile Include="Controls\Controller\AnalogControl.cs" />

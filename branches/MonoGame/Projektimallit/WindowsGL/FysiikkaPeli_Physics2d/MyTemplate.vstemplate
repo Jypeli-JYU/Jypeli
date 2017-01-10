@@ -18,7 +18,9 @@
       <Folder Name="Content" TargetFolderName="Content">
         <ProjectItem ReplaceParameters="true" TargetFileName="Content.mgcb">Content.mgcb</ProjectItem>
 	  </Folder>
+      <ProjectItem ReplaceParameters="true" TargetFileName="app.manifest">app.manifest</ProjectItem>
       <ProjectItem ReplaceParameters="false" TargetFileName="Icon.ico">Icon.ico</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Icon.bmp">Icon.bmp</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Ohjelma.cs">Ohjelma.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="OpenTK.dll.config">OpenTK.dll.config</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.cs">Peli.cs</ProjectItem>

@@ -180,22 +180,7 @@ namespace Jypeli
             AudioEnabled = false;
             return;
 #endif
-
-#if OPENAL && !MACOS
-            try
-            {
-                var dev = OpenTK.Audio.OpenAL.Alc.OpenDevice( null );
-                AudioEnabled = dev != IntPtr.Zero;
-                if ( dev != IntPtr.Zero )
-                    OpenTK.Audio.OpenAL.Alc.CloseDevice( dev );
-            }
-            catch ( Microsoft.Xna.Framework.Audio.NoAudioHardwareException )
-            {
-				OnNoAudioHardwareException();
-            }
-#else
             AudioEnabled = true;
-#endif
         }
 
 		internal void OnNoAudioHardwareException()

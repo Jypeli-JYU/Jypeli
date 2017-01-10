@@ -183,7 +183,8 @@ SectionEnd
 
 Section "MonoJypeli content extensions"
   SetOutPath "C:\Program Files (x86)\MonoJypeli\ContentExtensions"
-  File "..\Compiled\ContentExtensions\*"
+  File "..\Compiled\ContentExtensions\TextFileContentExtension.dll"
+  File "..\Compiled\ContentExtensions\TextFileContentExtension.pdb"
 SectionEnd
 
 Section "OpenAL" OpenAL

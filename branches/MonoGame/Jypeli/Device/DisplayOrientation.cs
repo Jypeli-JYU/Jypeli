@@ -34,7 +34,7 @@ namespace Jypeli
         /// <summary>
         /// Pystysuuntainen, ylösalaisin käännetty.
         /// </summary>
-        public static DisplayOrientation PortraitInverse = new DisplayOrientation( 0, 1 );
+        public static DisplayOrientation PortraitInverse = new DisplayOrientation( 0, -1 );
 
         /// <summary>
         /// X-kerroin: 1 jos vaakasuora vasemmalle, -1 jos vaakasuora oikealle, 0 jos pystysuora.
@@ -46,7 +46,7 @@ namespace Jypeli
         /// </summary>
         internal readonly int Ymul;
 
-        private DisplayOrientation(int xmul, int ymul)
+        internal DisplayOrientation(int xmul, int ymul)
         {
             this.Xmul = xmul;
             this.Ymul = ymul;

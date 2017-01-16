@@ -47,7 +47,7 @@ namespace Jypeli
             switch ( Calibration )
             {
                 case AccelerometerCalibration.ZeroAngle:
-                    return new Vector( spaceVector.X, spaceVector.Y - 1.0 );
+                    return new Vector( spaceVector.X, spaceVector.Y );
                 case AccelerometerCalibration.HalfRightAngle:
                     return new Vector( spaceVector.X, spaceVector.Y - spaceVector.Z );
                 case AccelerometerCalibration.RightAngle:
@@ -57,16 +57,22 @@ namespace Jypeli
             }
         }
 
-        private DisplayOrientation GetDisplayOrientation( Vector3 e )
+        private void UpdateDisplayOrientation( Vector3 e )
         {
+            if ( e.Z > 0.8 )
+                return;
+
             double angle = Math.Atan2( -e.X, e.Y ) * 180.0 / Math.PI;
             double delta = 5;
 
-            if ( angle > -45 + delta && angle < 45 - delta ) return DisplayOrientation.Portrait;
-            if ( angle > 45 + delta && angle < 135 - delta ) return DisplayOrientation.LandscapeRight;
-            if ( angle > -135 + delta && angle < -45 - delta ) return DisplayOrientation.LandscapeLeft;
-
-            return DisplayOrientation.PortraitInverse;
+            if ( angle > -45 + delta && angle < 45 - delta )
+                Game.Device.DisplayOrientation = DisplayOrientation.Portrait;
+            else if ( angle > 45 + delta && angle < 135 - delta )
+                Game.Device.DisplayOrientation = DisplayOrientation.LandscapeRight;
+            else if ( angle > -135 + delta && angle < -45 - delta )
+                Game.Device.DisplayOrientation = DisplayOrientation.LandscapeLeft;
+            else
+                Game.Device.DisplayOrientation = DisplayOrientation.PortraitInverse;
         }
 
         internal override Vector3 GetState()
@@ -75,7 +81,7 @@ namespace Jypeli
                 return PrevState;
 
             var e = _accelerometer.CurrentValue.Acceleration;
-            Game.Device.DisplayOrientation = GetDisplayOrientation( e );
+            UpdateDisplayOrientation( e );
 
             return new Vector3( e.X, e.Y, e.Z );
         }
@@ -84,7 +90,7 @@ namespace Jypeli
         {
             int xmul = DisplayOrientation.Xmul;
             int ymul = DisplayOrientation.Ymul;
-            return new Vector3( xmul * e.Y + ymul * e.X, -xmul * e.X - ymul * e.Y, -e.Z );
+            return new Vector3( xmul * e.Y - ymul * e.X, -xmul * e.X - ymul * e.Y, -e.Z );
 
             /*switch ( DisplayOrientation )
             {

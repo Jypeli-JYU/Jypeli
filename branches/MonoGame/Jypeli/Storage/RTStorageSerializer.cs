@@ -28,17 +28,11 @@ namespace Jypeli.Storage
                 SaveEnumerable( writer, type, obj );
             }
 
-            /*if ( obj is Array )
+            else if ( obj is Array )
             {
                 SaveArray( writer, type, obj );
                 return;
             }
-
-            if ( IsList(obj) )
-            {
-                SaveList( writer, type, obj );
-                return;
-            }*/
 
             if ( obj is Type )
             {
@@ -120,9 +114,6 @@ namespace Jypeli.Storage
                     } while ( reader.MoveToNextAttribute() );
                 }
 
-                if ( reader.IsEmptyElement )
-                    continue;
-
                 Destroyable dObj = obj as Destroyable;
 
                 // A Type object has no reasonable default value.
@@ -172,6 +163,11 @@ namespace Jypeli.Storage
                 {
                     Type mType = TypeHelper.Parse( reader.GetAttribute( "Type" ) );
                     LoadEnumerable( reader, mType, ref obj );
+                }
+                else if ( reader.Name == "Array" )
+                {
+                    Type mType = TypeHelper.Parse( reader.GetAttribute( "Type" ) );
+                    LoadArray( reader, mType, ref obj );
                 }
             }
 
@@ -242,11 +238,6 @@ namespace Jypeli.Storage
 
         internal static void SaveEnumerable( XmlWriter writer, Type containerType, object obj )
         {
-            IEnumerable<string> test = null;
-            IEnumerator<string> en = test.GetEnumerator();
-
-            en.Reset();
-
             writer.WriteStartElement( "Enumerable" );
             writer.WriteAttributeString( "Type", TypeHelper.ToString( containerType ) );
 
@@ -279,6 +270,76 @@ namespace Jypeli.Storage
             }
 
             writer.WriteAttributeString( "Count", i.ToString() );
+            writer.WriteEndElement();
+        }
+
+        internal static void LoadArray( XmlReader reader, Type containerType, ref object obj )
+        {
+            if ( obj == null )
+                obj = Activator.CreateInstance( containerType );
+            if ( !( obj is Array ) )
+                throw new ArgumentException( "Called LoadArray for a non-array object" );
+
+            Type itemType = Type.GetType( containerType.FullName.Replace( "[]", string.Empty ) );
+            var array = obj as Array;
+
+            while ( reader.Read() && !( reader.NodeType == XmlNodeType.EndElement && reader.Name == "Array" ) )
+            {
+                if ( reader.NodeType != XmlNodeType.Element )
+                    continue;
+                if ( reader.Name != "Item" )
+                {
+                    string name = reader.GetAttribute( "Name" );
+                    if ( name == null ) name = "(undefined)";
+                    throw new XmlException( "Unexpected subelement in List block: " + reader.Name + ", Name = " + name );
+                }
+
+                string tag = reader.GetAttribute( "Tag" );
+                int itemindex = int.Parse( reader.GetAttribute( "Index" ) );
+                object item = null;
+
+                if ( tag != null )
+                {
+                    if ( !TryCreateObject( itemType, tag, out item ) )
+                        throw new MissingMemberException( String.Format( "No factory method for type {0}, tag {1}", itemType.Name, tag ) );
+                }
+
+                item = Deserialize( reader, itemType, item );
+                array.SetValue( item, itemindex );
+            }
+        }
+
+        internal static void SaveArray( XmlWriter writer, Type containerType, object obj )
+        {
+            if ( !( obj is Array ) )
+                throw new ArgumentException( "Called SaveArray for a non-array object" );
+
+            writer.WriteStartElement( "Array" );
+            writer.WriteAttributeString( "Type", TypeHelper.ToString( containerType ) );
+
+            Type itemType = Type.GetType( containerType.FullName.Replace( "[]", string.Empty ) );
+            var array = (Array)obj;
+
+            writer.WriteAttributeString( "Count", array.Length.ToString() );
+
+            for ( int i = 0; i < array.Length; i++)
+            {
+                object item = array.GetValue( i );
+
+                writer.WriteStartElement( "Item" );
+                writer.WriteAttributeString( "Index", i.ToString() );
+
+                if ( itemType.GetTypeInfo().ImplementedInterfaces.Contains( typeof( Jypeli.Tagged ) ) )
+                {
+                    string tag = itemType.GetRuntimeProperty( "Tag" ).GetValue( item ).ToString();
+                    writer.WriteAttributeString( "Tag", tag );
+                }
+
+                Serialize( writer, itemType, item, false );
+
+                writer.WriteEndElement();
+            }
+
             writer.WriteEndElement();
         }
 
@@ -339,7 +400,7 @@ namespace Jypeli.Storage
                     try
                     {
                         // Try the default constructor
-                        obj = Activator.CreateInstance( type, true );
+                        obj = Activator.CreateInstance( type );
                         return true;
                     }
                     catch ( MissingMemberException )

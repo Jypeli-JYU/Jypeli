@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace Jypeli
@@ -41,10 +42,11 @@ namespace Jypeli
     public class ScoreList : INotifyList<ScoreItem>
     {
         [Save]
-        internal ScoreItem[] _scores;
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public ScoreItem[] _scores;
 
         [Save]
-        internal string LastEnteredName = "";
+        public string LastEnteredName = "";
 
         /// <summary>
         /// Kuinka monta nimeä listalle mahtuu.
@@ -149,6 +151,30 @@ namespace Jypeli
         {
         }
 
+        public override int GetHashCode()
+        {
+            return _scores.Length;
+        }
+
+        /// <summary>
+        /// Tarkistaa, onko kaksi listaa yhtäsuuret.
+        /// </summary>
+        /// <param name="obj">Toinen lista</param>
+        /// <returns></returns>
+        public override bool Equals( object obj )
+        {
+            var other = obj as ScoreList;
+            if ( other == null || this.Count != other.Count ) return false;
+
+            for ( int i = 0; i < _scores.Length; i++ )
+            {
+                if ( !_scores[i].Equals( other._scores[i] ) )
+                    return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Tarkistaa, kelpaako tulos listalle.
         /// </summary>
@@ -216,6 +242,15 @@ namespace Jypeli
             Position = -1;
             Name = name;
             Score = score;
+        }
+
+        public override bool Equals( object obj )
+        {
+            if ( !( obj is ScoreItem ) )
+                return false;
+
+            var other = (ScoreItem)obj;
+            return this.Name == other.Name && Math.Abs( this.Score - other.Score ) <= float.Epsilon;
         }
     }
 }

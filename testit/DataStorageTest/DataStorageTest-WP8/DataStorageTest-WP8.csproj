@@ -88,7 +88,9 @@
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Peli.cs" />
+    <Compile Include="..\DataStorageTest\Peli.cs">
+	  <Link>Peli.cs</Link>
+	</Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

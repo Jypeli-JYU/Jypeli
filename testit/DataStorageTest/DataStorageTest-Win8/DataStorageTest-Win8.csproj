@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,6 +13,9 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>PerusPeliRT_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
+    <TargetFrameworkVersion />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'ARM' ">
     <ReferencePath>$(registry:HKEY_LOCAL_MACHINE\Software\MonoJypeli@Install_Dir)\Win8-ARM</ReferencePath>
@@ -82,17 +85,17 @@
     <Content Include="Assets\StoreLogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Jypeli\Jypeli-Win8.csproj">
+    <ProjectReference Include="..\..\..\Jypeli\Jypeli.Windows8.csproj">
       <Project>{f2642dd9-9e8c-479d-87d1-8b6572d5529a}</Project>
-      <Name>Jypeli-Win8</Name>
+      <Name>Jypeli.Windows8</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\MonoGame\MonoGame.Framework\Jypeli.MonoGame.Framework.Win8.csproj">
-      <Project>{e3b82eb8-5725-49f0-876f-e857123c0799}</Project>
-      <Name>Jypeli.MonoGame.Framework.Win8</Name>
+    <ProjectReference Include="..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Windows8.csproj">
+      <Project>{0518563c-acca-4a14-8c5d-ddbe93e2605f}</Project>
+      <Name>MonoGame.Framework.Windows8</Name>
     </ProjectReference>
   </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
-    <VisualStudioVersion>11.0</VisualStudioVersion>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
+    <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

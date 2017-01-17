@@ -136,7 +136,7 @@ namespace Jypeli.Widgets
         /// </summary>
         public void Clear()
         {
-            score = new ScoreList( score._scores.Length, score.Reverse, 0 );
+            score = new ScoreList( score.Count, score.Reverse, 0 );
             Game.DataStorage.Save<ScoreList>( score, fileName );
         }
 

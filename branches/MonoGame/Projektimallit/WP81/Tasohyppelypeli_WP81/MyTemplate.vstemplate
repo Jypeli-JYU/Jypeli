@@ -26,6 +26,7 @@
         <ProjectItem ReplaceParameters="false" TargetFileName="WideLogo.scale-240.png">WideLogo.scale-240.png</ProjectItem>
       </Folder>
       <Folder Name="Content" TargetFolderName="Content">
+        <ProjectItem ReplaceParameters="true" TargetFileName="Content.mgcb">Content.mgcb</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="kentta1.txt">kentta1.txt</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="maali.wav">maali.wav</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="norsu.png">norsu.png</ProjectItem>

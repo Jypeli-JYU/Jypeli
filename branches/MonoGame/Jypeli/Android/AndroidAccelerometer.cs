@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 using XnaAccelerometer = Microsoft.Devices.Sensors.Accelerometer;
 
-namespace Jypeli
+namespace Jypeli.Android
 {
     public class AndroidAccelerometer : Accelerometer
     {

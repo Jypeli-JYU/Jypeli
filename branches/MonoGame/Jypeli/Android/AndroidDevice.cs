@@ -1,4 +1,7 @@
-﻿namespace Jypeli.Devices
+﻿using System;
+using Jypeli.Devices;
+
+namespace Jypeli.Android
 {
     public class AndroidDevice : Device
     {
@@ -21,6 +24,7 @@
         public AndroidDevice()
         {
             this.Accelerometer = new AndroidAccelerometer();
+            this.Storage = new LinuxFileManager( Environment.GetFolderPath( Environment.SpecialFolder.LocalApplicationData ) );
         }
 		
         public override void Vibrate( int milliSeconds )

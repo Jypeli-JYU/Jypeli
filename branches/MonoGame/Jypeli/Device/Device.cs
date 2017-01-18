@@ -43,15 +43,16 @@ namespace Jypeli.Devices
     {
         private DisplayOrientation _displayOrientation = DisplayOrientation.Landscape;
         private DisplayResolution _displayResolution = DisplayResolution.Large;
-        private readonly Accelerometer _accelerometer = new DummyAccelerometer();
 
         /// <summary>
         /// Laitteen kiihtyvyysanturi.
         /// </summary>
-        public virtual Accelerometer Accelerometer
-        {
-            get { return _accelerometer; }
-        }
+        public Accelerometer Accelerometer { get; protected set; }
+
+        /// <summary>
+        /// Tiedostojen säilytyspaikka.
+        /// </summary>
+        public FileManager Storage { get; protected set; }
 
         /// <summary>
         /// Onko laite mobiililaite.
@@ -104,11 +105,16 @@ namespace Jypeli.Devices
 
         protected Device()
         {
+            // Initialize components as dummy ones if they're not initialized otherwise
+            if (this.Accelerometer == null)
+                this.Accelerometer = new DummyAccelerometer();
         }
 
         internal static Device Create()
         {
-#if ANDROID
+#if DESKTOP
+            return new ComputerDevice();
+#elif ANDROID
             return new AndroidDevice();
 #elif WINDOWS_PHONE81
             return new WindowsPhone81Device();

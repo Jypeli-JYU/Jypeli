@@ -19,6 +19,11 @@ namespace Jypeli.Devices
                 return ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0);
             }
         }
+		
+		public WindowsUniversalDevice()
+        {
+            this.Storage = new RTFileManager();
+        }
 
         public override void Vibrate( int milliSeconds )
         {

@@ -60,21 +60,25 @@ namespace Jypeli
             effectInstance = s;
         }
 
-        public void Play()
+        public void Play( int retries = 3 )
         {
             try
             {
                 effectInstance.Play();
             }
 #if !WINDOWS_STOREAPP
-            catch (NullReferenceException)
+            catch ( NullReferenceException )
             {
-                Console.Error.WriteLine("Null reference exception trying to play a sound, disabling audio");
+                Console.Error.WriteLine( "Null reference exception trying to play a sound, disabling audio" );
                 Game.DisableAudio();
             }
 #endif
-            finally
+            catch ( InvalidOperationException )
             {
+                // Workaround: Sometimes on Android an InvalidOperationException is thrown when playing a sound
+                // Trying again seems to work; if not, no sound is better than crashing the game
+                if ( retries > 0 )
+                    Play( retries - 1 );
             }
         }
 

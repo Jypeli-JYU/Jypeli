@@ -26,7 +26,11 @@ namespace Jypeli
         internal void MakeAbsolute( ref string path )
         {
             if ( !Path.IsPathRooted( path ) )
+#if WINDOWS_STOREAPP
                 path = Path.Combine( _currentDir, path );
+#else
+                path = Path.GetFullPath( Path.Combine( _currentDir, path ) );
+#endif
         }
     }
 }

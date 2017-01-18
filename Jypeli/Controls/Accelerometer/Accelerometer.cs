@@ -104,7 +104,7 @@ namespace Jypeli
         internal static Accelerometer Create()
         {
 #if ANDROID
-            return new AndroidAccelerometer();
+            return new Jypeli.Android.AndroidAccelerometer();
 #else
             return new DummyAccelerometer();
 #endif

@@ -115,7 +115,7 @@ namespace Jypeli.Devices
 #if DESKTOP
             return new ComputerDevice();
 #elif ANDROID
-            return new AndroidDevice();
+            return new Jypeli.Android.AndroidDevice();
 #elif WINDOWS_PHONE81
             return new WindowsPhone81Device();
 #elif WINDOWS_UAP

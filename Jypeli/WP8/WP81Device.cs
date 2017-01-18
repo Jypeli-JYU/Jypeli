@@ -14,6 +14,11 @@ namespace Jypeli.Devices
         {
             get { return true; }
         }
+		
+		public WindowsPhone81Device()
+        {
+            this.Storage = new RTFileManager();
+        }
 
         public override void Vibrate( int milliSeconds )
         {

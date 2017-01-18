@@ -2,7 +2,6 @@
 {
     public class AndroidDevice : Device
     {
-        private readonly AndroidAccelerometer _accelerometer = new AndroidAccelerometer();
         private double _directionalSign = 1;
 
         public override bool IsMobileDevice
@@ -19,11 +18,11 @@
             }
         }
 
-        public override Accelerometer Accelerometer
+        public AndroidDevice()
         {
-            get { return _accelerometer; }
+            this.Accelerometer = new AndroidAccelerometer();
         }
-
+		
         public override void Vibrate( int milliSeconds )
         {
             // todo

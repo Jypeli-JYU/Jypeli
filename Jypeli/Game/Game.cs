@@ -63,6 +63,12 @@ namespace Jypeli
         public static Device Device { get; private set; }
 
         /// <summary>
+        /// Tietovarasto, johon voi tallentaa tiedostoja pidempiaikaisesti.
+        /// Sopii esimerkiksi pelitilanteen lataamiseen ja tallentamiseen.
+        /// </summary>
+        public static FileManager DataStorage { get { return Device.Storage; } }
+
+        /// <summary>
         /// Phone-olio esim. puhelimen tärisyttämiseen.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -103,7 +109,6 @@ namespace Jypeli
 			InitGlobals();
             InitXnaContent();
             InitXnaGraphics();
-			InitStorage();
             InitAudio();
         }
 

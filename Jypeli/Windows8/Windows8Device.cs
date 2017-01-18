@@ -14,5 +14,10 @@ namespace Jypeli.Devices
         {
             get { return false; }
         }
+
+        public Windows8Device()
+        {
+            this.Storage = new RTFileManager();
+        }
     }
 }

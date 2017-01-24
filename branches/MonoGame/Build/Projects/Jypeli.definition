@@ -270,6 +270,7 @@
     <Compile Include="Controls\TouchPanel\TouchPanel.cs" />
     <Compile Include="Controls\BackButton\BackButton.cs" />
     <Compile Include="DataTypes\Angle.cs" />
+    <Compile Include="DataTypes\Charset.cs" />
     <Compile Include="DataTypes\BoundingRectangle.cs" />
     <Compile Include="DataTypes\Dimensional.cs" />
     <Compile Include="DataTypes\Direction.cs" />
@@ -461,6 +462,7 @@
     <Compile Include="Widgets\InputWindow.cs" />
     <Compile Include="Widgets\Label.cs" />
     <Compile Include="Widgets\ListWidget.cs" />
+    <Compile Include="Widgets\LetterPicker.cs" />
     <Compile Include="Widgets\MessageDisplay.cs" />
     <Compile Include="Widgets\MessageWindow.cs" />
     <Compile Include="Widgets\MultiSelectWindow.cs" />

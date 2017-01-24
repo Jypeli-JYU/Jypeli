@@ -261,21 +261,8 @@ namespace Jypeli
             }
             set
             {
-                if ( sizeMode == TextSizeMode.StretchText )
-                    TextScale = new Vector( TextScale.X * value.X / base.Size.X, TextScale.Y * value.Y / base.Size.Y );
-
-                useDefaultHeight = false;
                 base.Size = value;
-
-                switch ( SizeMode )
-                {
-                    case TextSizeMode.None:
-                        TruncateText();
-                        break;
-                    case TextSizeMode.Wrapped:
-                        WrapText();
-                        break;
-                }
+                this.updateSize();
             }
         }
 
@@ -398,14 +385,19 @@ namespace Jypeli
             }
 
             Vector2 rawTextDims = xnaFont.MeasureString( visibleText );
-            Vector2 fullTextDims = new Vector2( _textScale.X * rawTextDims.X, _textScale.Y * rawTextDims.Y );
-
+            Vector clientArea = new Vector( this.Width - 2 * XMargin, this.Height - 2 * YMargin );
+            Vector fullTextDims = new Vector( _textScale.X * rawTextDims.X, _textScale.Y * rawTextDims.Y );
             TextSize = new Vector( fullTextDims.X, fullTextDims.Y );
 
             switch ( SizeMode )
             {
                 case TextSizeMode.None:
                     TruncateText();
+                    break;
+
+                case TextSizeMode.StretchText:
+                    _textScale = new Vector( clientArea.X / rawTextDims.X, clientArea.Y / rawTextDims.Y );
+                    TextSize = clientArea;
                     break;
 
                 case TextSizeMode.AutoSize:

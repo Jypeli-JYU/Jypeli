@@ -18,9 +18,26 @@ namespace Jypeli
         private double _touchVelocity = 0;
 
         /// <summary>
+        /// Tapahtuu kun kirjainta muutetaan.
+        /// </summary>
+        public event Action<LetterPicker> LetterChanged;
+
+        /// <summary>
         /// Merkit joita käytetään.
         /// </summary>
         public string Charset { get; set; }
+
+        public override Font Font
+        {
+            get { return base.Font; }
+            set { base.Font = value; UpdateSize(); }
+        }
+
+        public override Vector Size
+        {
+            get { return base.Size; }
+            set { base.Size = value; UpdateSize(); }
+        }
 
         /// <summary>
         /// Valitun merkin indeksi.
@@ -33,6 +50,7 @@ namespace Jypeli
                 _selectedIndex = AdvMod( value, Charset.Length );
                 _selectedCharacter = Charset[_selectedIndex];
                 Text = _selectedCharacter.ToString();
+                OnLetterChanged();
             }
         }
 
@@ -47,10 +65,18 @@ namespace Jypeli
                 SelectedIndex = Charset.IndexOf( value );
                 _selectedCharacter = value;
                 Text = value.ToString();
+                OnLetterChanged();
             }
         }
 
+        /// <summary>
+        /// Nuoli ylöspäin.
+        /// </summary>
         public Widget UpArrow { get; set; }
+
+        /// <summary>
+        /// Nuoli alaspäin.
+        /// </summary>
         public Widget DownArrow { get; set; }
 
         /// <summary>
@@ -64,8 +90,7 @@ namespace Jypeli
             : base( width, height )
         {
             Charset = ( charset.Length > 0 ) ? charset : Jypeli.Charset.Alphanumeric + " ";
-            Font = Font.DefaultLarge;
-            SizeMode = TextSizeMode.StretchText;
+            base.Font = Font.DefaultLarge;
             SelectedCharacter = initialCharacter;
             YMargin = 10;
 
@@ -82,6 +107,40 @@ namespace Jypeli
 
             AddedToGame += AddControls;
             Removed += RemoveControls;
+        }
+
+        internal LetterPicker Clone()
+        {
+            // TODO: make a better clone method, maybe using the DataStorage load / save system
+            var lpClone = new LetterPicker( this.Width, this.Height, this.Charset, this.SelectedCharacter );
+            lpClone.Font = this.Font;
+            lpClone.Color = this.Color;
+            lpClone.BorderColor = this.BorderColor;
+            lpClone.TextColor = this.TextColor;
+            lpClone.TextScale = this.TextScale;
+            lpClone.SizeMode = this.SizeMode;
+            lpClone.UpArrow.Color = this.UpArrow.Color;
+            lpClone.DownArrow.Color = this.DownArrow.Color;
+            lpClone.UpArrow.Animation = this.UpArrow.Animation;
+            lpClone.DownArrow.Animation = this.DownArrow.Animation;
+            lpClone.UpArrow.Angle = this.UpArrow.Angle;
+            lpClone.DownArrow.Angle = this.DownArrow.Angle;
+            return lpClone;
+        }
+
+        private void UpdateSize()
+        {
+            UpArrow.Width = this.Width;
+            DownArrow.Width = this.Width;
+
+            UpArrow.Top = this.Height / 2;
+            DownArrow.Bottom = -this.Height / 2;
+        }
+
+        private void OnLetterChanged()
+        {
+            if ( LetterChanged != null )
+                LetterChanged( this );
         }
 
         private void AddControls()
@@ -104,7 +163,7 @@ namespace Jypeli
             _touch = touch;
             _touchStart = touch.PositionOnScreen.Y;
         }
-        
+
         private void EndDrag( Touch touch )
         {
             if ( _touch != touch )
@@ -154,6 +213,7 @@ namespace Jypeli
                 }
             }
 
+            _controls.UpdateChanges();
             base.Update( time );
         }
 

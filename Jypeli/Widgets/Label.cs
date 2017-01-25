@@ -210,7 +210,7 @@ namespace Jypeli
         /// <summary>
         /// Tekstin fontti.
         /// </summary>
-        public Font Font
+        public virtual Font Font
         {
             get { return font; }
             set { font = value; updateSize(); }

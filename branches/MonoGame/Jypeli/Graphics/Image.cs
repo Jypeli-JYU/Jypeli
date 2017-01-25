@@ -348,6 +348,7 @@ namespace Jypeli
 
         internal Image( int width, int height )
         {
+            AssertDimensions( width, height );
             this._width = width;
             this._height = height;
             this.InitTexture += CreateNewTexture;
@@ -362,6 +363,7 @@ namespace Jypeli
         [EditorBrowsable( EditorBrowsableState.Never )]
         public Image( Microsoft.Xna.Framework.Graphics.Texture2D texture )
         {
+            AssertDimensions( texture.Width, texture.Height );
             this.xnaTexture = texture;
             this._width = texture.Width;
             this._height = texture.Height;
@@ -375,6 +377,7 @@ namespace Jypeli
         /// <param name="backColor">Kuvan taustaväri</param>
         public Image( int width, int height, Color backColor )
         {
+            AssertDimensions( width, height );
             assetName = null;
             this._width = width;
             this._height = height;
@@ -393,9 +396,15 @@ namespace Jypeli
         {
         }
 
+        private void AssertDimensions(int width, int height)
+        {
+            if ( width < 1 || height < 1 )
+                throw new ArgumentException( String.Format( "Image dimensions must be at least 1 x 1! (given: {0} x {1}", width, height ) );
+        }
+
         private void DoInitDimensions()
         {
-            if ( _width >= 0 && _height >= 0 )
+            if ( _width > 0 && _height > 0 )
                 return;
 
             if ( InitDimensions != null )
@@ -407,6 +416,7 @@ namespace Jypeli
         private void DoInitTexture()
         {
             DoInitDimensions();
+            AssertDimensions( this.Width, this.Height );
 
             if ( xnaTexture != null )
                 return;

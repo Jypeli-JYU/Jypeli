@@ -202,7 +202,8 @@ namespace Jypeli
                 if ( dims.X > maxW ) maxW = dims.X;
             }
 
-            bgImage = new Image( maxW, messages.Count * fontHeight, bgColor );
+            if ( maxW > 0 )
+                bgImage = new Image( maxW, messages.Count * fontHeight, bgColor );
         }
 
         /// <summary>

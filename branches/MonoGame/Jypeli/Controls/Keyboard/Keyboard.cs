@@ -29,6 +29,7 @@
 
 using System;
 using Jypeli.Controls;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace Jypeli
@@ -38,8 +39,19 @@ namespace Jypeli
     /// </summary>
     public class Keyboard : Controller<KeyboardState, Key>
     {
+        /// <summary>
+        /// Tapahtuu kun tekstiä syötetään näppäimistöltä.
+        /// </summary>
+        public event Action<char> TextInput;
+
         internal Keyboard()
         {
+#if DESKTOP
+            Game.Instance.Window.TextInput += delegate( object sender, TextInputEventArgs args )
+            {
+                if ( TextInput != null ) TextInput( args.Character );
+            };
+#endif
         }
 
         internal override KeyboardState GetState()

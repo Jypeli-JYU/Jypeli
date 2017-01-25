@@ -14,8 +14,8 @@ namespace Jypeli
 
         private Touch _touch = null;
         private double _touchStart = 0;
-        private double _touchEnd = 0;
-        private double _touchVelocity = 0;
+        private double _indexDelta = 0;
+        private double _indexVelocity = 0;
 
         /// <summary>
         /// Tapahtuu kun kirjainta muutetaan.
@@ -171,18 +171,18 @@ namespace Jypeli
 
             double delta = _touch != null ? ( _touch.PositionOnScreen.Y - _touchStart ) / TextSize.Y : 0;
             _touch = null;
-            _touchEnd = touch.PositionOnScreen.Y;
 
             if ( touch.MovementOnScreen.Y < 1 )
             {
                 // Set the index now
                 SelectedIndex += (int)Math.Round( delta );
-                _touchStart = _touchEnd = 0;
+                _indexDelta = 0;
             }
             else
             {
                 // Continue scrolling
-                _touchVelocity = 100 * touch.MovementOnScreen.Y;
+                _indexDelta = delta;
+                _indexVelocity = 100 * touch.MovementOnScreen.Y / TextSize.Y;
             }
         }
 
@@ -197,19 +197,20 @@ namespace Jypeli
         public override void Update( Time time )
         {
             if ( _touch != null )
-                _touchEnd = _touch.PositionOnScreen.Y;
-
-            else if ( _touchVelocity > 0 )
             {
-                _touchEnd += Math.Sign( _touchEnd ) * _touchVelocity * time.SinceLastUpdate.TotalSeconds;
-                _touchVelocity *= 0.95;
+                _indexDelta = ( _touch.PositionOnScreen.Y - _touchStart ) / TextSize.Y;
+            }
 
-                if ( _touchVelocity < 1.5 * TextSize.Y )
+            else if ( _indexVelocity > 0 )
+            {
+                _indexDelta += Math.Sign( _indexDelta ) * _indexVelocity * time.SinceLastUpdate.TotalSeconds;
+                _indexVelocity *= 0.95;
+
+                if ( _indexVelocity < 1.5 )
                 {
-                    double delta = ( _touchEnd - _touchStart ) / TextSize.Y;
-                    SelectedIndex += (int)Math.Round( delta );
-                    _touchStart = _touchEnd = 0;
-                    _touchVelocity = 0;
+                    SelectedIndex += (int) Math.Round( _indexDelta );
+                    _indexDelta = 0;
+                    _indexVelocity = 0;
                 }
             }
 
@@ -219,15 +220,14 @@ namespace Jypeli
 
         public override void Draw( Matrix parentTransformation, Matrix transformation )
         {
-            if ( _touchStart == 0 && _touchEnd == 0 )
+            if ( _indexDelta == 0 )
             {
                 base.Draw( parentTransformation, transformation );
                 return;
             }
 
-            double delta = ( _touchEnd - _touchStart ) / TextSize.Y;
-            int indexDelta = (int)Math.Round( delta );
-            double yDelta = delta - indexDelta;  // for smooth scrolling
+            int indexDeltaInt = (int)Math.Round( _indexDelta );
+            double yDelta = _indexDelta - indexDeltaInt;  // for smooth scrolling
 
             for ( int i = -1; i <= 1; i++ )
             {
@@ -236,7 +236,7 @@ namespace Jypeli
                            * Matrix.CreateTranslation( (float)Position.X, (float)( Position.Y - ( i - yDelta ) * TextSize.Y ), 0 )
                            * parentTransformation;
 
-                int ci = AdvMod( this.SelectedIndex + indexDelta + i, this.Charset.Length );
+                int ci = AdvMod( this.SelectedIndex + indexDeltaInt + i, this.Charset.Length );
                 Renderer.DrawText( Charset[ci].ToString(), ref m, Font, TextColor );
             }
         }

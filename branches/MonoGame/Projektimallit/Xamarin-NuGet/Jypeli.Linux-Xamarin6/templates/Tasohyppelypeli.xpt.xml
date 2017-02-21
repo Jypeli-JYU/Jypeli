@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<Template
+		originator		= "Tomi Karppinen"
+		created			= "2016/09/28"
+		lastModified	= "2016/10/06">
+
+	<TemplateConfiguration>
+		<_Name>Tasohyppelypeli (Physics2d)</_Name>
+		<Category>jypeli/linux/pohjat</Category>
+		<Icon>Tasohyppelypeli-project</Icon>
+		<LanguageName>C#</LanguageName>
+		<_Description>Peli Linuxille, jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää Physics2d-fysiikkamoottoria. Platform game template for Linux. Uses Physics2d physics engine.</_Description>
+	</TemplateConfiguration>
+
+	<Options>
+		<StartupProject>${ProjectName}</StartupProject>
+	</Options>
+
+	<Combine name="${ProjectName}" directory=".">
+		<Project name="${ProjectName}" directory=".">
+			<Options />
+
+			<References>
+				<Reference type="Gac" refto="System" />
+				<Reference type="Gac" refto="System.Xml" />
+				<Reference type="Gac" refto="System.Core" />
+			</References>
+
+			<Packages>
+				<Package id="Jypeli.Linux" />
+				<Package id="Jypeli.Physics2d.Linux" />
+			</Packages>
+
+			<Files>
+				<FileTemplateReference TemplateID="CSharpAssemblyInfo" name="AssemblyInfo.cs" />
+				<File name="${ProjectName}.cs" src="Tasohyppelypeli/Peli.cs" />
+				<File name="Ohjelma.cs" src="PerusPeli/Ohjelma.cs" />
+				<RawFile name="Icon.png" src="Tasohyppelypeli/Icon-md.png" />
+				<RawFile name="OpenTK.dll.config" src="lib/OpenTK.dll.config" CopyToOutputDirectory="PreserveNewest" />
+				<RawFile name="Tao.Sdl.dll.config" src="lib/Tao.Sdl.dll.config" CopyToOutputDirectory="PreserveNewest" />
+				<Directory name="Content">
+					<RawFile name="kentta1.txt" src="Tasohyppelypeli/Content/kentta1.txt" BuildAction="Content" CopyToOutputDirectory="PreserveNewest" />
+					<RawFile name="norsu.png" src="Tasohyppelypeli/Content/norsu.png" BuildAction="Content" CopyToOutputDirectory="PreserveNewest" />
+					<RawFile name="tahti.png" src="Tasohyppelypeli/Content/tahti.png" BuildAction="Content" CopyToOutputDirectory="PreserveNewest" />
+					<RawFile name="maali.wav" src="Tasohyppelypeli/Content/maali.wav" BuildAction="Content" CopyToOutputDirectory="PreserveNewest" />
+				</Directory>
+			</Files>
+		</Project>
+	</Combine>
+</Template>

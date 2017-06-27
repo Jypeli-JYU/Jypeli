@@ -48,7 +48,6 @@ namespace Jypeli
         #endregion
 
         private static SynchronousList<Timer> timers = new SynchronousList<Timer>();
-        private static Dictionary<Action, Timer> limiters = new Dictionary<Action, Timer>();
 
         private bool _enabled = false;
 
@@ -193,26 +192,29 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Rajoittaa toimintaa niin, että se voidaan suorittaa vain tietyin väliajoin.
-        /// Huom. älä käytä delegaatteja tämän metodin kanssa!
+        /// Rajoittaa aliohjelman toimintaa niin, että se voidaan suorittaa vain tietyin väliajoin.
         /// </summary>
         /// <param name="action">Toiminta</param>
         /// <param name="seconds">Kuinka monta sekuntia täytyy odottaa ennen seuraavaa suoritusta</param>
-        public static void Limit( Action action, double seconds )
+        /// <returns>Rajoitettu aliohjelma</returns>
+        public static Action Limit( Action action, double seconds )
         {
-            Timer limiter = limiters.ContainsKey( action ) ? limiters[action] : null;
+            Timer limiter = new Timer();
+            bool allowInvoke = true;
 
-            if ( limiter == null )
-            {
-                limiter = new Timer() { Interval = seconds };
-                limiters.Add( action, limiter );
-            }
+            limiter.Interval = seconds;
+            limiter.LimitTimes( 1 );
+            limiter.Timeout += () => allowInvoke = true;
 
-            if ( !limiter.Enabled )
+            return delegate
             {
-                action();
-                limiter.Start( 1 );
-            }
+                if ( allowInvoke )
+                {
+                    allowInvoke = false;
+                    action();
+                    limiter.Start();
+                }
+            };
         }
         
         /// <summary>

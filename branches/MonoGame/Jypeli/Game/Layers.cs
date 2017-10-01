@@ -277,6 +277,16 @@ namespace Jypeli
             return objs;
         }
 
+         /// <summary>
+        /// Palauttaa listan kaikista peliolioista.
+        /// Lista on järjestetty päällimmäisestä alimmaiseen.
+        /// </summary>
+        /// <returns>Listan olioista.</returns>
+        public List<GameObject> GetAllObjects()
+        {
+            return GetObjects(g => true);
+        }
+        
         /// <summary>
         /// Palauttaa listan kaikista peliolioista joilla on tietty tagi.
         /// Lista on järjestetty päällimmäisestä alimmaiseen.

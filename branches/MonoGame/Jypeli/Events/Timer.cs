@@ -178,6 +178,42 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Alustaa uuden ajastimen ja asettaa sille ajan sekunneissa, jonka 
+        /// välein <c>TimeOut</c> tapahtuu.
+        /// </summary>
+        /// <param name="interval">Aika sekunneissa.</param>
+        public Timer(double interval) : this()
+        {
+            Interval = interval;
+        }
+
+        /// <summary>
+        /// Alustaa uuden ajastimen ja asettaa sille tapahtuma-aikavälin sekä
+        /// aliohjelman, jota kutsutaan <c>TimeOut</c>:in yhteydessä.
+        /// </summary>
+        /// <param name="interval">Aika sekunneissa, jonka välein aliohjelmaa kutsutaan.</param>
+        /// <param name="onTimeout">Kutsuttava aliohjelma.</param>
+        public Timer(double interval, Action onTimeout) : this(interval)
+        {
+            Timeout += onTimeout;
+        }
+
+        /// <summary>
+        /// Luo ja käynnistää uuden ajastimen tietyllä tapahtuma-aikavälillä sekä
+        /// aliohjelmalla, jota kutsutaan <c>TimeOut</c>:in yhteydessä.
+        /// Palauttaa luodun ajastimen.
+        /// </summary>
+        /// <param name="interval">Aika sekunneissa, jonka välein aliohjelmaa kutsutaan.</param>
+        /// <param name="onTimeout">Kutsuttava aliohjelma.</param>
+        /// <returns>Ajastimen.</returns>
+        public static Timer CreateAndStart(double interval, Action onTimeout)
+        {
+            Timer t = new Timer(interval, onTimeout);
+            t.Start();
+            return t;
+        }
+
+        /// <summary>
         /// Kutsuu aliohjelmaa <c>onTimeout</c> annetun ajan kuluttua.
         /// Ajastin luodaan automaattisesti.
         /// </summary>

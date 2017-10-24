@@ -88,8 +88,9 @@ namespace Jypeli.Physics2d
 
             Body b = ( (PhysicsBody)body ).Body;
 
-            if ( b.Engine != null )
-                return;
+            // 24. 10. mitä varten tämä tarkistus on? - Rami
+            //if ( b.Engine != null )
+            //    return;
 
             b.Lifetime.IsExpired = true;
         }

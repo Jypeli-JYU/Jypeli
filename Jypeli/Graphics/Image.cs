@@ -30,8 +30,8 @@ namespace Jypeli
     public class Image
     {
 
-        private static int MONOGETDATAMUL = 2;
-        private static int MONOGETDATAINC = 1;
+        private static int MONOGETDATAMUL = 1;
+        private static int MONOGETDATAINC = 0;
         // private static const int MONOGETDATAMUL = 1;  
         // private static const int MONOGETDATAINC = 0; // tavallinen
 
@@ -204,7 +204,7 @@ namespace Jypeli
 
             XnaRectangle rect = new XnaRectangle( ox, oy, nx, ny );
             Color[] buffer = new Color[ny * nx * MONOGETDATAMUL];
-            xnaTexture.GetData<Color>( 0, rect, buffer, 0, 20 );
+            xnaTexture.GetData<Color>( 0, rect, buffer, 0, buffer.Length );
             int i = 0;
             for (int iy = 0; iy < ny; iy++)
             {

@@ -74,8 +74,8 @@ namespace Jypeli
         /// </summary>
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
-        public GameObject( double width, double height )
-            : this( width, height, Shape.Rectangle )
+        public GameObject(double width, double height)
+            : this(width, height, Shape.Rectangle, 0.0, 0.0)
         {
         }
 
@@ -85,13 +85,39 @@ namespace Jypeli
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
         /// <param name="shape">Muoto.</param>
-        public GameObject( double width, double height, Shape shape )
+        public GameObject(double width, double height, Shape shape)
+            : this(width, height, shape, 0.0, 0.0)
+        {
+        }
+
+        /// <summary>
+        /// Alustaa uuden peliolion.
+        /// </summary>
+        /// <param name="width">Leveys.</param>
+        /// <param name="height">Korkeus.</param>
+        /// <param name="x">Olion sijainnin X-koordinaatti.</param>
+        /// <param name="y">Olion sijainnin Y-koordinaatti.</param>
+        public GameObject(double width, double height, double x, double y)
+            : this(width, height, Shape.Rectangle, x, y)
+        {
+        }
+
+        /// <summary>
+        /// Alustaa uuden peliolion.
+        /// </summary>
+        /// <param name="width">Leveys.</param>
+        /// <param name="height">Korkeus.</param>
+        /// <param name="shape">Muoto.</param>
+        /// <param name="x">Olion sijainnin X-koordinaatti.</param>
+        /// <param name="y">Olion sijainnin Y-koordinaatti.</param>
+        public GameObject(double width, double height, Shape shape, double x, double y)
             : base()
         {
-            InitDimensions( width, height, shape );
+            InitDimensions(width, height, shape);
             InitAppearance();
             InitListeners();
-            InitLayout( width, height );
+            InitLayout(width, height);
+            Position = new Vector(x, y);
         }
 
         /// <summary>

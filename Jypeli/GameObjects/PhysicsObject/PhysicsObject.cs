@@ -43,8 +43,10 @@ namespace Jypeli
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
         /// <param name="shape">Muoto (esim. Shape.Circle).</param>
-        public PhysicsObject( double width, double height, Shape shape )
-            : base( width, height, shape )
+        /// <param name="x">Olion sijainnin X-koordinaatti.</param>
+        /// <param name="y">Olion sijainnin Y-koordinaatti.</param>
+        public PhysicsObject( double width, double height, Shape shape, double x = 0.0, double y = 0.0)
+            : base( width, height, shape, x, y )
         {
             Initialize( width, height, shape );
         }
@@ -56,6 +58,18 @@ namespace Jypeli
         /// <param name="height">Korkeus.</param>
         public PhysicsObject( double width, double height )
             : this( width, height, Shape.Rectangle )
+        {
+        }
+
+        /// <summary>
+        /// Luo uuden fysiikkaolion.
+        /// </summary>
+        /// <param name="width">Leveys.</param>
+        /// <param name="height">Korkeus.</param>
+        /// <param name="x">Olion sijainnin X-koordinaatti.</param>
+        /// <param name="y">Olion sijainnin Y-koordinaatti.</param>
+        public PhysicsObject(double width, double height, double x, double y)
+            : this(width, height, Shape.Rectangle, x, y)
         {
         }
 

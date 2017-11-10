@@ -84,17 +84,6 @@ namespace Jypeli
         /// </summary>
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
-        /// <param name="shape">Muoto.</param>
-        public GameObject(double width, double height, Shape shape)
-            : this(width, height, shape, 0.0, 0.0)
-        {
-        }
-
-        /// <summary>
-        /// Alustaa uuden peliolion.
-        /// </summary>
-        /// <param name="width">Leveys.</param>
-        /// <param name="height">Korkeus.</param>
         /// <param name="x">Olion sijainnin X-koordinaatti.</param>
         /// <param name="y">Olion sijainnin Y-koordinaatti.</param>
         public GameObject(double width, double height, double x, double y)
@@ -111,13 +100,24 @@ namespace Jypeli
         /// <param name="x">Olion sijainnin X-koordinaatti.</param>
         /// <param name="y">Olion sijainnin Y-koordinaatti.</param>
         public GameObject(double width, double height, Shape shape, double x, double y)
+            : this(width, height, shape)
+        {
+            Position = new Vector(x, y);
+        }
+
+        /// <summary>
+        /// Alustaa uuden peliolion.
+        /// </summary>
+        /// <param name="width">Leveys.</param>
+        /// <param name="height">Korkeus.</param>
+        /// <param name="shape">Muoto.</param>
+        public GameObject(double width, double height, Shape shape)
             : base()
         {
             InitDimensions(width, height, shape);
             InitAppearance();
             InitListeners();
             InitLayout(width, height);
-            Position = new Vector(x, y);
         }
 
         /// <summary>

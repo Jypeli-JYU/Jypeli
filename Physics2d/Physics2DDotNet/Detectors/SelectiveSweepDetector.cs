@@ -48,7 +48,26 @@ namespace Physics2DDotNet.Detectors
             {
                 if (left.value < right.value) { return -1; }
                 if (left.value > right.value) { return 1; }
-                return ((left == right) ? (0) : ((left.begin) ? (-1) : (1)));
+                return ((AreEqual(left, right)) ? (0) : ((left.begin) ? (-1) : (1)));
+            }
+
+            /// <summary>
+            /// Compare-metodia varten metodi, jolla tarkistetaan yhtäsuuruutta
+            /// valuen ollessa samat.
+            /// 
+            /// Yritys korjata kaatumisbugi fysiikkamoottorissa, joka johtui siitä
+            /// että Compare ei aina ollut looginen ja merkinnyt erilaisia Stubeja
+            /// konsistentisti erisuuriksi.
+            /// </summary>
+            public static bool AreEqual(Stub a, Stub b)
+            {
+                if (ReferenceEquals(a, b))
+                    return true;
+
+                if (a.begin == b.begin)
+                    return true;
+
+                return false;
             }
         }
         sealed class Wrapper 

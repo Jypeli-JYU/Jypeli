@@ -46,9 +46,10 @@ namespace Jypeli
         /// <param name="x">Olion sijainnin X-koordinaatti.</param>
         /// <param name="y">Olion sijainnin Y-koordinaatti.</param>
         public PhysicsObject( double width, double height, Shape shape, double x = 0.0, double y = 0.0)
-            : base( width, height, shape, x, y )
+            : base( width, height, shape)
         {
             Initialize( width, height, shape );
+            Position = new Vector(x, y);
         }
 
         /// <summary>

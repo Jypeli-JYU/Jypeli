@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 6.8.5"
+Name "MonoJypeli 6.8.6"
 
 OutFile "MonoJypeli_setup.exe"
 
@@ -71,7 +71,7 @@ Function ChkPrqCreate
 	${NSD_CreateLabel} 10 0 100% 12u "The installer could not find MonoGame on your system."
 	Pop $0
 
-	${NSD_CreateLabel} 10 20 100% 12u "This version of Jypeli depends heavily on a working installation of MonoGame."
+	${NSD_CreateLabel} 10 20 100% 12u "This version of Jypeli depends on a working installation of MonoGame."
 	Pop $0
 
 	${NSD_CreateLink} 10 50 100% 12u "Click here to go to the download site"
@@ -193,6 +193,58 @@ Section "OpenAL" OpenAL
   ExecWait '"$INSTDIR\WindowsGL\oalinst.exe /S"'
 SectionEnd
 
+SubSection "Project templates for Visual Studio 2017"
+  ; Visual Studio 2017 doesn't create an environment variable, so we need to use vswhere.exe instead
+  ; (the link below talks about C, but it's the same thing with C#)
+  ; https://blogs.msdn.microsoft.com/vcblog/2017/03/06/finding-the-visual-c-compiler-tools-in-visual-studio-2017/
+  ; https://github.com/Microsoft/vswhere
+  DetailPrint "Requested template installation for Visual Studio 2017."
+  IfFileExists "$PROGRAMFILES32\Microsoft Visual Studio\Installer\vswhere.exe" Install17
+    DetailPrint "vswhere.exe not found, template installation failed."
+    Goto Done17
+  Goto Install17
+  
+  Install17:
+  ; nsExec documentation: http://nsis.sourceforge.net/Docs/nsExec/nsExec.txt
+  ; for vswhere.exe command line arguments, run vswhere.exe /?
+  ; TODO Check if this also works when multiple VS2017 editions are installed (like Community and Enterprise)
+  DetailPrint "Looking up the installation directory of Visual Studio 2017."
+  nsExec::ExecToStack '"$PROGRAMFILES32\Microsoft Visual Studio\Installer\vswhere.exe" -nologo -version [15.0,16.0) -property installationPath'
+  pop $0
+  pop $0
+  ${If} $0 == "error"
+  ${OrIf} $0 == "timeout"
+    DetailPrint "Executing vswhere.exe failed, template installation aborted."
+	Goto Done17
+  ${Endif}
+  
+  ; vswhere includes a line-end (CR LF) at the end of the path, so let's cut if off
+  ; it could be safer to use a string trim function instead
+  StrCpy $0 $0 -2
+  
+  IfFileExists "$0\Common7\IDE\devenv.exe" 0 Error17
+    DetailPrint "Found VS2017, installing templates..."
+	StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Windows"
+	CreateDirectory $1
+	SetOutPath $1
+	File "..\Projektimallit\Windows\*.zip"
+	StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Android"
+	CreateDirectory $1
+	SetOutPath $1
+	File "..\Projektimallit\Android\*.zip"
+	SetOutPath "$0\Common7\IDE\ProjectTemplates"
+	File "..\Projektimallit\Windows\Jypeli-Windows.vstman"
+	File "..\Projektimallit\Android\Jypeli-Android.vstman"
+	DetailPrint "Updating template cache, please wait. This could take a couple of minutes."
+    ExecWait '"$0\Common7\IDE\devenv.exe" /InstallVSTemplates'
+  Goto Done17
+  
+  Error17:
+  DetailPrint "devenv.exe for VS2017 not found!"
+  
+  Done17:
+SubSectionEnd
+
 SubSection "Visual Studio 2015 project templates"
 
 Section "Windows DirectX"
@@ -232,26 +284,6 @@ Section "Windows Universal App"
   ${If} $R0 != ""
     Push $R0
     Call CopyUniversalTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
-  ${Endif}
-SectionEnd
-
-Section "Windows Phone 8.1"
-  ReadEnvStr $R0 VS140COMNTOOLS
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyWp81Templates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
-  ${Endif}
-SectionEnd
-
-Section "Windows Store 8"
-  ReadEnvStr $R0 VS140COMNTOOLS
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyRTTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2015, skipping template installation."
   ${Endif}
@@ -304,26 +336,6 @@ Section "Android"
   ${Endif}
 SectionEnd
 
-Section "Windows Phone 8.1"
-  ReadEnvStr $R0 VS120COMNTOOLS
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyWp81Templates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
-  ${Endif}
-SectionEnd
-
-Section "Windows Store 8"
-  ReadEnvStr $R0 VS120COMNTOOLS
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyRTTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
-  ${Endif}
-SectionEnd
-
 Section "Run template installer"
   ReadEnvStr $R0 VS120COMNTOOLS
   ${If} $R0 != ""
@@ -354,16 +366,6 @@ Section "WindowsGL"
   ${If} $R0 != ""
     Push $R0
     Call CopyGLTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2012, skipping template installation."
-  ${Endif}
-SectionEnd
-
-Section "Windows Store 8"
-  ReadEnvStr $R0 VS110COMNTOOLS
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyRTTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2012, skipping template installation."
   ${Endif}
@@ -443,45 +445,6 @@ Function CopyUniversalTemplates
       CreateDirectory $1
       SetOutPath $1
       File "..\projektimallit\WindowsUniversal\*.zip"
-
-  Done:
-FunctionEnd
-
-Function CopyWp81Templates
-   Pop $0
-   
-   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
-    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-    SetOutPath $1
-    File "..\projektimallit\WP81\*.zip"
-    Goto VSPro
-    
-  VSPro:
-    IfFileExists "$0..\IDE\devenv.exe" 0 Done
-      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows Phone 8.1"
-      CreateDirectory $1
-      SetOutPath $1
-      File "..\projektimallit\WP81\*.zip"
-
-  Done:
-FunctionEnd
-
-Function CopyRTTemplates
-   Pop $0
-   
-   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
-    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-    SetOutPath $1
-    File "..\projektimallit\Win8\*.zip"
-    Goto VSPro
-    
-  VSPro:
-    IfFileExists "$0..\IDE\devenv.exe" 0 Done
-      RMDir /r /REBOOTOK "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows 8"
-      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows 8.1"
-      CreateDirectory $1
-      SetOutPath $1
-      File "..\projektimallit\Win8\*.zip"
 
   Done:
 FunctionEnd

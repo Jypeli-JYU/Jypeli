@@ -193,7 +193,7 @@ Section "OpenAL" OpenAL
   ExecWait '"$INSTDIR\WindowsGL\oalinst.exe /S"'
 SectionEnd
 
-SubSection "Project templates for Visual Studio 2017"
+Section "Project templates for Visual Studio 2017"
   ; Visual Studio 2017 doesn't create an environment variable, so we need to use vswhere.exe instead
   ; (the link below talks about C, but it's the same thing with C#)
   ; https://blogs.msdn.microsoft.com/vcblog/2017/03/06/finding-the-visual-c-compiler-tools-in-visual-studio-2017/
@@ -243,7 +243,7 @@ SubSection "Project templates for Visual Studio 2017"
   DetailPrint "devenv.exe for VS2017 not found!"
   
   Done17:
-SubSectionEnd
+SectionEnd
 
 SubSection "Visual Studio 2015 project templates"
 
@@ -513,6 +513,50 @@ Section "Uninstall"
   ; Installation dir
   RMDir /r /REBOOTOK $INSTDIR
 
+  ; VS 2017 product templates
+  DetailPrint "Uninstalling Visual Studio 2017 templates."
+  IfFileExists "$PROGRAMFILES32\Microsoft Visual Studio\Installer\vswhere.exe" Install17
+    DetailPrint "vswhere.exe not found, skipping template uninstallation."
+    Goto Done17
+  Goto Install17
+  
+  Install17:
+  ; nsExec documentation: http://nsis.sourceforge.net/Docs/nsExec/nsExec.txt
+  ; for vswhere.exe command line arguments, run vswhere.exe /?
+  ; TODO Check if this also works when multiple VS2017 editions are installed (like Community and Enterprise)
+  DetailPrint "Looking up the installation directory of Visual Studio 2017."
+  nsExec::ExecToStack '"$PROGRAMFILES32\Microsoft Visual Studio\Installer\vswhere.exe" -nologo -version [15.0,16.0) -property installationPath'
+  pop $0
+  pop $0
+  ${If} $0 == "error"
+  ${OrIf} $0 == "timeout"
+    DetailPrint "Executing vswhere.exe failed, template uninstallation aborted."
+	Goto Done17
+  ${Endif}
+  
+  ; vswhere includes a line-end (CR LF) at the end of the path, so let's cut if off
+  ; it could be safer to use a string trim function instead
+  StrCpy $0 $0 -2
+  
+  IfFileExists "$0\Common7\IDE\devenv.exe" 0 Error17
+    DetailPrint "Found VS2017, uninstalling templates..."
+	StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Windows"
+	Delete "$1\*.zip"
+	RMDir "$1"
+	StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Android"
+	Delete "$1\*.zip"
+	RMDir "$1"
+	Delete "$0\Common7\IDE\ProjectTemplates\Jypeli-Windows.vstman"
+	Delete "$0\Common7\IDE\ProjectTemplates\Jypeli-Android.vstman"
+	DetailPrint "Updating Visual Studio 2017 templates (may take a while)..."
+    ExecWait '"$0\Common7\IDE\devenv.exe" /InstallVSTemplates'
+  Goto Done17
+  
+  Error17:
+  DetailPrint "devenv.exe for VS2017 not found!"
+  
+  Done17:
+  
   ; VS2012 project templates
   ReadEnvStr $R1 VS110COMNTOOLS
   StrCpy $R0 "$R1\..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"

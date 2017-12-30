@@ -17,7 +17,7 @@ if %argC% NEQ 1 (
 )
 
 rem Directories
-set monosrc=MonoGame\MonoGame.Framework\bin\%platform%\%arch%\Debug
+set monosrc=MonoGame\MonoGame.Framework\bin\%platform%\%arch%\Release
 set outputDir=%baseDir%\%platform%-%arch%
 
 if not exist %baseDir% mkdir %baseDir%
@@ -50,11 +50,11 @@ copy %monosrc%\Themes\* %outputDir%\MonoGame.Framework\Themes\
 
 rem Common files
 copy %monosrc%\SharpDX.* %outputDir%\
-copy Jypeli\bin\%platform%\%arch%\Debug\*.dll %outputDir%\
-copy Jypeli\bin\%platform%\%arch%\Debug\*.xml %outputDir%\
-copy Jypeli\bin\%platform%\%arch%\Debug\*.config %outputDir%\
-copy SimplePhysics\bin\%platform%\%arch%\Debug\* %outputDir%\
-copy Physics2d\bin\%platform%\%arch%\Debug\* %outputDir%\
+copy Jypeli\bin\%platform%\%arch%\Release\*.dll %outputDir%\
+copy Jypeli\bin\%platform%\%arch%\Release\*.xml %outputDir%\
+copy Jypeli\bin\%platform%\%arch%\Release\*.config %outputDir%\
+copy SimplePhysics\bin\%platform%\%arch%\Release\* %outputDir%\
+copy Physics2d\bin\%platform%\%arch%\Release\* %outputDir%\
 
 goto end
 

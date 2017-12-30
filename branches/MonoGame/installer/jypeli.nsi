@@ -104,7 +104,7 @@ Section "Jypeli"
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MonoJypeli" "NoModify" 1
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MonoJypeli" "NoRepair" 1
 
-  WriteUninstaller "uninstall.exe"
+  WriteUninstaller "$INSTDIR\uninstall.exe"
 SectionEnd
 
 Section "MonoJypeli for Windows, DirectX 11"

@@ -1,0 +1,11 @@
+Windows:
+- aja build.bat, se hakee MonoGamen gitin avulla ja luo .csproj- sek‰ .sln-tiedostot
+- templateja varten pit‰‰ paketoida projektimallit .zip-paketteihin
+- k‰‰nnetty‰si uuden version aja copy_compiled.bat, anna parametriksi arkkitehtuuri (esim. copy_compiled.bat Windows)
+- luo installeri installer\jypeli.nsi -tiedoston avulla
+
+- jos .bat-tiedostot ep‰onnistuvat, niin avaa ne tekstieditorilla ja tee vastaavat asiat manuaalisesti :)
+
+Mac:
+
+ks. https://tim.jyu.fi/view/kurssit/tie/ohj1/tyokalut/mac-kehitys

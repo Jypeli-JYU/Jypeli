@@ -117,69 +117,69 @@ Section "MonoJypeli for Windows, DirectX 11"
   File "..\Compiled\Windows-AnyCPU\Jypeli.SimplePhysics.xml"
 SectionEnd
 
-Section "MonoJypeli for Windows, OpenGL"
-  SetOutPath "$INSTDIR\WindowsGL"
-  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.dll"
-  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.xml"
-  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.Physics2d.dll"
-  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.Physics2d.xml"
-  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.SimplePhysics.dll"
-  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.SimplePhysics.xml"
-SectionEnd
+;Section "MonoJypeli for Windows, OpenGL"
+;  SetOutPath "$INSTDIR\WindowsGL"
+;  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.dll"
+;  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.xml"
+;  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.Physics2d.dll"
+;  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.Physics2d.xml"
+;  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.SimplePhysics.dll"
+;  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.SimplePhysics.xml"
+;SectionEnd
 
 Section "MonoJypeli for Android"
   SetOutPath "$INSTDIR\Android"
   File "..\Compiled\Android-AnyCPU\Jypeli.dll"
-  File "..\Compiled\Android-AnyCPU\Jypeli.pdb"
-  File "..\Compiled\Android-AnyCPU\Jypeli.xml"
+;  File "..\Compiled\Android-AnyCPU\Jypeli.pdb"
+;  File "..\Compiled\Android-AnyCPU\Jypeli.xml"
   File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.dll"
-  File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.pdb"
-  File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.xml"
-  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.dll"
-  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.pdb"
-  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.xml"
+;  File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.pdb"
+;  File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.xml"
+;  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.dll"
+;  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.pdb"
+;  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.xml"
 SectionEnd
 
-Section "MonoJypeli for Windows Universal platform"
-  SetOutPath "$INSTDIR\WindowsUniversal"
-  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.dll"
-  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.xml"
-  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.Physics2d.dll"
-  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.Physics2d.xml"
-  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.SimplePhysics.dll"
-  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.SimplePhysics.xml"
-SectionEnd
-
-Section "MonoJypeli for Windows Phone 8.1"
-  SetOutPath "$INSTDIR\WP81"
-  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.dll"
-  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.xml"
-  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.Physics2d.dll"
-  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.Physics2d.xml"
-  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.SimplePhysics.dll"
-  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.SimplePhysics.xml"
-SectionEnd
-
-
-Section "MonoJypeli for Windows Store 8"
-  SetOutPath "$INSTDIR\Win8"
-  File "..\Compiled\Windows8-AnyCPU\Jypeli.dll"
-  File "..\Compiled\Windows8-AnyCPU\Jypeli.xml"
-  File "..\Compiled\Windows8-AnyCPU\Jypeli.Physics2d.dll"
-  File "..\Compiled\Windows8-AnyCPU\Jypeli.Physics2d.xml"
-  File "..\Compiled\Windows8-AnyCPU\Jypeli.SimplePhysics.dll"
-  File "..\Compiled\Windows8-AnyCPU\Jypeli.SimplePhysics.xml"
-SectionEnd
-
-Section "MonoJypeli for Linux"
-  SetOutPath "$INSTDIR\Linux"
-  File "..\Compiled\Linux-AnyCPU\Jypeli.dll"
-  File "..\Compiled\Linux-AnyCPU\Jypeli.xml"
-  File "..\Compiled\Linux-AnyCPU\Jypeli.Physics2d.dll"
-  File "..\Compiled\Linux-AnyCPU\Jypeli.Physics2d.xml"
-  File "..\Compiled\Linux-AnyCPU\Jypeli.SimplePhysics.dll"
-  File "..\Compiled\Linux-AnyCPU\Jypeli.SimplePhysics.xml"
-SectionEnd
+;Section "MonoJypeli for Windows Universal platform"
+;  SetOutPath "$INSTDIR\WindowsUniversal"
+;  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.dll"
+;  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.xml"
+;  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.Physics2d.dll"
+;  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.Physics2d.xml"
+;  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.SimplePhysics.dll"
+;  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.SimplePhysics.xml"
+;SectionEnd
+;
+;Section "MonoJypeli for Windows Phone 8.1"
+;  SetOutPath "$INSTDIR\WP81"
+;  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.dll"
+;  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.xml"
+;  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.Physics2d.dll"
+;  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.Physics2d.xml"
+;  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.SimplePhysics.dll"
+;  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.SimplePhysics.xml"
+;SectionEnd
+;
+;
+;Section "MonoJypeli for Windows Store 8"
+;  SetOutPath "$INSTDIR\Win8"
+;  File "..\Compiled\Windows8-AnyCPU\Jypeli.dll"
+;  File "..\Compiled\Windows8-AnyCPU\Jypeli.xml"
+;  File "..\Compiled\Windows8-AnyCPU\Jypeli.Physics2d.dll"
+;  File "..\Compiled\Windows8-AnyCPU\Jypeli.Physics2d.xml"
+;  File "..\Compiled\Windows8-AnyCPU\Jypeli.SimplePhysics.dll"
+;  File "..\Compiled\Windows8-AnyCPU\Jypeli.SimplePhysics.xml"
+;SectionEnd
+;
+;Section "MonoJypeli for Linux"
+;  SetOutPath "$INSTDIR\Linux"
+;  File "..\Compiled\Linux-AnyCPU\Jypeli.dll"
+;  File "..\Compiled\Linux-AnyCPU\Jypeli.xml"
+;  File "..\Compiled\Linux-AnyCPU\Jypeli.Physics2d.dll"
+;  File "..\Compiled\Linux-AnyCPU\Jypeli.Physics2d.xml"
+;  File "..\Compiled\Linux-AnyCPU\Jypeli.SimplePhysics.dll"
+;  File "..\Compiled\Linux-AnyCPU\Jypeli.SimplePhysics.xml"
+;SectionEnd
 
 Section "MonoJypeli content extensions"
   SetOutPath "C:\Program Files (x86)\MonoJypeli\ContentExtensions"
@@ -258,16 +258,16 @@ Section "Windows DirectX"
   ${Endif}
 SectionEnd
 
-Section "Windows OpenGL"
-  ReadEnvStr $R0 VS140COMNTOOLS
-  
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyGLTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
-  ${Endif}
-SectionEnd
+;Section "Windows OpenGL"
+;  ReadEnvStr $R0 VS140COMNTOOLS
+;  
+;  ${If} $R0 != ""
+;    Push $R0
+;    Call CopyGLTemplates
+;  ${Else}
+;    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
+;  ${Endif}
+;SectionEnd
 
 Section "Android"
   ReadEnvStr $R0 VS140COMNTOOLS
@@ -279,15 +279,15 @@ Section "Android"
   ${Endif}
 SectionEnd
 
-Section "Windows Universal App"
-  ReadEnvStr $R0 VS140COMNTOOLS
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyUniversalTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
-  ${Endif}
-SectionEnd
+;Section "Windows Universal App"
+;  ReadEnvStr $R0 VS140COMNTOOLS
+;  ${If} $R0 != ""
+;    Push $R0
+;    Call CopyUniversalTemplates
+;  ${Else}
+;    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
+;  ${Endif}
+;SectionEnd
 
 Section "Run template installer"
   ReadEnvStr $R0 VS140COMNTOOLS
@@ -297,77 +297,6 @@ Section "Run template installer"
     Call InstallVsTemplates
   ${Else}
     DetailPrint "Could not find Visual Studio 2015, skipping template installation."
-  ${Endif}
-SectionEnd
-
-SubSectionEnd
-
-SubSection "Visual Studio 2013 project templates"
-
-Section "Windows DirectX"
-  ReadEnvStr $R0 VS120COMNTOOLS
-  
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyDxTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
-  ${Endif}
-SectionEnd
-
-Section "Windows OpenGL"
-  ReadEnvStr $R0 VS120COMNTOOLS
-  
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyGLTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
-  ${Endif}
-SectionEnd
-
-Section "Android"
-  ReadEnvStr $R0 VS120COMNTOOLS
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyAndroidTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
-  ${Endif}
-SectionEnd
-
-Section "Run template installer"
-  ReadEnvStr $R0 VS120COMNTOOLS
-  ${If} $R0 != ""
-    DetailPrint "Installing project templates for VS2013 (may take a while)..."
-    Push $R0
-    Call InstallVsTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2013, skipping template installation."
-  ${Endif}
-SectionEnd
-
-SubSectionEnd
-
-SubSection "Visual Studio 2012 project templates"
-
-Section "Windows DirectX"
-  ReadEnvStr $R0 VS110COMNTOOLS
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyDxTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2012, skipping template installation."
-  ${Endif}
-SectionEnd
-
-Section "WindowsGL"
-  ReadEnvStr $R0 VS110COMNTOOLS
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyGLTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2012, skipping template installation."
   ${Endif}
 SectionEnd
 

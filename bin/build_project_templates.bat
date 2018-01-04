@@ -18,6 +18,7 @@ pushd %templates_dir%
 for /D %%d in (*) do (
   pushd %%d
   echo zipataan %%d
+  del %%d.zip
   %zip% a %%d.zip *
   move %%d.zip ..
   popd

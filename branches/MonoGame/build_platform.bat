@@ -19,12 +19,13 @@ if %argC% NEQ 1 (
 )
 
 rem MSBuild
-set msbuild="C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
+call find_msbuild
 
-if exist %msbuild% goto msbuildok
+if exist "%msbuild%" goto msbuildok
+if exist 
 ECHO.
 ECHO.
-echo MSBuild 14.0 (Visual Studio 2015) required.
+echo MSBuild 15.0 (Visual Studio 2017) required.
 ECHO.
 ECHO.
 goto error
@@ -55,7 +56,7 @@ if "%platform%"=="Linux" (
 )
 
 
-%msbuild% Jypeli.%platform%.sln /t:Rebuild /p:Platform=%arch2%
+"%msbuild%" Jypeli.%platform%.sln /t:Rebuild /p:Platform=%arch2%
 if errorlevel 1 goto error
 
 call copy_compiled.bat %platform% %arch%

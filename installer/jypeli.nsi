@@ -15,7 +15,7 @@ RequestExecutionLevel admin
 ; Headers
 !include LogicLib.nsh
 !include nsDialogs.nsh
-
+!include sections.nsh
 
 ; Globals
 Var MonoGameInstalled
@@ -29,7 +29,6 @@ Page instfiles
 
 UninstPage uninstConfirm
 UninstPage instfiles
-
 
 Function ChkPrqHelper
 	StrCpy $1 "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MonoGame"
@@ -107,7 +106,7 @@ Section "Jypeli"
   WriteUninstaller "$INSTDIR\uninstall.exe"
 SectionEnd
 
-Section "MonoJypeli for Windows, DirectX 11"
+Section "MonoJypeli for Windows, DirectX 11" SECTION_WINDOWS_DIRECTX
   SetOutPath "$INSTDIR\Windows"
   File "..\Compiled\Windows-AnyCPU\Jypeli.dll"
   File "..\Compiled\Windows-AnyCPU\Jypeli.xml"
@@ -127,14 +126,14 @@ SectionEnd
 ;  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.SimplePhysics.xml"
 ;SectionEnd
 
-Section "MonoJypeli for Android"
+Section "MonoJypeli for Android" SECTION_ANDROID
   SetOutPath "$INSTDIR\Android"
   File "..\Compiled\Android-AnyCPU\Jypeli.dll"
 ;  File "..\Compiled\Android-AnyCPU\Jypeli.pdb"
-;  File "..\Compiled\Android-AnyCPU\Jypeli.xml"
+  File "..\Compiled\Android-AnyCPU\Jypeli.xml"
   File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.dll"
 ;  File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.pdb"
-;  File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.xml"
+  File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.xml"
 ;  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.dll"
 ;  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.pdb"
 ;  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.xml"
@@ -193,7 +192,7 @@ Section "OpenAL" OpenAL
   ExecWait '"$INSTDIR\WindowsGL\oalinst.exe /S"'
 SectionEnd
 
-Section "Project templates for Visual Studio 2017"
+Section "Visual Studio 2017 Project Templates"
   ; Visual Studio 2017 doesn't create an environment variable, so we need to use vswhere.exe instead
   ; (the link below talks about C, but it's the same thing with C#)
   ; https://blogs.msdn.microsoft.com/vcblog/2017/03/06/finding-the-visual-c-compiler-tools-in-visual-studio-2017/
@@ -223,18 +222,27 @@ Section "Project templates for Visual Studio 2017"
   StrCpy $0 $0 -2
   
   IfFileExists "$0\Common7\IDE\devenv.exe" 0 Error17
-    DetailPrint "Found VS2017, installing templates..."
-	StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Windows"
-	CreateDirectory $1
-	SetOutPath $1
-	File "..\Projektimallit\Windows\*.zip"
-	StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Android"
-	CreateDirectory $1
-	SetOutPath $1
-	File "..\Projektimallit\Android\*.zip"
-	SetOutPath "$0\Common7\IDE\ProjectTemplates"
-	File "..\Projektimallit\Windows\Jypeli-Windows.vstman"
-	File "..\Projektimallit\Android\Jypeli-Android.vstman"
+    ; Windows
+	${If} ${SectionIsSelected} ${SECTION_WINDOWS_DIRECTX}
+		DetailPrint "Found VS2017, installing templates..."
+		StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Windows"
+		CreateDirectory $1
+		SetOutPath $1
+		File "..\Projektimallit\Windows\*.zip"
+		SetOutPath "$0\Common7\IDE\ProjectTemplates"
+		File "..\Projektimallit\Windows\Jypeli-Windows.vstman"
+	${Endif}
+	
+	; Android
+	${If} ${SectionIsSelected} ${SECTION_ANDROID}
+		StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Android"
+		CreateDirectory $1
+		SetOutPath $1
+		File "..\Projektimallit\Android\*.zip"
+		SetOutPath "$0\Common7\IDE\ProjectTemplates"
+		File "..\Projektimallit\Android\Jypeli-Android.vstman"
+	${Endif}
+	
 	DetailPrint "Updating template cache, please wait. This could take a couple of minutes."
     ExecWait '"$0\Common7\IDE\devenv.exe" /InstallVSTemplates'
   Goto Done17
@@ -245,9 +253,9 @@ Section "Project templates for Visual Studio 2017"
   Done17:
 SectionEnd
 
-SubSection "Visual Studio 2015 project templates"
+SubSection "Visual Studio 2015 Project Templates" SECTION_VS2015
 
-Section "Windows DirectX"
+Section "Windows DirectX" SECTION_VS2015_WINDX
   ReadEnvStr $R0 VS140COMNTOOLS
   
   ${If} $R0 != ""
@@ -269,7 +277,7 @@ SectionEnd
 ;  ${Endif}
 ;SectionEnd
 
-Section "Android"
+Section "Android" SECTION_VS2015_ANDROID
   ReadEnvStr $R0 VS140COMNTOOLS
   ${If} $R0 != ""
     Push $R0
@@ -289,7 +297,7 @@ SectionEnd
 ;  ${Endif}
 ;SectionEnd
 
-Section "Run template installer"
+Section "Run template installer" SECTION_VS2015_TI
   ReadEnvStr $R0 VS140COMNTOOLS
   ${If} $R0 != ""
     DetailPrint "Installing project templates for VS2015 (may take a while)..."
@@ -537,3 +545,20 @@ Section "Uninstall"
 
   
 SectionEnd
+
+Function .onInit
+	ReadEnvStr $R0 VS140COMNTOOLS
+	
+	; If VS 2015 not found, hide and uncheck the related section
+	${If} $R0 == ""
+		IntOp $0 0 | ${SF_EXPAND}
+		SectionSetFlags ${SECTION_VS2015} $0
+		SectionSetFlags ${SECTION_VS2015_WINDX} 0
+		SectionSetFlags ${SECTION_VS2015_ANDROID} 0
+		SectionSetFlags ${SECTION_VS2015_TI} 0
+		SectionSetText ${SECTION_VS2015} ""
+		SectionSetText ${SECTION_VS2015_WINDX} ""
+		SectionSetText ${SECTION_VS2015_ANDROID} ""
+		SectionSetText ${SECTION_VS2015_TI} ""
+	${Endif}
+FunctionEnd

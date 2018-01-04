@@ -7,12 +7,12 @@ set baseDir=Compiled
 set extName=%1
 
 rem MSBuild
-set msbuild="C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
+call find_msbuild
 
-if exist %msbuild% goto msbuildok
+if exist "%msbuild%" goto msbuildok
 ECHO.
 ECHO.
-echo MSBuild 14.0 (Visual Studio 2015) required.
+echo MSBuild 15.0 (Visual Studio 2017) required.
 ECHO.
 ECHO.
 goto error
@@ -27,7 +27,7 @@ if not exist %outputDir% mkdir %outputDir%
 rem Build
 
 pushd ContentExtensions\%extName%
-%msbuild% %extName%.sln /t:Rebuild /p:Configuration=Release
+"%msbuild%" %extName%.sln /t:Rebuild /p:Configuration=Release
 if errorlevel 1 goto error
 popd
 

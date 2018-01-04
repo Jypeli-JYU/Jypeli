@@ -17,14 +17,16 @@ if errorlevel 1 goto error
 call build_platform Android
 if errorlevel 1 goto error
 
-call build_platform WindowsUniversal
-if errorlevel 1 goto error
+rem WindowsUniversalissa on jotain ongelmaa, pitää katsoa myöhemmin
+rem call build_platform WindowsUniversal
+rem if errorlevel 1 goto error
 
-call build_platform Windows8
-if errorlevel 1 goto error
+rem Windows8 and WP81 ovat kuolleita alustoja
+rem call build_platform Windows8
+rem if errorlevel 1 goto error
 
-call build_platform WindowsPhone81
-if errorlevel 1 goto error
+rem call build_platform WindowsPhone81
+rem if errorlevel 1 goto error
 
 call build_content_extension TextFileContentExtension
 if errorlevel 1 goto error

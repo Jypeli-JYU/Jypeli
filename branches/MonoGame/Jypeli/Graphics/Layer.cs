@@ -81,9 +81,9 @@ namespace Jypeli
 
         public SynchronousList<IGameObject> Objects = new SynchronousList<IGameObject>();
 
-#if !DISABLE_EFFECTS
+//#if !DISABLE_EFFECTS
         public SynchronousList<ParticleSystem> Effects = new SynchronousList<ParticleSystem>();
-#endif
+//#endif
 
         private List<IGameObject> objectsWithImage = new List<IGameObject>();
         private List<IGameObject> objectsWithoutImage = new List<IGameObject>();
@@ -141,13 +141,13 @@ namespace Jypeli
 
         private void ObjectAdded( IGameObject obj )
         {
-#if !DISABLE_EFFECTS
+//#if !DISABLE_EFFECTS
             if (obj is ParticleSystem)
             {
                 Effects.Add((ParticleSystem)obj);
             }
             else
-#endif
+//#endif
             if (obj is CustomDrawable)
             {
                 objectsWithDrawMethod.Add(obj);
@@ -166,13 +166,13 @@ namespace Jypeli
 
         private void ObjectRemoved( IGameObject obj )
         {
-#if !DISABLE_EFFECTS
+//#if !DISABLE_EFFECTS
             if (obj is ParticleSystem)
             {
                 Effects.Remove((ParticleSystem)obj);
             }
             else
-#endif
+//#endif
             {
                 objectsWithDrawMethod.Remove(obj);
                 objectsWithImage.Remove(obj);
@@ -194,9 +194,9 @@ namespace Jypeli
 
         public void Clear()
         {
-#if !DISABLE_EFFECTS
+//#if !DISABLE_EFFECTS
             Effects.Clear();
-#endif
+//#endif
             Objects.Clear();
             objectsWithImage.Clear();
             objectsWithoutImage.Clear();
@@ -207,9 +207,9 @@ namespace Jypeli
         {
             Objects.Update( time );
 
-#if !DISABLE_EFFECTS
+//#if !DISABLE_EFFECTS
             Effects.Update(time);
-#endif
+//#endif
         }
 
         internal void Draw( Camera camera )
@@ -231,9 +231,9 @@ namespace Jypeli
                     break;
             }
 
-#if !DISABLE_EFFECTS
+//#if !DISABLE_EFFECTS
             Effects.ForEach( e => e.Draw(worldMatrix) );
-#endif
+//#endif
 
             if ( Grid != null )
             {

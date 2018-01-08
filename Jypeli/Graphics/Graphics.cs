@@ -60,7 +60,7 @@ namespace Jypeli
             BottomRight = new Vector2( 1.0f, 1.0f ),
         };
 
-#if !WINDOWS_PHONE && !DISABLE_EFFECTS
+#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
         static Effect LightingEffect;
 #endif
 
@@ -94,7 +94,7 @@ namespace Jypeli
             BasicColorEffect.VertexColorEnabled = true;
             BasicColorEffect.TextureEnabled = false;
 
-#if !WINDOWS_PHONE && !DISABLE_EFFECTS
+#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
             // A hack until we can use Game.ResourceContent.Load<Effect>( "Lighting" )
             LightingEffect = new Effect(Game.GraphicsDevice, Jypeli.Content.Lighting.rawData);
 #endif
@@ -146,7 +146,7 @@ namespace Jypeli
 
         public static Effect GetTextureEffect( ref Matrix worldMatrix, Texture2D texture, bool lightingEnabled )
         {
-#if !WINDOWS_PHONE && !DISABLE_EFFECTS
+#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
             if ( lightingEnabled && is_PS_2_0_supported )
             {
                 Effect effect = GetLightingEffect( ref worldMatrix );
@@ -167,7 +167,7 @@ namespace Jypeli
 
         public static Effect GetColorEffect( ref Matrix worldMatrix, bool lightingEnabled )
         {
-#if !WINDOWS_PHONE && !DISABLE_EFFECTS
+#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
             if ( lightingEnabled && is_PS_2_0_supported )
             {
                 Effect effect = GetLightingEffect( ref worldMatrix );
@@ -183,7 +183,7 @@ namespace Jypeli
             }
         }
 
-#if !WINDOWS_PHONE && !DISABLE_EFFECTS
+#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
         private static Effect GetLightingEffect( ref Matrix worldMatrix )
         {
             Effect effect = LightingEffect;

@@ -198,12 +198,12 @@ Section "Visual Studio 2017 Project Templates"
   ; https://blogs.msdn.microsoft.com/vcblog/2017/03/06/finding-the-visual-c-compiler-tools-in-visual-studio-2017/
   ; https://github.com/Microsoft/vswhere
   DetailPrint "Requested template installation for Visual Studio 2017."
-  IfFileExists "$PROGRAMFILES32\Microsoft Visual Studio\Installer\vswhere.exe" Install17
+  IfFileExists "$PROGRAMFILES32\Microsoft Visual Studio\Installer\vswhere.exe" Find17
     DetailPrint "vswhere.exe not found, template installation failed."
     Goto Done17
-  Goto Install17
+  Goto Find17
   
-  Install17:
+  Find17:
   ; nsExec documentation: http://nsis.sourceforge.net/Docs/nsExec/nsExec.txt
   ; for vswhere.exe command line arguments, run vswhere.exe /?
   ; TODO Check if this also works when multiple VS2017 editions are installed (like Community and Enterprise)
@@ -221,30 +221,40 @@ Section "Visual Studio 2017 Project Templates"
   ; it could be safer to use a string trim function instead
   StrCpy $0 $0 -2
   
+  IfFileExists "$0\Common7\IDE\devenv.exe" Install17
+  
+  ; Sometimes vswhere.exe can apparently fail to report the correct directory.
+  ; If that's the case, we'll check the default directories.
+  StrCpy $0 "$PROGRAMFILES32\Microsoft Visual Studio\2017\Community"
+  IfFileExists "$0\Common7\IDE\devenv.exe" Install17
+  
+  StrCpy $0 "$PROGRAMFILES32\Microsoft Visual Studio\2017\Enterprise"
   IfFileExists "$0\Common7\IDE\devenv.exe" 0 Error17
-    ; Windows
-	${If} ${SectionIsSelected} ${SECTION_WINDOWS_DIRECTX}
-		DetailPrint "Found VS2017, installing templates..."
-		StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Windows"
-		CreateDirectory $1
-		SetOutPath $1
-		File "..\Projektimallit\Windows\*.zip"
-		SetOutPath "$0\Common7\IDE\ProjectTemplates"
-		File "..\Projektimallit\Windows\Jypeli-Windows.vstman"
-	${Endif}
-	
-	; Android
-	${If} ${SectionIsSelected} ${SECTION_ANDROID}
-		StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Android"
-		CreateDirectory $1
-		SetOutPath $1
-		File "..\Projektimallit\Android\*.zip"
-		SetOutPath "$0\Common7\IDE\ProjectTemplates"
-		File "..\Projektimallit\Android\Jypeli-Android.vstman"
-	${Endif}
-	
-	DetailPrint "Updating template cache, please wait. This could take a couple of minutes."
-    ExecWait '"$0\Common7\IDE\devenv.exe" /InstallVSTemplates'
+  
+  Install17:
+  ; Windows
+  ${If} ${SectionIsSelected} ${SECTION_WINDOWS_DIRECTX}
+  	DetailPrint "Found VS2017, installing templates..."
+  	StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Windows"
+  	CreateDirectory $1
+  	SetOutPath $1
+  	File "..\Projektimallit\Windows\*.zip"
+  	SetOutPath "$0\Common7\IDE\ProjectTemplates"
+  	File "..\Projektimallit\Windows\Jypeli-Windows.vstman"
+  ${Endif}
+  
+  ; Android
+  ${If} ${SectionIsSelected} ${SECTION_ANDROID}
+  	StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Android"
+  	CreateDirectory $1
+  	SetOutPath $1
+  	File "..\Projektimallit\Android\*.zip"
+  	SetOutPath "$0\Common7\IDE\ProjectTemplates"
+  	File "..\Projektimallit\Android\Jypeli-Android.vstman"
+  ${Endif}
+  
+  DetailPrint "Updating template cache, please wait. This could take a couple of minutes."
+  ExecWait '"$0\Common7\IDE\devenv.exe" /InstallVSTemplates'
   Goto Done17
   
   Error17:
@@ -452,12 +462,12 @@ Section "Uninstall"
 
   ; VS 2017 product templates
   DetailPrint "Uninstalling Visual Studio 2017 templates."
-  IfFileExists "$PROGRAMFILES32\Microsoft Visual Studio\Installer\vswhere.exe" Install17
+  IfFileExists "$PROGRAMFILES32\Microsoft Visual Studio\Installer\vswhere.exe" Find17
     DetailPrint "vswhere.exe not found, skipping template uninstallation."
     Goto Done17
-  Goto Install17
+  Goto Find17
   
-  Install17:
+  Find17:
   ; nsExec documentation: http://nsis.sourceforge.net/Docs/nsExec/nsExec.txt
   ; for vswhere.exe command line arguments, run vswhere.exe /?
   ; TODO Check if this also works when multiple VS2017 editions are installed (like Community and Enterprise)
@@ -475,18 +485,29 @@ Section "Uninstall"
   ; it could be safer to use a string trim function instead
   StrCpy $0 $0 -2
   
+  IfFileExists "$0\Common7\IDE\devenv.exe" Uninstall17
+  
+  ; Sometimes vswhere.exe can apparently fail to report the correct directory.
+  ; If that's the case, we'll check the default directories.
+  StrCpy $0 "$PROGRAMFILES32\Microsoft Visual Studio\2017\Community"
+  IfFileExists "$0\Common7\IDE\devenv.exe" Uninstall17
+  
+  StrCpy $0 "$PROGRAMFILES32\Microsoft Visual Studio\2017\Enterprise"
   IfFileExists "$0\Common7\IDE\devenv.exe" 0 Error17
-    DetailPrint "Found VS2017, uninstalling templates..."
-	StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Windows"
-	Delete "$1\*.zip"
-	RMDir "$1"
-	StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Android"
-	Delete "$1\*.zip"
-	RMDir "$1"
-	Delete "$0\Common7\IDE\ProjectTemplates\Jypeli-Windows.vstman"
-	Delete "$0\Common7\IDE\ProjectTemplates\Jypeli-Android.vstman"
-	DetailPrint "Updating Visual Studio 2017 templates (may take a while)..."
-    ExecWait '"$0\Common7\IDE\devenv.exe" /InstallVSTemplates'
+  
+  Uninstall17:
+  
+  DetailPrint "Found VS2017, uninstalling templates..."
+  StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Windows"
+  Delete "$1\*.zip"
+  RMDir "$1"
+  StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Android"
+  Delete "$1\*.zip"
+  RMDir "$1"
+  Delete "$0\Common7\IDE\ProjectTemplates\Jypeli-Windows.vstman"
+  Delete "$0\Common7\IDE\ProjectTemplates\Jypeli-Android.vstman"
+  DetailPrint "Updating Visual Studio 2017 templates (may take a while)..."
+  ExecWait '"$0\Common7\IDE\devenv.exe" /InstallVSTemplates'
   Goto Done17
   
   Error17:

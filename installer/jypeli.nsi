@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 6.8.6"
+Name "MonoJypeli 6.9.0"
 
 OutFile "MonoJypeli_setup.exe"
 
@@ -232,13 +232,22 @@ Section "Visual Studio 2017 Project Templates"
   IfFileExists "$0\Common7\IDE\devenv.exe" 0 Error17
   
   Install17:
+  
+  ; MSBuild
+  CreateDirectory "$PROGRAMFILES32\MSBuild\Jypeli"
+  SetOutPath "$PROGRAMFILES32\MSBuild\Jypeli"
+  File "..\MGCBTask\bin\Debug\Jypeli.MGCBTask.dll"
+  File "..\MSBuildExtension\MonoJypeli.targets"
+  
   ; Windows
   ${If} ${SectionIsSelected} ${SECTION_WINDOWS_DIRECTX}
   	DetailPrint "Found VS2017, installing templates..."
   	StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Windows"
   	CreateDirectory $1
   	SetOutPath $1
-  	File "..\Projektimallit\Windows\*.zip"
+	; Delete outdated .zip templates
+	Delete "$1\*.zip"
+  	File /r /x *.zip /x Jypeli-Windows.vstman "..\Projektimallit\Windows\"
   	SetOutPath "$0\Common7\IDE\ProjectTemplates"
   	File "..\Projektimallit\Windows\Jypeli-Windows.vstman"
   ${Endif}
@@ -248,6 +257,8 @@ Section "Visual Studio 2017 Project Templates"
   	StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Android"
   	CreateDirectory $1
   	SetOutPath $1
+	; Android can still use ZIP files without issues, since we can't compile
+	; Android projects at the university anyway
   	File "..\Projektimallit\Android\*.zip"
   	SetOutPath "$0\Common7\IDE\ProjectTemplates"
   	File "..\Projektimallit\Android\Jypeli-Android.vstman"
@@ -263,18 +274,18 @@ Section "Visual Studio 2017 Project Templates"
   Done17:
 SectionEnd
 
-SubSection "Visual Studio 2015 Project Templates" SECTION_VS2015
-
-Section "Windows DirectX" SECTION_VS2015_WINDX
-  ReadEnvStr $R0 VS140COMNTOOLS
-  
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyDxTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
-  ${Endif}
-SectionEnd
+;SubSection "Visual Studio 2015 Project Templates" SECTION_VS2015
+;
+;Section "Windows DirectX" SECTION_VS2015_WINDX
+;  ReadEnvStr $R0 VS140COMNTOOLS
+;  
+;  ${If} $R0 != ""
+;    Push $R0
+;    Call CopyDxTemplates
+;  ${Else}
+;    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
+;  ${Endif}
+;SectionEnd
 
 ;Section "Windows OpenGL"
 ;  ReadEnvStr $R0 VS140COMNTOOLS
@@ -287,15 +298,15 @@ SectionEnd
 ;  ${Endif}
 ;SectionEnd
 
-Section "Android" SECTION_VS2015_ANDROID
-  ReadEnvStr $R0 VS140COMNTOOLS
-  ${If} $R0 != ""
-    Push $R0
-    Call CopyAndroidTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
-  ${Endif}
-SectionEnd
+;Section "Android" SECTION_VS2015_ANDROID
+;  ReadEnvStr $R0 VS140COMNTOOLS
+;  ${If} $R0 != ""
+;    Push $R0
+;    Call CopyAndroidTemplates
+;  ${Else}
+;    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
+;  ${Endif}
+;SectionEnd
 
 ;Section "Windows Universal App"
 ;  ReadEnvStr $R0 VS140COMNTOOLS
@@ -307,18 +318,18 @@ SectionEnd
 ;  ${Endif}
 ;SectionEnd
 
-Section "Run template installer" SECTION_VS2015_TI
-  ReadEnvStr $R0 VS140COMNTOOLS
-  ${If} $R0 != ""
-    DetailPrint "Installing project templates for VS2015 (may take a while)..."
-    Push $R0
-    Call InstallVsTemplates
-  ${Else}
-    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
-  ${Endif}
-SectionEnd
-
-SubSectionEnd
+;Section "Run template installer" SECTION_VS2015_TI
+;  ReadEnvStr $R0 VS140COMNTOOLS
+;  ${If} $R0 != ""
+;    DetailPrint "Installing project templates for VS2015 (may take a while)..."
+;    Push $R0
+;    Call InstallVsTemplates
+;  ${Else}
+;    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
+;  ${Endif}
+;SectionEnd
+;
+;SubSectionEnd
 
 Function CopyDxTemplates
    Pop $0
@@ -498,12 +509,9 @@ Section "Uninstall"
   Uninstall17:
   
   DetailPrint "Found VS2017, uninstalling templates..."
-  StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Windows"
-  Delete "$1\*.zip"
-  RMDir "$1"
-  StrCpy $1 "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Android"
-  Delete "$1\*.zip"
-  RMDir "$1"
+  RMDir /r "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Windows"
+  RMDir /r "$0\Common7\IDE\ProjectTemplates\CSharp\Jypeli-Android"
+  RMDir /r "$PROGRAMFILES32\MSBuild\Jypeli"
   Delete "$0\Common7\IDE\ProjectTemplates\Jypeli-Windows.vstman"
   Delete "$0\Common7\IDE\ProjectTemplates\Jypeli-Android.vstman"
   DetailPrint "Updating Visual Studio 2017 templates (may take a while)..."
@@ -567,19 +575,20 @@ Section "Uninstall"
   
 SectionEnd
 
-Function .onInit
-	ReadEnvStr $R0 VS140COMNTOOLS
-	
-	; If VS 2015 not found, hide and uncheck the related section
-	${If} $R0 == ""
-		IntOp $0 0 | ${SF_EXPAND}
-		SectionSetFlags ${SECTION_VS2015} $0
-		SectionSetFlags ${SECTION_VS2015_WINDX} 0
-		SectionSetFlags ${SECTION_VS2015_ANDROID} 0
-		SectionSetFlags ${SECTION_VS2015_TI} 0
-		SectionSetText ${SECTION_VS2015} ""
-		SectionSetText ${SECTION_VS2015_WINDX} ""
-		SectionSetText ${SECTION_VS2015_ANDROID} ""
-		SectionSetText ${SECTION_VS2015_TI} ""
-	${Endif}
-FunctionEnd
+; Since we no longer support VS2015, we don't need this anymore
+;Function .onInit
+;	ReadEnvStr $R0 VS140COMNTOOLS
+;	
+;	; If VS 2015 not found, hide and uncheck the related section
+;	${If} $R0 == ""
+;		IntOp $0 0 | ${SF_EXPAND}
+;		SectionSetFlags ${SECTION_VS2015} $0
+;		SectionSetFlags ${SECTION_VS2015_WINDX} 0
+;		SectionSetFlags ${SECTION_VS2015_ANDROID} 0
+;		SectionSetFlags ${SECTION_VS2015_TI} 0
+;		SectionSetText ${SECTION_VS2015} ""
+;		SectionSetText ${SECTION_VS2015_WINDX} ""
+;		SectionSetText ${SECTION_VS2015_ANDROID} ""
+;		SectionSetText ${SECTION_VS2015_TI} ""
+;	${Endif}
+;FunctionEnd

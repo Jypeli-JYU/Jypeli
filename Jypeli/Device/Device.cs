@@ -153,18 +153,18 @@ namespace Jypeli.Devices
                 defaultScale = new Vector( Game.Screen.ViewportSize.X / defaultSize.X, Game.Screen.ViewportSize.Y / defaultSize.Y );
             }
 
-            //if ( _displayOrientation == DisplayOrientation.Portrait || _displayOrientation == DisplayOrientation.PortraitInverse )
-            //{
-            //    Game.Screen.Size = defaultSize.Transpose();
-            //    Game.Screen.Scale = defaultScale.Transpose();
-            //    Game.Screen.Angle = _displayOrientation == DisplayOrientation.PortraitInverse ? -Angle.RightAngle : Angle.RightAngle;
-            //}
-            //else
-            //{
-            //    Game.Screen.Size = defaultSize;
-            //    Game.Screen.Scale = defaultScale;
-            //    Game.Screen.Angle = _displayOrientation == DisplayOrientation.LandscapeRight ?  Angle.StraightAngle : Angle.Zero;
-            //}
+            if ( _displayOrientation == DisplayOrientation.Portrait || _displayOrientation == DisplayOrientation.PortraitInverse )
+            {
+                Game.Screen.Size = defaultSize.Transpose();
+                Game.Screen.Scale = defaultScale.Transpose();
+                Game.Screen.Angle = _displayOrientation == DisplayOrientation.PortraitInverse ? -Angle.RightAngle : Angle.RightAngle;
+            }
+            else
+            {
+                Game.Screen.Size = defaultSize;
+                Game.Screen.Scale = defaultScale;
+                Game.Screen.Angle = _displayOrientation == DisplayOrientation.LandscapeRight ?  Angle.StraightAngle : Angle.Zero;
+            }
         }
 
         internal virtual void ResetScreen()

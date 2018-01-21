@@ -227,8 +227,6 @@ namespace Jypeli
             Screen = new ScreenView( GraphicsDevice );
             Jypeli.Graphics.Initialize();
 
-            GraphicsDeviceManager.SupportedOrientations = Microsoft.Xna.Framework.DisplayOrientation.LandscapeLeft;
-
             Camera = new Camera();
             SmoothTextures = true;
         }

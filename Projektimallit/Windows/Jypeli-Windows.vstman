@@ -1,6 +1,6 @@
 <VSTemplateManifest Version="1.0" Locale="1033" xmlns="http://schemas.microsoft.com/developer/vstemplatemanifest/2015">  
   <VSTemplateContainer TemplateType="Project">
-    <RelativePathOnDisk>CSharp\Jypeli-Windows\ConsoleMain.zip</RelativePathOnDisk>
+    <RelativePathOnDisk>CSharp\Jypeli-Windows\ConsoleMain</RelativePathOnDisk>
     <TemplateFileName>MyTemplate.vstemplate</TemplateFileName>
     <VSTemplateHeader>
       <TemplateData xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
@@ -17,7 +17,7 @@
     </VSTemplateHeader>
   </VSTemplateContainer>
   <VSTemplateContainer TemplateType="Project">
-    <RelativePathOnDisk>CSharp\Jypeli-Windows\FysiikkaPeli_Physics2d.zip</RelativePathOnDisk>
+    <RelativePathOnDisk>CSharp\Jypeli-Windows\FysiikkaPeli_Physics2d</RelativePathOnDisk>
     <TemplateFileName>MyTemplate.vstemplate</TemplateFileName>
     <VSTemplateHeader>
       <TemplateData xmlns="http://schemas.microsoft.com/developer/vstemplate/2005"> 
@@ -34,7 +34,7 @@
     </VSTemplateHeader>
   </VSTemplateContainer>
   <VSTemplateContainer TemplateType="Project">
-    <RelativePathOnDisk>CSharp\Jypeli-Windows\PerusPeli.zip</RelativePathOnDisk>
+    <RelativePathOnDisk>CSharp\Jypeli-Windows\PerusPeli</RelativePathOnDisk>
     <TemplateFileName>MyTemplate.vstemplate</TemplateFileName>
     <VSTemplateHeader>
       <TemplateData xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
@@ -51,7 +51,7 @@
     </VSTemplateHeader>
   </VSTemplateContainer>
   <VSTemplateContainer TemplateType="Project">
-    <RelativePathOnDisk>CSharp\Jypeli-Windows\TasohyppelyPeli.zip</RelativePathOnDisk>
+    <RelativePathOnDisk>CSharp\Jypeli-Windows\TasohyppelyPeli</RelativePathOnDisk>
     <TemplateFileName>MyTemplate.vstemplate</TemplateFileName>
     <VSTemplateHeader>
       <TemplateData xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">

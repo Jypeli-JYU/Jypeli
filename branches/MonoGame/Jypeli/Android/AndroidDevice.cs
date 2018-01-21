@@ -48,19 +48,19 @@ namespace Jypeli.Android
                 defaultScale = new Vector( Game.Screen.ViewportSize.X / defaultSize.X, Game.Screen.ViewportSize.Y / defaultSize.Y );
             }
 
-            if ( DisplayOrientation == DisplayOrientation.Portrait || DisplayOrientation == DisplayOrientation.PortraitInverse )
-            {
-                Game.Screen.Size = defaultSize.Transpose();
-                Game.Screen.Scale = defaultScale.Transpose();
-                Game.Screen.Angle = _directionalSign * (DisplayOrientation == DisplayOrientation.PortraitInverse ? -Angle.RightAngle : Angle.RightAngle);
-            }
-            else
-            {
-                Game.Screen.Size = defaultSize;
-                Game.Screen.Scale = defaultScale;
-                Game.Screen.Angle = Angle.Zero;
-                _directionalSign = DisplayOrientation == DisplayOrientation.LandscapeRight ? -1 : 1;
-            }
+            //if ( DisplayOrientation == DisplayOrientation.Portrait || DisplayOrientation == DisplayOrientation.PortraitInverse )
+            //{
+            //    Game.Screen.Size = defaultSize.Transpose();
+            //    Game.Screen.Scale = defaultScale.Transpose();
+            //    Game.Screen.Angle = _directionalSign * (DisplayOrientation == DisplayOrientation.PortraitInverse ? -Angle.RightAngle : Angle.RightAngle);
+            //}
+            //else
+            //{
+            //    Game.Screen.Size = defaultSize;
+            //    Game.Screen.Scale = defaultScale;
+            //    Game.Screen.Angle = Angle.Zero;
+            //    _directionalSign = DisplayOrientation == DisplayOrientation.LandscapeRight ? -1 : 1;
+            //}
         }
     }
 }

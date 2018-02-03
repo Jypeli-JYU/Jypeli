@@ -276,6 +276,16 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Palauttaa satunnaisen muodon.
+        /// </summary>
+        public static Shape NextShape()
+        {
+            return SelectOne(new Shape[] { Shape.Diamond, Shape.Ellipse,
+                Shape.Heart, Shape.Hexagon, Shape.Octagon, Shape.Pentagon,
+                Shape.Rectangle, Shape.Star, Shape.Triangle });
+        }
+
+        /// <summary>
         /// Palauttaa satunnaisen kokonaisluvun annettujen todennäköisyyksien
         /// perusteella.
         /// </summary>

@@ -173,11 +173,19 @@ namespace Jypeli
             return new Vector( a.X * b.X, a.Y * b.Y );
         }
 
+        public double Distance(Vector2D vector)
+        {
+            return Distance(this, vector);
+        }
+
         public double ScalarProjection( Vector unitVector )
         {
             return ( Vector.DotProduct( this, unitVector ) / unitVector.MagnitudeSquared );
         }
 
+        /// <summary>
+        /// Laskee ja palauttaa tämän pisteen etäisyyden toiseen pisteeseen.
+        /// </summary>
         public Vector Project( Vector to )
         {
             return ScalarProjection( to ) * to;

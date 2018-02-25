@@ -186,6 +186,8 @@ namespace Jypeli
             return colors[row, col];
         }
 
+        
+
         /// <summary>
         /// Ottaa kokonaisluvusta alpha-arvon
         /// </summary>
@@ -587,11 +589,6 @@ namespace Jypeli
         public static readonly Color DarkJungleGreen = new Color( 0, 127, 70, 255 );
 
         /// <summary>
-        /// Tumma magenta (purppura).
-        /// </summary>
-        public static readonly Color DarkMagenta = Color.Purple;
-
-        /// <summary>
         /// Tumma oranssi / ruskea.
         /// </summary>
         public static readonly Color DarkOrange = Color.Brown;
@@ -805,6 +802,11 @@ namespace Jypeli
         /// Purppura.
         /// </summary>
         public static readonly Color Purple = new Color( 127, 0, 110, 255 );
+
+        /// <summary>
+        /// Tumma magenta (purppura).
+        /// </summary>
+        public static readonly Color DarkMagenta = Color.Purple;
 
         /// <summary>
         /// Punainen.

@@ -152,6 +152,9 @@ namespace Jypeli
 
         private void ShowMouse()
         {
+            if (!IsModal)
+                return;
+
             if ( Game.Instance != null )
             {
                 prevMouseVisible = Game.Instance.IsMouseVisible;
@@ -161,6 +164,9 @@ namespace Jypeli
 
         private void RestoreMouse()
         {
+            if (!IsModal)
+                return;
+
             if ( Game.Instance != null )
                 Game.Instance.IsMouseVisible = prevMouseVisible;
         }

@@ -251,7 +251,7 @@ namespace Jypeli
 
             if ( !windowPositionSet )
                 CenterWindow();
-            
+
             Level = new Level( this );
             base.Initialize();
         }

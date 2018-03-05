@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tomi Karppinen, Tero Jäntti
+ * Authors: Tomi Karppinen, Tero Jäntti, Rami Pasanen
  */
 
 using System;

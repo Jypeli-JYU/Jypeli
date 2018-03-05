@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen, Rami Pasanen.
  */
 
 using System;
@@ -127,7 +127,7 @@ namespace Jypeli.Assets
             //MaxAmmoLifetime = TimeSpan.FromSeconds( 0.7 );
 
             Image = Game.LoadImageFromResources( "PlasmaCannon" );
-            AttackSound = Game.LoadSoundEffectFromResources( "laser" );
+            AttackSound = Game.LoadSoundEffectFromResources( "Laser" );
             TimeBetweenUse = TimeSpan.FromSeconds( 0 );
         }
 

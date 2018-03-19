@@ -473,6 +473,7 @@
     <Compile Include="Widgets\ProgressBar.cs" />
     <Compile Include="Widgets\PushButton.cs" />
     <Compile Include="Widgets\ScoreListWidget.cs" />
+	<Compile Include="Widgets\Slider.cs" />
     <Compile Include="Widgets\SplashScreen.cs" />
     <Compile Include="Widgets\StringListWidget.cs" />
     <Compile Include="Widgets\StringListWindow.cs" />

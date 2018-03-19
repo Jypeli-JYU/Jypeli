@@ -359,7 +359,6 @@
     <Compile Include="GameObjects\Surface\Surface.cs" />
     <Compile Include="GameObjects\Surface\Surfaces.cs" />
     <Compile Include="GameObjects\Widget\Appearance.cs" />
-    <Compile Include="GameObjects\Widget\BindableWidget.cs" />
     <Compile Include="GameObjects\Widget\Control.cs" />
     <Compile Include="GameObjects\Widget\Widget.cs" />
     <Compile Include="Game\Content.cs" />
@@ -459,6 +458,7 @@
     <Compile Include="Physics2DDotNet\Shapes\VertexHelper.cs" />
     <Compile Include="Widgets\Background.cs" />
     <Compile Include="Widgets\BarGauge.cs" />
+	<Compile Include="Widgets\BindableWidget.cs" />
     <Compile Include="Widgets\CustomQueryWindow.cs" />
     <Compile Include="Widgets\EasyHighScore.cs" />
     <Compile Include="Widgets\HighScoreWindow.cs" />

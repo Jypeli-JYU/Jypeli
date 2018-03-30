@@ -56,8 +56,6 @@ namespace Jypeli
             set { Body.IgnoresCollisionResponse = value; }
         }
 
-
-
         /// <summary>
         /// Kimmoisuuskerroin (0 = ei kimmoisa, 1 = täysin kimmoisa, yli 1 = saa energiaa tyhjästä)
         /// </summary>
@@ -176,6 +174,15 @@ namespace Jypeli
         public void ClearCollisionIgnoreGroups()
         {
             CollisionIgnorer = new JypeliGroupIgnorer();
+        }
+
+        /// <summary>
+        /// Tekee oliosta läpimentävän alhaalta ylöspäin (tasohyppelytaso).
+        /// Huom. ei toimi yhdessä CollisionIgnoreGroupien kanssa!
+        /// </summary>
+        public void MakeOneWay()
+        {
+            CollisionIgnorer = new OneWayPlatformIgnorer(Height);
         }
     }
 }

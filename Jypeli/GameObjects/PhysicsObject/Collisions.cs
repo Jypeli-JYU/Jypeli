@@ -127,6 +127,8 @@ namespace Jypeli
 
         /// <summary>
         /// Tarkistaa, jätetäänkö törmäämättä toiseen olioon.
+        /// Ts. tarkistaa, onko joko tällä oliolla tai toisella oliolla esim.
+        /// IgnoresCollisionResponse tai keskenään sama CollisionIgnoreGroup.
         /// </summary>
         /// <returns><c>true</c>, jos ei törmätä, <c>false</c> jos törmätään.</returns>
         /// <param name="target">Olio johon törmäystä tutkitaan.</param>

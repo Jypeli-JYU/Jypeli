@@ -15,11 +15,13 @@ namespace Jypeli
 
         private void addMessageDisplay()
         {
-            if ( MessageDisplay == null )
+            if (MessageDisplay == null)
             {
                 MessageDisplay = new MessageDisplay();
                 MessageDisplay.BackgroundColor = Color.LightGray;
             }
+            else
+                MessageDisplay.Clear();
 
             if ( !MessageDisplay.IsAddedToGame )
                 Add( MessageDisplay );

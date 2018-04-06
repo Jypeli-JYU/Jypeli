@@ -226,8 +226,10 @@ namespace Jypeli
         /// </summary>
         public void ClearGameObjects()
         {
-            foreach ( var layer in Layers )
+            foreach (var layer in Layers)
+            {
                 layer.Clear();
+            }
 
             addMessageDisplay();
         }
@@ -239,6 +241,16 @@ namespace Jypeli
         public void ResetLayers()
         {
             ClearGameObjects();
+
+            foreach (var layer in Layers)
+            {
+                // Jos muutoksia ei päivitetä, niin taso ei ehdi oikeasti hävittää
+                // olioitaan, koska InitLayers luo uudet tasot ja sen jälkeen
+                // vanhat tasot muuttuvat roskaksi - siten esim. peliolioiden
+                // OnRemoved-metodia ei kutsuta ilman tätä ApplyChanges()-kutsua
+                layer.ApplyChanges();
+            }
+
             InitLayers();
         }
 

@@ -179,7 +179,7 @@ namespace Jypeli
                 objectsWithoutImage.Remove(obj);
             }
 
-            ( (IGameObjectInternal)obj ).Layer = null;
+            ((IGameObjectInternal)obj).Layer = null;
         }
 
         internal void Add( IGameObject o )
@@ -201,6 +201,15 @@ namespace Jypeli
             objectsWithImage.Clear();
             objectsWithoutImage.Clear();
             objectsWithDrawMethod.Clear();
+        }
+
+        /// <summary>
+        /// Instantly applies changes made to the layer's objects.
+        /// </summary>
+        public void ApplyChanges()
+        {
+            Effects.UpdateChanges();
+            Objects.UpdateChanges();
         }
 
         public void Update( Time time )

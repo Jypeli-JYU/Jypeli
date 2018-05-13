@@ -8,8 +8,8 @@ namespace Jypeli.Widgets
     /// </summary>
     public class ProgressBar : BindableWidget
     {
-        private double h = -1;
-        private double w = -1;
+        // private double h = -1;
+        // private double w = -1;
 
         private static readonly Vector[] barVertices = new Vector[]
         {

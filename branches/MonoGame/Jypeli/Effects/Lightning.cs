@@ -68,18 +68,18 @@ namespace Jypeli.Effects
     {
         private LightningLayer[] layers;
         //public LightningLayer[] Layers { get { return layers; } }
-        private List<LightningNode> nodes;
+        //private List<LightningNode> nodes;
         private int layerAmount = 7;
 
         private int currentLayer;
 
-        private double height;
-        private double width;
+        //private double height;
+        //private double width;
 
         private bool striking = false;
         private double strikeSpeed = 0.0;
 
-        private Color levelColor;
+        //private Color levelColor;
 
         private int particlesPerLayer;
 

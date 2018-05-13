@@ -253,9 +253,10 @@ public class PlatformCharacter : PhysicsObject
 
     /// <summary>
     /// Luo uuden tasohyppelyhahmon.
+    /// </summary>
     /// <param name="width">Hahmon leveys</param>
     /// <param name="height">Hahmon korkeus</param>
-    /// </summary>
+    /// <param name="shape">Hahmon muoto</param>
     public PlatformCharacter(double width, double height, Shape shape)
         : base(width, height, shape/*, CollisionShapeQuality.FromValue(0.7)*/)
     {

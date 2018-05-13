@@ -114,10 +114,12 @@ namespace Jypeli
         /// </summary>
         /// <typeparam name="T1">Ensimmäisen parametrin tyyppi</typeparam>
         /// <typeparam name="T2">Toisen parametrin tyyppi</typeparam>
+        /// <typeparam name="T3">Kolmannen parametrin tyyppi</typeparam>
         /// <param name="tileSymbol">Merkki</param>
         /// <param name="f">Aliohjelma muotoa void LuoOlio(Vector paikka, double leveys, double korkeus)</param>
         /// <param name="p1">Ensimmäinen parametri</param>
         /// <param name="p2">Toinen parametri</param>
+        /// <param name="p3">Kolmas parametri</param>
         public void SetTileMethod<T1, T2, T3>( TileType tileSymbol, TileMethod<T1, T2, T3> f, T1 p1, T2 p2, T3 p3 )
         {
             legend[tileSymbol] = delegate( Vector p, double w, double h ) { f( p, w, h, p1, p2, p3 ); };

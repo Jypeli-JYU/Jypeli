@@ -91,7 +91,7 @@ namespace Jypeli
 
         #region IGameObject
 
-        public event Action AddedToGame;
+        //public event Action AddedToGame;
 
         bool _isVisible = true;
         bool _ignoresLighting = false;
@@ -490,15 +490,15 @@ namespace Jypeli
             }
         }
 
-        /// <summary>
-        /// Kutsutaan kun olio lisätään peliin.
-        /// </summary>
-        public void OnAddedToGame()
-        {
-            if ( AddedToGame != null )
-                AddedToGame();
-            //brain.AddToGameEvent();
-        }
+        // TODO tämä saattaa olla turha jäänne, siivoa mikäli ongelmia ei ilmene (13.5.2018)
+        ///// <summary>
+        ///// Kutsutaan kun olio lisätään peliin.
+        ///// </summary>
+        //public void OnAddedToGame()
+        //{
+        //    if (AddedToGame != null)
+        //        AddedToGame();
+        //}
 
         /// <summary>
         /// Kutsutaan kun törmätään.
@@ -537,7 +537,7 @@ namespace Jypeli
             }
         }
 
-        public void Update( Time time )
+        public void Update( Time time ) // new vai override?
         {
             foreach ( var obj in objects )
             {

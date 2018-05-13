@@ -252,5 +252,10 @@ namespace Jypeli
             var other = (ScoreItem)obj;
             return this.Name == other.Name && Math.Abs( this.Score - other.Score ) <= float.Epsilon;
         }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode() + Score.GetHashCode();
+        }
     }
 }

@@ -245,11 +245,6 @@ namespace Jypeli
                 return false;
             });
         }
-        /// <summary>
-        /// returns if the 2 ignores are not part of the same group.
-        /// </summary>
-        /// <param name="other">the other CollisionGroupIgnorer</param>
-        /// <returns>true if they are not part of the same group; otherwiase false.</returns>
 
         void ICollection<int>.Add(int item)
         {

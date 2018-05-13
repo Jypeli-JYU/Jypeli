@@ -142,6 +142,8 @@ namespace Jypeli
         /// Avaa tiedoston netist‰ (lukua varten) ja tekee sill‰ jotain.
         /// </summary>
         /// <param name="url">Nettiosoite</param>
+        /// <param name="timeout">Paljonko aikaa tiedoston lataamiselle annetaan. Mik‰li
+        /// lataaminen ei onnistu annetussa ajassa, se keskeytet‰‰n.</param>
         /// <param name="callback">Mit‰ tehd‰‰n (aliohjelman nimi)</param>
         /// <example>
         /// {
@@ -187,7 +189,7 @@ namespace Jypeli
                     trig.triggered++;
 
             }
-            catch ( WebException we )
+            catch ( WebException )
             {
                 // Return if aborted
                 return;

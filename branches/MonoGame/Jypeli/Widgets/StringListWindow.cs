@@ -61,7 +61,9 @@ namespace Jypeli
         /// <summary>
         /// Luo uuden merkkijonolistaikkunan ja asettaa sille kiinteän koon.
         /// </summary>
-        /// <param name="question">Kysymys</param>
+        /// <param name="width">Ikkunan leveys</param>
+        /// <param name="height">Ikkunan korkeus</param>
+        /// <param name="question">Viesti tai kysymys</param>
         public StringListWindow( double width, double height, string question )
             : base( width, height, question )
         {

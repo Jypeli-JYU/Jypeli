@@ -90,7 +90,7 @@ namespace Jypeli
         /// <summary>
         /// Lataa taulukon kuvia contentista.
         /// </summary>
-        /// <param name="name">Kuvien nimet ilman tarkennetta pilkuin eroiteltuna</param>
+        /// <param name="names">Kuvien nimet ilman tarkennetta pilkuin eroiteltuna</param>
         /// <returns>Kuvataulukko</returns>
         public static Image[] LoadImages( params string[] names )
         {

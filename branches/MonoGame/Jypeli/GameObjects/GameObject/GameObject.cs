@@ -155,7 +155,7 @@ namespace Jypeli
         /// <summary>
         /// Peliolion päivitys. Tätä kutsutaan, kun <c>IsUpdated</c>-ominaisuuden
         /// arvoksi on asetettu <c>true</c> ja olio on lisätty peliin.
-        /// <see cref="IsUpdated"/>
+        /// <see cref="GameObjectBase.IsUpdated"/>
         /// </summary>
         /// <param name="time">Peliaika.</param>
         [EditorBrowsable( EditorBrowsableState.Never )]

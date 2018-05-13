@@ -35,15 +35,14 @@ namespace Jypeli.Effects
         /// </summary>
         public Image OuterParticleImage { get; set; }
 
-        /// <summary>
-        /// Perivien luokkien täytyy määrittää nämä muuttujat
-        /// </summary>
+        // Perivien luokkien täytyy määrittää nämä muuttujat
         #region Subclass variables
 
         /// <summary>
         /// Pienin skaalaus joka efektin partikkeleilla voi olla
         /// </summary>
         public double MinScale { get; set; }
+
         /// <summary>
         /// Suurin skaalaus joka efektin partikkeleilla voi olla
         /// </summary>

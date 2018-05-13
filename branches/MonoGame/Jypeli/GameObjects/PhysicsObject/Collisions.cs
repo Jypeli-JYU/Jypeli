@@ -108,7 +108,8 @@ namespace Jypeli
         /// <summary>
         /// Fysiikkamoottori kutsuu kun törmäys tapahtuu
         /// </summary>
-        /// <param name="otherObject"></param>
+        /// <param name="thisBody"></param>
+        /// <param name="otherBody"></param>
         public void OnCollided( IPhysicsBody thisBody, IPhysicsBody otherBody )
         {
             var thisObject = thisBody.Owner;

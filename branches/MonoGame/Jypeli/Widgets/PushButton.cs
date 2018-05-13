@@ -350,7 +350,7 @@ namespace Jypeli
         /// <summary>
         /// Lisää pikanäppäimen kaikille ohjaimille.
         /// </summary>
-        /// <param name="key">Näppäin</param>
+        /// <param name="button">Näppäin</param>
         public void AddShortcut( Button button )
         {
             Game.Instance.GameControllers.ForEach( c => AddShortcut( c, button ) );
@@ -360,7 +360,7 @@ namespace Jypeli
         /// Lisää pikanäppäimen yhdelle ohjaimelle.
         /// </summary>
         /// <param name="player">Peliohjaimen indeksi 0-3</param>
-        /// <param name="key">Näppäin</param>
+        /// <param name="button">Näppäin</param>
         public void AddShortcut( int player, Button button )
         {
             AddShortcut( Game.Instance.GameControllers[player], button );
@@ -370,7 +370,7 @@ namespace Jypeli
         /// Lisää pikanäppäimen yhdelle ohjaimelle.
         /// </summary>
         /// <param name="controller">Peliohjain</param>
-        /// <param name="key">Näppäin</param>
+        /// <param name="button">Näppäin</param>
         public void AddShortcut( GamePad controller, Button button )
         {
             controller.Listen( button, ButtonState.Pressed, Click, null ).InContext( this );

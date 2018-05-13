@@ -67,6 +67,7 @@ namespace Jypeli
     /// Ohjaintapahtumien kuuntelija.
     /// </summary>
     /// <typeparam name="State">Tila</typeparam>
+    /// <typeparam name="Ctrl">Kontrolli</typeparam>
     public class Listener<State, Ctrl> : Listener
     {
         private ChangePredicate<State> isTriggered;
@@ -177,7 +178,7 @@ namespace Jypeli
         /// Esim. Keyboard.Listen(parametrit).InContext(omaIkkuna) kuuntelee
         /// haluttua näppäimistötapahtumaa ainoastaan kun ikkuna on näkyvissä ja päällimmäisenä.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="obj"></param>
         public Listener InContext( ControlContexted obj )
         {
             this.dynamicContext = true;

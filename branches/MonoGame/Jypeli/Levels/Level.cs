@@ -59,7 +59,7 @@ namespace Jypeli
         /// Metodin tulee palauttaa muokkaamansa olio. Metodi voi myös palauttaa uuden olion, jos
         /// haluttu olion tyyppi ei ole tuettu editorissa.
         /// </summary>
-        /// <param name="tag">Template, jonka pohjalta olio on luotu.</param>
+        /// <param name="template">Template, jonka pohjalta olio on luotu.</param>
         /// <param name="method">Metodi, joka muokkaa oliota tai palauttaa uuden.</param>
         public void AddByTemplate( string template, Func<GameObject, GameObject> method )
         {

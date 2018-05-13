@@ -237,7 +237,6 @@ namespace Jypeli
         /// <summary>
         /// Nollaa oliokerrokset. Huom. tuhoaa kaikki pelioliot!
         /// </summary>
-        /// <param name="l"></param>
         public void ResetLayers()
         {
             ClearGameObjects();
@@ -257,7 +256,6 @@ namespace Jypeli
         /// <summary>
         /// Poistaa kaikki oliokerrokset. Huom. tuhoaa kaikki pelioliot!
         /// </summary>
-        /// <param name="l"></param>
         public void RemoveAllLayers()
         {
             ClearGameObjects();

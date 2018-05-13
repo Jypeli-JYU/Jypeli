@@ -49,7 +49,7 @@ namespace Jypeli.Assets
         /// Auton kiihtyvyys, eli kuinka monta yksikköä korkeintaan nopeutta voidaan
         /// lisätä sekunnissa kiihdyttämällä.
         /// </summary>
-        public double Acceleration { get; set; }
+        public new double Acceleration { get; set; }
 
         /// <summary>
         /// Jarrujen hidastavuus, eli kuinka monta yksikköä korkeintaan nopeutta voidaan

@@ -180,7 +180,9 @@ namespace Jypeli.Assets
 
             this.ShockwaveReachesObject += delegate(IPhysicsObject target, Vector shockForce)
             {
-                if (target.Tag == tag)
+                string targetTagAsString = target.Tag as string;
+
+                if (targetTagAsString != null && targetTagAsString == tag)
                     handler(target, shockForce);
             };
         }

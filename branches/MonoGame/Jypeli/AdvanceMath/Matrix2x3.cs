@@ -872,11 +872,10 @@ namespace AdvanceMath
         }
 
         /// <summary>
-        /// Create a new Matrix from 3 Vertex3 objects.
+        /// Create a new Matrix from 2 Vertex3 objects.
         /// </summary>
         /// <param name="xAxis"></param>
         /// <param name="yAxis"></param>
-        /// <param name="zAxis"></param>
         [InstanceConstructor("Rx,Ry")]
         public Matrix2x3(Vector3D xAxis, Vector3D yAxis)
         {

@@ -201,6 +201,7 @@ namespace Jypeli
         /// </summary>
         /// <typeparam name="T1">1. parametrin tyyppi</typeparam>
         /// <typeparam name="T2">2. parametrin tyyppi</typeparam>
+        /// <typeparam name="T3">3. parameterin tyyppi</typeparam>
         /// <param name="k">Näppäin</param>
         /// <param name="state">Näppäimen tila</param>
         /// <param name="handler">Mitä tehdään</param>
@@ -289,11 +290,13 @@ namespace Jypeli
         /// </summary>
         /// <typeparam name="T1">Ensimmäisen oman parametrin tyyppi</typeparam>
         /// <typeparam name="T2">Toisen oman parametrin tyyppi</typeparam>
+        /// <typeparam name="T3">Kolmannen oman parametrin tyyppi</typeparam>
         /// <param name="state">Näppäinten kuunneltava tila</param>
         /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
         /// <param name="helpText">Ohjeteksti.</param>
         /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
         /// <param name="p2">Toisen oman parametrin arvo</param>
+        /// <param name="p3">Kolmannen oman parametrin arvo</param>
         public void ListenWSAD<T1, T2, T3>( ButtonState state, Action<Vector, T1, T2, T3> handler, String helpText, T1 p1, T2 p2, T3 p3 )
         {
             Listen( Key.W, state, handler, helpText, Vector.UnitY, p1, p2, p3 );
@@ -357,11 +360,13 @@ namespace Jypeli
         /// </summary>
         /// <typeparam name="T1">Ensimmäisen oman parametrin tyyppi</typeparam>
         /// <typeparam name="T2">Toisen oman parametrin tyyppi</typeparam>
+        /// <typeparam name="T3">Kolmannen oman parametrin tyyppi</typeparam>
         /// <param name="state">Näppäinten kuunneltava tila</param>
         /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
         /// <param name="helpText">Ohjeteksti.</param>
         /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
         /// <param name="p2">Toisen oman parametrin arvo</param>
+        /// <param name="p3">Kolmannen oman parameterin arvo</param>
         public void ListenArrows<T1, T2, T3>( ButtonState state, Action<Vector, T1, T2, T3> handler, String helpText, T1 p1, T2 p2, T3 p3 )
         {
             Listen( Key.Up, state, handler, helpText, Vector.UnitY, p1, p2, p3 );

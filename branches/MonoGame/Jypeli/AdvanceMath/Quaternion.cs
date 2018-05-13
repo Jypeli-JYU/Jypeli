@@ -169,6 +169,7 @@ namespace AdvanceMath
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <param name="q"></param>
+        /// <param name="useShortestPath"></param>
         /// <returns></returns>
         public static Quaternion Squad(Scalar t, Quaternion p, Quaternion a, Quaternion b, Quaternion q, bool useShortestPath)
         {

@@ -114,7 +114,7 @@ namespace Jypeli.Assets
         /// Kutsutaan, kun tilaa päivitetään.
         /// Ajamislogiikka sijaitsee täällä.
         /// </summary>
-        /// <param name="gameTime">The game time.</param>
+        /// <param name="time">The game time.</param>
         protected override void Update( Time time )
         {
             Automobile OwnerAuto = Owner as Automobile;

@@ -18,7 +18,7 @@
   </VSTemplateContainer>
   <VSTemplateContainer TemplateType="Project">
     <RelativePathOnDisk>CSharp\Jypeli-Android\PerusPeliAndroid.zip</RelativePathOnDisk>
-    <TemplateFileName>rootTemplate.vstemplate</TemplateFileName>
+    <TemplateFileName>MyTemplate.vstemplate</TemplateFileName>
     <VSTemplateHeader>
       <TemplateData xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
         <Name>PerusPeli (Android)</Name>
@@ -35,7 +35,7 @@
   </VSTemplateContainer>
   <VSTemplateContainer TemplateType="Project">
     <RelativePathOnDisk>CSharp\Jypeli-Android\TasohyppelyPeliAndroid.zip</RelativePathOnDisk>
-    <TemplateFileName>rootTemplate.vstemplate</TemplateFileName>
+    <TemplateFileName>MyTemplate.vstemplate</TemplateFileName>
     <VSTemplateHeader>
       <TemplateData xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
         <Name>Tasohyppelypeli (Android)</Name>

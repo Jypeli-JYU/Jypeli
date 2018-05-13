@@ -259,7 +259,7 @@ Section "Visual Studio 2017 Project Templates"
   	SetOutPath $1
 	; Android can still use ZIP files without issues, since we can't compile
 	; Android projects at the university anyway
-  	File "..\Projektimallit\Android\*.zip"
+  	File /r /x *.zip /x Jypeli-Android.vstman "..\Projektimallit\Android\"
   	SetOutPath "$0\Common7\IDE\ProjectTemplates"
   	File "..\Projektimallit\Android\Jypeli-Android.vstman"
   ${Endif}
@@ -331,95 +331,95 @@ SectionEnd
 ;
 ;SubSectionEnd
 
-Function CopyDxTemplates
-   Pop $0
-   
-   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
-    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-    SetOutPath $1
-    File "..\projektimallit\Windows\*.zip"
-    Goto VSPro
-    
-  VSPro:
-    IfFileExists "$0..\IDE\devenv.exe" 0 Done
-      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\DirectX 11"
-      CreateDirectory $1
-      SetOutPath $1
-      File "..\projektimallit\Windows\*.zip"
-
-  Done:
-FunctionEnd
-
-Function CopyGLTemplates
-   Pop $0
-   
-   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
-    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-    SetOutPath $1
-    File "..\projektimallit\WindowsGL\*.zip"
-    Goto VSPro
-    
-  VSPro:
-    IfFileExists "$0..\IDE\devenv.exe" 0 Done
-      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
-      CreateDirectory $1
-      SetOutPath $1
-      File "..\projektimallit\WindowsGL\*.zip"
-
-  Done:
-FunctionEnd
-
-Function CopyAndroidTemplates
-   Pop $0
-   
-   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
-    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-    SetOutPath $1
-    File "..\projektimallit\Android\*.zip"
-    Goto VSPro
-    
-  VSPro:
-    IfFileExists "$0..\IDE\devenv.exe" 0 Done
-      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Android"
-      CreateDirectory $1
-      SetOutPath $1
-      File "..\projektimallit\Android\*.zip"
-
-  Done:
-FunctionEnd
-
-Function CopyUniversalTemplates
-   Pop $0
-   
-   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
-    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-    SetOutPath $1
-    File "..\projektimallit\WindowsUniversal\*.zip"
-    Goto VSPro
-    
-  VSPro:
-    IfFileExists "$0..\IDE\devenv.exe" 0 Done
-      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows Universal"
-      CreateDirectory $1
-      SetOutPath $1
-      File "..\projektimallit\WindowsUniversal\*.zip"
-
-  Done:
-FunctionEnd
-
-Function InstallVsTemplates
-   Pop $0
-   
-   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
-     ExecWait '"$0..\IDE\vcsexpress.exe" /installvstemplates'
-     Goto VSPro
-    
-  VSPro:
-    IfFileExists "$0..\IDE\devenv.exe" 0 Done
-      ExecWait '"$0..\IDE\devenv" /installvstemplates'
-
-  Done:
-FunctionEnd
+;Function CopyDxTemplates
+;   Pop $0
+;   
+;   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
+;    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
+;    SetOutPath $1
+;    File "..\projektimallit\Windows\*.zip"
+;    Goto VSPro
+;    
+;  VSPro:
+;    IfFileExists "$0..\IDE\devenv.exe" 0 Done
+;      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\DirectX 11"
+;      CreateDirectory $1
+;      SetOutPath $1
+;      File "..\projektimallit\Windows\*.zip"
+;
+;  Done:
+;FunctionEnd
+;
+;Function CopyGLTemplates
+;   Pop $0
+;   
+;   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
+;    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
+;    SetOutPath $1
+;    File "..\projektimallit\WindowsGL\*.zip"
+;    Goto VSPro
+;    
+;  VSPro:
+;    IfFileExists "$0..\IDE\devenv.exe" 0 Done
+;      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
+;      CreateDirectory $1
+;      SetOutPath $1
+;      File "..\projektimallit\WindowsGL\*.zip"
+;
+;  Done:
+;FunctionEnd
+;
+;Function CopyAndroidTemplates
+;   Pop $0
+;   
+;   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
+;    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
+;    SetOutPath $1
+;    File "..\projektimallit\Android\*.zip"
+;    Goto VSPro
+;    
+;  VSPro:
+;    IfFileExists "$0..\IDE\devenv.exe" 0 Done
+;      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Android"
+;      CreateDirectory $1
+;      SetOutPath $1
+;      File "..\projektimallit\Android\*.zip"
+;
+;  Done:
+;FunctionEnd
+;
+;Function CopyUniversalTemplates
+;   Pop $0
+;   
+;   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
+;    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
+;    SetOutPath $1
+;    File "..\projektimallit\WindowsUniversal\*.zip"
+;    Goto VSPro
+;    
+;  VSPro:
+;    IfFileExists "$0..\IDE\devenv.exe" 0 Done
+;      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows Universal"
+;      CreateDirectory $1
+;      SetOutPath $1
+;      File "..\projektimallit\WindowsUniversal\*.zip"
+;
+;  Done:
+;FunctionEnd
+;
+;Function InstallVsTemplates
+;   Pop $0
+;   
+;   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
+;     ExecWait '"$0..\IDE\vcsexpress.exe" /installvstemplates'
+;     Goto VSPro
+;    
+;  VSPro:
+;    IfFileExists "$0..\IDE\devenv.exe" 0 Done
+;      ExecWait '"$0..\IDE\devenv" /installvstemplates'
+;
+;  Done:
+;FunctionEnd
 
 ;--------------------------------
 

@@ -12,7 +12,7 @@ namespace Jypeli
     internal enum ContentSource
     {
         GameContent,
-        ResourceContent,
+        ResourceContent
     }
 
 
@@ -22,10 +22,14 @@ namespace Jypeli
     public class Font
     {
         /// <summary>
-        /// OletusFontti.
+        /// Oletusfontti.
         /// </summary>
-        public static readonly Font Default = new Font( "MediumFont", ContentSource.ResourceContent );
 
+#if ANDROID
+        public static readonly Font Default = new Font("HugeFont", ContentSource.ResourceContent);
+#else
+        public static readonly Font Default = new Font( "MediumFont", ContentSource.ResourceContent );
+#endif
         /// <summary>
         /// Pieni oletusfontti.
         /// </summary>
@@ -37,19 +41,34 @@ namespace Jypeli
         public static readonly Font DefaultLarge = new Font( "LargeFont", ContentSource.ResourceContent );
 
         /// <summary>
-        /// Paksunnettu oletusfontti.
+        /// Oletusfontti.
+        /// </summary>
+        public static readonly Font Medium = new Font("MediumFont", ContentSource.ResourceContent);
+
+        /// <summary>
+        /// Lihavoitu oletusfontti.
         /// </summary>
         public static readonly Font DefaultBold = new Font( "MediumFontBold", ContentSource.ResourceContent );
 
         /// <summary>
-        /// Paksunnettu pieni oletusfontti.
+        /// Lihavoitu pieni oletusfontti.
         /// </summary>
         public static readonly Font DefaultSmallBold = new Font( "SmallFontBold", ContentSource.ResourceContent );
 
         /// <summary>
-        /// Paksunnettu suuri oletusfontti.
+        /// Lihavoitu suuri oletusfontti.
         /// </summary>
         public static readonly Font DefaultLargeBold = new Font( "LargeFontBold", ContentSource.ResourceContent );
+
+        /// <summary>
+        /// Valtava oletusfontti.
+        /// </summary>
+        public static readonly Font DefaultHuge = new Font("HugeFont", ContentSource.ResourceContent);
+
+        /// <summary>
+        /// Lihavoitu valtava oletusfontti.
+        /// </summary>
+        public static readonly Font DefaultHugeBold = new Font("HugeFontBold", ContentSource.ResourceContent);
 
         private SpriteFont xnaFont;
         private string name;
@@ -76,6 +95,24 @@ namespace Jypeli
         {
             get { return XnaFont.MeasureString( "X" ).Y; }
         }
+
+        /// <summary>
+        /// Lataa uuden fontin contentista.
+        /// </summary>
+        /// <param name="name">Fontin tiedostonimi.</param>
+        /// <returns></returns>
+        public static Font FromContent(string name)
+        {
+            Font font = new Font(name, ContentSource.GameContent);
+            font.DoLoad();
+            return font;
+        }
+
+        /// <summary>
+        /// Lataa uuden fontin contentista.
+        /// </summary>
+        /// <param name="name">Fontin tiedostonimi.</param>
+        public Font(string name) : this(name, ContentSource.GameContent) { }
 
         internal Font( string name, ContentSource source )
         {
@@ -144,6 +181,18 @@ namespace Jypeli
             }
 
             return builder.ToString();
+        }
+
+        /// <summary>
+        /// Laskee tekstin koon fontilla.
+        /// </summary>
+        /// <param name="str">Teksti.</param>
+        /// <returns>Vektorin, joka kertoo tekstin koon.</returns>
+        public Vector MeasureSize(string str)
+        {
+            DoLoad();
+            var xnaVector2 = xnaFont.MeasureString(str);
+            return new Vector(xnaVector2.X, xnaVector2.Y);
         }
 
         private static void appendLine(StringBuilder dest, StringBuilder line)

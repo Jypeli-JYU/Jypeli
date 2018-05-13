@@ -56,6 +56,7 @@ namespace Physics2DDotNet
         /// to the Body to the normal relative to the World.
         /// </summary>
         public Matrix2x2 ToWorldNormal;
+        /// <summary>
         /// The matrix that is multiplied against to transform a normal (unit vector) from relative 
         /// to the World to the normal relative to the Body.
         /// </summary>

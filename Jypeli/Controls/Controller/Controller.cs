@@ -150,7 +150,6 @@ namespace Jypeli.Controls
         /// <param name="c">Kontrolli.</param>
         public void Disable( Control c )
         {
-            Enum e;
             Disable( l => l.Control.Equals( c ) );
         }
 

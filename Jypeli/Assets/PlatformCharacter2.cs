@@ -78,7 +78,7 @@ public class PlatformCharacter2 : PhysicsObject
     /// <summary>
     /// Hahmon kiihtyvyys.
     /// </summary>
-    public double Acceleration
+    public new double Acceleration
     {
         get { return _accel; }
         set { _accel = value; }
@@ -87,7 +87,7 @@ public class PlatformCharacter2 : PhysicsObject
     /// <summary>
     /// Hahmon maksiminopeus.
     /// </summary>
-    public double MaxVelocity
+    public new double MaxVelocity
     {
         get { return _maxVel; }
         set { _maxVel = value; }

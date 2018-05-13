@@ -68,7 +68,6 @@ public class PlatformCharacter : PhysicsObject
     }
 
     private enum PlatformCharacterState { Idle, Falling, Jumping }
-    private GameObject stateIndicator;
     private PlatformCharacterState state = PlatformCharacterState.Idle;
     
     

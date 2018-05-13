@@ -8,7 +8,6 @@ namespace Jypeli
     /// </summary>
     public class PlatformWandererBrain : Brain
     {
-        private PhysicsObject platform;
         private double _speed = 50;
         private double _jumpSpeed = 200;
         private bool _fallsOffPlatforms = false;

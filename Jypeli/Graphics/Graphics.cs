@@ -28,10 +28,6 @@ using Jypeli.Effects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-#if !DISABLE_EFFECTS
-using Jypeli.Effects;
-#endif
-
 namespace Jypeli
 {
     /// <summary>

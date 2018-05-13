@@ -59,7 +59,7 @@ namespace Jypeli
         /// Esim. Keyboard.Listen(parametrit).InContext(omaIkkuna) kuuntelee
         /// haluttua näppäimistötapahtumaa ainoastaan kun ikkuna on näkyvissä ja päällimmäisenä.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="obj">Konteksti.</param>
         Listener InContext( ControlContexted obj );
     }
 

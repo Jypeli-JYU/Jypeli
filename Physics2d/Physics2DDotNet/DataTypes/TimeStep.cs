@@ -52,7 +52,7 @@ namespace Physics2DDotNet
         /// <param name="updateCount">The number for the current update.</param>
         public TimeStep(Scalar dt, /*Scalar trueDt,*/ int updateCount)
         {
-            this.trueDt = trueDt;
+            //this.trueDt = trueDt;
             this.trueDtInv = (trueDt > 0) ? (1 / trueDt) : (0);
             this.dt = dt;
             this.dtInv = (dt > 0) ? (1 / dt) : (0);

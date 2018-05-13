@@ -112,10 +112,10 @@
             <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
           </xsl:when>
           <xsl:when test="$root/Input/Generation/Platform = 'Android'">
-            <TargetFrameworkVersion>v4.2</TargetFrameworkVersion>
+            <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
           </xsl:when>
           <xsl:when test="$root/Input/Generation/Platform = 'Ouya'">
-            <TargetFrameworkVersion>v4.2</TargetFrameworkVersion>
+            <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
           </xsl:when>
           <xsl:when test="$root/Input/Generation/Platform = 'Windows8'">
           </xsl:when>

@@ -153,8 +153,11 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Tapahtuu kun olio on tuhoutumassa.
+        /// Tapahtuisi, kun olio on tuhoutumassa.
+        /// EI KÄYTÖSSÄ!
         /// </summary>
+        /// Tätä ei käytetä, mutta tämä periytyy kaukaiselta interfacelta DelayedDestroyable.
+        /// Interfacet voisi suunnitella uusiksi, mikäli tätä ei voi toteuttaa.
         public event Action Destroying;
 
         public override void Update( Time time )

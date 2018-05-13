@@ -65,10 +65,10 @@ namespace Jypeli
         private static Matrix ProjectionMatrix;
         private static Matrix viewProjectionMatrix;
 
-#if !WINDOWS_PHONE
+#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
         // XNA 4.0 requires PS 2.0
         private static bool is_PS_2_0_supported = true;
-#else
+#elif !DISABLE_LIGHTING_EFFECT
         // ...except on windows phone.
         private static bool is_PS_2_0_supported = false;
 #endif

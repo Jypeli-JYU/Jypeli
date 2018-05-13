@@ -130,7 +130,7 @@ namespace AdvanceMath
         /// <param name="index">A 32-bit integer that represents the index in array at which copying begins.</param>
         void CopyTransposedTo(Scalar[] array, int index);
         /// <summary>
-        /// Copies all the elements, in a Transposed order, up to the <see cref="IAdvanceValueType.Length"/> of the IAdvanceValueType, of the specified one-dimensional Array to the IAdvanceValueType. 
+        /// Copies all the elements, in a Transposed order, up to the <see cref="IAdvanceValueType.Count"/> of the IAdvanceValueType, of the specified one-dimensional Array to the IAdvanceValueType. 
         /// </summary>
         /// <param name="array">The one-dimensional Array that is the source of the elements copied to the IAdvanceValueType.</param>
         /// <param name="index">A 32-bit integer that represents the index in array at which copying begins.</param>
@@ -148,28 +148,28 @@ namespace AdvanceMath
         where VR : struct, IVector<VR>
     {
         /// <summary>
-        /// Gets the <typeparamref name="V"/> at the specified Column.
+        /// Gets the <typeparamref name="VC"/> at the specified Column.
         /// </summary>
-        /// <param name="column">The zero-based index of the Column of the <typeparamref name="V"/> to get.</param>
-        /// <returns>The <typeparamref name="V"/> at the specified Column.</returns>
+        /// <param name="columnIndex">The zero-based index of the Column of the <typeparamref name="VC"/> to get.</param>
+        /// <returns>The <typeparamref name="VC"/> at the specified Column.</returns>
         VC GetColumn(int columnIndex);
         /// <summary>
-        /// Sets the <typeparamref name="V"/>  at the specified Column.
+        /// Sets the <typeparamref name="VC"/>  at the specified Column.
         /// </summary>
-        /// <param name="column">The zero-based index of the Column of the <typeparamref name="V"/> to set.</param>
-        /// <param name="value">The <typeparamref name="V"/> to set at the specified Column.</param>
+        /// <param name="columnIndex">The zero-based index of the Column of the <typeparamref name="VC"/> to set.</param>
+        /// <param name="value">The <typeparamref name="VC"/> to set at the specified Column.</param>
         void SetColumn(int columnIndex, VC value);
         /// <summary>
-        /// Gets the <typeparamref name="V"/> at the specified Row.
+        /// Gets the <typeparamref name="VR"/> at the specified Row.
         /// </summary>
-        /// <param name="row">The zero-based index of the Row of the <typeparamref name="V"/> to get.</param>
-        /// <returns>The <typeparamref name="V"/> at the specified Row.</returns>
+        /// <param name="rowIndex">The zero-based index of the Row of the <typeparamref name="VR"/> to get.</param>
+        /// <returns>The <typeparamref name="VR"/> at the specified Row.</returns>
         VR GetRow(int rowIndex);
         /// <summary>
-        /// Sets the <typeparamref name="V"/> at the specified Row.
+        /// Sets the <typeparamref name="VR"/> at the specified Row.
         /// </summary>
-        /// <param name="row">The zero-based index of the Row of the <typeparamref name="V"/> to set.</param>
-        /// <param name="value">The <typeparamref name="V"/> to set at the specified Row.</param>
+        /// <param name="rowIndex">The zero-based index of the Row of the <typeparamref name="VR"/> to set.</param>
+        /// <param name="value">The <typeparamref name="VR"/> to set at the specified Row.</param>
         void SetRow(int rowIndex, VR value);
         /// <summary>
         /// Gets the Inverse of the IMatrix

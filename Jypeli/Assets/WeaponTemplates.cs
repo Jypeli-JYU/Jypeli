@@ -328,9 +328,9 @@ namespace Jypeli.Assets
                 g.Image = this.Image;
                 g.Color = this.Color;
                 g.FuseTime = this.FuseTime;
-                g.ExplosionForce = this.ExplosionForce / 2;
-                g.ExplosionRadius = this.ExplosionRadius / 2;
-                g.ExplosionSpeed = this.ExplosionSpeed / 2;
+                g.Explosion.Force = this.Explosion.Force / 2;
+                g.Explosion.MaxRadius = this.Explosion.MaxRadius / 2;
+                g.Explosion.Speed = this.Explosion.Speed / 2;
                 g.CollisionIgnorer = this.CollisionIgnorer;
                 Game.Instance.Add( g );
             }

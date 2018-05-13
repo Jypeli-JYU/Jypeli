@@ -99,7 +99,9 @@ namespace Jypeli
         /// <summary>
         /// Suorittaa aliohjelman kun peli on varmasti alustettu.
         /// </summary>
+        /// <typeparam name="T1">Aliohjelmalle välitettävän parametrin tyyppi</typeparam>
         /// <param name="actionMethod">Suoritettava aliohjelma.</param>
+        /// <param name="o1">Aliohjelmalle välitettävä parametri.</param>
         public static void AssertInitialized<T1>( Action<T1> actionMethod, T1 o1 )
         {
             if ( Instance != null )

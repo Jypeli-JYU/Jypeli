@@ -85,7 +85,7 @@ namespace Jypeli
         /// <summary>
         /// Alustaa uuden näyttönäkymän.
         /// </summary>
-        /// <param name="viewPort">Näytön viewport.</param>
+        /// <param name="device">XNA:n grafiikkalaite.</param>
         public ScreenView( GraphicsDevice device )
         {
             this.device = device;
@@ -338,6 +338,7 @@ namespace Jypeli
         /// Muuntaa XNA:n ruutukoordinaateista Jypelin ruutukoordinaateiksi.
         /// </summary>
         /// <param name="position"></param>
+        /// <param name="screenSize"></param>
         /// <param name="objectSize"></param>
         /// <returns></returns>
         internal static Vector FromXnaCoords( Vector2 position, Vector screenSize, Vector objectSize )
@@ -375,6 +376,8 @@ namespace Jypeli
         /// Muuntaa matriisin Jypelin ruutukoordinaateista XNA:n ruutukoordinaatteihin.
         /// </summary>
         /// <param name="matrix"></param>
+        /// <param name="screenSize"></param>
+        /// <param name="scale"></param>
         /// <returns></returns>
         internal static Matrix ToXnaCoords( Matrix matrix, Vector screenSize, Vector scale )
         {

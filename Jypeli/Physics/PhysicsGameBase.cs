@@ -206,6 +206,7 @@ namespace Jypeli
         /// <summary>
         /// Määrää, mihin aliohjelmaan siirrytään kun olio <code>obj</code> törmää johonkin toiseen olioon.
         /// </summary>
+        /// <typeparam name="O">Törmäävän olion tyyppi.</typeparam>
         /// <typeparam name="T">Kohdeolion tyyppi.</typeparam>
         /// <param name="obj">Törmäävä olio</param>
         /// <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
@@ -231,6 +232,7 @@ namespace Jypeli
         /// Määrää, mihin aliohjelmaan siirrytään kun olio <code>obj</code> törmää johonkin toiseen olioon.
         /// Jypelin sisäiseen käyttöön!
         /// </summary>
+        /// <typeparam name="O">Törmäävän olion tyyppi.</typeparam>
         /// <typeparam name="T">Kohdeolion tyyppi.</typeparam>
         /// <param name="obj">Törmäävä olio</param>
         /// <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>

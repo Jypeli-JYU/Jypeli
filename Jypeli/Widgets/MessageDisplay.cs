@@ -126,12 +126,11 @@ namespace Jypeli
         /// <summary>
         /// Luo uuden viestinäytön.
         /// </summary>
-        /// <param name="font">Fontti.</param>
         public MessageDisplay()
             : base( Game.Screen.WidthSafe, Game.Screen.HeightSafe )
         {
             removeTimer = new Timer();
-            removeTimer.Timeout += removeMessages;
+            removeTimer.Timeout += RemoveMessages;
 
             TextColor = Color.Black;
             Color = Color.Transparent;
@@ -145,7 +144,7 @@ namespace Jypeli
                                         Game.Screen.TopSafe - Game.Screen.HeightSafe / 2 );
         }
 
-        private void removeMessages()
+        private void RemoveMessages()
         {
             removeTimer.Stop();
 

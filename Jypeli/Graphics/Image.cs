@@ -596,15 +596,15 @@ namespace Jypeli
         }
 #endif
 
-        /// <summary>
-        /// Lataa kuvan tiedostosta. Kuvan ei tarvitse olla lisättynä
-        /// Content-projektiin.
-        /// </summary>
-        /// <param name="path">Tiedosto.</param>
-        /*public static Image FromFile( StorageFile file )
-        {
-            return FromStream( file.Stream );
-        }*/
+        ///// <summary>
+        ///// Lataa kuvan tiedostosta. Kuvan ei tarvitse olla lisättynä
+        ///// Content-projektiin.
+        ///// </summary>
+        ///// <param name="path">Tiedosto.</param>
+        //public static Image FromFile( StorageFile file )
+        //{
+        //    return FromStream( file.Stream );
+        //}
 
         /// <summary>
         /// Lataa kuvan tiedostovirrasta.
@@ -1082,7 +1082,7 @@ namespace Jypeli
         /// <param name="dest">Väri jolla korvataan.</param>
         /// <param name="tolerance">Kuinka paljon korvattava väri voi poiketa annetusta.</param>
         /// <param name="blend">Sävytetäänkö korvattavaa väriä sen mukaan kuinka kaukana se on alkuperäisestä väristä</param>
-        /// <param name="blendAlpha">Vaaditaanko täsmälleen sama läpinäkyvyys ennen kuin korvataan</param>
+        /// <param name="exactAlpha">Vaaditaanko täsmälleen sama läpinäkyvyys ennen kuin korvataan</param>
         public void ReplaceColor( Color src, Color dest, double tolerance, bool blend, bool exactAlpha = false )
         {
             XnaColor srcColor = src.AsXnaColor();

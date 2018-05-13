@@ -208,17 +208,17 @@ namespace Jypeli
         {
 #if WINDOWS_PHONE || ANDROID
             return new MouseState();
-#endif
-
-#if !WINRT
+#elif WINRT
+            return XnaMouse.GetState();
+#else
             if ( !IsCursorVisible )
             {
                 // Reset the mouse to the center of the screen
                 SetPosition( Vector.Zero );
             }
-#endif
 
             return XnaMouse.GetState();
+#endif
         }
 
         private static ButtonState GetButtonState( MouseState oldState, MouseState newState, MouseButton button )
@@ -240,8 +240,7 @@ namespace Jypeli
         {
 #if WINDOWS_PHONE || ANDROID
             return HoverState.Off;
-#endif
-
+#else
             bool prevOn = IsCursorOn( Game.Screen, oldState, obj );
             bool currOn = IsCursorOn( Game.Screen, newState, obj );
 
@@ -249,6 +248,7 @@ namespace Jypeli
             if ( !prevOn && !currOn ) return HoverState.Off;
             if ( !prevOn && currOn ) return HoverState.Enter;
             return HoverState.Exit;
+#endif
         }
 
         /// <summary>
@@ -478,13 +478,15 @@ namespace Jypeli
         /// <summary>
         /// Kuuntelee hiirenpainalluksia annetun peliolion päällä.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">Tapahtuman käsittelijän parametrin tyyppi.</typeparam>
         /// <param name="obj">Olio, jonka päällä hiiren kursorin tulisi olla.</param>
+        /// <param name="hoverstate">Hiiren leijumistila, jolloin painallus katsotaan tapahtuneeksi.
+        /// Käytetään vain, jos hiiren nappulan tilaksi annetaan <see cref="ButtonState.Irrelevant"/></param>
         /// <param name="button">Hiiren nappula.</param>
         /// <param name="state">Nappulan tila.</param>
         /// <param name="handler">Tapahtuman käsittelijä.</param>
         /// <param name="helpText">Ohjeteksti.</param>
-        /// <param name="p"></param>
+        /// <param name="p">Tapahtuman käsittelijän parametri.</param>
         public Listener ListenOn<T>( GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action<T> handler, string helpText, T p )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, hoverstate, button, state );
@@ -494,15 +496,17 @@ namespace Jypeli
         /// <summary>
         /// Kuuntelee hiirenpainalluksia annetun peliolion päällä.
         /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T1">Tapahtuman käsittelijän ensimmäisen parametrin tyyppi.</typeparam>
+        /// <typeparam name="T2">Tapahtuman käsittelijän toisen parametrin tyyppi.</typeparam>
         /// <param name="obj">Olio, jonka päällä hiiren kursorin tulisi olla.</param>
+        /// <param name="hoverstate">Hiiren leijumistila, jolloin painallus katsotaan tapahtuneeksi.
+        /// Käytetään vain, jos hiiren nappulan tilaksi annetaan <see cref="ButtonState.Irrelevant"/></param>
         /// <param name="button">Hiiren nappula.</param>
         /// <param name="state">Nappulan tila.</param>
         /// <param name="handler">Tapahtuman käsittelijä.</param>
         /// <param name="helpText">Ohjeteksti.</param>
-        /// <param name="p1"></param>
-        /// <param name="p2"></param>
+        /// <param name="p1">Tapahtuman käsittelijän ensimmäinen parametri.</param>
+        /// <param name="p2">Tapahtuman käsittelijän toinen parametri.</param>
         public Listener ListenOn<T1, T2>( GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, hoverstate, button, state );
@@ -512,17 +516,19 @@ namespace Jypeli
         /// <summary>
         /// Kuuntelee hiirenpainalluksia annetun peliolion päällä.
         /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T1">Tapahtuman käsittelijän ensimmäisen parametrin tyyppi.</typeparam>
+        /// <typeparam name="T2">Tapahtuman käsittelijän toisen parametrin tyyppi.</typeparam>
+        /// <typeparam name="T3">Tapahtuman käsittelijän kolmannen parametrin tyyppi.</typeparam>
         /// <param name="obj">Olio, jonka päällä hiiren kursorin tulisi olla.</param>
+        /// <param name="hoverstate">Hiiren leijumistila, jolloin painallus katsotaan tapahtuneeksi.
+        /// Käytetään vain, jos hiiren nappulan tilaksi annetaan <see cref="ButtonState.Irrelevant"/></param>
         /// <param name="button">Hiiren nappula.</param>
         /// <param name="state">Nappulan tila.</param>
         /// <param name="handler">Tapahtuman käsittelijä.</param>
         /// <param name="helpText">Ohjeteksti.</param>
-        /// <param name="p1"></param>
-        /// <param name="p2"></param>
-        /// <param name="p3"></param>
+        /// <param name="p1">Tapahtuman käsittelijän ensimmäinen parametri.</param>
+        /// <param name="p2">Tapahtuman käsittelijän toinen parametri.</param>
+        /// <param name="p3">Tapahtuman käsittelijän kolmas parametri.</param>
         public Listener ListenOn<T1, T2, T3>( GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, hoverstate, button, state );

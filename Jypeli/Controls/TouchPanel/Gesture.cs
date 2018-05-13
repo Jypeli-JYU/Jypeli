@@ -9,7 +9,6 @@ namespace Jypeli
 {
     public class Gesture : Touch
     {
-        Vector2 _previousPosition2;
         Vector2 _position2;
         Vector2 _movement2;
 

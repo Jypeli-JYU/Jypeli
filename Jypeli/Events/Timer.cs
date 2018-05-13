@@ -116,9 +116,9 @@ namespace Jypeli
             set { SecondCounter.Value = value; }
         }
 
-        /// <summary>
-        /// Ajastimen käynnistysaika.
-        /// </summary>
+        // /// <summary>
+        // /// Ajastimen käynnistysaika.
+        // /// </summary>
         //public TimeSpan StartTime { get; private set; }
 
         /// <summary>

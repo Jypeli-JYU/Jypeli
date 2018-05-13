@@ -69,12 +69,15 @@ namespace Jypeli
         /// <summary>
         /// Alustaa uuden viesti-ikkunan.
         /// </summary>
-        /// <param name="question">Kysymys</param>
-        public MessageWindow( string question )
+        /// <param name="message">Viesti</param>
+        public MessageWindow( string message )
         {
             Layout = new VerticalLayout { Spacing = 20, LeftPadding = 15, RightPadding = 15, TopPadding = 15, BottomPadding = 15 };
 
-            Message = new Label( 400, 100, question ) { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
+            int maxWidth = (int)Game.Screen.Width - 30;
+
+            Message = new Label( Math.Min(maxWidth, Font.Default.MeasureSize(message).X), 100, message ) { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
+            Message = new Label(400, 100, message) { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
             Add( Message );
 
 #if !WINDOWS_PHONE && !ANDROID

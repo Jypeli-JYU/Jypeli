@@ -34,10 +34,6 @@ goto error
 :msbuildok
 
 rem Protobuild
-rem HUOM! Protobuild täytyy ajaa kerran aina kun lähdekoodi on haettu SVN:stä!
-rem Jostain syystä protobuildin generoimat Android-projektit kuitenkin käyttävät API leveliä 17.
-rem Tämä on liian vanha, joten protobuild pitää kommentoida pois ensimmäisen käännösyrityksen
-rem jälkeen.
 protobuild -generate %platform%
 
 rem Directories

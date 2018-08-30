@@ -175,5 +175,14 @@ namespace Jypeli
                 result[i] = LoadSoundEffect( names[i] );
             return result;
         }
+
+        /// <summary>
+        /// Lataa fontin. Fontin tulee olla lisätty content-hakemistoon.
+        /// </summary>
+        /// <param name="name">Fontin tiedoston nimi ilman päätettä.</param>
+        public static Font LoadFont(string name)
+        {
+            return Font.FromContent(name);
+        }
     }
 }

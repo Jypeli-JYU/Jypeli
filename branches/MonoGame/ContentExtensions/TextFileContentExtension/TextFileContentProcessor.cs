@@ -16,7 +16,7 @@ namespace TextFileContentExtension
     /// <summary>
     /// Ei tee mitään prosessointia.
     /// </summary>
-    [ContentProcessor(DisplayName = "TextFileContentExtension.TextFileContentProcessor")]
+    [ContentProcessor(DisplayName = "Text File - Jypeli")]
     public class TextFileContentProcessor : ContentProcessor<string[], string[]>
     {
         public override string[] Process(string[] input, ContentProcessorContext context)

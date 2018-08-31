@@ -16,7 +16,7 @@ namespace TextFileContentExtension
     /// <summary>
     /// Lukee tekstitiedoston ja palauttaa rivit taulukossa.
     /// </summary>
-    [ContentImporter(".txt", DisplayName = "TextFileContentExtension.TextFileImporter", DefaultProcessor = "TextFileContentExtension.TextFileContentProcessor")]
+    [ContentImporter(".txt", DisplayName = "Text File Importer - Jypeli", DefaultProcessor = "TextFileContentProcessor")]
     public class TextFileImporter : ContentImporter<string[]>
     {
         public override string[] Import(string filename, ContentImporterContext context)

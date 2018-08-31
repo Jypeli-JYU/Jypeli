@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen, Rami Pasanen.
  */
 
 using System;
@@ -476,7 +476,10 @@ namespace Jypeli
     {
         public override ShapeCache Cache
         {
-            get { throw new Exception( "Cache is not defined for RaySegment" ); }
+            get { 
+                // throw new Exception( "Cache is not defined for RaySegment" ); what is the point of crashing the game?
+                return null;
+            }
         }
 
         public override bool IsUnitSize { get { return false; } }

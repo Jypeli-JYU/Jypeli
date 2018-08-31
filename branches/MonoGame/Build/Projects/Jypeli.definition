@@ -204,6 +204,7 @@
     <Compile Include="Assets\PlatformWandererBrain.cs" />
     <Compile Include="Assets\Projectile.cs" />
 	<Compile Include="Assets\RoadMap.cs" />
+	<Compile Include="Assets\ShootingPlatformCharacter.cs" />
     <Compile Include="Assets\Tank.cs" />
     <Compile Include="Assets\Weapon.cs" />
     <Compile Include="Assets\WeaponTemplates.cs" />

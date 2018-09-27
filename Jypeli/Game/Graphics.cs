@@ -46,11 +46,20 @@ namespace Jypeli
 #if WINDOWS
         [DllImport( "user32.dll" )]
         private static extern int GetSystemMetrics( int smIndex );
+
+        [DllImport("gdi32.dll")]
+        static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
+
+        enum DeviceCap
+        {
+            VERTRES = 10,
+            DESKTOPVERTRES = 117,
+        }
 #endif
 
 
-        // fullscreen isn't used as default, because debug mode doesn't work well with it
-        private bool isFullScreenRequested = false;
+    // fullscreen isn't used as default, because debug mode doesn't work well with it
+    private bool isFullScreenRequested = false;
         private bool windowSizeSet = false;
         private bool windowPositionSet = false;
 
@@ -191,7 +200,22 @@ namespace Jypeli
         /// <returns></returns>
         internal void DoSetWindowSize (int width, int height, bool fullscreen)
 		{
-			GraphicsDeviceManager.PreferredBackBufferWidth = width;
+#if WINDOWS
+            // For high-DPI support
+            System.Drawing.Graphics graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
+            IntPtr hdc = graphics.GetHdc();
+            int logicalScreenHeight = GetDeviceCaps(hdc, (int)DeviceCap.VERTRES);
+            int physicalScreenHeight = GetDeviceCaps(hdc, (int)DeviceCap.DESKTOPVERTRES);
+            graphics.ReleaseHdc(hdc);
+            graphics.Dispose();
+            
+            float scaleFactor = (float)logicalScreenHeight / (float)physicalScreenHeight;
+            
+            width = (int)(width * scaleFactor);
+            height = (int)(height * scaleFactor);
+#endif
+
+            GraphicsDeviceManager.PreferredBackBufferWidth = width;
 			GraphicsDeviceManager.PreferredBackBufferHeight = height;
 			GraphicsDeviceManager.IsFullScreen = fullscreen;
             

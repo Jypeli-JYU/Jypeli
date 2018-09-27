@@ -38,6 +38,7 @@ using Jypeli.Devices;
 
 #if WINDOWS
 using System.Net;
+using System.Runtime.InteropServices;
 #endif
 
 using XnaColor = Microsoft.Xna.Framework.Color;
@@ -49,6 +50,11 @@ namespace Jypeli
     [Save]
     public partial class Game : Microsoft.Xna.Framework.Game
     {
+#if WINDOWS
+        [DllImport("user32.dll")]
+        private static extern bool SetProcessDPIAware();
+#endif
+
         private bool loadContentHasBeenCalled = false;
         private bool beginHasBeenCalled = false;
 
@@ -246,6 +252,10 @@ namespace Jypeli
         [EditorBrowsable( EditorBrowsableState.Never )]
         protected override void Initialize()
         {
+#if WINDOWS
+            SetProcessDPIAware();
+#endif
+
             if ( !windowSizeSet )
                 SetDefaultResolution();
 

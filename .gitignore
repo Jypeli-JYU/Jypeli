@@ -9,6 +9,8 @@
 *.user
 *.userprefs
 *.cachefile
+Jypeli.*.sln
+Jypeli.*.csproj
 bin/
 obj/
 Compiled/

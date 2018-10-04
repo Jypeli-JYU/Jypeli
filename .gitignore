@@ -1,0 +1,28 @@
+﻿.project
+
+# Visual Studion tiedostoja
+*/[Ee]xported[Oo]bj/
+*.booproj
+*.pidb
+*.suo
+*.svd
+*.user
+*.userprefs
+*.cachefile
+bin/
+obj/
+Compiled/
+.vs/
+
+
+# Käyttiksen (Mac ja win) tekemiä tiedostoja joita jättää pois
+._*
+.DS_Store*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Icon?
+[Tt]humbs.db
+
+# Dolphin
+.directory

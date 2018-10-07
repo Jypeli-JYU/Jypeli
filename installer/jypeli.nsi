@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 6.9.2"
+Name "MonoJypeli 6.9.3"
 
 OutFile "MonoJypeli_setup.exe"
 

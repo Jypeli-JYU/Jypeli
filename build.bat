@@ -8,10 +8,10 @@ if errorlevel 1 goto error
 call build_platform Windows
 if errorlevel 1 goto error
 
-call build_platform WindowsGL
+rem call build_platform WindowsGL
 if errorlevel 1 goto error
 
-call build_platform Linux
+rem call build_platform Linux
 if errorlevel 1 goto error
 
 call build_platform Android

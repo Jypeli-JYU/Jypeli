@@ -188,7 +188,7 @@ SectionEnd
 
 Section "OpenAL" OpenAL
   SetOutPath "$INSTDIR\WindowsGL"
-  File '..\MonoGame\ThirdParty\Dependencies\oalinst.exe'
+  File '..\Precompiled\oalinst.exe'
   ExecWait '"$INSTDIR\WindowsGL\oalinst.exe /S"'
 SectionEnd
 
@@ -236,7 +236,7 @@ Section "Visual Studio 2017 Project Templates"
   ; MSBuild
   CreateDirectory "$PROGRAMFILES32\MSBuild\Jypeli"
   SetOutPath "$PROGRAMFILES32\MSBuild\Jypeli"
-  File "..\MGCBTask\bin\Debug\Jypeli.MGCBTask.dll"
+  File "..\MSBuildExtension\MGCBTask\bin\Debug\Jypeli.MGCBTask.dll"
   File "..\MSBuildExtension\MonoJypeli.targets"
   
   ; Windows

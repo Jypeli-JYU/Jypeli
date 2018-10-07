@@ -1,10 +1,10 @@
 Windows:
-- aja build.bat, se hakee MonoGamen gitin avulla ja luo .csproj- sek‰ .sln-tiedostot
-- templateja varten pit‰‰ paketoida projektimallit .zip-paketteihin
-- k‰‰nnetty‰si uuden version aja copy_compiled.bat, anna parametriksi arkkitehtuuri (esim. copy_compiled.bat Windows)
-- luo installeri installer\jypeli.nsi -tiedoston avulla
+- mene BuildScripts-kansioon
+- jos et ole buildannut aiemmin, niin aja generate_projects.bat. T‰m‰ luo Visual Studio -projektitiedostot Protobuildia k‰ytt‰en.
+- aja build_and_create_installer.bat
 
 - jos .bat-tiedostot ep‰onnistuvat, niin avaa ne tekstieditorilla ja tee vastaavat asiat manuaalisesti :)
+
 
 Mac:
 

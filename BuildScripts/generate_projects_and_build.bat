@@ -1,0 +1,3 @@
+call generate_projects
+call build_and_create_installer
+

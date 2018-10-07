@@ -160,19 +160,19 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
 
-   <EmbeddedNativeLibrary Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\armeabi-v7a\libopenal32.so">
+   <EmbeddedNativeLibrary Include="..\Precompiled\Android\openal-soft\libs\armeabi-v7a\libopenal32.so">
       <Platforms>Android,Ouya</Platforms>
       <Link>libs\armeabi-v7a\libopenal32.so</Link>
     </EmbeddedNativeLibrary>
-    <EmbeddedNativeLibrary Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\arm64-v8a\libopenal32.so">
+    <EmbeddedNativeLibrary Include="..\Precompiled\Android\openal-soft\libs\arm64-v8a\libopenal32.so">
       <Platforms>Android,Ouya</Platforms>
       <Link>libs\arm64-v8a\libopenal32.so</Link>
     </EmbeddedNativeLibrary>
-    <EmbeddedNativeLibrary Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\x86\libopenal32.so">
+    <EmbeddedNativeLibrary Include="..\Precompiled\Android\openal-soft\libs\x86\libopenal32.so">
       <Platforms>Android,Ouya</Platforms>
       <Link>libs\x86\libopenal32.so</Link>
     </EmbeddedNativeLibrary>
-    <EmbeddedNativeLibrary Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\libs\x86_64\libopenal32.so">
+    <EmbeddedNativeLibrary Include="..\Precompiled\Android\openal-soft\libs\x86_64\libopenal32.so">
       <Platforms>Android,Ouya</Platforms>
       <Link>libs\x86_64\libopenal32.so</Link>
     </EmbeddedNativeLibrary>

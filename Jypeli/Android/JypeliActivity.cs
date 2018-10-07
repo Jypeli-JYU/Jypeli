@@ -8,7 +8,7 @@ namespace Jypeli.Android
     /// <summary>
     /// Custom Android activity that enables use of the on-screen keyboard.
     /// </summary>
-    public class JypeliActivity : AndroidGameActivity, IOnScreenKeyboardManager
+    public class JypeliActivity : AndroidGameActivity
     {
         private Microsoft.Xna.Framework.Game xnaGame;
         private View pView;

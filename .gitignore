@@ -1,6 +1,6 @@
 ﻿.project
 
-# Visual Studion tiedostoja
+# Visual Studio files
 */[Ee]xported[Oo]bj/
 *.booproj
 *.pidb
@@ -9,15 +9,18 @@
 *.user
 *.userprefs
 *.cachefile
-Jypeli.*.sln
-Jypeli.*.csproj
 bin/
 obj/
-Compiled/
 .vs/
 
+# Files generated in the build process
+Jypeli.*.sln
+Jypeli.*.csproj
+Compiled/
+installer/MonoJypeli_setup.exe
 
-# Käyttiksen (Mac ja win) tekemiä tiedostoja joita jättää pois
+
+# Operating system files
 ._*
 .DS_Store*
 .Spotlight-V100

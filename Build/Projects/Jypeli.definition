@@ -40,25 +40,17 @@
 
      <CustomDefinitions>
         <Platform Name="Android">JYPELI;UseDouble;TRACE;MOBILE;ANDROID;GLES;OPENGL;OPENAL;DISABLE_LIGHTING_EFFECT</Platform>
-        <Platform Name="iOS">JYPELI;UseDouble;MOBILE;IOS;GLES;OPENGL;OPENAL</Platform>
-        <Platform Name="Linux">JYPELI;UseDouble;TRACE;DESKTOP;LINUX;OPENGL;OPENAL</Platform>
-        <Platform Name="Linux.headless">JYPELI;UseDouble;TRACE;DESKTOP;LINUX;OPENGL;OPENAL;HEADLESS</Platform>
-        <Platform Name="MacOS">JYPELI;UseDouble;OPENGL;OPENAL;DESKTOP;MACOS</Platform>
-        <Platform Name="Ouya">JYPELI;UseDouble;TRACE;MOBILE;ANDROID;GLES;OPENGL;OUYA;OPENAL</Platform>
-        <Platform Name="PSMobile">JYPELI;UseDouble;MOBILE;PSM</Platform>
-        <Platform Name="WindowsGL">JYPELI;UseDouble;TRACE;DESKTOP;WINDOWS</Platform>
-        <Platform Name="WindowsGL.headless">JYPELI;UseDouble;TRACE;DESKTOP;WINDOWS;HEADLESS</Platform>
+        <Platform Name="iOS">JYPELI;UseDouble;MOBILE;IOS;GLES;OPENGL;OPENAL;DISABLE_LIGHTING_EFFECT</Platform>
+        <Platform Name="Linux">JYPELI;UseDouble;TRACE;DESKTOP;LINUX;OPENGL;OPENAL;DISABLE_LIGHTING_EFFECT</Platform>
+        <Platform Name="Linux.headless">JYPELI;UseDouble;TRACE;DESKTOP;LINUX;OPENGL;OPENAL;HEADLESS;DISABLE_LIGHTING_EFFECT</Platform>
+        <Platform Name="MacOS">JYPELI;UseDouble;OPENGL;OPENAL;DESKTOP;MACOS;DISABLE_LIGHTING_EFFECT</Platform>
+        <Platform Name="WindowsGL">JYPELI;UseDouble;TRACE;DESKTOP;WINDOWS;DISABLE_LIGHTING_EFFECT</Platform>
+        <Platform Name="WindowsGL.headless">JYPELI;UseDouble;TRACE;DESKTOP;WINDOWS;HEADLESS;DISABLE_LIGHTING_EFFECT</Platform>
         <Platform Name="Windows">JYPELI;UseDouble;TRACE;DESKTOP;WINDOWS;DIRECTX;WINDOWS_MEDIA_SESSION;DISABLE_LIGHTING_EFFECT</Platform>
-        <Platform Name="Windows8">JYPELI;UseDouble;TRACE;NETFX_CORE;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE</Platform>
-        <Platform Name="WindowsPhone81">JYPELI;UseDouble;TRACE;MOBILE;WINDOWS_PHONE;WINDOWS_PHONE81;DIRECTX;WINDOWS_STOREAPP</Platform>
-        <Platform Name="WindowsUniversal">JYPELI;UseDouble;TRACE;NETFX_CORE;WINDOWS_UAP;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE</Platform>
-        <Platform Name="Web">JYPELI;UseDouble;TRACE;WEB</Platform>
+        <Platform Name="Web">JYPELI;UseDouble;TRACE;WEB;DISABLE_LIGHTING_EFFECT</Platform>
      </CustomDefinitions>
      
     <FrameworkVersions>
-      <Platform Name="Windows8">
-        <Version>v4.5.1</Version>
-      </Platform>
     </FrameworkVersions>
 </Properties>
 
@@ -243,10 +235,10 @@
 	<Compile Include="Content\Fonts\SmallFont.cs" />
     <Compile Include="Content\Fonts\SmallFontBold.cs" />
     <Compile Include="EffectContent\Lighting.cs">
-        <ExcludePlatforms>Windows,WindowsGL,Windows8,WindowsUniversal,MacOS</ExcludePlatforms>
+        <ExcludePlatforms>Windows,MacOS</ExcludePlatforms>
     </Compile>
     <Compile Include="EffectContent\Lighting_dx11.cs">
-        <Platforms>Windows,Windows8,WindowsUniversal</Platforms>
+        <Platforms>Windows</Platforms>
     </Compile>
     <Compile Include="EffectContent\Lighting_35.cs">
         <Platforms>WindowsGL, MacOS</Platforms>

@@ -82,109 +82,15 @@
     <Reference Include="MonoGame.Framework" />
   </Platform>
 
-  <Platform Type="Ouya">
-    <Reference Include="System" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Mono.Android" />
-    <Reference Include="mscorlib" />
-    <Reference Include="OpenTK-1.0" />
-    <Reference Include="System.Core" />
-    <Binary
-      Name="Ouya.Console.Api"
-      Path="MonoGame/ThirdParty/Dependencies/OUYA/Ouya.Console.Api.dll" />
-
-    <!-- MonoGame framework -->
-    <Reference Include="MonoGame.Framework" />
-  </Platform>
-
-  <Platform Type="PSMobile">
-    <Reference Include="System.Core" />
-    <Reference Include="Sce.PlayStation.Core" />
-
-    <!-- MonoGame framework -->
-    <Reference Include="MonoGame.Framework" />
-  </Platform>
-
   <Platform Type="Windows">
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
-    <Service Name="MonoGame.Framework/DirectXGraphics">
-      <Reference Include="System.Core" />
-      <Reference Include="System.Drawing" />
-      <Reference Include="System.Web" />
-      <Reference Include="System.Web.Services" />
-      <Reference Include="System.Windows.Forms" />
-      <Binary
-        Name="SharpDX"
-        Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows/SharpDX.dll" />
-      <Binary
-        Name="SharpDX.Direct2D1"
-        Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows/SharpDX.Direct2D1.dll" />
-      <Binary
-        Name="SharpDX.Direct3D11"
-        Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows/SharpDX.Direct3D11.dll" />
-      <Binary
-        Name="SharpDX.DXGI"
-        Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows/SharpDX.DXGI.dll" />
-      <Binary
-        Name="SharpDX.MediaFoundation"
-        Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows/SharpDX.MediaFoundation.dll" />
-      <Binary
-        Name="SharpDX.RawInput"
-        Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows/SharpDX.RawInput.dll" />
-      <Binary
-        Name="SharpDX.XAudio2"
-        Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows/SharpDX.XAudio2.dll" />
-      <Binary
-        Name="SharpDX.XInput"
-        Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows/SharpDX.XInput.dll" />
-    </Service>
-
-    <Service Name="MonoGame.Framework/OpenGLGraphics">
-      <Reference Include="System.Core" />
-      <Reference Include="System.Drawing" />
-      <Reference Include="System.Web" />
-      <Reference Include="System.Web.Services" />
-      <Reference Include="System.Windows.Forms" />
-      <Binary
-        Name="OpenTK"
-        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
-    </Service>
-
+	<Reference Include="System.Drawing" />
     <!-- MonoGame framework -->
-    <Reference Include="MonoGame.Framework" />
-  </Platform>
-
-  <Platform Type="Windows8">
-    <Reference Include="System" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml" />
-    <Binary
-      Name="SharpDX"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows 8 Metro/SharpDX.dll" />
-    <Binary
-      Name="SharpDX.Direct2D1"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows 8 Metro/SharpDX.Direct2D1.dll" />
-    <Binary
-      Name="SharpDX.Direct3D11"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows 8 Metro/SharpDX.Direct3D11.dll" />
-    <Binary
-      Name="SharpDX.DXGI"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows 8 Metro/SharpDX.DXGI.dll" />
-    <Binary
-      Name="SharpDX.MediaFoundation"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows 8 Metro/SharpDX.MediaFoundation.dll" />
-    <Binary
-      Name="SharpDX.XAudio2"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows 8 Metro/SharpDX.XAudio2.dll" />
-    <Binary
-      Name="SharpDX.XInput"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows 8 Metro/SharpDX.XInput.dll" />
-
-    <!-- MonoGame framework -->
-    <Reference Include="MonoGame.Framework" />
+	<Binary
+	  Name="MonoGame.Framework"
+	  Path="Precompiled/Windows/MonoGame.Framework.dll" />
   </Platform>
 
   <Platform Type="WindowsGL">
@@ -219,71 +125,12 @@
       <Reference Include="System.Web" />
       <Reference Include="System.Web.Services" />
       <Reference Include="System.Windows.Forms" />
-      <Binary
-        Name="NVorbis"
-        Path="MonoGame/ThirdParty/Dependencies/NVorbis/NVorbis.dll" />
-      <Binary
-        Name="OpenTK"
-        Path="MonoGame/ThirdParty/Dependencies/OpenTK.dll" />
     </Service>
 
     <!-- MonoGame framework -->
     <Reference Include="MonoGame.Framework" />
   </Platform>
 
-  <Platform Type="WindowsPhone81">
-    <Reference Include="System" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml" />
-    <Binary
-      Name="SharpDX"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.dll" />
-    <Binary
-      Name="SharpDX"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.Direct2D1.dll" />
-    <Binary
-      Name="SharpDX"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.DXGI.dll" />
-    <Binary
-      Name="SharpDX.Direct3D11"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.Direct3D11.dll" />
-    <Binary
-      Name="SharpDX.DXGI"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.DXGI.dll" />
-    <Binary
-      Name="SharpDX.MediaFoundation"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.MediaFoundation.dll" />
-    <Binary
-      Name="SharpDX.XAudio2"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows Phone 8.1/SharpDX.XAudio2.dll" />
-
-    <!-- MonoGame framework -->
-    <Reference Include="MonoGame.Framework" />
-  </Platform>
-
-  <Platform Type="WindowsUniversal">
-    <Binary
-      Name="SharpDX"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.dll" />
-    <Binary
-      Name="SharpDX.Direct2D1"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.Direct2D1.dll" />
-    <Binary
-      Name="SharpDX.Direct3D11"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.Direct3D11.dll" />
-    <Binary
-      Name="SharpDX.DXGI"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.DXGI.dll" />
-    <Binary
-      Name="SharpDX.MediaFoundation"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.MediaFoundation.dll" />
-    <Binary
-      Name="SharpDX.XAudio2"
-      Path="MonoGame/ThirdParty/Dependencies/SharpDX/Windows UAP/SharpDX.XAudio2.dll" />
-
-    <!-- MonoGame framework -->
-    <Reference Include="MonoGame.Framework" />
-  </Platform>
   
   <Platform Type="Web">
     <Reference Include="System" />

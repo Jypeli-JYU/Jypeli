@@ -135,6 +135,8 @@ namespace Jypeli
         /// <param name="target">Olio johon törmäystä tutkitaan.</param>
         public bool IgnoresCollisionWith( PhysicsObject target )
         {
+            if (this == target)
+                return true;
             if ( this.IgnoresCollisionResponse || target.IgnoresCollisionResponse )
                 return true;
             if ( this.CollisionIgnorer == null || target.CollisionIgnorer == null )

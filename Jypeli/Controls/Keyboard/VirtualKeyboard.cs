@@ -12,6 +12,53 @@ using XnaColor = Microsoft.Xna.Framework.Color;
 namespace Jypeli.Controls.Keyboard
 {
     /// <summary>
+    /// Näppäimen tyyppi.
+    /// </summary>
+    internal enum VirtualKeyType
+    {
+        /// <summary>
+        /// Näppäin syöttää tekstiä kuin "tavallinen" näppäin.
+        /// </summary>
+        Normal,
+
+        /// <summary>
+        /// Näppäin toimii Enter-painikkeena.
+        /// </summary>
+        Enter,
+
+        /// <summary>
+        /// Näppäin toimii Backspace-painikkeena.
+        /// </summary>
+        Backspace
+    }
+
+    internal struct VirtualKeyInfo
+    {
+        public VirtualKeyInfo(string displayString, string value, double widthMultiplier = 1.0, VirtualKeyType keyType = VirtualKeyType.Normal) : this()
+        {
+            DisplayString = displayString;
+            WidthMultiplier = widthMultiplier;
+            KeyType = keyType;
+            Value = value;
+        }
+
+        public static implicit operator VirtualKeyInfo(char c)
+        {
+            return new VirtualKeyInfo(c.ToString(), c.ToString());
+        }
+
+        public static implicit operator VirtualKeyInfo(string s)
+        {
+            return new VirtualKeyInfo(s, s);
+        }
+
+        public string DisplayString { get; private set; }
+        public double WidthMultiplier { get; private set; }
+        public VirtualKeyType KeyType { get; private set; }
+        public string Value { get; private set; }
+    }
+
+    /// <summary>
     /// Virtuaalinen näppäimistö.
     /// Tarkoitettu ensisijaisesti mobiilialustoille, joiden oman 
     /// virtuaalinäppäimistön käyttö MonoGamen ja Jypelin kanssa on
@@ -19,14 +66,15 @@ namespace Jypeli.Controls.Keyboard
     /// </summary>
     class VirtualKeyboard : DrawableGameComponent
     {
-        private const int KEY_PADDING = 5;
+        internal const int KEY_PADDING = 5;
 
-        private static readonly string[][] keyLines = new string[][]
+        private static readonly VirtualKeyInfo[][] keyLines = new VirtualKeyInfo[][]
         {
-            new string[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"},
-            new string[] {"Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"},
-            new string[] {"A", "S", "D", "F", "G", "H", "J", "K", "L", ":"},
-            new string[] {"Z", "X", "C", "V", "B", "N", "M", ".", ",", "->"}
+            new VirtualKeyInfo[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", new VirtualKeyInfo("<=", "", 1.0, VirtualKeyType.Backspace)},
+            new VirtualKeyInfo[] {"Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "Å"},
+            new VirtualKeyInfo[] {"A", "S", "D", "F", "G", "H", "J", "K", "L", "Ö", "Ä"},
+            new VirtualKeyInfo[] {"Z", "X", "C", "V", "B", "N", "M", ".", ",", "-", "*"},
+            new VirtualKeyInfo[] {new VirtualKeyInfo("Space", " ", 7), new VirtualKeyInfo("= >", "", 4, VirtualKeyType.Enter)},
         };
 
         public VirtualKeyboard(Game jypeliGame) : base(jypeliGame)
@@ -58,25 +106,28 @@ namespace Jypeli.Controls.Keyboard
 
             int highestKeyCount = GetKeyCountOnSingleLine();
 
-            int keyWidth = ((Width - KEY_PADDING) / highestKeyCount) - KEY_PADDING;
+            int baseKeyWidth = (Width - KEY_PADDING * (1 + highestKeyCount)) / highestKeyCount;
             int keyHeight = ((Height - KEY_PADDING) / keyLines.Length) - KEY_PADDING;
 
             // Create keys
             for (int y = 0; y < keyLines.Length; y++)
             {
                 int yCoord = KEY_PADDING + y * (keyHeight + KEY_PADDING);
+                int xCoord = KEY_PADDING;
 
                 for (int x = 0; x < keyLines[y].Length; x++)
                 {
-                    int xCoord = KEY_PADDING + x * (keyWidth + KEY_PADDING);
+                    VirtualKeyInfo keyInfo = keyLines[y][x];
 
-                    var virtualKey = new VirtualKey(game, keyLines[y][x],
-                        xCoord, yCoord, keyWidth, keyHeight, Font.DefaultHuge);
+                    var virtualKey = new VirtualKey(game, keyInfo.DisplayString, keyInfo.Value,
+                        xCoord, yCoord, (int)(baseKeyWidth * keyInfo.WidthMultiplier), keyHeight, Font.DefaultHuge);
+                    xCoord += virtualKey.Width;
+                    xCoord += KEY_PADDING;
+
                     keys.Add(virtualKey);
                 }
             }
 
-            keys[keys.Count - 1].IsCharacter = false;
             spriteBatch = new SpriteBatch(GraphicsDevice);
             whitePixelTexture = XnaRenderer.CreateTexture(GraphicsDevice, Color.White, 1, 1);
         }
@@ -85,7 +136,7 @@ namespace Jypeli.Controls.Keyboard
         {
             int highestKeyCount = int.MinValue;
 
-            foreach (string[] line in keyLines)
+            foreach (VirtualKeyInfo[] line in keyLines)
             {
                 if (highestKeyCount < line.Length)
                     highestKeyCount = line.Length;
@@ -126,7 +177,7 @@ namespace Jypeli.Controls.Keyboard
             Text = text;
         }
 
-        public VirtualKey(XnaGame game, string text,
+        public VirtualKey(XnaGame game, string text, string value,
             int x, int y, int width, int height, Font font) : this(game, text)
         {
             X = x;
@@ -134,14 +185,14 @@ namespace Jypeli.Controls.Keyboard
             Width = width;
             Height = height;
             Font = font;
+            Value = value;
         }
 
         /// <summary>
-        /// Määrittää, onko kyseessä normaali tekstiä syöttävä näppäin.
-        /// Mikäli ei, niin näppäin katsotaan Enter-painiketta vastaavaksi
-        /// (esim. sulkee tekstilaatikon).
+        /// Mikäli tämä on asetettu, näppäin katsotaan Enter-painikkeeksi.
         /// </summary>
-        public bool IsCharacter { get; set; } = true;
+        public bool IsEnter { get; private set; }
+        public string Value { get; private set; }
         public string Text { get; private set; }
         public int X { get; set; }
         public int Y { get; set; }
@@ -153,17 +204,12 @@ namespace Jypeli.Controls.Keyboard
         {
             var drawRectangle = new XnaRectangle(xOffset + X, yOffset + Y, Width, Height);
             XnaRenderer.FillRectangle(whitePixelTexture, sb, drawRectangle, XnaColor.Gray);
-            DrawRectangle(whitePixelTexture, sb, drawRectangle, 2, XnaColor.White);
-            XnaRenderer.DrawStringWithShadow(sb, Text, Font.XnaFont, new Vector2(xOffset + X + 5.0f, yOffset + Y + 5.0f), XnaColor.White);
+            XnaRenderer.DrawRectangle(whitePixelTexture, sb, drawRectangle, 2, XnaColor.White);
+            XnaRenderer.DrawStringWithShadow(sb, Text, Font.XnaFont, 
+                new Vector2(xOffset + X + VirtualKeyboard.KEY_PADDING, yOffset + Y + VirtualKeyboard.KEY_PADDING), XnaColor.White);
         }
 
-        private static void DrawRectangle(Texture2D whitePixelTexture, SpriteBatch sb, XnaRectangle rect, int thickness, XnaColor color)
-        {
-            sb.Draw(whitePixelTexture, new XnaRectangle(rect.X, rect.Y, rect.Width, thickness), color);
-            sb.Draw(whitePixelTexture, new XnaRectangle(rect.X, rect.Y + thickness, thickness, rect.Height - thickness), color);
-            sb.Draw(whitePixelTexture, new XnaRectangle(rect.X + rect.Width - thickness, rect.Y, thickness, rect.Height), color);
-            sb.Draw(whitePixelTexture, new XnaRectangle(rect.X, rect.Y + rect.Height - thickness, rect.Width, thickness), color);
-        }
+        
     }
 
     /// <summary>
@@ -194,6 +240,14 @@ namespace Jypeli.Controls.Keyboard
         {
             sb.DrawString(font, text, new Vector2(location.X + 1f, location.Y + 1f), XnaColor.Black);
             sb.DrawString(font, text, location, color);
+        }
+
+        internal static void DrawRectangle(Texture2D whitePixelTexture, SpriteBatch sb, XnaRectangle rect, int thickness, XnaColor color)
+        {
+            sb.Draw(whitePixelTexture, new XnaRectangle(rect.X, rect.Y, rect.Width, thickness), color);
+            sb.Draw(whitePixelTexture, new XnaRectangle(rect.X, rect.Y + thickness, thickness, rect.Height - thickness), color);
+            sb.Draw(whitePixelTexture, new XnaRectangle(rect.X + rect.Width - thickness, rect.Y, thickness, rect.Height), color);
+            sb.Draw(whitePixelTexture, new XnaRectangle(rect.X, rect.Y + rect.Height - thickness, rect.Width, thickness), color);
         }
     }
 }

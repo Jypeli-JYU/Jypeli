@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,56 +9,13 @@ using System.Threading.Tasks;
 using XnaGame = Microsoft.Xna.Framework.Game;
 using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
 using XnaColor = Microsoft.Xna.Framework.Color;
+using XnaMouse = Microsoft.Xna.Framework.Input.Mouse;
+using XnaTouchPanel = Microsoft.Xna.Framework.Input.Touch.TouchPanel;
+using XnaButtonState = Microsoft.Xna.Framework.Input.ButtonState;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Jypeli.Controls.Keyboard
 {
-    /// <summary>
-    /// Näppäimen tyyppi.
-    /// </summary>
-    internal enum VirtualKeyType
-    {
-        /// <summary>
-        /// Näppäin syöttää tekstiä kuin "tavallinen" näppäin.
-        /// </summary>
-        Normal,
-
-        /// <summary>
-        /// Näppäin toimii Enter-painikkeena.
-        /// </summary>
-        Enter,
-
-        /// <summary>
-        /// Näppäin toimii Backspace-painikkeena.
-        /// </summary>
-        Backspace
-    }
-
-    internal struct VirtualKeyInfo
-    {
-        public VirtualKeyInfo(string displayString, string value, double widthMultiplier = 1.0, VirtualKeyType keyType = VirtualKeyType.Normal) : this()
-        {
-            DisplayString = displayString;
-            WidthMultiplier = widthMultiplier;
-            KeyType = keyType;
-            Value = value;
-        }
-
-        public static implicit operator VirtualKeyInfo(char c)
-        {
-            return new VirtualKeyInfo(c.ToString(), c.ToString());
-        }
-
-        public static implicit operator VirtualKeyInfo(string s)
-        {
-            return new VirtualKeyInfo(s, s);
-        }
-
-        public string DisplayString { get; private set; }
-        public double WidthMultiplier { get; private set; }
-        public VirtualKeyType KeyType { get; private set; }
-        public string Value { get; private set; }
-    }
-
     /// <summary>
     /// Virtuaalinen näppäimistö.
     /// Tarkoitettu ensisijaisesti mobiilialustoille, joiden oman 
@@ -82,6 +40,10 @@ namespace Jypeli.Controls.Keyboard
             this.game = jypeliGame;
         }
 
+        public event EventHandler<VirtualKeyboardInputEventArgs> InputEntered;
+        public event EventHandler EnterPressed;
+        public event EventHandler BackspacePressed;
+
         private Game game;
         private SpriteBatch spriteBatch;
 
@@ -93,6 +55,8 @@ namespace Jypeli.Controls.Keyboard
         private int Height;
 
         private Texture2D whitePixelTexture;
+
+        private MouseState prevMouseState;
 
         public override void Initialize()
         {
@@ -120,7 +84,8 @@ namespace Jypeli.Controls.Keyboard
                     VirtualKeyInfo keyInfo = keyLines[y][x];
 
                     var virtualKey = new VirtualKey(game, keyInfo.DisplayString, keyInfo.Value,
-                        xCoord, yCoord, (int)(baseKeyWidth * keyInfo.WidthMultiplier), keyHeight, Font.DefaultHuge);
+                        xCoord, yCoord, (int)(baseKeyWidth * keyInfo.WidthMultiplier), keyHeight,
+                        Font.DefaultHuge, keyInfo.KeyType);
                     xCoord += virtualKey.Width;
                     xCoord += KEY_PADDING;
 
@@ -145,9 +110,95 @@ namespace Jypeli.Controls.Keyboard
             return highestKeyCount;
         }
 
+        /// <summary>
+        /// Piilottaa virtuaalisen näppäimistön.
+        /// </summary>
+        public void Hide()
+        {
+            Visible = false;
+            Enabled = false;
+        }
+
+        /// <summary>
+        /// Avaa virtuaalisen näppäimistön.
+        /// </summary>
+        public void Show()
+        {
+            Visible = true;
+            Enabled = true;
+        }
+
+        /// <summary>
+        /// Käsittelee näppäimen painalluksen.
+        /// </summary>
+        /// <param name="key">Näppäin.</param>
+        private void HandleKeyPress(VirtualKey key)
+        {
+            switch (key.Type)
+            {
+                case VirtualKeyType.Enter:
+                    EnterPressed?.Invoke(this, EventArgs.Empty);
+                    break;
+                case VirtualKeyType.Backspace:
+                    BackspacePressed?.Invoke(this, EventArgs.Empty);
+                    break;
+                case VirtualKeyType.Normal:
+                default:
+                    InputEntered?.Invoke(this, new VirtualKeyboardInputEventArgs(key.Value));
+                    break;
+            }
+
+            key.Pressed();
+        }
+
         public override void Update(GameTime gameTime)
         {
-            // TODO handle input
+            bool checkForKeyPress;
+
+#if WINDOWS
+            MouseState mouseState = XnaMouse.GetState();
+
+            checkForKeyPress = prevMouseState.LeftButton == XnaButtonState.Pressed &&
+                mouseState.LeftButton == XnaButtonState.Released;
+#endif
+
+#if ANDROID
+            TouchCollection touchCollection = XnaTouchPanel.GetState();
+            checkForKeyPress = touchCollection.Count > 0 && touchCollection[0].State == TouchLocationState.Released;
+            // TODO multi-touch support?
+            Vector2 touchPos = touchCollection.Count > 0 ? touchCollection[0].Position : Vector2.Zero;
+#endif
+
+            foreach (VirtualKey key in keys)
+            {
+                if (checkForKeyPress)
+                {
+#if WINDOWS
+                    if (mouseState.Y > Y + key.Y && mouseState.Y < Y + key.Y + key.Height &&
+                        mouseState.X > X + key.X && mouseState.X < X + key.X + key.Width)
+                    {
+                        HandleKeyPress(key);
+                        checkForKeyPress = false;
+                    }
+#endif
+
+#if ANDROID
+                    if (touchPos.Y > Y + key.Y && touchPos.Y < Y + key.Y + key.Height &&
+                        touchPos.X > X + key.X && touchPos.X < X + key.X + key.Width)
+                    {
+                        HandleKeyPress(key);
+                        checkForKeyPress = false;
+                    }
+#endif
+                }
+
+                key.Update(gameTime);
+            }
+
+#if WINDOWS
+            prevMouseState = mouseState;
+#endif
+
             base.Update(gameTime);
         }
 
@@ -172,13 +223,20 @@ namespace Jypeli.Controls.Keyboard
     /// </summary>
     internal class VirtualKey
     {
+        private static XnaColor backgroundColorIdle = XnaColor.Gray;
+        private static XnaColor textColorIdle = XnaColor.White;
+        private static XnaColor backgroundColorPressed = XnaColor.White;
+        private static XnaColor textColorPressed = XnaColor.Red;
+
+        private const float HIGHLIGHT_TIME_ON_PRESS = 0.125f;
+
         public VirtualKey(XnaGame game, string text)
         {
-            Text = text;
+            UIText = text;
         }
 
         public VirtualKey(XnaGame game, string text, string value,
-            int x, int y, int width, int height, Font font) : this(game, text)
+            int x, int y, int width, int height, Font font, VirtualKeyType type) : this(game, text)
         {
             X = x;
             Y = y;
@@ -186,30 +244,73 @@ namespace Jypeli.Controls.Keyboard
             Height = height;
             Font = font;
             Value = value;
+            Type = type;
         }
 
         /// <summary>
-        /// Mikäli tämä on asetettu, näppäin katsotaan Enter-painikkeeksi.
+        /// Näppäimen tyyppi.
         /// </summary>
-        public bool IsEnter { get; private set; }
+        public VirtualKeyType Type { get; private set; }
+
+        /// <summary>
+        /// Teksti, joka syötetään näppäintä painettaessa.
+        /// </summary>
         public string Value { get; private set; }
-        public string Text { get; private set; }
+        
+        /// <summary>
+        /// Käyttöliittymässä näppäimen kohdalla näytetty teksti.
+        /// </summary>
+        public string UIText { get; private set; }
+
         public int X { get; set; }
         public int Y { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public Font Font { get; set; }
 
+        private double highlightTime;
+
+        private XnaColor backgroundColor = backgroundColorIdle;
+        private XnaColor textColor = textColorIdle;
+
+        /// <summary>
+        /// Kutsutaan, kun näppäintä on painettu.
+        /// </summary>
+        public void Pressed()
+        {
+            highlightTime = HIGHLIGHT_TIME_ON_PRESS;
+            backgroundColor = backgroundColorPressed;
+            textColor = textColorPressed;
+        }
+
+        /// <summary>
+        /// Päivittää näppäimen tilaa.
+        /// </summary>
+        /// <param name="gameTime">Kertoo kuluneen peliajan.</param>
+        public void Update(GameTime gameTime)
+        {
+            if (highlightTime > 0.0)
+            {
+                highlightTime -= gameTime.ElapsedGameTime.TotalSeconds;
+                if (highlightTime < 0.0)
+                {
+                    backgroundColor = backgroundColorIdle;
+                    textColor = textColorIdle;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Piirtää näppäimen.
+        /// </summary>
         public void Draw(Texture2D whitePixelTexture, SpriteBatch sb, int xOffset, int yOffset)
         {
             var drawRectangle = new XnaRectangle(xOffset + X, yOffset + Y, Width, Height);
-            XnaRenderer.FillRectangle(whitePixelTexture, sb, drawRectangle, XnaColor.Gray);
-            XnaRenderer.DrawRectangle(whitePixelTexture, sb, drawRectangle, 2, XnaColor.White);
-            XnaRenderer.DrawStringWithShadow(sb, Text, Font.XnaFont, 
-                new Vector2(xOffset + X + VirtualKeyboard.KEY_PADDING, yOffset + Y + VirtualKeyboard.KEY_PADDING), XnaColor.White);
+            XnaRenderer.FillRectangle(whitePixelTexture, sb, drawRectangle, backgroundColor);
+            XnaRenderer.DrawRectangle(whitePixelTexture, sb, drawRectangle, 2, new XnaColor(196, 196, 196, 255));
+            XnaRenderer.DrawStringWithShadow(sb, UIText, Font.XnaFont, 
+                new Vector2(xOffset + X + VirtualKeyboard.KEY_PADDING, yOffset + Y + VirtualKeyboard.KEY_PADDING), textColor);
         }
-
-        
     }
 
     /// <summary>
@@ -217,12 +318,12 @@ namespace Jypeli.Controls.Keyboard
     /// </summary>
     internal static class XnaRenderer
     {
-        internal static void FillRectangle(Texture2D whitePixelTexture, SpriteBatch sb, XnaRectangle rect, XnaColor color)
+        public static void FillRectangle(Texture2D whitePixelTexture, SpriteBatch sb, XnaRectangle rect, XnaColor color)
         {
             sb.Draw(whitePixelTexture, rect, color);
         }
 
-        internal static Texture2D CreateTexture(GraphicsDevice gd, Color color, int width, int height)
+        public static Texture2D CreateTexture(GraphicsDevice gd, Color color, int width, int height)
         {
             Texture2D texture = new Texture2D(gd, width, height, false, SurfaceFormat.Color);
 
@@ -236,18 +337,87 @@ namespace Jypeli.Controls.Keyboard
             return texture;
         }
 
-        internal static void DrawStringWithShadow(SpriteBatch sb, string text, SpriteFont font, Vector2 location, XnaColor color)
+        public static void DrawStringWithShadow(SpriteBatch sb, string text, SpriteFont font, Vector2 location, XnaColor color)
         {
             sb.DrawString(font, text, new Vector2(location.X + 1f, location.Y + 1f), XnaColor.Black);
             sb.DrawString(font, text, location, color);
         }
 
-        internal static void DrawRectangle(Texture2D whitePixelTexture, SpriteBatch sb, XnaRectangle rect, int thickness, XnaColor color)
+        public static void DrawRectangle(Texture2D whitePixelTexture, SpriteBatch sb, XnaRectangle rect, int thickness, XnaColor color)
         {
             sb.Draw(whitePixelTexture, new XnaRectangle(rect.X, rect.Y, rect.Width, thickness), color);
             sb.Draw(whitePixelTexture, new XnaRectangle(rect.X, rect.Y + thickness, thickness, rect.Height - thickness), color);
             sb.Draw(whitePixelTexture, new XnaRectangle(rect.X + rect.Width - thickness, rect.Y, thickness, rect.Height), color);
             sb.Draw(whitePixelTexture, new XnaRectangle(rect.X, rect.Y + rect.Height - thickness, rect.Width, thickness), color);
         }
+    }
+
+
+    /// <summary>
+    /// Näppäimen tyyppi.
+    /// </summary>
+    internal enum VirtualKeyType
+    {
+        /// <summary>
+        /// Näppäin syöttää tekstiä kuin "tavallinen" näppäin.
+        /// </summary>
+        Normal,
+
+        /// <summary>
+        /// Näppäin toimii Enter-painikkeena.
+        /// </summary>
+        Enter,
+
+        /// <summary>
+        /// Näppäin toimii Backspace-painikkeena.
+        /// </summary>
+        Backspace
+    }
+
+
+    /// <summary>
+    /// Tietue, joka sisältää olennaiset tiedot näppäimestä sen luontia varten.
+    /// </summary>
+    internal struct VirtualKeyInfo
+    {
+        public VirtualKeyInfo(string displayString, string value, double widthMultiplier = 1.0, VirtualKeyType keyType = VirtualKeyType.Normal) : this()
+        {
+            DisplayString = displayString;
+            WidthMultiplier = widthMultiplier;
+            KeyType = keyType;
+            Value = value;
+        }
+
+        public static implicit operator VirtualKeyInfo(char c)
+        {
+            return new VirtualKeyInfo(c.ToString(), c.ToString());
+        }
+
+        public static implicit operator VirtualKeyInfo(string s)
+        {
+            return new VirtualKeyInfo(s, s);
+        }
+
+        public string DisplayString { get; private set; }
+        public double WidthMultiplier { get; private set; }
+        public VirtualKeyType KeyType { get; private set; }
+        public string Value { get; private set; }
+    }
+
+
+    /// <summary>
+    /// Tavallisen näppäimen (ei Enter tai Backspace) painalluksesta syntyvän tapahtuman tiedot.
+    /// </summary>
+    internal class VirtualKeyboardInputEventArgs : EventArgs
+    {
+        public VirtualKeyboardInputEventArgs(string text)
+        {
+            Text = text;
+        }
+
+        /// <summary>
+        /// Syötetty teksti.
+        /// </summary>
+        public string Text { get; private set; }
     }
 }

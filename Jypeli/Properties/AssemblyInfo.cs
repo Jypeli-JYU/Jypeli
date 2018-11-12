@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyDescription( "Jypeli-peliohjelmointikirjasto" )]
 [assembly: AssemblyCompany( "" )]
-[assembly: AssemblyCopyright( "Copyright © Jyväskylän yliopisto 2014" )]
+[assembly: AssemblyCopyright("Copyright © Jyväskylän yliopisto 2018")]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 

@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tomi Karppinen, Tero Jäntti
+ * Authors: Tomi Karppinen, Tero Jäntti, Rami Pasanen
  */
 
 
@@ -47,7 +47,14 @@ namespace Jypeli
     public class InputBox : Label
     {
         Timer cursorBlinkTimer;
-        Color cursorColor = new Color( 255, 0, 0, 100 );
+
+        /// <summary>
+        /// Alustaa uuden syöttökentän.
+        /// </summary>
+        public InputBox()
+            : this(15)
+        {
+        }
 
         /// <summary>
         /// Tekstilaatikon pituus kirjaimissa.
@@ -129,15 +136,15 @@ namespace Jypeli
             Size = PreferredSize;
 
             Cursor = new Widget( Font.CharacterWidth, Font.CharacterHeight );
-            Cursor.Color = cursorColor;
+            Cursor.Color = new Color(255, 0, 0, 100);
             Add( Cursor );
             AddedToGame += UpdateCursorPosition;
 
             cursorBlinkTimer = new Timer();
             cursorBlinkTimer.Interval = 0.5;
-            cursorBlinkTimer.Timeout += blinkCursor;
+            cursorBlinkTimer.Timeout += BlinkCursor;
 
-            AddedToGame += onAdded;
+            AddedToGame += OnAdded;
             Removed += onRemoved;
 
 #if WINDOWS_PHONE_TODO
@@ -145,15 +152,57 @@ namespace Jypeli
 #endif
         }
        
-        private void onAdded()
+        private void OnAdded()
         {
             cursorBlinkTimer.Start();
+
+#if ANDROID
+            ShowVirtualKeyboard();
+#endif
 
 #if WINDOWS || LINUX || MACOS
             Game.Instance.Window.TextInput += InputText;
 			Game.Instance.Keyboard.Listen(Key.Back, ButtonState.Pressed, EraseText, null).InContext(this);
 #endif
         }
+
+#if ANDROID
+
+        private void ShowVirtualKeyboard()
+        {
+            Game.VirtualKeyboard.Show();
+            Game.VirtualKeyboard.InputEntered += VirtualKeyboard_InputEntered;
+            Game.VirtualKeyboard.EnterPressed += VirtualKeyboard_EnterPressed;
+            Game.VirtualKeyboard.BackspacePressed += VirtualKeyboard_BackspacePressed;
+            cursorBlinkTimer.Start();
+        }
+
+        private void VirtualKeyboard_BackspacePressed(object sender, EventArgs e)
+        {
+            EraseText();
+        }
+
+        private void VirtualKeyboard_EnterPressed(object sender, EventArgs e)
+        {
+            HideVirtualKeyboard();
+        }
+
+        private void VirtualKeyboard_InputEntered(object sender, Controls.Keyboard.VirtualKeyboardInputEventArgs e)
+        {
+            AddText(e.Text);
+        }
+
+        private void HideVirtualKeyboard()
+        {
+            Game.VirtualKeyboard.Hide();
+            Game.VirtualKeyboard.InputEntered -= VirtualKeyboard_InputEntered;
+            Game.VirtualKeyboard.EnterPressed -= VirtualKeyboard_EnterPressed;
+            Game.VirtualKeyboard.BackspacePressed -= VirtualKeyboard_BackspacePressed;
+            cursorBlinkTimer.Stop();
+            Cursor.IsVisible = false;
+        }
+
+#endif
 
         private void onRemoved()
         {
@@ -164,9 +213,9 @@ namespace Jypeli
 #endif
         }
 
-        private void blinkCursor()
+        private void BlinkCursor()
         {
-            Cursor.Color = ( Cursor.Color != cursorColor ) ? cursorColor : Color.Transparent;
+            Cursor.IsVisible = !Cursor.IsVisible;
         }
 
         void UpdateCursorPosition()
@@ -174,7 +223,7 @@ namespace Jypeli
             Cursor.Left = Math.Min( -Width / 2 + XMargin + TextSize.X, Width / 2 - Font.CharacterWidth );
         }
 
-#if WINDOWS || LINUX  || MACOS
+#if WINDOWS || LINUX || MACOS
         void InputText( object sender, TextInputEventArgs e )
         {
             if ( !this.ControlContext.Active ) return;
@@ -186,48 +235,22 @@ namespace Jypeli
                 return;
             }
 
-            Text += e.Character;
+            AddText(e.Character.ToString());
+        }
+#endif
+
+        void AddText(string text)
+        {
+            Text += text;
             OnTextChanged();
+            UpdateCursorPosition();
         }
 
-		void EraseText()
-		{
-			if ( Text.Length == 0 ) return;
-			Text = Text.Substring (0, Text.Length - 1);
-			OnTextChanged();
-		}
-#endif
-
-#if WINDOWS_PHONE_TODO
-        void AddTouchListener()
+        void EraseText()
         {
-            Game.Instance.TouchPanel.ListenOn( this, ButtonState.Pressed, ShowTouchKeyboard, null ).InContext( this );
-        }
-
-        void ShowTouchKeyboard( Touch touch )
-        {
-            if ( !Guide.IsVisible )
-                Guide.BeginShowKeyboardInput( PlayerIndex.One, "", "", "", TouchTextEntered, this );
-        }
-
-        void TouchTextEntered( IAsyncResult result )
-        {
-            string typedText = Guide.EndShowKeyboardInput( result );
-            if ( typedText != null )
-            {
-                Text = ( typedText.Length <= MaxCharacters ) ? typedText : typedText.Substring( 0, MaxCharacters );
-                UpdateCursorPosition();
-                OnTextChanged();
-            }
-        }
-#endif
-
-        /// <summary>
-        /// Alustaa uuden syöttökentän.
-        /// </summary>
-        public InputBox()
-            : this( 15 )
-        {
+            if (Text.Length == 0) return;
+            Text = Text.Substring(0, Text.Length - 1);
+            OnTextChanged();
         }
 
         public override void Draw( Matrix parentTransformation, Matrix transformation )

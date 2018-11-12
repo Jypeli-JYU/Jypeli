@@ -88,7 +88,13 @@ namespace Jypeli
 
             currentRealTime.Advance( gameTime );
 
-            UpdateControls( currentTime );
+#if ANDROID
+            if (IsActive && !VirtualKeyboard.Visible)
+#else
+            if (IsActive)
+#endif
+                UpdateControls( currentTime );
+
             /*if ( DataStorage.IsUpdated )
                 DataStorage.Update( currentRealTime );*/
 

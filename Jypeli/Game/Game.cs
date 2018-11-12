@@ -1,6 +1,6 @@
 ﻿#region MIT License
 /*
- * Copyright (c) 2013 University of Jyväskylä, Department of Mathematical
+ * Copyright (c) 2018 University of Jyväskylä, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,7 +27,7 @@ using System.IO;
 #endregion
 
 /*
- * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen, Rami Pasanen.
  */
 
 using System;
@@ -44,11 +44,14 @@ using System.Runtime.InteropServices;
 using XnaColor = Microsoft.Xna.Framework.Color;
 using XnaSoundEffect = Microsoft.Xna.Framework.Audio.SoundEffect;
 using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
+#if ANDROID
+using Jypeli.Controls.Keyboard;
+#endif
 
 namespace Jypeli
 {
     [Save]
-    public partial class Game : Microsoft.Xna.Framework.Game
+    public partial class Game : Microsoft.Xna.Framework.Game, GameObjectContainer
     {
 #if WINDOWS
         [DllImport("user32.dll")]
@@ -105,6 +108,13 @@ namespace Jypeli
         /// Aktiivinen kenttä.
         /// </summary>
         public Level Level { get; private set; }
+
+#if ANDROID
+        /// <summary>
+        /// Virtuaalinen näppäimistö.
+        /// </summary>
+        internal VirtualKeyboard VirtualKeyboard { get; private set; }
+#endif
 
 		/// <summary>
 		/// Alustaa pelin.
@@ -264,6 +274,16 @@ namespace Jypeli
 
             Level = new Level( this );
             base.Initialize();
+
+#if ANDROID
+            VirtualKeyboard = new VirtualKeyboard(this);
+            Components.Add(VirtualKeyboard);
+            VirtualKeyboard.Initialize();
+            VirtualKeyboard.Hide();
+#endif
+
+            //Activated += (e, sender) => { IsActive = true; };
+            //Deactivated += (e, sender) => { IsActive = false; };
         }
 
         /// <summary>

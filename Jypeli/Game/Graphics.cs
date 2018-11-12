@@ -79,7 +79,8 @@ namespace Jypeli
         /// <summary>
         /// XNA:n grafiikkakorttien hallintaolio.
         /// </summary>
-        internal static GraphicsDeviceManager GraphicsDeviceManager { get; private set; }
+        //[EditorBrowsable(EditorBrowsableState.Never )]
+        public static GraphicsDeviceManager GraphicsDeviceManager { get; private set; }
 
         /// <summary>
         /// Onko peli kokoruututilassa.

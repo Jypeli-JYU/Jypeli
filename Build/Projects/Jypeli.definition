@@ -184,9 +184,6 @@
     <Compile Include="Android\AndroidAccelerometer.cs">
 		<Platforms>Android</Platforms>
 	</Compile>
-	    <Compile Include="Android\JypeliActivity.cs">
-		<Platforms>Android</Platforms>
-	</Compile>
     <Compile Include="Assets\Automobile.cs" />
     <Compile Include="Assets\CollisionHandler.cs" />
     <Compile Include="Assets\DriverBrain.cs" />

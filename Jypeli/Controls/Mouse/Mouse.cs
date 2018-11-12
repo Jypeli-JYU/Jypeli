@@ -297,6 +297,14 @@ namespace Jypeli
             };
         }
 
+        private ChangePredicate<MouseState> MakeWheelTriggerRule()
+        {
+            return delegate (MouseState prev, MouseState curr)
+            {
+                return prev.ScrollWheelValue != curr.ScrollWheelValue;
+            };
+        }
+
         private string GetButtonName( MouseButton b )
         {
             return "Mouse " + b.ToString();
@@ -534,7 +542,35 @@ namespace Jypeli
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, hoverstate, button, state );
             return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p1, p2, p3 );
         }
-        
+
+        public Listener ListenWheel(Action handler, string helpText) => ListenWheelGeneric(handler, helpText, null);
+
+        public Listener ListenWheel<T>(Action<T> handler, string helpText, T p) => ListenWheelGeneric(handler, helpText, p);
+
+        public Listener ListenWheel<T1, T2>(Action<T1, T2> handler, string helpText, T1 p1, T2 p2) => ListenWheelGeneric(handler, helpText, p1, p2);
+
+        public Listener ListenWheel<T1, T2, T3>(Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3) => ListenWheelGeneric(handler, helpText, p1, p2, p3);
+
+        /// <summary>
+        /// Kuuntelee hiiren rullaa.
+        /// </summary>
+        /// <param name="handler">Aliohjelma, joka käsittelee </param>
+        /// <param name="helpText"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public Listener ListenWheelGeneric(Delegate handler, string helpText, params object[] parameters)
+        {
+            // Olisi selkeämpää antaa vain tämä käyttäjän käyttöön, mutta koska kaikki
+            // muut Jypelin kuuntelijat myös vaativat parametrien tyyppien määrittelemistä,
+            // niin vaaditaan sitten hiiren rullankin kanssa jotta toimintamalli on yhtenäinen.
+            // Toki tyypin määrittelyssä on oppilaille suunnatussa kirjastossa se hyvä puoli,
+            // että se tarkistaa että määritellyt tyypit (esim. T1 ja T2) eivät poikkea
+            // parametrien tyypeistä (ellei parametrien tyyppejä haeta automaattisesti, mikä
+            // yleensä tapahtuu).
+            ChangePredicate<MouseState> rule = MakeWheelTriggerRule();
+            return AddListener(rule, MouseButton.None, "Mouse wheel", helpText, handler, parameters);
+        }
+
         #region Backwards compatibility
 
         public class MouseAnalogState : AnalogState

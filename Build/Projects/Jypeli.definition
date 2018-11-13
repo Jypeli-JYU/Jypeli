@@ -254,6 +254,7 @@
     <Compile Include="Controls\Accelerometer\AccelerometerDirection.cs" />
     <Compile Include="Controls\GamePad\Button.cs" />
     <Compile Include="Controls\GamePad\GamePad.cs" />
+	<Compile Include="Controls\GamePad\GamePadAnalogState.cs" />
     <Compile Include="Controls\GamePad\Vibration.cs" />
     <Compile Include="Controls\Keyboard\Key.cs" />
     <Compile Include="Controls\Keyboard\Keyboard.cs" />

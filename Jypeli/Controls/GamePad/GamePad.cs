@@ -90,7 +90,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Oikean tatin suuntavektorin viimeisin muutos (liike).
+        /// Vasemman tatin suuntavektorin viimeisin muutos (liike).
         /// </summary>
         public Vector LeftThumbChange
         {
@@ -310,7 +310,21 @@ namespace Jypeli
         public Listener ListenAnalog( AnalogControl control, double trigger, Action<AnalogState> handler, string helpText )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            return AddListener( rule, control, GetAnalogName( control ), helpText, handler );
+            Action analogHandler = delegate { handler(GenerateAnalogState(control)); };
+            return AddListener( rule, control, GetAnalogName( control ), helpText, analogHandler );
+        }
+
+        private GamePadAnalogState GenerateAnalogState(AnalogControl control)
+        {
+            switch (control)
+            {
+                case AnalogControl.LeftStick:
+                    return new GamePadAnalogState(LeftThumbDirection.Magnitude, LeftThumbChange.Magnitude, LeftThumbDirection, LeftThumbChange);
+                case AnalogControl.RightStick:
+                    return new GamePadAnalogState(RightThumbDirection.Magnitude, RightThumbChange.Magnitude, RightThumbDirection, RightThumbChange);
+                default:
+                    throw new NotImplementedException("Unsupported Controller / GamePad control for ListenAnalog: " + control.ToString());
+            }
         }
 
         /// <summary>
@@ -326,7 +340,8 @@ namespace Jypeli
         public Listener ListenAnalog<T>( AnalogControl control, double trigger, Action<AnalogState, T> handler, string helpText, T p )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            return AddListener( rule, control, GetAnalogName( control ), helpText, handler, p );
+            Action analogHandler = delegate { handler(GenerateAnalogState(control), p); };
+            return AddListener( rule, control, GetAnalogName( control ), helpText, analogHandler);
         }
 
         /// <summary>
@@ -344,7 +359,8 @@ namespace Jypeli
         public Listener ListenAnalog<T1, T2>( AnalogControl control, double trigger, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2 )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            return AddListener( rule, control, GetAnalogName( control ), helpText, handler, p1, p2 );
+            Action analogHandler = delegate { handler(GenerateAnalogState(control), p1, p2); };
+            return AddListener( rule, control, GetAnalogName( control ), helpText, analogHandler);
         }
 
         /// <summary>
@@ -364,7 +380,8 @@ namespace Jypeli
         public Listener ListenAnalog<T1, T2, T3>( AnalogControl control, double trigger, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
             ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            return AddListener( rule, control, GetAnalogName( control ), helpText, handler, p1, p2, p3 );
+            Action analogHandler = delegate { handler(GenerateAnalogState(control), p1, p2, p3); };
+            return AddListener( rule, control, GetAnalogName( control ), helpText, analogHandler);
         }
     }
 }

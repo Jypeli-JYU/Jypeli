@@ -345,7 +345,7 @@ namespace Jypeli
             Game.DoNextUpdate( doZoomToAllObjects, borderSize );
         }
 
-        public void doZoomToAllObjects( double borderSize )
+        private void doZoomToAllObjects( double borderSize )
         {
             if ( Game.Instance.ObjectCount > 0 )
                 ZoomTo( Game.Instance.Level.FindObjectLimits(), borderSize );

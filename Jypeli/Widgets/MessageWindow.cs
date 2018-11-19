@@ -76,8 +76,8 @@ namespace Jypeli
 
             int maxWidth = (int)Game.Screen.Width - 30;
 
-            Message = new Label( Math.Min(maxWidth, Font.Default.MeasureSize(message).X), 100, message ) { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
-            Message = new Label(400, 100, message) { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
+            Message = new Label( Math.Min(maxWidth, Font.Default.MeasureSize(message).X), 100, message )
+                { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
             Add( Message );
 
 #if !WINDOWS_PHONE && !ANDROID

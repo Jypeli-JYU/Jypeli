@@ -113,6 +113,10 @@ namespace Jypeli
                 TextChanged( Text );
         }
 
+#if ANDROID
+        private bool vkSubscribed = false;
+#endif
+
         /// <summary>
         /// Alustaa uuden syöttökentän.
         /// </summary>
@@ -146,10 +150,6 @@ namespace Jypeli
 
             AddedToGame += OnAdded;
             Removed += onRemoved;
-
-#if WINDOWS_PHONE_TODO
-            AddedToGame += AddTouchListener;
-#endif
         }
        
         private void OnAdded()
@@ -170,11 +170,20 @@ namespace Jypeli
 
         private void ShowVirtualKeyboard()
         {
+            // For some reason OnAdded() gets called twice on Android but only once on Windows
+            // when using EasyHighScore. What makes it even more odd is that when subscribing 
+            // to AddedToGame from outside, the event is only fired once.
+            // We use vkSubscribed as a work-around to avoid subscribing to the key events 
+            // multiple times.
             Game.VirtualKeyboard.Show();
-            Game.VirtualKeyboard.InputEntered += VirtualKeyboard_InputEntered;
-            Game.VirtualKeyboard.EnterPressed += VirtualKeyboard_EnterPressed;
-            Game.VirtualKeyboard.BackspacePressed += VirtualKeyboard_BackspacePressed;
+            if (!vkSubscribed)
+            {
+                Game.VirtualKeyboard.InputEntered += VirtualKeyboard_InputEntered;
+                Game.VirtualKeyboard.EnterPressed += VirtualKeyboard_EnterPressed;
+                Game.VirtualKeyboard.BackspacePressed += VirtualKeyboard_BackspacePressed;
+            }
             cursorBlinkTimer.Start();
+            vkSubscribed = true;
         }
 
         private void VirtualKeyboard_BackspacePressed(object sender, EventArgs e)
@@ -200,6 +209,7 @@ namespace Jypeli
             Game.VirtualKeyboard.BackspacePressed -= VirtualKeyboard_BackspacePressed;
             cursorBlinkTimer.Stop();
             Cursor.IsVisible = false;
+            vkSubscribed = false;
         }
 
 #endif
@@ -207,8 +217,9 @@ namespace Jypeli
         private void onRemoved()
         {
             cursorBlinkTimer.Stop();
-
-#if WINDOWS || LINUX || MACOS
+#if ANDROID
+            HideVirtualKeyboard();
+#elif WINDOWS || LINUX || MACOS
             Game.Instance.Window.TextInput -= InputText;
 #endif
         }

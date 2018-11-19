@@ -116,7 +116,7 @@ namespace Jypeli
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
         public Window( double width, double height )
-            : base( width, height, Shape.Rectangle )
+            : base( width, height )
         {
             SizingByLayout = false;
             Layout = new VerticalLayout();

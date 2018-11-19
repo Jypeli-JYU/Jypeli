@@ -83,8 +83,7 @@ namespace Jypeli
 
         private void OnTextEntered()
         {
-            if ( TextEntered != null )
-                TextEntered(this);
+            TextEntered?.Invoke(this);
         }
 
         /// <summary>
@@ -94,8 +93,7 @@ namespace Jypeli
         public InputWindow( string question )
             : base( question )
         {
-            Closed += new WindowHandler( InputWindow_Closed );
-            AddedToGame += AddListeners;
+            Init();
         }
 
         /// <summary>
@@ -107,7 +105,22 @@ namespace Jypeli
         public InputWindow( double width, double height, string question )
             : base( width, height, question )
         {
-            Closed += new WindowHandler( InputWindow_Closed );
+            Init();
+        }
+
+        private void Init()
+        {
+            Closed += new WindowHandler(InputWindow_Closed);
+            AddedToGame += AddListeners;
+
+#if ANDROID
+            // Display window at the top of the screen to make space for the virtual keyboard
+
+            // 1.5 is just a magic number that makes it show up properly on my phone,
+            // logically it should be positioned perfectly at the top with 2.0 but
+            // that doesn't seem to be the case
+            Y += Game.Screen.Top - (Height / 1.5);
+#endif
         }
 
         protected override InputBox CreateQueryWidget()
@@ -130,14 +143,6 @@ namespace Jypeli
 
         private void AddListeners()
         {
-#if WINDOWS_PHONE && TESTING
-            if ( !ShowWindowOnPhone )
-            {
-                if ( !Guide.IsVisible )
-                    Guide.BeginShowKeyboardInput( PlayerIndex.One, "", Message.Text, InputBox.Text, TouchTextEntered, this );
-            }
-#endif
-
             Game.Instance.Keyboard.Listen( Key.Enter, ButtonState.Pressed, Close, null ).InContext( this );
             Game.Instance.Keyboard.Listen( Key.Escape, ButtonState.Pressed, Cancel, null ).InContext( this );
             Game.Instance.PhoneBackButton.Listen( Cancel, null ).InContext( this );

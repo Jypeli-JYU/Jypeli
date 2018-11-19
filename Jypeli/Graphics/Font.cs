@@ -228,17 +228,17 @@ namespace Jypeli
 
                 var wordWidth = XnaFont.MeasureString( word ).X;
 
-                if ( lineWidth + wordWidth > hardLineWidth )
-                {
-                    int wi = FindWrapIndex( word, hardLineWidth - lineWidth, false );
-                    word.PutTo( line, 0, wi + 1 );
-                    appendLine( dest, line );
-                    lineWidth = 0;
-                }
-                else if ( lineWidth + wordWidth > softLineWidth )
+                if ( lineWidth + wordWidth > softLineWidth )
                 {
                     appendLine( dest, line );
                     word.PutTo( line );
+                    lineWidth = 0;
+                }
+                else if (lineWidth + wordWidth > hardLineWidth)
+                {
+                    int wi = FindWrapIndex(word, hardLineWidth - lineWidth, false);
+                    word.PutTo(line, 0, wi + 1);
+                    appendLine(dest, line);
                     lineWidth = 0;
                 }
                 else

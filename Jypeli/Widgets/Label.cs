@@ -438,7 +438,7 @@ namespace Jypeli
             double hardBreak = base.Size.X - 2 * XMargin;
             double softBreak = Math.Max( hardBreak / 2, hardBreak - 5 * Font.CharacterWidth );
 
-            visibleText = Font.WrapText( visibleText, hardBreak, softBreak );
+            visibleText = Font.WrapText( visibleText, softBreak, hardBreak );
             Vector2 textDims = xnaFont.MeasureString( visibleText );
             base.Size = PreferredSize = new Vector( base.Size.X, textDims.Y + 2 * YMargin );
             TextSize = new Vector( textDims.X, textDims.Y );

@@ -98,18 +98,18 @@ namespace Jypeli
         {
             Layout = new VerticalLayout { Spacing = 20, LeftPadding = 15, RightPadding = 15, TopPadding = 15, BottomPadding = 15 };
 
-            // Wrapped text and layouts don't work that well together... :/
-            // A simple workaround:
-#if ANDROID
+//#if ANDROID
             int maxWidth = (int)Game.Screen.Width - 30;
             Message = new Label(Math.Min(maxWidth, Font.Default.MeasureSize(message).X), 100, message)
                 { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
-#else
-            Message = new Label( 600, 100, message );
-            Message.SizeMode = TextSizeMode.Wrapped;
-            Message.HorizontalAlignment = HorizontalAlignment.Left;
-            Message.VerticalAlignment = VerticalAlignment.Top;
-#endif
+//#else
+// Wrapped text and layouts don't work that well together... :/
+// A simple workaround:
+//            Message = new Label( 600, 100, message );
+//            Message.SizeMode = TextSizeMode.Wrapped;
+//            Message.HorizontalAlignment = HorizontalAlignment.Left;
+//            Message.VerticalAlignment = VerticalAlignment.Top;
+//#endif
             Add(Message);
             
             QueryWidget = CreateQueryWidget();

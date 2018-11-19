@@ -116,7 +116,16 @@ namespace Jypeli.Widgets
 
         void InitHSWindow()
         {
-            HighScoreWindow = new HighScoreWindow( "High score", score );
+            Vector entrySize = Font.Default.MeasureSize("XXXXXXXXXXXXXXXXXXXXXXXXX");
+            int width = (int)Math.Min(Game.Screen.Width - 30.0, entrySize.X);
+            int height = (int)Math.Min(Game.Screen.Height - 30.0, entrySize.Y * 20.0);
+            // TODO ^ 20.0 is just a silly magic number, no real logic behind it
+            // it seems to work well enough with both the medium and huge fonts, so it's
+            // a fitting temporary solution until someone has the time to figure out the 
+            // mess of layouts and HighScoreWindow / ScoreListWidget and the classes 
+            // they're derived from
+
+            HighScoreWindow = new HighScoreWindow(width, height, "High score", score);
         }
 
         /// <summary>

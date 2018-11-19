@@ -100,17 +100,18 @@ namespace Jypeli
 
             // Wrapped text and layouts don't work that well together... :/
             // A simple workaround:
-#if WINDOWS_PHONE
-            Message = new Label( message );
+#if ANDROID
+            int maxWidth = (int)Game.Screen.Width - 30;
+            Message = new Label(Math.Min(maxWidth, Font.Default.MeasureSize(message).X), 100, message)
+                { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
 #else
             Message = new Label( 600, 100, message );
-#endif
-
             Message.SizeMode = TextSizeMode.Wrapped;
             Message.HorizontalAlignment = HorizontalAlignment.Left;
             Message.VerticalAlignment = VerticalAlignment.Top;
-            Add( Message );
-
+#endif
+            Add(Message);
+            
             QueryWidget = CreateQueryWidget();
             Add( QueryWidget );
 

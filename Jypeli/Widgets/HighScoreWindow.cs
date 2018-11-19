@@ -42,17 +42,13 @@ namespace Jypeli.Widgets
     /// </summary>
     public class HighScoreWindow : CustomQueryWindow<ScoreListWidget>
     {
-        InputWindow _inputWindow;
         double lastScore;
         string nameStr = "";
-        
+
         /// <summary>
         /// Nimensyöttöikkuna.
         /// </summary>
-        public InputWindow NameInputWindow
-        {
-            get { return _inputWindow; }
-        }
+        public InputWindow NameInputWindow { get; private set; }
 
         /// <summary>
         /// Listakomponentti.
@@ -67,8 +63,8 @@ namespace Jypeli.Widgets
         /// </summary>
         public int MaxNameLength
         {
-            get { return _inputWindow.MaxCharacters; }
-            set { _inputWindow.MaxCharacters = value; }
+            get { return NameInputWindow.MaxCharacters; }
+            set { NameInputWindow.MaxCharacters = value; }
         }
 
         internal override bool OkButtonOnPhone { get { return true; } }
@@ -100,7 +96,7 @@ namespace Jypeli.Widgets
         private void Initialize( ScoreList list )
         {
             this.List.Bind( list );
-            _inputWindow = new InputWindow( "Congratulations, you got a high score of %p points! Please enter your name." );
+            NameInputWindow = new InputWindow( "Congratulations, you got a high score of %p points! Please enter your name." );
             AddedToGame += AddControls;
         }
 
@@ -117,7 +113,7 @@ namespace Jypeli.Widgets
             : base( normalMessage )
         {
             Initialize( list );
-            _inputWindow.Message.Text = nameMessage;
+            NameInputWindow.Message.Text = nameMessage;
             ShowNameInput( newScore );
         }
 

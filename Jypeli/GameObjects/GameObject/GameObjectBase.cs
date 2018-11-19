@@ -118,8 +118,7 @@ namespace Jypeli.GameObjects
         /// </summary>
         public void OnAddedToGame()
         {
-            if ( AddedToGame != null )
-                AddedToGame();
+            AddedToGame?.Invoke();
             Brain.AddToGameEvent();
         }
 

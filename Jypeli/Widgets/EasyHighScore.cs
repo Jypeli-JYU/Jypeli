@@ -12,24 +12,20 @@ namespace Jypeli.Widgets
     /// </summary>
     public class EasyHighScore
     {
-        HighScoreWindow _hsWindow;
         ScoreList score;
         string fileName;
 
         /// <summary>
         /// Listaikkuna.
         /// </summary>
-        public HighScoreWindow HighScoreWindow
-        {
-            get { return _hsWindow; }
-        }
+        public HighScoreWindow HighScoreWindow { get; private set; }
 
         /// <summary>
         /// Nimensyöttöikkuna.
         /// </summary>
         public InputWindow NameInputWindow
         {
-            get { return _hsWindow.NameInputWindow; }
+            get { return HighScoreWindow.NameInputWindow; }
         }
 
         /// <summary>
@@ -37,8 +33,8 @@ namespace Jypeli.Widgets
         /// </summary>
         public int MaxNameLength
         {
-            get { return _hsWindow.MaxNameLength; }
-            set { _hsWindow.MaxNameLength = value; }
+            get { return HighScoreWindow.MaxNameLength; }
+            set { HighScoreWindow.MaxNameLength = value; }
         }
 
         /// <summary>
@@ -46,8 +42,8 @@ namespace Jypeli.Widgets
         /// </summary>
         public string Text
         {
-            get { return _hsWindow.Message.Text; }
-            set { _hsWindow.Message.Text = value; }
+            get { return HighScoreWindow.Message.Text; }
+            set { HighScoreWindow.Message.Text = value; }
         }
 
         /// <summary>
@@ -55,8 +51,8 @@ namespace Jypeli.Widgets
         /// </summary>
         public string EnterText
         {
-            get { return _hsWindow.NameInputWindow.Message.Text; }
-            set { _hsWindow.NameInputWindow.Message.Text = value; }
+            get { return HighScoreWindow.NameInputWindow.Message.Text; }
+            set { HighScoreWindow.NameInputWindow.Message.Text = value; }
         }
 
         /// <summary>
@@ -66,11 +62,11 @@ namespace Jypeli.Widgets
         {
             get
             {
-                return _hsWindow.Color;
+                return HighScoreWindow.Color;
             }
             set
             {
-                _hsWindow.Color = value;
+                HighScoreWindow.Color = value;
             }
         }
 
@@ -120,7 +116,7 @@ namespace Jypeli.Widgets
 
         void InitHSWindow()
         {
-            _hsWindow = new HighScoreWindow( "High score", score );
+            HighScoreWindow = new HighScoreWindow( "High score", score );
         }
 
         /// <summary>

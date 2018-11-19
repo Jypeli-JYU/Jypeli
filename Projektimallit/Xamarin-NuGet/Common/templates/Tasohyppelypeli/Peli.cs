@@ -7,8 +7,8 @@ using Jypeli.Widgets;
 
 public class ${ProjectName} : PhysicsGame
 {
-    const double nopeus = 200;
-    const double hyppyNopeus = 750;
+    const double Nopeus = 200;
+    const double HyppyNopeus = 750;
     const int RUUDUN_KOKO = 40;
 
     PlatformCharacter pelaaja1;
@@ -74,15 +74,15 @@ public class ${ProjectName} : PhysicsGame
         Keyboard.Listen( Key.F1, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet" );
         Keyboard.Listen( Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli" );
 
-        Keyboard.Listen( Key.Left, ButtonState.Down, Liikuta, "Liikkuu vasemmalle", pelaaja1, -nopeus );
-        Keyboard.Listen( Key.Right, ButtonState.Down, Liikuta, "Liikkuu vasemmalle", pelaaja1, nopeus );
-        Keyboard.Listen( Key.Up, ButtonState.Pressed, Hyppaa, "Pelaaja hyppää", pelaaja1, hyppyNopeus );
+        Keyboard.Listen( Key.Left, ButtonState.Down, Liikuta, "Liikkuu vasemmalle", pelaaja1, -Nopeus );
+        Keyboard.Listen( Key.Right, ButtonState.Down, Liikuta, "Liikkuu vasemmalle", pelaaja1, Nopeus );
+        Keyboard.Listen( Key.Up, ButtonState.Pressed, Hyppaa, "Pelaaja hyppää", pelaaja1, HyppyNopeus );
 
         ControllerOne.Listen( Button.Back, ButtonState.Pressed, Exit, "Poistu pelistä" );
 
-        ControllerOne.Listen( Button.DPadLeft, ButtonState.Down, Liikuta, "Pelaaja liikkuu vasemmalle", pelaaja1, -nopeus );
-        ControllerOne.Listen( Button.DPadRight, ButtonState.Down, Liikuta, "Pelaaja liikkuu oikealle", pelaaja1, nopeus );
-        ControllerOne.Listen( Button.A, ButtonState.Pressed, Hyppaa, "Pelaaja hyppää", pelaaja1, hyppyNopeus );
+        ControllerOne.Listen( Button.DPadLeft, ButtonState.Down, Liikuta, "Pelaaja liikkuu vasemmalle", pelaaja1, -Nopeus );
+        ControllerOne.Listen( Button.DPadRight, ButtonState.Down, Liikuta, "Pelaaja liikkuu oikealle", pelaaja1, Nopeus );
+        ControllerOne.Listen( Button.A, ButtonState.Pressed, Hyppaa, "Pelaaja hyppää", pelaaja1, HyppyNopeus );
 
         PhoneBackButton.Listen( ConfirmExit, "Lopeta peli" );
     }

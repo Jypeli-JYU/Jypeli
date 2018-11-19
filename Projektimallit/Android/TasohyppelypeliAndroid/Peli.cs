@@ -9,8 +9,8 @@ namespace $safeprojectname$
 {
 	public class $safeprojectname$ : PhysicsGame
 	{
-		const double nopeus = 200;
-		const double hyppyNopeus = 750;
+		const double Nopeus = 200;
+		const double HyppyNopeus = 750;
 		const int RUUDUN_KOKO = 40;
 
 		PlatformCharacter pelaaja1;
@@ -18,6 +18,8 @@ namespace $safeprojectname$
 		Image pelaajanKuva = LoadImage( "norsu" );
 		Image tahtiKuva = LoadImage( "tahti" );
 
+		SoundEffect maaliAani = LoadSoundEffect("maali");
+		
 		public override void Begin()
 		{
 			Gravity = new Vector( 0, -1000 );
@@ -86,9 +88,9 @@ namespace $safeprojectname$
 			ylaReuna.IsVisible = false;
 			Add( ylaReuna );
 
-			TouchPanel.ListenOn( vasenReuna, ButtonState.Down, Liikuta, "Liikuta pelaajaa", pelaaja1, -nopeus );
-			TouchPanel.ListenOn( oikeaReuna, ButtonState.Down, Liikuta, "Liikuta pelaajaa", pelaaja1, nopeus );
-			TouchPanel.ListenOn( ylaReuna, ButtonState.Down, Hyppaa, "Hyppää", pelaaja1, hyppyNopeus );
+			TouchPanel.ListenOn( vasenReuna, ButtonState.Down, Liikuta, "Liikuta pelaajaa", pelaaja1, -Nopeus );
+			TouchPanel.ListenOn( oikeaReuna, ButtonState.Down, Liikuta, "Liikuta pelaajaa", pelaaja1, Nopeus );
+			TouchPanel.ListenOn( ylaReuna, ButtonState.Down, Hyppaa, "Hyppää", pelaaja1, HyppyNopeus );
 
 			PhoneBackButton.Listen( ConfirmExit, "Lopeta peli" );
 		}
@@ -105,6 +107,7 @@ namespace $safeprojectname$
 
 		void TormaaTahteen(PhysicsObject hahmo, PhysicsObject tahti)
 		{
+			maaliAani.Play();
 			MessageDisplay.Add("Keräsit tähden!");
 			tahti.Destroy();
 		}

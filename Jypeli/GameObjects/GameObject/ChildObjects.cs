@@ -85,6 +85,11 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Palauttaa olion lapsioliot.
+        /// </summary>
+        public SynchronousList<GameObject> GetChildObjectList => Objects;
+
+        /// <summary>
         /// Lis‰‰ annetun peliolion t‰m‰n olion lapseksi. Lapsiolio liikkuu t‰m‰n olion mukana,
         /// ja sen paikka ja koko ilmaistaan suhteessa t‰h‰n olioon.
         /// </summary>

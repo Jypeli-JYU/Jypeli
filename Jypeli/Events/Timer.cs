@@ -323,6 +323,7 @@ namespace Jypeli
         /// </summary>
         internal static void ClearAll()
         {
+            timers.ForEach(t => { t.Enabled = false; });
             timers.Clear();
         }
 

@@ -103,6 +103,8 @@ Section "Jypeli"
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MonoJypeli" "NoModify" 1
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MonoJypeli" "NoRepair" 1
 
+  CreateDirectory $INSTDIR
+  ClearErrors
   WriteUninstaller "$INSTDIR\uninstall.exe"
 SectionEnd
 

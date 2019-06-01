@@ -19,6 +19,8 @@ Jypeli.*.csproj
 Compiled/
 installer/MonoJypeli_setup.exe
 
+# NuGet packages
+packages/
 
 # Operating system files
 ._*

@@ -49,30 +49,28 @@ jypeli: jypeli-windowsgl jypeli-linux
 
 jypeli-all:	jypeli-windowsgl jypeli-linux jypeli-android jypeli-macos
 
-jypeli-windowsgl:	getmonogame
+jypeli-windowsgl:
 	mono Protobuild.exe -generate WindowsGL && \
 	xbuild Jypeli.WindowsGL.sln && \
 	mkdir -p Compiled/WindowsGL-AnyCPU && \
 	cp Jypeli/bin/WindowsGL/AnyCPU/Debug/* Compiled/WindowsGL-AnyCPU/
 
-jypeli-linux:	getmonogame
+jypeli-linux:
 	mono Protobuild.exe -generate Linux && \
 	xbuild Jypeli.Linux.sln && \
 	mkdir -p Compiled/Linux-AnyCPU && \
 	cp Jypeli/bin/Linux/AnyCPU/Debug/* Compiled/Linux-AnyCPU/
 
-jypeli-macos:	getmonogame
+jypeli-macos:
 	mono Protobuild.exe -generate MacOS && \
 	xbuild /t:Rebuild Jypeli.MacOS.sln && \
 	mkdir -p Compiled/MacOS-AnyCPU && \
 	cp Jypeli/bin/MacOS/AnyCPU/Debug/* Compiled/MacOS-AnyCPU/
 
-jypeli-android:	getmonogame
+jypeli-android:
 	mono Protobuild.exe -generate Android && \
 	xbuild Jypeli.Android.sln && \
 	mkdir -p Compiled/Android-AnyCPU && \
 	cp Jypeli/bin/Android/AnyCPU/Debug/* Compiled/Android-AnyCPU/
 
-getmonogame:
-	bash -c "cd MonoGame; if ! [ -a .git ]; then sh module_init.sh; fi"
 

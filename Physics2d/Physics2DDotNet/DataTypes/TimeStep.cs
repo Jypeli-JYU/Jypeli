@@ -29,10 +29,6 @@ using Scalar = System.Double;
 #else
 using Scalar = System.Single;
 #endif
-using System;
-using System.Collections.Generic;
-using AdvanceMath;
-using System.Runtime.Serialization;
 namespace Physics2DDotNet
 {
     /// <summary>

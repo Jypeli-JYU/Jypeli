@@ -24,7 +24,6 @@
 #endregion
 
 using System;
-using Jypeli.Effects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

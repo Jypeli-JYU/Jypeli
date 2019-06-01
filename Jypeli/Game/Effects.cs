@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Jypeli.Effects;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Jypeli
 {

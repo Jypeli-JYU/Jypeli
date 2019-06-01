@@ -27,9 +27,7 @@
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
-using System;
 using Physics2DDotNet;
-using Physics2DDotNet.Shapes;
 
 namespace Jypeli
 {

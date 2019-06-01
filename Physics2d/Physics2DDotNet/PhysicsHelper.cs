@@ -29,10 +29,7 @@ using Scalar = System.Double;
 #else
 using Scalar = System.Single;
 #endif
-using System;
-using System.Collections.Generic;
 using AdvanceMath;
-using AdvanceMath.Geometry2D;
 
 
 namespace Physics2DDotNet

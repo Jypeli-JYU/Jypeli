@@ -42,7 +42,6 @@ using System.Runtime.InteropServices;
 #endif
 
 using XnaColor = Microsoft.Xna.Framework.Color;
-using XnaSoundEffect = Microsoft.Xna.Framework.Audio.SoundEffect;
 using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
 #if ANDROID
 using Jypeli.Controls.Keyboard;

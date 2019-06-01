@@ -28,14 +28,11 @@
  */
 
 using System;
-using System.Diagnostics;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using XnaV2 = Microsoft.Xna.Framework.Vector2;
 using XnaV3 = Microsoft.Xna.Framework.Vector3;
-using XnaColor = Microsoft.Xna.Framework.Color;
 
 
 namespace Jypeli

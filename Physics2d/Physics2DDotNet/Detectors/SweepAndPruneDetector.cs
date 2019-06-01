@@ -33,7 +33,6 @@ using System;
 using System.Collections.Generic;
 
 using AdvanceMath.Geometry2D;
-using System.Runtime.Serialization;
 namespace Physics2DDotNet.Detectors
 {
 

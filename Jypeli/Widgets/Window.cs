@@ -27,12 +27,6 @@
  * Authors: Tomi Karppinen, Tero Jäntti, Rami Pasanen
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Jypeli;
-using Jypeli.GameObjects;
 
 namespace Jypeli
 {

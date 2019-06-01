@@ -30,9 +30,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
-using Jypeli.GameObjects;
 
 namespace Jypeli.Widgets
 {

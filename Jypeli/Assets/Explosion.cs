@@ -27,11 +27,7 @@
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
-using AdvanceMath;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using Microsoft.Xna.Framework.Audio;
 
 namespace Jypeli.Assets
 {

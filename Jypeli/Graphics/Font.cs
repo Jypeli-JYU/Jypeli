@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 using System.Text;
-
-using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
 using XnaV2 = Microsoft.Xna.Framework.Vector2;
-using XnaColor = Microsoft.Xna.Framework.Color;
 
 namespace Jypeli
 {

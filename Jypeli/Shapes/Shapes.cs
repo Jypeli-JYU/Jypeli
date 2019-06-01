@@ -30,7 +30,6 @@
 using System;
 using System.ComponentModel;
 using AdvanceMath;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using XnaRectangle = Microsoft.Xna.Framework.Rectangle;

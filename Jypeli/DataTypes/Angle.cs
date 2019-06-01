@@ -28,7 +28,6 @@
  */
 
 using System;
-using AdvanceMath;
 using System.Globalization;
 
 namespace Jypeli

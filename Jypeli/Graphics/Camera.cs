@@ -28,9 +28,6 @@
  */
 
 using System;
-using Microsoft.Xna.Framework;
-using AdvanceMath;
-using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
 namespace Jypeli

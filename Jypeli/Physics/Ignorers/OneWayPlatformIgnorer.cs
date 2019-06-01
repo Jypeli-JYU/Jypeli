@@ -1,12 +1,4 @@
-﻿using AdvanceMath;
-using Jypeli.Physics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Jypeli.Physics
+﻿namespace Jypeli.Physics
 {
     /// <summary>
     /// Allows us to have platforms that are one way.

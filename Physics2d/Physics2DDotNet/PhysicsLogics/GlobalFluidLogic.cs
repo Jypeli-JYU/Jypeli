@@ -31,7 +31,6 @@ using System;
 using System.Collections.Generic;
 
 using AdvanceMath;
-using AdvanceMath.Geometry2D;
 using Physics2DDotNet.Shapes;
 
 namespace Physics2DDotNet.PhysicsLogics

@@ -25,7 +25,7 @@
 
 /*
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
- */ 
+ */
 
 /*
  * Directions
@@ -37,9 +37,6 @@
  * 14.4.2009 Initial version (Tomi Karppinen)
  */
 
-using System;
-using System.Collections.Generic;
-using AdvanceMath;
 
 namespace Jypeli
 {

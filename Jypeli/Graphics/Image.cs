@@ -2,11 +2,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
-using System.Threading;
 
 using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
 using XnaV2 = Microsoft.Xna.Framework.Vector2;

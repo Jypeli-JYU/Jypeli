@@ -27,7 +27,6 @@ using Scalar = System.Double;
 #else
 using Scalar = System.Single;
 #endif
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -39,7 +38,7 @@ using Physics2DDotNet.Shapes;
 namespace Physics2DDotNet.PhysicsLogics
 {
 
-    
+
 
     /// <summary>
     /// Simulates a simple explosion.  

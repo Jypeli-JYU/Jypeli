@@ -23,7 +23,6 @@
  */
 #endregion
 
-using System;
 
 namespace Jypeli.Effects
 {

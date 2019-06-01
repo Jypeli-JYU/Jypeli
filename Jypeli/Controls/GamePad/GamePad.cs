@@ -28,9 +28,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Jypeli.Controls;
 using Jypeli.Controls.GamePad;
 using Microsoft.Xna.Framework;

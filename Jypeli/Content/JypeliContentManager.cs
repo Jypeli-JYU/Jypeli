@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Resources;
 using System.Reflection;
 
 #if WINRT_CORE

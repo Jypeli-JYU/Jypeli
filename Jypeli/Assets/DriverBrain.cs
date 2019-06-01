@@ -1,7 +1,4 @@
 ﻿using System;
-using AdvanceMath;
-using Jypeli;
-using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace Jypeli.Assets

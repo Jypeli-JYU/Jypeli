@@ -28,11 +28,6 @@
  */
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
 
 #if WINDOWS_PHONE || ANDROID
 using Microsoft.Xna.Framework;

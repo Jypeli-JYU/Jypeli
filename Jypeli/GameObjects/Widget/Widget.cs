@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Jypeli.GameObjects;
-using Jypeli.Controls;
+﻿using Jypeli.Controls;
 
 namespace Jypeli
 {

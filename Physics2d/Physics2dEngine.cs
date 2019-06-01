@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AdvanceMath;
 using Jypeli.Physics;
 using Physics2DDotNet;

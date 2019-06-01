@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Jypeli
+﻿namespace Jypeli
 {
     /// <summary>
     /// Analoginen ohjain. Tämä voi olla joko painike, jota voi painaa

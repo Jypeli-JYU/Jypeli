@@ -31,7 +31,6 @@ using System;
 using Microsoft.Xna.Framework;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
-using Jypeli.GameObjects;
 
 namespace Jypeli
 {

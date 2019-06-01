@@ -28,9 +28,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -39,7 +36,6 @@ using XnaSoundEffect = Microsoft.Xna.Framework.Audio.SoundEffect;
 #if NETFX_CORE
 using Windows.ApplicationModel.Resources;
 #else
-using Jypeli.Content;
 #endif
 
 

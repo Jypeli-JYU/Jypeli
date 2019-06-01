@@ -33,7 +33,6 @@ using System;
 using System.Collections.Generic;
 
 using AdvanceMath;
-using AdvanceMath.Geometry2D;
 
 
 namespace Physics2DDotNet.Shapes

@@ -32,8 +32,6 @@ using System;
 using System.Collections.ObjectModel;
 
 using AdvanceMath;
-using AdvanceMath.Geometry2D;
-using Physics2DDotNet.Shapes;
 
 namespace Physics2DDotNet
 {

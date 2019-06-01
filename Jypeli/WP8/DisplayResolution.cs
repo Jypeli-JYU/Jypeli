@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Jypeli.WP8
+﻿namespace Jypeli.WP8
 {
     /// <summary>
     /// Puhelimen näytön tarkkuus.

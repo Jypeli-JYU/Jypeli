@@ -29,11 +29,8 @@ using Scalar = System.Double;
 #else
 using Scalar = System.Single;
 #endif
-using System;
 using AdvanceMath;
 using AdvanceMath.Geometry2D;
-
-using System.Xml.Serialization;
 
 namespace Physics2DDotNet.Shapes
 {

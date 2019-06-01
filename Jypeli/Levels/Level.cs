@@ -28,9 +28,7 @@
  */
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using AdvanceMath;
 using Jypeli.Widgets;
 
 namespace Jypeli

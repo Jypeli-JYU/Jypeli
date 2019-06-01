@@ -27,8 +27,6 @@
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
-using System;
-using System.ComponentModel;
 using Microsoft.Xna.Framework;
 
 namespace Jypeli.Widgets

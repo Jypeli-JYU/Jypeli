@@ -27,8 +27,6 @@
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
-using System;
-using System.Collections.Generic;
 using Jypeli.Physics;
 using Physics2DDotNet;
 using Physics2DDotNet.Shapes;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Jypeli
+﻿namespace Jypeli
 {
     /// <summary>
     /// Aivot, jotka laittavat omistajansa liikkumaan satunnaisesti eri suuntiin törmäyksissä ja tietyn ajan jälkeen.

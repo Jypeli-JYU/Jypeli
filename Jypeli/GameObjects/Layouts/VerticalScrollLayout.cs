@@ -27,7 +27,6 @@
  * Authors: Tomi Karppinen, Tero Jäntti
  */
 
-using System;
 using System.ComponentModel;
 using System.Collections.Generic;
 

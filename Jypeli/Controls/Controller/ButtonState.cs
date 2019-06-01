@@ -27,7 +27,6 @@
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
-using System;
 
 namespace Jypeli
 {

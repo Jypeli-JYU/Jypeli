@@ -2,7 +2,6 @@
 
 using XnaColor = Microsoft.Xna.Framework.Color;
 using System.Globalization;
-using System.Text;
 
 namespace Jypeli
 {

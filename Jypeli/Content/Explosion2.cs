@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Jypeli.Content
+﻿namespace Jypeli.Content
 {
     internal class Explosion2
     {

@@ -21,21 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-using System;
 
 
 #endregion
 
 /*
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
- */ 
+ */
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using AdvanceMath;
 
 using XnaColor = Microsoft.Xna.Framework.Color;
-using XnaHelper = Microsoft.Xna.Framework.MathHelper;
 
 namespace Jypeli
 {

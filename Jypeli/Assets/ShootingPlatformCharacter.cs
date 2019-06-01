@@ -1,9 +1,5 @@
 ﻿using Jypeli;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 /// <summary>
 /// Tasohyppelypelin hahmo, joka ampuu aseella automaattisesti määritellyin väliajoin.

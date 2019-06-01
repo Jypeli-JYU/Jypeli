@@ -28,7 +28,6 @@
  */
 
 using System;
-using Jypeli.Controls;
 using Microsoft.Xna.Framework;
 
 namespace Jypeli

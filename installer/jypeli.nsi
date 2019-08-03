@@ -2,7 +2,7 @@
 ; Installs Jypeli.
 ;
 
-Name "MonoJypeli 7.0.2"
+Name "MonoJypeli 7.0.3"
 
 OutFile "MonoJypeli_setup.exe"
 
@@ -103,6 +103,12 @@ Section "Jypeli"
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MonoJypeli" "NoModify" 1
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\MonoJypeli" "NoRepair" 1
 
+  ; MSBuild
+  CreateDirectory "$PROGRAMFILES32\MSBuild\Jypeli"
+  SetOutPath "$PROGRAMFILES32\MSBuild\Jypeli"
+  File "..\MSBuildExtension\MGCBTask\bin\Debug\Jypeli.MGCBTask.dll"
+  File "..\MSBuildExtension\MonoJypeli.targets"
+  
   CreateDirectory $INSTDIR
   ClearErrors
   WriteUninstaller "$INSTDIR\uninstall.exe"
@@ -118,69 +124,13 @@ Section "MonoJypeli for Windows, DirectX 11" SECTION_WINDOWS_DIRECTX
   File "..\Compiled\Windows-AnyCPU\Jypeli.SimplePhysics.xml"
 SectionEnd
 
-;Section "MonoJypeli for Windows, OpenGL"
-;  SetOutPath "$INSTDIR\WindowsGL"
-;  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.dll"
-;  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.xml"
-;  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.Physics2d.dll"
-;  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.Physics2d.xml"
-;  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.SimplePhysics.dll"
-;  File "..\Compiled\WindowsGL-AnyCPU\Jypeli.SimplePhysics.xml"
-;SectionEnd
-
 Section "MonoJypeli for Android" SECTION_ANDROID
   SetOutPath "$INSTDIR\Android"
   File "..\Compiled\Android-AnyCPU\Jypeli.dll"
-;  File "..\Compiled\Android-AnyCPU\Jypeli.pdb"
   File "..\Compiled\Android-AnyCPU\Jypeli.xml"
   File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.dll"
-;  File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.pdb"
   File "..\Compiled\Android-AnyCPU\Jypeli.Physics2d.xml"
-;  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.dll"
-;  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.pdb"
-;  File "..\Compiled\Android-AnyCPU\Jypeli.SimplePhysics.xml"
 SectionEnd
-
-;Section "MonoJypeli for Windows Universal platform"
-;  SetOutPath "$INSTDIR\WindowsUniversal"
-;  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.dll"
-;  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.xml"
-;  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.Physics2d.dll"
-;  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.Physics2d.xml"
-;  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.SimplePhysics.dll"
-;  File "..\Compiled\WindowsUniversal-AnyCPU\Jypeli.SimplePhysics.xml"
-;SectionEnd
-;
-;Section "MonoJypeli for Windows Phone 8.1"
-;  SetOutPath "$INSTDIR\WP81"
-;  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.dll"
-;  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.xml"
-;  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.Physics2d.dll"
-;  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.Physics2d.xml"
-;  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.SimplePhysics.dll"
-;  File "..\Compiled\WindowsPhone81-AnyCPU\Jypeli.SimplePhysics.xml"
-;SectionEnd
-;
-;
-;Section "MonoJypeli for Windows Store 8"
-;  SetOutPath "$INSTDIR\Win8"
-;  File "..\Compiled\Windows8-AnyCPU\Jypeli.dll"
-;  File "..\Compiled\Windows8-AnyCPU\Jypeli.xml"
-;  File "..\Compiled\Windows8-AnyCPU\Jypeli.Physics2d.dll"
-;  File "..\Compiled\Windows8-AnyCPU\Jypeli.Physics2d.xml"
-;  File "..\Compiled\Windows8-AnyCPU\Jypeli.SimplePhysics.dll"
-;  File "..\Compiled\Windows8-AnyCPU\Jypeli.SimplePhysics.xml"
-;SectionEnd
-;
-;Section "MonoJypeli for Linux"
-;  SetOutPath "$INSTDIR\Linux"
-;  File "..\Compiled\Linux-AnyCPU\Jypeli.dll"
-;  File "..\Compiled\Linux-AnyCPU\Jypeli.xml"
-;  File "..\Compiled\Linux-AnyCPU\Jypeli.Physics2d.dll"
-;  File "..\Compiled\Linux-AnyCPU\Jypeli.Physics2d.xml"
-;  File "..\Compiled\Linux-AnyCPU\Jypeli.SimplePhysics.dll"
-;  File "..\Compiled\Linux-AnyCPU\Jypeli.SimplePhysics.xml"
-;SectionEnd
 
 Section "MonoJypeli content extensions"
   SetOutPath "C:\Program Files (x86)\MonoJypeli\ContentExtensions"
@@ -235,12 +185,6 @@ Section "Visual Studio 2017 Project Templates"
   
   Install17:
   
-  ; MSBuild
-  CreateDirectory "$PROGRAMFILES32\MSBuild\Jypeli"
-  SetOutPath "$PROGRAMFILES32\MSBuild\Jypeli"
-  File "..\MSBuildExtension\MGCBTask\bin\Debug\Jypeli.MGCBTask.dll"
-  File "..\MSBuildExtension\MonoJypeli.targets"
-  
   ; Windows
   ${If} ${SectionIsSelected} ${SECTION_WINDOWS_DIRECTX}
   	DetailPrint "Found VS2017, installing templates..."
@@ -276,193 +220,35 @@ Section "Visual Studio 2017 Project Templates"
   Done17:
 SectionEnd
 
-;SubSection "Visual Studio 2015 Project Templates" SECTION_VS2015
-;
-;Section "Windows DirectX" SECTION_VS2015_WINDX
-;  ReadEnvStr $R0 VS140COMNTOOLS
-;  
-;  ${If} $R0 != ""
-;    Push $R0
-;    Call CopyDxTemplates
-;  ${Else}
-;    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
-;  ${Endif}
-;SectionEnd
-
-;Section "Windows OpenGL"
-;  ReadEnvStr $R0 VS140COMNTOOLS
-;  
-;  ${If} $R0 != ""
-;    Push $R0
-;    Call CopyGLTemplates
-;  ${Else}
-;    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
-;  ${Endif}
-;SectionEnd
-
-;Section "Android" SECTION_VS2015_ANDROID
-;  ReadEnvStr $R0 VS140COMNTOOLS
-;  ${If} $R0 != ""
-;    Push $R0
-;    Call CopyAndroidTemplates
-;  ${Else}
-;    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
-;  ${Endif}
-;SectionEnd
-
-;Section "Windows Universal App"
-;  ReadEnvStr $R0 VS140COMNTOOLS
-;  ${If} $R0 != ""
-;    Push $R0
-;    Call CopyUniversalTemplates
-;  ${Else}
-;    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
-;  ${Endif}
-;SectionEnd
-
-;Section "Run template installer" SECTION_VS2015_TI
-;  ReadEnvStr $R0 VS140COMNTOOLS
-;  ${If} $R0 != ""
-;    DetailPrint "Installing project templates for VS2015 (may take a while)..."
-;    Push $R0
-;    Call InstallVsTemplates
-;  ${Else}
-;    DetailPrint "Could not find Visual Studio 2015, skipping template installation."
-;  ${Endif}
-;SectionEnd
-;
-;SubSectionEnd
-
-;Function CopyDxTemplates
-;   Pop $0
-;   
-;   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
-;    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-;    SetOutPath $1
-;    File "..\projektimallit\Windows\*.zip"
-;    Goto VSPro
-;    
-;  VSPro:
-;    IfFileExists "$0..\IDE\devenv.exe" 0 Done
-;      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\DirectX 11"
-;      CreateDirectory $1
-;      SetOutPath $1
-;      File "..\projektimallit\Windows\*.zip"
-;
-;  Done:
-;FunctionEnd
-;
-;Function CopyGLTemplates
-;   Pop $0
-;   
-;   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
-;    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-;    SetOutPath $1
-;    File "..\projektimallit\WindowsGL\*.zip"
-;    Goto VSPro
-;    
-;  VSPro:
-;    IfFileExists "$0..\IDE\devenv.exe" 0 Done
-;      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
-;      CreateDirectory $1
-;      SetOutPath $1
-;      File "..\projektimallit\WindowsGL\*.zip"
-;
-;  Done:
-;FunctionEnd
-;
-;Function CopyAndroidTemplates
-;   Pop $0
-;   
-;   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
-;    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-;    SetOutPath $1
-;    File "..\projektimallit\Android\*.zip"
-;    Goto VSPro
-;    
-;  VSPro:
-;    IfFileExists "$0..\IDE\devenv.exe" 0 Done
-;      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Android"
-;      CreateDirectory $1
-;      SetOutPath $1
-;      File "..\projektimallit\Android\*.zip"
-;
-;  Done:
-;FunctionEnd
-;
-;Function CopyUniversalTemplates
-;   Pop $0
-;   
-;   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
-;    StrCpy $1 "$0..\IDE\VCSExpress\ProjectTemplates\1033"
-;    SetOutPath $1
-;    File "..\projektimallit\WindowsUniversal\*.zip"
-;    Goto VSPro
-;    
-;  VSPro:
-;    IfFileExists "$0..\IDE\devenv.exe" 0 Done
-;      StrCpy $1 "$0..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame\Windows Universal"
-;      CreateDirectory $1
-;      SetOutPath $1
-;      File "..\projektimallit\WindowsUniversal\*.zip"
-;
-;  Done:
-;FunctionEnd
-;
-;Function InstallVsTemplates
-;   Pop $0
-;   
-;   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
-;     ExecWait '"$0..\IDE\vcsexpress.exe" /installvstemplates'
-;     Goto VSPro
-;    
-;  VSPro:
-;    IfFileExists "$0..\IDE\devenv.exe" 0 Done
-;      ExecWait '"$0..\IDE\devenv" /installvstemplates'
-;
-;  Done:
-;FunctionEnd
+Section "Visual Studio 2019 Project Templates"
+  DetailPrint "Requested template installation for Visual Studio 2019."
+  
+  StrCpy $1 "$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\Visual C#"
+  IfFileExists "$1\*.*" Install19 Error19
+  
+  Install19:
+  DetailPrint "Found VS2019, installing templates..."
+  CreateDirectory "$1\Jypeli"
+  
+  ; Windows
+  CreateDirectory "$1\Jypeli\Windows"
+  SetOutPath "$1\Jypeli\Windows"
+  File /r /x *.zip /x Jypeli-Windows.vstman "..\Projektimallit\Windows\"
+  
+  ; Android
+  CreateDirectory "$1\Jypeli\Android"
+  SetOutPath "$1\Jypeli\Android"
+  File /r /x *.zip /x Jypeli-Android.vstman "..\Projektimallit\Android\"
+  
+  Goto Done19
+  
+  Error19:
+  DetailPrint "Visual Studio 2019 template directory not found! (Documents\Visual Studio 2019\Templates\ProjectTemplates\Visual C#)"
+  
+  Done19:
+SectionEnd
 
 ;--------------------------------
-
-Function un.RemoveVsTemplateDir
-  Pop $0
-  Delete "$0\*.zip"
-  Delete "$0\Android\*.zip"
-  Delete "$0\DirectX 11\*.zip"
-  Delete "$0\Windows OpenGL\*.zip"
-  Delete "$0\Linux\*.zip"
-  Delete "$0\Windows 8\*.zip"
-  Delete "$0\Windows 8.1\*.zip"
-  Delete "$0\Windows Phone 8\*.zip"
-  Delete "$0\Windows Phone 8.1\*.zip"
-  Delete "$0\Windows Universal\*.zip"
-
-  RMDir "$0\Android"
-  RMDir "$0\DirectX 11"
-  RMDir "$0\Windows OpenGL"
-  RMDir "$0\Linux"
-  RMDir "$0\Windows 8"
-  RMDir "$0\Windows 8.1"
-  RMDir "$0\Windows Phone 8"
-  RMDir "$0\Windows Phone 8.1"
-  RMDir "$0\Windows Universal"
-  RMDir "$0"  
-FunctionEnd
-
-Function un.InstallVsTemplates
-   Pop $0
-   
-   IfFileExists "$0..\IDE\VCSExpress\*.*" 0 VSPro
-     ExecWait '"$0..\IDE\vcsexpress.exe" /installvstemplates'
-     Goto VSPro
-    
-  VSPro:
-    IfFileExists "$0..\IDE\devenv.exe" 0 Done
-      ExecWait '"$0..\IDE\devenv" /installvstemplates'
-
-  Done:
-FunctionEnd
 
 Section "Uninstall"
   
@@ -525,72 +311,20 @@ Section "Uninstall"
   
   Done17:
   
-  ; VS2012 project templates
-  ReadEnvStr $R1 VS110COMNTOOLS
-  StrCpy $R0 "$R1\..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
-  Push $R0  
-  Call un.RemoveVsTemplateDir
-
-  Push "$DOCUMENTS\Visual Studio 2012\Templates\ProjectTemplates\Visual C#\Jypeli-MonoGame"
-  Call un.RemoveVsTemplateDir
-
-  ; VS2013 project templates
-  ReadEnvStr $R1 VS120COMNTOOLS
-  StrCpy $R0 "$R1\..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
-  Push $R0
-  Call un.RemoveVsTemplateDir
-
-  Push "$DOCUMENTS\Visual Studio 2013\Templates\ProjectTemplates\Visual C#\Jypeli-MonoGame"
-  Call un.RemoveVsTemplateDir
-
-  ; VS2015 project templates
-  ReadEnvStr $R1 VS140COMNTOOLS
-  StrCpy $R0 "$R1\..\IDE\ProjectTemplates\CSharp\Jypeli-MonoGame"
-  Push $R0
-  Call un.RemoveVsTemplateDir
-
-  Push "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Jypeli-MonoGame"
-  Call un.RemoveVsTemplateDir
+  ; VS2019 project templates
+  StrCpy $1 "$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\Visual C#\Jypeli"
+  IfFileExists "$1\*.*" Uninstall19 Error19
   
-  ; Update VS template caches
-  ReadEnvStr $R0 VS110COMNTOOLS
-  ${If} $R0 != ""
-    DetailPrint "Updating Visual Studio 2012 templates (may take a while)..."
-    Push $R0
-    Call un.InstallVSTemplates
-  ${EndIf}}
-
-  ReadEnvStr $R0 VS120COMNTOOLS
-  ${If} $R0 != ""
-    DetailPrint "Updating Visual Studio 2013 templates (may take a while)..."
-    Push $R0
-    Call un.InstallVSTemplates
-  ${EndIf}}
+  Uninstall19:
+  DetailPrint "Visual Studio 2019 templates found, deleting them."
+  RMDir /r "$1"
   
-  ReadEnvStr $R0 VS140COMNTOOLS
-  ${If} $R0 != ""
-    DetailPrint "Updating Visual Studio 2015 templates (may take a while)..."
-    Push $R0
-    Call un.InstallVSTemplates
-  ${EndIf}}
-
+  Goto Done19
   
+  Error19:
+  DetailPrint "Visual Studio 2019 templates not found."
+  
+  Done19:
+  DetailPrint "Uninstallation complete."
 SectionEnd
 
-; Since we no longer support VS2015, we don't need this anymore
-;Function .onInit
-;	ReadEnvStr $R0 VS140COMNTOOLS
-;	
-;	; If VS 2015 not found, hide and uncheck the related section
-;	${If} $R0 == ""
-;		IntOp $0 0 | ${SF_EXPAND}
-;		SectionSetFlags ${SECTION_VS2015} $0
-;		SectionSetFlags ${SECTION_VS2015_WINDX} 0
-;		SectionSetFlags ${SECTION_VS2015_ANDROID} 0
-;		SectionSetFlags ${SECTION_VS2015_TI} 0
-;		SectionSetText ${SECTION_VS2015} ""
-;		SectionSetText ${SECTION_VS2015_WINDX} ""
-;		SectionSetText ${SECTION_VS2015_ANDROID} ""
-;		SectionSetText ${SECTION_VS2015_TI} ""
-;	${Endif}
-;FunctionEnd

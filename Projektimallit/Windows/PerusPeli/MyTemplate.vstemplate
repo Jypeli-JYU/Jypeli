@@ -1,12 +1,15 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>PerusPeli</Name>
-    <Description>Peli ilman fysiikkaa. Käyttää OpenGL-grafiikkakirjastoa.</Description>
+    <Name>PerusPeli (Windows)</Name>
+    <Description>Peli ilman fysiikkaa. Käyttää DirectX-grafiikkakirjastoa.</Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>
     </ProjectSubType>
     <SortOrder>1000</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
+	<LanguageTag>C#</LanguageTag>
+	<PlatformTag>windows</PlatformTag>
+	<PlatformTag>Jypeli</PlatformTag>
     <DefaultName>PerusPeli</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LocationField>Enabled</LocationField>

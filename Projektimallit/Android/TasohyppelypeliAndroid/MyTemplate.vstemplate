@@ -1,11 +1,14 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>Tasohyppelypeli</Name>
+    <Name>Tasohyppelypeli (Android)</Name>
     <Description>Peli Androidille jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää Physics2d-fysiikkamoottoria.</Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>
     </ProjectSubType>
     <SortOrder>43400</SortOrder>
+	<LanguageTag>C#</LanguageTag>
+	<PlatformTag>android</PlatformTag>
+	<PlatformTag>Jypeli</PlatformTag>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>Tasohyppelypeli</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>

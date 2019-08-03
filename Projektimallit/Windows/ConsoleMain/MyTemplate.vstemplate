@@ -6,6 +6,9 @@
     <ProjectSubType>
     </ProjectSubType>
     <SortOrder>1000</SortOrder>
+	<LanguageTag>C#</LanguageTag>
+	<PlatformTag>windows</PlatformTag>
+	<PlatformTag>Jypeli</PlatformTag>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>ConsoleMain</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>

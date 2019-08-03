@@ -1,11 +1,14 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>FysiikkaPeli (Physics2d.net)</Name>
-    <Description>Fysiikkapeli joka käyttää Physics2d-fysiikkamoottoria ja OpenGL-grafiikkakirjastoa.</Description>
+    <Name>FysiikkaPeli (Windows)</Name>
+    <Description>Fysiikkapeli joka käyttää Physics2d-fysiikkamoottoria ja DirectX11-grafiikkakirjastoa.</Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>
     </ProjectSubType>
     <SortOrder>1000</SortOrder>
+	<LanguageTag>C#</LanguageTag>
+	<PlatformTag>windows</PlatformTag>
+	<PlatformTag>Jypeli</PlatformTag>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>FysiikkaPeli</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>

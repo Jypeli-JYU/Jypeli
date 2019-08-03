@@ -1,11 +1,14 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>PerusPeli</Name>
+    <Name>PerusPeli (Android)</Name>
     <Description>Peli ilman fysiikkaa Androidille.</Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>
     </ProjectSubType>
     <SortOrder>43300</SortOrder>
+	<LanguageTag>C#</LanguageTag>
+	<PlatformTag>android</PlatformTag>
+	<PlatformTag>Jypeli</PlatformTag>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>PerusPeli</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>

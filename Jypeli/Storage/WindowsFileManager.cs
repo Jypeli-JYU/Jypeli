@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Jypeli
 {
+    // TODO: PLatform specific filemanager no longer needed on .NET Core
     public class WindowsFileManager : FileManager
     {
         private string[] pathCandidates;
@@ -34,10 +35,11 @@ namespace Jypeli
             }
         }
 
-        public WindowsFileManager()
-            : this(WindowsLocation.ExePath, Path.Combine(WindowsLocation.MyDocuments, Game.Name))
-        {
-        }
+        // TODO: Needed?
+        //public WindowsFileManager()
+        //    : this(WindowsLocation.ExePath, Path.Combine(WindowsLocation.MyDocuments, Game.Name))
+        //{
+        //}
 
         /// <summary>
         /// Kertoo onko tiedosto tai hakemisto olemassa.
@@ -135,7 +137,7 @@ namespace Jypeli
             FMAssert( File.Delete, true, fileName );
         }
     }
-
+    // TODO: Is this still needed?
     /// <summary>
     /// Usein käytettyjä polkuja Windowsissa.
     /// </summary>
@@ -177,6 +179,7 @@ namespace Jypeli
 		public static readonly string ContentPath = Path.Combine( AppDomain.CurrentDomain.BaseDirectory, "Content" );
     }
 
+    /*
 	// <summary>
     /// Usein käytettyjä polkuja Linuxissa (yhteensopivuutta varten).
     /// </summary>
@@ -202,4 +205,5 @@ namespace Jypeli
         /// </summary>
 		public static readonly string ContentPath = WindowsLocation.DataPath;
     }
+    */
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Jypeli.Content
 {
+    //TODO: Does this actually work?
     internal static class Lighting
     {
         public static byte[] rawData = {

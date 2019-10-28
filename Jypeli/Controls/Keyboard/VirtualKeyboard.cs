@@ -155,12 +155,12 @@ namespace Jypeli.Controls.Keyboard
         {
             bool checkForKeyPress;
 
-#if WINDOWS
+
             MouseState mouseState = XnaMouse.GetState();
 
             checkForKeyPress = prevMouseState.LeftButton == XnaButtonState.Pressed &&
                 mouseState.LeftButton == XnaButtonState.Released;
-#endif
+
 
 #if ANDROID
             TouchCollection touchCollection = XnaTouchPanel.GetState();

@@ -15,11 +15,11 @@
         public ComputerDevice()
         {
 			// TODO: merge these into one class
-			#if WINDOWS
+
             this.Storage = new WindowsFileManager( WindowsLocation.DataPath, WindowsLocation.MyDocuments );
-			#else
-			this.Storage = new LinuxFileManager();
-			#endif
+
+			//this.Storage = new LinuxFileManager();
+
         }
     }
 }

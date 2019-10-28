@@ -68,8 +68,7 @@ namespace Jypeli
         /// <param name="assetName">Tiedoston nimi</param>        
         public static TileMap FromLevelAsset(string assetName)
         {
-            string[] lines = Game.Instance.Content.Load<string[]>(assetName);
-            char[,] tiles = ReadFromStringArray(lines);
+            char[,] tiles = ReadFromFile("Content/" + assetName);
             return new TileMap(tiles);
         }
         

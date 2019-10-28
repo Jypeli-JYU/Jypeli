@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 
 using XnaSoundEffect = Microsoft.Xna.Framework.Audio.SoundEffect;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Jypeli
 {
@@ -40,12 +41,21 @@ namespace Jypeli
             if (xnaEffect == null)
             {
                 Debug.Assert(assetName != null);
-                xnaEffect = Game.Instance.Content.Load<XnaSoundEffect>(assetName);
+                xnaEffect = FromContent(assetName);
             }
 
             Position.MaxValue = xnaEffect.Duration.TotalSeconds;
         }
 
+
+        private XnaSoundEffect FromContent(string assetname)
+        {
+            FileStream fs = new FileStream("Content/" + assetName, FileMode.Open);
+            XnaSoundEffect sound = XnaSoundEffect.FromStream(fs);
+            fs.Close();
+            return sound;
+
+        }
         internal SoundEffect(string assetName)
         {
             this.assetName = assetName;

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -18,7 +18,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;JYPELI;UseDouble;DESKTOP;DIRECTX;DISABLE_LIGHTING_EFFECT;DEBUG;NETCOREAPP;NETCOREAPP3_0</DefineConstants>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>../Compiled</OutputPath>
   </PropertyGroup>
 

@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen, Mikko Röyskö.
  */
 
 using System;
@@ -70,7 +70,7 @@ namespace Jypeli
         /// <returns>Kuva</returns>
         public static Image LoadImage( string name )
         {
-            return new Image( name );
+            return new Image( "Content/" + name );
         }
 
         /// <summary>

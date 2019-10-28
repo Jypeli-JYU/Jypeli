@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Version>1.4</Version>
+    <PackageId>Jypeli.SimplePhysics.Core</PackageId>
+    <Authors>University of Jyväskylä</Authors>
+    <Description>A simple physics engine for Jypeli</Description>
+    <Copyright>University of Jyväskylä</Copyright>
+    <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
+    <PackageReleaseNotes>-Major update to .NET Core 3.0.
+-A lot of stuff may be broken.</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>true</Optimize>
+    <OutputPath>../Compiled</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jypeli\Jypeli.csproj" />
+  </ItemGroup>
+
+</Project>

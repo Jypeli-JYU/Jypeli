@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+    <AssemblyName>Jypeli</AssemblyName>
+    <RootNamespace>Jypeli</RootNamespace>
+    <PackageId>Jypeli.Core</PackageId>
+    <Version>8.0</Version>
+    <Authors>University of Jyväskylä</Authors>
+    <Company />
+    <Product />
+    <Description>Jypeli is a simple C# game programming library built on top of MonoGame and .NET Core. It is used as a tool for teaching programming in the University of Jyväskylä.</Description>
+    <Copyright>University of Jyväskylä</Copyright>
+    <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>-Major update to .NET Core 3.0.
+-Now all platforms can use the same project files.
+-Removed the need for Monogames content pipeline tool.
+-A lot of stuff may be broken.</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;JYPELI;UseDouble;DESKTOP;DIRECTX;DISABLE_LIGHTING_EFFECT;DEBUG;NETCOREAPP;NETCOREAPP3_0</DefineConstants>
+    <Optimize>true</Optimize>
+    <OutputPath>../Compiled</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Content.Builder" Version="3.7.0.9" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7" />
+    <PackageReference Include="NetCoreAudio" Version="1.5.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+</Project>

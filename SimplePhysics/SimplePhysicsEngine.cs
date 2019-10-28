@@ -5,6 +5,7 @@ using Jypeli.Physics;
 
 namespace Jypeli
 {
+    //TODO: Should we just remove this?
     public partial class SimplePhysicsEngine : IPhysicsEngine
     {
         class Contact

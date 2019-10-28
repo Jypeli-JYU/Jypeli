@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AssemblyName>Jypeli.Physics2d</AssemblyName>
+    <RootNamespace>Jypeli</RootNamespace>
+    <PackageId>Jypeli.Physics2d.Core</PackageId>
+    <Version>1.4</Version>
+    <Authors>University of Jyväskylä</Authors>
+    <Description>Physics2d.net implementation for Jypeli</Description>
+    <Copyright>University of Jyväskylä</Copyright>
+    <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
+    <PackageReleaseNotes>-Major update to .NET Core 3.0.
+-A lot of stuff may be broken.</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;JYPELI;UseDouble;DESKTOP;DIRECTX;DISABLE_LIGHTING_EFFECT;DEBUG;NETCOREAPP;NETCOREAPP3_0</DefineConstants>
+    <Optimize>true</Optimize>
+    <OutputPath>../Compiled</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Content.Builder" Version="3.7.0.9" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jypeli\Jypeli.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Physics2DDotNet\Shapes\ShapeHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Physics2DDotNet\Shapes\VertexHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+</Project>

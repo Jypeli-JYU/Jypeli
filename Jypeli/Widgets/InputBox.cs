@@ -154,10 +154,8 @@ namespace Jypeli
             ShowVirtualKeyboard();
 #endif
 
-#if WINDOWS || LINUX || MACOS
             Game.Instance.Window.TextInput += InputText;
 			Game.Instance.Keyboard.Listen(Key.Back, ButtonState.Pressed, EraseText, null).InContext(this);
-#endif
         }
 
 #if ANDROID
@@ -213,9 +211,9 @@ namespace Jypeli
             cursorBlinkTimer.Stop();
 #if ANDROID
             HideVirtualKeyboard();
-#elif WINDOWS || LINUX || MACOS
-            Game.Instance.Window.TextInput -= InputText;
 #endif
+            Game.Instance.Window.TextInput -= InputText;
+
         }
 
         private void BlinkCursor()
@@ -228,7 +226,7 @@ namespace Jypeli
             Cursor.Left = Math.Min( -Width / 2 + XMargin + TextSize.X, Width / 2 - Font.CharacterWidth );
         }
 
-#if WINDOWS || LINUX || MACOS
+
         void InputText( object sender, TextInputEventArgs e )
         {
             if ( !this.ControlContext.Active ) return;
@@ -242,7 +240,7 @@ namespace Jypeli
 
             AddText(e.Character.ToString());
         }
-#endif
+
 
         void AddText(string text)
         {

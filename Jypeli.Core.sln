@@ -6,8 +6,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jypeli", "Jypeli\Jypeli.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jypeli.Physics2d", "Physics2d\Jypeli.Physics2d.csproj", "{0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.SimplePhysics", "SimplePhysics\Jypeli.SimplePhysics.csproj", "{BEB7AA09-30B0-41DF-86E4-B1A747594DBF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,14 +30,6 @@ Global
 		{0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8}.Release|x86.ActiveCfg = Release|Any CPU
 		{0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8}.Release|x86.Build.0 = Release|Any CPU
-		{BEB7AA09-30B0-41DF-86E4-B1A747594DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BEB7AA09-30B0-41DF-86E4-B1A747594DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BEB7AA09-30B0-41DF-86E4-B1A747594DBF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{BEB7AA09-30B0-41DF-86E4-B1A747594DBF}.Debug|x86.Build.0 = Debug|Any CPU
-		{BEB7AA09-30B0-41DF-86E4-B1A747594DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BEB7AA09-30B0-41DF-86E4-B1A747594DBF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BEB7AA09-30B0-41DF-86E4-B1A747594DBF}.Release|x86.ActiveCfg = Release|Any CPU
-		{BEB7AA09-30B0-41DF-86E4-B1A747594DBF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

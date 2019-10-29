@@ -5,7 +5,7 @@ using Jypeli.Assets;
 using Jypeli.Controls;
 using Jypeli.Widgets;
 
-public class Peruspeli : Game
+public class $safeprojectname$ : Game
 {
     public override void Begin()
     {

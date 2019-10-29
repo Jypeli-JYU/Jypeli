@@ -5,7 +5,7 @@ using Jypeli.Assets;
 using Jypeli.Controls;
 using Jypeli.Widgets;
 
-public class Tasohyppelypeli : PhysicsGame
+public class $safeprojectname$ : PhysicsGame
 {
     private const double NOPEUS = 200;
     private const double HYPPYNOPEUS = 750;

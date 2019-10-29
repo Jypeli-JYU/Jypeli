@@ -5,7 +5,7 @@ using Jypeli.Assets;
 using Jypeli.Controls;
 using Jypeli.Widgets;
 
-public class Fysiikkapeli : PhysicsGame
+public class $safeprojectname$ : PhysicsGame
 {
     public override void Begin()
     {

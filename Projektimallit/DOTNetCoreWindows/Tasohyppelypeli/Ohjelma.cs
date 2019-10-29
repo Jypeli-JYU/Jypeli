@@ -17,7 +17,7 @@ namespace Program
         [STAThread]
         static void Main()
         {
-            using (var game = new Tasohyppelypeli())
+            using (var game = new $safeprojectname$())
                 game.Run();
         }
     }

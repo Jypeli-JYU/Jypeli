@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// <summary>
 /// 
 /// </summary>
-public class ConsoleMain
+public class $safeprojectname$
 {
     /// <summary>
     /// 

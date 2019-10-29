@@ -150,6 +150,7 @@ namespace Jypeli
         {
             cursorBlinkTimer.Start();
 
+            // TODO: Should also work on android
 #if ANDROID
             ShowVirtualKeyboard();
 #endif

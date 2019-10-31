@@ -19,7 +19,7 @@ public class Tasohyppelypeli : PhysicsGame
     private SoundEffect maaliAani = LoadSoundEffect("maali.wav");
 
     private int tahtia = 0;
-
+    EasyHighScore e = new EasyHighScore();
     IntMeter pistelaskuri = new IntMeter(0);
     public override void Begin()
     {
@@ -28,7 +28,7 @@ public class Tasohyppelypeli : PhysicsGame
         LuoKentta();
         LisaaNappaimet();
 
-        pistelaskuri.MaxValue = tahtia;
+        pistelaskuri.MaxValue = 1;
         pistelaskuri.UpperLimit += kaikki;
 
         Camera.Follow(pelaaja1);
@@ -38,12 +38,16 @@ public class Tasohyppelypeli : PhysicsGame
 
     private void kaikki()
     {
-        EasyHighScore e = new EasyHighScore();
+
         e.EnterAndShow(tahtia);
         e.HighScoreWindow.Closed += delegate
         {
-            ClearAll();
-            Begin();
+            DoNextUpdate(() =>
+            {
+                ClearAll();
+                Begin();
+            });
+            
         };
     }
 

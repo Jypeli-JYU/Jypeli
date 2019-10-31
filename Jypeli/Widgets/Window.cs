@@ -86,6 +86,8 @@ namespace Jypeli
 
         /// <summary>
         /// Tapahtuu kun ikkuna suljetaan.
+        /// TODO: ClearAllin kutsuminen samalla updatella kuin Closed-eventti tapahtuu aiheuttaa StackOverflown.
+        /// TODO: ClearAll ei tyhjennä HighScoreWindowia oikein.
         /// </summary>
         public event WindowHandler Closed;
 
@@ -135,9 +137,7 @@ namespace Jypeli
             ControlContext.Activated += Window_Activated;
             ControlContext.Deactivated += Window_Deactivated;
 
-#if WINDOWS
             AddedToGame += AddControls;
-#endif
 
             this.IsModal = true;
 

@@ -36,11 +36,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Jypeli.Devices;
 
-#if WINDOWS
-using System.Net;
-using System.Runtime.InteropServices;
-#endif
-
 using XnaColor = Microsoft.Xna.Framework.Color;
 using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
 #if ANDROID
@@ -52,11 +47,6 @@ namespace Jypeli
     [Save]
     public partial class Game : Microsoft.Xna.Framework.Game, GameObjectContainer
     {
-#if WINDOWS
-        [DllImport("user32.dll")]
-        private static extern bool SetProcessDPIAware();
-#endif
-
         private bool loadContentHasBeenCalled = false;
         private bool beginHasBeenCalled = false;
 
@@ -154,7 +144,7 @@ namespace Jypeli
         }
 #endif
 
-#if WINDOWS || MACOS || LINUX
+
 		/// <summary>
 		/// Ajaa yhden päivityksen ja tallentaa ruudun tiedostoon.
 		/// </summary>
@@ -169,7 +159,7 @@ namespace Jypeli
 			UnloadContent();
 			Exit();
         }
-#endif
+
 
 		void InitGlobals ()
         {
@@ -206,6 +196,7 @@ namespace Jypeli
 		internal void OnNoAudioHardwareException()
 		{
 			MessageDisplay.Add( "No audio hardware was detected. All sound is disabled." );
+            //TODO: Can this still happen?
 #if WINDOWS
 			MessageDisplay.Add( "You might need to install OpenAL drivers." );
 			MessageDisplay.Add( "Press Ctrl+Alt+I to try downloading and installing them now." );
@@ -261,10 +252,6 @@ namespace Jypeli
         [EditorBrowsable( EditorBrowsableState.Never )]
         protected override void Initialize()
         {
-#if WINDOWS
-            SetProcessDPIAware();
-#endif
-
             if ( !windowSizeSet )
                 SetDefaultResolution();
 

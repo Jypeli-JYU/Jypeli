@@ -36,6 +36,8 @@ public class Tasohyppelypeli : PhysicsGame
         Camera.StayInLevel = true;
     }
 
+
+
     private void kaikki()
     {
 
@@ -113,8 +115,17 @@ public class Tasohyppelypeli : PhysicsGame
 
         PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
 
+        Mouse.Listen(MouseButton.Left, ButtonState.Pressed, LaitaPalikka, null);
+
         Mouse.ListenMovement(0.1, Tahtaa, "Tähtää aseella");
         Mouse.Listen(MouseButton.Left, ButtonState.Down, AmmuAseella, "ammu", pelaaja1.Weapon);
+    }
+
+    private void LaitaPalikka()
+    {
+        PhysicsObject p = new PhysicsObject(5, 5);
+        p.Position = Mouse.PositionOnWorld;
+        Add(p);
     }
 
     void Tahtaa(AnalogState hiirenLiike)

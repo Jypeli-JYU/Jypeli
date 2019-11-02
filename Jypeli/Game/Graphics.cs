@@ -32,31 +32,12 @@ using System.ComponentModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-#if WINDOWS
-using System.Runtime.InteropServices;
-#endif
-
 namespace Jypeli
 {
     public partial class Game
     {
-#if WINDOWS
-        [DllImport( "user32.dll" )]
-        private static extern int GetSystemMetrics( int smIndex );
-
-        [DllImport("gdi32.dll")]
-        static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
-
-        enum DeviceCap
-        {
-            VERTRES = 10,
-            DESKTOPVERTRES = 117,
-        }
-#endif
-
-
-    // fullscreen isn't used as default, because debug mode doesn't work well with it
-    private bool isFullScreenRequested = false;
+        // fullscreen isn't used as default, because debug mode doesn't work well with it
+        private bool isFullScreenRequested = false;
         private bool windowSizeSet = false;
         private bool windowPositionSet = false;
 
@@ -129,10 +110,8 @@ namespace Jypeli
         /// <param name="y">Ikkunan yläreunan y-koordinaatti (kasvaa alaspäin)</param>
         public void SetWindowPosition( int x, int y )
         {
-#if WINDOWS || LINUX
             Window.Position = new Point( x, y );
             windowPositionSet = true;
-#endif
         }
 
         /// <summary>
@@ -140,21 +119,22 @@ namespace Jypeli
         /// </summary>
         public void CenterWindow()
         {
-#if WINDOWS || LINUX
+
             int W = (int)GraphicsDevice.DisplayMode.Width;
             int H = (int)GraphicsDevice.DisplayMode.Height;
 			int w = (int)GraphicsDeviceManager.PreferredBackBufferWidth;
 			int h = (int)GraphicsDeviceManager.PreferredBackBufferHeight;
 
+            //TODO: How to do this now?
 #if WINDOWS
-            int borderwidth = GetSystemMetrics( 32 ); // SM_CXFRAME
-            int titleheight = GetSystemMetrics( 30 ); // SM_CXSIZE
-            w += 2 * borderwidth;
-            h += titleheight + 2 * borderwidth;
+            //int borderwidth = GetSystemMetrics( 32 ); // SM_CXFRAME
+            //int titleheight = GetSystemMetrics( 30 ); // SM_CXSIZE
+            //w += 2 * borderwidth;
+            //h += titleheight + 2 * borderwidth;
 #endif
 
             SetWindowPosition( ( W - w ) / 2, ( H - h ) / 2 );
-#endif
+
         }
 
         /// <summary>
@@ -198,41 +178,44 @@ namespace Jypeli
         /// <returns></returns>
         internal void DoSetWindowSize (int width, int height, bool fullscreen)
 		{
-#if WINDOWS
+            //TODO: DO this without previously imported dll, or is this no longer needed?
+
             // For high-DPI support
-            System.Drawing.Graphics graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
-            IntPtr hdc = graphics.GetHdc();
-            int logicalScreenHeight = GetDeviceCaps(hdc, (int)DeviceCap.VERTRES);
-            int physicalScreenHeight = GetDeviceCaps(hdc, (int)DeviceCap.DESKTOPVERTRES);
-            graphics.ReleaseHdc(hdc);
-            graphics.Dispose();
+            //System.Drawing.Graphics graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
+            //IntPtr hdc = graphics.GetHdc();
+            //int logicalScreenHeight = GetDeviceCaps(hdc, (int)DeviceCap.VERTRES);
+            //int physicalScreenHeight = GetDeviceCaps(hdc, (int)DeviceCap.DESKTOPVERTRES);
+            //graphics.ReleaseHdc(hdc);
+            //graphics.Dispose();
             
-            float scaleFactor = (float)logicalScreenHeight / (float)physicalScreenHeight;
+            //float scaleFactor = (float)logicalScreenHeight / (float)physicalScreenHeight;
             
-            width = (int)(width * scaleFactor);
-            height = (int)(height * scaleFactor);
-#endif
+            //width = (int)(width * scaleFactor);
+            //height = (int)(height * scaleFactor);
+
 
             GraphicsDeviceManager.PreferredBackBufferWidth = width;
 			GraphicsDeviceManager.PreferredBackBufferHeight = height;
 			GraphicsDeviceManager.IsFullScreen = fullscreen;
             
+            //TODO: is this needed?
 #if LINUX
-			if (fullscreen) {
-				GraphicsDeviceManager.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-				GraphicsDeviceManager.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-			}
+			//if (fullscreen) {
+			//	GraphicsDeviceManager.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+			//	GraphicsDeviceManager.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+			//}
 #endif
 
-			GraphicsDeviceManager.ApplyChanges ();
+            GraphicsDeviceManager.ApplyChanges ();
 			isFullScreenRequested = fullscreen;
 
 			if (Screen != null) {
 				Screen.Size = new Vector (width, height);
+                //TODO: What about this?
 #if LINUX
 				Screen.ScaleToFit ();
 #endif
-			}
+            }
 
             windowSizeSet = true;
 

@@ -137,10 +137,8 @@ namespace Jypeli
 #if WINDOWS_PHONE || ANDROID
             _controllers.Add( PhoneBackButton );
 #endif
-
-#if WINDOWS || LINUX
             _controllers.AddRange( GameControllers );
-#endif
+
 
             IsMouseVisible = true;
         }

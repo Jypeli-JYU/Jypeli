@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOTNetCoreMD", "Projektimallit\DOTNetCoreMD.csproj", "{35D843CD-975C-4F5E-BB6B-E06D387E5D7E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35D843CD-975C-4F5E-BB6B-E06D387E5D7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35D843CD-975C-4F5E-BB6B-E06D387E5D7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35D843CD-975C-4F5E-BB6B-E06D387E5D7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35D843CD-975C-4F5E-BB6B-E06D387E5D7E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

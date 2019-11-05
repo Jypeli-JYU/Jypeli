@@ -260,7 +260,29 @@ namespace Jypeli
             Layers.Clear();
         }
 
-#region GetObject methods
+        /// <summary>
+        /// Onko objekti kahden pisteen välissä
+        /// </summary>
+        /// <param name="obj">Objekti</param>
+        /// <param name="pos1">Ensimmäinen piste</param>
+        /// <param name="pos2">Toinen piste</param>
+        /// <returns></returns>
+        public static bool IsBlocking(GameObject obj, Vector pos1, Vector pos2)
+        {
+            Vector normal = (pos2 - pos1).Normalize();
+            double ep = obj.AbsolutePosition.ScalarProjection(normal);
+            double p1p = pos1.ScalarProjection(normal);
+            double p2p = pos2.ScalarProjection(normal);
+
+            if (ep < p1p || ep > p2p)
+                return false;
+
+            double pn = pos1.ScalarProjection(normal.RightNormal);
+            double en = obj.AbsolutePosition.ScalarProjection(normal.RightNormal);
+            return Math.Abs(en - pn) <= 0.5 * Math.Sqrt(obj.Width * obj.Width + obj.Height * obj.Height);
+        }
+
+        #region GetObject methods
         /// <summary>
         /// Palauttaa listan kaikista peliolioista jotka toteuttavat ehdon.
         /// Lista on järjestetty päällimmäisestä alimmaiseen.
@@ -452,6 +474,18 @@ namespace Jypeli
         public GameObject GetObjectAt( Vector position, object tag, double radius )
         {
             return GetObjectsAt( position, radius ).Find( obj => obj.Tag == tag );
+        }
+
+        /// <summary>
+        /// Palauttaa listan peliolioista, jotka ovat kahden annetun pisteen välissä.
+        /// Lista ei sisällä widgettejä.
+        /// </summary>
+        /// <param name="pos1">Ensimmäinen sijainti</param>
+        /// <param name="pos2">Toinen sijainti</param>
+        /// <returns></returns>
+        public List<GameObject> GetObjectsBetween(Vector pos1, Vector pos2)
+        {
+            return GetObjects(palikka => !(palikka is Widget) && IsBlocking(palikka, pos1, pos2));
         }
 
         /// <summary>

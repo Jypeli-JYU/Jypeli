@@ -137,8 +137,9 @@ namespace Jypeli
 #if WINDOWS_PHONE || ANDROID
             _controllers.Add( PhoneBackButton );
 #endif
+#if NETCOREAPP
             _controllers.AddRange( GameControllers );
-
+#endif
 
             IsMouseVisible = true;
         }

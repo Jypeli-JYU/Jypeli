@@ -174,5 +174,26 @@ namespace Jypeli
 
             return IsInsideChildren( point );
         }
+
+        /// <summary>
+        /// Onko peliolio kahden pisteen välissä
+        /// </summary>
+        /// <param name="pos1">Ensimmäinen piste</param>
+        /// <param name="pos2">Toinen piste</param>
+        /// <returns></returns>
+        public bool IsBetween(Vector pos1, Vector pos2)
+        {
+            Vector normal = (pos2 - pos1).Normalize();
+            double ep = this.AbsolutePosition.ScalarProjection(normal);
+            double p1p = pos1.ScalarProjection(normal);
+            double p2p = pos2.ScalarProjection(normal);
+
+            if (ep < p1p || ep > p2p)
+                return false;
+
+            double pn = pos1.ScalarProjection(normal.RightNormal);
+            double en = this.AbsolutePosition.ScalarProjection(normal.RightNormal);
+            return Math.Abs(en - pn) <= 0.5 * Math.Sqrt(this.Width * this.Width + this.Height * this.Height);
+        }
     }
 }

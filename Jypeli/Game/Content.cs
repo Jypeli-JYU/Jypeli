@@ -66,7 +66,7 @@ namespace Jypeli
         /// <summary>
         /// Lataa kuvan contentista.
         /// </summary>
-        /// <param name="name">Kuvan nimi (ei tarkennetta)</param>
+        /// <param name="name">Kuvan nimi päätteineen (esim. "norsu.png")</param>
         /// <returns>Kuva</returns>
         public static Image LoadImage( string name )
         {
@@ -86,7 +86,7 @@ namespace Jypeli
         /// <summary>
         /// Lataa taulukon kuvia contentista.
         /// </summary>
-        /// <param name="names">Kuvien nimet ilman tarkennetta pilkuin eroiteltuna</param>
+        /// <param name="names">Kuvien nimet pilkuin eroiteltuna</param>
         /// <returns>Kuvataulukko</returns>
         public static Image[] LoadImages( params string[] names )
         {
@@ -133,7 +133,7 @@ namespace Jypeli
 		/// <summary>
         /// Soittaa ääniefektin.
         /// </summary>
-        /// <param name="name">Äänen nimi (ei tarkennetta)</param>
+        /// <param name="name">Äänen nimi päätteineen/param>
         public static void PlaySound( string name )
         {
             LoadSoundEffect( name ).Play();
@@ -142,7 +142,7 @@ namespace Jypeli
         /// <summary>
         /// Lataa ääniefektin contentista.
         /// </summary>
-        /// <param name="name">Äänen nimi (ei tarkennetta)</param>
+        /// <param name="name">Äänen nimi päätteineen</param>
         /// <returns>SoundEffect-olio</returns>
         public static SoundEffect LoadSoundEffect( string name )
         {
@@ -162,7 +162,7 @@ namespace Jypeli
         /// <summary>
         /// Lataa taulukon ääniefektejä contentista.
         /// </summary>
-        /// <param name="names">Äänien nimet ilman tarkennetta pilkuin eroiteltuna</param>
+        /// <param name="names">Äänien nimet pilkuin eroiteltuna</param>
         /// <returns>Taulukko SoundEffect-olioita</returns>
         public static SoundEffect[] LoadSoundEffects( params string[] names )
         {

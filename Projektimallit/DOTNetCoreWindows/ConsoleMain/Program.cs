@@ -14,8 +14,8 @@ public class $safeprojectname$
     /// 
     /// </summary>
     public static void Main()
-    {
+{
 
-    }
+}
 
 }

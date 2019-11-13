@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fysiikkapeli", "Fysiikkapel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peruspeli", "Peruspeli\Peruspeli.csproj", "{5BD1E4D6-0B5C-4F42-A1DB-8AFC33785C4C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleMain", "ConsoleMain\ConsoleMain.csproj", "{A6B93F52-5010-4F92-B941-6E347EFE75C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleMainCore", "ConsoleMainCore\ConsoleMainCore.csproj", "{A6B93F52-5010-4F92-B941-6E347EFE75C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli Projektimallit", "Jypeli Projektimallit\Jypeli Projektimallit.csproj", "{B3BCD71F-3481-4475-9878-4E971C3FCB5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleMain", "ConsoleMain\ConsoleMain.csproj", "{2D056DF4-E99B-4F81-8FD2-D60D6FE55905}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{B3BCD71F-3481-4475-9878-4E971C3FCB5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3BCD71F-3481-4475-9878-4E971C3FCB5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3BCD71F-3481-4475-9878-4E971C3FCB5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D056DF4-E99B-4F81-8FD2-D60D6FE55905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D056DF4-E99B-4F81-8FD2-D60D6FE55905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D056DF4-E99B-4F81-8FD2-D60D6FE55905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D056DF4-E99B-4F81-8FD2-D60D6FE55905}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

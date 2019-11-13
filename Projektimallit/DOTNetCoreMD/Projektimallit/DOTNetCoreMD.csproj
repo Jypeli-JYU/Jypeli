@@ -76,6 +76,9 @@
     <AddinFile Include="Jypeli.Peruspeli.nupkg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </AddinFile>
+    <AddinFile Include="Jypeli.ConsoleMain.Core.nupkg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AddinFile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoDevelop.Addins.0.4.7\build\MonoDevelop.Addins.targets" Condition="Exists('..\packages\MonoDevelop.Addins.0.4.7\build\MonoDevelop.Addins.targets')" />

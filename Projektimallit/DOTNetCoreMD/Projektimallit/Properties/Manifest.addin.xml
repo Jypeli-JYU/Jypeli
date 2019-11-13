@@ -48,8 +48,16 @@
       <Template
          id="Jypeli.ConsoleMain.Template"
          _overrideName="ConsoleMain"
-         _overrideDescription="Tyhjä Console Main-projekti, jossa kommenttien paikka valmiina"
+         _overrideDescription="Tyhjä Console Main-projekti, jossa kommenttien paikka valmiina. Käyttää .NET Framework-kirjastoa."
          path="Jypeli.ConsoleMain.nupkg"
+         category="jypeli/netcore/console"/>
+    </Extension>
+    <Extension path="/MonoDevelop/Ide/Templates">
+      <Template
+         id="Jypeli.ConsoleMain.Core.Template"
+         _overrideName="ConsoleMain (.NET Core)"
+         _overrideDescription="Tyhjä Console Main-projekti, jossa kommenttien paikka valmiina. Käyttää .NET Core-kirjastoa"
+         path="Jypeli.ConsoleMain.Core.nupkg"
          category="jypeli/netcore/console"/>
     </Extension>
 </ExtensionModel>

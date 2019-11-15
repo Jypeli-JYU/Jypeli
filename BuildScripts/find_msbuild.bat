@@ -6,8 +6,8 @@ for /f "usebackq tokens=1* delims=: " %%i in (`"%ProgramFiles(x86)%\Microsoft Vi
   if /i "%%i"=="installationPath" set InstallDir=%%j
 )
 
-if exist "%InstallDir%\MSBuild\15.0\Bin\MSBuild.exe" (
-  SET "msbuild=%InstallDir%\MSBuild\15.0\Bin\MSBuild.exe"
+if exist "%InstallDir%\MSBuild\Current\Bin\MSBuild.exe" (
+  SET "msbuild=%InstallDir%\MSBuild\Current\Bin\MSBuild.exe"
 )
 
 ENDLOCAL&set msbuild=%msbuild%

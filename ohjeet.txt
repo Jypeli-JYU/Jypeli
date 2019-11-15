@@ -1,11 +1,14 @@
-Windows:
-- mene BuildScripts-kansioon
-- jos et ole buildannut aiemmin, niin aja generate_projects.bat. Tämä luo Visual Studio -projektitiedostot Protobuildia käyttäen.
-- aja build_and_create_installer.bat
+Tarvitset kääntämiseen vähintään NET Core 3.0.
+-Windowsilla ja Macilla tulee Visual Studion mukana
+-Linuxilla pitää asentaa erikseen: https://dotnet.microsoft.com/download
 
-- jos .bat-tiedostot epäonnistuvat, niin avaa ne tekstieditorilla ja tee vastaavat asiat manuaalisesti :)
+Jypelin solution löytyy valmiiksi hakemiston juuresta, nykyisellään toimii
+ristiin kaikkien alustojen kanssa ilman ongelmia.
 
+Testit-kansiosta löytyy tasohyppelypeli testiprojekti, johon on otettu
+Jypeli ja Physics2d projektit referensseiksi.
 
-Mac:
+Itse Jypelin kääntö nuget paketiksi onnistuu suoraan editorin sisältä,
+tai Windowsilla BuildScripts/build_and_create_nuget.bat
 
-ks. https://tim.jyu.fi/view/kurssit/tie/ohj1/tyokalut/mac-kehitys
+TODO: Buildaus scripti macille ja linuxille.

@@ -8,7 +8,7 @@
     <AssemblyName>Jypeli</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageId>Jypeli.Core</PackageId>
-    <Version>8.0</Version>
+    <Version>8.0.2</Version>
     <Authors>University of Jyväskylä</Authors>
     <Company />
     <Product />
@@ -27,6 +27,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;JYPELI;UseDouble;DESKTOP;DIRECTX;DISABLE_LIGHTING_EFFECT;NETCOREAPP;NETCOREAPP3_0</DefineConstants>
     <Optimize>false</Optimize>
+    <OutputPath>../Compiled</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>JYPELI;UseDouble;DESKTOP;DIRECTX;DISABLE_LIGHTING_EFFECT;NETCOREAPP;NETCOREAPP3_0</DefineConstants>
     <OutputPath>../Compiled</OutputPath>
   </PropertyGroup>
 

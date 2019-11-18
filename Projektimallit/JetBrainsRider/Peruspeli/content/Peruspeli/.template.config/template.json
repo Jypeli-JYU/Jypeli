@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/template",
-  "author": "Mikko Röyskö",
+  "author": "University of Jyväskylä",
   "classifications": [ "Common", "Jypeli"],
   "name": "Jypeli Peruspeli",
   "generatorVersions": "[1.0.0.0-*)",

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Jypeli.Fysiikkapeli.Template</id>
+    <version>1.0</version>
+    <authors>Mikko Röyskö</authors>
+    <owners>Mikko Röyskö</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Jypelin Fysiikkapeli-projektimalli</description>
+  </metadata>
+</package>

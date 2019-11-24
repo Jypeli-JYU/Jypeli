@@ -13,10 +13,10 @@ public class Tasohyppelypeli : PhysicsGame
 
     private PlatformCharacter pelaaja1;
 
-    private Image pelaajanKuva = LoadImage("norsu.png");
+    private Image pelaajanKuva = LoadImage("norsu");
     private Image tahtiKuva = LoadImage("tahti.png");
 
-    private SoundEffect maaliAani = LoadSoundEffect("maali.wav");
+    private SoundEffect maaliAani = LoadSoundEffect("maali");
 
     private int tahtia = 0;
     EasyHighScore e = new EasyHighScore();
@@ -55,7 +55,7 @@ public class Tasohyppelypeli : PhysicsGame
 
     private void LuoKentta()
     {
-        TileMap kentta = TileMap.FromLevelAsset("kentta1.txt");
+        TileMap kentta = TileMap.FromLevelAsset("kentta1");
         kentta.SetTileMethod('#', LisaaTaso);
         kentta.SetTileMethod('*', LisaaTahti);
         kentta.SetTileMethod('N', LisaaPelaaja);

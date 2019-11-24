@@ -13,6 +13,7 @@ namespace Jypeli
     public class TileMap : AbstractTileMap<char>
     {
         private Dictionary<char, Func<GameObject>> oldLegend = new Dictionary<char, Func<GameObject>>();
+        private static string[] textExtensions = { ".txt", ".dat" };
 
         protected override char Null
         {
@@ -68,7 +69,9 @@ namespace Jypeli
         /// <param name="assetName">Tiedoston nimi</param>        
         public static TileMap FromLevelAsset(string assetName)
         {
-            char[,] tiles = ReadFromFile("Content/" + assetName);
+            assetName = "Content/" + assetName;
+            assetName = Game.FileExtensionCheck(assetName, textExtensions);
+            char[,] tiles = ReadFromFile(assetName);
             return new TileMap(tiles);
         }
         

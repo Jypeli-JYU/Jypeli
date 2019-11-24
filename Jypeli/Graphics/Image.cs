@@ -45,6 +45,8 @@ namespace Jypeli
         int _width = -1;
         int _height = -1;
 
+        private static string[] imageExtensions = { ".png", ".jpg", ".xnb"};
+
         /// <summary>
         /// Asetetaan bitmapin rivikorjaus Mono:n bugin (???) takia
         /// </summary>
@@ -435,9 +437,10 @@ namespace Jypeli
             _height = xnaTexture.Height;
             
         }
-
+        // TODO: Why is this path not used???
         private Texture2D LoadFile(string path)
         {
+            assetName = Game.FileExtensionCheck(assetName, imageExtensions);
             FileStream fileStream = new FileStream(assetName, FileMode.Open);
             Texture2D texture = Texture2D.FromStream(Game.GraphicsDevice, fileStream);
             fileStream.Dispose();

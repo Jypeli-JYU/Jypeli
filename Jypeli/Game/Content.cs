@@ -28,6 +28,7 @@
  */
 
 using System;
+using System.IO;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -136,7 +137,7 @@ namespace Jypeli
         /// <param name="name">Äänen nimi päätteineen/param>
         public static void PlaySound( string name )
         {
-            LoadSoundEffect( name ).Play();
+            LoadSoundEffect( "Content/" + name ).Play();
         }
 
         /// <summary>
@@ -146,7 +147,7 @@ namespace Jypeli
         /// <returns>SoundEffect-olio</returns>
         public static SoundEffect LoadSoundEffect( string name )
         {
-            return new SoundEffect( name );
+            return new SoundEffect( "Content/" + name );
         }
 
         /// <summary>
@@ -179,6 +180,28 @@ namespace Jypeli
         public static Font LoadFont(string name)
         {
             return Font.FromContent(name);
+        }
+
+        /// <summary>
+        /// Etsii millä päätteellä annettu tiedosto löytyy
+        /// </summary>
+        /// <param name="file">Tiedoston nimi</param>
+        /// <param name="extensions">Päätteet joilla etsitään</param>
+        /// <returns>Tiedoston nimi + pääte</returns>
+        internal static string FileExtensionCheck(string file, string[] extensions)
+        {
+            if (!File.Exists(file))
+            {
+                foreach (string ex in extensions)
+                {
+                    if (File.Exists(file + ex))
+                    {
+                        file += ex;
+                        break;
+                    }
+                }
+            }
+            return file;
         }
     }
 }

@@ -36,6 +36,8 @@ namespace Jypeli
         /// </summary>
         public bool IsPlaying { get; private set; }
 
+        private static string[] soundExtensions = { ".wav", ".mp3", ".xnb" }; 
+
         private void DoLoad()
         {
             if (xnaEffect == null)
@@ -50,7 +52,8 @@ namespace Jypeli
 
         private XnaSoundEffect FromContent(string assetname)
         {
-            FileStream fs = new FileStream("Content/" + assetName, FileMode.Open);
+            assetName = Game.FileExtensionCheck(assetName, soundExtensions);
+            FileStream fs = new FileStream(assetName, FileMode.Open);
             XnaSoundEffect sound = XnaSoundEffect.FromStream(fs);
             fs.Close();
             return sound;

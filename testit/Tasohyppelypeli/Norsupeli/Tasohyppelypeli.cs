@@ -13,15 +13,20 @@ public class Tasohyppelypeli : PhysicsGame
 
     private PlatformCharacter pelaaja1;
 
-    private Image pelaajanKuva = LoadImage("norsu");
+    private Image pelaajanKuva = LoadImage("norsu.png");
     private Image tahtiKuva = LoadImage("tahti.png");
 
-    private SoundEffect maaliAani = LoadSoundEffect("maali");
+    private SoundEffect maaliAani = LoadSoundEffect("maali.wav");
 
     private int tahtia = 0;
     EasyHighScore e = new EasyHighScore();
     IntMeter pistelaskuri = new IntMeter(0);
     public override void Begin()
+    {
+        A();
+    }
+
+    void A()
     {
         Gravity = new Vector(0, -1000);
 
@@ -37,25 +42,24 @@ public class Tasohyppelypeli : PhysicsGame
     }
 
 
-
     private void kaikki()
     {
 
-        e.EnterAndShow(tahtia);
-        e.HighScoreWindow.Closed += delegate
-        {
-            DoNextUpdate(() =>
-            {
-                ClearAll();
-                Begin();
-            });
-            
-        };
+        //e.EnterAndShow(tahtia);
+        //e.HighScoreWindow.Closed += delegate
+        //{
+        //    DoNextUpdate(() =>
+        //    {
+        //        ClearAll();
+        //        Begin();
+        //    });
+        //    
+        //};
     }
 
     private void LuoKentta()
     {
-        TileMap kentta = TileMap.FromLevelAsset("kentta1");
+        TileMap kentta = TileMap.FromLevelAsset("kentta1.txt");
         kentta.SetTileMethod('#', LisaaTaso);
         kentta.SetTileMethod('*', LisaaTahti);
         kentta.SetTileMethod('N', LisaaPelaaja);
@@ -107,6 +111,10 @@ public class Tasohyppelypeli : PhysicsGame
         Keyboard.Listen(Key.Right, ButtonState.Down, Liikuta, "Liikkuu vasemmalle", pelaaja1, NOPEUS);
         Keyboard.Listen(Key.Up, ButtonState.Pressed, Hyppaa, "Pelaaja hyppää", pelaaja1, HYPPYNOPEUS);
 
+        Keyboard.Listen(Key.Space, ButtonState.Pressed, Alusta, "Pelaaja hyppää");
+        Keyboard.Listen(Key.P, ButtonState.Pressed, Soita, "Pelaaja hyppää");
+        Keyboard.Listen(Key.O, ButtonState.Pressed, Pause, "Pelaaja hyppää");
+
         ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Poistu pelistä");
 
         ControllerOne.Listen(Button.DPadLeft, ButtonState.Down, Liikuta, "Pelaaja liikkuu vasemmalle", pelaaja1, -NOPEUS);
@@ -119,6 +127,28 @@ public class Tasohyppelypeli : PhysicsGame
 
         Mouse.ListenMovement(0.1, Tahtaa, "Tähtää aseella");
         Mouse.Listen(MouseButton.Left, ButtonState.Down, AmmuAseella, "ammu", pelaaja1.Weapon);
+    }
+
+    private void Pause()
+    {
+        MediaPlayer.Pause();
+        Timer.SingleShot(1, () => MediaPlayer.Resume());
+    }
+
+    private void Soita()
+    {
+        MediaPlayer.Play("maali");
+        MediaPlayer.IsRepeating = true;
+    }
+
+    private void Alusta()
+    {
+        ClearAll();
+        A();
+
+        MessageDisplay = new MessageDisplay();
+        MessageDisplay.BackgroundColor = Color.LightGray;
+        //Add(MessageDisplay);
     }
 
     private void LaitaPalikka()

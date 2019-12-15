@@ -61,7 +61,7 @@ namespace Jypeli
         {
             ResourceContent = new JypeliContentManager( this.Services );
             Content.RootDirectory = "Content";
-			MediaPlayer = new MediaPlayer( Content );
+			MediaPlayer = new MediaPlayer();
         }
 
         /// <summary>

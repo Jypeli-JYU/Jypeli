@@ -1,18 +1,21 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Content;
-
 using XnaSong = Microsoft.Xna.Framework.Media.Song;
-using System.Reflection;
+
 using Microsoft.Xna.Framework.Media;
+
 
 namespace Jypeli
 {
     /// <summary>
     /// Mediasoitin, jolla voi soittaa musiikkikappaleita.
     /// </summary>
+    /// TODO: Tekee nyt käytännössä samat asiat kuin Sound-luokka. Voisiko yhdistää?
     public class MediaPlayer
     {
         private ContentManager content;
+        private Sound sound;
+        private double volumeHolder = 0;
 
         /// <summary>
         /// Voiko musiikkia soittaa.
@@ -37,8 +40,8 @@ namespace Jypeli
         /// </summary>
         public double Volume
         {
-            get { return Microsoft.Xna.Framework.Media.MediaPlayer.Volume; }
-            set { Microsoft.Xna.Framework.Media.MediaPlayer.Volume = (float)value; }
+            get { return sound.Volume; }
+            set { sound.Volume = value; }
         }
 
         /// <summary>
@@ -46,8 +49,19 @@ namespace Jypeli
         /// </summary>
         public bool IsMuted
         {
-            get { return Microsoft.Xna.Framework.Media.MediaPlayer.IsMuted; }
-            set { Microsoft.Xna.Framework.Media.MediaPlayer.IsMuted = value; }
+            get { return Volume == 0; }
+            set
+            {
+                if (value && !IsMuted)
+                {
+                    volumeHolder = Volume;
+                    Volume = 0;
+                }
+                else if (!value && IsMuted)
+                {
+                    Volume = volumeHolder;
+                }
+            }
         }
 
         /// <summary>
@@ -55,8 +69,8 @@ namespace Jypeli
         /// </summary>
         public bool IsRepeating
         {
-            get { return Microsoft.Xna.Framework.Media.MediaPlayer.IsRepeating; }
-            set { Microsoft.Xna.Framework.Media.MediaPlayer.IsRepeating = value; }
+            get { return sound.IsLooped; }
+            set { sound.IsLooped = value; }
         }
 
         /// <summary>
@@ -64,34 +78,37 @@ namespace Jypeli
         /// </summary>
         public bool IsPlaying
         {
+            //TODO: Fix
             get { return Microsoft.Xna.Framework.Media.MediaPlayer.State == MediaState.Playing; }
         }
 
-        internal MediaPlayer( ContentManager content )
+        internal MediaPlayer()
         {
-            this.content = content;
         }
 
         /// <summary>
         /// Soittaa kappaleen.
         /// </summary>
         /// <param name="songName">Kappaleen nimi.</param>
-        public void Play( string songName )
+        public void Play(string songName)
         {
-            if ( !CanPlay ) return;
+            if (!CanPlay) return;
+            if (sound != null)
+            {
+                sound.Stop();
+            }
 
-            XnaSong song;
             try
             {
-                song = content.Load<XnaSong>( songName );
+                sound = Game.LoadSoundEffect(songName).CreateSound();
             }
-            catch ( ContentLoadException e )
+            catch (ContentLoadException e)
             {
                 throw new Exception(
                     "Could not play the song \"" + songName + "\".\n" +
-                    "Please check that you added the song to the Content project and typed the name correctly.", e );
+                    "Please check that you added the song to the Content project and typed the name correctly.", e);
             }
-            Microsoft.Xna.Framework.Media.MediaPlayer.Play( song );
+            sound.Play();
         }
 
 #if WINDOWS
@@ -119,8 +136,8 @@ namespace Jypeli
         /// </summary>
         public void Pause()
         {
-            if ( !CanPlay ) return;
-            Microsoft.Xna.Framework.Media.MediaPlayer.Pause();
+            if (!CanPlay) return;
+            sound.Pause();
         }
 
         /// <summary>
@@ -128,8 +145,8 @@ namespace Jypeli
         /// </summary>
         public void Resume()
         {
-            if ( !CanPlay ) return;
-            Microsoft.Xna.Framework.Media.MediaPlayer.Resume();
+            if (!CanPlay) return;
+            sound.Resume();
         }
 
         /// <summary>
@@ -137,8 +154,8 @@ namespace Jypeli
         /// </summary>
         public void Stop()
         {
-            if ( !CanPlay ) return;
-            Microsoft.Xna.Framework.Media.MediaPlayer.Stop();
+            if (!CanPlay) return;
+            sound.Stop();
         }
     }
 }

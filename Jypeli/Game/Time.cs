@@ -37,6 +37,15 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Asettaa pelin pauselle, tai jatkaa peliä.
+        /// Toimii samoin kuin IsPaused-ominaisuus
+        /// </summary>
+        public void Pause()
+        {
+            IsPaused = !IsPaused;
+        }
+
+        /// <summary>
         /// Poistaa kaikki ajastimet.
         /// </summary>
         public void ClearTimers()

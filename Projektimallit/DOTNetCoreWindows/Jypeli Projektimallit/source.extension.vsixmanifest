@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" ?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Jypeli Projektimallit 1.0" Version="1.0" Language="en-US" Publisher="University of Jyväskylä" />
+        <Identity Id="Jypeli Projektimallit 1.1" Version="1.1" Language="en-US" Publisher="University of Jyväskylä" />
         <DisplayName>Jypelin Projektimallit</DisplayName>
         <Description xml:space="preserve">Jypelin projektimallit</Description>
         <Icon>Jypeli-32.png</Icon>
     </Metadata>
-    <Installation AllUsers="true">
+    <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[16.0, 17.0)" />
     </Installation>
     <Dependencies>

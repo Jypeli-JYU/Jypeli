@@ -13,8 +13,7 @@ Jypeli (C) University of Jyväskylä, 2009-2020.
 The full source code is available here from GitHub:
  * Clone the source: `git clone https://github.com/Jypeli-JYU/Jypeli.git`
  * Switch to Jypeli folder: `cd Jypeli`
- * Set up the submodules: `git submodule update --init --recursive`
- 
- * **Or** you can just clone everything at once: `git clone --recursive --jobs 4 https://github.com/Jypeli-JYU/Jypeli.git`
+ * Set up the submodules: `git submodule update --init --recursive` 
+  * **Or** you can just clone everything at once: `git clone --recursive --jobs 4 https://github.com/Jypeli-JYU/Jypeli.git`
 
 `testit/Tasohyppelypeli` contains a test project ready for development purposes.

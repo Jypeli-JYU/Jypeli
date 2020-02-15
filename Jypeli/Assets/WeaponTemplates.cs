@@ -37,23 +37,23 @@ namespace Jypeli.Assets
     /// Yksinkertainen tykki, joka ampuu kuulia tai muuta ammuksia.
     /// </summary>
     public class Cannon : Weapon
-    {       
+    {
         /// <summary>
         /// Alustaa uuden tykin.
         /// </summary>
-        public Cannon( double width, double height )
-            : base( width, height )
+        public Cannon(double width, double height)
+            : base(width, height)
         {
             Power.DefaultValue = 15000;
-            TimeBetweenUse = TimeSpan.FromSeconds( 1 );
+            TimeBetweenUse = TimeSpan.FromSeconds(1);
 
-            Image = Game.LoadImageFromResources( "Cannon" );
-            AttackSound = Game.LoadSoundEffectFromResources( "CannonFire" );
+            Image = Game.LoadImageFromResources("Cannon.png");
+            AttackSound = Game.LoadSoundEffectFromResources("CannonFire");
         }
 
         protected override PhysicsObject CreateProjectile()
         {
-            return new CannonBall( 5 );
+            return new CannonBall(5);
         }
     }
 
@@ -65,20 +65,20 @@ namespace Jypeli.Assets
         /// <summary>
         /// Alustaa uuden rynnäkkökiväärin.
         /// </summary>
-        public AssaultRifle( double width, double height )
-            : base( width, height )
+        public AssaultRifle(double width, double height)
+            : base(width, height)
         {
             AmmoIgnoresGravity = true;
             Power.DefaultValue = 200;
-            TimeBetweenUse = TimeSpan.FromSeconds( 0.2 );
+            TimeBetweenUse = TimeSpan.FromSeconds(0.2);
 
-            Image = Game.LoadImageFromResources( "AsRifle" );
-            AttackSound = Game.LoadSoundEffectFromResources( "MGAttack" );
+            Image = Game.LoadImageFromResources("AsRifle.png");
+            AttackSound = Game.LoadSoundEffectFromResources("MGAttack.wav");
         }
 
         protected override PhysicsObject CreateProjectile()
         {
-            return new Bullet( 5 );
+            return new Bullet(5);
         }
     }
 
@@ -90,22 +90,22 @@ namespace Jypeli.Assets
         /// <summary>
         /// Alustaa uuden plasmakiväärin.
         /// </summary>
-        public PlasmaCannon( double width, double height )
-            : base( width, height )
+        public PlasmaCannon(double width, double height)
+            : base(width, height)
         {
             Power.DefaultValue = 6000;
             AmmoIgnoresGravity = true;
             AmmoIgnoresExplosions = true;
-            MaxAmmoLifetime = TimeSpan.FromSeconds( 0.7 );
+            MaxAmmoLifetime = TimeSpan.FromSeconds(0.7);
 
-            Image = Game.LoadImageFromResources( "PlasmaCannon" );
-            AttackSound = Game.LoadSoundEffectFromResources( "PlasmaAttack" );
-            TimeBetweenUse = TimeSpan.FromSeconds( 0.1 );
+            Image = Game.LoadImageFromResources("PlasmaCannon.png");
+            AttackSound = Game.LoadSoundEffectFromResources("PlasmaAttack.wav");
+            TimeBetweenUse = TimeSpan.FromSeconds(0.1);
         }
 
-        protected override PhysicsObject  CreateProjectile()
+        protected override PhysicsObject CreateProjectile()
         {
-            return new Projectile( 3, 5, Color.Green );
+            return new Projectile(3, 5, Color.Green);
         }
     }
 
@@ -117,8 +117,8 @@ namespace Jypeli.Assets
         /// <summary>
         /// Alustaa uuden laser-tykin.
         /// </summary>
-        public LaserGun( double width, double height )
-            : base( width, height )
+        public LaserGun(double width, double height)
+            : base(width, height)
         {
             Power.DefaultValue = 500;
             Ammo.DefaultValue = Int32.MaxValue;
@@ -126,15 +126,15 @@ namespace Jypeli.Assets
             AmmoIgnoresExplosions = true;
             //MaxAmmoLifetime = TimeSpan.FromSeconds( 0.7 );
 
-            Image = Game.LoadImageFromResources( "PlasmaCannon" );
-            AttackSound = Game.LoadSoundEffectFromResources( "Laser" );
-            TimeBetweenUse = TimeSpan.FromSeconds( 0 );
+            Image = Game.LoadImageFromResources("PlasmaCannon.png");
+            AttackSound = Game.LoadSoundEffectFromResources("Laser.wav");
+            TimeBetweenUse = TimeSpan.FromSeconds(0);
         }
 
         protected override PhysicsObject CreateProjectile()
         {
             //return new Projectile( 10, 1, 5, Color.Red );
-            PhysicsObject beam = new PhysicsObject( new RaySegment( Vector.Zero, Vector.UnitX, 10 ) );
+            PhysicsObject beam = new PhysicsObject(new RaySegment(Vector.Zero, Vector.UnitX, 10));
             beam.Color = Color.Red;
             return beam;
         }
@@ -148,8 +148,8 @@ namespace Jypeli.Assets
         /// <summary>
         /// Alustaa uuden tykinkuulan.
         /// </summary>
-        public CannonBall( double radius )
-            : base( radius, 20, "CannonBall" )
+        public CannonBall(double radius)
+            : base(radius, 20, "CannonBall.png")
         {
         }
     }
@@ -162,8 +162,8 @@ namespace Jypeli.Assets
         /// <summary>
         /// Alustaa uuden luodin.
         /// </summary>
-        public Bullet( double radius )
-            : base( radius, 0.2, "Bullet" )
+        public Bullet(double radius)
+            : base(radius, 0.2, "Bullet.png")
         {
         }
     }
@@ -191,7 +191,7 @@ namespace Jypeli.Assets
         /// <summary>
         /// Räjähdyksen nopeus.
         /// </summary>
-        [Obsolete( "Use Explosion.Speed" )]
+        [Obsolete("Use Explosion.Speed")]
         public double ExplosionSpeed
         {
             get { return Explosion.Speed; }
@@ -201,7 +201,7 @@ namespace Jypeli.Assets
         /// <summary>
         /// Räjähdyksen voima.
         /// </summary>
-        [Obsolete( "Use Explosion.Force" )]
+        [Obsolete("Use Explosion.Force")]
         public double ExplosionForce
         {
             get { return Explosion.Force; }
@@ -217,8 +217,8 @@ namespace Jypeli.Assets
         /// Luo uuden kranaatin, joka räjähtää kolmen sekunnin päästä.
         /// </summary>
         /// <param name="radius"></param>
-        public Grenade( double radius )
-            : this( radius, TimeSpan.FromSeconds( 3 ) )
+        public Grenade(double radius)
+            : this(radius, TimeSpan.FromSeconds(3))
         {
         }
 
@@ -227,12 +227,12 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="radius">Säde.</param>
         /// <param name="fuseTime">Kuinka kauan kestää ennen räjähdystä.</param>
-        public Grenade( double radius, TimeSpan fuseTime )
-            : base( radius, 20, "Grenade" )
+        public Grenade(double radius, TimeSpan fuseTime)
+            : base(radius, 20, "Grenade.png")
         {
             FuseTime = fuseTime;
             IsUpdated = true;
-            Explosion = new Assets.Explosion( 150 ) { Speed = 150, Force = 1000 };
+            Explosion = new Assets.Explosion(150) { Speed = 150, Force = 1000 };
         }
 
         /// <summary>
@@ -240,24 +240,24 @@ namespace Jypeli.Assets
         /// </summary>
         public virtual void Explode()
         {
-            if ( !IsAddedToGame )
+            if (!IsAddedToGame)
                 return;
 
             this.Destroy();
             Explosion.Position = this.Position;
-            Game.Instance.Add( Explosion );
+            Game.Instance.Add(Explosion);
         }
 
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        public override void Update( Time time )
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override void Update(Time time)
         {
-            if ( ( time.SinceStartOfGame - CreationTime ) > FuseTime && IsAddedToGame )
+            if ((time.SinceStartOfGame - CreationTime) > FuseTime && IsAddedToGame)
             {
                 // Boom!
                 Explode();
             }
 
-            base.Update( time );
+            base.Update(time);
         }
     }
 
@@ -289,13 +289,13 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="radius">Säde.</param>
         /// <param name="cl">Kuinka monta kertaa rypäleet hajoavat edelleen. Kuitenkin vähintään yhden kerran.</param>
-        public ClusterGrenade( double radius, int cl )
-            : base( radius )
+        public ClusterGrenade(double radius, int cl)
+            : base(radius)
         {
             Mass = 20;
             CollisionIgnorer = new ObjectIgnorer();
             NumberOfClusters = 3;
-            ClusterDirection = Angle.FromRadians( Math.PI / 2 );
+            ClusterDirection = Angle.FromRadians(Math.PI / 2);
             ClusterArc = Math.PI;
             clusterlevel = cl - 1;
         }
@@ -305,23 +305,23 @@ namespace Jypeli.Assets
         /// </summary>
         public override void Explode()
         {
-            if ( !IsAddedToGame ) return;
+            if (!IsAddedToGame) return;
 
             Vector posOffset;
             double direction;
 
             base.Explode();
 
-            for ( int i = 0; i < NumberOfClusters; i++ )
+            for (int i = 0; i < NumberOfClusters; i++)
             {
                 double currentRadius = Width / 2;
                 double r = currentRadius * 0.6;
                 // TODO: The mass could be evenly distributed to the clusters and the main projectile.
-                Grenade g = ( clusterlevel > 0 ) ?
-                    new ClusterGrenade( r, clusterlevel - 1 ) : new Grenade( r );
+                Grenade g = (clusterlevel > 0) ?
+                    new ClusterGrenade(r, clusterlevel - 1) : new Grenade(r);
 
-                direction = ClusterDirection.Radians - ( ( i - NumberOfClusters / 2 ) * ClusterArc / NumberOfClusters );
-                posOffset = Vector.FromLengthAndAngle( 2 + this.Size.Magnitude, Angle.FromRadians( direction ) );
+                direction = ClusterDirection.Radians - ((i - NumberOfClusters / 2) * ClusterArc / NumberOfClusters);
+                posOffset = Vector.FromLengthAndAngle(2 + this.Size.Magnitude, Angle.FromRadians(direction));
 
                 g.Position = this.Position + posOffset;
                 g.Mass = this.Mass / NumberOfClusters;
@@ -332,7 +332,7 @@ namespace Jypeli.Assets
                 g.Explosion.MaxRadius = this.Explosion.MaxRadius / 2;
                 g.Explosion.Speed = this.Explosion.Speed / 2;
                 g.CollisionIgnorer = this.CollisionIgnorer;
-                Game.Instance.Add( g );
+                Game.Instance.Add(g);
             }
         }
     }

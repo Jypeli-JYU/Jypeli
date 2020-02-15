@@ -2,10 +2,6 @@
 using System.IO;
 using System.Reflection;
 
-#if WINRT_CORE
-using Windows.ApplicationModel.Resources;
-#endif
-
 namespace Microsoft.Xna.Framework.Content
 {
     public class JypeliContentManager : ContentManager
@@ -22,12 +18,20 @@ namespace Microsoft.Xna.Framework.Content
             var assetType = assembly.GetType( "Jypeli.Content." + assetName );
             var fieldInfo = assetType.GetTypeInfo().GetDeclaredField( "rawData" );
 #else
-            var assetType = Assembly.GetExecutingAssembly().GetType( "Jypeli.Content." + assetName );
+            var assetType = Assembly.GetExecutingAssembly().GetType("Jypeli.Content." + assetName);
             var bindingFlags = BindingFlags.GetField | BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
-            var fieldInfo = assetType.GetField( "rawData", bindingFlags );
+            var fieldInfo = assetType.GetField("rawData", bindingFlags);
 #endif
-            var bytes = fieldInfo.GetValue( null );
-            return new MemoryStream( bytes as byte[] );
+            var bytes = fieldInfo.GetValue(null);
+            return new MemoryStream(bytes as byte[]);
+        }
+
+        public Stream StreamInternalResource(string assetName)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+
+            Stream stream = assembly.GetManifestResourceStream(assetName);
+            return stream;
         }
     }
 }

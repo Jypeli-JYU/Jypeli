@@ -44,10 +44,10 @@ namespace Jypeli
 {
     public partial class Game
     {
-		/// <summary>
+        /// <summary>
         /// Mediasoitin. Voidaan käyttää musiikin soittamiseen.
         /// </summary>
-		public MediaPlayer MediaPlayer { get; private set; }
+        public MediaPlayer MediaPlayer { get; private set; }
 
         // Need to find a way to get this working on Win8
 
@@ -55,13 +55,15 @@ namespace Jypeli
         /// Kirjaston mukana tuleva sisältö.
         /// Voidaan käyttää esimerkiksi tekstuurien lataamiseen.
         /// </summary>
-        public static ContentManager ResourceContent { get; private set; }
+        public static JypeliContentManager ResourceContent { get; private set; }
+
+        private static string internalResourcePath = "Jypeli.Content.";
 
         private void InitXnaContent()
         {
-            ResourceContent = new JypeliContentManager( this.Services );
+            ResourceContent = new JypeliContentManager(this.Services);
             Content.RootDirectory = "Content";
-			MediaPlayer = new MediaPlayer();
+            MediaPlayer = new MediaPlayer();
         }
 
         /// <summary>
@@ -69,19 +71,20 @@ namespace Jypeli
         /// </summary>
         /// <param name="name">Kuvan nimi päätteineen (esim. "norsu.png")</param>
         /// <returns>Kuva</returns>
-        public static Image LoadImage( string name )
+        public static Image LoadImage(string name)
         {
-            return new Image( "Content/" + name );
+            return new Image("Content/" + name);
         }
 
         /// <summary>
-        /// Lataa kuvan Jypelin resursseista.
+        /// Lataa kuvan Jypelin sisäisistä resursseista.
         /// </summary>
-        /// <param name="name">Kuvan nimi</param>
+        /// <param name="name">Kuvan nimi päätteineen</param>
         /// <returns>Kuva</returns>
-        public static Image LoadImageFromResources( string name )
+        public static Image LoadImageFromResources(string name)
         {
-            return new Image( ResourceContent.Load<Texture2D>( name ) );
+            name = internalResourcePath + "Images." + name;
+            return new Image(Texture2D.FromStream(Game.GraphicsDevice, ResourceContent.StreamInternalResource(name)));
         }
 
         /// <summary>
@@ -89,11 +92,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="names">Kuvien nimet pilkuin eroiteltuna</param>
         /// <returns>Kuvataulukko</returns>
-        public static Image[] LoadImages( params string[] names )
+        public static Image[] LoadImages(params string[] names)
         {
             Image[] result = new Image[names.Length];
-            for ( int i = 0; i < names.Length; i++ )
-                result[i] = LoadImage( names[i] );
+            for (int i = 0; i < names.Length; i++)
+                result[i] = LoadImage(names[i]);
             return result;
         }
 
@@ -105,39 +108,39 @@ namespace Jypeli
         /// <param name="endIndex">Viimeisen kuvan numero.</param>
         /// <param name="zeroPad">Onko numeron edessä täytenollia.</param>
         /// <returns>Kuvataulukko</returns>
-        public static Image[] LoadImages( string baseName, int startIndex, int endIndex, bool zeroPad = false )
+        public static Image[] LoadImages(string baseName, int startIndex, int endIndex, bool zeroPad = false)
         {
-            if ( startIndex > endIndex ) throw new ArgumentException( "Starting index must be smaller than ending index." );
+            if (startIndex > endIndex) throw new ArgumentException("Starting index must be smaller than ending index.");
 
             Image[] result = new Image[endIndex - startIndex];
             string format;
 
-            if ( zeroPad )
+            if (zeroPad)
             {
                 int digits = endIndex.ToString().Length;
-                format = "{0}{1:" + "0".Repeat( digits ) + "}";
+                format = "{0}{1:" + "0".Repeat(digits) + "}";
             }
             else
             {
                 format = "{0}{1}";
             }
 
-            for ( int i = startIndex; i < endIndex; i++ )
+            for (int i = startIndex; i < endIndex; i++)
             {
-                string imgName = String.Format( format, baseName, i );
-                result[i - startIndex] = LoadImage( imgName );
+                string imgName = String.Format(format, baseName, i);
+                result[i - startIndex] = LoadImage(imgName);
             }
 
             return result;
         }
 
-		/// <summary>
+        /// <summary>
         /// Soittaa ääniefektin.
         /// </summary>
         /// <param name="name">Äänen nimi päätteineen/param>
-        public static void PlaySound( string name )
+        public static void PlaySound(string name)
         {
-            LoadSoundEffect( "Content/" + name ).Play();
+            LoadSoundEffect("Content/" + name).Play();
         }
 
         /// <summary>
@@ -145,19 +148,20 @@ namespace Jypeli
         /// </summary>
         /// <param name="name">Äänen nimi päätteineen</param>
         /// <returns>SoundEffect-olio</returns>
-        public static SoundEffect LoadSoundEffect( string name )
+        public static SoundEffect LoadSoundEffect(string name)
         {
-            return new SoundEffect( "Content/" + name );
+            return new SoundEffect("Content/" + name);
         }
 
         /// <summary>
-        /// Lataa ääniefektin Jypelin resursseista.
+        /// Lataa ääniefektin Jypelin sisäisistä resursseista.
         /// </summary>
-        /// <param name="name">Äänen nimi (ei tarkennetta)</param>
+        /// <param name="name">Äänen nimi päätteineen</param>
         /// <returns>SoundEffect-olio</returns>
-        public static SoundEffect LoadSoundEffectFromResources( string name )
+        public static SoundEffect LoadSoundEffectFromResources(string name)
         {
-            return new SoundEffect( ResourceContent.Load<XnaSoundEffect>( name ) );
+            name = internalResourcePath + "Sounds." + name;
+            return new SoundEffect(XnaSoundEffect.FromStream(ResourceContent.StreamInternalResource(name)));
         }
 
         /// <summary>
@@ -165,11 +169,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="names">Äänien nimet pilkuin eroiteltuna</param>
         /// <returns>Taulukko SoundEffect-olioita</returns>
-        public static SoundEffect[] LoadSoundEffects( params string[] names )
+        public static SoundEffect[] LoadSoundEffects(params string[] names)
         {
             SoundEffect[] result = new SoundEffect[names.Length];
-            for ( int i = 0; i < names.Length; i++ )
-                result[i] = LoadSoundEffect( names[i] );
+            for (int i = 0; i < names.Length; i++)
+                result[i] = LoadSoundEffect(names[i]);
             return result;
         }
 

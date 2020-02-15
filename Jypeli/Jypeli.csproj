@@ -36,10 +36,55 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Content\Images\AsRifle.png" />
+    <None Remove="Content\Images\Auto.png" />
+    <None Remove="Content\Images\Bullet.png" />
+    <None Remove="Content\Images\Cannon.png" />
+    <None Remove="Content\Images\CannonBall.png" />
+    <None Remove="Content\Images\DownArrow.png" />
+    <None Remove="Content\Images\explosion.png" />
+    <None Remove="Content\Images\explosion2.png" />
+    <None Remove="Content\Images\Grenade.png" />
+    <None Remove="Content\Images\PlasmaCannon.png" />
+    <None Remove="Content\Images\smoke.png" />
+    <None Remove="Content\Images\Tank.png" />
+    <None Remove="Content\Images\UpArrow.png" />
+    <None Remove="Content\Sounds\CannonFire.wav" />
+    <None Remove="Content\Sounds\explosionSound.wav" />
+    <None Remove="Content\Sounds\implosionSound.wav" />
+    <None Remove="Content\Sounds\laser.wav" />
+    <None Remove="Content\Sounds\MGAttack.wav" />
+    <None Remove="Content\Sounds\PlasmaAttack.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Images\AsRifle.png" />
+    <EmbeddedResource Include="Content\Images\Auto.png" />
+    <EmbeddedResource Include="Content\Images\Bullet.png" />
+    <EmbeddedResource Include="Content\Images\Cannon.png" />
+    <EmbeddedResource Include="Content\Images\CannonBall.png" />
+    <EmbeddedResource Include="Content\Images\DownArrow.png" />
+    <EmbeddedResource Include="Content\Images\explosion.png" />
+    <EmbeddedResource Include="Content\Images\explosion2.png" />
+    <EmbeddedResource Include="Content\Images\Grenade.png" />
+    <EmbeddedResource Include="Content\Images\PlasmaCannon.png" />
+    <EmbeddedResource Include="Content\Images\smoke.png" />
+    <EmbeddedResource Include="Content\Images\Tank.png" />
+    <EmbeddedResource Include="Content\Images\UpArrow.png" />
+    <EmbeddedResource Include="Content\Sounds\CannonFire.wav" />
+    <EmbeddedResource Include="Content\Sounds\explosionSound.wav" />
+    <EmbeddedResource Include="Content\Sounds\implosionSound.wav" />
+    <EmbeddedResource Include="Content\Sounds\laser.wav" />
+    <EmbeddedResource Include="Content\Sounds\MGAttack.wav" />
+    <EmbeddedResource Include="Content\Sounds\PlasmaAttack.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Content\src\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   

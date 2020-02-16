@@ -2,6 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Text;
 using XnaV2 = Microsoft.Xna.Framework.Vector2;
+using SpriteFontPlus;
+using System.IO;
+using Microsoft.Xna.Framework.Content;
 
 namespace Jypeli
 {
@@ -17,57 +20,58 @@ namespace Jypeli
     /// </summary>
     public class Font
     {
-        /// <summary>
-        /// Oletusfontti.
-        /// </summary>
+        private static string defaultFont = "Roboto-Regular.ttf";
+        private static string defaultFontBold = "Roboto-Bold.ttf";
 
-#if ANDROID
-        public static readonly Font Default = new Font("HugeFont", ContentSource.ResourceContent);
-#else
-        public static readonly Font Default = new Font( "MediumFont", ContentSource.ResourceContent );
-#endif
         /// <summary>
         /// Pieni oletusfontti.
         /// </summary>
-        public static readonly Font DefaultSmall = new Font( "SmallFont", ContentSource.ResourceContent );
+        [Obsolete("Käytä oletusfonttia ja aseta fontin koko Font.SetFontSize()-metodilla")]
+        public static readonly Font DefaultSmall = new Font(defaultFont, ContentSource.ResourceContent, 15);
+
+        /// <summary>
+        /// Oletusfontti.
+        /// </summary>
+        public static readonly Font Default = new Font(defaultFont, ContentSource.ResourceContent, 25);
 
         /// <summary>
         /// Suuri oletusfontti.
         /// </summary>
-        public static readonly Font DefaultLarge = new Font( "LargeFont", ContentSource.ResourceContent );
-
-        /// <summary>
-        /// Oletusfontti.
-        /// </summary>
-        public static readonly Font Medium = new Font("MediumFont", ContentSource.ResourceContent);
-
-        /// <summary>
-        /// Lihavoitu oletusfontti.
-        /// </summary>
-        public static readonly Font DefaultBold = new Font( "MediumFontBold", ContentSource.ResourceContent );
-
-        /// <summary>
-        /// Lihavoitu pieni oletusfontti.
-        /// </summary>
-        public static readonly Font DefaultSmallBold = new Font( "SmallFontBold", ContentSource.ResourceContent );
-
-        /// <summary>
-        /// Lihavoitu suuri oletusfontti.
-        /// </summary>
-        public static readonly Font DefaultLargeBold = new Font( "LargeFontBold", ContentSource.ResourceContent );
+        [Obsolete("Käytä oletusfonttia ja aseta fontin koko Font.SetFontSize()-metodilla")]
+        public static readonly Font DefaultLarge = new Font(defaultFont, ContentSource.ResourceContent, 40);
 
         /// <summary>
         /// Valtava oletusfontti.
         /// </summary>
-        public static readonly Font DefaultHuge = new Font("HugeFont", ContentSource.ResourceContent);
+        [Obsolete("Käytä oletusfonttia ja aseta fontin koko Font.SetFontSize()-metodilla")]
+        public static readonly Font DefaultHuge = new Font(defaultFont, ContentSource.ResourceContent, 60);
+
+        /// <summary>
+        /// Lihavoitu pieni oletusfontti.
+        /// </summary>
+        [Obsolete("Käytä oletusfonttia ja aseta fontin koko Font.SetFontSize()-metodilla")]
+        public static readonly Font DefaultSmallBold = new Font(defaultFontBold, ContentSource.ResourceContent, 15);
+
+        /// <summary>
+        /// Lihavoitu oletusfontti.
+        /// </summary>
+        public static readonly Font DefaultBold = new Font(defaultFontBold, ContentSource.ResourceContent, 25);
+
+        /// <summary>
+        /// Lihavoitu suuri oletusfontti.
+        /// </summary>
+        [Obsolete("Käytä oletusfonttia ja aseta fontin koko Font.SetFontSize()-metodilla")]
+        public static readonly Font DefaultLargeBold = new Font(defaultFontBold, ContentSource.ResourceContent, 40);
 
         /// <summary>
         /// Lihavoitu valtava oletusfontti.
         /// </summary>
-        public static readonly Font DefaultHugeBold = new Font("HugeFontBold", ContentSource.ResourceContent);
+        [Obsolete("Käytä oletusfonttia ja aseta fontin koko Font.SetFontSize()-metodilla")]
+        public static readonly Font DefaultHugeBold = new Font(defaultFontBold, ContentSource.ResourceContent, 60);
 
         private SpriteFont xnaFont;
         private string name;
+        private int fontSize;
         private ContentSource source;
         private Vector[] charsizes;
 
@@ -93,13 +97,33 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Fontin koko
+        /// </summary>
+        /// <returns></returns>
+        public int GetFontSize()
+        {
+            return fontSize;
+        }
+
+        /// <summary>
+        /// Asettaa fontin koon
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetFontSize(int value)
+        {
+            if (value <= 0) throw new Exception("Fontsize must be greater than zero.");
+            fontSize = value;
+            xnaFont = null;
+            DoLoad();
+        }
+        /// <summary>
         /// Lataa uuden fontin contentista.
         /// </summary>
         /// <param name="name">Fontin tiedostonimi.</param>
         /// <returns></returns>
         public static Font FromContent(string name)
         {
-            Font font = new Font(name, ContentSource.GameContent);
+            Font font = new Font("Content/" + name, ContentSource.GameContent);
             font.DoLoad();
             return font;
         }
@@ -110,12 +134,22 @@ namespace Jypeli
         /// <param name="name">Fontin tiedostonimi.</param>
         public Font(string name) : this(name, ContentSource.GameContent) { }
 
-        internal Font( string name, ContentSource source )
+        internal Font(string name, ContentSource source)
         {
             this.xnaFont = null;
             this.charsizes = null;
             this.name = name;
             this.source = source;
+            this.fontSize = 30;
+        }
+
+        internal Font( string name, ContentSource source, int fontSize)
+        {
+            this.xnaFont = null;
+            this.charsizes = null;
+            this.name = name;
+            this.source = source;
+            this.fontSize = fontSize;
         }
 
         internal Font( SpriteFont xnaFont )
@@ -130,13 +164,24 @@ namespace Jypeli
         {
             if ( xnaFont == null )
             {
-                if ( source == ContentSource.ResourceContent )
-                    xnaFont = Game.ResourceContent.Load<SpriteFont>( name );
-                else
-                    xnaFont = Game.Instance.Content.Load<SpriteFont>( name );
+                Stream s;
+                if (this.source == ContentSource.ResourceContent) s = Game.ResourceContent.StreamInternalResource("Jypeli.Content.Fonts." + name);
+                else s = new FileStream(name, FileMode.Open);
+                var fontBakeResult = TtfFontBaker.Bake(s,
+                    fontSize,
+                    2048, // TODO: Mikä on hyvä arvo tähän?
+                    2048,
+                    new[]
+                    {
+                        CharacterRange.BasicLatin,
+                        CharacterRange.Latin1Supplement,
+                        CharacterRange.LatinExtendedA,
+                    }
+                );
 
-                charsizes = new Vector[xnaFont.Characters.Count];
+                xnaFont = fontBakeResult.CreateSpriteFont(Game.GraphicsDevice);
             }
+
         }
 
         /// <summary>

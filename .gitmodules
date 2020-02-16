@@ -1,3 +1,6 @@
 [submodule "MonoGame"]
 	path = MonoGame
 	url = https://github.com/MonoGame/MonoGame.git
+[submodule "SpriteFontPlus"]
+	path = SpriteFontPlus
+	url = https://github.com/rds1983/SpriteFontPlus.git

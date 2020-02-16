@@ -36,6 +36,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Content\Fonts\Roboto-Bold.ttf" />
+    <None Remove="Content\Fonts\Roboto-Regular.ttf" />
     <None Remove="Content\Images\AsRifle.png" />
     <None Remove="Content\Images\Auto.png" />
     <None Remove="Content\Images\Bullet.png" />
@@ -58,6 +60,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Content\Fonts\Roboto-Bold.ttf" />
+    <EmbeddedResource Include="Content\Fonts\Roboto-Regular.ttf" />
     <EmbeddedResource Include="Content\Images\AsRifle.png" />
     <EmbeddedResource Include="Content\Images\Auto.png" />
     <EmbeddedResource Include="Content\Images\Bullet.png" />
@@ -98,5 +102,9 @@
   <ItemGroup>
     <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.DesktopGL.csproj" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <Compile Include="..\SpriteFontPlus\src\SpriteFontPlus\**\*.cs" LinkBase="SpriteFontPlus" />
+  <Compile Include="..\SpriteFontPlus\deps\SafeStbTrueTypeSharp\src\StbTrueTypeSharp\**\*.cs" LinkBase="SpriteFontPlus\StbTrueTypeSharp" />
+  </ItemGroup>
 </Project>

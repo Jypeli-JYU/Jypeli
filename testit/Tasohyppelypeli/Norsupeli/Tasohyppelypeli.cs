@@ -21,6 +21,8 @@ public class Tasohyppelypeli : PhysicsGame
     private int tahtia = 0;
     EasyHighScore e = new EasyHighScore();
     IntMeter pistelaskuri = new IntMeter(0);
+
+    Label l;
     public override void Begin()
     {
         A();
@@ -39,6 +41,13 @@ public class Tasohyppelypeli : PhysicsGame
         Camera.Follow(pelaaja1);
         Camera.ZoomFactor = 1.2;
         Camera.StayInLevel = true;
+
+        l = new Label("Vakiofontti");
+        l.Font = Font.DefaultLarge;
+        l.Y = 170;
+        Add(l);
+
+        MessageDisplay.Add("Kissa");
     }
 
 
@@ -114,6 +123,9 @@ public class Tasohyppelypeli : PhysicsGame
         Keyboard.Listen(Key.Space, ButtonState.Pressed, Alusta, "Pelaaja hyppää");
         Keyboard.Listen(Key.P, ButtonState.Pressed, Soita, "Pelaaja hyppää");
         Keyboard.Listen(Key.O, ButtonState.Pressed, Pause, "Pelaaja hyppää");
+
+        Keyboard.Listen(Key.W, ButtonState.Pressed, delegate { l.Font.SetFontSize(l.Font.GetFontSize() + 5); }, null);
+        Keyboard.Listen(Key.S, ButtonState.Pressed, delegate { l.Font.SetFontSize(l.Font.GetFontSize() - 5); }, null);
 
         ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Poistu pelistä");
 

@@ -300,7 +300,7 @@ namespace Jypeli
         [EditorBrowsable( EditorBrowsableState.Never )]
         protected override void Draw( GameTime gameTime )
         {
-            Console.WriteLine(gameTime.ElapsedGameTime.Milliseconds);
+            //Console.WriteLine(gameTime.ElapsedGameTime.Milliseconds);
             UpdateFps(gameTime);
             GraphicsDevice.SetRenderTarget( Screen.RenderTarget );
 			GraphicsDevice.Clear( Level.BackgroundColor.AsXnaColor() );

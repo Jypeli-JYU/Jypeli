@@ -86,6 +86,15 @@ namespace Jypeli
         private StringBuilder layerTextBuilder = new StringBuilder();
         private const string layerTextTitle = "Layers:\n";
 
+        private void UpdateFps(GameTime gameTime)
+        {
+            fpsText = (10000000.0 / gameTime.ElapsedGameTime.Ticks).ToString("F2");
+            if (fpsSkipCounter++ > 10)
+            {
+                fpsSkipCounter = 0;
+            }
+        }
+
         private void UpdateDebugScreen( Time time )
         {
             if ( DebugKeyEnabled && Keyboard.GetKeyState( Key.F12 ) == ButtonState.Pressed )
@@ -95,12 +104,8 @@ namespace Jypeli
 
             if ( !DebugScreenVisible )
                 return;
+
             
-            if ( fpsSkipCounter++ > 10 )
-            {
-                fpsSkipCounter = 0;
-                fpsText = ( 1.0 / Time.SinceLastUpdate.TotalSeconds ).ToString( "F2" );
-            }
 
             FPSDisplay.Text = fpsText;
 

@@ -49,7 +49,7 @@ public class Tasohyppelypeli : PhysicsGame
 
         MessageDisplay.Add("Kissa");
 
-        Explosion e = new Explosion(20);
+        Explosion e = new Explosion(200);
         Add(e);
     }
 
@@ -158,11 +158,18 @@ public class Tasohyppelypeli : PhysicsGame
 
     private void Alusta()
     {
-        ClearAll();
-        A();
+        for (int i = 0; i < 100; i++)
+        {
+            PhysicsObject p = new PhysicsObject(10, 10);
+            p.Position = RandomGen.NextVector(-10, 10);
+            Add(p);
+        }
 
-        MessageDisplay = new MessageDisplay();
-        MessageDisplay.BackgroundColor = Color.LightGray;
+        //ClearAll();
+        //A();
+
+        //MessageDisplay = new MessageDisplay();
+        //MessageDisplay.BackgroundColor = Color.LightGray;
         //Add(MessageDisplay);
     }
 

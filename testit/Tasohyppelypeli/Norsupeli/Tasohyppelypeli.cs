@@ -48,6 +48,9 @@ public class Tasohyppelypeli : PhysicsGame
         Add(l);
 
         MessageDisplay.Add("Kissa");
+
+        Explosion e = new Explosion(20);
+        Add(e);
     }
 
 

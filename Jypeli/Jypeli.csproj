@@ -68,17 +68,17 @@
     <EmbeddedResource Include="Content\Images\Cannon.png" />
     <EmbeddedResource Include="Content\Images\CannonBall.png" />
     <EmbeddedResource Include="Content\Images\DownArrow.png" />
-    <EmbeddedResource Include="Content\Images\explosion.png" />
-    <EmbeddedResource Include="Content\Images\explosion2.png" />
+    <EmbeddedResource Include="Content\Images\Explosion.png" />
+    <EmbeddedResource Include="Content\Images\Explosion2.png" />
     <EmbeddedResource Include="Content\Images\Grenade.png" />
     <EmbeddedResource Include="Content\Images\PlasmaCannon.png" />
-    <EmbeddedResource Include="Content\Images\smoke.png" />
+    <EmbeddedResource Include="Content\Images\Smoke.png" />
     <EmbeddedResource Include="Content\Images\Tank.png" />
     <EmbeddedResource Include="Content\Images\UpArrow.png" />
     <EmbeddedResource Include="Content\Sounds\CannonFire.wav" />
-    <EmbeddedResource Include="Content\Sounds\explosionSound.wav" />
-    <EmbeddedResource Include="Content\Sounds\implosionSound.wav" />
-    <EmbeddedResource Include="Content\Sounds\laser.wav" />
+    <EmbeddedResource Include="Content\Sounds\ExplosionSound.wav" />
+    <EmbeddedResource Include="Content\Sounds\ImplosionSound.wav" />
+    <EmbeddedResource Include="Content\Sounds\Laser.wav" />
     <EmbeddedResource Include="Content\Sounds\MGAttack.wav" />
     <EmbeddedResource Include="Content\Sounds\PlasmaAttack.wav" />
   </ItemGroup>

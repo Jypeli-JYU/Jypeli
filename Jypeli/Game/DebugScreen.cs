@@ -86,6 +86,11 @@ namespace Jypeli
         private StringBuilder layerTextBuilder = new StringBuilder();
         private const string layerTextTitle = "Layers:\n";
 
+        /// <summary>
+        /// Jypelin aika pitää sisällään tiedon edellisestä pelin päivityksestä,
+        /// MonoGamen aika edellisestä ruudunpäivityksestä.
+        /// </summary>
+        /// <param name="gameTime"></param>
         private void UpdateFps(GameTime gameTime)
         {
             fpsText = (10000000.0 / gameTime.ElapsedGameTime.Ticks).ToString("F2");
@@ -104,8 +109,6 @@ namespace Jypeli
 
             if ( !DebugScreenVisible )
                 return;
-
-            
 
             FPSDisplay.Text = fpsText;
 

@@ -127,8 +127,8 @@ public class Tasohyppelypeli : PhysicsGame
         Keyboard.Listen(Key.P, ButtonState.Pressed, Soita, "Pelaaja hyppää");
         Keyboard.Listen(Key.O, ButtonState.Pressed, Pause, "Pelaaja hyppää");
 
-        Keyboard.Listen(Key.W, ButtonState.Pressed, delegate { l.Font.SetFontSize(l.Font.GetFontSize() + 5); }, null);
-        Keyboard.Listen(Key.S, ButtonState.Pressed, delegate { l.Font.SetFontSize(l.Font.GetFontSize() - 5); }, null);
+        Keyboard.Listen(Key.W, ButtonState.Down, delegate { l.TextScale += l.TextScale * 0.1; }, null);
+        Keyboard.Listen(Key.S, ButtonState.Down, delegate { l.TextScale -= l.TextScale * 0.1; }, null);
 
         ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Poistu pelistä");
 

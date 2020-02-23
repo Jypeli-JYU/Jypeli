@@ -74,6 +74,7 @@ namespace Jypeli
         private int fontSize;
         private ContentSource source;
         private Vector[] charsizes;
+        private int bitMapSize = 2048;
 
         internal SpriteFont XnaFont
         {
@@ -106,7 +107,13 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Asettaa fontin koon
+        /// Asettaa fontin koon.
+        /// 
+        /// Tämä on merkittävästi hitaampi kuin Labelin TextScale-ominaisuus,
+        /// mutta tarjoaa paljon suuremman tarkkuuden. Mikäli haluat reaaliajassa
+        /// muuttaa tekstin kokoa, esim. animaatiossa, aseta fontin koko suureksi ja
+        /// päivitä sen kokoa TextScalen avulla.
+        /// Huomaa kuitenkin että erittäin suurilla (yli 400) fonttikoilla tässä kutsussa kestää hetki.
         /// </summary>
         /// <param name="value"></param>
         public void SetFontSize(int value)
@@ -160,17 +167,26 @@ namespace Jypeli
             this.source = ContentSource.ResourceContent;
         }
 
+        private void BitMapSize()
+        {
+            if (fontSize < 350) bitMapSize = 2048;
+            else if(fontSize < 700) bitMapSize = 4096;
+            else bitMapSize = 8192; // Tällä arvolla suurin fonttikoko voi olla noin 1500,
+                                    // mutta tällöin 2015 Macbook Airilla pelin käynnistyminen kestää minuutin....
+        }
+
         private void DoLoad()
         {
             if ( xnaFont == null )
             {
+                BitMapSize();
                 Stream s;
                 if (this.source == ContentSource.ResourceContent) s = Game.ResourceContent.StreamInternalResource("Jypeli.Content.Fonts." + name);
                 else s = new FileStream(name, FileMode.Open);
                 var fontBakeResult = TtfFontBaker.Bake(s,
                     fontSize,
-                    2048, // TODO: Mikä on hyvä arvo tähän?
-                    2048,
+                    bitMapSize, // TODO: Mikä on hyvä arvo tähän?
+                    bitMapSize,
                     new[]
                     {
                         CharacterRange.BasicLatin,

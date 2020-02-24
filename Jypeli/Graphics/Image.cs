@@ -169,11 +169,50 @@ namespace Jypeli
             UpdateTexture();
         }
 
-		/// <summary>
-		/// Kuvan pikselit byte-taulukkona
-		/// </summary>
-		/// <returns>pikselit byte-taulukkona</returns>
-		public byte[] GetByteArray()
+        /// <summary>
+        /// Asettaa kuvan pikselit annetun tavutaulukon mukaan.
+        ///
+        /// Taulukon tavut luetaan järjestyksessä punainen, vihreä, sininen, läpinäkyvyys
+        /// </summary>
+        /// <param name="image">Kuva</param>
+        /// <param name="byteArr">Tavutaulukko</param>
+        /// <param name="height">Kuvan leveys</param>
+        /// <param name="height">Kuvan korkeus</param>
+        public void SetData(byte[] byteArr, int height, int width)
+        {
+            Color[,] newColor = new Color[height, width];
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    int r = byteArr[4 * (i * width + j) + 0];
+                    int g = byteArr[4 * (i * width + j) + 1];
+                    int b = byteArr[4 * (i * width + j) + 2];
+                    int a = byteArr[4 * (i * width + j) + 3];
+                    newColor[i, j] = new Color(r, g, b, a);
+                }
+            }
+            this.SetData(newColor);
+        }
+
+        /// <summary>
+        /// Asettaa kuvan pikselit annetun tavutaulukon mukaan.
+        ///
+        /// Taulukon tavut luetaan järjestyksessä punainen, vihreä, sininen, läpinäkyvyys
+        /// </summary>
+        /// <param name="byteArr"></param>
+        public void SetData(byte[] byteArr)
+        {
+            SetData(byteArr, this.Height, this.Width);
+        }
+
+        /// <summary>
+        /// Kuvan pikselit byte-taulukkona.
+        /// Tavut ovat järjestyksessä punainen, vihreä, sininen, läpinäkyvyys.
+        /// </summary>
+        /// <returns>pikselit byte-taulukkona</returns>
+        public byte[] GetByteArray()
 		{
 			DoInitTexture();
 			byte[] buffer = new byte[4 * Width * Height];

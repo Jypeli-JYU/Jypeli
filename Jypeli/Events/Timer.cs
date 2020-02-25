@@ -346,7 +346,7 @@ namespace Jypeli
                 while ( timer.timeToTrigger.TotalSeconds <= 0 )
                 {
                     // Trigger timeouts
-                    timer.timeToTrigger += timer.trigInterval;
+                    timer.timeToTrigger += timer.trigInterval; // TODO: MessageDisplay.MessageTime = TimeSpan.MaxValue; Aiheuttaa tässä kohdassa overflown
 
                     if ( timer.TimesLimited )
                     {

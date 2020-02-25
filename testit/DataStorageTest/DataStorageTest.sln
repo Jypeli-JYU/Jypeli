@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStorageTest", "DataStorageTest\DataStorageTest.csproj", "{65D2042E-E0CA-4973-9048-59415E0465DD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jypeli", "..\..\Jypeli\Jypeli.csproj", "{511B754E-DAFF-4E69-ADBD-0AB5C876CE65}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65D2042E-E0CA-4973-9048-59415E0465DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65D2042E-E0CA-4973-9048-59415E0465DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65D2042E-E0CA-4973-9048-59415E0465DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65D2042E-E0CA-4973-9048-59415E0465DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{511B754E-DAFF-4E69-ADBD-0AB5C876CE65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{511B754E-DAFF-4E69-ADBD-0AB5C876CE65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{511B754E-DAFF-4E69-ADBD-0AB5C876CE65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{511B754E-DAFF-4E69-ADBD-0AB5C876CE65}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6E65CAA-C6C8-4048-8B5E-73DCA47A12E8}
+	EndGlobalSection
+EndGlobal

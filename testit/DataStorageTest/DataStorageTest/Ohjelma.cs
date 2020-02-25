@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 #endregion
 
-namespace DataStorageTest
+namespace Program
 {
-#if WINDOWS || LINUX
     /// <summary>
     /// The main class.
     /// </summary>
@@ -18,9 +17,8 @@ namespace DataStorageTest
         [STAThread]
         static void Main()
         {
-            using (var peli = new Peli())
-                peli.Run();
+            using (var game = new Peli())
+                game.Run();
         }
     }
-#endif
 }

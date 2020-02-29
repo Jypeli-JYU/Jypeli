@@ -8,7 +8,7 @@
     <AssemblyName>Jypeli</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageId>Jypeli.Core</PackageId>
-    <Version>8.0.3</Version>
+    <Version>8.1.0</Version>
     <Authors>University of Jyväskylä</Authors>
     <Company />
     <Product />
@@ -17,10 +17,13 @@
     <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>-Content can now also be loaded without specifying extension.
- -Images are searched if they exist with .png, .jpg and .xnb-extensions.
- -Sound with .wav, .mp3 and .xnb.
- -text with .txt and .dat.</PackageReleaseNotes>
+    <PackageReleaseNotes>-LoadFont now works
+-New contructors for fonts, you can now specify font size
+-SetFontSize() can also be used to change font size
+-Only Font.Default &amp; DefaultBold should now be used, others are deprecated
+-Image.SetData(byte[]) for image byte manipulation
+-Fixed debug-screen(F12) fps-counter
+-Changes for embedded resource handling</PackageReleaseNotes>
     <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
   </PropertyGroup>
 
@@ -33,6 +36,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>JYPELI;UseDouble;DESKTOP;DIRECTX;DISABLE_LIGHTING_EFFECT;NETCOREAPP;NETCOREAPP3_0</DefineConstants>
     <OutputPath>../Compiled</OutputPath>
+    <DocumentationFile>../Compiled\Jypeli.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

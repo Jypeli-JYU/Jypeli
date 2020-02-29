@@ -5,6 +5,7 @@ using XnaV2 = Microsoft.Xna.Framework.Vector2;
 using SpriteFontPlus;
 using System.IO;
 using Microsoft.Xna.Framework.Content;
+using System.ComponentModel;
 
 namespace Jypeli
 {
@@ -27,6 +28,7 @@ namespace Jypeli
         /// Pieni oletusfontti.
         /// </summary>
         [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(15)")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static readonly Font DefaultSmall = null;//new Font(defaultFont, ContentSource.ResourceContent, 15);
 
         /// <summary>
@@ -38,18 +40,21 @@ namespace Jypeli
         /// Suuri oletusfontti.
         /// </summary>
         [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(40)")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static readonly Font DefaultLarge = null;// new Font(defaultFont, ContentSource.ResourceContent, 40);
 
         /// <summary>
         /// Valtava oletusfontti.
         /// </summary>
         [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(60)")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static readonly Font DefaultHuge = null;//new Font(defaultFont, ContentSource.ResourceContent, 60);
 
         /// <summary>
         /// Lihavoitu pieni oletusfontti.
         /// </summary>
         [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(15, true)")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static readonly Font DefaultSmallBold = null;// new Font(defaultFontBold, ContentSource.ResourceContent, 15);
 
         /// <summary>
@@ -61,12 +66,14 @@ namespace Jypeli
         /// Lihavoitu suuri oletusfontti.
         /// </summary>
         [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(40, true)")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static readonly Font DefaultLargeBold = null;//new Font(defaultFontBold, ContentSource.ResourceContent, 40);
 
         /// <summary>
         /// Lihavoitu valtava oletusfontti.
         /// </summary>
         [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(60, true)")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static readonly Font DefaultHugeBold = null;// new Font(defaultFontBold, ContentSource.ResourceContent, 60);
 
         private SpriteFont xnaFont;

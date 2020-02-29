@@ -90,7 +90,7 @@ namespace Jypeli
             : base( width, height )
         {
             Charset = ( charset.Length > 0 ) ? charset : Jypeli.Charset.Alphanumeric + " ";
-            base.Font = Font.DefaultLarge;
+            base.Font = new Font(40);
             SelectedCharacter = initialCharacter;
             YMargin = 10;
 

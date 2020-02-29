@@ -85,7 +85,7 @@ namespace Jypeli.Controls.Keyboard
 
                     var virtualKey = new VirtualKey(game, keyInfo.DisplayString, keyInfo.Value,
                         xCoord, yCoord, (int)(baseKeyWidth * keyInfo.WidthMultiplier), keyHeight,
-                        Font.DefaultHuge, keyInfo.KeyType);
+                        new Font(60), keyInfo.KeyType);
                     xCoord += virtualKey.Width;
                     xCoord += KEY_PADDING;
 

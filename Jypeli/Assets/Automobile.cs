@@ -74,7 +74,7 @@ namespace Jypeli.Assets
             BrakeDeceleration = 200;
             Maneuverability = Angle.FromDegrees( 20 );
             if ( commonImage == null )
-                commonImage = Game.LoadImageFromResources( "Auto" );
+                commonImage = Game.LoadImageFromResources( "Auto.png" );
             Image = Image.Color( commonImage, Color );
             IsUpdated = true;
         }

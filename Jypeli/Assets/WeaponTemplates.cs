@@ -48,7 +48,7 @@ namespace Jypeli.Assets
             TimeBetweenUse = TimeSpan.FromSeconds(1);
 
             Image = Game.LoadImageFromResources("Cannon.png");
-            AttackSound = Game.LoadSoundEffectFromResources("CannonFire");
+            AttackSound = Game.LoadSoundEffectFromResources("CannonFire.wav");
         }
 
         protected override PhysicsObject CreateProjectile()

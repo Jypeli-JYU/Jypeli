@@ -43,14 +43,21 @@ public class Tasohyppelypeli : PhysicsGame
         Camera.StayInLevel = true;
 
         l = new Label("Vakiofontti");
-        l.Font = Font.DefaultLarge;
+        l.Font = new Font(25);
+        //l.Font.SetFontSize(50);
+        //l.TextScale = new Vector(0.5, 0.5);
         l.Y = 170;
         Add(l);
+
+        Label l2 = new Label("Vakiofontti");
+        l2.Font = new Font(25, true);
+        l2.Y = 150;
+        Add(l2);
 
         MessageDisplay.Add("Kissa");
 
         Explosion e = new Explosion(200);
-        Add(e);
+        //Add(e);
     }
 
 

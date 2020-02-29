@@ -26,8 +26,8 @@ namespace Jypeli
         /// <summary>
         /// Pieni oletusfontti.
         /// </summary>
-        [Obsolete("Käytä oletusfonttia ja aseta fontin koko Font.SetFontSize()-metodilla")]
-        public static readonly Font DefaultSmall = new Font(defaultFont, ContentSource.ResourceContent, 15);
+        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(15)")]
+        public static readonly Font DefaultSmall = null;//new Font(defaultFont, ContentSource.ResourceContent, 15);
 
         /// <summary>
         /// Oletusfontti.
@@ -37,20 +37,20 @@ namespace Jypeli
         /// <summary>
         /// Suuri oletusfontti.
         /// </summary>
-        [Obsolete("Käytä oletusfonttia ja aseta fontin koko Font.SetFontSize()-metodilla")]
-        public static readonly Font DefaultLarge = new Font(defaultFont, ContentSource.ResourceContent, 40);
+        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(40)")]
+        public static readonly Font DefaultLarge = null;// new Font(defaultFont, ContentSource.ResourceContent, 40);
 
         /// <summary>
         /// Valtava oletusfontti.
         /// </summary>
-        [Obsolete("Käytä oletusfonttia ja aseta fontin koko Font.SetFontSize()-metodilla")]
-        public static readonly Font DefaultHuge = new Font(defaultFont, ContentSource.ResourceContent, 60);
+        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(60)")]
+        public static readonly Font DefaultHuge = null;//new Font(defaultFont, ContentSource.ResourceContent, 60);
 
         /// <summary>
         /// Lihavoitu pieni oletusfontti.
         /// </summary>
-        [Obsolete("Käytä oletusfonttia ja aseta fontin koko Font.SetFontSize()-metodilla")]
-        public static readonly Font DefaultSmallBold = new Font(defaultFontBold, ContentSource.ResourceContent, 15);
+        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(15, true)")]
+        public static readonly Font DefaultSmallBold = null;// new Font(defaultFontBold, ContentSource.ResourceContent, 15);
 
         /// <summary>
         /// Lihavoitu oletusfontti.
@@ -60,14 +60,14 @@ namespace Jypeli
         /// <summary>
         /// Lihavoitu suuri oletusfontti.
         /// </summary>
-        [Obsolete("Käytä oletusfonttia ja aseta fontin koko Font.SetFontSize()-metodilla")]
-        public static readonly Font DefaultLargeBold = new Font(defaultFontBold, ContentSource.ResourceContent, 40);
+        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(40, true)")]
+        public static readonly Font DefaultLargeBold = null;//new Font(defaultFontBold, ContentSource.ResourceContent, 40);
 
         /// <summary>
         /// Lihavoitu valtava oletusfontti.
         /// </summary>
-        [Obsolete("Käytä oletusfonttia ja aseta fontin koko Font.SetFontSize()-metodilla")]
-        public static readonly Font DefaultHugeBold = new Font(defaultFontBold, ContentSource.ResourceContent, 60);
+        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(60, true)")]
+        public static readonly Font DefaultHugeBold = null;// new Font(defaultFontBold, ContentSource.ResourceContent, 60);
 
         private SpriteFont xnaFont;
         private string name;
@@ -109,6 +109,8 @@ namespace Jypeli
         /// <summary>
         /// Asettaa fontin koon.
         /// 
+        /// Käytä tätä ainoastaan itse luomiesi Font-olioiden kanssa. Älä muuta Font.Default-olion kokoa!!!
+        /// 
         /// Tämä on merkittävästi hitaampi kuin Labelin TextScale-ominaisuus,
         /// mutta tarjoaa paljon suuremman tarkkuuden. Mikäli haluat reaaliajassa
         /// muuttaa tekstin kokoa, esim. animaatiossa, aseta fontin koko suureksi ja
@@ -136,10 +138,34 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Luo uuden oletusfontin halutulla koolla.
+        /// </summary>
+        /// <param name="size">Fontin koko. Oletusfontti on kokoa 25</param>
+        public Font(int fontSize=25) : this(defaultFont, ContentSource.ResourceContent, fontSize)
+        {
+        }
+
+        /// <summary>
+        /// Luo uuden oletusfontin halutulla koolla.
+        /// </summary>
+        /// <param name="size">Fontin koko. Oletusfontti on kokoa 25</param>
+        /// <param name="bold">Onko fontti boldattu</param>
+        public Font(int fontSize, bool bold) : this(bold ? defaultFontBold : defaultFont, ContentSource.ResourceContent, fontSize)
+        {
+        }
+
+        /// <summary>
         /// Lataa uuden fontin contentista.
         /// </summary>
         /// <param name="name">Fontin tiedostonimi.</param>
         public Font(string name) : this(name, ContentSource.GameContent) { }
+
+        /// <summary>
+        /// Lataa uuden fontin contentista.
+        /// </summary>
+        /// <param name="name">Fontin tiedostonimi.</param>
+        /// <param name="size">Fontin koko. Oletusfontti on kokoa 25</param>
+        public Font(string name, int fontSize) : this(name, ContentSource.GameContent, fontSize) { }
 
         internal Font(string name, ContentSource source)
         {
@@ -147,7 +173,7 @@ namespace Jypeli
             this.charsizes = null;
             this.name = name;
             this.source = source;
-            this.fontSize = 30;
+            this.fontSize = 25;
         }
 
         internal Font( string name, ContentSource source, int fontSize)
@@ -194,10 +220,8 @@ namespace Jypeli
                         CharacterRange.LatinExtendedA,
                     }
                 );
-
                 xnaFont = fontBakeResult.CreateSpriteFont(Game.GraphicsDevice);
             }
-
         }
 
         /// <summary>

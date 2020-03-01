@@ -254,13 +254,18 @@ namespace Jypeli.GameObjects
             get
             {
                 if ( Parent != null )
-                    return Parent.AbsolutePosition + this.Position;
+                    return Parent.AbsolutePosition + Parent.AbsoluteUnitX * Position.X + Parent.AbsoluteUnitY * Position.Y;
                 return Position;
             }
             set
             {
                 if ( Parent != null )
-                    Position = value - Parent.AbsolutePosition;
+                {
+                    var rawPosition = value - Parent.AbsolutePosition;
+                    double x = Vector.DotProduct(Parent.AbsoluteUnitX, rawPosition);
+                    double y = Vector.DotProduct(Parent.AbsoluteUnitY, rawPosition);
+                    Position = new Vector(x, y);
+                }
                 else
                     Position = value;
             }

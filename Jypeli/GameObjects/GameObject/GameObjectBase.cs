@@ -387,6 +387,38 @@ namespace Jypeli.GameObjects
         }
 
         /// <summary>
+        /// Olion koordinaatiston X-yksikkökantavektori.
+        /// </summary>
+        public Vector UnitX
+        {
+            get { return Vector.FromAngle( Angle ); }
+        }
+
+        /// <summary>
+        /// Olion koordinaatiston Y-yksikkökantavektori.
+        /// </summary>
+        public Vector UnitY
+        {
+            get { return UnitX.LeftNormal; }
+        }
+
+        /// <summary>
+        /// Olion koordinaatiston absoluuttinen X-yksikkökantavektori.
+        /// </summary>
+        public Vector AbsoluteUnitX
+        {
+            get { return Vector.FromAngle( AbsoluteAngle ); }
+        }
+
+        /// <summary>
+        /// Olion koordinaatiston absoluuttinen Y-yksikkökantavektori.
+        /// </summary>
+        public Vector AbsoluteUnitY
+        {
+            get { return AbsoluteUnitX.LeftNormal; }
+        }
+
+        /// <summary>
         /// Animaatio. Voi olla <c>null</c>, jolloin piirretään vain väri.
         /// </summary>
         public abstract Animation Animation { get; set; }

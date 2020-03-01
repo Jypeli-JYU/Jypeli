@@ -103,6 +103,7 @@ namespace Jypeli
                 throw new ArgumentException( "Child object can not be a non-GameObject" );
 
             Objects.Add( (GameObject)childObject );
+            childObject.Parent = this;
         }
 
         /// <summary> 
@@ -119,6 +120,7 @@ namespace Jypeli
                 throw new ArgumentException( "Child object can not be a non-GameObject" );
 
             Objects.Remove( (GameObject)childObject );
+            childObject.Parent = null;
         }
 
         protected virtual void InitChildren()
@@ -135,9 +137,10 @@ namespace Jypeli
             IsUpdated = true;
         }
 
+        // Tämä ei aina toimi oikein?
         private void OnChildAdded( GameObject child )
         {
-            child.Parent = this;
+            child.Parent = this; 
             this.AddedToGame += child.OnAddedToGame;
             this.Removed += child.OnRemoved;
         }

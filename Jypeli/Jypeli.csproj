@@ -8,7 +8,7 @@
     <AssemblyName>Jypeli</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageId>Jypeli.Core</PackageId>
-    <Version>8.1.0</Version>
+    <Version>8.1.1</Version>
     <Authors>University of Jyväskylä</Authors>
     <Company />
     <Product />
@@ -17,13 +17,8 @@
     <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>-LoadFont now works
--New contructors for fonts, you can now specify font size
--SetFontSize() can also be used to change font size
--Only Font.Default &amp; DefaultBold should now be used, others are deprecated
--Image.SetData(byte[]) for image byte manipulation
--Fixed debug-screen(F12) fps-counter
--Changes for embedded resource handling</PackageReleaseNotes>
+    <PackageReleaseNotes>-Fixed some missing resources
+-GetAbsolutePosition now returns a correct value if the parent object is rotated</PackageReleaseNotes>
     <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
   </PropertyGroup>
 

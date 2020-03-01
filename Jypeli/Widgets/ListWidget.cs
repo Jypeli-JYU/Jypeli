@@ -205,8 +205,8 @@ namespace Jypeli
 
             if ( upImage == null )
             {
-                upImage = Game.LoadImageFromResources( "UpArrow" );
-                downImage = Game.LoadImageFromResources( "DownArrow" );
+                upImage = Game.LoadImageFromResources( "UpArrow.png" );
+                downImage = Game.LoadImageFromResources( "DownArrow.png" );
                 transparentImage = Image.FromColor( upImage.Width, upImage.Height, Color.Transparent );
             }
 

@@ -82,7 +82,7 @@ namespace Jypeli.Assets
             : base( width, height )
         {
             if ( commonImage == null )
-                commonImage = Game.LoadImageFromResources( "Tank" );
+                commonImage = Game.LoadImageFromResources( "Tank.png" );
             if ( commonShape == null )
                 commonShape = Shape.FromImage(commonImage);
             Image = commonImage;

@@ -28,6 +28,10 @@ namespace Jypeli
 
         Vector AbsolutePosition { get; set; }
         Angle AbsoluteAngle { get; set; }
+        Vector UnitX { get; }
+        Vector UnitY { get; }
+        Vector AbsoluteUnitX { get; }
+        Vector AbsoluteUnitY { get; }
         
         Animation Animation { get; set; }
         Image Image { get; set; }

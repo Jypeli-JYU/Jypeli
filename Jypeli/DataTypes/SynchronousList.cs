@@ -280,7 +280,7 @@ namespace Jypeli
 
                 if ( DestroyableItem != null && DestroyableItem.IsDestroyed )
                     Remove( item );
-                else if ( UpdatableItem != null && UpdatableItem.IsUpdated )
+                if ( UpdatableItem != null && UpdatableItem.IsUpdated )
                     UpdatableItem.Update( time );
             }
 

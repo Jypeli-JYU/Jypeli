@@ -95,6 +95,7 @@ namespace Jypeli.Controls
             CurrentState = GetState();
 
             listeners.Update( Game.Time );
+            disabledListeners.Update(Game.Time);
             listeners.ForEach( l => l.CheckAndInvoke( PrevState, CurrentState ) );
         }
 

@@ -197,9 +197,16 @@ namespace Jypeli
 
         public override Angle Angle
         {
-            // TODO: Rotation
-            get { return Angle.Zero; }
-            set { throw new NotImplementedException(); }
+            get
+            {
+                IEnumerable<double> angles = objects.ConvertAll<PhysicsObject, double>(delegate (PhysicsObject o) { return o.Angle.Degrees; });
+                return Angle.FromDegrees(angles.Average()); 
+            }
+            set
+            {
+                foreach (var obj in objects)
+                    obj.Angle = value;
+            }
         }
 
         #endregion
@@ -437,7 +444,9 @@ namespace Jypeli
             {
                 if ( !value )
                 {
-                    MomentOfInertia = double.PositiveInfinity;
+                    foreach (var obj in objects)
+                        obj.CanRotate = false;
+                    //MomentOfInertia = double.PositiveInfinity;
                 }
                 else
                 {
@@ -457,9 +466,11 @@ namespace Jypeli
             centerObject = new PhysicsObject( 1, 1 ) { IgnoresPhysicsLogics = true, IsVisible = false };
             objects = new List<PhysicsObject>();
             Joints = new List<IAxleJoint>();
+            _collisionIgnorer = new ObjectIgnorer();
             AssociatedListeners = new List<Listener>();
             AddedToGame += AddJoints;
             Removed += RemoveJoints;
+            Add(centerObject); // Tämä pitää lisätä, sillä muuten jossain tilanteissa structuren ensimmäinen kappale pyörii keskiakselinsa ympäri.
         }
 
         private void AddJoints()
@@ -566,8 +577,8 @@ namespace Jypeli
             physObj.IgnoresCollisionResponse = _ignoresCollisionResponse;
             physObj.IgnoresExplosions = _ignoresExplosions;
             physObj.IgnoresPhysicsLogics = _ignoresPhysicsLogics;
-            physObj.CollisionIgnorer = _collisionIgnorer;
             physObj.CollisionIgnoreGroup = _collisionIgnoreGroup;
+            physObj.CollisionIgnorer = _collisionIgnorer;
             physObj.Restitution = _restitution;
             physObj.StaticFriction = _sfriction;
             physObj.KineticFriction = _kfriction;

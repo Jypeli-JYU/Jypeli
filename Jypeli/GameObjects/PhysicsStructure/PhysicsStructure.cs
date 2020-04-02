@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdvanceMath;
+using System;
 using System.Collections.Generic;
 
 namespace Jypeli
@@ -195,17 +196,26 @@ namespace Jypeli
             set { throw new NotImplementedException(); }
         }
 
+        //TODO
+        /// <summary>
+        /// HUOM!
+        /// Fysiikkamoottorin bugin takia joillain kappaleilla tämän käyttö voi tuottaa "haamuvoimia", kappale lähtee itsestään pyörimään.
+        /// Joko aseta CanRotate = false, tai 
+        /// </summary>
         public override Angle Angle
         {
             get
             {
                 IEnumerable<double> angles = objects.ConvertAll<PhysicsObject, double>(delegate (PhysicsObject o) { return o.Angle.Degrees; });
-                return Angle.FromDegrees(angles.Average()); 
+                return Angle.FromDegrees(angles.Average()); // TODO: IEnumerable<Angle>.Average
             }
             set
             {
                 foreach (var obj in objects)
-                    obj.Angle = value;
+                {
+                    //obj.Angle = value; // Tämä tuottaa hyvin paljon haamuvoimia
+                    obj.Position = (new Matrix2x2(value.Cos, -value.Sin, value.Sin, value.Cos)) * (Vector2D)obj.Position; // Tämä ei niin paljon?
+                }
             }
         }
 
@@ -450,6 +460,8 @@ namespace Jypeli
                 }
                 else
                 {
+                    foreach (var obj in objects)
+                        obj.CanRotate = true;
                     CalculateMomentOfInertia();
                     _setMomentOfInertia = null;
                 }

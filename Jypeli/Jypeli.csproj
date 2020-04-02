@@ -100,7 +100,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Include="..\SpriteFontPlus\src\SpriteFontPlus\**\*.cs" LinkBase="SpriteFontPlus" />
+    <Compile Include="..\SpriteFontPlus\src\**\*.cs" LinkBase="SpriteFontPlus" />
   <Compile Include="..\SpriteFontPlus\deps\SafeStbTrueTypeSharp\src\StbTrueTypeSharp\**\*.cs" LinkBase="SpriteFontPlus\StbTrueTypeSharp" />
   </ItemGroup>
 </Project>

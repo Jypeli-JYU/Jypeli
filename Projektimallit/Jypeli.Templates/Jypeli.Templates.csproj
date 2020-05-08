@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <BaseOutputPath>..\build</BaseOutputPath>
+    <PackageType>Template</PackageType>
+
+    <Title>Jypeli projektimallit</Title>
+    <Description>Jypeli projektimallit</Description>
+    <PackageId>Jypeli.Templates</PackageId>
+
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+
+    <NoWarn>NU5128</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="content\**\*" Exclude="content\**\.DS_Store;content\**\bin;content\**\obj" />
+    <Compile Remove="**\*" />
+  </ItemGroup>
+</Project>

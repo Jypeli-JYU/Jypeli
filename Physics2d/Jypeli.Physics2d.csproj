@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Jypeli\Jypeli.csproj" />
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.DesktopGL.csproj" PrivateAssets="All"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -52,3 +53,4 @@
   </ItemGroup>
 
 </Project>
+

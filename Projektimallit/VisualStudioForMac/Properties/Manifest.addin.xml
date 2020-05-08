@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionModel>
+	<Runtime>
+	</Runtime>
+	<Extension path="/MonoDevelop/Ide/ProjectTemplateCategories">
+		<Category id="jypeli" _name="Jypeli">
+			<Category id="app" _name=".NET Core">
+				<Category id="general" _name="General" />
+			</Category>
+		</Category>
+	</Extension>
+	<Extension path="/MonoDevelop/Ide/Templates">
+		<Template
+			id="Jypeli.ConsoleMain"
+			path="Jypeli.Templates.nupkg"
+			_overrideDescription="Tyhjä ConsoleMain-projekti, jossa kommenttien paikka valmiina."
+			category="jypeli/app/general"/>
+        <Template
+            id="Jypeli.Peruspeli"
+            path="Jypeli.Templates.nupkg"
+            _overrideDescription="Peli ilman fysiikkaa."
+            category="jypeli/app/general"/>
+        <Template
+            id="Jypeli.Fysiikkapeli"
+            path="Jypeli.Templates.nupkg"
+            _overrideDescription="Fysiikkapeli, joka käyttää Physics2d-fysiikkamoottoria."
+            category="jypeli/app/general"/>
+        <Template
+            id="Jypeli.Tasohyppelypeli"
+            path="Jypeli.Templates.nupkg"
+            _overrideDescription="Peli jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää Physics2d-fysiikkamoottoria."
+            category="jypeli/app/general"/>
+	</Extension>
+</ExtensionModel>

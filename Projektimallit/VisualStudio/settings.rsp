@@ -1,0 +1,15 @@
+--package-icon Images/Jypeli-32.png
+--preview-img Images/Jypeli-32.png
+--package-tags Jypeli
+--more-info https://monogame.net
+--getting-started https://monogame.net
+
+--type-tags
+  Jypeli
+  C#
+
+--template-icon
+  Jypeli.ConsoleMain=Images/Konsoli.ico
+  Jypeli.Peruspeli=Images/Pallo.ico
+  Jypeli.Fysiikkapeli=Images/Pallo.ico
+  Jypeli.Tasohyppelypeli=Images/Norsu.ico

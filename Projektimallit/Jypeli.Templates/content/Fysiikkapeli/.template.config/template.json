@@ -1,0 +1,21 @@
+{
+    "author": "University of Jyväskylä",
+    "classifications": [
+        "Jypeli"
+    ],
+    "name": "Fysiikkapeli",
+    "identity": "Jypeli.Fysiikkapeli",
+    "shortName": "Fysiikkapeli",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "primaryOutputs": [
+        {
+            "path": "Fysiikkapeli.csproj"
+        }
+    ],
+    "sourceName": "Fysiikkapeli",
+    "preferNameDirectory": "true",
+    "description": "Fysiikkapeli joka käyttää Physics2d-fysiikkamoottoria."
+}

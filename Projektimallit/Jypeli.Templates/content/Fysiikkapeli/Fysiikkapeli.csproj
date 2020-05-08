@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Jypeli.Core" Version="8.*" />
+        <PackageReference Include="Jypeli.Physics2d.Core" Version="1.4.*" />
+    </ItemGroup>
+  
+    <ItemGroup>
+      <Folder Include="Content" />
+    </ItemGroup>
+
+</Project>
+

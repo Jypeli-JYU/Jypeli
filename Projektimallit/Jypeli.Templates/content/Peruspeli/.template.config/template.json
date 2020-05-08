@@ -1,0 +1,21 @@
+{
+    "author": "University of Jyväskylä",
+    "classifications": [
+        "Jypeli"
+    ],
+    "name": "Peruspeli",
+    "identity": "Jypeli.Peruspeli",
+    "shortName": "Peruspeli",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "primaryOutputs": [
+        {
+            "path": "Peruspeli.csproj"
+        }
+    ],
+    "sourceName": "Peruspeli",
+    "preferNameDirectory": "true",
+    "description": "Peli ilman fysiikkaa."
+}

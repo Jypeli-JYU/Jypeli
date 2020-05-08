@@ -1,0 +1,21 @@
+{
+    "author": "University of Jyväskylä",
+    "classifications": [
+        "Jyppeli"
+    ],
+    "name": "ConsoleMain",
+    "identity": "Jypeli.ConsoleMain",
+    "shortName": "ConsoleMain",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "primaryOutputs": [
+        {
+            "path": "ConsoleMain.csproj"
+        }
+    ],
+    "sourceName": "ConsoleMain",
+    "preferNameDirectory": "true",
+    "description": "Tyhjä Console Main-projekti, jossa kommenttien paikka valmiina."
+}

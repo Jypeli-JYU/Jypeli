@@ -1,0 +1,21 @@
+{
+    "author": "University of Jyväskylä",
+    "classifications": [
+        "Jypeli"
+    ],
+    "name": "Tasohyppelypeli",
+    "identity": "Jypeli.Tasohyppelypeli",
+    "shortName": "Tasohyppelypeli",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "primaryOutputs": [
+        {
+            "path": "Tasohyppelypeli.csproj"
+        }
+    ],
+    "sourceName": "Tasohyppelypeli",
+    "preferNameDirectory": "true",
+    "description": "Peli jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää Physics2d-fysiikkamoottoria."
+}

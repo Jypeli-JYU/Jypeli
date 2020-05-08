@@ -5,6 +5,7 @@
     ],
     "name": "Fysiikkapeli",
     "identity": "Jypeli.Fysiikkapeli",
+    "groupIdentity": "Jypeli.Fysiikkapeli",
     "shortName": "Fysiikkapeli",
     "tags": {
         "language": "C#",

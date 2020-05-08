@@ -5,6 +5,7 @@
     ],
     "name": "ConsoleMain",
     "identity": "Jypeli.ConsoleMain",
+    "groupIdentity": "Jypeli.ConsoleMain",
     "shortName": "ConsoleMain",
     "tags": {
         "language": "C#",

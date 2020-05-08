@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Jypeli.Core" Version="8.*" />
+        <PackageReference Include="Jypeli.Core" Version="9.*" />
     </ItemGroup>
 
 </Project>

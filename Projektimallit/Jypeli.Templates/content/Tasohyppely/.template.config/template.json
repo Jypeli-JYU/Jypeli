@@ -5,6 +5,7 @@
     ],
     "name": "Tasohyppelypeli",
     "identity": "Jypeli.Tasohyppelypeli",
+    "groupIdentity": "Jypeli.Tasohyppelypeli",
     "shortName": "Tasohyppelypeli",
     "tags": {
         "language": "C#",

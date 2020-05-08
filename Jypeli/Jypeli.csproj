@@ -8,7 +8,7 @@
     <AssemblyName>Jypeli</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageId>Jypeli.Core</PackageId>
-    <Version>8.1.1</Version>
+    <Version>9.0.0</Version>
     <Authors>University of Jyväskylä</Authors>
     <Company />
     <Product />
@@ -17,8 +17,9 @@
     <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>-Fixed some missing resources
--GetAbsolutePosition now returns a correct value if the parent object is rotated</PackageReleaseNotes>
+    <PackageReleaseNotes>-Update to .NET Core 3.1
+-Fixed child objects not receiving last update upon their parent being destroyed
+-Fixed Fixed Keyboard.Disable(Key)</PackageReleaseNotes>
     <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
   </PropertyGroup>
 

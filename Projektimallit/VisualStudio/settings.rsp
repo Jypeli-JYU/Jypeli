@@ -1,15 +1,18 @@
---package-icon Images/Jypeli-32.png
---preview-img Images/Jypeli-32.png
+# Original by github.com/Jjagg
+
+# Tämä on silleen hassu että polut muodostetaan suhteessa tämän kutsujaan,
+# eli tässä tapauksessa buildscripts-kansion suhteen, eikä tämän tiedoston sijaintia katsoen
+
+--package-icon ../Projektimallit/Images/Jypeli-32.png
+--preview-img ../Projektimallit/Images/Jypeli-32.png
 --package-tags Jypeli
---more-info https://monogame.net
---getting-started https://monogame.net
 
 --type-tags
   Jypeli
   C#
 
 --template-icon
-  Jypeli.ConsoleMain=Images/Konsoli.ico
-  Jypeli.Peruspeli=Images/Pallo.ico
-  Jypeli.Fysiikkapeli=Images/Pallo.ico
-  Jypeli.Tasohyppelypeli=Images/Norsu.ico
+  Jypeli.ConsoleMain=../Projektimallit/Images/Konsoli.ico
+  Jypeli.Peruspeli=../Projektimallit/Images/Pallo.ico
+  Jypeli.Fysiikkapeli=../Projektimallit/Images/Pallo.ico
+  Jypeli.Tasohyppelypeli=../Projektimallit/Images/Norsu.ico

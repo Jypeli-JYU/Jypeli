@@ -18,6 +18,7 @@ Jypeli.*.sln
 Jypeli.*.csproj
 Compiled/
 installer/MonoJypeli_setup.exe
+/BuildScripts/tools/
 
 # NuGet packages
 packages/
@@ -33,5 +34,4 @@ Icon?
 
 # Dolphin
 .directory
-/Projektimallit/tools/
-/Projektimallit/build/
+

@@ -2,9 +2,10 @@
   <PropertyGroup>
     <BaseOutputPath>..\build</BaseOutputPath>
     <PackageType>Template</PackageType>
+    <Version>1.2.0</Version>
 
     <Title>Jypeli projektimallit</Title>
-    <Description>Jypeli projektimallit</Description>
+    <Description>Jypelin projektimallit Visual Studiolle</Description>
     <PackageId>Jypeli.Templates</PackageId>
 
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -14,6 +15,13 @@
     <ContentTargetFolders>content</ContentTargetFolders>
 
     <NoWarn>NU5128</NoWarn>
+
+    <Authors>University of Jyväskylä</Authors>
+
+    <Product>Jypelin projektimallit</Product>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>C:\Users\Mikko\Desktop\Jypeli\Compiled\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="content\**\*" Exclude="content\**\.DS_Store;content\**\bin;content\**\obj" />

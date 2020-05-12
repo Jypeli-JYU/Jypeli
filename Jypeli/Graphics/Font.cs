@@ -25,56 +25,59 @@ namespace Jypeli
         private static string defaultFontBold = "Roboto-Bold.ttf";
 
         /// <summary>
-        /// Pieni oletusfontti.
-        /// </summary>
-        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(15)")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly Font DefaultSmall = null;//new Font(defaultFont, ContentSource.ResourceContent, 15);
-
-        /// <summary>
         /// Oletusfontti.
         /// </summary>
         public static readonly Font Default = new Font(defaultFont, ContentSource.ResourceContent, 25);
-
-        /// <summary>
-        /// Suuri oletusfontti.
-        /// </summary>
-        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(40)")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly Font DefaultLarge = null;// new Font(defaultFont, ContentSource.ResourceContent, 40);
-
-        /// <summary>
-        /// Valtava oletusfontti.
-        /// </summary>
-        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(60)")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly Font DefaultHuge = null;//new Font(defaultFont, ContentSource.ResourceContent, 60);
-
-        /// <summary>
-        /// Lihavoitu pieni oletusfontti.
-        /// </summary>
-        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(15, true)")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly Font DefaultSmallBold = null;// new Font(defaultFontBold, ContentSource.ResourceContent, 15);
 
         /// <summary>
         /// Lihavoitu oletusfontti.
         /// </summary>
         public static readonly Font DefaultBold = new Font(defaultFontBold, ContentSource.ResourceContent, 25);
 
+        // TODO: Vanhat fonttimuodostajat voisi jossain vaiheessa poistaa.
+        // Tai voisiko niiden toiminnan palauttaa, mutta fontti oikeasti muodostetaan vain jos sitä käytetään?
+
+        /// <summary>
+        /// Pieni oletusfontti.
+        /// </summary>
+        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(15)")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly Font DefaultSmall = Default;//new Font(defaultFont, ContentSource.ResourceContent, 15);
+
+        /// <summary>
+        /// Suuri oletusfontti.
+        /// </summary>
+        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(40)")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly Font DefaultLarge = Default;// new Font(defaultFont, ContentSource.ResourceContent, 40);
+
+        /// <summary>
+        /// Valtava oletusfontti.
+        /// </summary>
+        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(60)")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly Font DefaultHuge = Default;//new Font(defaultFont, ContentSource.ResourceContent, 60);
+
+        /// <summary>
+        /// Lihavoitu pieni oletusfontti.
+        /// </summary>
+        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(15, true)")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly Font DefaultSmallBold = Default;// new Font(defaultFontBold, ContentSource.ResourceContent, 15);
+
         /// <summary>
         /// Lihavoitu suuri oletusfontti.
         /// </summary>
         [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(40, true)")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly Font DefaultLargeBold = null;//new Font(defaultFontBold, ContentSource.ResourceContent, 40);
+        public static readonly Font DefaultLargeBold = Default;//new Font(defaultFontBold, ContentSource.ResourceContent, 40);
 
         /// <summary>
         /// Lihavoitu valtava oletusfontti.
         /// </summary>
         [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(60, true)")]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly Font DefaultHugeBold = null;// new Font(defaultFontBold, ContentSource.ResourceContent, 60);
+        public static readonly Font DefaultHugeBold = Default;// new Font(defaultFontBold, ContentSource.ResourceContent, 60);
 
         private SpriteFont xnaFont;
         private string name;
@@ -218,7 +221,7 @@ namespace Jypeli
                 else s = new FileStream(name, FileMode.Open);
                 var fontBakeResult = TtfFontBaker.Bake(s,
                     fontSize,
-                    bitMapSize, // TODO: Mikä on hyvä arvo tähän?
+                    bitMapSize,
                     bitMapSize,
                     new[]
                     {

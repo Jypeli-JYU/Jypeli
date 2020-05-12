@@ -35,6 +35,11 @@
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Content\Fonts\Roboto-Bold.ttf" />
     <None Remove="Content\Fonts\Roboto-Regular.ttf" />
@@ -119,13 +124,19 @@
       <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
     </ItemGroup>
   </Target>
-
+  
   <ItemGroup>
+    <Content Include="..\Compiled\netcoreapp3.1\MonoGame.FrameWork.xml">
+      <PackagePath>lib\netcoreapp3.1</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    
     <Content Include="..\MonoGame\ThirdParty\Dependencies\openal-soft\Windows\x86\soft_oal.dll">
       <Link>x86\soft_oal.dll</Link>
       <PackagePath>runtimes\win-x86\native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    
     <Content Include="..\MonoGame\ThirdParty\Dependencies\SDL\Windows\x86\SDL2.dll">
       <Link>x86\SDL2.dll</Link>
       <PackagePath>runtimes\win-x86\native</PackagePath>
@@ -137,6 +148,7 @@
       <PackagePath>runtimes\win-x64\native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    
     <Content Include="..\MonoGame\ThirdParty\Dependencies\SDL\Windows\x64\SDL2.dll">
       <Link>x64\SDL2.dll</Link>
       <PackagePath>runtimes\win-x64\native</PackagePath>
@@ -148,6 +160,7 @@
       <PackagePath>runtimes\linux-x64\native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    
     <Content Include="..\MonoGame\ThirdParty\Dependencies\SDL\Linux\x64\libSDL2-2.0.so.0">
       <Link>x64\libSDL2-2.0.so.0</Link>
       <PackagePath>runtimes\linux-x64\native</PackagePath>
@@ -159,6 +172,7 @@
       <PackagePath>runtimes\osx\native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    
     <Content Include="..\MonoGame\ThirdParty\Dependencies\SDL\MacOS\Universal\libSDL2-2.0.0.dylib">
       <Link>libSDL2-2.0.0.dylib</Link>
       <PackagePath>runtimes\osx\native</PackagePath>

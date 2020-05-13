@@ -21,7 +21,7 @@
     <Product>Jypelin projektimallit</Product>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>C:\Users\Mikko\Desktop\Jypeli\Compiled\</OutputPath>
+    <OutputPath>..\..\Compiled\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="content\**\*" Exclude="content\**\.DS_Store;content\**\bin;content\**\obj" />

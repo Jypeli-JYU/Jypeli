@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
-    <BaseOutputPath>..\build\VisualStudioForMac</BaseOutputPath>
+    <BaseOutputPath>..\..\Compiled\VSForMac</BaseOutputPath>
     <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MonoDevelop.Addins" Version="0.4.7" />
   </ItemGroup>
   <ItemGroup>
-    <AddinFile Include="..\build\Release\Jypeli.Templates.1.2.3.4.nupkg">
+    <AddinFile Include="..\..\Compiled\Jypeli.Templates.1.2.0.nupkg">
       <Link>Jypeli.Templates.nupkg</Link>
     </AddinFile>
     <AddinFile Include="..\Images\Konsoli.ico">

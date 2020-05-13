@@ -9,10 +9,6 @@
         <PackageReference Include="Jypeli.Core" Version="9.*" />
         <PackageReference Include="Jypeli.Physics2d.Core" Version="1.5.*" />
     </ItemGroup>
-  
-    <ItemGroup>
-      <Folder Include="Content" />
-    </ItemGroup>
 
 </Project>
 

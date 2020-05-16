@@ -818,35 +818,38 @@ namespace Physics2DDotNet
             return Duplicate();
         }
 
-        internal void OnCollision(TimeStep step, Body other, IContact contact)
+        async internal void OnCollision(TimeStep step, Body other, IContact contact)
         {
             if (Collided != null &&
                 other.IsEventable &&
                 (eventIgnorer == null ||
                 Ignorer.CanCollide(this,other, eventIgnorer,other.eventIgnorer)))
             {
-                Collided(this, new CollisionEventArgs(step, other, contact));
+                await using var obj = new CollisionEventArgs(step, other, contact);
+                Collided(this, obj);
             }
         }
-        internal void OnCollision(TimeStep step, Body other, object customIntersectionInfo)
+        async internal void OnCollision(TimeStep step, Body other, object customIntersectionInfo)
         {
             if (Collided != null &&
                 other.IsEventable &&
                 (eventIgnorer == null ||
                 Ignorer.CanCollide(this, other, eventIgnorer, other.eventIgnorer)))
             {
-                Collided(this, new CollisionEventArgs(step, other, customIntersectionInfo));
+                await using var obj = new CollisionEventArgs(step, other, customIntersectionInfo);
+                Collided(this, obj);
             }
         }
 
-        internal void OnColliding( TimeStep step, Body other, IContact contact )
+        async internal void OnColliding( TimeStep step, Body other, IContact contact )
         {
             if ( Colliding != null &&
                 other.IsEventable &&
                 ( eventIgnorer == null ||
                 Ignorer.CanCollide( this, other, eventIgnorer, other.eventIgnorer ) ) )
             {
-                Colliding( this, new CollisionEventArgs( step, other, contact ) );
+                await using var obj = new CollisionEventArgs(step, other, contact);
+                Colliding(this, obj);
             }
         }
 

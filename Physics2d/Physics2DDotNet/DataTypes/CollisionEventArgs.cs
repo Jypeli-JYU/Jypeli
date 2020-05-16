@@ -33,11 +33,11 @@ using System;
 using System.Collections.ObjectModel;
 
 using AdvanceMath;
-
+using System.Threading.Tasks;
 
 namespace Physics2DDotNet
 {
-    public class CollisionEventArgs : EventArgs
+    public class CollisionEventArgs : EventArgs, IAsyncDisposable, IDisposable
     {
         TimeStep step;
         IContact contact;
@@ -73,6 +73,35 @@ namespace Physics2DDotNet
         public IContact Contact
         {
             get { return contact; }
+        }
+
+        private bool disposed = false;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            disposed = true;
+        }
+
+        public virtual ValueTask DisposeAsync()
+        {
+            try
+            {
+                Dispose();
+                return default;
+            }
+            catch (Exception exception)
+            {
+                return new ValueTask(Task.FromException(exception));
+            }
         }
     }
 }

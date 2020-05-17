@@ -5,13 +5,13 @@
     <AssemblyName>Jypeli.Physics2d</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageId>Jypeli.Physics2d.Core</PackageId>
-    <Version>1.5</Version>
+    <Version>1.5.1</Version>
     <Authors>University of Jyväskylä</Authors>
     <Description>Physics2d.net implementation for Jypeli</Description>
     <Copyright>University of Jyväskylä</Copyright>
     <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
-    <PackageReleaseNotes>-Update to .NET Core 3.1</PackageReleaseNotes>
+    <PackageReleaseNotes>-Slightly improved performance</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
   </PropertyGroup>

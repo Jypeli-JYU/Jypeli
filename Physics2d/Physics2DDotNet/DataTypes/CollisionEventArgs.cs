@@ -88,6 +88,10 @@ namespace Physics2DDotNet
             if (disposed)
                 return;
 
+            if (disposing)
+            {
+            }
+
             disposed = true;
         }
 
@@ -102,6 +106,11 @@ namespace Physics2DDotNet
             {
                 return new ValueTask(Task.FromException(exception));
             }
+        }
+
+        ~CollisionEventArgs()
+        {
+            Dispose();
         }
     }
 }

@@ -247,7 +247,7 @@ namespace Jypeli
 
             for ( int i = 0; i < Math.Min( Buttons.Length, keys.Length ); i++ )
             {
-                Keyboard.Listen( keys[i], ButtonState.Pressed, ButtonClicked, null, i ).InContext( this );
+                Keyboard.Listen(keys[i], ButtonState.Pressed, SelectButton, null, i).InContext(this);
             }
 
             Action selectPrev = delegate { SelectButton( _selectedIndex > 0 ? _selectedIndex - 1 : Buttons.Length - 1 ); };

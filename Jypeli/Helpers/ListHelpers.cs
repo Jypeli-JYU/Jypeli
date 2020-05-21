@@ -149,6 +149,9 @@ namespace Jypeli
             return outList;
         }
 
+        public static void AddItems<T>(this List<T> list, params T[] items) =>
+            list.AddRange(items);
+
         public static void RemoveAll<T>( this List<T> items, Predicate<T> pred )
         {
             // Huom/TK: RemoveAll-metodi on jo olemassa, mutta sitä ei ole toteutettu X360/WP7-alustoille.

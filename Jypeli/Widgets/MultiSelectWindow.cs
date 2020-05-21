@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Jypeli.Controls;
 using Jypeli.GameObjects;
 
@@ -12,7 +13,7 @@ namespace Jypeli
         static readonly Key[] keys = { Key.D1, Key.D2, Key.D3, Key.D4, Key.D5, Key.D6, Key.D7, Key.D8, Key.D9, Key.D0 };
 
         private int _defaultCancel = 0;
-        private ListenContext defaultContext = null;
+        private List<Listener> _defaultListeners = new List<Listener>(4);
 
         private int _selectedIndex = -1;
         private Color _selectedColor = Color.Black;
@@ -268,18 +269,15 @@ namespace Jypeli
 
         private void AddDefaultControls()
         {
-            if ( defaultContext != null )
-            {
-                defaultContext.Destroy();
-                defaultContext = null;
-            }
+            _defaultListeners.ForEach(l => l.Destroy());
+            _defaultListeners.Clear();
 
             if ( _defaultCancel >= 0 && _defaultCancel < Buttons.Length )
             {
-                defaultContext = this.ControlContext.CreateSubcontext();
-                Game.Instance.PhoneBackButton.Listen( Buttons[_defaultCancel].Click, null ).InContext( defaultContext );
-                Game.Instance.Keyboard.Listen( Key.Escape, ButtonState.Pressed, Buttons[_defaultCancel].Click, null ).InContext( defaultContext );
-                Game.Instance.ControllerOne.Listen( Button.B, ButtonState.Pressed, Buttons[_defaultCancel].Click, null ).InContext( defaultContext );
+                var l1 = Game.Instance.PhoneBackButton.Listen( Buttons[_defaultCancel].Click, null ).InContext( this );
+                var l2 = Game.Instance.Keyboard.Listen( Key.Escape, ButtonState.Pressed, Buttons[_defaultCancel].Click, null ).InContext( this );
+                var l3 = Game.Instance.ControllerOne.Listen( Button.B, ButtonState.Pressed, Buttons[_defaultCancel].Click, null ).InContext( this );
+                _defaultListeners.AddItems(l1, l2, l3);
             }
         }
 

@@ -229,7 +229,9 @@ namespace Jypeli
                 layer.Clear();
             }
 
-            addMessageDisplay();
+            // Layer.Clear on synkronoitu operaatio, joten viestinäyttöä ei ole vielä poistettu.
+            // Siksi viestinäytön palauttaminen on lisättävä operaatiojonoon pakotetusti.
+            addMessageDisplay(force: true);
         }
 
         /// <summary>

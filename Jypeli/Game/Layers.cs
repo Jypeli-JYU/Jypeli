@@ -239,10 +239,10 @@ namespace Jypeli
         /// </summary>
         public void ResetLayers()
         {
-            ClearGameObjects();
-
             foreach (var layer in Layers)
             {
+                layer.Clear();
+
                 // Jos muutoksia ei päivitetä, niin taso ei ehdi oikeasti hävittää
                 // olioitaan, koska InitLayers luo uudet tasot ja sen jälkeen
                 // vanhat tasot muuttuvat roskaksi - siten esim. peliolioiden

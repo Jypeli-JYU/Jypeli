@@ -8,7 +8,7 @@
         /// <value>Viestinäyttö.</value>
         public MessageDisplay MessageDisplay { get; set; }
 
-        private void addMessageDisplay()
+        private void addMessageDisplay(bool force = false)
         {
             if (MessageDisplay == null)
             {
@@ -18,7 +18,7 @@
             else
                 MessageDisplay.Clear();
 
-            if ( !MessageDisplay.IsAddedToGame )
+            if ( !MessageDisplay.IsAddedToGame || force)
                 Add( MessageDisplay );
         }
 

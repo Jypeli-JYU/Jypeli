@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Jypeli.Controls;
 using Jypeli.GameObjects;
 
@@ -12,7 +13,9 @@ namespace Jypeli
         static readonly Key[] keys = { Key.D1, Key.D2, Key.D3, Key.D4, Key.D5, Key.D6, Key.D7, Key.D8, Key.D9, Key.D0 };
 
         private int _defaultCancel = 0;
-        private ListenContext defaultContext = null;
+        private List<Listener> _defaultListeners = new List<Listener>(4);
+
+        private List<Listener> _listeners = new List<Listener>(32);
 
         private int _selectedIndex = -1;
         private Color _selectedColor = Color.Black;
@@ -162,6 +165,7 @@ namespace Jypeli
             }
 
             AddedToGame += InitOnAdd;
+            Removed += DeinitOnRemove;
         }
 
         private void InitOnAdd()
@@ -171,6 +175,15 @@ namespace Jypeli
 #if !WINDOWS_PHONE && !ANDROID
             SelectButton( ( RememberSelection && _selectedIndex >= 0 ) ? _selectedIndex : 0 );
 #endif
+        }
+
+        private void DeinitOnRemove()
+        {
+            _defaultListeners.ForEach(l => l.Destroy());
+            _listeners.ForEach(l => l.Destroy());
+
+            _defaultListeners.Clear();
+            _listeners.Clear();
         }
 
         private void SelectButton( int p )
@@ -247,39 +260,39 @@ namespace Jypeli
 
             for ( int i = 0; i < Math.Min( Buttons.Length, keys.Length ); i++ )
             {
-                Keyboard.Listen( keys[i], ButtonState.Pressed, ButtonClicked, null, i ).InContext( this );
+                var l = Keyboard.Listen(keys[i], ButtonState.Pressed, SelectButton, null, i).InContext(this);
+                _listeners.Add(l);
             }
 
             Action selectPrev = delegate { SelectButton( _selectedIndex > 0 ? _selectedIndex - 1 : Buttons.Length - 1 ); };
             Action selectNext = delegate { SelectButton( _selectedIndex < Buttons.Length - 1 ? _selectedIndex + 1 : 0 ); };
             Action confirmSelect = delegate { SelectedButton.Click(); };
 
-            Keyboard.Listen( Key.Up, ButtonState.Pressed, selectPrev, null ).InContext( this );
-            Keyboard.Listen( Key.Down, ButtonState.Pressed, selectNext, null ).InContext( this );
-            Keyboard.Listen( Key.Enter, ButtonState.Pressed, confirmSelect, null ).InContext( this );
+            var l1 = Keyboard.Listen( Key.Up, ButtonState.Pressed, selectPrev, null ).InContext( this );
+            var l2 = Keyboard.Listen( Key.Down, ButtonState.Pressed, selectNext, null ).InContext( this );
+            var l3 = Keyboard.Listen( Key.Enter, ButtonState.Pressed, confirmSelect, null ).InContext( this );
+            _listeners.AddItems(l1, l2, l3);
 
             foreach ( var controller in Game.Instance.GameControllers )
             {
-                controller.Listen( Button.DPadUp, ButtonState.Pressed, selectPrev, null ).InContext( this );
-                controller.Listen( Button.DPadDown, ButtonState.Pressed, selectNext, null ).InContext( this );
-                controller.Listen( Button.A, ButtonState.Pressed, confirmSelect, null ).InContext( this );
+                l1 = controller.Listen( Button.DPadUp, ButtonState.Pressed, selectPrev, null ).InContext( this );
+                l2 = controller.Listen( Button.DPadDown, ButtonState.Pressed, selectNext, null ).InContext( this );
+                l3 = controller.Listen( Button.A, ButtonState.Pressed, confirmSelect, null ).InContext( this );
+                _listeners.AddItems(l1, l2, l3);
             }
         }
 
         private void AddDefaultControls()
         {
-            if ( defaultContext != null )
-            {
-                defaultContext.Destroy();
-                defaultContext = null;
-            }
+            _defaultListeners.ForEach(l => l.Destroy());
+            _defaultListeners.Clear();
 
             if ( _defaultCancel >= 0 && _defaultCancel < Buttons.Length )
             {
-                defaultContext = this.ControlContext.CreateSubcontext();
-                Game.Instance.PhoneBackButton.Listen( Buttons[_defaultCancel].Click, null ).InContext( defaultContext );
-                Game.Instance.Keyboard.Listen( Key.Escape, ButtonState.Pressed, Buttons[_defaultCancel].Click, null ).InContext( defaultContext );
-                Game.Instance.ControllerOne.Listen( Button.B, ButtonState.Pressed, Buttons[_defaultCancel].Click, null ).InContext( defaultContext );
+                var l1 = Game.Instance.PhoneBackButton.Listen( Buttons[_defaultCancel].Click, null ).InContext( this );
+                var l2 = Game.Instance.Keyboard.Listen( Key.Escape, ButtonState.Pressed, Buttons[_defaultCancel].Click, null ).InContext( this );
+                var l3 = Game.Instance.ControllerOne.Listen( Button.B, ButtonState.Pressed, Buttons[_defaultCancel].Click, null ).InContext( this );
+                _defaultListeners.AddItems(l1, l2, l3);
             }
         }
 

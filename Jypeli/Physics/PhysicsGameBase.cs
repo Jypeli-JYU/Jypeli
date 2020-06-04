@@ -150,6 +150,7 @@ namespace Jypeli
         public override void ClearAll()
         {
             ClearPhysics();
+            RemoveCollisionHandlers();
             base.ClearAll();
         }
 

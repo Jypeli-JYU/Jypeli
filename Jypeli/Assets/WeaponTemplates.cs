@@ -179,6 +179,11 @@ namespace Jypeli.Assets
         public Explosion Explosion { get; set; }
 
         /// <summary>
+        /// Onko kranaatti räjähtänyt
+        /// </summary>
+        public bool Exploded { get; set; }
+
+        /// <summary>
         /// Räjähdyksen säde.
         /// </summary>
         [Obsolete("Use Explosion.MaxRadius")]
@@ -246,12 +251,13 @@ namespace Jypeli.Assets
             this.Destroy();
             Explosion.Position = this.Position;
             Game.Instance.Add(Explosion);
+            Exploded = true;
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void Update(Time time)
         {
-            if ((time.SinceStartOfGame - CreationTime) > FuseTime && IsAddedToGame)
+            if ((time.SinceStartOfGame - CreationTime) > FuseTime && IsAddedToGame && !Exploded)
             {
                 // Boom!
                 Explode();

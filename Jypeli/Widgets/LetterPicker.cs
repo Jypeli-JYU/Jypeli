@@ -232,7 +232,7 @@ namespace Jypeli
             for ( int i = -1; i <= 1; i++ )
             {
                 Matrix m = Matrix.CreateScale( TextScale )
-                           * Matrix.CreateRotationZ( (float)-Angle.Radians )
+                           * Matrix.CreateRotationZ( (float)Angle.Radians )
                            * Matrix.CreateTranslation( (float)Position.X, (float)( Position.Y - ( i - yDelta ) * TextSize.Y ), 0 )
                            * parentTransformation;
 

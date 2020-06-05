@@ -482,7 +482,7 @@ namespace Jypeli
         {
             Matrix m = Matrix.CreateScale( _textScale )
                 * Matrix.CreateTranslation( (float)GetHorizontalAlignment(), (float)GetVerticalAlignment(), 0 )
-                * Matrix.CreateRotationZ( (float)-Angle.Radians )
+                * Matrix.CreateRotationZ( (float)Angle.Radians )
                 * Matrix.CreateTranslation( (float)Position.X, (float)Position.Y, 0 )
                 * parentTransformation;
 

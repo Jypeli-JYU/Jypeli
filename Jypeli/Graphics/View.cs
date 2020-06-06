@@ -376,17 +376,14 @@ namespace Jypeli
         /// <param name="screenSize"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-        internal static Matrix ToXnaCoords( Matrix matrix, Vector screenSize, Vector scale )
+        internal static Matrix ToXnaCoords(ref Matrix matrix, Vector screenSize, Vector scale)
         {
-            float xnamat_M41 = xToXna( matrix.M41, (float)screenSize.X, matrix.M11 * (float)scale.X );
-            float xnamat_M42 = yToXna( matrix.M42, (float)screenSize.Y, matrix.M22 * (float)scale.Y );
+            // Keskitetään sprite ruudulla, mutta toteutetaan alkuperäinen muunnos Jypelin koordinaateissa.
+            var centralize = Matrix.CreateTranslation((screenSize - scale) / 2);
+            var toXna      = Matrix.CreateScale(1, -1, 1) * Matrix.CreateTranslation(screenSize / 2);
+            var toJypeli   = Matrix.Invert(toXna);
 
-            return new Matrix(
-                matrix.M11, matrix.M12, matrix.M13, matrix.M14,
-                matrix.M21, matrix.M22, matrix.M23, matrix.M24,
-                matrix.M31, matrix.M32, matrix.M33, matrix.M34,
-                xnamat_M41, xnamat_M42, matrix.M43, matrix.M44
-            );
+            return centralize * toJypeli * matrix * toXna;
         }
 
         /// <summary>

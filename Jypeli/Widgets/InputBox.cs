@@ -156,7 +156,8 @@ namespace Jypeli
 #endif
 
             Game.Instance.Window.TextInput += InputText;
-			Game.Instance.Keyboard.Listen(Key.Back, ButtonState.Pressed, EraseText, null).InContext(this);
+			var l = Game.Instance.Keyboard.Listen(Key.Back, ButtonState.Pressed, EraseText, null).InContext(this);
+            associatedListeners.Add(l);
         }
 
 #if ANDROID

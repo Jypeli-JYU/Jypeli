@@ -49,7 +49,7 @@ namespace Jypeli
         public StringListWindow( string question )
             : base( question )
         {
-            Game.AssertInitialized( AddControls );
+            AddedToGame += AddControls;
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Jypeli
         public StringListWindow( double width, double height, string question )
             : base( width, height, question )
         {
-            Game.AssertInitialized( AddControls );
+            AddedToGame += AddControls;
         }
 
         protected override StringListWidget CreateQueryWidget()
@@ -71,7 +71,8 @@ namespace Jypeli
 
         void AddControls()
         {
-            Jypeli.Game.Instance.PhoneBackButton.Listen( Close, null ).InContext( this );
+            var l = Jypeli.Game.Instance.PhoneBackButton.Listen( Close, null ).InContext( this );
+            associatedListeners.Add(l);
         }
     }
 }

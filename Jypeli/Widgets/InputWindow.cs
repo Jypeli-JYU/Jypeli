@@ -138,9 +138,10 @@ namespace Jypeli
 
         private void AddListeners()
         {
-            Game.Instance.Keyboard.Listen( Key.Enter, ButtonState.Pressed, Close, null ).InContext( this );
-            Game.Instance.Keyboard.Listen( Key.Escape, ButtonState.Pressed, Cancel, null ).InContext( this );
-            Game.Instance.PhoneBackButton.Listen( Cancel, null ).InContext( this );
+            var l1 = Game.Instance.Keyboard.Listen( Key.Enter, ButtonState.Pressed, Close, null ).InContext( this );
+            var l2 = Game.Instance.Keyboard.Listen( Key.Escape, ButtonState.Pressed, Cancel, null ).InContext( this );
+            var l3 = Game.Instance.PhoneBackButton.Listen( Cancel, null ).InContext( this );
+            associatedListeners.AddItems(l1, l2, l3);
         }
 
 #if WINDOWS_PHONE && TESTING

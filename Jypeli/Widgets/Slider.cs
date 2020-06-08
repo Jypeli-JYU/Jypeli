@@ -79,7 +79,7 @@ namespace Jypeli.Widgets
             Knob.Color = Color.DarkGray;
             Add(Knob);
 
-            Game.AssertInitialized(InitializeControls);
+            AddedToGame += InitializeControls;
         }
 
         /// <summary>
@@ -97,13 +97,15 @@ namespace Jypeli.Widgets
 
         private void InitializeControls()
         {
-            Game.Mouse.ListenOn(this, MouseButton.Left, ButtonState.Pressed, MousePress, null).InContext(this);
-            Game.Mouse.Listen(MouseButton.Left, ButtonState.Released, MouseRelease, null).InContext(this);
-            Game.Mouse.ListenMovement(1.0, MouseMove, null).InContext(this);
+            var l1 = Game.Mouse.ListenOn(this, MouseButton.Left, ButtonState.Pressed, MousePress, null).InContext(this);
+            var l2 = Game.Mouse.Listen(MouseButton.Left, ButtonState.Released, MouseRelease, null).InContext(this);
+            var l3 = Game.Mouse.ListenMovement(1.0, MouseMove, null).InContext(this);
 
-            Game.TouchPanel.ListenOn(this, ButtonState.Pressed, TouchPress, null).InContext(this);
-            Game.TouchPanel.Listen(ButtonState.Released, TouchRelease, null).InContext(this);
-            Game.TouchPanel.Listen(ButtonState.Down, TouchMove, null).InContext(this);
+            var l4 = Game.TouchPanel.ListenOn(this, ButtonState.Pressed, TouchPress, null).InContext(this);
+            var l5 = Game.TouchPanel.Listen(ButtonState.Released, TouchRelease, null).InContext(this);
+            var l6 = Game.TouchPanel.Listen(ButtonState.Down, TouchMove, null).InContext(this);
+
+            associatedListeners.AddItems(l1, l2, l3, l4, l5, l6);
         }
 
         public override void BindTo(Meter meter)

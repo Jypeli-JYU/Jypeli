@@ -15,8 +15,6 @@ namespace Jypeli
         private int _defaultCancel = 0;
         private List<Listener> _defaultListeners = new List<Listener>(4);
 
-        private List<Listener> _listeners = new List<Listener>(32);
-
         private int _selectedIndex = -1;
         private Color _selectedColor = Color.Black;
         private Color _selectionColor = Color.Cyan;
@@ -180,10 +178,7 @@ namespace Jypeli
         private void DeinitOnRemove()
         {
             _defaultListeners.ForEach(l => l.Destroy());
-            _listeners.ForEach(l => l.Destroy());
-
             _defaultListeners.Clear();
-            _listeners.Clear();
         }
 
         private void SelectButton( int p )
@@ -261,7 +256,7 @@ namespace Jypeli
             for ( int i = 0; i < Math.Min( Buttons.Length, keys.Length ); i++ )
             {
                 var l = Keyboard.Listen(keys[i], ButtonState.Pressed, SelectButton, null, i).InContext(this);
-                _listeners.Add(l);
+                associatedListeners.Add(l);
             }
 
             Action selectPrev = delegate { SelectButton( _selectedIndex > 0 ? _selectedIndex - 1 : Buttons.Length - 1 ); };
@@ -271,14 +266,14 @@ namespace Jypeli
             var l1 = Keyboard.Listen( Key.Up, ButtonState.Pressed, selectPrev, null ).InContext( this );
             var l2 = Keyboard.Listen( Key.Down, ButtonState.Pressed, selectNext, null ).InContext( this );
             var l3 = Keyboard.Listen( Key.Enter, ButtonState.Pressed, confirmSelect, null ).InContext( this );
-            _listeners.AddItems(l1, l2, l3);
+            associatedListeners.AddItems(l1, l2, l3);
 
             foreach ( var controller in Game.Instance.GameControllers )
             {
                 l1 = controller.Listen( Button.DPadUp, ButtonState.Pressed, selectPrev, null ).InContext( this );
                 l2 = controller.Listen( Button.DPadDown, ButtonState.Pressed, selectNext, null ).InContext( this );
                 l3 = controller.Listen( Button.A, ButtonState.Pressed, confirmSelect, null ).InContext( this );
-                _listeners.AddItems(l1, l2, l3);
+                associatedListeners.AddItems(l1, l2, l3);
             }
         }
 

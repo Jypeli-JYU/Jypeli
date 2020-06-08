@@ -167,9 +167,10 @@ namespace Jypeli
 
         void AddControls()
         {
-            Game.Mouse.ListenOn( this, MouseButton.Left, ButtonState.Pressed, StartMoveWindow, null ).InContext( this );
-            Game.Mouse.Listen( MouseButton.Left, ButtonState.Down, MoveWindow, null ).InContext( this );
-            Game.Mouse.ListenOn( this, MouseButton.Left, ButtonState.Released, EndMoveWindow, null ).InContext( this );
+            var l1 = Game.Mouse.ListenOn( this, MouseButton.Left, ButtonState.Pressed, StartMoveWindow, null ).InContext( this );
+            var l2 = Game.Mouse.Listen( MouseButton.Left, ButtonState.Down, MoveWindow, null ).InContext( this );
+            var l3 = Game.Mouse.ListenOn( this, MouseButton.Left, ButtonState.Released, EndMoveWindow, null ).InContext( this );
+            associatedListeners.AddItems(l1, l2, l3);
         }
 
         void StartMoveWindow()

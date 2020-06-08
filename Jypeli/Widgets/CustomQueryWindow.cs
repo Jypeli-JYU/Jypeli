@@ -148,10 +148,11 @@ namespace Jypeli
         {
 #if WINDOWS_PHONE || ANDROID
             if ( !OkButtonOnPhone )
-                Game.Instance.TouchPanel.Listen( ButtonState.Pressed, delegate { Close(); }, null ).InContext( this );
+                var l = Game.Instance.TouchPanel.Listen( ButtonState.Pressed, delegate { Close(); }, null ).InContext( this );
 #else
-            Game.Instance.Keyboard.Listen( Key.Enter, ButtonState.Pressed, OKButton.Click, null ).InContext( this );
+            var l = Game.Instance.Keyboard.Listen( Key.Enter, ButtonState.Pressed, OKButton.Click, null ).InContext( this );
 #endif
+            associatedListeners.Add(l);
         }
     }
 }

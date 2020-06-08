@@ -194,8 +194,9 @@ namespace Jypeli
 
         private void AddListeners()
         {
-            Game.Instance.Keyboard.Listen( Key.Up, ButtonState.Pressed, scrollUp, null ).InContext( this );
-            Game.Instance.Keyboard.Listen( Key.Down, ButtonState.Pressed, scrollDown, null ).InContext( this );
+            var l1 = Game.Instance.Keyboard.Listen( Key.Up, ButtonState.Pressed, scrollUp, null ).InContext( this );
+            var l2 = Game.Instance.Keyboard.Listen( Key.Down, ButtonState.Pressed, scrollDown, null ).InContext( this );
+            associatedListeners.AddItems(l1, l2);
         }
 
 #if WINDOWS

@@ -167,24 +167,32 @@ namespace Jypeli.Widgets
 
             StartLabel.SizeMode = TextSizeMode.Wrapped;
 
-            Game.Keyboard.Listen(Key.Enter, ButtonState.Pressed, BeginLoad, null, StartLabel).InContext(this);
-            Game.Keyboard.Listen(Key.Escape, ButtonState.Pressed, Game.Instance.Exit, null).InContext(this); ;
-            Game.Mouse.Listen(MouseButton.Left, ButtonState.Down, BeginLoad, null, StartLabel).InContext(this);
-
-            for (int i = 0; i < Game.GameControllers.Count; i++)
-            {
-                Game.GameControllers[i].Listen(Button.A, ButtonState.Pressed, BeginLoad, null, StartLabel).InContext(this);
-                Game.GameControllers[i].Listen(Button.B, ButtonState.Pressed, Game.Instance.Exit, null).InContext(this);
-            }
-
-            Game.TouchPanel.ListenOn(StartLabel, ButtonState.Pressed, delegate { BeginLoad(StartLabel); }, null).InContext(this);
-            Game.PhoneBackButton.Listen(Game.Instance.Exit, null).InContext(this);
+            AddedToGame += AddControls;
 
             Add(NameLabel);
             Add(CopyrightLabel);
             Add(AuthorsLabel);
             Add(TextBody);
             Add(StartLabel);
+        }
+
+        private void AddControls()
+        {
+            var l1 = Game.Keyboard.Listen(Key.Enter, ButtonState.Pressed, BeginLoad, null, StartLabel).InContext(this);
+            var l2 = Game.Keyboard.Listen(Key.Escape, ButtonState.Pressed, Game.Instance.Exit, null).InContext(this); ;
+            var l3 = Game.Mouse.Listen(MouseButton.Left, ButtonState.Down, BeginLoad, null, StartLabel).InContext(this);
+            associatedListeners.AddItems(l1, l2, l3);
+
+            for (int i = 0; i < Game.GameControllers.Count; i++)
+            {
+                l1 = Game.GameControllers[i].Listen(Button.A, ButtonState.Pressed, BeginLoad, null, StartLabel).InContext(this);
+                l2 = Game.GameControllers[i].Listen(Button.B, ButtonState.Pressed, Game.Instance.Exit, null).InContext(this);
+                associatedListeners.AddItems(l1, l2);
+            }
+
+            l1 = Game.TouchPanel.ListenOn(StartLabel, ButtonState.Pressed, delegate { BeginLoad(StartLabel); }, null).InContext(this);
+            l2 = Game.PhoneBackButton.Listen(Game.Instance.Exit, null).InContext(this);
+            associatedListeners.AddItems(l1, l2);
         }
 
         private void BeginLoad(Label aloitusohje)

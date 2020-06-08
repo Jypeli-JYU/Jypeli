@@ -148,7 +148,8 @@ namespace Jypeli.Widgets
 
         void AddControls()
         {
-            Jypeli.Game.Instance.PhoneBackButton.Listen( Close, null ).InContext( this );
+            var l = Jypeli.Game.Instance.PhoneBackButton.Listen( Close, null ).InContext( this );
+            associatedListeners.Add(l);
         }
 
         void showNameWindow()

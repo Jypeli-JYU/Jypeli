@@ -86,15 +86,17 @@ namespace Jypeli
 
         private void AddListeners()
         {
-            Game.Instance.PhoneBackButton.Listen( delegate { Close(); }, null ).InContext( this );
-            Game.Instance.TouchPanel.Listen( ButtonState.Pressed, delegate { Close(); }, null ).InContext( this );
-            Game.Instance.Keyboard.Listen( Key.Enter, ButtonState.Pressed, Close, null ).InContext( this );
-            Game.Instance.Keyboard.Listen( Key.Space, ButtonState.Pressed, Close, null ).InContext( this );
+            var l1 = Game.Instance.PhoneBackButton.Listen( delegate { Close(); }, null ).InContext( this );
+            var l2 = Game.Instance.TouchPanel.Listen( ButtonState.Pressed, delegate { Close(); }, null ).InContext( this );
+            var l3 = Game.Instance.Keyboard.Listen( Key.Enter, ButtonState.Pressed, Close, null ).InContext( this );
+            var l4 = Game.Instance.Keyboard.Listen( Key.Space, ButtonState.Pressed, Close, null ).InContext( this );
+            associatedListeners.AddItems(l1, l2, l3, l4);
 
             foreach ( var controller in Game.Instance.GameControllers )
             {
-                controller.Listen( Button.A, ButtonState.Pressed, Close, null ).InContext( this );
-                controller.Listen( Button.B, ButtonState.Pressed, Close, null ).InContext( this );
+                l1 = controller.Listen( Button.A, ButtonState.Pressed, Close, null ).InContext( this );
+                l2 = controller.Listen( Button.B, ButtonState.Pressed, Close, null ).InContext( this );
+                associatedListeners.AddItems(l1, l2);
             }
         }
     }

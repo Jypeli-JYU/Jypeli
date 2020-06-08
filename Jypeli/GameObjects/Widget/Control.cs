@@ -6,6 +6,11 @@ namespace Jypeli
     public partial class Widget
     {
         private ListenContext _context = new ListenContext();
+
+        /// <summary>
+        /// Tähän listaan lisätyt kuuntelijat tuhotaan automaattisesti
+        /// kun Widget poistetaan pelistä.
+        /// </summary>
         internal List<Listener> associatedListeners = new List<Listener>();
 
         public ListenContext ControlContext { get { return _context; } }
@@ -23,6 +28,8 @@ namespace Jypeli
 
             Objects.ItemAdded += InitChildContext;
             Objects.ItemRemoved += ResetChildContext;
+
+            Removed += RemoveListeners;
         }
 
         private void InitChildContext( GameObject child )
@@ -39,6 +46,12 @@ namespace Jypeli
             if ( ctxChild == null ) return;
             ctxChild.ControlContext.parentObject = null;
             ctxChild.ControlContext.parentContext = null;
+        }
+
+        private void RemoveListeners()
+        {
+            associatedListeners.ForEach(l => l.Destroy());
+            associatedListeners.Clear();
         }
     }
 }

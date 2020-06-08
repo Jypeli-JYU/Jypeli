@@ -72,11 +72,19 @@ namespace Jypeli
             AddItemHandler( 1, OnNo );
 
             Buttons[0].Color = Color.Green;
-            Buttons[0].AddShortcut( Button.A );
-
             Buttons[1].Color = Color.DarkRed;
-            Buttons[1].AddShortcut( Button.B );
+
             DefaultCancel = 1;
+
+            AddedToGame += AddControls;
+        }
+
+        private void AddControls()
+        {
+            var l1 = Buttons[0].AddShortcut(Button.A);
+            var l2 = Buttons[1].AddShortcut(Button.B);
+            associatedListeners.AddRange(l1);
+            associatedListeners.AddRange(l2);
         }
     }
 }

@@ -8,7 +8,7 @@
     <AssemblyName>Jypeli</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageId>Jypeli.Core</PackageId>
-    <Version>9.0.0</Version>
+    <Version>9.0.1</Version>
     <Authors>University of Jyväskylä</Authors>
     <Company />
     <Product />
@@ -17,10 +17,10 @@
     <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>-Update to .NET Core 3.1
--Fixed child objects not receiving last update upon their parent being destroyed
--Fixed Fixed Keyboard.Disable(Key)
--MonoGame is now embedded into this package</PackageReleaseNotes>
+    <PackageReleaseNotes>-Fixed Widget listener leaks
+-Fixed MultiSelectWindow number key selection
+-Fixed grenades crashing the game
+-Fixed collisionhandler removal with ClearAll</PackageReleaseNotes>
     <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
   </PropertyGroup>
 

@@ -200,6 +200,7 @@ namespace Jypeli
             InitializeShape();
             Color = new Color( 70, 130, 180, 230 );
             TextColor = new Color( 250, 250, 250, 240 );
+            CapturesMouse = true;
             AddedToGame += InitializeControls;
         }
 

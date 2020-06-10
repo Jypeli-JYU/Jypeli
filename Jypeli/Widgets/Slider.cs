@@ -71,6 +71,7 @@ namespace Jypeli.Widgets
             : base(width, height)
         {
             Color = Color.Transparent;
+            CapturesMouse = true;
 
             Track = new Widget(width, height / 3);
             Add(Track);

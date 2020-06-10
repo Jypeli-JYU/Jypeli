@@ -21,6 +21,29 @@ namespace Jypeli
         /// </summary>
         public bool IsModal { get; set; }
 
+        public bool CapturesMouse { get; protected set; }
+        public bool IsCapturingMouse
+        {
+            get
+            {
+                // A widget IsCapturingMouse if either:
+                //     it CapturesMouse and is under the cursor
+                // or:
+                //     one of its children IsCapturingMouse.
+
+                if (CapturesMouse && Game.Mouse.IsCursorOn(this))
+                    return true;
+
+                foreach (var o in Objects)
+                {
+                    if (o is Widget w && w.IsCapturingMouse)
+                        return true;
+                }
+
+                return false;
+            }
+        }
+
         public void InitControl()
         {
             if ( ControlContext == null || ControlContext.IsDestroyed )

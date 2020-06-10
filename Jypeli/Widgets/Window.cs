@@ -176,6 +176,12 @@ namespace Jypeli
         void StartMoveWindow()
         {
             if ( Game == null ) return;
+            foreach (var obj in Objects)
+            {
+                if (obj is Widget w && w.IsCapturingMouse)
+                    return;
+            }
+
             movementCenter = this.Position - Game.Mouse.PositionOnScreen;
             moving = true;
         }

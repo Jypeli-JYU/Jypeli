@@ -127,33 +127,41 @@ namespace Jypeli
         {
             if ( _childObjects != null ) return;
             _childObjects = new SynchronousList<GameObject>();
-            _childObjects.ItemAdded += Game.OnAddObject;
-            _childObjects.ItemRemoved += Game.OnRemoveObject;
             _childObjects.ItemAdded += this.OnChildAdded;
             _childObjects.ItemRemoved += this.OnChildRemoved;
             _childObjects.Changed += this.NotifyParentAboutChangedSizingAttributes;
+
+            this.AddedToGame += () => _childObjects.ForEach(c => Game.OnAddObject(c));
+            this.Removed += () => _childObjects.ForEach(c => Game.OnRemoveObject(c));
 
             // Objects list needs updating
             IsUpdated = true;
         }
 
-        // Tämä ei aina toimi oikein?
         private void OnChildAdded( GameObject child )
         {
             child.Parent = this; 
-            this.AddedToGame += child.OnAddedToGame;
-            this.Removed += child.OnRemoved;
+
+            // It is possible to add children to objects which themselves are not yet (or not at the moment)
+            // added to the game. This might not be obvious, since the _childObjects SynchronousList is
+            // naturally not updated when the parent is not in game — but there exist functions that
+            // flush _childObjects' queued operations right away, and they may get called.
+            // Therefore we need to ensure that Game.OnAddObject is only called if the parent is in game.
+            if (this.IsAddedToGame)
+                Game.OnAddObject(child);
         }
 
         private void OnChildRemoved( GameObject child )
         {
+            // In the same vein as in OnChildAdded, it is possible that a child is removed from
+            // _childObjects while not in game. This avoids multiple removal.
+            if (child.IsAddedToGame)
+                Game.OnRemoveObject(child);
+
             // This 'if' ensures that nothing is broken if a child is transferred
             // to another parent first and removed afterwards
             if ( child.Parent == this )
                 child.Parent = null;
-
-            this.AddedToGame -= child.OnAddedToGame;
-            this.Removed -= child.OnRemoved;
         }
 
         private void DestroyChildren()

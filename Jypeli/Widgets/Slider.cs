@@ -71,6 +71,7 @@ namespace Jypeli.Widgets
             : base(width, height)
         {
             Color = Color.Transparent;
+            CapturesMouse = true;
 
             Track = new Widget(width, height / 3);
             Add(Track);
@@ -128,7 +129,7 @@ namespace Jypeli.Widgets
 
         private void GenMove(Vector newPos)
         {
-            Vector u = Vector.FromLengthAndAngle(1, this.Angle);
+            Vector u = Vector.FromLengthAndAngle(1, this.AbsoluteAngle);
             double newVal = newPos.ScalarProjection(u);
 
             if (newVal < Track.Left) Knob.X = Track.Left;
@@ -150,7 +151,7 @@ namespace Jypeli.Widgets
             Knob.Color = pressedDown || Game.Mouse.IsCursorOn(this) ? _activeColor : _inactiveColor;
 
             if (pressedDown)
-                GenMove(Game.Mouse.PositionOnScreen - this.Position);
+                GenMove(Game.Mouse.PositionOnScreen - this.AbsolutePosition);
         }
 
         private void MouseRelease()
@@ -171,7 +172,7 @@ namespace Jypeli.Widgets
         private void TouchMove(Touch touch)
         {
             if (touchObject == touch)
-                GenMove(touch.PositionOnScreen - this.Position);
+                GenMove(touch.PositionOnScreen - this.AbsolutePosition);
         }
 
         private void TouchRelease(Touch touch)

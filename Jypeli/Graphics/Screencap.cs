@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 
 namespace Jypeli
 {
@@ -8,6 +9,7 @@ namespace Jypeli
 	{
 	    public static void WriteBmp( Stream outStream, Jypeli.Image image )
 	    {
+			// TODO: Kuva tulee ylösalaisin
 			byte[] buffer = image.GetByteArray();
 
 	        BinaryWriter writer = new BinaryWriter(outStream);
@@ -76,9 +78,10 @@ namespace Jypeli
 	            writer.Write( (int)0 );
 	            writer.Write( (int)0 );
 
-	            // Bitmap data
-	            writer.Write( buffer );
-	        }
+                // Bitmap data
+				writer.Write(buffer);
+
+			}
 
 	        // Do not call Close or Dispose! It closes the stream too.
 	        writer.Flush();
@@ -111,6 +114,19 @@ namespace Jypeli
 	        Bitmap fromDisk = new Bitmap(@"C:\Temp\TestJPEG.jpg");
 	        Bitmap fromStream = new Bitmap(inputStream);*/
 	    }
+
+		/// <summary>
+		/// Tallentaa kuvan jpg-muodossa.
+		/// </summary>
+		/// <param name="fname">Tallennettavan tiedoston nimi</param>
+		/// <param name="img">Tallennettava kuva</param>
+		public static void SaveJPG(string fname, Image img)
+        {
+			using (var image = System.Drawing.Image.FromStream(img.AsJpeg()))
+			{
+				image.Save(fname);
+			}
+		}
 
 	    private static ImageCodecInfo GetCodecByDescription( string desc )
 	    {

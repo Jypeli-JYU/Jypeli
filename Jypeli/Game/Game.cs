@@ -51,6 +51,40 @@ namespace Jypeli
         private bool beginHasBeenCalled = false;
 
         /// <summary>
+        /// Kuinka monen pelinpäivityksen jälkeen peli suljetaan automaattisesti.
+        /// Jos 0, peli pyörii ikuisesti
+        /// </summary>
+        public int TotalFramesToRun { get; private set; }
+
+        /// <summary>
+        /// Kuinka monta pelinpäivitystä on tähän mennessä ajettu.
+        /// </summary>
+        public int FrameCounter { get; private set; }
+
+        /// <summary>
+        /// Kuinka monta pelinpäivitystä on tähän mennessä tallennettu.
+        /// </summary>
+        public int SavedFrameCounter { get; private set; }
+
+        /// <summary>
+        /// Kuinka monenen framen yli hypätään peliä nauhoittaessa.
+        /// </summary>
+        public int FramesToSkip { get; private set; }
+
+        private int skipcounter = 0;
+
+        /// <summary>
+        /// Tallennetaanko pelin kuvaa.
+        /// Vie oletusresoluutiolla noin 3MB/frame
+        /// </summary>
+        public bool SaveOutput { get; private set; }
+
+        /// <summary>
+        /// Ajetaanko peli ilman ääntä (esim. TIMissä)
+        /// </summary>
+        public bool Headless { get; private set; }
+
+        /// <summary>
         /// Käynnissä olevan pelin pääolio.
         /// </summary>
         public static Game Instance { get; private set; }
@@ -117,24 +151,20 @@ namespace Jypeli
             InitAudio();
         }
 
-#if HEADLESS
         /// <summary>
         /// Ajaa pelin. Kutsutaan Ohjelma.cs:stä.
-        /// Tämä versio ajaa vain yhden päivityksen ja tallentaa
-        /// ruudun tiedostoon output.bmp.
         /// </summary>
-        public new void Run()
+        /// <param name="headless">Ajetaanko ohjelma headless-moodissa. Käytetään TIMissä</param>
+        /// <param name="save">Tallentaako peli jokaisen framen omaan kuvatiedostoon</param>
+        /// <param name="frames">Kuinka monen pelipäivityksen jälkeen peli suljetaan</param>
+        /// <param name="skip">Kuinka mones frame tallennetaan peliä kuvatessa, ts. arvo 1 tarkoittaa että joka toinen frame tallennetaan</param>
+        public void Run(bool headless = false, bool save = false, int frames = 0, int skip = 1)
         {
-			this.RunOneFrame( "output.bmp" );
-			this.Exit();
-			base.Run();
-        }
-#else
-		/// <summary>
-		/// Ajaa pelin. Kutsutaan Ohjelma.cs:stä.
-		/// </summary>
-		public new void Run()
-        {
+            if (frames < 0) throw new ArgumentException("n must be greater than 0!");
+            TotalFramesToRun = frames;
+            SaveOutput = save;
+            Headless = headless;
+            FramesToSkip = skip;
             base.Run();
         }
 
@@ -142,8 +172,6 @@ namespace Jypeli
         {
             AudioEnabled = false;
         }
-#endif
-
 
 		/// <summary>
 		/// Ajaa yhden päivityksen ja tallentaa ruudun tiedostoon.
@@ -163,11 +191,7 @@ namespace Jypeli
 
 		void InitGlobals ()
         {
-#if WINDOWS_STOREAPP
-            Name = this.GetType().AssemblyQualifiedName.Split( ',' )[0];
-#else
 			Name = this.GetType().Assembly.FullName.Split( ',' )[0];
-#endif
 			Instance = this;
             Device = Device.Create();
 		}
@@ -185,12 +209,8 @@ namespace Jypeli
 
         private void InitAudio()
         {
-#if HEADLESS
-            // No audio if running on headless mode
-            AudioEnabled = false;
-            return;
-#endif
-            AudioEnabled = true;
+            if(!Headless)
+                AudioEnabled = true;
         }
 
 		internal void OnNoAudioHardwareException()
@@ -336,6 +356,31 @@ namespace Jypeli
             Screen.Render();
 
             base.Draw( gameTime );
+
+            if (SaveOutput)
+            {
+                if (FrameCounter != 0) // Ekaa framea ei voi tallentaa?
+                    if(skipcounter == 0)
+                    {
+                        Screencap.WriteBmp(new FileStream(SavedFrameCounter + ".bmp", FileMode.Create), Screen.Image);
+                        skipcounter = FramesToSkip;
+                        SavedFrameCounter++;
+                    }
+                    else
+                    {
+                        skipcounter--;
+                    }
+
+            }
+
+            FrameCounter++;
+
+            if (FrameCounter == TotalFramesToRun)
+            {
+                OnExiting(this, EventArgs.Empty);
+                UnloadContent();
+                Exit();
+            }
         }
 
         /// <summary>

@@ -35,3 +35,6 @@ Icon?
 # Dolphin
 .directory
 
+#Doxygen output
+Documentation/Generated/
+

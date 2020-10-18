@@ -136,7 +136,7 @@ namespace Jypeli
         /// </summary>
         public void Pause()
         {
-            if (!CanPlay) return;
+            if (!CanPlay || sound == null) return;
             sound.Pause();
         }
 
@@ -145,7 +145,7 @@ namespace Jypeli
         /// </summary>
         public void Resume()
         {
-            if (!CanPlay) return;
+            if (!CanPlay || sound == null) return;
             sound.Resume();
         }
 
@@ -154,7 +154,7 @@ namespace Jypeli
         /// </summary>
         public void Stop()
         {
-            if (!CanPlay) return;
+            if (!CanPlay || sound == null) return;
             sound.Stop();
         }
     }

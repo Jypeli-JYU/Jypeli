@@ -429,25 +429,27 @@ namespace Jypeli
                 if ( go.Shape.IsUnitSize )
                     drawScale = go.Size;
 
-                Vector2 position = new Vector2( (float)go.Position.X, (float)go.Position.Y );
-                Vector2 scale = new Vector2( (float)drawScale.X, (float)drawScale.Y );
-                float rotation = go.RotateImage ? (float)go.Angle.Radians : 0;
+                // recursively draw children, their children and so on.
+                drawChildren(go._childObjects);
 
-                Matrix childTransformation =
-                    Matrix.CreateRotationZ( rotation )
-                    * Matrix.CreateTranslation( position.X, position.Y, 0f )
-                    * worldMatrix;
+                void drawChildren(SynchronousList<GameObject> children){
+                    for (int j = 0; j < children.Count; j++)
+                    {
+                        GameObject go = children[j];
+                        Vector2 position = new Vector2((float)(go.AbsolutePosition.X - go.Position.X), (float)(go.AbsolutePosition.Y - go.Position.Y));
+                        Vector2 scale = new Vector2((float)drawScale.X, (float)drawScale.Y);
+                        float rotation = go.RotateImage ? (float)(go.AbsoluteAngle.Radians - go.Angle.Radians) : 0;
 
-                // light positioning for child objects has not been implemented, so
-                // let's not use it.
-                Renderer.LightingEnabled = false;
+                        Matrix childTransformation =
+                            Matrix.CreateRotationZ(rotation)
+                            * Matrix.CreateTranslation(position.X, position.Y, 0f)
+                            * worldMatrix;
 
-                for ( int j = 0; j < go._childObjects.Count; j++ )
-                {
-                    Draw( go._childObjects[j], ref childTransformation );
+                        Draw(go, ref childTransformation);
+                        if (go._childObjects != null) drawChildren(go._childObjects);
+                        
+                    }
                 }
-
-                Renderer.LightingEnabled = true;
             }
         }
 

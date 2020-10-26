@@ -140,7 +140,7 @@ namespace Jypeli
         /// <param name="name">Äänen nimi päätteineen/param>
         public static void PlaySound(string name)
         {
-            LoadSoundEffect("Content/" + name).Play();
+            LoadSoundEffect(name).Play();
         }
 
         /// <summary>

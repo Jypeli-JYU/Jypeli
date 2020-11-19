@@ -397,6 +397,7 @@ namespace Jypeli
             ControlContext.Enable();
             addMessageDisplay();
             Camera.Reset();
+            IsPaused = false;
         }
 
         /// <summary>

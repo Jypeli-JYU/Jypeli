@@ -38,12 +38,13 @@ namespace Jypeli
     /// </summary>
     public class PushButton : Label
     {
-        private enum State
+        internal enum State
         {
             Released,
             Hover,
             LeftPressed,
-            RightPressed
+            RightPressed,
+            Selected
         }
 
         private ShapeCache leftSideShape;
@@ -67,6 +68,17 @@ namespace Jypeli
         private Color releasedColor;
         private Color hoverColor;
         private Color pressedColor;
+        private Color selectedColor;
+
+        /// <summary>
+        /// Kaikkien tulevien nappuloiden oletusväri
+        /// </summary>
+        public static Color defaultColor = new Color(29, 41, 81, 223);
+
+        /// <summary>
+        /// Kaikkien tulevien nappuloiden tekstin oletusväri
+        /// </summary>
+        public static Color defaultTextColor = new Color(250, 250, 250, 240);
 
         /// <summary>
         /// Kuva kun nappi on vapautettu.
@@ -123,6 +135,11 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Nappulan oletusväri.
+        /// Asettaa myös <c>hoverColor</c>, <c>selectedColor</c> ja <c>pressedColor</c> -kenttien arvot.
+        /// Jos haluat itse määrittää em. tilojen värit, aseta ne tämän kentän arvon asettamisen jälkeen.
+        /// </summary>
         public override Color Color
         {
             get
@@ -132,9 +149,55 @@ namespace Jypeli
             set
             {
                 releasedColor = value;
-                hoverColor = Color.Lighter( value, 20 );
-                pressedColor = Color.Darker( value, 20 );
+                hoverColor = Color.Lighter(value, 40);
+                selectedColor = Color.Lighter(value, 40);
+                pressedColor = Color.Darker(value, 40);
                 base.Color = value;
+            }
+        }
+
+        /// <summary>
+        /// Nappulan väri kun hiiri viedään sen päälle.
+        /// </summary>
+        public Color HoverColor
+        {
+            get
+            {
+                return hoverColor;
+            }
+            set
+            {
+                hoverColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Nappulan väri kun sitä klikataan.
+        /// </summary>
+        public Color PressedColor
+        {
+            get
+            {
+                return pressedColor;
+            }
+            set
+            {
+                pressedColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Nappulan väri kun se on valittuna, esimerkiksi <c>MultiSelectWindow</c>issa.
+        /// </summary>
+        public Color SelectedColor
+        {
+            get
+            {
+                return selectedColor;
+            }
+            set
+            {
+                selectedColor = value;
             }
         }
 
@@ -148,7 +211,7 @@ namespace Jypeli
         /// </summary>
         public event Action RightClicked;
 
-        void TouchHover( Touch touch )
+        private void TouchHover( Touch touch )
         {
             double touchX = touch.PositionOnScreen.X;
             double touchY = touch.PositionOnScreen.Y;
@@ -159,23 +222,31 @@ namespace Jypeli
                 SetState( State.Released );
         }
 
-        void TouchRelease( Touch touch )
+        private void TouchRelease( Touch touch )
         {
             if ( Game.TouchPanel.NumTouches <= 1 )
                 SetState( State.Released );
         }
 
-        void TouchClick( Touch touch )
+        private void TouchClick( Touch touch )
         {
             Click();
         }
 
+        /// <summary>
+        /// Luo uuden painonapin.
+        /// </summary>
+        /// <param name="text">Napin teksti.</param>
         public PushButton( string text )
             : base( text )
         {
             Initialize();
         }
 
+        /// <summary>
+        /// Luo uuden painonapin.
+        /// </summary>
+        /// <param name="image">Napin kuva.</param>
         public PushButton( Image image )
             : base( image )
         {
@@ -198,8 +269,8 @@ namespace Jypeli
         {
             InitializeMargins();
             InitializeShape();
-            Color = new Color( 70, 130, 180, 230 );
-            TextColor = new Color( 250, 250, 250, 240 );
+            Color = defaultColor;
+            TextColor = defaultTextColor;
             CapturesMouse = true;
             AddedToGame += InitializeControls;
         }
@@ -304,7 +375,7 @@ namespace Jypeli
             BottomSidePressedShape = new ShapeCache( bottomSidePressedVertices, triangles );
         }
 
-        private void SetState( State state )
+        internal void SetState( State state )
         {
             this.state = state;
 
@@ -320,6 +391,9 @@ namespace Jypeli
                     base.Color = pressedColor;
                     if ( ImagePressed != null )
                         ImagePressed = ImagePressed;
+                    break;
+                case State.Selected:
+                    base.Color = selectedColor;
                     break;
                 default:
                     base.Color = releasedColor;
@@ -402,7 +476,7 @@ namespace Jypeli
 
         private void CheckHover()
         {
-            if ( isPressed ) return;
+            if ( isPressed || state == State.Selected) return; // Ehkä voisi olla jonkinlainen lisäkorostus jos hiiri on päällä ja nappula on valittuna samanaikaisesti...
             SetState( Game.Mouse.IsCursorOn( this ) ? State.Hover : State.Released );
         }
 

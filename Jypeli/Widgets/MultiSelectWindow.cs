@@ -16,8 +16,6 @@ namespace Jypeli
         private List<Listener> _defaultListeners = new List<Listener>(4);
 
         private int _selectedIndex = -1;
-        private Color _selectedColor = Color.Black;
-        private Color _selectionColor = Color.Cyan;
         private bool _buttonColorSet = false;
         private Font _font;
 
@@ -107,10 +105,10 @@ namespace Jypeli
         /// </summary>
         public Color SelectionColor
         {
-            get { return _selectionColor; }
+            get { return SelectedButton.Color; }
             set
             {
-                _selectionColor = value;
+                SelectedButton.Color = value;
                 SelectButton( _selectedIndex );
             }
         }
@@ -187,14 +185,13 @@ namespace Jypeli
             if ( p < 0 || p >= Buttons.Length ) return;
 
             _selectedIndex = p;
-            _selectedColor = SelectedButton.Color;
-            SelectedButton.Color = SelectionColor;
+            SelectedButton.SetState(PushButton.State.Selected);
         }
 
         private void UnselectButton()
         {
             if ( _selectedIndex < 0 ) return;
-            SelectedButton.Color = _selectedColor;
+            SelectedButton.SetState(PushButton.State.Released);
             _selectedIndex = -1;
         }
 
@@ -229,9 +226,6 @@ namespace Jypeli
             {
                 Buttons[i].Color = color;
             }
-
-            // Re-set the color for selected item and reselect it
-            _selectedColor = color;
             SelectButton( _selectedIndex );
         }
 

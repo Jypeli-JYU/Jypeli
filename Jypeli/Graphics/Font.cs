@@ -2,10 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Text;
 using XnaV2 = Microsoft.Xna.Framework.Vector2;
-using SpriteFontPlus;
+using FontStashSharp;
 using System.IO;
 using Microsoft.Xna.Framework.Content;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace Jypeli
 {
@@ -34,61 +35,90 @@ namespace Jypeli
         /// </summary>
         public static readonly Font DefaultBold = new Font(defaultFontBold, ContentSource.ResourceContent, 25);
 
-        // TODO: Vanhat fonttimuodostajat voisi jossain vaiheessa poistaa.
-        // Tai voisiko niiden toiminnan palauttaa, mutta fontti oikeasti muodostetaan vain jos sitä käytetään?
-
-        /// <summary>
-        /// Pieni oletusfontti.
-        /// </summary>
-        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(15)")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly Font DefaultSmall = Default;//new Font(defaultFont, ContentSource.ResourceContent, 15);
-
-        /// <summary>
-        /// Suuri oletusfontti.
-        /// </summary>
-        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(40)")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly Font DefaultLarge = Default;// new Font(defaultFont, ContentSource.ResourceContent, 40);
-
-        /// <summary>
-        /// Valtava oletusfontti.
-        /// </summary>
-        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(60)")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly Font DefaultHuge = Default;//new Font(defaultFont, ContentSource.ResourceContent, 60);
-
-        /// <summary>
-        /// Lihavoitu pieni oletusfontti.
-        /// </summary>
-        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(15, true)")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly Font DefaultSmallBold = Default;// new Font(defaultFontBold, ContentSource.ResourceContent, 15);
-
-        /// <summary>
-        /// Lihavoitu suuri oletusfontti.
-        /// </summary>
-        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(40, true)")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly Font DefaultLargeBold = Default;//new Font(defaultFontBold, ContentSource.ResourceContent, 40);
-
-        /// <summary>
-        /// Lihavoitu valtava oletusfontti.
-        /// </summary>
-        [Obsolete("Älä käytä. Käytä fontin konstructoria: new Font(60, true)")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly Font DefaultHugeBold = Default;// new Font(defaultFontBold, ContentSource.ResourceContent, 60);
-
-        private SpriteFont xnaFont;
+        private DynamicSpriteFont xnaFont;
+        private FontSystem fontSystem;
         private string name;
-        private int fontSize;
+        private int size;
         private ContentSource source;
-        private Vector[] charsizes;
-        private int bitMapSize = 2048;
 
-        internal SpriteFont XnaFont
+        private int blurAmount = 0;
+        private int strokeAmount = 0;
+
+        private List<string> mergedFonts = new List<string>();
+
+        internal DynamicSpriteFont XnaFont
         {
+            // TODO: Tarviiko loadia?
             get { DoLoad(); return xnaFont; }
+        }
+
+        internal FontSystem FontSystem
+        {
+            // TODO: Tarviiko loadia?
+            get { DoLoad(); return fontSystem; }
+        }
+
+        /// <summary>
+        /// Fontin koko.
+        /// 
+        /// Käytä tätä ainoastaan itse luomiesi Font-olioiden kanssa.
+        /// </summary>
+        /// <remarks>
+        /// Älä muuta <c>Font.Default</c>-olion kokoa!!!
+        /// </remarks>
+        public int Size
+        {
+            get { return size; }
+            set
+            {
+                if (value <= 0) throw new Exception("Fontsize must be greater than zero.");
+                size = value;
+                xnaFont = fontSystem.GetFont(size);                
+                fontSystem = null;
+                DoLoad();
+            }
+        }
+
+        /// <summary>
+        /// Asettaa tekstin sumennuksen määrän.
+        /// 
+        /// Tekstille voi asettaa ainoastaan sumennuksen tai reunuksen, ei molempia.
+        /// Tämän muuttaminen asettaa <c>StrokeAmount</c>in nollaan.
+        /// </summary>
+        /// <remarks>
+        /// Älä aseta <c>Font.Default</c>-oliolle!
+        /// </remarks>
+        public int BlurAmount
+        {
+            get { return blurAmount; }
+            set
+            {
+                blurAmount = value;
+                strokeAmount = 0;
+                fontSystem = null;
+                DoLoad();
+            }
+        }
+
+        /// <summary>
+        /// Asettaa tekstin reunuksen paksuuden.
+        /// 
+        /// Tekstille voi asettaa ainoastaan sumennuksen tai reunuksen, ei molempia.
+        /// Tämän muuttaminen asettaa <c>BlurAmount</c>in nollaan.
+        /// </summary>
+        /// <remarks>
+        /// Älä aseta <c>Font.Default</c>-oliolle!
+        /// </remarks>
+        public int StrokeAmount
+        {
+            get { return strokeAmount; }
+            set
+            {
+                strokeAmount = value;
+                blurAmount = 0;
+                fontSystem = null;
+                DoLoad();
+            }
         }
 
         /// <summary>
@@ -96,7 +126,7 @@ namespace Jypeli
         /// </summary>
         public double CharacterWidth
         {
-            get { return XnaFont.MeasureString( "X" ).X; }
+            get { return XnaFont.MeasureString( "X" ).X; } // TODO: pitäisi todellisuudessa etsiä fontin suurin merkki ja katsoa sen mitat.
         }
 
         /// <summary>
@@ -107,34 +137,6 @@ namespace Jypeli
             get { return XnaFont.MeasureString( "X" ).Y; }
         }
 
-        /// <summary>
-        /// Fontin koko
-        /// </summary>
-        /// <returns></returns>
-        public int GetFontSize()
-        {
-            return fontSize;
-        }
-
-        /// <summary>
-        /// Asettaa fontin koon.
-        /// 
-        /// Käytä tätä ainoastaan itse luomiesi Font-olioiden kanssa. Älä muuta Font.Default-olion kokoa!!!
-        /// 
-        /// Tämä on merkittävästi hitaampi kuin Labelin TextScale-ominaisuus,
-        /// mutta tarjoaa paljon suuremman tarkkuuden. Mikäli haluat reaaliajassa
-        /// muuttaa tekstin kokoa, esim. animaatiossa, aseta fontin koko suureksi ja
-        /// päivitä sen kokoa TextScalen avulla.
-        /// Huomaa kuitenkin että erittäin suurilla (yli 400) fonttikoilla tässä kutsussa kestää hetki.
-        /// </summary>
-        /// <param name="value"></param>
-        public void SetFontSize(int value)
-        {
-            if (value <= 0) throw new Exception("Fontsize must be greater than zero.");
-            fontSize = value;
-            xnaFont = null;
-            DoLoad();
-        }
         /// <summary>
         /// Lataa uuden fontin contentista.
         /// </summary>
@@ -150,7 +152,7 @@ namespace Jypeli
         /// <summary>
         /// Luo uuden oletusfontin halutulla koolla.
         /// </summary>
-        /// <param name="size">Fontin koko. Oletusfontti on kokoa 25</param>
+        /// <param name="fontSize">Fontin koko. Oletusfontti on kokoa 25</param>
         public Font(int fontSize=25) : this(defaultFont, ContentSource.ResourceContent, fontSize)
         {
         }
@@ -158,7 +160,7 @@ namespace Jypeli
         /// <summary>
         /// Luo uuden oletusfontin halutulla koolla.
         /// </summary>
-        /// <param name="size">Fontin koko. Oletusfontti on kokoa 25</param>
+        /// <param name="fontSize">Fontin koko. Oletusfontti on kokoa 25</param>
         /// <param name="bold">Onko fontti boldattu</param>
         public Font(int fontSize, bool bold) : this(bold ? defaultFontBold : defaultFont, ContentSource.ResourceContent, fontSize)
         {
@@ -174,64 +176,72 @@ namespace Jypeli
         /// Lataa uuden fontin contentista.
         /// </summary>
         /// <param name="name">Fontin tiedostonimi.</param>
-        /// <param name="size">Fontin koko. Oletusfontti on kokoa 25</param>
+        /// <param name="fontSize">Fontin koko. Oletusfontti on kokoa 25</param>
         public Font(string name, int fontSize) : this(name, ContentSource.GameContent, fontSize) { }
 
         internal Font(string name, ContentSource source)
         {
             this.xnaFont = null;
-            this.charsizes = null;
             this.name = name;
             this.source = source;
-            this.fontSize = 25;
+            this.size = 25;
         }
 
         internal Font( string name, ContentSource source, int fontSize)
         {
             this.xnaFont = null;
-            this.charsizes = null;
             this.name = name;
             this.source = source;
-            this.fontSize = fontSize;
+            this.size = fontSize;
         }
 
-        internal Font( SpriteFont xnaFont )
+        internal Font( DynamicSpriteFont xnaFont )
         {
             this.xnaFont = xnaFont;
-            this.charsizes = new Vector[xnaFont.Characters.Count];
             this.name = null;
             this.source = ContentSource.ResourceContent;
         }
 
-        private void BitMapSize()
-        {
-            if (fontSize < 350) bitMapSize = 2048;
-            else if(fontSize < 700) bitMapSize = 4096;
-            else bitMapSize = 8192; // Tällä arvolla suurin fonttikoko voi olla noin 1500,
-                                    // mutta tällöin 2015 Macbook Airilla pelin käynnistyminen kestää minuutin....
-        }
-
         private void DoLoad()
         {
-            if ( xnaFont == null )
+            if (fontSystem == null)
             {
-                BitMapSize();
+                if(blurAmount != 0)
+                    fontSystem = FontSystemFactory.CreateBlurry(Game.GraphicsDevice, 1024, 1024, blurAmount);
+                else if (strokeAmount != 0)
+                    fontSystem = FontSystemFactory.CreateStroked(Game.GraphicsDevice, 1024, 1024, strokeAmount);
+                else
+                    fontSystem = FontSystemFactory.Create(Game.GraphicsDevice, 1024, 1024);
+
                 Stream s;
                 if (this.source == ContentSource.ResourceContent) s = Game.ResourceContent.StreamInternalResource("Jypeli.Content.Fonts." + name);
-                else s = new FileStream(name, FileMode.Open);
-                var fontBakeResult = TtfFontBaker.Bake(s,
-                    fontSize,
-                    bitMapSize,
-                    bitMapSize,
-                    new[]
-                    {
-                        CharacterRange.BasicLatin,
-                        CharacterRange.Latin1Supplement,
-                        CharacterRange.LatinExtendedA,
-                    }
-                );
-                xnaFont = fontBakeResult.CreateSpriteFont(Game.GraphicsDevice);
+                else s = File.Open(name, FileMode.Open, FileAccess.Read, FileShare.ReadWrite); // Tässä pitää jostain syystä olla ReadWrite, vaikka tiedosto ainoastaan luetaan.
+
+                fontSystem.AddFont(s);
+                xnaFont = fontSystem.GetFont(size);
+
+                mergedFonts.ForEach(name => MergeFont(name));
+                
+                s.Dispose();
             }
+        }
+
+        /// <summary>
+        /// Lisää toisen fontin merkistön tähän fonttiin.
+        /// Jos fontit sisältävät päällekkäistä merkistöä, ensimmäisenä lisätty säilyy käytettävänä ulkoasuna.
+        /// </summary>
+        /// <param name="filename">Contentissa olevan fonttitiedoston nimi.</param>
+        public void AddFont(string filename)
+        {
+            MergeFont(filename);
+            mergedFonts.Add(filename);
+        }
+
+
+        private void MergeFont(string filename)
+        {
+            Stream s = File.Open("Content/" + filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            fontSystem.AddFont(s);
         }
 
         /// <summary>
@@ -241,16 +251,7 @@ namespace Jypeli
         /// <returns>Kokovektori, nollavektori jos merkkiä ei ole määritelty</returns>
         public Vector GetCharacterSize( char c )
         {
-            int index = XnaFont.Characters.IndexOf( c );
-            if ( index < 0 ) return Vector.Zero;
-
-            if ( charsizes[index] == Vector.Zero )
-            {
-                XnaV2 xnaSize = XnaFont.MeasureString( c.ToString() );
-                charsizes[index] = new Vector( xnaSize.X, xnaSize.Y );
-            }
-
-            return charsizes[index];
+            return XnaFont.MeasureString(c.ToString());
         }
 
         /// <summary>
@@ -355,14 +356,15 @@ namespace Jypeli
         /// <returns>Katkaisukohdan indeksi</returns>
         private int FindWrapIndex( StringBuilder text, double maxWidth, bool fromRight )
         {
-            double currentWidth = -XnaFont.Spacing;
+            
+            double currentWidth = -xnaFont.FontSystem.CharacterSpacing;
             int i = fromRight ? text.Length - 1 : 0;
             int step = fromRight ? -1 : 1;
 
             //for ( int i = 0; i < text.Length; i++ )
             while ( ( fromRight && i >= 0 ) || ( !fromRight && i < text.Length ) )
             {
-                currentWidth += XnaFont.Spacing + GetCharacterSize( text[i] ).X;
+                currentWidth += xnaFont.FontSystem.CharacterSpacing + GetCharacterSize( text[i] ).X;
                 if ( currentWidth >= maxWidth ) return i;
                 i += step;
             }

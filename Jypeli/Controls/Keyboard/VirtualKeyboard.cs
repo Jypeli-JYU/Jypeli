@@ -13,6 +13,7 @@ using XnaMouse = Microsoft.Xna.Framework.Input.Mouse;
 using XnaTouchPanel = Microsoft.Xna.Framework.Input.Touch.TouchPanel;
 using XnaButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Microsoft.Xna.Framework.Input.Touch;
+using FontStashSharp;
 
 namespace Jypeli.Controls.Keyboard
 {
@@ -337,7 +338,7 @@ namespace Jypeli.Controls.Keyboard
             return texture;
         }
 
-        public static void DrawStringWithShadow(SpriteBatch sb, string text, SpriteFont font, Vector2 location, XnaColor color)
+        public static void DrawStringWithShadow(SpriteBatch sb, string text, DynamicSpriteFont font, Vector2 location, XnaColor color)
         {
             sb.DrawString(font, text, new Vector2(location.X + 1f, location.Y + 1f), XnaColor.Black);
             sb.DrawString(font, text, location, color);

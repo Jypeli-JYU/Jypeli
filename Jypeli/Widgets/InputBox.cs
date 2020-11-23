@@ -234,12 +234,14 @@ namespace Jypeli
             if ( !this.ControlContext.Active ) return;
 			if ( e.Character == 0x7F || e.Character == 0x08 ) return;
 
+            // TODO: Ei välttämättä tarvi välittää
+            /*
 			if ( !this.Font.XnaFont.Characters.Contains( e.Character ) )
             {
                 // Unsupported character
                 return;
             }
-
+            */
             AddText(e.Character.ToString());
         }
 

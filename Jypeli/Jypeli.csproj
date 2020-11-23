@@ -25,9 +25,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;JYPELI;UseDouble;DESKTOP;DIRECTX;DISABLE_LIGHTING_EFFECT;NETCOREAPP;NETCOREAPP3_0</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;JYPELI;UseDouble;DESKTOP;DIRECTX;DISABLE_LIGHTING_EFFECT;NETCOREAPP;NETCOREAPP3_0;MONOGAME</DefineConstants>
     <Optimize>false</Optimize>
     <OutputPath>../Compiled</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -102,8 +103,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Include="..\SpriteFontPlus\src\**\*.cs" LinkBase="SpriteFontPlus" />
-  <Compile Include="..\SpriteFontPlus\deps\SafeStbTrueTypeSharp\src\**\*.cs" LinkBase="SpriteFontPlus\StbTrueTypeSharp" />
+    <Compile Include="..\FontStashSharp\src\**\*.cs" LinkBase="SpriteFontPlus" />
+    <Compile Include="..\FontStashSharp\deps\StbTrueTypeSharp\src\*.cs" LinkBase="FontStashSharp\StbTrueTypeSharp" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />

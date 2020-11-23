@@ -10,6 +10,7 @@ using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
 using XnaV2 = Microsoft.Xna.Framework.Vector2;
 using XnaColor = Microsoft.Xna.Framework.Color;
 using JyColor = Jypeli.Color;
+using FontStashSharp;
 
 #if WINDOWS_STOREAPP
 using ColorConverter = Jypeli.ListHelpers.Converter<Jypeli.Color, Jypeli.Color>;

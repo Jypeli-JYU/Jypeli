@@ -28,6 +28,7 @@
  */
 
 using System;
+using FontStashSharp;
 using Jypeli.Widgets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -373,7 +374,7 @@ namespace Jypeli
         /// </summary>
         private void updateSize()
         {
-            SpriteFont xnaFont = this.Font.XnaFont;
+            DynamicSpriteFont xnaFont = this.Font.XnaFont;
             visibleText = (title.Length > 0) ? (title + ": " + originalText) : originalText;
 
             if ( visibleText.Length == 0 )
@@ -427,7 +428,7 @@ namespace Jypeli
 
         private void WrapText()
         {
-            SpriteFont xnaFont = this.Font.XnaFont;
+            DynamicSpriteFont xnaFont = this.Font.XnaFont;
             Vector2 rawTextDims = xnaFont.MeasureString( visibleText );
             Vector2 fullTextDims = new Vector2( _textScale.X * rawTextDims.X, _textScale.Y * rawTextDims.Y );
 

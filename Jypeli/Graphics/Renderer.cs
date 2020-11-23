@@ -28,6 +28,7 @@
  */
 
 using System;
+using FontStashSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -276,7 +277,7 @@ namespace Jypeli
 
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
             spriteBatch.Begin();
-            spriteBatch.DrawString( font.XnaFont, text, xnaPos, color.AsXnaColor() );
+            spriteBatch.DrawString(font.XnaFont, text, xnaPos, color.AsXnaColor());
             spriteBatch.End();
         }
 
@@ -294,7 +295,7 @@ namespace Jypeli
 
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
             spriteBatch.Begin( SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, m );
-            spriteBatch.DrawString( font.XnaFont, text, Vector2.Zero, color.AsXnaColor() );
+            spriteBatch.DrawString( font.XnaFont, text, Vector2.Zero, color.AsXnaColor());
             spriteBatch.End();
         }
 

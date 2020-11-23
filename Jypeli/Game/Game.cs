@@ -165,6 +165,10 @@ namespace Jypeli
             SaveOutput = save;
             Headless = headless;
             FramesToSkip = skip;
+            if (save && !Directory.Exists("Output"))
+            {
+                Directory.CreateDirectory("Output");
+            }
             base.Run();
         }
 
@@ -362,7 +366,7 @@ namespace Jypeli
                 if (FrameCounter != 0) // Ekaa framea ei voi tallentaa?
                     if(skipcounter == 0)
                     {
-                        Screencap.WriteBmp(new FileStream(SavedFrameCounter + ".bmp", FileMode.Create), Screen.Image);
+                        Screencap.WriteBmp(new FileStream("Output/" + SavedFrameCounter + ".bmp", FileMode.Create), Screen.Image);
                         skipcounter = FramesToSkip;
                         SavedFrameCounter++;
                     }

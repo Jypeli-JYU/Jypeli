@@ -22,6 +22,11 @@ namespace Jypeli
         Timer posTimer;
 
         /// <summary>
+        /// Tapahtuu kun ääniefekti on toistettu loppuun.
+        /// </summary>
+        public event Action Finished;
+
+        /// <summary>
         /// Ääniefektin kesto sekunteina.
         /// </summary>
         public TimeSpan Duration { get { DoLoad(); return xnaEffect.Duration; } }
@@ -94,6 +99,7 @@ namespace Jypeli
             Position.Reset();
             Instances.Clear();
             IsPlaying = false;
+            Finished();
         }
 
         /// <summary>

@@ -28,6 +28,7 @@
  */
 
 using System;
+using System.Linq;
 using FontStashSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -296,6 +297,24 @@ namespace Jypeli
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
             spriteBatch.Begin( SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, m );
             spriteBatch.DrawString( font.XnaFont, text, Vector2.Zero, color.AsXnaColor());
+            spriteBatch.End();
+        }
+
+        /// <summary>
+        /// Piirtää tekstiä ruudulle
+        /// </summary>
+        /// <param name="text">Teksti</param>
+        /// <param name="transformation">Transformaatio</param>
+        /// <param name="font">Fontti</param>
+        /// <param name="colors">Tekstin kirjainten väri</param>
+        public static void DrawText(string text, ref Matrix transformation, Font font, Color[] colors)
+        {
+            Vector textSize = (Vector)font.XnaFont.MeasureString(text);
+            Matrix m = ScreenView.ToXnaCoords(ref transformation, Game.Screen.Size, textSize);
+
+            SpriteBatch spriteBatch = Graphics.SpriteBatch;
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, m);
+            spriteBatch.DrawString( font.XnaFont, text, Vector2.Zero, colors.ConvertAll(v => v.AsXnaColor()).ToArray() );
             spriteBatch.End();
         }
 

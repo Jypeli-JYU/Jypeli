@@ -65,20 +65,20 @@ namespace Jypeli
     /// </summary>
     public class Label : BindableWidget
     {
-        Font font;
-        string title = "";
-        string originalText = "";
-        string visibleText = "";
-        TextSizeMode sizeMode = TextSizeMode.None;
-        int decimalPlaces = 2;
-        string doubleFormatString = "{0:N2}";
-        string intFormatString = "{0:D1}";
-        double _xMargin;
+        private Font font;
+        private string title = "";
+        private string originalText = "";
+        private string visibleText = "";
+        private TextSizeMode sizeMode = TextSizeMode.None;
+        private int decimalPlaces = 2;
+        private string doubleFormatString = "{0:N2}";
+        private string intFormatString = "{0:D1}";
+        private double _xMargin;
         private double _yMargin;
-        bool useDefaultHeight = false;
-        bool initialized = false;
-
-        const double DefaultWidth = 100;
+        private bool useDefaultHeight = false;
+        private bool initialized = false;
+        private const double DefaultWidth = 100;
+        private Color[] characterColors;
 
         static double GetDefaultHeight()
         {
@@ -206,6 +206,17 @@ namespace Jypeli
         /// Tekstin väri.
         /// </summary>
         public Color TextColor { get; set; }
+
+        /// <summary>
+        /// Tekstin yksittäisten kirjainten väri.
+        /// Jos tämä on asetettu, jätetään <c>TextColor</c>-kentän arvo huomioimatta.
+        /// Taulukossa pitää olla väri jokaiselle kirjaimelle, ts. sen pituus pitää olla vähintään sama kuin tekstin.
+        /// </summary>
+        public Color[] CharacterColors 
+        { 
+            get { return characterColors; } 
+            set { characterColors = value; }
+        }
 
         /// <summary>
         /// Tekstin fontti.
@@ -487,7 +498,10 @@ namespace Jypeli
                 * Matrix.CreateTranslation( (float)Position.X, (float)Position.Y, 0 )
                 * parentTransformation;
 
-            Renderer.DrawText( text, ref m, Font, TextColor );
+            if(CharacterColors == null)
+                Renderer.DrawText( text, ref m, Font, TextColor );
+            else
+                Renderer.DrawText(text, ref m, Font, CharacterColors);
             base.Draw( parentTransformation, transformation );
         }
     }

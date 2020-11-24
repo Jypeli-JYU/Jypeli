@@ -48,13 +48,11 @@ namespace Jypeli
 
         internal DynamicSpriteFont XnaFont
         {
-            // TODO: Tarviiko loadia?
             get { DoLoad(); return xnaFont; }
         }
 
         internal FontSystem FontSystem
         {
-            // TODO: Tarviiko loadia?
             get { DoLoad(); return fontSystem; }
         }
 

@@ -8,7 +8,7 @@
     <AssemblyName>Jypeli</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageId>Jypeli.Core</PackageId>
-    <Version>9.0.1</Version>
+    <Version>9.1.0</Version>
     <Authors>University of Jyväskylä</Authors>
     <Company />
     <Product />
@@ -17,22 +17,22 @@
     <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>-Fixed Widget listener leaks
--Fixed MultiSelectWindow number key selection
--Fixed grenades crashing the game
--Fixed collisionhandler removal with ClearAll</PackageReleaseNotes>
+    <PackageReleaseNotes>-New font system, includes font blurring, stroke and individual character coloring
+-Default button color is now darker
+-Option to record game output
+-Bugfixes</PackageReleaseNotes>
     <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;JYPELI;UseDouble;DESKTOP;DIRECTX;DISABLE_LIGHTING_EFFECT;NETCOREAPP;NETCOREAPP3_0;MONOGAME</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;JYPELI;UseDouble;DESKTOP;DISABLE_LIGHTING_EFFECT;MONOGAME</DefineConstants>
     <Optimize>false</Optimize>
     <OutputPath>../Compiled</OutputPath>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>JYPELI;UseDouble;DESKTOP;DIRECTX;DISABLE_LIGHTING_EFFECT;NETCOREAPP;NETCOREAPP3_0</DefineConstants>
+    <DefineConstants>JYPELI;UseDouble;DESKTOP;DISABLE_LIGHTING_EFFECT;MONOGAME</DefineConstants>
     <OutputPath>../Compiled</OutputPath>
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
@@ -64,6 +64,10 @@
     <None Remove="Content\Sounds\laser.wav" />
     <None Remove="Content\Sounds\MGAttack.wav" />
     <None Remove="Content\Sounds\PlasmaAttack.wav" />
+    <None Include="..\Documentation\jypeli_logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -120,6 +124,9 @@
 
   <PropertyGroup>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+    <AssemblyVersion>9.1.0.0</AssemblyVersion>
+    <FileVersion>9.1.0.0</FileVersion>
+    <PackageIcon>jypeli_logo.png</PackageIcon>
   </PropertyGroup>
   <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
     <ItemGroup>

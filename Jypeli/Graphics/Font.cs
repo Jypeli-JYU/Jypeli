@@ -69,6 +69,7 @@ namespace Jypeli
             get { return size; }
             set
             {
+                DoLoad();
                 if (value <= 0) throw new Exception("Fontsize must be greater than zero.");
                 size = value;
                 xnaFont = fontSystem.GetFont(size);                
@@ -91,6 +92,7 @@ namespace Jypeli
             get { return blurAmount; }
             set
             {
+                DoLoad();
                 blurAmount = value;
                 strokeAmount = 0;
                 fontSystem = null;
@@ -112,6 +114,7 @@ namespace Jypeli
             get { return strokeAmount; }
             set
             {
+                DoLoad();
                 strokeAmount = value;
                 blurAmount = 0;
                 fontSystem = null;
@@ -143,7 +146,6 @@ namespace Jypeli
         public static Font FromContent(string name)
         {
             Font font = new Font("Content/" + name, ContentSource.GameContent);
-            font.DoLoad();
             return font;
         }
 
@@ -281,8 +283,7 @@ namespace Jypeli
         /// <returns>Vektorin, joka kertoo tekstin koon.</returns>
         public Vector MeasureSize(string str)
         {
-            DoLoad();
-            var xnaVector2 = xnaFont.MeasureString(str);
+            var xnaVector2 = XnaFont.MeasureString(str);
             return new Vector(xnaVector2.X, xnaVector2.Y);
         }
 

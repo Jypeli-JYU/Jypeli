@@ -231,6 +231,7 @@ namespace Jypeli
         /// <param name="filename">Contentissa olevan fonttitiedoston nimi.</param>
         public void AddFont(string filename)
         {
+            DoLoad();
             MergeFont(filename);
             mergedFonts.Add(filename);
         }

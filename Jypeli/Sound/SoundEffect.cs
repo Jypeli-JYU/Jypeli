@@ -99,7 +99,7 @@ namespace Jypeli
             Position.Reset();
             Instances.Clear();
             IsPlaying = false;
-            Finished();
+            if(Finished != null) Finished();
         }
 
         /// <summary>

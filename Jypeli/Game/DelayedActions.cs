@@ -113,26 +113,24 @@ namespace Jypeli
         /// </summary>
         public void ConfirmExit()
         {
-#if !WINRT  // Win8 programs cannot be closed with Exit()
+            ConfirmExit(null);
+        }
 
+        /// <summary>
+        /// Kysyy haluaako lopettaa pelin ja lopettaa jos vastataan kyllä.
+        /// </summary>
+        /// <param name="noAction">Mitä tehdään jos käyttäjä vastaa ei.</param>
+        public void ConfirmExit(Action noAction)
+        {
             YesNoWindow kyselyIkkuna = new YesNoWindow( "Do you want to quit?" );
             kyselyIkkuna.Yes += Exit;
+            if(noAction != null)
+                kyselyIkkuna.No += noAction;
             kyselyIkkuna.Closed += delegate { IsPaused = false; };
             Add( kyselyIkkuna );
 
             IsPaused = true;
-#endif
         }
-
-#if WINRT
-        public new void Exit()
-        {
-            ClearAll();
-            
-            Label exitLabel = new Label("Game over. You can close the app now.");
-            Add( exitLabel );
-        }
-#endif
 
         protected override void OnExiting( object sender, EventArgs args )
         {

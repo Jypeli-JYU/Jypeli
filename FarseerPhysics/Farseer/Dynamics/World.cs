@@ -70,6 +70,7 @@ namespace FarseerPhysics.Dynamics
 		/// </summary>
 		/// <value>The gravity.</value>
 		public Vector2 Gravity;
+		Vector IPhysicsEngine.Gravity { get => Gravity; set => Gravity = value; }
 
 		/// <summary>
 		/// Get the contact manager for testing.
@@ -106,8 +107,6 @@ namespace FarseerPhysics.Dynamics
 		/// </summary>
 		/// <value>The head of the world contact list.</value>
 		public List<Contact> ContactList => ContactManager.ContactList;
-
-        Vector IPhysicsEngine.Gravity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         /// <summary>
         /// If false, the whole simulation stops. It still processes added and removed geometries.
@@ -1520,9 +1519,13 @@ namespace FarseerPhysics.Dynamics
 			ProcessChanges();
 		}
 
+        #region Jypeli's IPhysicsEngine members
+
         public IPhysicsBody CreateBody(IPhysicsObject owner, double width, double height, Jypeli.Shape shape)
         {
-            throw new NotImplementedException();
+			PhysicsBody pb = new PhysicsBody(width, height, shape, this);
+			pb.Owner = owner;
+			return pb;
         }
 
         public IAxleJoint CreateJoint(IPhysicsObject obj1, IPhysicsObject obj2, Vector pivot)
@@ -1537,7 +1540,8 @@ namespace FarseerPhysics.Dynamics
 
         public void AddBody(IPhysicsBody body)
         {
-            throw new NotImplementedException();
+			PhysicsBody b = body as PhysicsBody;
+			AddBody(b.Body);
         }
 
         public void RemoveBody(IPhysicsBody body)
@@ -1557,7 +1561,8 @@ namespace FarseerPhysics.Dynamics
 
         public void Update(double dt)
         {
-            throw new NotImplementedException();
+			Step((float)dt);
         }
+        #endregion
     }
 }

@@ -30,7 +30,7 @@ namespace Jypeli
         /// Alustaa uuden fysiikkapelin.
         /// </summary>
         public PhysicsGame()
-            : base(new World(Vector2.Zero))
+            : base(new World(new Vector2(20,20)))
         {
            
         }

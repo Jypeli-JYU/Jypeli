@@ -32,7 +32,7 @@ using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
 using Jypeli.Farseer;
-
+using Jypeli;
 
 namespace FarseerPhysics.Dynamics
 {
@@ -59,9 +59,11 @@ namespace FarseerPhysics.Dynamics
 
 	public class Body : IDisposable
 	{
-		#region Properties/Fields/Events
+		// TODO: Farseer ei toimi tälleen.
+        internal Jypeli.Shape Shape;
+        #region Properties/Fields/Events
 
-		public PhysicsLogicFilter PhysicsLogicFilter;
+        public PhysicsLogicFilter PhysicsLogicFilter;
 		public ControllerFilter ControllerFilter;
 
 		/// <summary>
@@ -693,11 +695,15 @@ namespace FarseerPhysics.Dynamics
 		internal World _world;
 		internal Transform _xf; // the body origin transform
 		internal bool _island;
+        internal bool IgnoresPhysicsLogics;
+        internal bool IgnoresCollisionResponse;
+        internal AdaptedIgnorer CollisionIgnorer;
+        internal PhysicsBody Tag;
 
-		#endregion
+        #endregion
 
 
-		public Body(World world, Vector2 position = new Vector2(), float rotation = 0,
+        public Body(World world, Vector2 position = new Vector2(), float rotation = 0,
 		            BodyType bodyType = BodyType.Static, object userdata = null)
 		{
 			FixtureList = new List<Fixture>();
@@ -754,7 +760,7 @@ namespace FarseerPhysics.Dynamics
 		/// <param name="shape">The shape.</param>
 		/// <param name="userData">Application specific data</param>
 		/// <returns></returns>
-		public Fixture CreateFixture(Shape shape, object userData = null)
+		public Fixture CreateFixture(Collision.Shapes.Shape shape, object userData = null)
 		{
 			return new Fixture(this, shape, userData);
 		}

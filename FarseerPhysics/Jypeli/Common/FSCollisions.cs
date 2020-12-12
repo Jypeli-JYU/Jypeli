@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 using FSTransform = FarseerPhysics.Common.Transform;
 
 
-namespace Nez.Farseer
+namespace Jypeli.Farseer
 {
 	/// <summary>
 	/// a collection of helper methods for doing manual collision detection. Why would you want such a thing with a physics engine? The big
@@ -30,8 +30,8 @@ namespace Nez.Farseer
 		/// <param name="shapeB">Shape b.</param>
 		/// <param name="transformA">Transform a.</param>
 		/// <param name="transformB">Transform b.</param>
-		public static bool TestOverlap(Shape shapeA, Shape shapeB, ref FSTransform transformA,
-		                               ref FSTransform transformB)
+		public static bool TestOverlap(FarseerPhysics.Collision.Shapes.Shape shapeA, FarseerPhysics.Collision.Shapes.Shape shapeB, ref FSTransform transformA,
+									   ref FSTransform transformB)
 		{
 			if (shapeA.ChildCount == 1 && shapeB.ChildCount == 1)
 				return Collision.TestOverlap(shapeA, 0, shapeB, 0, ref transformA, ref transformB);
@@ -69,7 +69,7 @@ namespace Nez.Farseer
 		/// <param name="fixtureB">Fixture b.</param>
 		/// <param name="result">Result.</param>
 		public static bool CollideFixtures(Fixture fixtureA, ref Vector2 motion, Fixture fixtureB,
-		                                   out FSCollisionResult result)
+										   out FSCollisionResult result)
 		{
 			// gather our transforms and adjust fixtureA's transform to account for the motion so we check for the collision at its new location
 			FSTransform transformA;
@@ -121,7 +121,7 @@ namespace Nez.Farseer
 		/// <param name="transformB">Transform b.</param>
 		/// <param name="result">Result.</param>
 		public static bool CollideFixtures(Fixture fixtureA, ref FSTransform transformA, Fixture fixtureB,
-		                                   ref FSTransform transformB, out FSCollisionResult result)
+										   ref FSTransform transformB, out FSCollisionResult result)
 		{
 			result = new FSCollisionResult();
 			result.Fixture = fixtureB;
@@ -141,7 +141,7 @@ namespace Nez.Farseer
 
 			// check user filtering
 			if (fixtureA.Body.World.ContactManager.OnContactFilter != null &&
-			    !fixtureA.Body.World.ContactManager.OnContactFilter(fixtureA, fixtureB))
+				!fixtureA.Body.World.ContactManager.OnContactFilter(fixtureA, fixtureB))
 				return false;
 
 			// we only handle Circle or Polygon collisions
@@ -208,7 +208,7 @@ namespace Nez.Farseer
 
 
 		static bool CollidePolygons(PolygonShape polygonA, ref FSTransform transformA, PolygonShape polygonB,
-		                            ref FSTransform transformB, out FSCollisionResult result)
+									ref FSTransform transformB, out FSCollisionResult result)
 		{
 			result = new FSCollisionResult();
 
@@ -228,7 +228,7 @@ namespace Nez.Farseer
 
 					var clipPoint = MathUtils.Mul(ref transformB, _manifold.Points[0].LocalPoint);
 					var separation = Vector2.Dot(clipPoint - planePoint, result.Normal) - polygonA.Radius -
-					                 polygonB.Radius;
+									 polygonB.Radius;
 					result.Point = clipPoint * FSConvert.SimToDisplay;
 
 					// Ensure normal points from A to B
@@ -243,7 +243,7 @@ namespace Nez.Farseer
 
 					var clipPoint = MathUtils.Mul(ref transformA, _manifold.Points[0].LocalPoint);
 					var separation = Vector2.Dot(clipPoint - planePoint, result.Normal) - polygonA.Radius -
-					                 polygonB.Radius;
+									 polygonB.Radius;
 					result.Point = clipPoint * FSConvert.SimToDisplay;
 
 					result.MinimumTranslationVector = result.Normal * -separation;
@@ -262,7 +262,7 @@ namespace Nez.Farseer
 
 
 		static bool CollidePolygonCircle(PolygonShape polygon, ref FSTransform polyTransform, CircleShape circle,
-		                                 ref FSTransform circleTransform, out FSCollisionResult result)
+										 ref FSTransform circleTransform, out FSCollisionResult result)
 		{
 			result = new FSCollisionResult();
 			Collision.CollidePolygonAndCircle(ref _manifold, polygon, ref polyTransform, circle, ref circleTransform);
@@ -297,7 +297,7 @@ namespace Nez.Farseer
 
 
 		static bool CollideCircles(CircleShape circleA, ref FSTransform firstTransform, CircleShape circleB,
-		                           ref FSTransform secondTransform, out FSCollisionResult result)
+								   ref FSTransform secondTransform, out FSCollisionResult result)
 		{
 			result = new FSCollisionResult();
 			Collision.CollideCircles(ref _manifold, circleA, ref firstTransform, circleB, ref secondTransform);
@@ -309,7 +309,8 @@ namespace Nez.Farseer
 				var pointB = MathUtils.Mul(ref secondTransform, _manifold.Points[0].LocalPoint);
 
 				result.Normal = pointA - pointB;
-				Vector2Ext.Normalize(ref result.Normal);
+				result.Normal.Normalize();
+				//Vector2Ext.Normalize(ref result.Normal);
 
 				var cA = pointA - circleA.Radius * result.Normal;
 				var cB = pointB + circleB.Radius * result.Normal;
@@ -332,7 +333,7 @@ namespace Nez.Farseer
 
 
 		static bool CollideEdgeAndCircle(EdgeShape edge, ref FSTransform edgeTransform, CircleShape circle,
-		                                 ref FSTransform circleTransform, out FSCollisionResult result)
+										 ref FSTransform circleTransform, out FSCollisionResult result)
 		{
 			result = new FSCollisionResult();
 			Collision.CollideEdgeAndCircle(ref _manifold, edge, ref edgeTransform, circle, ref circleTransform);
@@ -347,7 +348,8 @@ namespace Nez.Farseer
 					var pointB = MathUtils.Mul(ref circleTransform, _manifold.Points[0].LocalPoint);
 
 					result.Normal = pointA - pointB;
-					Vector2Ext.Normalize(ref result.Normal);
+					result.Normal.Normalize();
+					//Vector2Ext.Normalize(ref result.Normal);
 
 					var cA = pointA - edge.Radius * result.Normal;
 					var cB = pointB + circle.Radius * result.Normal;
@@ -385,7 +387,7 @@ namespace Nez.Farseer
 
 
 		static bool CollideEdgeAndPolygon(EdgeShape edge, ref FSTransform edgeTransform, PolygonShape polygon,
-		                                  ref FSTransform polygonTransform, out FSCollisionResult result)
+										  ref FSTransform polygonTransform, out FSCollisionResult result)
 		{
 			result = new FSCollisionResult();
 			Collision.CollideEdgeAndPolygon(ref _manifold, edge, ref edgeTransform, polygon, ref polygonTransform);

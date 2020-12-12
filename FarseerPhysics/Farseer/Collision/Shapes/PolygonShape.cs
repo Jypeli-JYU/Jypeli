@@ -123,7 +123,8 @@ namespace FarseerPhysics.Collision.Shapes
 
 				// FPE optimization: Normals.Add(MathHelper.Cross(edge, 1.0f));
 				var temp = new Vector2(edge.Y, -edge.X);
-				Nez.Vector2Ext.Normalize(ref temp);
+				temp.Normalize();
+				//Nez.Vector2Ext.Normalize(ref temp);
 				_normals.Add(temp);
 			}
 

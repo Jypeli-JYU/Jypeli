@@ -250,7 +250,8 @@ namespace FarseerPhysics.Dynamics.Joints
 				var maxImpulse = h * MaxForce;
 				if (_linearImpulse.LengthSquared() > maxImpulse * maxImpulse)
 				{
-					Nez.Vector2Ext.Normalize(ref _linearImpulse);
+					_linearImpulse.Normalize();
+					//Nez.Vector2Ext.Normalize(ref _linearImpulse);
 					_linearImpulse *= maxImpulse;
 				}
 

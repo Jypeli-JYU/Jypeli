@@ -3,7 +3,7 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 
 
-namespace Nez.Farseer
+namespace Jypeli.Farseer
 {
 	public struct FSCollisionResult
 	{

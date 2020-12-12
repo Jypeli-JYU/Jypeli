@@ -326,13 +326,13 @@ namespace FarseerPhysics.Common
 			return TextureConverter.DetectVertices(data, texture.Width);
 		}
 
-
+		/*
 		public static Vertices CreatePolygonFromTextureData(Nez.Textures.Sprite sprite)
 		{
 			var data = new uint[sprite.SourceRect.Width * sprite.SourceRect.Height];
 			sprite.Texture2D.GetData(0, sprite.SourceRect, data, 0, data.Length);
 			return TextureConverter.DetectVertices(data, sprite.Texture2D.Width);
-		}
+		}*/
 
 		/// <summary>
 		/// Detects the vertices by analyzing the texture data.

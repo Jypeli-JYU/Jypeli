@@ -283,7 +283,8 @@ namespace FarseerPhysics.Dynamics.Joints
 			{
 				_axis1 = value;
 				LocalXAxis = BodyA.GetLocalVector(_axis1);
-				Nez.Vector2Ext.Normalize(ref LocalXAxis);
+				LocalXAxis.Normalize();
+				//Nez.Vector2Ext.Normalize(ref LocalXAxis);
 				_localYAxisA = MathUtils.Cross(1.0f, LocalXAxis);
 			}
 		}

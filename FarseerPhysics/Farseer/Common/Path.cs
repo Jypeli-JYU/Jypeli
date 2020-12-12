@@ -247,7 +247,8 @@ namespace FarseerPhysics.Common
 			output.X = -temp.Y;
 			output.Y = temp.X;
 
-			Nez.Vector2Ext.Normalize(ref output);
+			output.Normalize();
+			//Nez.Vector2Ext.Normalize(ref output);
 
 			return output;
 		}

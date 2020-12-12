@@ -36,7 +36,8 @@ using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
-
+using Jypeli.Physics;
+using Jypeli;
 
 namespace FarseerPhysics.Dynamics
 {
@@ -44,7 +45,7 @@ namespace FarseerPhysics.Dynamics
 	/// The world class manages all physics entities, dynamic simulation,
 	/// and asynchronous queries.
 	/// </summary>
-	public class World
+	public class World : IPhysicsEngine
 	{
 		#region Properties/Fields
 
@@ -106,10 +107,12 @@ namespace FarseerPhysics.Dynamics
 		/// <value>The head of the world contact list.</value>
 		public List<Contact> ContactList => ContactManager.ContactList;
 
-		/// <summary>
-		/// If false, the whole simulation stops. It still processes added and removed geometries.
-		/// </summary>
-		public bool Enabled;
+        Vector IPhysicsEngine.Gravity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        /// <summary>
+        /// If false, the whole simulation stops. It still processes added and removed geometries.
+        /// </summary>
+        public bool Enabled;
 
 		public Island Island;
 
@@ -1301,7 +1304,7 @@ namespace FarseerPhysics.Dynamics
 			for (var i = fixtures.Count - 1; i >= 0; i--)
 			{
 				fixtures[i].Body.GetTransform(out transformB);
-				if (!Nez.Farseer.FSCollisions.TestOverlap(_tempOverlapCircle, fixtures[i].Shape, ref circleTransform,
+				if (!Jypeli.Farseer.FSCollisions.TestOverlap(_tempOverlapCircle, fixtures[i].Shape, ref circleTransform,
 					ref transformB))
 					fixtures.RemoveAt(i);
 			}
@@ -1516,5 +1519,45 @@ namespace FarseerPhysics.Dynamics
 
 			ProcessChanges();
 		}
-	}
+
+        public IPhysicsBody CreateBody(IPhysicsObject owner, double width, double height, Jypeli.Shape shape)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAxleJoint CreateJoint(IPhysicsObject obj1, IPhysicsObject obj2, Vector pivot)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAxleJoint CreateJoint(IPhysicsObject obj1, Vector pivot)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddBody(IPhysicsBody body)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveBody(IPhysicsBody body)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddJoint(IAxleJoint joint)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveJoint(IAxleJoint joint)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(double dt)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

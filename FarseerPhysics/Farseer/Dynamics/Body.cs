@@ -31,7 +31,7 @@ using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
-using Nez.Farseer;
+using Jypeli.Farseer;
 
 
 namespace FarseerPhysics.Dynamics

@@ -314,7 +314,8 @@ namespace FarseerPhysics.Dynamics.Joints
 			var u = cB + rB - cA - rA;
 
 			var length = u.Length();
-			Nez.Vector2Ext.Normalize(ref u);
+			u.Normalize();
+			//Nez.Vector2Ext.Normalize(ref u);
 			var C = length - this.Length;
 			C = MathUtils.Clamp(C, -Settings.MaxLinearCorrection, Settings.MaxLinearCorrection);
 

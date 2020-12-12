@@ -1,7 +1,7 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 
-namespace Nez.Farseer
+namespace Jypeli.Farseer
 {
 	/// <summary>
 	/// Convert units between display and simulation units
@@ -69,7 +69,7 @@ namespace Nez.Farseer
 
 		public static float ToSimUnits(double displayUnits)
 		{
-			return (float) displayUnits * DisplayToSim;
+			return (float)displayUnits * DisplayToSim;
 		}
 
 		public static float ToSimUnits(int displayUnits)
@@ -99,7 +99,7 @@ namespace Nez.Farseer
 
 		public static Vector2 ToSimUnits(double x, double y)
 		{
-			return new Vector2((float) x, (float) y) * DisplayToSim;
+			return new Vector2((float)x, (float)y) * DisplayToSim;
 		}
 
 		public static void ToSimUnits(float x, float y, out Vector2 simUnits)

@@ -36,92 +36,92 @@ using System.Collections.Generic;
 
 namespace FarseerPhysics.Common.Decomposition.CDT.Util
 {
-	internal struct FixedBitArray3 : IEnumerable<bool>
-	{
-		public bool _0, _1, _2;
+    internal struct FixedBitArray3 : IEnumerable<bool>
+    {
+        public bool _0, _1, _2;
 
-		public bool this[int index]
-		{
-			get
-			{
-				switch (index)
-				{
-					case 0:
-						return _0;
-					case 1:
-						return _1;
-					case 2:
-						return _2;
-					default:
-						throw new IndexOutOfRangeException();
-				}
-			}
-			set
-			{
-				switch (index)
-				{
-					case 0:
-						_0 = value;
-						break;
-					case 1:
-						_1 = value;
-						break;
-					case 2:
-						_2 = value;
-						break;
-					default:
-						throw new IndexOutOfRangeException();
-				}
-			}
-		}
+        public bool this[int index]
+        {
+            get
+            {
+                switch (index)
+                {
+                    case 0:
+                        return _0;
+                    case 1:
+                        return _1;
+                    case 2:
+                        return _2;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+            set
+            {
+                switch (index)
+                {
+                    case 0:
+                        _0 = value;
+                        break;
+                    case 1:
+                        _1 = value;
+                        break;
+                    case 2:
+                        _2 = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+        }
 
-		#region IEnumerable<bool> Members
+        #region IEnumerable<bool> Members
 
-		public IEnumerator<bool> GetEnumerator()
-		{
-			return Enumerate().GetEnumerator();
-		}
+        public IEnumerator<bool> GetEnumerator()
+        {
+            return Enumerate().GetEnumerator();
+        }
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
-		#endregion
+        #endregion
 
-		public bool Contains(bool value)
-		{
-			for (int i = 0; i < 3; ++i)
-				if (this[i] == value)
-					return true;
+        public bool Contains(bool value)
+        {
+            for (int i = 0; i < 3; ++i)
+                if (this[i] == value)
+                    return true;
 
-			return false;
-		}
+            return false;
+        }
 
-		public int IndexOf(bool value)
-		{
-			for (int i = 0; i < 3; ++i)
-				if (this[i] == value)
-					return i;
+        public int IndexOf(bool value)
+        {
+            for (int i = 0; i < 3; ++i)
+                if (this[i] == value)
+                    return i;
 
-			return -1;
-		}
+            return -1;
+        }
 
-		public void Clear()
-		{
-			_0 = _1 = _2 = false;
-		}
+        public void Clear()
+        {
+            _0 = _1 = _2 = false;
+        }
 
-		public void Clear(bool value)
-		{
-			for (int i = 0; i < 3; ++i)
-				if (this[i] == value)
-					this[i] = false;
-		}
+        public void Clear(bool value)
+        {
+            for (int i = 0; i < 3; ++i)
+                if (this[i] == value)
+                    this[i] = false;
+        }
 
-		private IEnumerable<bool> Enumerate()
-		{
-			for (int i = 0; i < 3; ++i) yield return this[i];
-		}
-	}
+        private IEnumerable<bool> Enumerate()
+        {
+            for (int i = 0; i < 3; ++i) yield return this[i];
+        }
+    }
 }

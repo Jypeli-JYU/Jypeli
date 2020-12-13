@@ -70,8 +70,8 @@ namespace Jypeli
         /// </summary>
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
-        public PhysicsBody( double width, double height, World world )
-            : this( width, height, Shape.Rectangle, world )
+        public PhysicsBody(double width, double height, World world)
+            : this(width, height, Shape.Rectangle, world)
         {
         }
 
@@ -81,13 +81,13 @@ namespace Jypeli
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
         /// <param name="shape">Muoto.</param>
-        public PhysicsBody( double width, double height, Shape shape, World world)
-            : this( width, height, shape, CreatePhysicsShape( shape, new Vector( width, height ) ), world )
+        public PhysicsBody(double width, double height, Shape shape, World world)
+            : this(width, height, shape, CreatePhysicsShape(shape, new Vector(width, height)), world)
         {
         }
 
-        public PhysicsBody( double width, double height, Shape shape, CollisionShapeParameters shapeParameters, World world)
-            : this( width, height, shape, CreatePhysicsShape( shape, new Vector( width, height ), shapeParameters ), world )
+        public PhysicsBody(double width, double height, Shape shape, CollisionShapeParameters shapeParameters, World world)
+            : this(width, height, shape, CreatePhysicsShape(shape, new Vector(width, height), shapeParameters), world)
         {
         }
 
@@ -95,8 +95,8 @@ namespace Jypeli
         /// Luo fysiikkaolion, jonka muotona on säde.
         /// </summary>
         /// <param name="raySegment">Säde.</param>
-        public PhysicsBody( RaySegment raySegment, World world)
-            : this( 1, 1, raySegment, world)
+        public PhysicsBody(RaySegment raySegment, World world)
+            : this(1, 1, raySegment, world)
         {
             this._size = Vector.One;
             this._shape = raySegment;
@@ -106,7 +106,7 @@ namespace Jypeli
         /// Initializes the object with the given physics shape. The size of
         /// the physicsShape must be the one given.
         /// </summary>
-        internal PhysicsBody( double width, double height, Shape shape, Shape physicsShape, World world)
+        internal PhysicsBody(double width, double height, Shape shape, Shape physicsShape, World world)
         {
             /* 
              Coefficients c = new Coefficients( DefaultCoefficients.Restitution, DefaultCoefficients.StaticFriction, DefaultCoefficients.DynamicFriction );
@@ -119,24 +119,24 @@ namespace Jypeli
             // TODO:...
             Vertices vertices = PolygonTools.CreateRectangle((float)width / 2 * FSConvert.DisplayToSim, (float)height / 2 * FSConvert.DisplayToSim);
             Fixture f = Body.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 0.01f));
-            this._size = new Vector( width, height) * FSConvert.DisplayToSim;
+            this._size = new Vector(width, height) * FSConvert.DisplayToSim;
             this._shape = shape;
             LinearDamping = 0.99;
-        }        
+        }
 
         #endregion
 
-        public void Update( Time time )
+        public void Update(Time time)
         {
-            if ( Velocity.Magnitude > MaxVelocity )
-                Velocity = Vector.FromLengthAndAngle( MaxVelocity, Velocity.Angle );
-            if ( AngularVelocity > MaxAngularVelocity )
+            if (Velocity.Magnitude > MaxVelocity)
+                Velocity = Vector.FromLengthAndAngle(MaxVelocity, Velocity.Angle);
+            if (AngularVelocity > MaxAngularVelocity)
                 AngularVelocity = MaxVelocity;
 
             //base.Update( time );
         }
 
-        public void SetCollisionIgnorer( Ignorer ignorer )
+        public void SetCollisionIgnorer(Ignorer ignorer)
         {
             //this.Body.CollisionIgnorer = new CollisionIgnorerAdapter( ignorer );
         }

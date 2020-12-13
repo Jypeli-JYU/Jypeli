@@ -37,17 +37,17 @@ namespace Jypeli
         /// </summary>
         public bool CanRotate
         {
-            get { return !double.IsPositiveInfinity( MomentOfInertia ); }
+            get { return !double.IsPositiveInfinity(MomentOfInertia); }
             set
             {
-                if ( !value )
+                if (!value)
                 {
                     MomentOfInertia = double.PositiveInfinity;
                     _momentOfInertiaSet = true;
                 }
                 else
                 {
-                    SetMassAndInertia( this.Mass );
+                    SetMassAndInertia(this.Mass);
                     _momentOfInertiaSet = false;
                 }
             }
@@ -68,7 +68,7 @@ namespace Jypeli
                 // 1.0 to 100000.0 for example, it would look funny if a heavy object would
                 // spin wildly from a small touch.
 
-                if ( _momentOfInertiaSet )
+                if (_momentOfInertiaSet)
                 {
                     // The moment of inertia has been set manually,
                     // let's keep it that way and just set the mass.
@@ -76,14 +76,14 @@ namespace Jypeli
                 }
                 else
                 {
-                    SetMassAndInertia( value );
+                    SetMassAndInertia(value);
                 }
             }
         }
 
         public double MassInv
         {
-            get { return 1/Body.Mass; }
+            get { return 1 / Body.Mass; }
             set
             {
                 Mass = 1 / value;
@@ -99,12 +99,12 @@ namespace Jypeli
             get { return Body.Inertia; }
             set
             {
-               
+
                 Body.Inertia = (float)value;
                 _momentOfInertiaSet = true;
             }
         }
-        
+
         /// <summary>
         /// Tekee oliosta staattisen. Staattinen olio ei liiku muiden olioiden törmäyksistä,
         /// vaan ainoastaan muuttamalla suoraan sen paikkaa tai nopeutta.
@@ -146,7 +146,7 @@ namespace Jypeli
         /// <summary>
         /// This updates the mass and momentOfInertia based on the new mass.
         /// </summary>
-        private void SetMassAndInertia( double mass )
+        private void SetMassAndInertia(double mass)
         {
             Body.Mass = (float)mass;
         }

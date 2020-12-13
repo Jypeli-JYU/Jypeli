@@ -32,7 +32,7 @@ namespace Jypeli
 {
     internal class AdaptedIgnorer //: Physics2DDotNet.Ignorers.Ignorer
     {
-        
+
         public Jypeli.Ignorer Adaptee { get; private set; }
 
         public bool BothNeeded
@@ -40,15 +40,15 @@ namespace Jypeli
             get { return Adaptee.BothNeeded; }
         }
 
-        public AdaptedIgnorer( Jypeli.Ignorer adaptee )
+        public AdaptedIgnorer(Jypeli.Ignorer adaptee)
         {
             this.Adaptee = adaptee;
         }
 
-        protected bool CanCollide( Body thisBody, Body otherBody/*, Physics2DDotNet.Ignorers.Ignorer otherIgnorer*/ )
+        protected bool CanCollide(Body thisBody, Body otherBody/*, Physics2DDotNet.Ignorers.Ignorer otherIgnorer*/ )
         {
-            var other = (PhysicsBody)( otherBody.Tag );
-            return Adaptee.CanCollide( (IPhysicsBody)thisBody.Tag, other, other.CollisionIgnorer );
+            var other = (PhysicsBody)(otherBody.Tag);
+            return Adaptee.CanCollide((IPhysicsBody)thisBody.Tag, other, other.CollisionIgnorer);
         }
     }
 
@@ -63,9 +63,9 @@ namespace Jypeli
         public virtual Ignorer CollisionIgnorer
         {
             get { return _adaptedIgnorer == null ? null : _adaptedIgnorer.Adaptee; }
-            set { Body.CollisionIgnorer = _adaptedIgnorer = new AdaptedIgnorer( value ); }
+            set { Body.CollisionIgnorer = _adaptedIgnorer = new AdaptedIgnorer(value); }
         }
-        
+
         // TODO: Kaikki
 
         /// <summary>
@@ -83,9 +83,9 @@ namespace Jypeli
         /// </summary>
         public event CollisionHandler<IPhysicsBody, IPhysicsBody> Collided;
 
-        private void OnCollided( object sender/*, CollisionEventArgs e*/ )
+        private void OnCollided(object sender/*, CollisionEventArgs e*/ )
         {
-            if ( Collided != null )
+            if (Collided != null)
             {
                 /*
                 var other = e.Other.Tag as IPhysicsBody;
@@ -99,9 +99,9 @@ namespace Jypeli
         /// </summary>
         public event AdvancedCollisionHandler<IPhysicsBody, IPhysicsBody> Colliding;
 
-        private void OnColliding( object sender/*, CollisionEventArgs e*/ )
+        private void OnColliding(object sender/*, CollisionEventArgs e*/ )
         {
-            if ( Colliding != null )
+            if (Colliding != null)
             {
                 /*var other = e.Other.Tag as IPhysicsBody;
                 var contacts = new List<Collision.ContactPoint>();
@@ -110,11 +110,11 @@ namespace Jypeli
             }
         }
 
-        private static CollisionShapeParameters GetDefaultParameters( double width, double height )
+        private static CollisionShapeParameters GetDefaultParameters(double width, double height)
         {
             CollisionShapeParameters p;
-            p.MaxVertexDistance = Math.Min( width, height ) / 3;
-            p.DistanceGridSpacing = Math.Min( width, height ) / 2;
+            p.MaxVertexDistance = Math.Min(width, height) / 3;
+            p.DistanceGridSpacing = Math.Min(width, height) / 2;
             return p;
         }
 
@@ -132,7 +132,7 @@ namespace Jypeli
         /// Tekee oliosta läpimentävän vektorin suuntaan.
         /// Huom. ei toimi yhdessä CollisionIgnoreGroupien kanssa!
         /// </summary>
-        public void MakeOneWay( Vector direction )
+        public void MakeOneWay(Vector direction)
         {
             throw new NotImplementedException();
             //this.CollisionIgnorer = new OneWayPlatformIgnorer( (Vector2D)direction, Size.Y );

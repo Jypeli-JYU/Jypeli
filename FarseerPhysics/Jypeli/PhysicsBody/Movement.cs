@@ -75,7 +75,7 @@ namespace Jypeli
             set { _maxAngularV = value; }
         }
 
-        
+
         /// <summary>
         /// Olion kiihtyvyys.
         /// </summary>
@@ -96,7 +96,7 @@ namespace Jypeli
         public double AngularAcceleration
         {
             get { return 0; }
-            set {}
+            set { }
         }
         /*
         [Save]
@@ -117,7 +117,7 @@ namespace Jypeli
         /// Kohdistaa kappaleeseen voiman.
         /// </summary>
         /// <param name="force">Voima, jolla oliota työnnetään.</param>
-        public void ApplyForce( Vector force )
+        public void ApplyForce(Vector force)
         {
             Body.ApplyForce(force);
         }
@@ -125,19 +125,18 @@ namespace Jypeli
         /// <summary>
         /// Kohdistaa kappaleeseen impulssin. Tällä kappaleen saa nopeasti liikkeeseen.
         /// </summary>
-        public void ApplyImpulse( Vector impulse )
+        public void ApplyImpulse(Vector impulse)
         {
-            // TODO:
-            // Body.ApplyImpulse(impulse);
+            Body.ApplyLinearImpulse(impulse * FSConvert.DisplayToSim);
         }
 
         /// <summary>
         /// Kohdistaa kappaleeseen vääntövoiman. Voiman suunta riippuu merkistä.
         /// </summary>
         /// <param name="torque">Vääntövoima.</param>
-        public void ApplyTorque( double torque )
+        public void ApplyTorque(double torque)
         {
-            Body.ApplyTorque( (float)torque );
+            Body.ApplyTorque((float)torque);
         }
 
         /// <summary>
@@ -148,12 +147,12 @@ namespace Jypeli
             Body.AngularVelocity = 0f;
             Body.LinearVelocity = Vector.Zero;
         }
-        
+
         /// <summary>
         /// Pysäyttää liikkeen akselin suunnassa.
         /// </summary>
         /// <param name="axis">Akseli vektorina (ei väliä pituudella)</param>
-        public void StopAxial( Vector axis )
+        public void StopAxial(Vector axis)
         {
             /*
             Acceleration = Acceleration.Project( axis.LeftNormal );

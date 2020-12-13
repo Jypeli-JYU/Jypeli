@@ -44,7 +44,7 @@ namespace Jypeli
             }
             set
             {
-                Body.Shape = CreatePhysicsShape( _shape, value * FSConvert.DisplayToSim);
+                Body.Shape = CreatePhysicsShape(_shape, value * FSConvert.DisplayToSim);
                 _size = value * FSConvert.DisplayToSim;
             }
         }
@@ -67,19 +67,19 @@ namespace Jypeli
             get { return _shape; }
             set
             {
-                SetShape( value, GetDefaultParameters( Size.X, Size.Y ) );
+                SetShape(value, GetDefaultParameters(Size.X, Size.Y));
             }
         }
 
-        internal void SetShape( Shape shape, CollisionShapeParameters parameters )
+        internal void SetShape(Shape shape, CollisionShapeParameters parameters)
         {
             _shape = shape;
             //Body.Shape = CreatePhysicsShape( shape, Size, parameters );
         }
 
-        internal static Shape CreatePhysicsShape( Shape shape, Vector size )
+        internal static Shape CreatePhysicsShape(Shape shape, Vector size)
         {
-            return CreatePhysicsShape( shape, size, GetDefaultParameters( size.X, size.Y ) );
+            return CreatePhysicsShape(shape, size, GetDefaultParameters(size.X, size.Y));
         }
 
         /// <summary>
@@ -87,25 +87,25 @@ namespace Jypeli
         /// size of the object. In addition, it has more vertices and some additional info
         /// that is used in collision detection.
         /// </summary>
-        internal static Shape CreatePhysicsShape( Shape shape, Vector size, CollisionShapeParameters parameters )
+        internal static Shape CreatePhysicsShape(Shape shape, Vector size, CollisionShapeParameters parameters)
         {
-            if ( shape is RaySegment )
+            if (shape is RaySegment)
             {
                 RaySegment raySegment = (RaySegment)shape;
                 return null;
-                
+
             }
-            else if ( shape is Ellipse )
+            else if (shape is Ellipse)
             {
-                Debug.Assert( shape.IsUnitSize );
+                Debug.Assert(shape.IsUnitSize);
 
-                double smaller = Math.Min( size.X, size.Y );
-                double bigger = Math.Max( size.X, size.Y );
+                double smaller = Math.Min(size.X, size.Y);
+                double bigger = Math.Max(size.X, size.Y);
                 // Average between width and height.
-                double r = smaller / 2 + ( bigger - smaller ) / 2;
-                int vertexCount = (int)Math.Ceiling( ( 2 * Math.PI * r ) / parameters.MaxVertexDistance );
+                double r = smaller / 2 + (bigger - smaller) / 2;
+                int vertexCount = (int)Math.Ceiling((2 * Math.PI * r) / parameters.MaxVertexDistance);
 
-                if ( Math.Abs( size.X - size.Y ) <= double.Epsilon )
+                if (Math.Abs(size.X - size.Y) <= double.Epsilon)
                 {
                     // We get more accurate results by using the circleshape.
                     // in addition, the circleshape does not need a DistanceGrid
@@ -120,12 +120,12 @@ namespace Jypeli
                     double a = 0.5 * size.X;
                     double b = 0.5 * size.Y;
 
-                    for ( int i = 0; i < vertexCount; i++ )
+                    for (int i = 0; i < vertexCount; i++)
                     {
-                        double t = ( i * 2 * Math.PI ) / vertexCount;
-                        double x = a * Math.Cos( t );
-                        double y = b * Math.Sin( t );
-                        vertexes[i] = new Vector2D( x, y );
+                        double t = (i * 2 * Math.PI) / vertexCount;
+                        double x = a * Math.Cos(t);
+                        double y = b * Math.Sin(t);
+                        vertexes[i] = new Vector2D(x, y);
                     }
 
                     return null;//new PolygonShape( vertexes, parameters.DistanceGridSpacing );
@@ -134,15 +134,15 @@ namespace Jypeli
             else
             {
                 Vector2D[] originalVertexes = new Vector2D[shape.Cache.OutlineVertices.Length];
-                for ( int i = 0; i < shape.Cache.OutlineVertices.Length; i++ )
+                for (int i = 0; i < shape.Cache.OutlineVertices.Length; i++)
                 {
                     Vector v = shape.Cache.OutlineVertices[i];
-                    if ( shape.IsUnitSize )
+                    if (shape.IsUnitSize)
                     {
                         v.X *= size.X;
                         v.Y *= size.Y;
                     }
-                    originalVertexes[i] = new Vector2D( v.X, v.Y );
+                    originalVertexes[i] = new Vector2D(v.X, v.Y);
                 }
 
                 //Vector2D[] polyVertexes = VertexHelper.Subdivide( originalVertexes, parameters.MaxVertexDistance );

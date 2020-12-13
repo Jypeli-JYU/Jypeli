@@ -38,6 +38,7 @@ using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
 using Jypeli.Physics;
 using Jypeli;
+using Jypeli.Farseer;
 
 namespace FarseerPhysics.Dynamics
 {

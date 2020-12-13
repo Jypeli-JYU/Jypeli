@@ -65,7 +65,7 @@ namespace FarseerPhysics
 		/// <summary>
 		/// The number of position iterations used in the solver.
 		/// </summary>
-		public static int PositionIterations = 3;
+		public static int PositionIterations = 4;
 
 		/// <summary>
 		/// Enable/Disable Continuous Collision Detection (CCD)
@@ -172,7 +172,7 @@ namespace FarseerPhysics
 		/// this smaller means polygons will have an insufficient buffer for continuous collision.
 		/// Making it larger may create artifacts for vertex collision.
 		/// </summary>
-		public const float PolygonRadius = (2.0f * LinearSlop);
+		public const float PolygonRadius = (1.0f * LinearSlop);
 
 		// Dynamics
 
@@ -197,7 +197,7 @@ namespace FarseerPhysics
 		/// The maximum angular position correction used when solving constraints. This helps to
 		/// prevent overshoot.
 		/// </summary>
-		public const float MaxAngularCorrection = (8.0f / 180.0f * Pi);
+		public const float MaxAngularCorrection = (4.0f / 180.0f * Pi);
 
 		/// <summary>
 		/// This scale factor controls how fast overlap is resolved. Ideally this would be 1 so
@@ -226,7 +226,7 @@ namespace FarseerPhysics
 		/// The maximum linear velocity of a body. This limit is very large and is used
 		/// to prevent numerical problems. You shouldn't need to adjust this.
 		/// </summary>
-		public const float MaxTranslation = 2.0f;
+		public const float MaxTranslation = 100.0f; // TODO: Mitä näihin voisi laittaa
 
 		public const float MaxTranslationSquared = (MaxTranslation * MaxTranslation);
 
@@ -234,7 +234,7 @@ namespace FarseerPhysics
 		/// The maximum angular velocity of a body. This limit is very large and is used
 		/// to prevent numerical problems. You shouldn't need to adjust this.
 		/// </summary>
-		public const float MaxRotation = (0.5f * Pi);
+		public const float MaxRotation = (500f * Pi);
 
 		public const float MaxRotationSquared = (MaxRotation * MaxRotation);
 

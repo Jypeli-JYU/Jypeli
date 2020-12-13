@@ -23,6 +23,8 @@
  */
 #endregion
 
+using FarseerPhysics.Dynamics;
+
 namespace Jypeli
 {
     public partial class PhysicsBody
@@ -109,9 +111,10 @@ namespace Jypeli
         /// </summary>
         public void MakeStatic()
         {
-            Mass = double.PositiveInfinity;
-            CanRotate = false;
-            IgnoresGravity = true;
+            Body.BodyType = BodyType.Static;
+            //Mass = double.PositiveInfinity;
+            //CanRotate = false;
+            //IgnoresGravity = true;
         }
 
         /// <summary>

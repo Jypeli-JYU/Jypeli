@@ -117,16 +117,11 @@ namespace Jypeli
             */
             Body = new FarseerPhysics.Dynamics.Body(world, bodyType: BodyType.Dynamic);
             // TODO:...
-            int n = shape.Cache.Vertices.Length;
-            List<Vector2> vertices = new List<Vector2>(n);
-            Vector[] vert = shape.Cache.Vertices;
-            for (int i = 0; i < n; i++)
-            {
-                vertices.Add(new Vector2((float)(vert[i].X*width), (float)(vert[i].Y*height)));
-            }
-            Fixture f = Body.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(new Vertices(vertices), 30));
-            this._size = new Vector( width, height );
+            Vertices vertices = PolygonTools.CreateRectangle((float)width / 2 * FSConvert.DisplayToSim, (float)height / 2 * FSConvert.DisplayToSim);
+            Fixture f = Body.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 0.01f));
+            this._size = new Vector( width, height) * FSConvert.DisplayToSim;
             this._shape = shape;
+            LinearDamping = 0.99;
         }        
 
         #endregion

@@ -3,6 +3,7 @@ using FarseerPhysics.Dynamics;
 using AdvanceMath;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
+using Jypeli.Farseer;
 
 namespace Jypeli
 {
@@ -22,10 +23,10 @@ namespace Jypeli
         [Save]
         public Vector Position
         {
-            get => Body._xf.P;
+            get => Body._xf.P * FSConvert.SimToDisplay;
             set
             {
-                Vector2 temp = new Vector2((float)value.X, (float)value.Y);
+                Vector2 temp = new Vector2((float)value.X, (float)value.Y) * FSConvert.DisplayToSim;
                 //Debug.Assert(!float.IsNaN(value.X) && !float.IsNaN(value.Y));
                 Body.SetTransform(ref temp, (float)Angle);
             }
@@ -39,12 +40,12 @@ namespace Jypeli
         {
             get
             {
-                return _size;
+                return _size * FSConvert.SimToDisplay;
             }
             set
             {
-                Body.Shape = CreatePhysicsShape( _shape, value );
-                _size = value;
+                Body.Shape = CreatePhysicsShape( _shape, value * FSConvert.DisplayToSim);
+                _size = value * FSConvert.DisplayToSim;
             }
         }
 

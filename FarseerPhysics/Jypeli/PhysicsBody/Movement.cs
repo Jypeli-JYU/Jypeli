@@ -23,6 +23,8 @@
  */
 #endregion
 
+using Jypeli.Farseer;
+
 namespace Jypeli
 {
     public partial class PhysicsBody
@@ -38,9 +40,9 @@ namespace Jypeli
         {
             get
             {
-                return Body.LinearVelocity;
+                return Body.LinearVelocity * FSConvert.SimToDisplay;
             }
-            set { Body.LinearVelocity = value; }
+            set { Body.LinearVelocity = value * FSConvert.DisplayToSim; }
         }
 
         /// <summary>
@@ -59,8 +61,8 @@ namespace Jypeli
         [Save]
         public double MaxVelocity
         {
-            get { return _maxAngularV; }
-            set { _maxAngularV = value; }
+            get { return _maxLinearV; }
+            set { _maxLinearV = value; }
         }
 
         /// <summary>
@@ -69,8 +71,8 @@ namespace Jypeli
         [Save]
         public double MaxAngularVelocity
         {
-            get { return _maxLinearV; }
-            set { _maxLinearV = value; }
+            get { return _maxAngularV; }
+            set { _maxAngularV = value; }
         }
 
         

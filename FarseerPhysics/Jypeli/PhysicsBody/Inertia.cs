@@ -37,19 +37,10 @@ namespace Jypeli
         /// </summary>
         public bool CanRotate
         {
-            get { return !double.IsPositiveInfinity(MomentOfInertia); }
+            get { return Body.FixedRotation; }
             set
             {
-                if (!value)
-                {
-                    MomentOfInertia = double.PositiveInfinity;
-                    _momentOfInertiaSet = true;
-                }
-                else
-                {
-                    SetMassAndInertia(this.Mass);
-                    _momentOfInertiaSet = false;
-                }
+                Body.FixedRotation = value;
             }
         }
 
@@ -111,7 +102,7 @@ namespace Jypeli
         /// </summary>
         public void MakeStatic()
         {
-            Body.BodyType = BodyType.Static;
+            Body.BodyType = BodyType.Kinematic;
             //Mass = double.PositiveInfinity;
             //CanRotate = false;
             //IgnoresGravity = true;

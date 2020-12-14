@@ -29,6 +29,7 @@
         bool IgnoresCollisionResponse { get; set; }
         bool IgnoresGravity { get; set; }
         bool IgnoresPhysicsLogics { get; set; }
+        bool CanRotate { get; set; }
 
         void MakeStatic();
 

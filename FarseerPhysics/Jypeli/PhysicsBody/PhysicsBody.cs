@@ -25,6 +25,7 @@
 
 using FarseerPhysics.Common;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 using Jypeli.Farseer;
 using Jypeli.Physics;
 using Microsoft.Xna.Framework;
@@ -82,14 +83,29 @@ namespace Jypeli
         /// <param name="height">Korkeus.</param>
         /// <param name="shape">Muoto.</param>
         public PhysicsBody(double width, double height, Shape shape, World world)
-            : this(width, height, shape, CreatePhysicsShape(shape, new Vector(width, height)), world)
         {
+            this._size = new Vector(width, height) * FSConvert.DisplayToSim;
+            this._shape = shape;
+            //if (shape is Star) // TODO: Tähän pitää keksiä joku järkevä tapa
+            //{
+            //    BodyFactory.CreateGear(world, (float)width / 2, 20, 50, (float)height / 2, 1, bodyType: BodyType.Dynamic);
+            //}
+            //else
+            //{
+            Body = new FarseerPhysics.Dynamics.Body(world, bodyType: BodyType.Dynamic);
+
+            if (shape is Ellipse && width != height)
+            {
+                Body.CreateFixture(new FarseerPhysics.Collision.Shapes.CircleShape((float)height, 1f));
+            }
+            else
+            {
+                Vertices vertices = CreatePhysicsShape(shape, this._size);
+                Body.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 1f));
+            }
+            //}
         }
 
-        public PhysicsBody(double width, double height, Shape shape, CollisionShapeParameters shapeParameters, World world)
-            : this(width, height, shape, CreatePhysicsShape(shape, new Vector(width, height), shapeParameters), world)
-        {
-        }
 
         /// <summary>
         /// Luo fysiikkaolion, jonka muotona on säde.
@@ -100,28 +116,6 @@ namespace Jypeli
         {
             this._size = Vector.One;
             this._shape = raySegment;
-        }
-
-        /// <summary>
-        /// Initializes the object with the given physics shape. The size of
-        /// the physicsShape must be the one given.
-        /// </summary>
-        internal PhysicsBody(double width, double height, Shape shape, Shape physicsShape, World world)
-        {
-            /* 
-             Coefficients c = new Coefficients( DefaultCoefficients.Restitution, DefaultCoefficients.StaticFriction, DefaultCoefficients.DynamicFriction );
-             Body = new Body( new PhysicsState( ALVector2D.Zero ), physicsShape, DefaultMass, c, new Lifespan() );
-             Body.Tag = this;
-             Body.Collided += OnCollided;
-             Body.Colliding += OnColliding;
-            */
-            Body = new FarseerPhysics.Dynamics.Body(world, bodyType: BodyType.Dynamic);
-            // TODO:...
-            Vertices vertices = PolygonTools.CreateRectangle((float)width / 2 * FSConvert.DisplayToSim, (float)height / 2 * FSConvert.DisplayToSim);
-            Fixture f = Body.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 0.01f));
-            this._size = new Vector(width, height) * FSConvert.DisplayToSim;
-            this._shape = shape;
-            LinearDamping = 0.99;
         }
 
         #endregion

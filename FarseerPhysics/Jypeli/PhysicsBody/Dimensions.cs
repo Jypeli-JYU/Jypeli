@@ -4,6 +4,8 @@ using AdvanceMath;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Jypeli.Farseer;
+using FarseerPhysics.Common;
+using FarseerPhysics;
 
 namespace Jypeli
 {
@@ -44,7 +46,7 @@ namespace Jypeli
             }
             set
             {
-                Body.Shape = CreatePhysicsShape(_shape, value * FSConvert.DisplayToSim);
+                // TODO:Body.Shape = CreatePhysicsShape(_shape, value * FSConvert.DisplayToSim);
                 _size = value * FSConvert.DisplayToSim;
             }
         }
@@ -73,11 +75,15 @@ namespace Jypeli
 
         internal void SetShape(Shape shape, CollisionShapeParameters parameters)
         {
+            // TODO: Tää on vähän huono ratkaisu.
             _shape = shape;
+            Body.DestroyFixture(Body.FixtureList[0]);
+            Vertices vertices = CreatePhysicsShape(shape, this._size);
+            Body.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 0.01f));
             //Body.Shape = CreatePhysicsShape( shape, Size, parameters );
         }
 
-        internal static Shape CreatePhysicsShape(Shape shape, Vector size)
+        internal static Vertices CreatePhysicsShape(Shape shape, Vector size)
         {
             return CreatePhysicsShape(shape, size, GetDefaultParameters(size.X, size.Y));
         }
@@ -87,54 +93,36 @@ namespace Jypeli
         /// size of the object. In addition, it has more vertices and some additional info
         /// that is used in collision detection.
         /// </summary>
-        internal static Shape CreatePhysicsShape(Shape shape, Vector size, CollisionShapeParameters parameters)
+        internal static Vertices CreatePhysicsShape(Shape shape, Vector size, CollisionShapeParameters parameters)
         {
             if (shape is RaySegment)
             {
                 RaySegment raySegment = (RaySegment)shape;
-                return null;
+                return PolygonTools.CreateLine(raySegment.Origin, raySegment.Origin + raySegment.Direction*raySegment.Length);
 
+            }
+            else if (shape is Rectangle)
+            {
+                return PolygonTools.CreateRectangle((float)size.X/2, (float)size.Y/2);
             }
             else if (shape is Ellipse)
             {
                 Debug.Assert(shape.IsUnitSize);
 
-                double smaller = Math.Min(size.X, size.Y);
-                double bigger = Math.Max(size.X, size.Y);
+                double smaller = Math.Min(size.X/2, size.Y/2);
+                double bigger = Math.Max(size.X/2, size.Y/2);
                 // Average between width and height.
                 double r = smaller / 2 + (bigger - smaller) / 2;
-                int vertexCount = (int)Math.Ceiling((2 * Math.PI * r) / parameters.MaxVertexDistance);
+                int vertexCount = Math.Min(Settings.MaxPolygonVertices, (int)Math.Ceiling((2 * Math.PI * r) / parameters.MaxVertexDistance));
 
-                if (Math.Abs(size.X - size.Y) <= double.Epsilon)
-                {
-                    // We get more accurate results by using the circleshape.
-                    // in addition, the circleshape does not need a DistanceGrid
-                    // object (which is slow to initialize) because calculations
-                    // for a circleshape are much simpler.
-                    return null;//new CircleShape( r, vertexCount );
-                }
-                else
-                {
-                    Vector2D[] vertexes = new Vector2D[vertexCount];
+                return PolygonTools.CreateEllipse((float)size.X/2, (float)size.Y/2, vertexCount);
 
-                    double a = 0.5 * size.X;
-                    double b = 0.5 * size.Y;
-
-                    for (int i = 0; i < vertexCount; i++)
-                    {
-                        double t = (i * 2 * Math.PI) / vertexCount;
-                        double x = a * Math.Cos(t);
-                        double y = b * Math.Sin(t);
-                        vertexes[i] = new Vector2D(x, y);
-                    }
-
-                    return null;//new PolygonShape( vertexes, parameters.DistanceGridSpacing );
-                }
             }
             else
             {
-                Vector2D[] originalVertexes = new Vector2D[shape.Cache.OutlineVertices.Length];
-                for (int i = 0; i < shape.Cache.OutlineVertices.Length; i++)
+                // TODO: ei toimi oikein erikoisemmille muodoille, kuten tähdelle.
+                Vertices vertices = new Vertices();
+                for (int i = 0; i < shape.Cache.Vertices.Length; i++)
                 {
                     Vector v = shape.Cache.OutlineVertices[i];
                     if (shape.IsUnitSize)
@@ -142,12 +130,9 @@ namespace Jypeli
                         v.X *= size.X;
                         v.Y *= size.Y;
                     }
-                    originalVertexes[i] = new Vector2D(v.X, v.Y);
+                    vertices.Add(new Vector2((float)v.X, (float)v.Y));
                 }
-
-                //Vector2D[] polyVertexes = VertexHelper.Subdivide( originalVertexes, parameters.MaxVertexDistance );
-
-                return null;//new PolygonShape( polyVertexes, parameters.DistanceGridSpacing );
+                return vertices;
             }
         }
     }

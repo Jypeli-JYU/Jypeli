@@ -77,9 +77,11 @@ namespace Jypeli
         {
             // TODO: Tää on vähän huono ratkaisu.
             _shape = shape;
+            var collisionHandlers = Body.FixtureList[0].OnCollision;
             Body.DestroyFixture(Body.FixtureList[0]);
             Vertices vertices = CreatePhysicsShape(shape, this._size);
-            Body.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 0.01f));
+            Fixture f = Body.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 0.01f));
+            f.OnCollision += collisionHandlers;
             //Body.Shape = CreatePhysicsShape( shape, Size, parameters );
         }
 

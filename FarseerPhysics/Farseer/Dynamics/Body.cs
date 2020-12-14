@@ -59,8 +59,7 @@ namespace FarseerPhysics.Dynamics
 
     public class Body : IDisposable
     {
-        // TODO: Farseer ei toimi tälleen.
-        internal Jypeli.Shape Shape;
+        internal Jypeli.PhysicsBody owner;
         #region Properties/Fields/Events
 
         public PhysicsLogicFilter PhysicsLogicFilter;

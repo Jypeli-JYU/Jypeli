@@ -93,6 +93,7 @@ namespace Jypeli
             //else
             //{
             Body = new FarseerPhysics.Dynamics.Body(world, bodyType: BodyType.Dynamic);
+            Body.owner = this;
 
             if (shape is Ellipse && width != height)
             {

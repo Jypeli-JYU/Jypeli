@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System;
 using Jypeli.Physics;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Contacts;
 
 namespace Jypeli
 {
@@ -81,17 +82,25 @@ namespace Jypeli
         /// <summary>
         /// Tapahtuu kun olio törmää toiseen.
         /// </summary>
-        public event CollisionHandler<IPhysicsBody, IPhysicsBody> Collided;
-
-        private void OnCollided(object sender/*, CollisionEventArgs e*/ )
+        public event CollisionHandler<IPhysicsBody, IPhysicsBody> Collided
         {
-            if (Collided != null)
+            add
             {
-                /*
-                var other = e.Other.Tag as IPhysicsBody;
-                Collided( this, other );
-                */
+                Body.OnCollision += (a, b, c) => OnCollided(a,b,c, value);
             }
+            remove
+            {
+                Body.OnCollision -= (a, b, c) => OnCollided(a, b, c, value);
+            }
+        }
+
+        // TODO: Muut Farseerin tukemat törmäystapahtumat
+        private bool OnCollided(Fixture fixtureA, Fixture fixtureB, Contact contact, CollisionHandler<IPhysicsBody, IPhysicsBody> func)
+        {
+            func.Invoke(fixtureA.Body.owner, fixtureB.Body.owner);
+
+            return true; // Huomioidaanko törmäyksessä fysiikka, eli jos palautetaan false, mennään toisen läpi.
+                         // TODO: Kuinka toteuttaa käyttäjän tapahtumakäsittelijälle, ilman että kaikki vanha koodi hajoaa.
         }
 
         /// <summary>

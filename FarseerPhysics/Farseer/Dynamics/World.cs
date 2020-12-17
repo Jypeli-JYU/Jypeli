@@ -1531,7 +1531,10 @@ namespace FarseerPhysics.Dynamics
 
         public IAxleJoint CreateJoint(IPhysicsObject obj1, IPhysicsObject obj2, Vector pivot)
         {
-            throw new NotImplementedException();
+            PhysicsObject o1 = obj1 as PhysicsObject;
+            PhysicsObject o2 = obj2 as PhysicsObject;
+            AxleJoint aj = new AxleJoint(o1, o2, o1.Position);
+            return aj;
         }
 
         public IAxleJoint CreateJoint(IPhysicsObject obj1, Vector pivot)
@@ -1547,12 +1550,14 @@ namespace FarseerPhysics.Dynamics
 
         public void RemoveBody(IPhysicsBody body)
         {
-            throw new NotImplementedException();
+            PhysicsBody b = body as PhysicsBody;
+            RemoveBody(b.Body);
         }
 
         public void AddJoint(IAxleJoint joint)
         {
-            throw new NotImplementedException();
+            Joint j = (joint as AxleJoint).innerJoint;
+            j.Enabled = true; // Jointfactory lisää liitoksen automaattisesti moottorille.
         }
 
         public void RemoveJoint(IAxleJoint joint)

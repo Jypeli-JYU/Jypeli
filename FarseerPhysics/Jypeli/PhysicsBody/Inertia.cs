@@ -23,6 +23,11 @@
  */
 #endregion
 
+/*
+ * Original Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
+ * Modified for Farseer engine by Mikko Röyskö
+ */
+
 using FarseerPhysics.Dynamics;
 
 namespace Jypeli

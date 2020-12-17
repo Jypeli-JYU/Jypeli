@@ -55,8 +55,8 @@ namespace Jypeli
         /// </summary>
         public bool IgnoresGravity
         {
-            get { return Body.IgnoreGravity; }
-            set { Body.IgnoreGravity = value; }
+            get { return FSBody.IgnoreGravity; }
+            set { FSBody.IgnoreGravity = value; }
         }
 
         /// <summary>
@@ -65,8 +65,8 @@ namespace Jypeli
         /// </summary>
         public bool IgnoresPhysicsLogics
         {
-            get { return Body.IgnoresPhysicsLogics; }
-            set { Body.IgnoresPhysicsLogics = value; }
+            get { return FSBody.IgnoresPhysicsLogics; }
+            set { FSBody.IgnoresPhysicsLogics = value; }
         }
 
         #region Constructors
@@ -97,17 +97,17 @@ namespace Jypeli
             //}
             //else
             //{
-            Body = new FarseerPhysics.Dynamics.Body(world, bodyType: BodyType.Dynamic);
-            Body.owner = this;
+            FSBody = new FarseerPhysics.Dynamics.Body(world, bodyType: BodyType.Dynamic);
+            FSBody.owner = this;
 
             if (shape is Ellipse && width != height)
             {
-                Body.CreateFixture(new FarseerPhysics.Collision.Shapes.CircleShape((float)height, 1f));
+                FSBody.CreateFixture(new FarseerPhysics.Collision.Shapes.CircleShape((float)height, 1f));
             }
             else
             {
                 Vertices vertices = CreatePhysicsShape(shape, this._size);
-                Body.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 1f));
+                FSBody.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 1f));
             }
             //}
         }

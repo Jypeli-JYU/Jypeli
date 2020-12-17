@@ -32,7 +32,7 @@ namespace Jypeli
         public PhysicsGame()
             : base(new World(new Vector(0, 0)))
         {
-           
+
         }
     }
 }

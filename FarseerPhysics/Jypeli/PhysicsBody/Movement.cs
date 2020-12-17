@@ -45,9 +45,9 @@ namespace Jypeli
         {
             get
             {
-                return Body.LinearVelocity * FSConvert.SimToDisplay;
+                return FSBody.LinearVelocity * FSConvert.SimToDisplay;
             }
-            set { Body.LinearVelocity = value * FSConvert.DisplayToSim; }
+            set { FSBody.LinearVelocity = value * FSConvert.DisplayToSim; }
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace Jypeli
         [Save]
         public double AngularVelocity
         {
-            get { return Body.AngularVelocity; }
-            set { Body.AngularVelocity = (float)value; }
+            get { return FSBody.AngularVelocity; }
+            set { FSBody.AngularVelocity = (float)value; }
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Jypeli
         /// <param name="force">Voima, jolla oliota työnnetään.</param>
         public void ApplyForce(Vector force)
         {
-            Body.ApplyForce(force);
+            FSBody.ApplyForce(force);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Jypeli
         /// </summary>
         public void ApplyImpulse(Vector impulse)
         {
-            Body.ApplyLinearImpulse(impulse * FSConvert.DisplayToSim);
+            FSBody.ApplyLinearImpulse(impulse * FSConvert.DisplayToSim);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Jypeli
         /// <param name="torque">Vääntövoima.</param>
         public void ApplyTorque(double torque)
         {
-            Body.ApplyTorque((float)torque);
+            FSBody.ApplyTorque((float)torque);
         }
 
         /// <summary>
@@ -149,8 +149,8 @@ namespace Jypeli
         /// </summary>
         public void Stop()
         {
-            Body.AngularVelocity = 0f;
-            Body.LinearVelocity = Vector.Zero;
+            FSBody.AngularVelocity = 0f;
+            FSBody.LinearVelocity = Vector.Zero;
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Jypeli
         /// </summary>
         public void StopAngular()
         {
-            Body.AngularVelocity = 0f;
+            FSBody.AngularVelocity = 0f;
         }
     }
 }

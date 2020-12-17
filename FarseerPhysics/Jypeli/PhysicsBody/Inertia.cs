@@ -42,10 +42,10 @@ namespace Jypeli
         /// </summary>
         public bool CanRotate
         {
-            get { return Body.FixedRotation; }
+            get { return FSBody.FixedRotation; }
             set
             {
-                Body.FixedRotation = value;
+                FSBody.FixedRotation = value;
             }
         }
 
@@ -57,7 +57,7 @@ namespace Jypeli
         /// </remarks>
         public double Mass
         {
-            get { return Body.Mass; }
+            get { return FSBody.Mass; }
             set
             {
                 // We change the moment of inertia as well. If the mass is changed from
@@ -68,7 +68,7 @@ namespace Jypeli
                 {
                     // The moment of inertia has been set manually,
                     // let's keep it that way and just set the mass.
-                    Body.Mass = (float)value;
+                    FSBody.Mass = (float)value;
                 }
                 else
                 {
@@ -79,7 +79,7 @@ namespace Jypeli
 
         public double MassInv
         {
-            get { return 1 / Body.Mass; }
+            get { return 1 / FSBody.Mass; }
             set
             {
                 Mass = 1 / value;
@@ -92,11 +92,11 @@ namespace Jypeli
         /// </summary>
         public double MomentOfInertia
         {
-            get { return Body.Inertia; }
+            get { return FSBody.Inertia; }
             set
             {
 
-                Body.Inertia = (float)value;
+                FSBody.Inertia = (float)value;
                 _momentOfInertiaSet = true;
             }
         }
@@ -107,7 +107,7 @@ namespace Jypeli
         /// </summary>
         public void MakeStatic()
         {
-            Body.BodyType = BodyType.Kinematic;
+            FSBody.BodyType = BodyType.Kinematic;
             //Mass = double.PositiveInfinity;
             //CanRotate = false;
             //IgnoresGravity = true;
@@ -124,8 +124,8 @@ namespace Jypeli
         /// </summary>
         public double LinearDamping
         {
-            get { return Body.LinearDamping; }
-            set { Body.LinearDamping = (float)value; }
+            get { return FSBody.LinearDamping; }
+            set { FSBody.LinearDamping = (float)value; }
         }
 
         /// <summary>
@@ -135,8 +135,8 @@ namespace Jypeli
         /// </summary>
         public double AngularDamping
         {
-            get { return Body.AngularDamping; }
-            set { Body.AngularDamping = (float)value; }
+            get { return FSBody.AngularDamping; }
+            set { FSBody.AngularDamping = (float)value; }
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Jypeli
         /// </summary>
         private void SetMassAndInertia(double mass)
         {
-            Body.Mass = (float)mass;
+            FSBody.Mass = (float)mass;
         }
     }
 }

@@ -71,7 +71,11 @@ namespace FarseerPhysics.Dynamics
         /// </summary>
         /// <value>The gravity.</value>
         public Vector2 Gravity;
-        Vector IPhysicsEngine.Gravity { get => Gravity; set => Gravity = value; }
+        Vector IPhysicsEngine.Gravity 
+        { 
+            get => Gravity * FSConvert.SimToDisplay;
+            set => Gravity = value * FSConvert.DisplayToSim;
+        }
 
         /// <summary>
         /// Get the contact manager for testing.
@@ -1526,6 +1530,7 @@ namespace FarseerPhysics.Dynamics
         {
             PhysicsBody pb = new PhysicsBody(width, height, shape, this);
             pb.Owner = owner;
+            pb.FSBody.Enabled = false;
             return pb;
         }
 
@@ -1539,19 +1544,20 @@ namespace FarseerPhysics.Dynamics
 
         public IAxleJoint CreateJoint(IPhysicsObject obj1, Vector pivot)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); // TODO: Liitokset yhden kappaleen ja maailman välille.
         }
 
         public void AddBody(IPhysicsBody body)
         {
             PhysicsBody b = body as PhysicsBody;
-            AddBody(b.Body);
+            b.FSBody.Enabled = true;
+            AddBody(b.FSBody);
         }
 
         public void RemoveBody(IPhysicsBody body)
         {
             PhysicsBody b = body as PhysicsBody;
-            RemoveBody(b.Body);
+            RemoveBody(b.FSBody);
         }
 
         public void AddJoint(IAxleJoint joint)
@@ -1562,7 +1568,8 @@ namespace FarseerPhysics.Dynamics
 
         public void RemoveJoint(IAxleJoint joint)
         {
-            throw new NotImplementedException();
+            Joint j = (joint as AxleJoint).innerJoint;
+            RemoveJoint(j);
         }
 
         public void Update(double dt)

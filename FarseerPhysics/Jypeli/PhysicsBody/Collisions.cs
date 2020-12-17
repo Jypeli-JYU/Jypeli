@@ -69,7 +69,7 @@ namespace Jypeli
         public virtual Ignorer CollisionIgnorer
         {
             get { return _adaptedIgnorer == null ? null : _adaptedIgnorer.Adaptee; }
-            set { Body.CollisionIgnorer = _adaptedIgnorer = new AdaptedIgnorer(value); }
+            set { FSBody.CollisionIgnorer = _adaptedIgnorer = new AdaptedIgnorer(value); }
         }
 
         // TODO: Kaikki
@@ -80,8 +80,8 @@ namespace Jypeli
         /// </summary>
         public bool IgnoresCollisionResponse
         {
-            get { return Body.IgnoresCollisionResponse; }
-            set { Body.IgnoresCollisionResponse = value; }
+            get { return FSBody.IgnoresCollisionResponse; }
+            set { FSBody.IgnoresCollisionResponse = value; }
         }
 
         /// <summary>
@@ -91,11 +91,11 @@ namespace Jypeli
         {
             add
             {
-                Body.OnCollision += (a, b, c) => OnCollided(a,b,c, value);
+                FSBody.OnCollision += (a, b, c) => OnCollided(a,b,c, value);
             }
             remove
             {
-                Body.OnCollision -= (a, b, c) => OnCollided(a, b, c, value);
+                FSBody.OnCollision -= (a, b, c) => OnCollided(a, b, c, value);
             }
         }
 

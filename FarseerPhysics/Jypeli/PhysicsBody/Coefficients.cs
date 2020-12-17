@@ -40,8 +40,8 @@ namespace Jypeli
         /// </summary>
         public double StaticFriction
         {
-            get { return Body.Friction; }
-            set { Body.Friction = (float)value; }
+            get { return FSBody.Friction; }
+            set { FSBody.Friction = (float)value; }
         }
 
         // TODO: Liike/lepokitka
@@ -52,8 +52,8 @@ namespace Jypeli
         /// </summary>
         public double KineticFriction
         {
-            get { return Body.Friction; }
-            set { Body.Friction = (float)value; }
+            get { return FSBody.Friction; }
+            set { FSBody.Friction = (float)value; }
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace Jypeli
         /// </summary>
         public double Restitution
         {
-            get { return Body.Restitution; }
-            set { Body.Restitution = (float)value; }
+            get { return FSBody.Restitution; }
+            set { FSBody.Restitution = (float)value; }
         }
     }
 }

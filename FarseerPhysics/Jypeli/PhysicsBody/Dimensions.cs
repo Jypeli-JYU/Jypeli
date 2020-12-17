@@ -47,7 +47,7 @@ namespace Jypeli
         /// <summary>
         /// Fysiikkamoottorin käyttämä tietorakenne.
         /// </summary>
-        public Body Body { get; private set; }
+        public Body FSBody { get; private set; }
 
         /// <summary>
         /// Olion paikka koordinaatistossa. Käsittää sekä X- että Y-koordinaatin.
@@ -55,14 +55,14 @@ namespace Jypeli
         [Save]
         public Vector Position
         {
-            get => Body._xf.P * FSConvert.SimToDisplay;
+            get => FSBody._xf.P * FSConvert.SimToDisplay;
             set
             {
                 Vector2 temp = new Vector2((float)value.X, (float)value.Y) * FSConvert.DisplayToSim;
-                Body.IsAwake = true;
+                FSBody.IsAwake = true;
                 Velocity = Vector.Zero; // Farseer ei hirveästi arvosta kappaleen raahaamista hiirellä suoraan sijaintia muuttamalla.
                 // TODO: Kappaleille jonkin sortin "EnableDragging" tms. ja FixedMouseJoint
-                Body.SetTransform(ref temp, (float)Angle);
+                FSBody.SetTransform(ref temp, (float)Angle);
             }
         }
 
@@ -89,8 +89,8 @@ namespace Jypeli
         [Save]
         public double Angle
         {
-            get { return Body.Rotation; }
-            set { Body.Rotation = (float)value; }
+            get { return FSBody.Rotation; }
+            set { FSBody.Rotation = (float)value; }
         }
 
         /// <summary>
@@ -109,10 +109,10 @@ namespace Jypeli
         {
             // TODO: Tää on vähän huono ratkaisu.
             _shape = shape;
-            var collisionHandlers = Body.FixtureList[0].OnCollision;
-            Body.DestroyFixture(Body.FixtureList[0]);
+            var collisionHandlers = FSBody.FixtureList[0].OnCollision;
+            FSBody.DestroyFixture(FSBody.FixtureList[0]);
             Vertices vertices = CreatePhysicsShape(shape, this._size);
-            Fixture f = Body.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 0.01f));
+            Fixture f = FSBody.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 0.01f));
             f.OnCollision += collisionHandlers;
             //Body.Shape = CreatePhysicsShape( shape, Size, parameters );
         }

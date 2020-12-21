@@ -36,9 +36,10 @@ namespace Jypeli
                 var groupIgnorer = CollisionIgnorer as JypeliGroupIgnorer;
 
                 if ( groupIgnorer == null )
-                    CollisionIgnorer = groupIgnorer = new JypeliGroupIgnorer();
-
+                    groupIgnorer = new JypeliGroupIgnorer();
                 groupIgnorer.LegacyGroup = value;
+                CollisionIgnorer = groupIgnorer;
+
             }
         }
 

@@ -114,14 +114,14 @@ namespace FarseerPhysics
         /// from earlier versions of FPE, set this to true and defaultFixtureCollisionCategories
         /// to Category.All.
         /// </summary>
-        public static bool UseFPECollisionCategories;
+        public static bool UseFPECollisionCategories = true;
 
         /// <summary>
         /// This is used by the Fixture constructor as the default value 
         /// for Fixture.collisionCategories member. Note that you may need to change this depending
         /// on the setting of UseFPECollisionCategories, above.
         /// </summary>
-        public static Category DefaultFixtureCollisionCategories = Category.Cat1;
+        public static Category DefaultFixtureCollisionCategories = Category.All;
 
         /// <summary>
         /// This is used by the Fixture constructor as the default value 
@@ -277,7 +277,7 @@ namespace FarseerPhysics
         /// <returns></returns>
         public static float MixRestitution(float restitution1, float restitution2)
         {
-            return restitution1 > restitution2 ? restitution1 : restitution2;
+            return (restitution1 + restitution2) / 2;// restitution1 > restitution2 ? restitution1 : restitution2;
         }
     }
 }

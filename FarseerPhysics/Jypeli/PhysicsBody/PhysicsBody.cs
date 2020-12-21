@@ -28,6 +28,7 @@
  * Modified for Farseer engine by Mikko Röyskö
  */
 
+using System;
 using FarseerPhysics.Common;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
@@ -138,6 +139,16 @@ namespace Jypeli
 
         public void SetCollisionIgnorer(Ignorer ignorer)
         {
+            // TODO: Vähän ruma
+            JypeliGroupIgnorer ign = ignorer as JypeliGroupIgnorer;
+            Category cat;
+            if (Category.TryParse("Cat" + ign.LegacyGroup, out cat))
+            {
+                FSBody.CollidesWith = Category.All ^ cat;
+                FSBody.CollisionCategories = cat;
+            }
+            else
+                throw new ArgumentException("Collisiongroup must be between 1 and 32");
             //this.Body.CollisionIgnorer = new CollisionIgnorerAdapter( ignorer );
         }
     }

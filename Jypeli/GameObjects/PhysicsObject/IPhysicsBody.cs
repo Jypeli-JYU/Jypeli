@@ -32,6 +32,8 @@
         bool CanRotate { get; set; }
 
         void MakeStatic();
+        void MakeOneWay();
+        void MakeOneWay(Vector direction);
 
         void ApplyForce( Vector force );
         void ApplyImpulse( Vector impulse );

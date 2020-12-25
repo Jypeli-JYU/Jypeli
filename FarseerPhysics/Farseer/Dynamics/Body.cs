@@ -698,6 +698,7 @@ namespace FarseerPhysics.Dynamics
         internal bool IgnoresCollisionResponse;
         internal AdaptedIgnorer CollisionIgnorer;
         internal PhysicsBody Tag;
+        public Vector2 oneWayDir;
 
         #endregion
 
@@ -1273,6 +1274,12 @@ namespace FarseerPhysics.Dynamics
             // At least one body should be dynamic.
             if (_bodyType != BodyType.Dynamic && other._bodyType != BodyType.Dynamic)
                 return false;
+            if (oneWayDir != Vector2.Zero)
+            {
+                Vector normal = other.LinearVelocity;
+                normal.Normalize();
+                return Vector.DotProduct(oneWayDir, normal) < 0;
+            }
 
             // Does a joint prevent collision?
             for (JointEdge jn = JointList; jn != null; jn = jn.Next)

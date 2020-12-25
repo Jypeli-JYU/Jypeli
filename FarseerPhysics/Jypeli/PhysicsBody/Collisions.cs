@@ -138,8 +138,7 @@ namespace Jypeli
         /// </summary>
         public void MakeOneWay()
         {
-            throw new NotImplementedException();
-            //this.CollisionIgnorer = new OneWayPlatformIgnorer( AdvanceMath.Vector2D.YAxis, Size.Y );
+            FSBody.oneWayDir = Vector.UnitY;
         }
 
         /// <summary>
@@ -148,8 +147,7 @@ namespace Jypeli
         /// </summary>
         public void MakeOneWay(Vector direction)
         {
-            throw new NotImplementedException();
-            //this.CollisionIgnorer = new OneWayPlatformIgnorer( (Vector2D)direction, Size.Y );
+            FSBody.oneWayDir = direction;
         }
     }
 }

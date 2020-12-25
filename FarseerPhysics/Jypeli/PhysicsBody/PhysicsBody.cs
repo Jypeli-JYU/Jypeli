@@ -98,17 +98,17 @@ namespace Jypeli
             //}
             //else
             //{
-            FSBody = new FarseerPhysics.Dynamics.Body(world, bodyType: BodyType.Dynamic);
+            FSBody = BodyFactory.CreateBody(world, bodyType: BodyType.Dynamic);//new FarseerPhysics.Dynamics.Body(world, bodyType: BodyType.Dynamic);
             FSBody.owner = this;
-
+            FSBody.Enabled = false;
             if (shape is Ellipse && width != height)
             {
-                FSBody.CreateFixture(new FarseerPhysics.Collision.Shapes.CircleShape((float)height, 1f));
+                FSBody.CreateFixture(new FarseerPhysics.Collision.Shapes.CircleShape((float)height, 1f * FSConvert.SimToDisplay));
             }
             else
             {
                 Vertices vertices = CreatePhysicsShape(shape, this._size);
-                FSBody.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 1f));
+                FSBody.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 1f * FSConvert.SimToDisplay));
             }
             //}
         }

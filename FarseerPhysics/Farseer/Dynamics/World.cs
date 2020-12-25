@@ -1551,13 +1551,12 @@ namespace FarseerPhysics.Dynamics
         {
             PhysicsBody b = body as PhysicsBody;
             b.FSBody.Enabled = true;
-            AddBody(b.FSBody);
         }
 
         public void RemoveBody(IPhysicsBody body)
         {
             PhysicsBody b = body as PhysicsBody;
-            RemoveBody(b.FSBody);
+            b.FSBody.Enabled = false;
         }
 
         public void AddJoint(IAxleJoint joint)

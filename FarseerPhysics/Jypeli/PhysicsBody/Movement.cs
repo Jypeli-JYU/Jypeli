@@ -124,7 +124,7 @@ namespace Jypeli
         /// <param name="force">Voima, jolla oliota työnnetään.</param>
         public void ApplyForce(Vector force)
         {
-            FSBody.ApplyForce(force);
+            FSBody.ApplyForce(force * FSConvert.DisplayToSim);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Jypeli
         /// <param name="torque">Vääntövoima.</param>
         public void ApplyTorque(double torque)
         {
-            FSBody.ApplyTorque((float)torque);
+            FSBody.ApplyTorque((float)torque * FSConvert.DisplayToSim);
         }
 
         /// <summary>

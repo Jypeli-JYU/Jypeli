@@ -92,13 +92,8 @@ namespace Jypeli
         {
             this._size = new Vector(width, height) * FSConvert.DisplayToSim;
             this._shape = shape;
-            //if (shape is Star) // TODO: Tähän pitää keksiä joku järkevä tapa
-            //{
-            //    BodyFactory.CreateGear(world, (float)width / 2, 20, 50, (float)height / 2, 1, bodyType: BodyType.Dynamic);
-            //}
-            //else
-            //{
-            FSBody = BodyFactory.CreateBody(world, bodyType: BodyType.Dynamic);//new FarseerPhysics.Dynamics.Body(world, bodyType: BodyType.Dynamic);
+            
+            FSBody = BodyFactory.CreateBody(world, bodyType: BodyType.Dynamic);
             FSBody.owner = this;
             FSBody.Enabled = false;
             if (shape is Ellipse && width != height)
@@ -107,10 +102,9 @@ namespace Jypeli
             }
             else
             {
-                Vertices vertices = CreatePhysicsShape(shape, this._size);
-                FSBody.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 1f * FSConvert.SimToDisplay));
+                List<Vertices> vertices = CreatePhysicsShape(shape, this._size);
+                FixtureFactory.AttachCompoundPolygon(vertices, 1f * FSConvert.SimToDisplay, FSBody);
             }
-            //}
         }
 
 

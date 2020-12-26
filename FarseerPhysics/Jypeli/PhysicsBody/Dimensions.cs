@@ -36,6 +36,9 @@ using Microsoft.Xna.Framework;
 using Jypeli.Farseer;
 using FarseerPhysics.Common;
 using FarseerPhysics;
+using System.Collections.Generic;
+using FarseerPhysics.Factories;
+using FarseerPhysics.Common.Decomposition;
 
 namespace Jypeli
 {
@@ -78,8 +81,8 @@ namespace Jypeli
             }
             set
             {
-                // TODO:Body.Shape = CreatePhysicsShape(_shape, value * FSConvert.DisplayToSim);
                 _size = value * FSConvert.DisplayToSim;
+                Shape = _shape; // Muodostaa fysiikkamuodon uudestaan uudella koolla.
             }
         }
 
@@ -111,13 +114,12 @@ namespace Jypeli
             _shape = shape;
             var collisionHandlers = FSBody.FixtureList[0].OnCollision;
             FSBody.DestroyFixture(FSBody.FixtureList[0]);
-            Vertices vertices = CreatePhysicsShape(shape, this._size);
-            Fixture f = FSBody.CreateFixture(new FarseerPhysics.Collision.Shapes.PolygonShape(vertices, 0.01f));
-            f.OnCollision += collisionHandlers;
-            //Body.Shape = CreatePhysicsShape( shape, Size, parameters );
+            List<Vertices> vertices = CreatePhysicsShape(shape, this._size);
+            List<Fixture> fs = FixtureFactory.AttachCompoundPolygon(vertices, 1f*FSConvert.SimToDisplay, FSBody);
+            fs.ForEach((f) => f.OnCollision += collisionHandlers);
         }
 
-        internal static Vertices CreatePhysicsShape(Shape shape, Vector size)
+        internal static List<Vertices> CreatePhysicsShape(Shape shape, Vector size)
         {
             return CreatePhysicsShape(shape, size, GetDefaultParameters(size.X, size.Y));
         }
@@ -127,17 +129,19 @@ namespace Jypeli
         /// size of the object. In addition, it has more vertices and some additional info
         /// that is used in collision detection.
         /// </summary>
-        internal static Vertices CreatePhysicsShape(Shape shape, Vector size, CollisionShapeParameters parameters)
+        internal static List<Vertices> CreatePhysicsShape(Shape shape, Vector size, CollisionShapeParameters parameters)
         {
+            List<Vertices> res = new List<Vertices>();
             if (shape is RaySegment)
             {
                 RaySegment raySegment = (RaySegment)shape;
-                return PolygonTools.CreateLine(raySegment.Origin, raySegment.Origin + raySegment.Direction*raySegment.Length);
-
+                res.Add(PolygonTools.CreateLine(raySegment.Origin, raySegment.Origin + raySegment.Direction*raySegment.Length));
+                return res;
             }
             else if (shape is Rectangle)
             {
-                return PolygonTools.CreateRectangle((float)size.X/2, (float)size.Y/2);
+                res.Add(PolygonTools.CreateRectangle((float)size.X/2, (float)size.Y/2));
+                return res;
             }
             else if (shape is Ellipse)
             {
@@ -149,16 +153,16 @@ namespace Jypeli
                 double r = smaller / 2 + (bigger - smaller) / 2;
                 int vertexCount = Math.Min(Settings.MaxPolygonVertices, (int)Math.Ceiling((2 * Math.PI * r) / parameters.MaxVertexDistance));
 
-                return PolygonTools.CreateEllipse((float)size.X/2, (float)size.Y/2, vertexCount);
+                res.Add(PolygonTools.CreateEllipse((float)size.X / 2, (float)size.Y / 2, vertexCount));
+                return res;
 
             }
             else
             {
-                // TODO: ei toimi oikein erikoisemmille muodoille, kuten tähdelle.
                 Vertices vertices = new Vertices();
                 for (int i = 0; i < shape.Cache.Vertices.Length; i++)
                 {
-                    Vector v = shape.Cache.OutlineVertices[i];
+                    Vector v = shape.Cache.Vertices[i];
                     if (shape.IsUnitSize)
                     {
                         v.X *= size.X;
@@ -166,7 +170,11 @@ namespace Jypeli
                     }
                     vertices.Add(new Vector2((float)v.X, (float)v.Y));
                 }
-                return vertices;
+
+                // TODO: Mille kaikille muodoille tää tarvii tehdä?
+                // TODO: Mikä on paras algoritmi?
+                res.AddRange(Triangulate.ConvexPartition(vertices, TriangulationAlgorithm.Bayazit));
+                return res;
             }
         }
     }

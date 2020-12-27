@@ -101,6 +101,12 @@ namespace Jypeli
         public static FileManager DataStorage { get { return Device.Storage; } }
 
         /// <summary>
+        /// Onko käytössä Farseer-fysiikkamoottori
+        /// HUOM: Tämä saattaa poistua tulevaisuudessa jos/kun siitä tehdään ainut vaihtoehto.
+        /// </summary>
+        public bool FarseerGame { get; set; }
+
+        /// <summary>
         /// Phone-olio esim. puhelimen tärisyttämiseen.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]

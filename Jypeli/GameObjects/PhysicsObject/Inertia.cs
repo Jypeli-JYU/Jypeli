@@ -41,18 +41,10 @@
         /// </summary>
         public bool CanRotate
         {
-            get { return !double.IsPositiveInfinity( MomentOfInertia ); }
+            get { return Body.CanRotate; }
             set
             {
-                if ( !value )
-                {
-                    _storedMomentOfInertia = Body.MomentOfInertia;
-                    Body.MomentOfInertia = double.PositiveInfinity;
-                }
-                else
-                {
-                    Body.MomentOfInertia = _storedMomentOfInertia;
-                }
+                Body.CanRotate = value;
             }
         }
 

@@ -36,9 +36,10 @@ namespace Jypeli
                 var groupIgnorer = CollisionIgnorer as JypeliGroupIgnorer;
 
                 if ( groupIgnorer == null )
-                    CollisionIgnorer = groupIgnorer = new JypeliGroupIgnorer();
-
+                    groupIgnorer = new JypeliGroupIgnorer();
                 groupIgnorer.LegacyGroup = value;
+                CollisionIgnorer = groupIgnorer;
+
             }
         }
 
@@ -179,11 +180,14 @@ namespace Jypeli
 
         /// <summary>
         /// Tekee oliosta läpimentävän alhaalta ylöspäin (tasohyppelytaso).
-        /// Huom. ei toimi yhdessä CollisionIgnoreGroupien kanssa!
+        /// Huom. toimii yhdessä CollisionIgnoreGroupien kanssa ainoastaan jos käytössä on Farseer fysiikkamoottori!
         /// </summary>
         public void MakeOneWay()
         {
-            CollisionIgnorer = new OneWayPlatformIgnorer(Height);
+            if (Game.Instance.FarseerGame)
+                Body.MakeOneWay();
+            else
+                CollisionIgnorer = new OneWayPlatformIgnorer(Height);
         }
     }
 }

@@ -527,7 +527,7 @@ public class PlatformCharacter : PhysicsObject
     {
         double d = ( this.Width + obj.Width ) / 2;
         Angle throwAngle = FacingDirection == Direction.Left ? Angle.StraightAngle - angle : angle;
-        obj.Position = this.AbsolutePosition + this.FacingDirection.GetVector() * d + Vector.UnitY * axialDelta;
+        obj.Position = this.Position + this.FacingDirection.GetVector() * d + Vector.UnitY * axialDelta;
         obj.Hit( Vector.FromLengthAndAngle( force, throwAngle ) );
     }
 
@@ -539,12 +539,12 @@ public class PlatformCharacter : PhysicsObject
         Vector uTargetX = Vector.FromAngle( platform.Angle );
         Vector uTargetY = uTargetX.LeftNormal;
 
-        double leftProj = new Vector( this.AbsLeft - platform.AbsolutePosition.X, this.AbsBottom - platform.AbsolutePosition.Y ).ScalarProjection( uTargetX );
-        double rightProj = new Vector( this.AbsRight - platform.AbsolutePosition.X, this.AbsBottom - platform.AbsolutePosition.Y ).ScalarProjection( uTargetX );
+        double leftProj = new Vector( this.Left - platform.Position.X, this.Bottom - platform.Position.Y ).ScalarProjection( uTargetX );
+        double rightProj = new Vector( this.Right - platform.Position.X, this.Bottom - platform.Position.Y ).ScalarProjection( uTargetX );
         Vector leftTopPoint = leftProj * uTargetX + platform.Height / 2 * uTargetY;
         Vector rightTopPoint = rightProj * uTargetX + platform.Height / 2 * uTargetY;
 
-        return platform.AbsolutePosition.Y + Math.Max( leftTopPoint.Y, rightTopPoint.Y );
+        return platform.Position.Y + Math.Max( leftTopPoint.Y, rightTopPoint.Y );
     }
 
     /// <summary>
@@ -560,7 +560,7 @@ public class PlatformCharacter : PhysicsObject
         double epsilon = Width / 6;
 
         double targetTop = this.GetPlatformTopY( target );
-        return (target.AbsolutePosition.Y <= this.AbsolutePosition.Y
+        return (target.Position.Y <= this.Position.Y
             && (this.Bottom - targetTop) < yTolerance
             && (target.Left + epsilon) < this.Right
             && this.Left < (target.Right - epsilon));
@@ -614,7 +614,7 @@ public class PlatformCharacter : PhysicsObject
         if ( CanWalkAgainstWalls || Game == null || Math.Abs( dx ) < float.Epsilon )
             return true;
 
-        Vector wallPos = this.AbsolutePosition + ( Math.Sign(dx) * this.Width / 2 + dx ) * Vector.UnitX;
+        Vector wallPos = this.Position + ( Math.Sign(dx) * this.Width / 2 + dx ) * Vector.UnitX;
 
         foreach ( var obj in Game.GetObjectsAt( wallPos ) )
         {
@@ -644,9 +644,9 @@ public class PlatformCharacter : PhysicsObject
 
     private void AdjustPosition()
     {
-        collisionHelpers[0].Object.AbsolutePosition = this.AbsolutePosition - new Vector( -Width / 4, Height * 1 / 8 );
-        collisionHelpers[1].Object.AbsolutePosition = this.AbsolutePosition - new Vector( 0, Height * 1 / 8 );
-        collisionHelpers[2].Object.AbsolutePosition = this.AbsolutePosition - new Vector( Width / 4, Height * 1 / 8 );
+        collisionHelpers[0].Object.Position = this.Position - new Vector( -Width / 4, Height * 1 / 8 );
+        collisionHelpers[1].Object.Position = this.Position - new Vector( 0, Height * 1 / 8 );
+        collisionHelpers[2].Object.Position = this.Position - new Vector( Width / 4, Height * 1 / 8 );
 
         if ( state == PlatformCharacterState.Jumping )
             return;
@@ -726,7 +726,7 @@ public class PlatformCharacter : PhysicsObject
             return;
         }
 
-        Vector d = moveTarget.Value - AbsolutePosition;
+        Vector d = moveTarget.Value - Position;
         double vt = moveSpeed * moveTimer.Interval;
 
         if ( d.Magnitude < vt )

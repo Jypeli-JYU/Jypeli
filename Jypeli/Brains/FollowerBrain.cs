@@ -107,8 +107,8 @@ namespace Jypeli
                 if ( obj1 == null ) return 1;
                 if ( obj2 == null ) return -1;
 
-                double d1 = Vector.Distance( Owner.AbsolutePosition, obj1.AbsolutePosition );
-                double d2 = Vector.Distance( Owner.AbsolutePosition, obj2.AbsolutePosition );
+                double d1 = Vector.Distance( Owner.Position, obj1.Position );
+                double d2 = Vector.Distance( Owner.Position, obj2.Position );
                 double diff = Math.Abs( d1 - d2 );
 
                 if ( CurrentTarget == obj1 && diff < changeTargetDistance ) return -1;
@@ -178,19 +178,19 @@ namespace Jypeli
             }
 
             if ( Owner != null && CurrentTarget != null )
-                DistanceToTarget.Value = Vector.Distance( Owner.AbsolutePosition, CurrentTarget.AbsolutePosition );
+                DistanceToTarget.Value = Vector.Distance( Owner.Position, CurrentTarget.Position );
             else
                 DistanceToTarget.Value = double.PositiveInfinity;
         }
 
         private void SetTargetPosition( double dt )
         {
-            targetPosition = CurrentTarget.AbsolutePosition;
+            targetPosition = CurrentTarget.Position;
 
             if ( Delay > 0 && DistanceToTarget.Value > float.Epsilon )
             {
                 double maxlength = Math.Sqrt( Math.Pow( Game.Instance.Level.Width, 2 ) + Math.Pow( Game.Instance.Level.Height, 2 ) );
-                targetPosition += Vector.FromLengthAndAngle( maxlength, ( CurrentTarget.AbsolutePosition - Owner.AbsolutePosition ).Angle );
+                targetPosition += Vector.FromLengthAndAngle( maxlength, ( CurrentTarget.Position - Owner.Position ).Angle );
             }
 
             IPhysicsObject physTarget = CurrentTarget as IPhysicsObject;
@@ -223,11 +223,11 @@ namespace Jypeli
             }
             else
             {
-                DistanceToTarget.Value = Vector.Distance( Owner.AbsolutePosition, CurrentTarget.AbsolutePosition );
+                DistanceToTarget.Value = Vector.Distance( Owner.Position, CurrentTarget.Position );
 
                 if ( TurnWhileMoving )
                 {
-                    Vector realDist = CurrentTarget.AbsolutePosition - Owner.AbsolutePosition;
+                    Vector realDist = CurrentTarget.Position - Owner.Position;
                     if ( !double.IsNaN( realDist.Magnitude ) && !double.IsInfinity( realDist.Magnitude ) )
                         Turn( realDist.Angle );
                 }
@@ -262,7 +262,7 @@ namespace Jypeli
                 return;
             }
 
-            Vector d = targetPosition - Owner.AbsolutePosition;
+            Vector d = targetPosition - Owner.Position;
             if ( d.Magnitude > float.Epsilon )
                 Move( d / dt );
             else if ( Owner is PhysicsObject )

@@ -148,8 +148,8 @@ namespace Jypeli
         protected virtual void PrepareThrowable( PhysicsObject obj, Angle angle, double force, double distanceDelta, double axialDelta )
         {
             double d = ( this.Width + obj.Width ) / 2 + distanceDelta;
-            Angle a = this.AbsoluteAngle + angle;
-            obj.Position = this.AbsolutePosition + a.GetVector() * d + ( a + Angle.RightAngle ).GetVector() * axialDelta;
+            Angle a = this.Angle + angle;
+            obj.Position = this.Position + a.GetVector() * d + ( a + Angle.RightAngle ).GetVector() * axialDelta;
             obj.Hit( Vector.FromLengthAndAngle( force, a ) );
         }
 
@@ -187,7 +187,7 @@ namespace Jypeli
                 return;
             }
 
-            Vector d = moveTarget.Value - AbsolutePosition;
+            Vector d = moveTarget.Value - Position;
             double vt = moveSpeed * moveTimer.Interval;
 
             if ( d.Magnitude < vt )

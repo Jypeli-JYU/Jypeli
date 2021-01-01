@@ -168,8 +168,7 @@ namespace Jypeli.GameObjects
         [Save] public abstract Vector Size { get; set; }
 
         /// <summary>
-        /// Olion paikka. Jos olio on jonkun toisen peliolion lapsi, paikka on suhteessa
-        /// tämän vanhempaan (<c>Parent</c>). Muuten paikka on paikka pelimaailmassa.
+        /// Olion paikka. Jos olio on jonkun toisen peliolion lapsi, ks. myös (<c>RelativePosition</c>).
         /// </summary>
         [Save] public virtual Vector Position { get; set; }
 
@@ -245,51 +244,42 @@ namespace Jypeli.GameObjects
         }
 
         /// <summary>
-        /// Olion absoluuttinen paikka pelimaailmassa.
-        /// Jos olio ei ole minkään toisen peliolion lapsiolio,
-        /// tämä on sama kuin <c>Position</c>.
+        /// Olion paikka suhteessa sen isäntäolioon.
         /// </summary>
-        public Vector AbsolutePosition
+        public Vector RelativePosition
         {
             get
             {
-                if ( Parent != null )
-                    return Parent.AbsolutePosition + Parent.AbsoluteUnitX * Position.X + Parent.AbsoluteUnitY * Position.Y;
+                if (Parent != null)
+                {
+                    Vector diff = Parent.Position - Position;
+                    Angle angle = diff.Angle;
+                    return Vector.FromLengthAndAngle(diff.Magnitude, angle - Parent.Angle);
+                }
                 return Position;
             }
             set
             {
-                if ( Parent != null )
-                {
-                    var rawPosition = value - Parent.AbsolutePosition;
-                    double x = Vector.DotProduct(Parent.AbsoluteUnitX, rawPosition);
-                    double y = Vector.DotProduct(Parent.AbsoluteUnitY, rawPosition);
-                    Position = new Vector(x, y);
-                }
-                else
-                    Position = value;
+                Position = value;
             }
         }
 
         /// <summary>
-        /// Olion absoluuttinen kulma pelimaailmassa.
+        /// Olion kulma suhteessa vanhempaan.
         /// Jos olio ei ole minkään toisen peliolion lapsiolio,
         /// tämä on sama kuin <c>Angle</c>.
         /// </summary>
-        public Angle AbsoluteAngle
+        public Angle RelativeAngle
         {
             get
             {
                 if ( Parent != null )
-                    return Parent.AbsoluteAngle + this.Angle;
+                    return Parent.Angle - this.Angle;
                 return Angle;
             }
             set
             {
-                if ( Parent != null )
-                    Angle = value - Parent.AbsoluteAngle;
-                else
-                    Angle = value;
+                Angle = value;
             }
         }
 
@@ -330,35 +320,39 @@ namespace Jypeli.GameObjects
         }
 
         /// <summary>
-        /// Olion vasemman reunan absoluuttinen x-koordinaatti.
+        /// Olion vasemman reunan suhteellinen x-koordinaatti.
         /// </summary>
-        public double AbsLeft
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public double RelativeLeft
         {
-            get { return AbsolutePosition.X - 0.5 * ( Size.Y * Math.Abs( Angle.Sin ) + Size.X * Math.Abs( Angle.Cos ) ); }
+            get { throw new NotImplementedException();/*return RelativePosition.X + 0.5 * ( Size.Y * Math.Abs( Angle.Sin ) - Size.X * Math.Abs( Angle.Cos ) );*/ }
         }
 
         /// <summary>
-        /// Olion oikean reunan absoluuttinen x-koordinaatti.
+        /// Olion oikean reunan suhteellinen x-koordinaatti.
         /// </summary>
-        public double AbsRight
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public double RelativeRight
         {
-            get { return AbsolutePosition.X + 0.5 * ( Size.Y * Math.Abs( Angle.Sin ) + Size.X * Math.Abs( Angle.Cos ) ); }
+            get { throw new NotImplementedException();/*return RelativePosition.X + 0.5 * ( Size.Y * Math.Abs( Angle.Sin ) + Size.X * Math.Abs( Angle.Cos ) );*/ }
         }
 
         /// <summary>
-        /// Olion yläreunan absoluuttinen y-koordinaatti.
+        /// Olion yläreunan suhteellinen y-koordinaatti.
         /// </summary>
-        public double AbsTop
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public double RelativeTop
         {
-            get { return AbsolutePosition.Y + 0.5 * ( Size.X * Math.Abs( Angle.Sin ) + Size.Y * Math.Abs( Angle.Cos ) ); }
+            get { throw new NotImplementedException();/*return RelativePosition.Y + 0.5 * ( Size.X * Math.Abs( Angle.Sin ) + Size.Y * Math.Abs( Angle.Cos ) );*/ }
         }
 
         /// <summary>
-        /// Olion alareunan absoluuttinen y-koordinaatti.
+        /// Olion alareunan suhteellinen y-koordinaatti.
         /// </summary>
-        public double AbsBottom
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public double RelativeBottom
         {
-            get { return AbsolutePosition.Y - 0.5 * ( Size.X * Math.Abs( Angle.Sin ) + Size.Y * Math.Abs( Angle.Cos ) ); }
+            get { throw new NotImplementedException();/*return RelativePosition.Y - 0.5 * ( Size.X * Math.Abs( Angle.Sin ) + Size.Y * Math.Abs( Angle.Cos ) );*/ }
         }
 
         /// <summary>
@@ -408,19 +402,19 @@ namespace Jypeli.GameObjects
         }
 
         /// <summary>
-        /// Olion koordinaatiston absoluuttinen X-yksikkökantavektori.
+        /// Olion koordinaatiston suhteellinen X-yksikkökantavektori.
         /// </summary>
-        public Vector AbsoluteUnitX
+        public Vector RelativeUnitX
         {
-            get { return Vector.FromAngle( AbsoluteAngle ); }
+            get { return Vector.FromAngle( RelativeAngle ); }
         }
 
         /// <summary>
-        /// Olion koordinaatiston absoluuttinen Y-yksikkökantavektori.
+        /// Olion koordinaatiston suhteellinen Y-yksikkökantavektori.
         /// </summary>
-        public Vector AbsoluteUnitY
+        public Vector RelativeUnitY
         {
-            get { return AbsoluteUnitX.LeftNormal; }
+            get { return RelativeUnitX.LeftNormal; }
         }
 
         /// <summary>

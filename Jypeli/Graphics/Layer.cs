@@ -436,16 +436,7 @@ namespace Jypeli
                     for (int j = 0; j < children.Count; j++)
                     {
                         GameObject go = children[j];
-                        Vector2 position = new Vector2((float)(go.AbsolutePosition.X - go.Position.X), (float)(go.AbsolutePosition.Y - go.Position.Y));
-                        Vector2 scale = new Vector2((float)drawScale.X, (float)drawScale.Y);
-                        float rotation = go.RotateImage ? (float)(go.AbsoluteAngle.Radians - go.Angle.Radians) : 0;
-
-                        Matrix childTransformation =
-                            Matrix.CreateRotationZ(rotation)
-                            * Matrix.CreateTranslation(position.X, position.Y, 0f)
-                            * worldMatrix;
-
-                        Draw(go, ref childTransformation);
+                        Draw(go, ref worldMatrix);
                         if (go._childObjects != null) drawChildren(go._childObjects);
                         
                     }

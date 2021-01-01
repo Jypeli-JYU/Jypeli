@@ -202,19 +202,19 @@ namespace Jypeli.Assets
             if ( !IsAddedToGame )
                 return;
 
-            Vector impulse = Vector.FromLengthAndAngle( power, AbsoluteAngle );
-            Vector direction = Vector.FromLengthAndAngle( 1.0, AbsoluteAngle );
+            Vector impulse = Vector.FromLengthAndAngle( power, Angle );
+            Vector direction = Vector.FromLengthAndAngle( 1.0, Angle );
             Vector position = this.Position;
 
             if ( Parent != null )
             {
                 //0.75 * max(width, height) -> projectiles don't hit the PlatformCharacter's collisionHelpers.
                 //Would be better to choose the width or height manually based on the direction.
-                position = this.AbsolutePosition + direction * 0.75 * ( Math.Max(this.Parent.Width, this.Parent.Height) );
+                position = this.Position + direction * 0.75 * ( Math.Max(this.Parent.Width, this.Parent.Height) );
             }
 
             projectile.Position = position;
-            projectile.Angle = this.AbsoluteAngle;
+            projectile.Angle = this.Angle;
 
             if ( Parent is PhysicsObject && !CanHitOwner )
             {

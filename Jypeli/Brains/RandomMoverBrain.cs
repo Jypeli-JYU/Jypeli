@@ -53,7 +53,7 @@
         protected override void OnAdd( IGameObject newOwner )
         {
             changeDirectionTimer.Start();
-            WanderPosition = newOwner.AbsolutePosition;
+            WanderPosition = newOwner.Position;
             base.OnAdd( newOwner );
         }
 
@@ -74,7 +74,7 @@
         /// <param name="target">Olio, johon törmätään.</param>
         public override void OnCollision( IGameObject target )
         {
-            Vector d = target.AbsolutePosition - Owner.AbsolutePosition;
+            Vector d = target.Position - Owner.Position;
             Angle n1 = d.Angle - Angle.RightAngle;
             Angle n2 = d.Angle + Angle.RightAngle;
 
@@ -90,7 +90,7 @@
 
             if ( !double.IsInfinity( WanderRadius ) )
             {
-                Vector d = WanderPosition - Owner.AbsolutePosition;
+                Vector d = WanderPosition - Owner.Position;
                 if ( d.Magnitude > WanderRadius )
                     currentDirection = d.Angle;
             }

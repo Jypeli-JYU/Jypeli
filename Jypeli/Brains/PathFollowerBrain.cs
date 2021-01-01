@@ -164,7 +164,7 @@ namespace Jypeli.Assets
             }
 
             Vector target = path[wayPointIndex];
-            Vector dist = target - Owner.AbsolutePosition;
+            Vector dist = target - Owner.Position;
             DistanceToWaypoint.Value = dist.Magnitude;
 
             if ( DistanceToWaypoint.Value < WaypointRadius )

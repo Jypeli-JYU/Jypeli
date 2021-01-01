@@ -26,12 +26,12 @@ namespace Jypeli
         
         Angle Angle { get; set; }
 
-        Vector AbsolutePosition { get; set; }
-        Angle AbsoluteAngle { get; set; }
+        Vector RelativePosition { get; set; }
+        Angle RelativeAngle { get; set; }
         Vector UnitX { get; }
         Vector UnitY { get; }
-        Vector AbsoluteUnitX { get; }
-        Vector AbsoluteUnitY { get; }
+        Vector RelativeUnitX { get; }
+        Vector RelativeUnitY { get; }
         
         Animation Animation { get; set; }
         Image Image { get; set; }

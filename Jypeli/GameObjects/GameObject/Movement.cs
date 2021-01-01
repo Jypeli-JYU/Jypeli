@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009 University of Jyväskylä, Department of Mathematical
+ * Copyright (c) 2009 University of Jyvï¿½skylï¿½, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero Jï¿½ntti, Tomi Karppinen, Janne Nikkanen.
  */
 
 using System;
@@ -42,27 +42,27 @@ namespace Jypeli
         protected Action arrivedAction = null;
 
         /// <summary>
-        /// Siirtää oliota.
+        /// Siirtï¿½ï¿½ oliota.
         /// </summary>
-        /// <param name="movement">Vektori, joka määrittää kuinka paljon siirretään.</param>
+        /// <param name="movement">Vektori, joka mï¿½ï¿½rittï¿½ï¿½ kuinka paljon siirretï¿½ï¿½n.</param>
         public virtual void Move( Vector movement )
         {
             Position += movement;
         }
 
         /// <summary>
-        /// Yrittää siirtyä annettuun paikkaan annetulla nopeudella.
-        /// Laukaisee annetun aliohjelman, kun paikkaan on päästy.
+        /// Yrittï¿½ï¿½ siirtyï¿½ annettuun paikkaan annetulla nopeudella.
+        /// Laukaisee annetun aliohjelman, kun paikkaan on pï¿½ï¿½sty.
         /// </summary>
-        /// <param name="location">Paikka johon siirrytään</param>
+        /// <param name="location">Paikka johon siirrytï¿½ï¿½n</param>
         /// <param name="speed">
-        /// Nopeus (paikkayksikköä sekunnissa) jolla liikutaan.
-        /// Nopeus on maksiminopeus. Jos välissä on hitaampaa maastoa tai
-        /// esteitä, liikkumisnopeus voi olla alle sen.
+        /// Nopeus (paikkayksikkï¿½ï¿½ sekunnissa) jolla liikutaan.
+        /// Nopeus on maksiminopeus. Jos vï¿½lissï¿½ on hitaampaa maastoa tai
+        /// esteitï¿½, liikkumisnopeus voi olla alle sen.
         /// </param>
         /// <param name="doWhenArrived">
-        /// Aliohjelma, joka ajetaan kun paikkaan on päästy.
-        /// Voi olla null, jos ei haluta mitään aliohjelmaa.
+        /// Aliohjelma, joka ajetaan kun paikkaan on pï¿½ï¿½sty.
+        /// Voi olla null, jos ei haluta mitï¿½ï¿½n aliohjelmaa.
         /// </param>
         public override void MoveTo( Vector location, double speed, Action doWhenArrived )
         {
@@ -82,7 +82,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Pysäyttää MoveTo-aliohjelmalla aloitetun liikkeen.
+        /// Pysï¿½yttï¿½ï¿½ MoveTo-aliohjelmalla aloitetun liikkeen.
         /// </summary>
         public void StopMoveTo()
         {
@@ -101,14 +101,14 @@ namespace Jypeli
                 return;
             }
 
-            Vector d = moveTarget.Value - AbsolutePosition;
+            Vector d = moveTarget.Value - Position;
             double vt = moveSpeed * moveTimer.Interval;
 
             if ( d.Magnitude < vt )
             {
                 Vector targetLoc = moveTarget.Value;
                 moveTimer.Stop();
-                AbsolutePosition = moveTarget.Value;
+                Position = moveTarget.Value;
                 moveTarget = null;
 
                 if ( arrivedAction != null )
@@ -116,18 +116,18 @@ namespace Jypeli
             }
             else
             {
-                AbsolutePosition += Vector.FromLengthAndAngle( vt, d.Angle );
+                Position += Vector.FromLengthAndAngle( vt, d.Angle );
             }
         }
 
         /// <summary>
-        /// Laittaa kappaleen värähtelemään edestakaisin nykyisen paikkansa ympärillä tietyn akselin suuntaisesti.
+        /// Laittaa kappaleen vï¿½rï¿½htelemï¿½ï¿½n edestakaisin nykyisen paikkansa ympï¿½rillï¿½ tietyn akselin suuntaisesti.
         /// </summary>
-        /// <param name="axis">Akseli, jonka suunnassa värähdellään. Pituudella ei väliä, vain suunnalla.</param>
-        /// <param name="amplitude">Amplitudi eli ääripäiden välinen etäisyys.</param>
-        /// <param name="frequency">Taajuus, eli kuinka monta jaksoa sekunnissa värähdellään.</param>
-        /// <param name="phase">Vaihe, eli mistä kohtaa jaksoa aloitetaan. Vaihteluväli 0 - 2 * Math.PI (siniaalto)</param>
-        /// <param name="damping">Vaimennuskerroin. 0 = ei vaimene, mitä suurempi niin sitä nopeammin vaimenee.</param>
+        /// <param name="axis">Akseli, jonka suunnassa vï¿½rï¿½hdellï¿½ï¿½n. Pituudella ei vï¿½liï¿½, vain suunnalla.</param>
+        /// <param name="amplitude">Amplitudi eli ï¿½ï¿½ripï¿½iden vï¿½linen etï¿½isyys.</param>
+        /// <param name="frequency">Taajuus, eli kuinka monta jaksoa sekunnissa vï¿½rï¿½hdellï¿½ï¿½n.</param>
+        /// <param name="phase">Vaihe, eli mistï¿½ kohtaa jaksoa aloitetaan. Vaihteluvï¿½li 0 - 2 * Math.PI (siniaalto)</param>
+        /// <param name="damping">Vaimennuskerroin. 0 = ei vaimene, mitï¿½ suurempi niin sitï¿½ nopeammin vaimenee.</param>
         public void Oscillate( Vector axis, double amplitude, double frequency, double phase = 0, double damping = 0 )
         {
             if ( oscillators == null )
@@ -138,12 +138,12 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Laittaa kappaleen kulman värähtelemään edestakaisin.
+        /// Laittaa kappaleen kulman vï¿½rï¿½htelemï¿½ï¿½n edestakaisin.
         /// </summary>
-        /// <param name="direction">Värähtelyn suunta (1 = myötäpäivään, -1 = vastapäivään)</param>
-        /// <param name="amplitude">Amplitudi eli ääripäiden välinen etäisyys (radiaaneina).</param>
-        /// <param name="frequency">Taajuus, eli kuinka monta jaksoa sekunnissa värähdellään.</param>
-        /// <param name="damping">Vaimennuskerroin. 0 = ei vaimene, mitä suurempi niin sitä nopeammin vaimenee.</param>
+        /// <param name="direction">Vï¿½rï¿½htelyn suunta (1 = myï¿½tï¿½pï¿½ivï¿½ï¿½n, -1 = vastapï¿½ivï¿½ï¿½n)</param>
+        /// <param name="amplitude">Amplitudi eli ï¿½ï¿½ripï¿½iden vï¿½linen etï¿½isyys (radiaaneina).</param>
+        /// <param name="frequency">Taajuus, eli kuinka monta jaksoa sekunnissa vï¿½rï¿½hdellï¿½ï¿½n.</param>
+        /// <param name="damping">Vaimennuskerroin. 0 = ei vaimene, mitï¿½ suurempi niin sitï¿½ nopeammin vaimenee.</param>
         public void OscillateAngle( double direction, UnlimitedAngle amplitude, double frequency, double damping = 0 )
         {
             if ( oscillators == null )
@@ -154,7 +154,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Asettaa uuden tasapainoaseman värähtelyille.
+        /// Asettaa uuden tasapainoaseman vï¿½rï¿½htelyille.
         /// </summary>
         public void SetEquilibrium()
         {
@@ -162,7 +162,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Poistaa kaikki värähtelyt kappaleelta.
+        /// Poistaa kaikki vï¿½rï¿½htelyt kappaleelta.
         /// </summary>
         public void ClearOscillations()
         {
@@ -170,7 +170,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Pysäyttää kaiken liikkeen.
+        /// Pysï¿½yttï¿½ï¿½ kaiken liikkeen.
         /// </summary>
         public virtual void Stop()
         {

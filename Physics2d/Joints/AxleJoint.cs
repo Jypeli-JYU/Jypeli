@@ -99,11 +99,11 @@ namespace Jypeli
         public AxleJoint( PhysicsObject obj )
         {
             var body = obj.Body as PhysicsBody;
-            Vector2D pos = new Vector2D( obj.AbsolutePosition.X, obj.AbsolutePosition.Y );
+            Vector2D pos = new Vector2D( obj.Position.X, obj.Position.Y );
             innerJoint = new XnaFixedHinge( body.Body, pos, new Physics2DDotNet.Lifespan() );
             Object1 = obj;
             Object2 = null;
-            pivot = obj.AbsolutePosition;
+            pivot = obj.Position;
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Jypeli
             Object1 = firstObject;
             Object2 = secondObject;
             pivot = axlePosition;
-            initialPosition = secondObject.AbsolutePosition;
+            initialPosition = secondObject.Position;
         }
 
         /// <summary>
@@ -149,12 +149,12 @@ namespace Jypeli
         {
             var first = firstObject.Body as PhysicsBody;
             var second = secondObject.Body as PhysicsBody;
-            Vector2D pos = new Vector2D( secondObject.AbsolutePosition.X, secondObject.AbsolutePosition.Y );
+            Vector2D pos = new Vector2D( secondObject.Position.X, secondObject.Position.Y );
             innerJoint = new XnaHingeJoint( first.Body, second.Body, pos, new Physics2DDotNet.Lifespan() );
             Object1 = firstObject;
             Object2 = secondObject;
-            pivot = secondObject.AbsolutePosition;
-            initialPosition = secondObject.AbsolutePosition;
+            pivot = secondObject.Position;
+            initialPosition = secondObject.Position;
         }
 
         Physics.IPhysicsEngine engine = null;

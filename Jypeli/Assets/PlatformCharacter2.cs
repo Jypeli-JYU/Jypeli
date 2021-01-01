@@ -421,7 +421,7 @@ public class PlatformCharacter2 : PhysicsObject
     {
         double d = ( this.Width + obj.Width ) / 2;
         Angle throwAngle = FacingDirection == Direction.Left ? Angle.StraightAngle - angle : angle;
-        obj.Position = this.AbsolutePosition + this.FacingDirection.GetVector() * d + gravityNormal * axialDelta;
+        obj.Position = this.Position + this.FacingDirection.GetVector() * d + gravityNormal * axialDelta;
         obj.Hit( Vector.FromLengthAndAngle( force, throwAngle ) );
     }
     

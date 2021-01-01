@@ -65,7 +65,7 @@ public class ShootingPlatformCharacter : PlatformCharacter
             Target.IsDestroyed || !Target.IsAddedToGame)
             return;
 
-        Vector distanceVector = Target.AbsolutePosition - AbsolutePosition;
+        Vector distanceVector = Target.Position - Position;
 
         if (distanceVector.Magnitude > MaximumShootingDistance)
             return;
@@ -78,7 +78,7 @@ public class ShootingPlatformCharacter : PlatformCharacter
         if (Weapon == null || Target == null || Target.IsDestroyed || !Target.IsAddedToGame)
             return;
 
-        Vector distanceVector = Target.AbsolutePosition - AbsolutePosition;
+        Vector distanceVector = Target.Position - Position;
 
         if (distanceVector.Magnitude > MaximumShootingDistance)
             return;

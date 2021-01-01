@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009 University of Jyväskylä, Department of Mathematical
+ * Copyright (c) 2009 University of Jyvï¿½skylï¿½, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero Jï¿½ntti, Tomi Karppinen, Janne Nikkanen.
  */
 
 using System;
@@ -38,7 +38,7 @@ namespace Jypeli
 
         /// <summary>
         /// Olion koko pelimaailmassa.
-        /// Kertoo olion äärirajat, ei muotoa.
+        /// Kertoo olion ï¿½ï¿½rirajat, ei muotoa.
         /// </summary>
         public override Vector Size
         {
@@ -83,7 +83,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Olion muoto merkkijonona (kenttäeditorin käyttöön)
+        /// Olion muoto merkkijonona (kenttï¿½editorin kï¿½yttï¿½ï¿½n)
         /// </summary>
         internal string ShapeString
         {
@@ -98,15 +98,15 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Onko piste <c>p</c> tämän olion sisäpuolella.
+        /// Onko piste <c>p</c> tï¿½mï¿½n olion sisï¿½puolella.
         /// </summary>
         public bool IsInside( Vector point )
         {
-            Vector p = this.AbsolutePosition;
+            Vector p = this.Position;
             double pX, pY;
             double pointX, pointY;
 
-            if ( AbsoluteAngle == Angle.Zero )
+            if ( Angle == Angle.Zero )
             {
                 // A special (faster) case of the general case below
                 pX = p.X;
@@ -116,7 +116,7 @@ namespace Jypeli
             }
             else
             {
-                Vector unitX = Vector.FromLengthAndAngle( 1, this.AbsoluteAngle );
+                Vector unitX = Vector.FromLengthAndAngle( 1, this.Angle );
                 Vector unitY = unitX.LeftNormal;
                 pX = p.ScalarProjection( unitX );
                 pY = p.ScalarProjection( unitY );
@@ -143,13 +143,13 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Onko piste <c>p</c> tämän olion ympäröivän suorakulmion sisäpuolella.
+        /// Onko piste <c>p</c> tï¿½mï¿½n olion ympï¿½rï¿½ivï¿½n suorakulmion sisï¿½puolella.
         /// </summary>
         public bool IsInsideRect( Vector point )
         {
-            Vector p = this.AbsolutePosition;
+            Vector p = this.Position;
 
-            if ( AbsoluteAngle == Angle.Zero )
+            if ( Angle == Angle.Zero )
             {
                 // A special (faster) case of the general case below
                 if ( point.X >= ( p.X - Width / 2 )
@@ -159,7 +159,7 @@ namespace Jypeli
             }
             else
             {
-                Vector unitX = Vector.FromLengthAndAngle( 1, this.AbsoluteAngle );
+                Vector unitX = Vector.FromLengthAndAngle( 1, this.Angle );
                 Vector unitY = unitX.LeftNormal;
                 double pX = p.ScalarProjection( unitX );
                 double pY = p.ScalarProjection( unitY );
@@ -176,15 +176,15 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Onko peliolio kahden pisteen välissä
+        /// Onko peliolio kahden pisteen vï¿½lissï¿½
         /// </summary>
-        /// <param name="pos1">Ensimmäinen piste</param>
+        /// <param name="pos1">Ensimmï¿½inen piste</param>
         /// <param name="pos2">Toinen piste</param>
         /// <returns></returns>
         public bool IsBetween(Vector pos1, Vector pos2)
         {
             Vector normal = (pos2 - pos1).Normalize();
-            double ep = this.AbsolutePosition.ScalarProjection(normal);
+            double ep = this.Position.ScalarProjection(normal);
             double p1p = pos1.ScalarProjection(normal);
             double p2p = pos2.ScalarProjection(normal);
 
@@ -192,7 +192,7 @@ namespace Jypeli
                 return false;
 
             double pn = pos1.ScalarProjection(normal.RightNormal);
-            double en = this.AbsolutePosition.ScalarProjection(normal.RightNormal);
+            double en = this.Position.ScalarProjection(normal.RightNormal);
             return Math.Abs(en - pn) <= 0.5 * Math.Sqrt(this.Width * this.Width + this.Height * this.Height);
         }
     }

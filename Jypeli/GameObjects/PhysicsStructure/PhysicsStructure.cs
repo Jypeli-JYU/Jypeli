@@ -603,7 +603,7 @@ namespace Jypeli
 
             foreach ( var existing in objects )
             {
-                IAxleJoint joint = game.Engine.CreateJoint( physObj, existing, existing.AbsolutePosition );
+                IAxleJoint joint = game.Engine.CreateJoint( physObj, existing, existing.Position );
                 joint.Softness = _softness;
                 Joints.Add( joint );
                 game.Add( joint );
@@ -723,7 +723,7 @@ namespace Jypeli
 
             foreach ( var obj in objects )
             {
-                Vector displacement = obj.AbsolutePosition - centerObject.AbsolutePosition;
+                Vector displacement = obj.Position - centerObject.Position;
                 obj.MoveTo( location + displacement, speed );
             }
         }

@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009 University of Jyv‰skyl‰, Department of Mathematical
+ * Copyright (c) 2009 University of Jyv?skyl?, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero J‰ntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero J?ntti, Tomi Karppinen, Janne Nikkanen.
  */
 
 using System;
@@ -46,7 +46,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Olion lapsiolioiden lukum‰‰r‰.
+        /// Olion lapsiolioiden lukum??r?.
         /// Kuten Objects.Count, mutta optimoitu.
         /// </summary>
         public int ObjectCount
@@ -88,17 +88,19 @@ namespace Jypeli
         public SynchronousList<GameObject> GetChildObjectList => Objects;
 
         /// <summary>
-        /// Lis‰‰ annetun peliolion t‰m‰n olion lapseksi. Lapsiolio liikkuu t‰m‰n olion mukana,
-        /// ja sen paikka ja koko ilmaistaan suhteessa t‰h‰n olioon.
+        /// Lis?? annetun peliolion t?m?n olion lapseksi. Lapsiolio liikkuu t?m?n olion mukana,
+        /// ja sen paikka ja koko ilmaistaan suhteessa t?h?n olioon.
         /// </summary>
         /// <remarks>
-        /// <c>PhysicsObject</c>-tyyppisi‰ olioita ei voi lis‰t‰ lapsiolioksi.
+        /// <c>PhysicsObject</c>-tyyppisi? olioita ei voi lis?t? lapsiolioksi.
         /// </remarks>
         public void Add( IGameObject childObject )
         {
             //if (childObject is Jypeli.Assets.Explosion)
             //    throw new ArgumentException("Explosion as child object is not supported. Use Game.Add(explosion) instead.");
-
+            
+            
+            
             if ( !( childObject is GameObject ) )
                 throw new ArgumentException( "Child object can not be a non-GameObject" );
 
@@ -111,8 +113,8 @@ namespace Jypeli
         /// kutsu mielummin olion <c>Destroy</c>-metodia. 
         /// </summary> 
         /// <remarks> 
-        /// Oliota ei poisteta v‰littˆm‰sti, vaan viimeist‰‰n seuraavan 
-        /// p‰ivityksen j‰lkeen. 
+        /// Oliota ei poisteta v?litt?m?sti, vaan viimeist??n seuraavan 
+        /// p?ivityksen j?lkeen. 
         /// </remarks> 
         public void Remove( IGameObject childObject )
         {
@@ -144,7 +146,7 @@ namespace Jypeli
 
             // It is possible to add children to objects which themselves are not yet (or not at the moment)
             // added to the game. This might not be obvious, since the _childObjects SynchronousList is
-            // naturally not updated when the parent is not in game ó but there exist functions that
+            // naturally not updated when the parent is not in game ? but there exist functions that
             // flush _childObjects' queued operations right away, and they may get called.
             // Therefore we need to ensure that Game.OnAddObject is only called if the parent is in game.
             if (this.IsAddedToGame)

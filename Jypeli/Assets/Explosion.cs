@@ -252,7 +252,7 @@ namespace Jypeli.Assets
                             }
 
                             // Shockwave
-                            Vector distance = o.AbsolutePosition - this.AbsolutePosition;
+                            Vector distance = o.Position - this.Position;
                             applyShockwave( po, distance );
                         }
                     }

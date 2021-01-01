@@ -148,8 +148,8 @@ namespace Jypeli
 
             canvas.BrushColor = ( obj is GameObject && Mouse.IsCursorOn( (GameObject)obj ) ) ? Color.LightGreen : Color.LightGray;
 
-            Vector3 center = (Vector3)Camera.WorldToScreen( obj.AbsolutePosition, obj.Layer );
-            Matrix transform = Matrix.CreateRotationZ( (float)obj.AbsoluteAngle.Radians ) * Matrix.CreateTranslation( center );
+            Vector3 center = (Vector3)Camera.WorldToScreen( obj.Position, obj.Layer );
+            Matrix transform = Matrix.CreateRotationZ( (float)obj.Angle.Radians ) * Matrix.CreateTranslation( center );
 
             for ( int j = 0; j < vertexes.Length - 1; j++ )
             {

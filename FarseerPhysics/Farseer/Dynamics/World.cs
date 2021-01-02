@@ -1559,6 +1559,20 @@ namespace FarseerPhysics.Dynamics
             b.FSBody.Enabled = false;
         }
 
+        /// <summary>
+        /// Liittää kaksi kappaletta yhteen <c>WeldJoint</c>in avulla.
+        /// </summary>
+        /// <param name="physObj1">Kappale 1</param>
+        /// <param name="physObj2">Kappale 2</param>
+        /// <returns>Liitos</returns>
+        public IAxleJoint ConnectBodies(PhysicsObject physObj1, PhysicsObject physObj2)
+        {
+            Jypeli.WeldJoint w = new Jypeli.WeldJoint(physObj1, physObj2);
+            w.innerJoint.Enabled = true;
+            
+            return w;
+        }
+
         public void AddJoint(IAxleJoint joint)
         {
             Joint j = (joint as AxleJoint).innerJoint;

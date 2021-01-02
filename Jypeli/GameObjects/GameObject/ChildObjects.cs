@@ -88,18 +88,20 @@ namespace Jypeli
         public SynchronousList<GameObject> GetChildObjectList => Objects;
 
         /// <summary>
-        /// Lis?? annetun peliolion t?m?n olion lapseksi. Lapsiolio liikkuu t?m?n olion mukana,
-        /// ja sen paikka ja koko ilmaistaan suhteessa t?h?n olioon.
+        /// Lisää annetun peliolion tämän olion lapseksi. Lapsiolio liikkuu tämän olion mukana.
         /// </summary>
         /// <remarks>
-        /// <c>PhysicsObject</c>-tyyppisi? olioita ei voi lis?t? lapsiolioksi.
+        /// <c>PhysicsObject</c>-tyyppiset oliot voi lisätä lapsiolioksi ainoastaan jos käytössä on Farseer-fysiikkamoottori.
         /// </remarks>
         public void Add( IGameObject childObject )
         {
             //if (childObject is Jypeli.Assets.Explosion)
             //    throw new ArgumentException("Explosion as child object is not supported. Use Game.Add(explosion) instead.");
-            
-            
+
+            if (this is PhysicsObject && childObject is PhysicsObject && PhysicsGameBase.Instance != null && PhysicsGameBase.Instance.FarseerGame)
+            {
+                PhysicsGameBase.Instance.Engine.ConnectBodies((PhysicsObject)this, (PhysicsObject)childObject);
+            }
             
             if ( !( childObject is GameObject ) )
                 throw new ArgumentException( "Child object can not be a non-GameObject" );

@@ -122,5 +122,13 @@ namespace Jypeli.Physics2d
         {
             phsEngine.Update( dt );
         }
+        
+        /// <summary>
+        /// Ei käytössä
+        /// </summary>
+        public IAxleJoint ConnectBodies(PhysicsObject physObj1, PhysicsObject physObj2)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -10,6 +10,8 @@
 
         void AddBody( IPhysicsBody body );
         void RemoveBody( IPhysicsBody body );
+
+        IAxleJoint ConnectBodies(PhysicsObject physObj1, PhysicsObject physObj2);
         
         void AddJoint( IAxleJoint joint );
         void RemoveJoint( IAxleJoint joint );

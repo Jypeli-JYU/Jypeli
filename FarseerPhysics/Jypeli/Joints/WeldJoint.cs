@@ -1,6 +1,6 @@
 ﻿#region MIT License
 /*
- * Copyright (c) 2009 University of Jyväskylä, Department of Mathematical
+ * Copyright (c) 2021 University of Jyväskylä, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,8 +24,7 @@
 #endregion
 
 /*
- * Original Authors: Vesa Lappalainen, Tero Jäntti, Tomi Karppinen.
- * Modified for Farseer engine by Mikko Röyskö
+ * Author: Mikko Röyskö
  */
 
 using System;
@@ -38,20 +37,18 @@ using Jypeli.Farseer;
 namespace Jypeli
 {
     /// <summary>
-    /// Saranaliitos kahden olion välille.
+    /// Jöykkä liitos kahden olion välille.
+    /// Liitetyt oliot eivät voi liikkua tai pyöriä toistensa suhteen.
     /// </summary>
-    public class AxleJoint : IAxleJoint
+    public class WeldJoint : IAxleJoint
     {
-        Vector pivot;
-        Vector initialPosition;
-
         /// <summary>
         /// Ensimmäinen olio.
         /// </summary>
         public PhysicsObject Object1 { get; private set; }
 
         /// <summary>
-        /// Toinen olio (null jos ensimmäinen olio on sidottu pisteeseen)
+        /// Toinen olio.
         /// </summary>
         public PhysicsObject Object2 { get; private set; }
 
@@ -62,98 +59,53 @@ namespace Jypeli
         {
             get
             {
-                return Object2 != null ? pivot + Object2.Position - initialPosition : pivot;
+                return (Object1.Position + Object2.Position) / 2; // TODO: Pitäisikö oikeastaan laskea painopiste?
             }
         }
 
         internal FSJoint innerJoint;
 
         /// <summary>
-        /// Liitoksen pehmeys eli kuinka paljon sillä on liikkumavaraa.
+        /// Ei käytössä, liitos ei jousta.
         /// </summary>
         public double Softness
         {
             get
             {
-                //TODO:?
-                //if ( innerJoint is FSHingeJoint)
-                //    return ( (FSHingeJoint)innerJoint ).Softness;
-                //else if ( innerJoint is FSFixedHinge)
-                //    return ( (FSFixedHinge)innerJoint ).Softness;
-                //else
                 return 0;
             }
-            set
-            {
-                //if ( innerJoint is FSHingeJoint)
-                //    ( (FSHingeJoint)innerJoint ).Softness = value;
-                //else if ( innerJoint is FSFixedHinge)
-                //    ( (FSFixedHinge)innerJoint ).Softness = value;
-                //else
-                
-            }
+            set { }
         }
 
         /// <summary>
-        /// Kiinnittää olion akselilla pelikenttään.
-        /// </summary>
-        /// <param name="obj">Olio</param>
-        public AxleJoint(PhysicsObject obj)
-        {
-            throw new Exception();
-            //var body = obj.Body as PhysicsBody;
-            //Vector2D pos = new Vector2D(obj.AbsolutePosition.X, obj.AbsolutePosition.Y);
-            //innerJoint = new FSFixedHinge(body.Body, pos);
-            //Object1 = obj;
-            //Object2 = null;
-            //pivot = obj.AbsolutePosition;
-        }
-
-        /// <summary>
-        /// Luo uuden akseliliitoksen olion ja pisteen välille.
-        /// </summary>
-        /// <param name="obj">Ensimmäinen olio</param>
-        /// <param name="axlePosition">Liitoksen akselin paikka</param>
-        public AxleJoint(PhysicsObject obj, Vector axlePosition)
-        {
-            throw new Exception();
-            //var body = obj.Body as PhysicsBody;
-            //Vector2D pos = new Vector2D(axlePosition.X, axlePosition.Y);
-            //innerJoint = new FSFixedHinge(body.Body, pos);
-            //Object1 = obj;
-            //Object2 = null;
-            //pivot = axlePosition;
-        }
-
-        /// <summary>
-        /// Luo uuden akseliliitoksen kahden olion välille.
+        /// Luo uuden hitsausliitoksen kahden olion välille.
         /// </summary>
         /// <param name="firstObject">Ensimmäinen olio</param>
         /// <param name="secondObject">Toinen olio</param>
         /// <param name="axlePosition">Liitoksen akselin paikka</param>
-        public AxleJoint(PhysicsObject firstObject, PhysicsObject secondObject, Vector axlePosition)
+        public WeldJoint(PhysicsObject firstObject, PhysicsObject secondObject, Vector axlePosition)
         {
             World world = PhysicsGame.Instance.Engine as World;
             var first = firstObject.Body as PhysicsBody;
             var second = secondObject.Body as PhysicsBody;
-            innerJoint = JointFactory.CreateDistanceJoint(world, first.FSBody, second.FSBody, axlePosition * FSConvert.DisplayToSim, Vector.Zero);
+            innerJoint = JointFactory.CreateWeldJoint(world, first.FSBody, second.FSBody, axlePosition * FSConvert.DisplayToSim, Vector.Zero);
             innerJoint.Enabled = false;
             Object1 = firstObject;
             Object2 = secondObject;
         }
 
         /// <summary>
-        /// Luo uuden akseliliitoksen kahden olion välille.
+        /// Luo uuden hitsausliitoksen kahden olion välille.
         /// Liitos sijoitetaan toisen olion keskipisteeseen.
         /// </summary>
         /// <param name="firstObject">Ensimmäinen olio</param>
         /// <param name="secondObject">Toinen olio</param>
-        public AxleJoint(PhysicsObject firstObject, PhysicsObject secondObject)
+        public WeldJoint(PhysicsObject firstObject, PhysicsObject secondObject)
         {
             World world = PhysicsGame.Instance.Engine as World;
             var first = firstObject.Body as PhysicsBody;
             var second = secondObject.Body as PhysicsBody;
-            innerJoint = JointFactory.CreateDistanceJoint(world, first.FSBody, second.FSBody);
+            innerJoint = JointFactory.CreateWeldJoint(world, first.FSBody, second.FSBody,firstObject.Position * FSConvert.DisplayToSim, secondObject.Position*FSConvert.DisplayToSim);
             innerJoint.Enabled = false;
             Object1 = firstObject;
             Object2 = secondObject;

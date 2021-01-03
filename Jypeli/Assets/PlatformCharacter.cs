@@ -1,9 +1,11 @@
 ﻿
 #if DEBUG
-// #define VISUALIZE
+//#define VISUALIZE
+// TODO: Tää voisi olla ihan ajonaikainen asetus.
 #endif
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Jypeli;
@@ -78,6 +80,7 @@ public class PlatformCharacter : PhysicsObject
     private bool isWalking = false;
     private bool _turnsWhenWalking = true;
     private double lastDt = 0;
+    private GameObject stateIndicator;
 
     private double lowTolerance { get { return Height * 0.1; } }
     private double highTolerance { get { return Height * 0.2; } }
@@ -291,12 +294,14 @@ public class PlatformCharacter : PhysicsObject
         collisionHelpers[1].Object.Color = new Color(150, 180, 0, 100);
         collisionHelpers[2].Object.Color = new Color(150, 210, 0, 100);
 #endif
-
+        
         AddedToGame += AddCollisionHelpers;
         AddedToGame += SetIdleAnim;
         Removed += RemoveCollisionHelpers;
 
         IsUpdated = true;
+
+        CollisionIgnoreGroup = 31; // TODO: Voi tuottaa ongelmia.
     }
 
     private void SetIdleAnim()
@@ -396,7 +401,9 @@ public class PlatformCharacter : PhysicsObject
 
         if ( CanWalk( horizontalVelocity * lastDt ) )
         {
-            this.Velocity = new Vector( horizontalVelocity, this.Velocity.Y );
+            this.Velocity = new Vector( horizontalVelocity / 2, this.Velocity.Y );
+            this.X += horizontalVelocity * lastDt; // Hahmo törmäsi tasaisen pinnan reunoihin farseerilla,
+                                                   // clipataan niiden sisälle jolloin moottori "korjaa" sijaintia hieman ylöspäin.
         }
 
         if ( state == PlatformCharacterState.Idle || WalkOnAir )
@@ -639,7 +646,7 @@ public class PlatformCharacter : PhysicsObject
             Game.Add( stateIndicator );
         }
 
-        stateIndicator.AbsolutePosition = this.AbsolutePosition + new Vector( 0, this.Height );
+        stateIndicator.Position = this.Position + new Vector( 0, this.Height );
         stateIndicator.Color = GetStateColor( state );
 #endif
     }

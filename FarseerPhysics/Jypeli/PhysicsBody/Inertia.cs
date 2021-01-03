@@ -42,10 +42,10 @@ namespace Jypeli
         /// </summary>
         public bool CanRotate
         {
-            get { return FSBody.FixedRotation; }
+            get { return !FSBody.FixedRotation; }
             set
             {
-                FSBody.FixedRotation = value;
+                FSBody.FixedRotation = !value;
             }
         }
 

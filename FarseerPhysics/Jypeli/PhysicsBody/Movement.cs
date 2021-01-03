@@ -159,10 +159,10 @@ namespace Jypeli
         /// <param name="axis">Akseli vektorina (ei väliä pituudella)</param>
         public void StopAxial(Vector axis)
         {
-            /*
             Acceleration = Acceleration.Project( axis.LeftNormal );
             Velocity = Velocity.Project( axis.LeftNormal );
-
+            //TODO: Voimien nollaus
+            /*
             Vector oldForce = new Vector( Body.State.ForceAccumulator.Linear.X, Body.State.ForceAccumulator.Linear.Y );
             Vector newForce = oldForce.Project( axis.LeftNormal );
             double aForce = Body.State.ForceAccumulator.Angular;

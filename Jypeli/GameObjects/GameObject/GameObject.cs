@@ -162,6 +162,7 @@ namespace Jypeli
         {
             base.Update( time );
             UpdateChildren( time );
+            AdjustChildPosition();
             if ( _layoutNeedsRefreshing )
             {
                 RefreshLayout();

@@ -183,10 +183,12 @@ public class PlatformCharacter : PhysicsObject
             if ( FacingDirection == Direction.Left )
             {
                 // If facing left, set the weapon to match the direction
-                weapon.X *= -1;
+                //weapon.X *= -1;
                 weapon.Angle = Angle.StraightAngle;
                 weapon.TextureWrapSize = new Vector( 1, -1 );
             }
+
+            //weapon.Position = this.Position;
         }
     }
 
@@ -416,7 +418,7 @@ public class PlatformCharacter : PhysicsObject
 
         if ( Weapon != null )
         {
-            Weapon.X *= -1;
+            //Weapon.X *= -1;
             Weapon.TextureWrapSize = new Vector( 1, -Weapon.TextureWrapSize.Y );
             Weapon.Angle = Angle.Supplement( Weapon.Angle );
         }
@@ -601,7 +603,7 @@ public class PlatformCharacter : PhysicsObject
         if (!isWalking)
             StopWalking();
         isWalking = false;
-
+        
         lastDt = time.SinceLastUpdate.TotalSeconds;
         base.Update(time);
     }

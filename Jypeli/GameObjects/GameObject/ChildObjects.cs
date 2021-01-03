@@ -29,6 +29,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 
 namespace Jypeli
 {
@@ -181,6 +183,29 @@ namespace Jypeli
         private void UpdateChildren( Time time )
         {
             Objects.Update( time );
+        }
+
+        private Vector _prevPos;
+        private Angle _prevAngle;
+        internal void AdjustChildPosition()
+        {
+            if (Angle != _prevAngle || Position != _prevPos)
+            {
+                // Fysiikkaobjektit liikkuvat liitoksien avulla, joten niistä ei välitetä.
+                foreach (var child in Objects.Where(o => !(o is PhysicsObject)))
+                {
+                    // Ensin rotaatio, sitten translaatio.
+                    // TODO: Tätä voisi optimoida monella tapaa...
+                    child.Position = child.Position.Transform(
+                        Matrix.CreateTranslation(-Position) * 
+                        Matrix.CreateRotationZ((float)(Angle - _prevAngle).Radians) *
+                        Matrix.CreateTranslation(Position) * Matrix.CreateTranslation(Position - _prevPos));
+                    child.Angle += Angle - _prevAngle;
+                }
+                _prevAngle = Angle;
+                _prevPos = Position;
+            }
+
         }
 
         private void UpdateChildSizes( Vector oldSize, Vector newSize )

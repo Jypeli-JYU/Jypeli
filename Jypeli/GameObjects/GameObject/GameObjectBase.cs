@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.ComponentModel;
 
 namespace Jypeli.GameObjects
@@ -260,7 +261,10 @@ namespace Jypeli.GameObjects
             }
             set
             {
-                Position = value;
+                if (Parent != null)
+                    Position = Parent.Position.Transform(Matrix.CreateTranslation(value) * Matrix.CreateRotationZ((float)Parent.Angle.Radians));
+                else
+                    Position = value;
             }
         }
 
@@ -279,7 +283,9 @@ namespace Jypeli.GameObjects
             }
             set
             {
-                Angle = value;
+                if (Parent != null)
+                    Angle = Parent.Angle + value;
+                else Angle = value;
             }
         }
 

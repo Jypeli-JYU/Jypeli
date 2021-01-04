@@ -110,6 +110,10 @@ namespace Jypeli
 
             Objects.Add( (GameObject)childObject );
             childObject.Parent = this;
+
+            childObject.Angle += Angle;
+            _prevPos = Position; // Jos lis‰t‰‰n samalla p‰ivityksell‰.
+            _prevAngle = Angle;
         }
 
         /// <summary> 
@@ -199,7 +203,8 @@ namespace Jypeli
                     child.Position = child.Position.Transform(
                         Matrix.CreateTranslation(-Position) * 
                         Matrix.CreateRotationZ((float)(Angle - _prevAngle).Radians) *
-                        Matrix.CreateTranslation(Position) * Matrix.CreateTranslation(Position - _prevPos));
+                        Matrix.CreateTranslation(Position) *
+                        Matrix.CreateTranslation(Position - _prevPos));
                     child.Angle += Angle - _prevAngle;
                 }
                 _prevAngle = Angle;

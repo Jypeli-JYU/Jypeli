@@ -1280,6 +1280,8 @@ namespace FarseerPhysics.Dynamics
                 normal.Normalize();
                 return Vector.DotProduct(oneWayDir, normal) < 0;
             }
+            if (this.ObjectIgnorer == other.ObjectIgnorer)
+                return false;
 
             // Does a joint prevent collision?
             for (JointEdge jn = JointList; jn != null; jn = jn.Next)
@@ -1330,6 +1332,11 @@ namespace FarseerPhysics.Dynamics
         #region IDisposable Members
 
         public bool IsDisposed { get; set; }
+
+        /// <summary>
+        /// Saman olion omaavat objektit eivät törmää.
+        /// </summary>
+        public ObjectIgnorer ObjectIgnorer { get; internal set; }
 
         public void Dispose()
         {

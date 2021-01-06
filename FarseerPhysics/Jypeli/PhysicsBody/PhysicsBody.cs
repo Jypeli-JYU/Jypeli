@@ -134,16 +134,27 @@ namespace Jypeli
         public void SetCollisionIgnorer(Ignorer ignorer)
         {
             // TODO: Vähän ruma
-            JypeliGroupIgnorer ign = ignorer as JypeliGroupIgnorer;
-            Category cat;
-            if (Category.TryParse("Cat" + ign.LegacyGroup, out cat))
+            if (ignorer is JypeliGroupIgnorer)
             {
-                FSBody.CollidesWith = Category.All ^ cat;
-                FSBody.CollisionCategories = cat;
+                JypeliGroupIgnorer ign = ignorer as JypeliGroupIgnorer;
+                Category cat;
+                if (Category.TryParse("Cat" + ign.LegacyGroup, out cat))
+                {
+                    FSBody.CollidesWith = Category.All ^ cat;
+                    FSBody.CollisionCategories = cat;
+                }
+                else
+                    throw new ArgumentException("Collisiongroup must be between 1 and 32");
+            }
+            else if (ignorer is ObjectIgnorer)
+            {
+                ObjectIgnorer ign = ignorer as ObjectIgnorer;
+
+                FSBody.ObjectIgnorer = ign;
+
             }
             else
-                throw new ArgumentException("Collisiongroup must be between 1 and 32");
-            //this.Body.CollisionIgnorer = new CollisionIgnorerAdapter( ignorer );
+                throw new NotImplementedException("Annettu Ignore ei ole toteutettu.");
         }
     }
 

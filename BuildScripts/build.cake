@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 var target = Argument("build-target", "Default");
-var templateversion = "1.2.1";
+var templateversion = "1.3.0";
 var configuration = Argument("build-configuration", "Release");
 
 //////////////////////////////////////////////////////////////////////
@@ -93,6 +93,16 @@ Task("BuildPhysics2d")
     PackDotnet(path);
 });
 
+Task("BuildFarseer")
+    .IsDependentOn("BuildJypeli")
+    .Does(() =>
+{
+    var path = "../FarseerPhysics/FarseerPhysics.csproj";
+    DotNetCoreRestore(path);
+    DotNetCoreBuild(path);
+    PackDotnet(path);
+});
+
 
 Task("PackDotNetTemplates")
     .IsDependentOn("Prep")
@@ -137,7 +147,8 @@ Task("PackVSMacTemplates")
 
 Task("Build")
     .IsDependentOn("BuildJypeli")
-    .IsDependentOn("BuildPhysics2d");
+    .IsDependentOn("BuildPhysics2d")
+    .IsDependentOn("BuildFarseer");
 
 Task("Pack")
     .IsDependentOn("PackDotNetTemplates")

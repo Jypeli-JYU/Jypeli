@@ -13,19 +13,28 @@
     <Copyright>University of Jyväskylä</Copyright>
     <PackageReleaseNotes>Initial release for Farseer Physics for Jypeli</PackageReleaseNotes>
     <RootNamespace>Jypeli</RootNamespace>
+    <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>../Compiled</OutputPath>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>../Compiled</OutputPath>
   </PropertyGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\Jypeli\Jypeli.csproj" />
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.DesktopGL.csproj" />
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.DesktopGL.csproj" PrivateAssets="All" />
   </ItemGroup>
   <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
+
+  <ItemGroup>
+    <None Include="..\Licenses\Jypeli.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
 </Project>

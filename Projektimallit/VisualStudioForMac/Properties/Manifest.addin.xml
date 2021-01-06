@@ -26,6 +26,11 @@
             _overrideDescription="Fysiikkapeli, joka käyttää Physics2d-fysiikkamoottoria."
             category="jypeli/app/general"/>
         <Template
+            id="Jypeli.Fysiikkapeli.Farseer"
+            path="Jypeli.Templates.nupkg"
+            _overrideDescription="Fysiikkapeli, joka käyttää kokeellista FarseerPhysics-fysiikkamoottoria."
+            category="jypeli/app/general"/>
+        <Template
             id="Jypeli.Tasohyppelypeli"
             path="Jypeli.Templates.nupkg"
             _overrideDescription="Peli jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää Physics2d-fysiikkamoottoria."

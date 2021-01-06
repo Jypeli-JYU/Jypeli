@@ -2,9 +2,17 @@
   <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props" />
   <PropertyGroup>
     <AssemblyName>Jypeli.FarseerPhysics</AssemblyName>
+    <PackageId>Jypeli.FarseerPhysics.NET</PackageId>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Description>FarseerPhysics implementation for Jypeli</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>University of Jyväskylä</Authors>
+    <Company>University of Jyväskylä</Company>
+    <Copyright>University of Jyväskylä</Copyright>
+    <PackageReleaseNotes>Initial release for Farseer Physics for Jypeli</PackageReleaseNotes>
+    <RootNamespace>Jypeli</RootNamespace>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

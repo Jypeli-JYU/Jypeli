@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>Jypeli.Physics2d</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
-    <PackageId>Jypeli.Physics2d.Core</PackageId>
+    <PackageId>Jypeli.Physics2d.NET</PackageId>
     <Version>1.5.1</Version>
     <Authors>University of Jyväskylä</Authors>
     <Description>Physics2d.net implementation for Jypeli</Description>
@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Jypeli\Jypeli.csproj" />
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.DesktopGL.csproj" PrivateAssets="All"/>
+    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.DesktopGL.csproj" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

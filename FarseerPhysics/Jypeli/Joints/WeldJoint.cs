@@ -29,7 +29,7 @@
 
 using System;
 
-using FSJoint = FarseerPhysics.Dynamics.Joints.Joint;
+using FSJoint = FarseerPhysics.Dynamics.Joints.WeldJoint;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics;
 using Jypeli.Farseer;
@@ -40,22 +40,12 @@ namespace Jypeli
     /// Jöykkä liitos kahden olion välille.
     /// Liitetyt oliot eivät voi liikkua tai pyöriä toistensa suhteen.
     /// </summary>
-    public class WeldJoint : IAxleJoint
+    public class WeldJoint : AbstractJoint
     {
-        /// <summary>
-        /// Ensimmäinen olio.
-        /// </summary>
-        public PhysicsObject Object1 { get; private set; }
-
-        /// <summary>
-        /// Toinen olio.
-        /// </summary>
-        public PhysicsObject Object2 { get; private set; }
-
         /// <summary>
         /// Pyörimisakselin (tämänhetkiset) koordinaatit.
         /// </summary>
-        public Vector AxlePoint
+        public override Vector AxlePoint
         {
             get
             {
@@ -63,12 +53,23 @@ namespace Jypeli
             }
         }
 
-        internal FSJoint innerJoint;
+        internal FSJoint InnerJoint
+        {
+            get
+            {
+                return (FSJoint)innerJoint;
+            }
+            set
+            {
+                innerJoint = value;
+            }
+
+        }
 
         /// <summary>
         /// Ei käytössä, liitos ei jousta.
         /// </summary>
-        public double Softness
+        public override double Softness
         {
             get
             {
@@ -88,8 +89,7 @@ namespace Jypeli
             World world = PhysicsGame.Instance.Engine as World;
             var first = firstObject.Body as PhysicsBody;
             var second = secondObject.Body as PhysicsBody;
-            innerJoint = JointFactory.CreateWeldJoint(world, first.FSBody, second.FSBody, axlePosition * FSConvert.DisplayToSim, Vector.Zero);
-            innerJoint.Enabled = false;
+            InnerJoint = JointFactory.CreateWeldJoint(world, first.FSBody, second.FSBody, axlePosition * FSConvert.DisplayToSim, Vector.Zero);
             Object1 = firstObject;
             Object2 = secondObject;
         }
@@ -105,61 +105,9 @@ namespace Jypeli
             World world = PhysicsGame.Instance.Engine as World;
             var first = firstObject.Body as PhysicsBody;
             var second = secondObject.Body as PhysicsBody;
-            innerJoint = JointFactory.CreateWeldJoint(world, first.FSBody, second.FSBody,firstObject.Position * FSConvert.DisplayToSim, secondObject.Position*FSConvert.DisplayToSim);
-            innerJoint.Enabled = false;
+            InnerJoint = JointFactory.CreateWeldJoint(world, first.FSBody, second.FSBody,firstObject.Position * FSConvert.DisplayToSim, secondObject.Position*FSConvert.DisplayToSim);
             Object1 = firstObject;
             Object2 = secondObject;
         }
-
-        Physics.IPhysicsEngine engine = null;
-
-        public void SetEngine(Physics.IPhysicsEngine engine)
-        {
-            this.engine = engine;
-        }
-
-        public void AddToEngine()
-        {
-            if (this.engine == null) throw new InvalidOperationException("AddToEngine: physics engine not set");
-            if (this.Object1 == null) throw new InvalidOperationException("AddToEngine: joint.Object1 == null");
-            if (!this.Object1.IsAddedToGame) throw new InvalidOperationException("AddToEngine: object 1 not added to game");
-            if (this.Object2 == null && !this.Object2.IsAddedToGame) throw new InvalidOperationException("AddToEngine: object 2 not added to game");
-
-            engine.AddJoint(this);
-        }
-
-        #region Destroyable
-
-        /// <summary>
-        /// Onko liitos tuhottu.
-        /// </summary>
-        public bool IsDestroyed
-        {
-            get { return false; } // TODO:
-        }
-
-        /// <summary>
-        /// Tapahtuu kun liitos on tuhottu.
-        /// </summary>
-        public event Action Destroyed;
-
-        /// <summary>
-        /// Tuhoaa liitoksen.
-        /// </summary>
-        public void Destroy()
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region IDisposable
-
-        public void Dispose()
-        {
-            Destroy();
-        }
-
-        #endregion
     }
 }

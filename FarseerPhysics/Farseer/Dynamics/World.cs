@@ -1575,13 +1575,13 @@ namespace FarseerPhysics.Dynamics
 
         public void AddJoint(IAxleJoint joint)
         {
-            Joint j = (joint as AxleJoint).innerJoint;
-            j.Enabled = true; // Jointfactory lisää liitoksen automaattisesti moottorille.
+            Joint j = (joint as AbstractJoint).innerJoint;
+            AddJoint(j);
         }
 
         public void RemoveJoint(IAxleJoint joint)
         {
-            Joint j = (joint as AxleJoint).innerJoint;
+            Joint j = (joint as AbstractJoint).innerJoint;
             RemoveJoint(j);
         }
 

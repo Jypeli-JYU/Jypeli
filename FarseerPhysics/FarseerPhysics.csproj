@@ -11,9 +11,10 @@
     <Authors>University of Jyväskylä</Authors>
     <Company>University of Jyväskylä</Company>
     <Copyright>University of Jyväskylä</Copyright>
-    <PackageReleaseNotes>Initial release for Farseer Physics for Jypeli</PackageReleaseNotes>
+    <PackageReleaseNotes>WheelJoint, collisions now work</PackageReleaseNotes>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
+    <Version>1.0.1</Version>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

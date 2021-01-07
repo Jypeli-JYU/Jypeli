@@ -1280,7 +1280,7 @@ namespace FarseerPhysics.Dynamics
                 normal.Normalize();
                 return Vector.DotProduct(oneWayDir, normal) < 0;
             }
-            if (this.ObjectIgnorer == other.ObjectIgnorer)
+            if (this.ObjectIgnorer != null && this.ObjectIgnorer == other.ObjectIgnorer)
                 return false;
 
             // Does a joint prevent collision?

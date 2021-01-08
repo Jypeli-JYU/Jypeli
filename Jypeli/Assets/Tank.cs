@@ -116,20 +116,36 @@ namespace Jypeli.Assets
             for ( int i = 0; i < wheelCount; i++ )
             {
                 PhysicsObject wheel = new PhysicsObject( 2 * r, 2 * r, Shape.Circle );
-                wheel.Mass = this.Mass / 20;
                 wheel.Color = Color.Gray;
                 wheel.CollisionIgnorer = this.CollisionIgnorer;
-                wheel.Body.AngularDamping = 0.95f;
-                wheel.KineticFriction = 1.0;
                 wheels.Add( wheel );
                 pg.Add( wheel );
-
-                Vector axlePos = new Vector( left + i * ( this.Width / wheelCount ), wheelYPositions[i] );
+                Vector axlePos = new Vector(left + i * (this.Width / wheelCount), wheelYPositions[i]);
                 wheel.Position = axlePos;
-                IAxleJoint joint = pg.Engine.CreateJoint( this, wheel, new Vector( axlePos.X, axlePos.Y ) );
-                joint.Softness = 0.01f;
-                joints.Add( joint );
-                pg.Add( joint );
+
+                if (pg.FarseerGame)
+                {
+                    IAxleJoint joint = pg.Engine.CreateJoint(this, wheel, JointTypes.WheelJoint);
+
+                    // TODO: Näille voisi lisäillä propertyt
+                    Type type = joint.GetType();
+                    type.GetProperty("Softness").SetMethod.Invoke(joint, new object[] { this.Mass/6 }); // TODO: Kaikki hajoaa jos tankin massa muutetaan suureksi, esim 1000.
+                    type.GetProperty("MotorEnabled").SetMethod.Invoke(joint, new object[] { true });
+                    type.GetProperty("MaxMotorTorque").SetMethod.Invoke(joint, new object[] { 1000 });
+                    type.GetProperty("Axis").SetMethod.Invoke(joint, new object[] { Vector.UnitY });
+
+                    joints.Add(joint);
+                }
+                else
+                {
+                    wheel.Mass = this.Mass / 20;
+                    wheel.Body.AngularDamping = 0.95f;
+                    wheel.KineticFriction = 1.0;
+                    IAxleJoint joint = pg.Engine.CreateJoint(this, wheel, new Vector(axlePos.X, axlePos.Y));
+                    joint.Softness = 0.01f;
+                    joints.Add(joint);
+                    pg.Add(joint);
+                }
             }
         }
 
@@ -156,21 +172,38 @@ namespace Jypeli.Assets
         /// <summary>
         /// Kiihdyttää tankkia.
         /// </summary>
-        /// <param name="power">Teho välillä <c>-1.0</c>-<c>1.0</c></param>
+        /// <param name="power">
+        ///     Physics2d: Teho välillä <c>-1.0</c>-<c>1.0</c>
+        ///     Farseer: Renkaiden pyörimisnopeus, radiaaneina sekunnissa.
+        /// </param>
         public void Accelerate( double power )
         {
-            double realPower = power;
-            if ( power > 1.0 )
-                realPower = 1.0;
-            else if ( power < -1.0 )
-                realPower = -1.0;
-
-            double torque = Mass * realPower * 3000;
-
-            foreach ( var w in wheels )
+            if (PhysicsGameBase.Instance.FarseerGame)
             {
-                w.Body.ApplyTorque( (float)(torque / wheels.Count) );
+                //TODO: Tähän voisi joskus pohtia paremman ratkaisun farseerilla.
+                Type type = joints[0].GetType();
+                System.Reflection.PropertyInfo pi = type.GetProperty("MotorSpeed");
+                foreach (var j in joints)
+                {
+                    pi.SetMethod.Invoke(j, new object[] { power });
+                } 
             }
+            else
+            {
+                double realPower = power;
+                if (power > 1.0)
+                    realPower = 1.0;
+                else if (power < -1.0)
+                    realPower = -1.0;
+
+                double torque = Mass * realPower * 3000;
+
+                foreach (var w in wheels)
+                {
+                    w.Body.ApplyTorque((float)(torque / wheels.Count));
+                }
+            }
+
         }
 
         /// <summary>

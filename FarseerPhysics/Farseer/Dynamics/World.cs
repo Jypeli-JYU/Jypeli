@@ -1542,6 +1542,30 @@ namespace FarseerPhysics.Dynamics
             return aj;
         }
 
+        /// <summary>
+        /// Luo liitoksen annetulla tyypillä kappaleiden välille.
+        /// </summary>
+        /// <param name="obj1"></param>
+        /// <param name="obj2"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public IAxleJoint CreateJoint(IPhysicsObject obj1, IPhysicsObject obj2, JointTypes type)
+        {
+            PhysicsObject o1 = obj1 as PhysicsObject;
+            PhysicsObject o2 = obj2 as PhysicsObject;
+            switch (type)
+            {
+                case JointTypes.AxleJoint:
+                    return new AxleJoint(o1, o2, o1.Position);
+                case JointTypes.WeldJoint:
+                    return new Jypeli.WeldJoint(o1, o1);
+                case JointTypes.WheelJoint:
+                    return new Jypeli.WheelJoint(o1, o2);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
         public IAxleJoint CreateJoint(IPhysicsObject obj1, Vector pivot)
         {
             throw new NotImplementedException(); // TODO: Liitokset yhden kappaleen ja maailman välille.

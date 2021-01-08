@@ -7,6 +7,7 @@
         IPhysicsBody CreateBody( IPhysicsObject owner, double width, double height, Shape shape );
         IAxleJoint CreateJoint( IPhysicsObject obj1, IPhysicsObject obj2, Vector pivot );
         IAxleJoint CreateJoint( IPhysicsObject obj1, Vector pivot );
+        IAxleJoint CreateJoint(IPhysicsObject obj1, IPhysicsObject obj2, JointTypes type);
 
         void AddBody( IPhysicsBody body );
         void RemoveBody( IPhysicsBody body );

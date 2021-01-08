@@ -32,6 +32,24 @@ using System.ComponentModel;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Käytössä olevat liitostyypit
+    /// </summary>
+    public enum JointTypes
+    {
+        /// <summary>
+        /// Akseliliitos, kappaleet pysyvät tietyllä etäisyydellä toisistaan mutta voivat pyöriä
+        /// </summary>
+        AxleJoint,
+        /// <summary>
+        /// Hitsausliitos, kappaleet eivät liiku toistensa suhteen.
+        /// </summary>
+        WeldJoint,
+        /// <summary>
+        /// Liitos renkaita varten, sisältää moottorin joka voi pyörittää renkaita.
+        /// </summary>
+        WheelJoint
+    }
     public interface IAxleJoint : Destroyable, IDisposable
     {
         /// <summary>

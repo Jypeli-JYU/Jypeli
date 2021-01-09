@@ -168,6 +168,11 @@ namespace Jypeli
                         v.X *= size.X;
                         v.Y *= size.Y;
                     }
+                    else
+                    {
+                        v.X *= FSConvert.DisplayToSim;
+                        v.Y *= FSConvert.DisplayToSim;
+                    }
                     vertices.Add(new Vector2((float)v.X, (float)v.Y));
                 }
 

@@ -132,7 +132,7 @@ namespace FarseerPhysics.Collision.Shapes
             ComputeProperties();
         }
 
-        protected override void ComputeProperties()
+        internal override void ComputeProperties()
         {
             // Polygon mass, centroid, and inertia.
             // Let rho be the polygon density in mass per unit area.

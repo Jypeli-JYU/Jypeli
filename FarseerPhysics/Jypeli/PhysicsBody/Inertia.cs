@@ -29,6 +29,7 @@
  */
 
 using FarseerPhysics.Dynamics;
+using Microsoft.Xna.Framework;
 
 namespace Jypeli
 {
@@ -72,7 +73,7 @@ namespace Jypeli
                 }
                 else
                 {
-                    SetMassAndInertia(value);
+                    SetMassAndInertia((float)value);
                 }
             }
         }
@@ -140,11 +141,40 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// This updates the mass and momentOfInertia based on the new mass.
+        /// Päivittää kappaleen fixtuurien massan vastaamaan uutta asetettua massaa
+        /// sekä laskee tämän massan pohjalta uuden hitausmomentin.
         /// </summary>
-        private void SetMassAndInertia(double mass)
+        private void SetMassAndInertia(float mass)
         {
-            FSBody.Mass = (float)mass;
+            FSBody.Mass = mass;
+         
+            Vector2 localCenter = Vector2.Zero;
+            float inertia = 0;
+            float totalArea = 0;
+
+            foreach (var f in FSBody.FixtureList)
+            {
+                totalArea += f.Shape.MassData.Area;
+            }
+            
+            float newDensity = mass / totalArea;
+            
+            foreach (Fixture f in FSBody.FixtureList)
+            {
+                f.Shape._density = newDensity;
+                f.Shape.ComputeProperties();
+                var massData = f.Shape.MassData;
+                localCenter += massData.Mass * massData.Centroid;
+                
+                inertia += massData.Inertia;
+            }
+            
+            // TODO: Meneeköhän tää nyt ihan oikein?
+            // Luultavasti ainakin "tarpeeksi lähellä"?
+            
+            inertia -= mass * Vector2.Dot(localCenter, localCenter);
+
+            FSBody.Inertia = inertia;
         }
     }
 }

@@ -131,7 +131,7 @@ namespace FarseerPhysics.Collision.Shapes
             aabb.UpperBound = new Vector2(p.X + Radius, p.Y + Radius);
         }
 
-        protected override sealed void ComputeProperties()
+        internal override sealed void ComputeProperties()
         {
             var area = Settings.Pi * _2radius;
             MassData.Area = area;

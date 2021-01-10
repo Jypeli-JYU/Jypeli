@@ -229,7 +229,7 @@ namespace FarseerPhysics.Collision.Shapes
         /// Compute the mass properties of this shape using its dimensions and density.
         /// The inertia tensor is computed about the local origin, not the centroid.
         /// </summary>
-        protected abstract void ComputeProperties();
+        internal abstract void ComputeProperties();
 
         /// <summary>
         /// Compare this shape to another shape based on type and properties.

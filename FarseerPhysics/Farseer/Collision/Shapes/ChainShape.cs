@@ -214,7 +214,7 @@ namespace FarseerPhysics.Collision.Shapes
             aabb.UpperBound = Vector2.Max(v1, v2);
         }
 
-        protected override void ComputeProperties()
+        internal override void ComputeProperties()
         {
             //Does nothing. Chain shapes don't have properties.
         }

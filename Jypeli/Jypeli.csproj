@@ -8,7 +8,7 @@
     <AssemblyName>Jypeli</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageId>Jypeli.NET</PackageId>
-    <Version>10.0.0</Version>
+    <Version>10.0.1</Version>
     <Authors>University of Jyväskylä</Authors>
     <Company />
     <Product />
@@ -17,8 +17,7 @@
     <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Initial (buggy) release of Farseer physics engine for Jypeli.
-Changes to coordinate systems used on child objects.</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed Tanks</PackageReleaseNotes>
     <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
   </PropertyGroup>
 
@@ -122,8 +121,8 @@ Changes to coordinate systems used on child objects.</PackageReleaseNotes>
 
   <PropertyGroup>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
-    <AssemblyVersion>10.0.0.0</AssemblyVersion>
-    <FileVersion>10.0.0.0</FileVersion>
+    <AssemblyVersion>10.0.1.0</AssemblyVersion>
+    <FileVersion>10.0.1.0</FileVersion>
     <PackageIcon>jypeli_logo.png</PackageIcon>
   </PropertyGroup>
   <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">

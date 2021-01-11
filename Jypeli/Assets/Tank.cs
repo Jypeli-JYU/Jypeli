@@ -122,14 +122,16 @@ namespace Jypeli.Assets
                 pg.Add( wheel );
                 Vector axlePos = new Vector(left + i * (this.Width / wheelCount), wheelYPositions[i]);
                 wheel.Position = axlePos;
+                wheel.Mass = this.Mass / 20;
+                wheel.KineticFriction = 1.0;
 
                 if (pg.FarseerGame)
                 {
                     IAxleJoint joint = pg.Engine.CreateJoint(this, wheel, JointTypes.WheelJoint);
-
+                    
                     // TODO: Näille voisi lisäillä propertyt
                     Type type = joint.GetType();
-                    type.GetProperty("Softness").SetMethod.Invoke(joint, new object[] { this.Mass/6 }); // TODO: Kaikki hajoaa jos tankin massa muutetaan suureksi, esim 1000.
+                    type.GetProperty("Softness").SetMethod.Invoke(joint, new object[] { this.Mass/6 });
                     type.GetProperty("MotorEnabled").SetMethod.Invoke(joint, new object[] { true });
                     type.GetProperty("MaxMotorTorque").SetMethod.Invoke(joint, new object[] { 1000 });
                     type.GetProperty("Axis").SetMethod.Invoke(joint, new object[] { Vector.UnitY });
@@ -138,9 +140,7 @@ namespace Jypeli.Assets
                 }
                 else
                 {
-                    wheel.Mass = this.Mass / 20;
                     wheel.Body.AngularDamping = 0.95f;
-                    wheel.KineticFriction = 1.0;
                     IAxleJoint joint = pg.Engine.CreateJoint(this, wheel, new Vector(axlePos.X, axlePos.Y));
                     joint.Softness = 0.01f;
                     joints.Add(joint);

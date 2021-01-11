@@ -66,8 +66,8 @@ namespace Jypeli
         [Save]
         public double MaxVelocity
         {
-            get { return _maxLinearV; }
-            set { _maxLinearV = value; }
+            get { return _maxLinearV * FSConvert.SimToDisplay; }
+            set { _maxLinearV = value * FSConvert.DisplayToSim; }
         }
 
         /// <summary>

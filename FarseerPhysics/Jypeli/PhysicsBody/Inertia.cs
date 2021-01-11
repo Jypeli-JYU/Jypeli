@@ -29,6 +29,7 @@
  */
 
 using FarseerPhysics.Dynamics;
+using Jypeli.Farseer;
 using Microsoft.Xna.Framework;
 
 namespace Jypeli
@@ -58,22 +59,23 @@ namespace Jypeli
         /// </remarks>
         public double Mass
         {
-            get { return FSBody.Mass; }
+            get { return FSBody.Mass * FSConvert.SimToDisplay * FSConvert.SimToDisplay; }
             set
             {
                 // We change the moment of inertia as well. If the mass is changed from
                 // 1.0 to 100000.0 for example, it would look funny if a heavy object would
                 // spin wildly from a small touch.
+                double val = value * FSConvert.DisplayToSim * FSConvert.DisplayToSim;
 
                 if (_momentOfInertiaSet)
                 {
                     // The moment of inertia has been set manually,
                     // let's keep it that way and just set the mass.
-                    FSBody.Mass = (float)value;
+                    FSBody.Mass = (float)val;
                 }
                 else
                 {
-                    SetMassAndInertia((float)value);
+                    SetMassAndInertia((float)val);
                 }
             }
         }
@@ -93,11 +95,11 @@ namespace Jypeli
         /// </summary>
         public double MomentOfInertia
         {
-            get { return FSBody.Inertia; }
+            get { return FSBody.Inertia * FSConvert.SimToDisplay; }
             set
             {
 
-                FSBody.Inertia = (float)value;
+                FSBody.Inertia = (float)value * FSConvert.DisplayToSim;
                 _momentOfInertiaSet = true;
             }
         }
@@ -109,9 +111,6 @@ namespace Jypeli
         public void MakeStatic()
         {
             FSBody.BodyType = BodyType.Kinematic;
-            //Mass = double.PositiveInfinity;
-            //CanRotate = false;
-            //IgnoresGravity = true;
         }
 
         /// <summary>

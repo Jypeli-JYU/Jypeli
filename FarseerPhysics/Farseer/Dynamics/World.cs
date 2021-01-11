@@ -71,10 +71,21 @@ namespace FarseerPhysics.Dynamics
         /// </summary>
         /// <value>The gravity.</value>
         public Vector2 Gravity;
-        Vector IPhysicsEngine.Gravity 
-        { 
+        Vector IPhysicsEngine.Gravity
+        {
             get => Gravity * FSConvert.SimToDisplay;
-            set => Gravity = value * FSConvert.DisplayToSim;
+            set
+            {
+                Vector2 newG = value * FSConvert.DisplayToSim;
+                if (newG != Gravity)
+                {
+                    Gravity = newG;
+                    foreach (var body in BodyList) // Nukkuvat kappaleet jäävät leijumaan jos niitä ei herätetä.
+                    {
+                        body.IsAwake = true;
+                    }
+                }
+            }
         }
 
         /// <summary>

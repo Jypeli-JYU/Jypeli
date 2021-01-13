@@ -64,28 +64,18 @@ namespace Jypeli
 
             if ( _childObjects != null && _childObjects.Count > 0 )
             {
-                Matrix childTransformation =
-                    Matrix.CreateRotationZ( (float)Angle.Radians )
-                    * Matrix.CreateTranslation( (float)Position.X, (float)Position.Y, 0f )
-                    * parentTransformation;
+                foreach (var child in Objects)
+                {
+                    Widget wc = child as Widget;
 
-                DrawChildObjects( ref parentTransformation, ref transformation, ref childTransformation );
+                    if (wc != null && wc.IsVisible)
+                    {
+                        wc.Draw(Matrix.CreateTranslation(0, 0, 0));
+                    }
+                }
             }
 
             Renderer.LightingEnabled = lightingEnabled;
-        }
-
-        internal protected virtual void DrawChildObjects( ref Matrix parentTransformation, ref Matrix transformation, ref Matrix childTransformation )
-        {
-            foreach ( var child in Objects )
-            {
-                Widget wc = child as Widget;
-
-                if (wc != null && wc.IsVisible)
-                {
-                    wc.Draw(childTransformation);
-                }
-            }
         }
     }
 }

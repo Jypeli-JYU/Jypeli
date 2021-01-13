@@ -127,16 +127,6 @@ namespace Jypeli
             get { return (O)_childObjects[index]; }
             set { _childObjects[index] = value; }
         }
-
-        protected internal override void DrawChildObjects( ref Matrix parentTransformation, ref Matrix transformation, ref Matrix childTransformation )
-        {
-            Renderer.BeginDrawingInsideShape( Shape, ref transformation );
-            for ( int i = _layout.StartIndex; i < _layout.EndIndex; i++ )
-            {
-                ( (Widget)Objects[i] ).Draw( childTransformation );
-            }
-            Renderer.EndDrawingInsideShape();
-        }
     }
 
 

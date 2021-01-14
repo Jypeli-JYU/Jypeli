@@ -110,12 +110,26 @@ namespace Jypeli
 
         internal void SetShape(Shape shape, CollisionShapeParameters parameters)
         {
-            // TODO: Tää on vähän huono ratkaisu.
             _shape = shape;
             var collisionHandlers = FSBody.FixtureList[0].OnCollision;
-            FSBody.DestroyFixture(FSBody.FixtureList[0]);
-            List<Vertices> vertices = CreatePhysicsShape(shape, this._size);
-            List<Fixture> fs = FixtureFactory.AttachCompoundPolygon(vertices, 1f*FSConvert.SimToDisplay, FSBody);
+
+            for(int i = 0; i < FSBody.FixtureList.Count; i++)
+            {
+                FSBody.DestroyFixture(FSBody.FixtureList[i]);
+            }
+
+            // TODO: Tää on vähän purkkapalloratkaisu ja näiden oikeanlainen luominen vaatii säätöä
+            List<Fixture> fs = new List<Fixture>();
+            if (shape == Shape.Circle || shape == Shape.Ellipse)
+                if (Size.X == Size.Y)
+                    fs.Add(FixtureFactory.AttachCircle((float)Size.X / 2 * FSConvert.DisplayToSim, 1f * FSConvert.SimToDisplay, FSBody));
+                else
+                    fs.Add(FixtureFactory.AttachEllipse((float)Size.X * FSConvert.DisplayToSim, (float)Size.Y * FSConvert.DisplayToSim, Settings.MaxPolygonVertices, 1f * FSConvert.SimToDisplay, FSBody));
+            else
+            {
+                List<Vertices> vertices = CreatePhysicsShape(shape, this._size);
+                fs.AddRange(FixtureFactory.AttachCompoundPolygon(vertices, 1f * FSConvert.SimToDisplay, FSBody));
+            }
             fs.ForEach((f) => f.OnCollision += collisionHandlers);
         }
 
@@ -178,6 +192,7 @@ namespace Jypeli
 
                 // TODO: Mille kaikille muodoille tää tarvii tehdä?
                 // TODO: Mikä on paras algoritmi?
+                // TODO: Tuottaa tietyissä tilanteissa hyvin raskaita muotoja.
                 res.AddRange(Triangulate.ConvexPartition(vertices, TriangulationAlgorithm.Bayazit));
                 return res;
             }

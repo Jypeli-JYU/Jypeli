@@ -1591,7 +1591,7 @@ namespace FarseerPhysics.Dynamics
         public void RemoveBody(IPhysicsBody body)
         {
             PhysicsBody b = body as PhysicsBody;
-            b.FSBody.Enabled = false;
+            RemoveBody(b.FSBody);
         }
 
         /// <summary>

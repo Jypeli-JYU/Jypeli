@@ -149,7 +149,8 @@ namespace Jypeli
         /// </summary>
         public override void ClearAll()
         {
-            ClearPhysics();
+            if(!FarseerGame)
+                ClearPhysics(); // Farseerilla tämä poistaa jo kappaleet moottorilta ja ne poistettaisiin uudestaan myöhemmin Layerien tyhjennyksen yhteydessä, joka taas aiheuttaa nullpointerin.
             RemoveCollisionHandlers();
             base.ClearAll();
         }

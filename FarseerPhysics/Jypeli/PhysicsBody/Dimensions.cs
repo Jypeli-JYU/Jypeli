@@ -124,7 +124,7 @@ namespace Jypeli
                 if (Size.X == Size.Y)
                     fs.Add(FixtureFactory.AttachCircle((float)Size.X / 2 * FSConvert.DisplayToSim, defaultDensity, FSBody));
                 else
-                    fs.Add(FixtureFactory.AttachEllipse((float)Size.X * FSConvert.DisplayToSim, (float)Size.Y * FSConvert.DisplayToSim, Settings.MaxPolygonVertices, defaultDensity, FSBody));
+                    fs.Add(FixtureFactory.AttachEllipse((float)Size.X / 2 * FSConvert.DisplayToSim, (float)Size.Y / 2 * FSConvert.DisplayToSim, Settings.MaxPolygonVertices, defaultDensity, FSBody));
             else
             {
                 List<Vertices> vertices = CreatePhysicsShape(shape, this._size);

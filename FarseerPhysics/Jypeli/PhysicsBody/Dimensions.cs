@@ -46,6 +46,7 @@ namespace Jypeli
     {
         Shape _shape;
         Vector _size;
+        private float defaultDensity = 1f;
 
         /// <summary>
         /// Fysiikkamoottorin käyttämä tietorakenne.
@@ -104,11 +105,11 @@ namespace Jypeli
             get { return _shape; }
             set
             {
-                SetShape(value, GetDefaultParameters(Size.X, Size.Y));
+                SetShape(value);
             }
         }
 
-        internal void SetShape(Shape shape, CollisionShapeParameters parameters)
+        internal void SetShape(Shape shape)
         {
             _shape = shape;
             var collisionHandlers = FSBody.FixtureList[0].OnCollision;
@@ -118,24 +119,18 @@ namespace Jypeli
                 FSBody.DestroyFixture(FSBody.FixtureList[i]);
             }
 
-            // TODO: Tää on vähän purkkapalloratkaisu ja näiden oikeanlainen luominen vaatii säätöä
             List<Fixture> fs = new List<Fixture>();
-            if (shape == Shape.Circle || shape == Shape.Ellipse)
+            if (shape == Shape.Circle || shape == Shape.Ellipse) // Ympyrä on oikeasti ellipsi ja ellipsi voi olla ympyrä
                 if (Size.X == Size.Y)
-                    fs.Add(FixtureFactory.AttachCircle((float)Size.X / 2 * FSConvert.DisplayToSim, 1f * FSConvert.SimToDisplay, FSBody));
+                    fs.Add(FixtureFactory.AttachCircle((float)Size.X / 2 * FSConvert.DisplayToSim, defaultDensity, FSBody));
                 else
-                    fs.Add(FixtureFactory.AttachEllipse((float)Size.X * FSConvert.DisplayToSim, (float)Size.Y * FSConvert.DisplayToSim, Settings.MaxPolygonVertices, 1f * FSConvert.SimToDisplay, FSBody));
+                    fs.Add(FixtureFactory.AttachEllipse((float)Size.X * FSConvert.DisplayToSim, (float)Size.Y * FSConvert.DisplayToSim, Settings.MaxPolygonVertices, defaultDensity, FSBody));
             else
             {
                 List<Vertices> vertices = CreatePhysicsShape(shape, this._size);
-                fs.AddRange(FixtureFactory.AttachCompoundPolygon(vertices, 1f * FSConvert.SimToDisplay, FSBody));
+                fs.AddRange(FixtureFactory.AttachCompoundPolygon(vertices, defaultDensity, FSBody));
             }
             fs.ForEach((f) => f.OnCollision += collisionHandlers);
-        }
-
-        internal static List<Vertices> CreatePhysicsShape(Shape shape, Vector size)
-        {
-            return CreatePhysicsShape(shape, size, GetDefaultParameters(size.X, size.Y));
         }
 
         /// <summary>
@@ -143,7 +138,7 @@ namespace Jypeli
         /// size of the object. In addition, it has more vertices and some additional info
         /// that is used in collision detection.
         /// </summary>
-        internal static List<Vertices> CreatePhysicsShape(Shape shape, Vector size, CollisionShapeParameters parameters)
+        internal static List<Vertices> CreatePhysicsShape(Shape shape, Vector size)
         {
             List<Vertices> res = new List<Vertices>();
             if (shape is RaySegment)
@@ -157,26 +152,12 @@ namespace Jypeli
                 res.Add(PolygonTools.CreateRectangle((float)size.X/2, (float)size.Y/2));
                 return res;
             }
-            else if (shape is Ellipse)
-            {
-                Debug.Assert(shape.IsUnitSize);
-
-                double smaller = Math.Min(size.X/2, size.Y/2);
-                double bigger = Math.Max(size.X/2, size.Y/2);
-                // Average between width and height.
-                double r = smaller / 2 + (bigger - smaller) / 2;
-                int vertexCount = Math.Min(Settings.MaxPolygonVertices, (int)Math.Ceiling((2 * Math.PI * r) / parameters.MaxVertexDistance));
-
-                res.Add(PolygonTools.CreateEllipse((float)size.X / 2, (float)size.Y / 2, vertexCount));
-                return res;
-
-            }
             else
             {
                 Vertices vertices = new Vertices();
-                for (int i = 0; i < shape.Cache.Vertices.Length; i++)
+                for (int i = 0; i < shape.Cache.OutlineVertices.Length; i++)
                 {
-                    Vector v = shape.Cache.Vertices[i];
+                    Vector v = shape.Cache.OutlineVertices[i];
                     if (shape.IsUnitSize)
                     {
                         v.X *= size.X;

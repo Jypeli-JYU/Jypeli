@@ -124,14 +124,6 @@ namespace Jypeli
             }
         }
 
-        private static CollisionShapeParameters GetDefaultParameters(double width, double height)
-        {
-            CollisionShapeParameters p;
-            p.MaxVertexDistance = Math.Min(width, height) / 8;
-            p.DistanceGridSpacing = Math.Min(width, height) / 2;
-            return p;
-        }
-
         /// <summary>
         /// Tekee oliosta läpimentävän alhaalta ylöspäin (tasohyppelytaso).
         /// Huom. ei toimi yhdessä CollisionIgnoreGroupien kanssa!

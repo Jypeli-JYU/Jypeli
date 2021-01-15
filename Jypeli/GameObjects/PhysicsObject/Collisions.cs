@@ -1,4 +1,5 @@
 ﻿using Jypeli.Physics;
+using System;
 
 namespace Jypeli
 {
@@ -188,6 +189,19 @@ namespace Jypeli
                 Body.MakeOneWay();
             else
                 CollisionIgnorer = new OneWayPlatformIgnorer(Height);
+        }
+
+        /// <summary>
+        /// Tekee oliosta läpimentävän annettuun suuntaan.
+        /// Tämä toimii vain Farseer-moottorin kanssa!
+        /// </summary>
+        /// <param name="dir">Suunta johon päästään läpi</param>
+        public void MakeOneWay(Vector dir)
+        {
+            if (Game.Instance.FarseerGame)
+                Body.MakeOneWay(dir);
+            else
+                throw new NotImplementedException("Tämä on käytössä vain Farseer-moottorin kanssa.");
         }
     }
 }

@@ -32,6 +32,7 @@ using System;
 using FarseerPhysics.Common;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using FarseerPhysics.Collision.Shapes;
 using Jypeli.Farseer;
 using Jypeli.Physics;
 using Microsoft.Xna.Framework;
@@ -68,6 +69,25 @@ namespace Jypeli
         {
             get { return FSBody.IgnoresPhysicsLogics; }
             set { FSBody.IgnoresPhysicsLogics = value; }
+        }
+
+        /// <summary>
+        /// Fysiikkamuodon muodostavat verteksit.
+        /// </summary>
+        public List<List<Vector2>> Vertices
+        {
+            get
+            {
+                List<List<Vector2>> vert = new List<List<Vector2>>();
+                for(int i = 0; i < FSBody.FixtureList.Count; i++)
+                {
+                    vert.Add(new List<Vector2>());
+                    Fixture f = FSBody.FixtureList[i];
+                    if (f.Shape is PolygonShape)
+                        vert[i].AddRange(((PolygonShape)f.Shape).Vertices);
+                }
+                return vert;
+            }
         }
 
         #region Constructors

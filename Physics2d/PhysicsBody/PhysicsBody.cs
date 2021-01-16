@@ -28,8 +28,10 @@
  */
 
 using Jypeli.Physics;
+using Microsoft.Xna.Framework;
 using Physics2DDotNet;
 using Physics2DDotNet.Shapes;
+using System.Collections.Generic;
 
 namespace Jypeli
 {
@@ -62,6 +64,11 @@ namespace Jypeli
             get { return Body.IgnoresPhysicsLogics; }
             set { Body.IgnoresPhysicsLogics = value; }
         }
+
+        /// <summary>
+        /// Ei toteutettu.
+        /// </summary>
+        public List<List<Vector2>> Vertices => new List<List<Vector2>>();
 
         #region Constructors
 

@@ -1,4 +1,7 @@
-﻿namespace Jypeli.Physics
+﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+
+namespace Jypeli.Physics
 {
     public interface IPhysicsBody
     {
@@ -6,6 +9,7 @@
 
         Vector Size { get; set; }
         Shape Shape { get; set; }
+        List<List<Vector2>> Vertices { get; }
         
         double Mass { get; set; }
         double MassInv { get; set; }

@@ -278,8 +278,8 @@ namespace Jypeli.GameObjects
                 }
 
                 o.Size = new Vector( width, height );
-                o.X = ( -maximumSize.X / 2 ) + ( LeftPadding + contentWidth / 2 );
-                o.Y = top - height / 2 + offset;
+                o.X = ( -maximumSize.X / 2 ) + ( LeftPadding + contentWidth / 2 ) + Parent.X;
+                o.Y = top - height / 2 + offset + Parent.Y;
 
                 top -= height + Spacing - offset;
 

@@ -228,8 +228,8 @@ namespace Jypeli
                 }
 
                 o.Size = new Vector(width, height);
-                o.X = (-maximumSize.X / 2) + (LeftPadding + contentWidth / 2);
-                o.Y = top - height / 2;
+                o.X = (-maximumSize.X / 2) + (LeftPadding + contentWidth / 2) + Parent.X;
+                o.Y = top - height / 2 + Parent.Y;
 
                 top -= height + Spacing;
             }

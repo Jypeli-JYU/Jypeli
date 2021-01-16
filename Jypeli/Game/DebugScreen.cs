@@ -46,6 +46,8 @@ namespace Jypeli
         /// </summary>
         public Label LayerDisplay { get; private set; }
 
+        private Camera camera { get => Game.Instance.Camera; }
+
         private void InitDebugScreen()
         {
             debugCanvas = new Canvas();
@@ -57,27 +59,29 @@ namespace Jypeli
             FPSWindow = new Jypeli.Window();
             FPSWindow.IsModal = false;
             FPSWindow.Color = new Color( Color.HotPink, 100 );
+            FPSWindow.Right = Screen.Right - Screen.Width / 16;
+            FPSWindow.Top = Screen.Top;
             DebugLayer.Add( FPSWindow );
 
             FPSDisplay = new Label( "00" );
             FPSDisplay.Color = Color.HotPink;
+            FPSDisplay.Position = FPSWindow.Position;
             FPSWindow.Size = 1.5 * FPSDisplay.Size;
             FPSWindow.Add( FPSDisplay );
-
-            FPSWindow.Right = Screen.Right - Screen.Width / 16;
-            FPSWindow.Top = Screen.Top;
 
             LayerWindow = new Jypeli.Window();
             LayerWindow.IsModal = false;
             LayerWindow.Color = new Color( Color.Blue, 100 );
+            LayerWindow.Left = Screen.Left;
+            LayerWindow.Top = Screen.Top - 200;
             DebugLayer.Add( LayerWindow );
 
             LayerDisplay = new Label( "Layers: no data" );
             LayerDisplay.TextColor = Color.White;
+            LayerDisplay.Position = LayerWindow.Position;
             LayerWindow.Add( LayerDisplay );
             LayerWindow.Size = LayerDisplay.Size;
-            LayerWindow.Left = Screen.Left;
-            LayerWindow.Top = Screen.Top - 200;
+
 
             DebugKeyEnabled = true;
             DebugScreenVisible = false;
@@ -148,8 +152,11 @@ namespace Jypeli
 
             canvas.BrushColor = ( obj is GameObject && Mouse.IsCursorOn( (GameObject)obj ) ) ? Color.LightGreen : Color.LightGray;
 
-            Vector3 center = (Vector3)Camera.WorldToScreen( obj.Position, obj.Layer );
-            Matrix transform = Matrix.CreateRotationZ( (float)obj.Angle.Radians ) * Matrix.CreateTranslation( center );
+            Matrix transform =
+                     Matrix.CreateRotationZ((float)obj.Angle.Radians)
+                    * Matrix.CreateTranslation((float)obj.Position.X, (float)obj.Position.Y, 0f)
+                    * Matrix.CreateTranslation(-(float)camera.Position.X, -(float)camera.Position.Y, 0f)
+                    * Matrix.CreateScale((float)(camera.ZoomFactor), (float)(camera.ZoomFactor), 1f);
 
             for ( int j = 0; j < vertexes.Length - 1; j++ )
             {
@@ -170,10 +177,10 @@ namespace Jypeli
                 double y1 = hmul * vertexes[vertexes.Length - 1].Y;
                 double x2 = wmul * vertexes[0].X;
                 double y2 = hmul * vertexes[0].Y;
-
+            
                 var t1 = Vector2.Transform( new Vector2( (float)x1, (float)y1 ), transform );
                 var t2 = Vector2.Transform( new Vector2( (float)x2, (float)y2 ), transform );
-
+            
                 canvas.DrawLine( t1.X, t1.Y, t2.X, t2.Y );
             }
         }
@@ -254,13 +261,13 @@ namespace Jypeli
             {
                 foreach ( var obj in Layers[i].Objects )
                 {
-                    if ( obj == null || obj.Shape == null || obj.Shape.Cache == null || obj.Layer == null )
+                    if ( obj == null || obj.Shape == null || obj.Shape.Cache == null || obj.Layer == null || obj is Widget) // Toistaiseksi ei piirretä widgettien ääriviivoja (halutaanko edes?)
                         continue;
 
                     PaintShapeOutlines( canvas, obj );
 
-                    if ( obj is PhysicsObject )
-                        PaintPhysicsOutlines( canvas, (PhysicsObject)obj );
+                    //if ( obj is PhysicsObject ) // TODO: fysiikkamuotojen sisäiset verteksit
+                    //    PaintPhysicsOutlines( canvas, (PhysicsObject)obj );
                 }
             }
         }

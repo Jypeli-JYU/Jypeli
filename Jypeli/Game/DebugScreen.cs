@@ -29,6 +29,11 @@ namespace Jypeli
             public static bool DrawPhysicsOutlines = true;
 
             /// <summary>
+            /// Piirretäänkö ympyrän keskikohdasta viiva sen oikeaan reunaan.
+            /// </summary>
+            public static bool DrawCircleRotation = true;
+
+            /// <summary>
             /// Millä värillä <c>GameObject</c>ien ääriviivat piirretään
             /// </summary>
             public static Color GameObjectColor = Color.LightGray;
@@ -226,6 +231,18 @@ namespace Jypeli
                 var t2 = Vector2.Transform( new Vector2( (float)x2, (float)y2 ), transform );
             
                 canvas.DrawLine( t1.X, t1.Y, t2.X, t2.Y );
+            }
+            if(obj.Shape == Shape.Circle && DebugViewSettings.DrawCircleRotation)
+            {
+                double x1 = 0;
+                double y1 = 0;
+                double x2 = obj.Width/2;
+                double y2 = 0;
+
+                var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
+                var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
+
+                canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
             }
         }
 

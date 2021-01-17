@@ -8,7 +8,7 @@
     <AssemblyName>Jypeli</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageId>Jypeli.NET</PackageId>
-    <Version>10.0.2</Version>
+    <Version>10.0.3</Version>
     <Authors>University of Jyväskylä</Authors>
     <Company />
     <Product />
@@ -17,7 +17,12 @@
     <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Fixed widget rendering its children incorrectly if it was not at world origin.</PackageReleaseNotes>
+    <PackageReleaseNotes>MakeOneWay with a direction
+Fixed Layouts giving incorrect positioning
+Fixed Debug Screen having incorrect positioning
+Fixed objects not rendering in some cases
+Added drawing options for debug screen
+</PackageReleaseNotes>
     <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
   </PropertyGroup>
 
@@ -32,6 +37,7 @@
     <DefineConstants>JYPELI;UseDouble;DESKTOP;DISABLE_LIGHTING_EFFECT;MONOGAME</DefineConstants>
     <OutputPath>../Compiled</OutputPath>
     <DocumentationFile></DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -121,8 +127,8 @@
 
   <PropertyGroup>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
-    <AssemblyVersion>10.0.2.0</AssemblyVersion>
-    <FileVersion>10.0.2.0</FileVersion>
+    <AssemblyVersion>10.0.3.0</AssemblyVersion>
+    <FileVersion>10.0.3.0</FileVersion>
     <PackageIcon>jypeli_logo.png</PackageIcon>
   </PropertyGroup>
   <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">

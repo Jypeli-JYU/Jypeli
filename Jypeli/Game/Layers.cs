@@ -269,11 +269,11 @@ namespace Jypeli
         /// <returns>Onko objekti ruudun alueella.</returns>
         public bool IsObjectOnScreen(IGameObject g)
         {
-            Vector transformed = Camera.WorldToScreen(g.Position);
-            return transformed.X - g.Width < Screen.Size.X / 2 &&
-                   transformed.X + g.Width > -Screen.Size.X / 2 &&
-                   transformed.Y - g.Height < Screen.Size.Y / 2 &&
-                   transformed.Y + g.Height > -Screen.Size.Y / 2;
+            Vector transformed = Camera.WorldToScreen(g.Position, g.Layer);
+            return transformed.X - g.Width * Camera.ZoomFactor < Screen.Size.X / 2 &&
+                   transformed.X + g.Width * Camera.ZoomFactor > -Screen.Size.X / 2 &&
+                   transformed.Y - g.Height * Camera.ZoomFactor < Screen.Size.Y / 2 &&
+                   transformed.Y + g.Height * Camera.ZoomFactor > -Screen.Size.Y / 2;
         }
 
         #region GetObject methods

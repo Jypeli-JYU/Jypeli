@@ -123,7 +123,7 @@ namespace Jypeli
             else
             {
                 List<Vertices> vertices = CreatePhysicsShape(shape, this._size);
-                FixtureFactory.AttachCompoundPolygon(vertices, 1f * FSConvert.SimToDisplay, FSBody);
+                FixtureFactory.AttachCompoundPolygon(vertices, 1f, FSBody);
             }
         }
 

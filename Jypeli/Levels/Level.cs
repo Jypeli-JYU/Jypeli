@@ -226,6 +226,15 @@ namespace Jypeli
                     bottom = o.Bottom;
             }
 
+            // Jos kentällä ei ollut ainuttakaan objektia kerroksilla jotka eivät ignooraa kameran zoomia.
+            if(left == double.PositiveInfinity)
+            {
+                left = 1;
+                right = -1;
+                top = 1;
+                bottom = -1;
+            }
+
             return new BoundingRectangle( new Vector( left, top ), new Vector( right, bottom ) );
         }
 

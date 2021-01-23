@@ -131,8 +131,8 @@ namespace Jypeli
         /// Kohdistaa kappaleeseen impulssin. Tällä kappaleen saa nopeasti liikkeeseen.
         /// </summary>
         public void ApplyImpulse(Vector impulse)
-        {
-            FSBody.ApplyLinearImpulse(impulse * FSConvert.DisplayToSim);
+        { // Tää vaatii jostain syystä korotuksen kolmanteen potenssiin että käyttäytyy samoin kuin aiemmin
+            FSBody.ApplyLinearImpulse(impulse * FSConvert.DisplayToSim * FSConvert.DisplayToSim * FSConvert.DisplayToSim);
         }
 
         /// <summary>

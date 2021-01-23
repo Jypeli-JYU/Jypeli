@@ -1277,12 +1277,7 @@ namespace FarseerPhysics.Dynamics
             // At least one body should be dynamic.
             if (_bodyType != BodyType.Dynamic && other._bodyType != BodyType.Dynamic)
                 return false;
-            if (oneWayDir != Vector2.Zero)
-            {
-                Vector normal = other.LinearVelocity;
-                normal.Normalize();
-                return Vector.DotProduct(oneWayDir, normal) < 0;
-            }
+
             if (this.ObjectIgnorer != null && this.ObjectIgnorer == other.ObjectIgnorer)
                 return false;
 
@@ -1296,7 +1291,23 @@ namespace FarseerPhysics.Dynamics
                 }
             }
 
+            if (oneWayDir != Vector2.Zero || other.oneWayDir != Vector2.Zero)
+            {
+                return CheckOneWay(this, other);
+            }
+
             return true;
+        }
+
+        internal static bool CheckOneWay(Body a, Body b)
+        {
+            Vector normalA = a.LinearVelocity;
+            normalA = normalA.Normalize();
+
+            Vector normalB = b.LinearVelocity;
+            normalB = normalB.Normalize();
+
+            return !(Vector.DotProduct(b.oneWayDir, normalA) > 0.5 || Vector.DotProduct(a.oneWayDir, normalB) > 0.5);
         }
 
         internal void Advance(float alpha)

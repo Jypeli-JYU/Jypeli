@@ -625,6 +625,10 @@ namespace FarseerPhysics.Dynamics
 
         public bool IsSensor
         {
+            get
+            {
+                return FixtureList[0].IsSensor;
+            }
             set
             {
                 for (int i = 0; i < FixtureList.Count; i++)
@@ -695,7 +699,6 @@ namespace FarseerPhysics.Dynamics
         internal Transform _xf; // the body origin transform
         internal bool _island;
         internal bool IgnoresPhysicsLogics;
-        internal bool IgnoresCollisionResponse;
         internal AdaptedIgnorer CollisionIgnorer;
         internal PhysicsBody Tag;
         public Vector2 oneWayDir;

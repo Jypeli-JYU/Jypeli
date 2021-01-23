@@ -80,8 +80,8 @@ namespace Jypeli
         /// </summary>
         public bool IgnoresCollisionResponse
         {
-            get { return FSBody.IgnoresCollisionResponse; }
-            set { FSBody.IgnoresCollisionResponse = value; }
+            get { return FSBody.IsSensor; }
+            set { FSBody.IsSensor = value; }
         }
 
         /// <summary>

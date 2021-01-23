@@ -300,8 +300,6 @@ public class PlatformCharacter : PhysicsObject
         Removed += RemoveCollisionHelpers;
 
         IsUpdated = true;
-
-        CollisionIgnoreGroup = 31; // TODO: Voi tuottaa ongelmia.
     }
 
     private void SetIdleAnim()
@@ -425,7 +423,6 @@ public class PlatformCharacter : PhysicsObject
 
         if ( Weapon != null )
         {
-            //Weapon.X *= -1;
             Weapon.TextureWrapSize = new Vector( 1, -Weapon.TextureWrapSize.Y );
             Weapon.Angle = Angle.Supplement( Weapon.Angle );
         }

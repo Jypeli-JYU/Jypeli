@@ -1569,7 +1569,7 @@ namespace FarseerPhysics.Dynamics
                 case JointTypes.AxleJoint:
                     return new AxleJoint(o1, o2, o1.Position);
                 case JointTypes.WeldJoint:
-                    return new Jypeli.WeldJoint(o1, o1);
+                    return new Jypeli.WeldJoint(o1, o2);
                 case JointTypes.WheelJoint:
                     return new Jypeli.WheelJoint(o1, o2);
                 default:
@@ -1602,6 +1602,7 @@ namespace FarseerPhysics.Dynamics
         /// <returns>Liitos</returns>
         public IAxleJoint ConnectBodies(PhysicsObject physObj1, PhysicsObject physObj2)
         {
+            // TODO: Tämä olisi luultavasti parasta toteuttaa fixturejen yhdistämisen kautta, weldjoint ei ole täysin jäykkä.
             Jypeli.WeldJoint w = new Jypeli.WeldJoint(physObj1, physObj2);
             w.innerJoint.Enabled = true;
             

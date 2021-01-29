@@ -157,21 +157,12 @@ namespace Jypeli
             if (ignorer is JypeliGroupIgnorer)
             {
                 JypeliGroupIgnorer ign = ignorer as JypeliGroupIgnorer;
-                Category cat;
-                if (Category.TryParse("Cat" + ign.LegacyGroup, out cat))
-                {
-                    FSBody.CollidesWith = Category.All ^ cat;
-                    FSBody.CollisionCategories = cat;
-                }
-                else
-                    throw new ArgumentException("Collisiongroup must be between 1 and 32");
+                FSBody.JypeliGroupIgnorer = ign;
             }
             else if (ignorer is ObjectIgnorer)
             {
                 ObjectIgnorer ign = ignorer as ObjectIgnorer;
-
                 FSBody.ObjectIgnorer = ign;
-
             }
             else
                 throw new NotImplementedException("Annettu Ignore ei ole toteutettu.");

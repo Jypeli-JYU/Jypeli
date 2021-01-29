@@ -1281,6 +1281,9 @@ namespace FarseerPhysics.Dynamics
             if (this.ObjectIgnorer != null && this.ObjectIgnorer == other.ObjectIgnorer)
                 return false;
 
+            if (this.JypeliGroupIgnorer != null && other.JypeliGroupIgnorer != null && this.JypeliGroupIgnorer.LegacyGroup == other.JypeliGroupIgnorer.LegacyGroup)
+                return false;
+
             // Does a joint prevent collision?
             for (JointEdge jn = JointList; jn != null; jn = jn.Next)
             {
@@ -1351,6 +1354,10 @@ namespace FarseerPhysics.Dynamics
         /// Saman olion omaavat objektit eivät törmää.
         /// </summary>
         public ObjectIgnorer ObjectIgnorer { get; internal set; }
+        /// <summary>
+        /// Samaan ryhmään kuuluvat eivät törmää
+        /// </summary>
+        public JypeliGroupIgnorer JypeliGroupIgnorer { get; internal set; }
 
         public void Dispose()
         {

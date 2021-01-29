@@ -508,16 +508,6 @@ namespace Jypeli
             }
         }
 
-        // TODO tämä saattaa olla turha jäänne, siivoa mikäli ongelmia ei ilmene (13.5.2018)
-        ///// <summary>
-        ///// Kutsutaan kun olio lisätään peliin.
-        ///// </summary>
-        //public void OnAddedToGame()
-        //{
-        //    if (AddedToGame != null)
-        //        AddedToGame();
-        //}
-
         /// <summary>
         /// Kutsutaan kun törmätään.
         /// </summary>
@@ -603,10 +593,20 @@ namespace Jypeli
 
             foreach ( var existing in objects )
             {
-                IAxleJoint joint = game.Engine.CreateJoint( physObj, existing, existing.Position );
-                joint.Softness = _softness;
-                Joints.Add( joint );
-                game.Add( joint );
+                if (Game.Instance.FarseerGame)
+                {
+                    IAxleJoint joint = game.Engine.CreateJoint(physObj, existing, JointTypes.WeldJoint);
+                    joint.Softness = _softness;
+                    Joints.Add(joint);
+                    game.Add(joint);
+                }
+                else
+                {
+                    IAxleJoint joint = game.Engine.CreateJoint(physObj, existing, existing.Position);
+                    joint.Softness = _softness;
+                    Joints.Add(joint);
+                    game.Add(joint);
+                }
             }
 
             objects.Add( physObj );

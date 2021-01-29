@@ -118,20 +118,24 @@ namespace Jypeli
             set { Body.State.ForceAccumulator.Angular = value; }
         }
         */
+        /**
+         * Massa on mooottorin sisällä konvertoitu toiseen potenssiin, ja 
+         * itse pelissä käytetyt pituusyksiköt ovat konvertoitu kerran.
+         */
         /// <summary>
         /// Kohdistaa kappaleeseen voiman.
         /// </summary>
         /// <param name="force">Voima, jolla oliota työnnetään.</param>
         public void ApplyForce(Vector force)
         {
-            FSBody.ApplyForce(force * FSConvert.DisplayToSim);
+            FSBody.ApplyForce(force * FSConvert.DisplayToSim * FSConvert.DisplayToSim * FSConvert.DisplayToSim);
         }
 
         /// <summary>
         /// Kohdistaa kappaleeseen impulssin. Tällä kappaleen saa nopeasti liikkeeseen.
         /// </summary>
         public void ApplyImpulse(Vector impulse)
-        { // Tää vaatii jostain syystä korotuksen kolmanteen potenssiin että käyttäytyy samoin kuin aiemmin
+        {
             FSBody.ApplyLinearImpulse(impulse * FSConvert.DisplayToSim * FSConvert.DisplayToSim * FSConvert.DisplayToSim);
         }
 

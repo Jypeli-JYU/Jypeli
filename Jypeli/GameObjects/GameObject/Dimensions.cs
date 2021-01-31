@@ -68,10 +68,41 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Paikka.
+        /// </summary>
+        public override Vector Position 
+        {
+            get
+            {
+                return base.Position;
+            }
+            set
+            {
+                if (Parent != null)
+                    _prevRelPos += base.Position - value;
+                base.Position = value;
+            }
+        }
+
+        private Angle _angle;
+
+        /// <summary>
         /// Olion kulma tai rintamasuunta.
         /// Nolla = osoittaa oikealle.
         /// </summary>      
-        public override Angle Angle { get; set; }
+        public override Angle Angle 
+        {
+            get
+            {
+                return _angle;
+            }
+            set
+            {
+                if (Parent != null)
+                    _prevRelAngle += _angle - value;
+                _angle = value;
+            }
+        }
 
         /// <summary>
         /// Olion muoto.

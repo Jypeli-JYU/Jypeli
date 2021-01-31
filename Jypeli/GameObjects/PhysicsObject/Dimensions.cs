@@ -26,14 +26,24 @@ namespace Jypeli
         public override Vector Position
         {
             get { return Body.Position; }
-            set { Body.Position = value; }
+            set 
+            {
+                if (Parent != null)
+                    _prevRelPos += Position - value;
+                Body.Position = value;
+            }
         }
 
         [Save]
         public override Angle Angle
         {
             get { return Angle.FromRadians( Body.Angle ); }
-            set { Body.Angle = value.Radians; }
+            set 
+            {
+                if (Parent != null)
+                    _prevRelAngle += Angle - value;
+                Body.Angle = value.Radians; 
+            }
         }
 
         [Save]

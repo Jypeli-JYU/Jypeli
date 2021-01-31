@@ -188,18 +188,31 @@ namespace Jypeli
             Objects.Update( time );
         }
 
-        private Vector _prevRelPos; // TODO: Jos lapsiolion suhteellista sijaintia haluaa muuttaa, pit‰‰ n‰m‰ p‰ivitt‰‰ vastaamaan sit‰.
-        private Angle _prevRelAngle;
+        internal Vector _prevRelPos; // TODO: Jos lapsiolion suhteellista sijaintia haluaa muuttaa, pit‰‰ n‰m‰ p‰ivitt‰‰ vastaamaan sit‰.
+        internal Angle _prevRelAngle;
         internal void AdjustChildPosition()
         {
             foreach (var child in Objects)
             {
-                GameObject mainParent = child.GetMainParent();
-                child.Position = mainParent.Position.Transform(
-                    Matrix.CreateRotationZ(-(float)(mainParent.Angle.Radians)) * 
-                    Matrix.CreateTranslation(-child._prevRelPos) *
-                    Matrix.CreateRotationZ((float)(mainParent.Angle.Radians)));
-                child.Angle = mainParent.Angle + child._prevRelAngle;
+                if(child is PhysicsObject)
+                {
+                    GameObject mainParent = child.GetMainParent();
+                    ((PhysicsObject)child).Body.Position = mainParent.Position.Transform(
+                        Matrix.CreateRotationZ(-(float)(mainParent.Angle.Radians)) *
+                        Matrix.CreateTranslation(-child._prevRelPos) *
+                        Matrix.CreateRotationZ((float)(mainParent.Angle.Radians)));
+                    ((PhysicsObject)child).Body.Angle = (mainParent.Angle + child._prevRelAngle).Radians;
+                }
+                else
+                {
+                    GameObject mainParent = child.GetMainParent();
+                    child.Position = mainParent.Position.Transform(
+                        Matrix.CreateRotationZ(-(float)(mainParent.Angle.Radians)) *
+                        Matrix.CreateTranslation(-child._prevRelPos) *
+                        Matrix.CreateRotationZ((float)(mainParent.Angle.Radians)));
+                    child.Angle = mainParent.Angle + child._prevRelAngle;
+                }
+
             }
         }
 

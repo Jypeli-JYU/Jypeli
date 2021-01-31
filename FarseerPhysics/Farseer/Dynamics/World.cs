@@ -39,6 +39,7 @@ using Microsoft.Xna.Framework;
 using Jypeli.Physics;
 using Jypeli;
 using Jypeli.Farseer;
+using FarseerPhysics.Factories;
 
 namespace FarseerPhysics.Dynamics
 {
@@ -1595,18 +1596,42 @@ namespace FarseerPhysics.Dynamics
         }
 
         /// <summary>
-        /// Liittää kaksi kappaletta yhteen <c>WeldJoint</c>in avulla.
+        /// Liittää kaksi kappaletta jäykästi yhteen 
         /// </summary>
         /// <param name="physObj1">Kappale 1</param>
         /// <param name="physObj2">Kappale 2</param>
-        /// <returns>Liitos</returns>
-        public IAxleJoint ConnectBodies(PhysicsObject physObj1, PhysicsObject physObj2)
+        public void ConnectBodies(PhysicsObject physObj1, PhysicsObject physObj2)
         {
-            // TODO: Tämä olisi luultavasti parasta toteuttaa fixturejen yhdistämisen kautta, weldjoint ei ole täysin jäykkä.
-            Jypeli.WeldJoint w = new Jypeli.WeldJoint(physObj1, physObj2);
-            w.innerJoint.Enabled = true;
-            
-            return w;
+            if (physObj1.Parent != null)
+            {
+                ConnectBodies((PhysicsObject)physObj1.Parent, physObj2);
+                return;
+            }
+
+            List<List<Vector2>> ver1 = physObj2.Body.Vertices;
+            List<List<Vector2>> ver2 = physObj2.Body.Vertices;
+
+            Vector dv = (physObj2.Position - physObj1.Position)*FSConvert.DisplayToSim;
+
+            List<Vertices> vert = new List<Vertices>();
+
+            foreach (var item in ver1)
+            {
+                Vertices v = new Vertices(item);
+                vert.Add(v);
+            }
+
+            foreach (var item in ver2)
+            {
+                Vertices v = new Vertices(item);
+                v.Rotate((float)physObj2.Angle.Radians);
+                v.Translate(dv);
+                vert.Add(v);
+            }
+
+            ((PhysicsBody)physObj2.Body).FSBody.Enabled = false;
+
+            FixtureFactory.AttachCompoundPolygon(vert, 1, ((PhysicsBody)physObj1.Body).FSBody);
         }
 
         public void AddJoint(IAxleJoint joint)

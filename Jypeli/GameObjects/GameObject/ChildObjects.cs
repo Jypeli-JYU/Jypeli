@@ -111,9 +111,8 @@ namespace Jypeli
             Objects.Add( (GameObject)childObject );
             childObject.Parent = this;
 
-            childObject.Angle += Angle;
-            _prevPos = Position; // Jos lis‰t‰‰n samalla p‰ivityksell‰.
-            _prevAngle = Angle;
+            ((GameObject)childObject)._prevRelPos = childObject.RelativePositionToMainParent;
+            ((GameObject)childObject)._prevRelAngle = childObject.RelativeAngleToMainParent;
         }
 
         /// <summary> 
@@ -189,28 +188,25 @@ namespace Jypeli
             Objects.Update( time );
         }
 
-        private Vector _prevPos;
-        private Angle _prevAngle;
+        private Vector _prevRelPos; // TODO: Jos lapsiolion suhteellista sijaintia haluaa muuttaa, pit‰‰ n‰m‰ p‰ivitt‰‰ vastaamaan sit‰.
+        private Angle _prevRelAngle;
         internal void AdjustChildPosition()
         {
-            if (Angle != _prevAngle || Position != _prevPos)
+            foreach (var child in Objects)
             {
-                // Fysiikkaobjektit liikkuvat liitoksien avulla, joten niist‰ ei v‰litet‰.
-                foreach (var child in Objects.Where(o => !(o is PhysicsObject)))
-                {
-                    // Ensin rotaatio, sitten translaatio.
-                    // TODO: T‰t‰ voisi optimoida monella tapaa...
-                    child.Position = child.Position.Transform(
-                        Matrix.CreateTranslation(-Position) * 
-                        Matrix.CreateRotationZ((float)(Angle - _prevAngle).Radians) *
-                        Matrix.CreateTranslation(Position) *
-                        Matrix.CreateTranslation(Position - _prevPos));
-                    child.Angle += Angle - _prevAngle;
-                }
-                _prevAngle = Angle;
-                _prevPos = Position;
+                GameObject mainParent = child.GetMainParent();
+                child.Position = mainParent.Position.Transform(
+                    Matrix.CreateRotationZ(-(float)(mainParent.Angle.Radians)) * 
+                    Matrix.CreateTranslation(-child._prevRelPos) *
+                    Matrix.CreateRotationZ((float)(mainParent.Angle.Radians)));
+                child.Angle = mainParent.Angle + child._prevRelAngle;
             }
+        }
 
+        public GameObject GetMainParent()
+        {
+            if (this.Parent is null) return this;
+            else return ((GameObject)Parent).GetMainParent();
         }
 
         private void UpdateChildSizes( Vector oldSize, Vector newSize )

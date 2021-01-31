@@ -268,6 +268,25 @@ namespace Jypeli.GameObjects
             }
         }
 
+        public Vector RelativePositionToMainParent
+        {
+            get
+            {
+                if (Parent != null)
+                {
+                    GameObject mainParent = ((GameObject)this).GetMainParent();
+                    Vector diff = mainParent.Position - Position;
+                    Angle angle = diff.Angle;
+                    return Vector.FromLengthAndAngle(diff.Magnitude, angle - mainParent.Angle);
+                }
+                return RelativePosition;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         /// <summary>
         /// Olion kulma suhteessa vanhempaan.
         /// Jos olio ei ole minkään toisen peliolion lapsiolio,
@@ -286,6 +305,23 @@ namespace Jypeli.GameObjects
                 if (Parent != null)
                     Angle = Parent.Angle + value;
                 else Angle = value;
+            }
+        }
+
+        public Angle RelativeAngleToMainParent
+        {
+            get
+            {
+                if (Parent != null)
+                {
+                    GameObject mainParent = ((GameObject)this).GetMainParent();
+                    return mainParent.Angle - this.Angle;
+                }
+                return RelativeAngle;
+            }
+            set
+            {
+                throw new NotImplementedException();
             }
         }
 

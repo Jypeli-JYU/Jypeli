@@ -126,7 +126,7 @@ namespace Jypeli.Physics2d
         /// <summary>
         /// Ei käytössä Physics2d moottorissa.
         /// </summary>
-        public IAxleJoint ConnectBodies(PhysicsObject physObj1, PhysicsObject physObj2)
+        public void ConnectBodies(PhysicsObject physObj1, PhysicsObject physObj2)
         {
             throw new NotImplementedException();
         }

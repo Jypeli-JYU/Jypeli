@@ -26,6 +26,8 @@ namespace Jypeli
         
         Angle Angle { get; set; }
 
+        Vector RelativePositionToMainParent { get; set; }
+        Angle RelativeAngleToMainParent { get; set; }
         Vector RelativePosition { get; set; }
         Angle RelativeAngle { get; set; }
         Vector UnitX { get; }

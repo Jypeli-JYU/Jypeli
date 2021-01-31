@@ -63,7 +63,8 @@ namespace Jypeli
             set
             {
                 Vector2 temp = new Vector2((float)value.X, (float)value.Y) * FSConvert.DisplayToSim;
-                FSBody.IsAwake = true;
+                if (Owner.Parent is null)
+                    FSBody.IsAwake = true;
                 // Farseer ei hirveästi arvosta kappaleen raahaamista hiirellä suoraan sijaintia muuttamalla.
                 // TODO: Kappaleille jonkin sortin "EnableDragging" tms. ja FixedMouseJoint
                 FSBody.SetTransform(ref temp, (float)Angle);

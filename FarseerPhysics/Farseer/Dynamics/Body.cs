@@ -828,7 +828,13 @@ namespace FarseerPhysics.Dynamics
         public void SetTransform(ref Vector2 position, float rotation)
         {
             SetTransformIgnoreContacts(ref position, rotation);
-            _world.ContactManager.FindNewContacts();
+            if(owner.Owner.Parent is null)
+                _world.ContactManager.FindNewContacts();
+            else 
+            { 
+                // TODO: Joku herättää kappaleen, mikä?
+                Enabled = false; 
+            }
         }
 
         /// <summary>

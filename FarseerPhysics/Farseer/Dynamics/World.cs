@@ -1608,30 +1608,35 @@ namespace FarseerPhysics.Dynamics
                 return;
             }
 
-            List<List<Vector2>> ver1 = physObj2.Body.Vertices;
-            List<List<Vector2>> ver2 = physObj2.Body.Vertices;
+            Body fsBody1 = ((PhysicsBody)physObj1.Body).FSBody;
+            Body fsBody2 = ((PhysicsBody)physObj2.Body).FSBody;
 
-            Vector dv = (physObj2.Position - physObj1.Position)*FSConvert.DisplayToSim;
+            List<Fixture> fs2 = fsBody2.FixtureList;
 
-            List<Vertices> vert = new List<Vertices>();
+            Vector dv = fsBody2.Position - fsBody1.Position;
 
-            foreach (var item in ver1)
+            foreach (var f in fs2)
             {
-                Vertices v = new Vertices(item);
-                vert.Add(v);
+                Fixture newF = f.CloneOnto(fsBody1);
+                switch (newF.Shape)
+                {
+                    case PolygonShape:
+                        Vertices v = ((PolygonShape)newF.Shape).Vertices;
+                        v.Rotate(fsBody2.Rotation);
+                        v.Translate(dv);
+                        break;
+
+                    case CircleShape:
+                        ((CircleShape)newF.Shape).Position = dv;
+                        break;
+
+                    default:
+                        throw new NotImplementedException();
+                        break;
+                }
             }
 
-            foreach (var item in ver2)
-            {
-                Vertices v = new Vertices(item);
-                v.Rotate((float)physObj2.Angle.Radians);
-                v.Translate(dv);
-                vert.Add(v);
-            }
-
-            ((PhysicsBody)physObj2.Body).FSBody.Enabled = false;
-
-            FixtureFactory.AttachCompoundPolygon(vert, 1, ((PhysicsBody)physObj1.Body).FSBody);
+            fsBody2.Enabled = false;
         }
 
         public void AddJoint(IAxleJoint joint)

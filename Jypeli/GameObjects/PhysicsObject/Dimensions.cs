@@ -29,7 +29,7 @@ namespace Jypeli
             set 
             {
                 if (Parent != null)
-                    _prevRelPos += Position - value;
+                    _prevRelPos += value - Position;
                 Body.Position = value;
             }
         }
@@ -41,7 +41,7 @@ namespace Jypeli
             set 
             {
                 if (Parent != null)
-                    _prevRelAngle += Angle - value;
+                    _prevRelAngle += value - Angle;
                 Body.Angle = value.Radians; 
             }
         }

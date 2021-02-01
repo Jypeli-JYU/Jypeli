@@ -118,12 +118,14 @@ namespace Jypeli
             FSBody.Enabled = false;
             if (shape is Ellipse && width != height)
             {
-                FSBody.CreateFixture(new FarseerPhysics.Collision.Shapes.CircleShape((float)height, 1f * FSConvert.SimToDisplay));
+                Fixture f = FSBody.CreateFixture(new CircleShape((float)height, 1f * FSConvert.SimToDisplay));
+                f.UserData = FSBody;
             }
             else
             {
                 List<Vertices> vertices = CreatePhysicsShape(shape, this._size);
-                FixtureFactory.AttachCompoundPolygon(vertices, 1f, FSBody);
+                List<Fixture> fixtures = FixtureFactory.AttachCompoundPolygon(vertices, 1f, FSBody);
+                fixtures.ForEach((f) => f.UserData = FSBody);
             }
         }
 

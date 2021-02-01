@@ -1613,8 +1613,6 @@ namespace FarseerPhysics.Dynamics
 
             List<Fixture> fs2 = fsBody2.FixtureList;
 
-            Vector dv = fsBody2.Position - fsBody1.Position;
-
             foreach (var f in fs2)
             {
                 Fixture newF = f.CloneOnto(fsBody1);
@@ -1623,11 +1621,12 @@ namespace FarseerPhysics.Dynamics
                     case PolygonShape:
                         Vertices v = ((PolygonShape)newF.Shape).Vertices;
                         v.Rotate(fsBody2.Rotation);
-                        v.Translate(dv);
+                        v.Translate(fsBody2.Position - fsBody1.Position);
+                        v.Rotate(-fsBody1.Rotation);
                         break;
 
                     case CircleShape:
-                        ((CircleShape)newF.Shape).Position = dv;
+                        ((CircleShape)newF.Shape).Position = fsBody2.Position - fsBody1.Position;
                         break;
 
                     default:
@@ -1637,6 +1636,47 @@ namespace FarseerPhysics.Dynamics
             }
 
             fsBody2.Enabled = false;
+        }
+
+        /// <summary>
+        /// Muodostaa uudelleen yhdistettyjen fysiikkakappaleiden fysiikkamuodot.
+        /// Kutsuttava jos esim. lapsiolion paikkaa tai kokoa muutetaan.
+        /// </summary>
+        /// <param name="physObj">Kappale jonka ominaisuuksia muutettiin.</param>
+        public void RegenerateConnectedFixtures(PhysicsObject physObj)
+        {
+            // TODO: Jonkin sortin "isDirty" jos lapsioliota on muutettu, jolloin kutsuttaisiin tätä automaagisesti.
+            /**
+             * "Post-order" puuhakualgoritmi.
+             * Jos muokataan obj3, tälle voidaan antaa parametrina obj3, obj2 tai obj1 ilman ongelmia.
+             * obj1
+             *     obj2
+             *          obj3
+             *          obj4
+             *     obj5
+             *     obj6
+             */
+
+            SynchronousList<GameObject> childs = physObj.Objects;
+            foreach (var child in childs)
+            {
+                if(child is PhysicsObject)
+                {
+                    PhysicsObject physChild = child as PhysicsObject;
+                    physChild.Parent.Size *= 1;
+                    RegenerateConnectedFixtures(physChild);
+                }
+            }
+            PhysicsBody physMainParent = (PhysicsBody)((PhysicsObject)physObj.GetMainParent()).Body;
+            List<Fixture> fs = physMainParent.FSBody.FixtureList;
+
+            for (int i = 0; i < fs.Count; i++)
+            {
+                if ((Body)fs[i].UserData == ((PhysicsBody)physObj.Body).FSBody)
+                    physMainParent.FSBody.DestroyFixture(fs[i]);
+            }
+            if(physObj.Parent != null)
+            ConnectBodies((PhysicsObject)physObj.Parent, physObj);
         }
 
         public void AddJoint(IAxleJoint joint)

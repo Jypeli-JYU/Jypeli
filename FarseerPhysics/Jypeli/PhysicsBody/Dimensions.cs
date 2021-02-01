@@ -131,7 +131,7 @@ namespace Jypeli
                 List<Vertices> vertices = CreatePhysicsShape(shape, this._size);
                 fs.AddRange(FixtureFactory.AttachCompoundPolygon(vertices, defaultDensity, FSBody));
             }
-            fs.ForEach((f) => f.OnCollision += collisionHandlers);
+            fs.ForEach((f) => { f.OnCollision += collisionHandlers; f.UserData = FSBody; });
         }
 
         /// <summary>

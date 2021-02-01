@@ -253,7 +253,7 @@ namespace Jypeli.GameObjects
             {
                 if (Parent != null)
                 {
-                    Vector diff = Parent.Position - Position;
+                    Vector diff = Position - Parent.Position;
                     Angle angle = diff.Angle;
                     return Vector.FromLengthAndAngle(diff.Magnitude, angle - Parent.Angle);
                 }
@@ -275,7 +275,7 @@ namespace Jypeli.GameObjects
                 if (Parent != null)
                 {
                     GameObject mainParent = ((GameObject)this).GetMainParent();
-                    Vector diff = mainParent.Position - Position;
+                    Vector diff = Position - mainParent.Position;
                     Angle angle = diff.Angle;
                     return Vector.FromLengthAndAngle(diff.Magnitude, angle - mainParent.Angle);
                 }
@@ -297,7 +297,7 @@ namespace Jypeli.GameObjects
             get
             {
                 if ( Parent != null )
-                    return Parent.Angle - this.Angle;
+                    return this.Angle - Parent.Angle;
                 return Angle;
             }
             set
@@ -315,7 +315,7 @@ namespace Jypeli.GameObjects
                 if (Parent != null)
                 {
                     GameObject mainParent = ((GameObject)this).GetMainParent();
-                    return mainParent.Angle - this.Angle;
+                    return this.Angle - mainParent.Angle;
                 }
                 return RelativeAngle;
             }

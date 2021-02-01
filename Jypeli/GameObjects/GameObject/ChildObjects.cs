@@ -188,7 +188,7 @@ namespace Jypeli
             Objects.Update( time );
         }
 
-        internal Vector _prevRelPos; // TODO: Jos lapsiolion suhteellista sijaintia haluaa muuttaa, pit‰‰ n‰m‰ p‰ivitt‰‰ vastaamaan sit‰.
+        internal Vector _prevRelPos;
         internal Angle _prevRelAngle;
         internal void AdjustChildPosition()
         {
@@ -199,7 +199,7 @@ namespace Jypeli
                     GameObject mainParent = child.GetMainParent();
                     ((PhysicsObject)child).Body.Position = mainParent.Position.Transform(
                         Matrix.CreateRotationZ(-(float)(mainParent.Angle.Radians)) *
-                        Matrix.CreateTranslation(-child._prevRelPos) *
+                        Matrix.CreateTranslation(child._prevRelPos) *
                         Matrix.CreateRotationZ((float)(mainParent.Angle.Radians)));
                     ((PhysicsObject)child).Body.Angle = (mainParent.Angle + child._prevRelAngle).Radians;
                 }
@@ -208,7 +208,7 @@ namespace Jypeli
                     GameObject mainParent = child.GetMainParent();
                     child.Position = mainParent.Position.Transform(
                         Matrix.CreateRotationZ(-(float)(mainParent.Angle.Radians)) *
-                        Matrix.CreateTranslation(-child._prevRelPos) *
+                        Matrix.CreateTranslation(child._prevRelPos) *
                         Matrix.CreateRotationZ((float)(mainParent.Angle.Radians)));
                     child.Angle = mainParent.Angle + child._prevRelAngle;
                 }

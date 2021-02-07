@@ -141,6 +141,11 @@ namespace Jypeli
         {
             this.Body.CollisionIgnorer = new CollisionIgnorerAdapter( ignorer );
         }
+
+        public void RegenerateConnectedFixtures()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     class CollisionIgnorerAdapter : Physics2DDotNet.Ignorers.Ignorer

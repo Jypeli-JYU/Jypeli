@@ -1638,47 +1638,6 @@ namespace FarseerPhysics.Dynamics
             fsBody2.Enabled = false;
         }
 
-        /// <summary>
-        /// Muodostaa uudelleen yhdistettyjen fysiikkakappaleiden fysiikkamuodot.
-        /// Kutsuttava jos esim. lapsiolion paikkaa tai kokoa muutetaan.
-        /// </summary>
-        /// <param name="physObj">Kappale jonka ominaisuuksia muutettiin.</param>
-        public void RegenerateConnectedFixtures(PhysicsObject physObj)
-        {
-            // TODO: Jonkin sortin "isDirty" jos lapsioliota on muutettu, jolloin kutsuttaisiin tätä automaagisesti.
-            /**
-             * "Post-order" puuhakualgoritmi.
-             * Jos muokataan obj3, tälle voidaan antaa parametrina obj3, obj2 tai obj1 ilman ongelmia.
-             * obj1
-             *     obj2
-             *          obj3
-             *          obj4
-             *     obj5
-             *     obj6
-             */
-
-            SynchronousList<GameObject> childs = physObj.Objects;
-            foreach (var child in childs)
-            {
-                if(child is PhysicsObject)
-                {
-                    PhysicsObject physChild = child as PhysicsObject;
-                    physChild.Parent.Size *= 1;
-                    RegenerateConnectedFixtures(physChild);
-                }
-            }
-            PhysicsBody physMainParent = (PhysicsBody)((PhysicsObject)physObj.GetMainParent()).Body;
-            List<Fixture> fs = physMainParent.FSBody.FixtureList;
-
-            for (int i = 0; i < fs.Count; i++)
-            {
-                if ((Body)fs[i].UserData == ((PhysicsBody)physObj.Body).FSBody)
-                    physMainParent.FSBody.DestroyFixture(fs[i]);
-            }
-            if(physObj.Parent != null)
-            ConnectBodies((PhysicsObject)physObj.Parent, physObj);
-        }
-
         public void AddJoint(IAxleJoint joint)
         {
             Joint j = (joint as AbstractJoint).innerJoint;

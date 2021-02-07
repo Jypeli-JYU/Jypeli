@@ -29,8 +29,15 @@ namespace Jypeli
             set 
             {
                 if (Parent != null)
+                {
                     _prevRelPos += value - Position;
-                Body.Position = value;
+                    Body.Position = value;
+                    Body.RegenerateConnectedFixtures();
+                }
+                else
+                {
+                    Body.Position = value;
+                }
             }
         }
 
@@ -41,8 +48,15 @@ namespace Jypeli
             set 
             {
                 if (Parent != null)
+                {
                     _prevRelAngle += value - Angle;
-                Body.Angle = value.Radians; 
+                    Body.Angle = value.Radians;
+                    Body.RegenerateConnectedFixtures();
+                }
+                else
+                {
+                    Body.Angle = value.Radians;
+                }
             }
         }
 
@@ -50,14 +64,24 @@ namespace Jypeli
         public override Vector Size
         {
             get { return (Vector)Body.Size; }
-            set { Body.Size = value; }
+            set 
+            { 
+                Body.Size = value;
+                /*if (Parent != null) // TODO: tästä tulee stackoverflow
+                    Body.RegenerateConnectedFixtures();*/
+            }
         }
 
         [Save]
         public override Shape Shape
         {
             get { return Body.Shape; }
-            set { Body.Shape = value; }
+            set 
+            {
+                Body.Shape = value;
+                if (Parent != null)
+                    Body.RegenerateConnectedFixtures();
+            }
         }
     }
 }

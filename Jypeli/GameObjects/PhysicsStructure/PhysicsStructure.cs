@@ -33,33 +33,11 @@ namespace Jypeli
             get { return objects.Count; }
         }
 
-        /// <summary>
-        /// Rakenteeseen kuuluvat liitokset.
-        /// </summary>
-        internal List<IAxleJoint> Joints { get; private set; }
-
-        /// <summary>
-        /// Olioiden välisten liitosten pehmeys.
-        /// </summary>
-        public double Softness
-        {
-            get { return _softness; }
-            set
-            {
-                _softness = value;
-
-                for ( int i = 0; i < Joints.Count; i++ )
-                {
-                    Joints[i].Softness = value;
-                }
-            }
-        }
-
         public BoundingRectangle BoundingRectangle
         {
             get
             {
-                if ( objects.Count == 0 )
+                if (objects.Count == 0)
                     return new BoundingRectangle();
 
                 double top = objects[0].Top;
@@ -67,15 +45,15 @@ namespace Jypeli
                 double bottom = objects[0].Bottom;
                 double right = objects[0].Right;
 
-                for ( int i = 1; i < objects.Count; i++ )
+                for (int i = 1; i < objects.Count; i++)
                 {
-                    if ( objects[i].Top > top ) top = objects[i].Top;
-                    if ( objects[i].Left < left ) left = objects[i].Left;
-                    if ( objects[i].Bottom < bottom ) bottom = objects[i].Bottom;
-                    if ( objects[i].Right > right ) right = objects[i].Right;
+                    if (objects[i].Top > top) top = objects[i].Top;
+                    if (objects[i].Left < left) left = objects[i].Left;
+                    if (objects[i].Bottom < bottom) bottom = objects[i].Bottom;
+                    if (objects[i].Right > right) right = objects[i].Right;
                 }
 
-                return new BoundingRectangle( new Vector( left, top ), new Vector( right, bottom ) );
+                return new BoundingRectangle(new Vector(left, top), new Vector(right, bottom));
             }
         }
 
@@ -98,7 +76,7 @@ namespace Jypeli
             get { return false; }
             set
             {
-                foreach ( var obj in objects )
+                foreach (var obj in objects)
                 {
                     obj.IsVisible = value;
                 }
@@ -127,47 +105,25 @@ namespace Jypeli
         /// </summary>
         public override Vector Position
         {
-            get
-            {
-                return centerObject.Position;
-            }
-            set
-            {
-                Vector delta = value - Position;
-
-                foreach ( var obj in objects )
-                {
-                    obj.Position += delta;
-                }
-
-                centerObject.Position = value;
-            }
+            get { return centerObject.Position; }
+            set { centerObject.Position = value; }
         }
 
         public override Vector Size
         {
-            get
-            {
-                return BoundingRectangle.Size;
-            }
-            set
-            {
-                throw new NotImplementedException( "Setting size for a structure is not implemented." );
-            }
+            get { return BoundingRectangle.Size; }
+            set { throw new NotImplementedException("Setting size for a structure is not implemented."); }
         }
 
         public override Animation Animation
         {
             get { return null; }
-            set
-            {
-                throw new InvalidOperationException( "Physics structure has no image or animation." );
-            }
+            set { throw new InvalidOperationException("Physics structure has no image or animation."); }
         }
 
         public Vector TextureWrapSize
         {
-            get { return new Vector( 1, 1 ); }
+            get { return new Vector(1, 1); }
             set { throw new NotImplementedException(); }
         }
 
@@ -179,13 +135,10 @@ namespace Jypeli
 
         public Color Color
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { throw new NotImplementedException(); }
             set
             {
-                foreach ( var obj in objects )
+                foreach (var obj in objects)
                     obj.Color = value;
             }
         }
@@ -204,36 +157,14 @@ namespace Jypeli
         /// </summary>
         public override Angle Angle
         {
-            get
-            {
-                IEnumerable<double> angles = objects.ConvertAll<PhysicsObject, double>(delegate (PhysicsObject o) { return o.Angle.Degrees; });
-                return Angle.FromDegrees(angles.Average()); // TODO: IEnumerable<Angle>.Average
-            }
-            set
-            {
-                foreach (var obj in objects)
-                {
-                    //obj.Angle = value; // Tämä tuottaa hyvin paljon haamuvoimia
-                    obj.Position = (new Matrix2x2(value.Cos, -value.Sin, value.Sin, value.Cos)) * (Vector2D)obj.Position; // Tämä ei niin paljon?
-                }
-            }
+            get { return centerObject.Angle; }
+            set { centerObject.Angle = value; }
         }
 
         #endregion
 
         #region IPhysicsObject
-
-        bool _ignoresGravity = false;
-        bool _ignoresCollisionResponse = false;
-        bool _ignoresExplosions = false;
-        bool _ignoresPhysicsLogics = false;
-        Ignorer _collisionIgnorer = null;
-        int _collisionIgnoreGroup = 0;
-        double _sfriction = 0.4;
-        double _kfriction = 0.4;
-        double _restitution = 0.5;
-        double _linearDamping = 1;
-        double _angularDamping = 1;
+        
         double? _setMomentOfInertia = null;
         double _calcMomentOfInertia = 0;
 
@@ -253,195 +184,104 @@ namespace Jypeli
 
         public double Mass
         {
-            get
-            {
-                double totalMass = 0;
-                objects.ForEach( o => totalMass += o.Mass );
-                return totalMass;
-            }
-            set
-            {
-                double massMultiplier = value / this.Mass;
-                objects.ForEach( o => o.Mass *= massMultiplier );
-            }
+            get { return centerObject.Mass; }
+            set { centerObject.Mass = value; }
         }
 
         public bool IgnoresGravity
         {
-            get { return _ignoresGravity; }
-            set
-            {
-                objects.ForEach( o => o.IgnoresGravity = value );
-                _ignoresGravity = value;
-            }
+            get { return centerObject.IgnoresGravity; }
+            set { centerObject.IgnoresGravity = value; }
         }
 
         public bool IgnoresCollisionResponse
         {
-            get { return _ignoresCollisionResponse; }
-            set
-            {
-                objects.ForEach( o => o.IgnoresCollisionResponse = value );
-                _ignoresCollisionResponse = value;
-            }
+            get { return centerObject.IgnoresCollisionResponse; }
+            set { centerObject.IgnoresCollisionResponse = value; }
         }
 
         public bool IgnoresExplosions
         {
-            get { return _ignoresExplosions; }
-            set
-            {
-                objects.ForEach( o => o.IgnoresExplosions = value );
-                _ignoresExplosions = value;
-            }
+            get { return centerObject.IgnoresExplosions; }
+            set { centerObject.IgnoresExplosions = value; }
         }
 
         public bool IgnoresPhysicsLogics
         {
-            get { return _ignoresPhysicsLogics; }
-            set
-            {
-                objects.ForEach( o => o.IgnoresPhysicsLogics = value );
-                _ignoresPhysicsLogics = value;
-            }
+            get { return centerObject.IgnoresPhysicsLogics; }
+            set { centerObject.IgnoresPhysicsLogics = value; }
         }
 
         public Ignorer CollisionIgnorer
         {
-            get { return _collisionIgnorer; }
-            set
-            {
-                objects.ForEach( o => o.CollisionIgnorer = value );
-                _collisionIgnorer = value;
-            }
+            get { return centerObject.CollisionIgnorer; }
+            set { centerObject.CollisionIgnorer = value; }
         }
 
         public int CollisionIgnoreGroup
         {
-            get { return _collisionIgnoreGroup; }
-            set
-            {
-                objects.ForEach( o => o.CollisionIgnoreGroup = value );
-                _collisionIgnoreGroup = value;
-            }
+            get { return centerObject.CollisionIgnoreGroup; }
+            set { centerObject.CollisionIgnoreGroup = value; }
         }
 
         public double StaticFriction
         {
-            get { return _sfriction; }
-            set
-            {
-                objects.ForEach( o => o.StaticFriction = value );
-                _sfriction = value;
-            }
+            get { return centerObject.StaticFriction; }
+            set { centerObject.StaticFriction = value; }
         }
 
         public double KineticFriction
         {
-            get { return _kfriction; }
-            set
-            {
-                objects.ForEach( o => o.KineticFriction = value );
-                _kfriction = value;
-            }
+            get { return centerObject.KineticFriction; }
+            set { centerObject.KineticFriction = value; }
         }
 
         public double Restitution
         {
-            get { return _restitution; }
-            set
-            {
-                objects.ForEach( o => o.Restitution = value );
-                _restitution = value;
-            }
+            get { return centerObject.Restitution; }
+            set { centerObject.Restitution = value; }
         }
 
         public double LinearDamping
         {
-            get { return _linearDamping; }
-            set
-            {
-                objects.ForEach( o => o.LinearDamping = value );
-                _linearDamping = value;
-            }
+            get { return centerObject.LinearDamping; }
+            set { centerObject.LinearDamping = value; }
         }
 
         public double AngularDamping
         {
-            get { return _angularDamping; }
-            set
-            {
-                objects.ForEach( o => o.AngularDamping = value );
-                _angularDamping = value;
-            }
+            get { return centerObject.AngularDamping; }
+            set { centerObject.AngularDamping = value; }
         }
 
         public Vector Velocity
         {
-            get
-            {
-                var velocities = objects.ConvertAll<PhysicsObject, Vector>( delegate( PhysicsObject o ) { return o.Velocity; } );
-                return Vector.Average( velocities );
-            }
-            set
-            {
-                foreach ( var obj in objects )
-                    obj.Velocity = value;
-            }
+            get { return centerObject.Velocity; }
+            set { centerObject.Velocity = value; }
         }
 
         public double AngularVelocity
         {
-            get
-            {
-                IEnumerable<double> velocities = objects.ConvertAll<PhysicsObject, double>( delegate( PhysicsObject o ) { return o.AngularVelocity; } );
-                return velocities.Average();
-            }
-            set
-            {
-                foreach ( var obj in objects )
-                    obj.AngularVelocity = value;
-            }
+            get { return centerObject.AngularVelocity; }
+            set { centerObject.AngularVelocity = value; }
         }
 
         public Vector Acceleration
         {
-            get
-            {
-                var accs = objects.ConvertAll<PhysicsObject, Vector>( delegate( PhysicsObject o ) { return o.Acceleration; } );
-                return Vector.Average( accs );
-            }
-            set
-            {
-                foreach ( var obj in objects )
-                    obj.Acceleration = value;
-            }
+            get { return centerObject.Acceleration; }
+            set { centerObject.Acceleration = value; }
         }
 
         public double AngularAcceleration
         {
-            get
-            {
-                IEnumerable<double> accs = objects.ConvertAll<PhysicsObject, double>( delegate( PhysicsObject o ) { return o.AngularAcceleration; } );
-                return accs.Average();
-            }
-            set
-            {
-                foreach ( var obj in objects )
-                    obj.AngularAcceleration = value;
-            }
+            get { return centerObject.AngularAcceleration; }
+            set { centerObject.AngularAcceleration = value; }
         }
 
         public double MomentOfInertia
         {
-            get
-            {
-                return _setMomentOfInertia.HasValue ? _setMomentOfInertia.Value : _calcMomentOfInertia;
-            }
-            set
-            {
-                _setMomentOfInertia = value;
-            }
+            get { return _setMomentOfInertia.HasValue ? _setMomentOfInertia.Value : _calcMomentOfInertia; }
+            set { _setMomentOfInertia = value; }
         }
 
         /// <summary>
@@ -449,23 +289,8 @@ namespace Jypeli
         /// </summary>
         public bool CanRotate
         {
-            get { return !double.IsPositiveInfinity( MomentOfInertia ); }
-            set
-            {
-                if ( !value )
-                {
-                    foreach (var obj in objects)
-                        obj.CanRotate = false;
-                    //MomentOfInertia = double.PositiveInfinity;
-                }
-                else
-                {
-                    foreach (var obj in objects)
-                        obj.CanRotate = true;
-                    CalculateMomentOfInertia();
-                    _setMomentOfInertia = null;
-                }
-            }
+            get { return centerObject.CanRotate; }
+            set { centerObject.CanRotate = value; }
         }
 
         #endregion
@@ -475,46 +300,38 @@ namespace Jypeli
         /// </summary>
         public PhysicsStructure()
         {
-            centerObject = new PhysicsObject( 1, 1 ) { IgnoresPhysicsLogics = true, IsVisible = false };
+            centerObject = new PhysicsObject(1, 1) { IsVisible = false };
             objects = new List<PhysicsObject>();
-            Joints = new List<IAxleJoint>();
-            _collisionIgnorer = new ObjectIgnorer();
             AssociatedListeners = new List<Listener>();
-            AddedToGame += AddJoints;
-            Removed += RemoveJoints;
-            Add(centerObject); // Tämä pitää lisätä, sillä muuten jossain tilanteissa structuren ensimmäinen kappale pyörii keskiakselinsa ympäri.
-        }
+            AddedToGame += () => Game.Instance.Add(centerObject);
+            Removed += () =>
+            {
+                Game.Instance.Remove(centerObject);
+                objects.ForEach(o => Game.Instance.Remove(o)); // TODO: Kappaleet menevät nyt poistoon kahdesti, mutta niitä ei oikeasti poisteta ilman tätä.
+            };
 
-        private void AddJoints()
-        {
-            Joints.ForEach( PhysicsGameBase.Instance.Add );
-        }
-
-        private void RemoveJoints()
-        {
-            Joints.ForEach( PhysicsGameBase.Instance.Remove );
         }
 
         /// <summary>
         /// Luo uuden rakenteen ja varustaa sen fysiikkaolioilla.
         /// </summary>
         /// <param name="objs">Fysiikkaoliot</param>
-        public PhysicsStructure( params PhysicsObject[] objs )
+        public PhysicsStructure(params PhysicsObject[] objs)
             : this()
         {
-            for ( int i = 0; i < objs.Length; i++ )
+            for (int i = 0; i < objs.Length; i++)
             {
-                Add( objs[i] );
+                Add(objs[i]);
             }
         }
 
         /// <summary>
         /// Kutsutaan kun törmätään.
         /// </summary>
-        internal void OnCollided( IPhysicsObject part, IPhysicsObject target )
+        internal void OnCollided(IPhysicsObject part, IPhysicsObject target)
         {
-            if ( Collided != null )
-                Collided( this, target );
+            if (Collided != null)
+                Collided(this, target);
         }
 
         /// <summary>
@@ -524,9 +341,9 @@ namespace Jypeli
         /// <returns></returns>
         public IEnumerable<T> GetChildObjects<T>() where T : IGameObject
         {
-            foreach ( IGameObject o in Objects )
+            foreach (IGameObject o in Objects)
             {
-                if ( o is T )
+                if (o is T)
                     yield return (T)o;
             }
         }
@@ -536,21 +353,21 @@ namespace Jypeli
         /// </summary>
         /// <typeparam name="T">Olion tyyppi rakenteessa (esim. PhysicsObject)</typeparam>
         /// <returns></returns>
-        public IEnumerable<T> GetChildObjects<T>( Predicate<T> predicate ) where T : IGameObject
+        public IEnumerable<T> GetChildObjects<T>(Predicate<T> predicate) where T : IGameObject
         {
-            foreach ( IGameObject o in Objects )
+            foreach (IGameObject o in Objects)
             {
-                if ( o is T && predicate( (T)o ) )
+                if (o is T && predicate((T)o))
                     yield return (T)o;
             }
         }
 
-        public void Update( Time time ) // new vai override?
+        public override void Update(Time time)
         {
-            foreach ( var obj in objects )
+            foreach (var obj in objects)
             {
-                if ( obj.IsUpdated )
-                    obj.Update( time );
+                if (obj.IsUpdated)
+                    obj.Update(time);
             }
         }
 
@@ -558,83 +375,42 @@ namespace Jypeli
         /// Lisää olion rakenteeseen.
         /// </summary>
         /// <param name="obj">Lisättävä olio</param>
-        public void Add( IGameObject obj )
+        public void Add(IGameObject obj)
         {
-            if ( !( obj is PhysicsObject ) )
-                throw new NotImplementedException( "Currently only PhysicsObjects can be added to a structure." );
+            if (!(obj is PhysicsObject))
+                throw new NotImplementedException("Currently only PhysicsObjects can be added to a structure.");
 
-            if ( !IsAddedToGame )
+            if (!IsAddedToGame)
             {
-                // Add to game and use relative coordinates
-                obj.Position += this.Position;
-
-                if ( !obj.IsAddedToGame )
-                    Game.Instance.Add( obj );
+                if (!obj.IsAddedToGame)
+                    Game.Instance.Add(obj);
             }
 
             PhysicsObject physObj = (PhysicsObject)obj;
+
+            centerObject.Add(physObj);
+            objects.Add(physObj);
             physObj.ParentStructure = this;
-            physObj.IsVisible = _isVisible;
-            physObj.IgnoresGravity = _ignoresGravity;
-            physObj.IgnoresCollisionResponse = _ignoresCollisionResponse;
-            physObj.IgnoresExplosions = _ignoresExplosions;
-            physObj.IgnoresPhysicsLogics = _ignoresPhysicsLogics;
-            physObj.CollisionIgnoreGroup = _collisionIgnoreGroup;
-            physObj.CollisionIgnorer = _collisionIgnorer;
-            physObj.Restitution = _restitution;
-            physObj.StaticFriction = _sfriction;
-            physObj.KineticFriction = _kfriction;
-            physObj.LinearDamping = _linearDamping;
-            physObj.AngularDamping = _angularDamping;
-
-            physObj.Collided += this.OnCollided;
-
-            var game = PhysicsGameBase.Instance;
-
-            foreach ( var existing in objects )
-            {
-                if (Game.Instance.FarseerGame)
-                {
-                    IAxleJoint joint = game.Engine.CreateJoint(physObj, existing, JointTypes.WeldJoint);
-                    joint.Softness = _softness;
-                    Joints.Add(joint);
-                    game.Add(joint);
-                }
-                else
-                {
-                    IAxleJoint joint = game.Engine.CreateJoint(physObj, existing, existing.Position);
-                    joint.Softness = _softness;
-                    Joints.Add(joint);
-                    game.Add(joint);
-                }
-            }
-
-            objects.Add( physObj );
             CalculateMomentOfInertia();
+
         }
 
-        public void Remove( IGameObject obj )
+        public void Remove(IGameObject obj)
         {
-            if ( !( obj is PhysicsObject ) )
-                throw new NotImplementedException( "Currently only PhysicsObjects can be added to a structure." );
+            if (!(obj is PhysicsObject))
+                throw new NotImplementedException("Currently only PhysicsObjects can be added to a structure.");
 
             PhysicsObject physObj = (PhysicsObject)obj;
 
-            if ( !objects.Contains( physObj ) )
+            if (!objects.Contains(physObj))
                 return;
 
             physObj.ParentStructure = null;
-            physObj.CollisionIgnorer = null;
-            physObj.CollisionIgnoreGroup = 0;
-            physObj.Collided -= this.OnCollided;
 
-            foreach ( var joint in Joints.FindAll( j => j.Object1 == physObj || j.Object2 == physObj ) )
-            {
-                joint.Destroy();
-                PhysicsGameBase.Instance.Remove( joint );
-            }
+            PhysicsGameBase.Instance.Remove(physObj);
 
-            objects.Remove( physObj );
+            objects.Remove(physObj);
+            centerObject.Body.RegenerateConnectedFixtures();
             CalculateMomentOfInertia();
         }
 
@@ -643,18 +419,18 @@ namespace Jypeli
             Vector center = this.Position;
             _calcMomentOfInertia = 0;
 
-            foreach ( var part in objects )
+            foreach (var part in objects)
             {
-                double r = Vector.Distance( center, part.Position );
+                double r = Vector.Distance(center, part.Position);
                 _calcMomentOfInertia += part.Mass * r * r;
             }
         }
 
-        public bool IsInside( Vector point )
+        public bool IsInside(Vector point)
         {
-            foreach ( var obj in objects )
+            foreach (var obj in objects)
             {
-                if ( obj.IsInside( point ) )
+                if (obj.IsInside(point))
                     return true;
             }
 
@@ -663,104 +439,67 @@ namespace Jypeli
 
         #region IPhysicsObject
 
-        public void Hit( Vector impulse )
+        public void Hit(Vector impulse)
         {
-            Vector velocity = impulse / Mass;
-
-            foreach ( var obj in objects )
-            {
-                obj.Hit( velocity * obj.Mass );
-            }
+            centerObject.Hit(impulse);
         }
 
-        public void Push( Vector force )
+        public void Push(Vector force)
         {
-            Vector acceleration = force / Mass;
-
-            foreach ( var obj in objects )
-            {
-                obj.Push( acceleration * obj.Mass );
-            }
+            centerObject.Push(force);
         }
 
-        public void Push( Vector force, TimeSpan time )
+        public void Push(Vector force, TimeSpan time)
         {
-            Vector acceleration = force / Mass;
-
-            foreach ( var obj in objects )
-            {
-                obj.Push( acceleration * obj.Mass, time );
-            }
+            centerObject.Push(force, time);
         }
 
-        public void ApplyTorque( double torque )
+        public void ApplyTorque(double torque)
         {
-            if ( MomentOfInertia == 0 || double.IsInfinity( MomentOfInertia ) )
-                return;
-
-            double angularAcc = torque / MomentOfInertia;
-            Vector center = this.Position;
-
-            foreach ( var obj in objects )
-            {
-                Vector radius = obj.Position - center;
-                double linearAcc = radius.Magnitude * angularAcc;
-                obj.Push( linearAcc * obj.Mass * radius.LeftNormal );
-            }
+            centerObject.ApplyTorque(torque);
         }
 
-        public void Move( Vector movement )
+        public void Move(Vector movement)
         {
-            foreach ( var obj in objects )
-            {
-                obj.Move( movement );
-            }
+            centerObject.Move(movement);
         }
 
-        public override void MoveTo( Vector location, double speed, Action doWhenArrived )
+        public override void MoveTo(Vector location, double speed, Action doWhenArrived)
         {
-            centerObject.MoveTo( location, speed, doWhenArrived );
-
-            foreach ( var obj in objects )
-            {
-                Vector displacement = obj.Position - centerObject.Position;
-                obj.MoveTo( location + displacement, speed );
-            }
+            centerObject.MoveTo(location, speed, doWhenArrived);
         }
 
         public void StopMoveTo()
         {
-            objects.ForEach( o => o.StopMoveTo() );
+            centerObject.StopMoveTo();
         }
 
         public void Stop()
         {
-            objects.ForEach( o => o.Stop() );
+            centerObject.Stop();
         }
 
         public void StopHorizontal()
         {
-            objects.ForEach( o => o.StopHorizontal() );
+            centerObject.StopHorizontal();
         }
 
         public void StopVertical()
         {
-            objects.ForEach( o => o.StopVertical() );
+            centerObject.StopVertical();
         }
 
-        public void StopAxial( Vector axis )
+        public void StopAxial(Vector axis)
         {
-            objects.ForEach( o => o.StopAxial( axis ) );
+            centerObject.StopAxial(axis);
         }
 
         public void StopAngular()
         {
-            objects.ForEach( o => o.StopAngular() );
+            centerObject.StopAngular();
         }
 
         #endregion
-
-        #region DelayedDestroyable
 
         #region DelayedDestroyable
 
@@ -776,7 +515,7 @@ namespace Jypeli
 
         protected void OnDestroying()
         {
-            if ( Destroying != null )
+            if (Destroying != null)
                 Destroying();
         }
 
@@ -784,18 +523,15 @@ namespace Jypeli
         {
             IsDestroying = true;
             OnDestroying();
-            Game.DoNextUpdate( ReallyDestroy );
+            Game.DoNextUpdate(ReallyDestroy);
         }
 
         protected virtual void ReallyDestroy()
         {
-            foreach ( var joint in Joints ) joint.Destroy();
-            foreach ( var obj in objects ) obj.Destroy();
-            this.MaximumLifetime = new TimeSpan( 0 );
+            foreach (var obj in objects) obj.Destroy();
+            this.MaximumLifetime = new TimeSpan(0);
             base.Destroy();
         }
-
-        #endregion
 
         #endregion
 

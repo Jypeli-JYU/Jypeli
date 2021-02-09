@@ -155,13 +155,19 @@ namespace Jypeli
 
         public void SetCollisionIgnorer(Ignorer ignorer)
         {
-            // TODO: Vähän ruma
+            if(ignorer is null)
+            {
+                FSBody.JypeliGroupIgnorer = null;
+                FSBody.ObjectIgnorer = null;
+                return;
+            }
+
             if (ignorer is JypeliGroupIgnorer)
             {
                 JypeliGroupIgnorer ign = ignorer as JypeliGroupIgnorer;
                 FSBody.JypeliGroupIgnorer = ign;
             }
-            else if (ignorer is ObjectIgnorer)
+            else if (ignorer is ObjectIgnorer || ignorer is null)
             {
                 ObjectIgnorer ign = ignorer as ObjectIgnorer;
                 FSBody.ObjectIgnorer = ign;
@@ -194,6 +200,7 @@ namespace Jypeli
             {
                 if (child is PhysicsObject)
                 {
+                    if (!child.IsAddedToGame) continue;
                     PhysicsObject physChild = child as PhysicsObject;
                     physChild.Parent.Size *= 1;
                     physChild.Body.RegenerateConnectedFixtures();

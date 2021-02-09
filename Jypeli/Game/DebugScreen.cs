@@ -309,7 +309,18 @@ namespace Jypeli
                             PaintPhysicsOutlines(canvas, (PhysicsObject)obj, DebugViewSettings.PhysicsObjectVertexColor);
                     }
                     else
-                        PaintShapeOutlines(canvas, obj, Mouse.IsCursorOn((GameObject)obj) ? DebugViewSettings.GameObjectHoverColor : DebugViewSettings.GameObjectColor);
+                    {
+                        if(obj is PhysicsStructure)
+                        {
+                            PhysicsStructure ps = obj as PhysicsStructure;
+                            foreach (var o in ps.Objects)
+                            {
+                                PaintShapeOutlines(canvas, o, Mouse.IsCursorOn(o) ? DebugViewSettings.GameObjectHoverColor : DebugViewSettings.GameObjectColor);
+                            } 
+                        }else
+                            PaintShapeOutlines(canvas, obj, Mouse.IsCursorOn((GameObject)obj) ? DebugViewSettings.GameObjectHoverColor : DebugViewSettings.GameObjectColor);
+                    }
+                        
 
                 }
             }

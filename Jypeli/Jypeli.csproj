@@ -8,7 +8,7 @@
     <AssemblyName>Jypeli</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageId>Jypeli.NET</PackageId>
-    <Version>10.0.3</Version>
+    <Version>10.0.4</Version>
     <Authors>University of Jyväskylä</Authors>
     <Company />
     <Product />
@@ -17,12 +17,7 @@
     <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>MakeOneWay with a direction
-Fixed Layouts giving incorrect positioning
-Fixed Debug Screen having incorrect positioning
-Fixed objects not rendering in some cases
-Added drawing options for debug screen
-</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
   </PropertyGroup>
 
@@ -127,8 +122,8 @@ Added drawing options for debug screen
 
   <PropertyGroup>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
-    <AssemblyVersion>10.0.3.0</AssemblyVersion>
-    <FileVersion>10.0.3.0</FileVersion>
+    <AssemblyVersion>10.0.4.0</AssemblyVersion>
+    <FileVersion>10.0.4.0</FileVersion>
     <PackageIcon>jypeli_logo.png</PackageIcon>
   </PropertyGroup>
   <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">

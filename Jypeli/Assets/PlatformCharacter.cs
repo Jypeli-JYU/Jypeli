@@ -176,7 +176,6 @@ public class PlatformCharacter : PhysicsObject
                 weapon.Angle = Angle.Zero;
                 this.Remove( weapon );
             }
-
             this.weapon = value;
             if ( value == null )
                 return;
@@ -191,7 +190,7 @@ public class PlatformCharacter : PhysicsObject
                 weapon.TextureWrapSize = new Vector( 1, -1 );
             }
 
-            //weapon.Position = this.Position;
+            weapon.Position = this.Position;
         }
     }
 

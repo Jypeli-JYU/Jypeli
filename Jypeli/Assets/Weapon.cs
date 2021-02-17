@@ -249,5 +249,11 @@ namespace Jypeli.Assets
             else
                 throw new InvalidOperationException( "Cannot set a collision handler to non-physics game!" );
         }
+        public override void Update(Time time)
+        {
+            if(Parent != null)
+                this.Position = Parent.Position;
+            base.Update(time);
+        }
     }
 }

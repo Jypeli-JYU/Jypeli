@@ -78,8 +78,8 @@ namespace Jypeli
             }
             set
             {
-                if (Parent != null)
-                    _prevRelPos += base.Position - value;
+                if (_childObjects?.Count != 0)
+                    AdjustChildPosition(value - Position, Angle.Zero);
                 base.Position = value;
             }
         }
@@ -98,8 +98,8 @@ namespace Jypeli
             }
             set
             {
-                if (Parent != null)
-                    _prevRelAngle += _angle - value;
+                if (_childObjects?.Count != 0)
+                    AdjustChildPosition(Vector.Zero, value - Angle);
                 _angle = value;
             }
         }

@@ -28,16 +28,11 @@ namespace Jypeli
             get { return Body.Position; }
             set 
             {
+                if (_childObjects?.Count != 0)
+                    AdjustChildPosition(value - Position, Angle.Zero);
+                Body.Position = value;
                 if (Parent != null)
-                {
-                    _prevRelPos += value - Position;
-                    Body.Position = value;
                     Body.RegenerateConnectedFixtures();
-                }
-                else
-                {
-                    Body.Position = value;
-                }
             }
         }
 
@@ -47,16 +42,11 @@ namespace Jypeli
             get { return Angle.FromRadians( Body.Angle ); }
             set 
             {
+                if (_childObjects?.Count != 0)
+                    AdjustChildPosition(Vector.Zero, value - Angle);
+                Body.Angle = value.Radians;
                 if (Parent != null)
-                {
-                    _prevRelAngle += value - Angle;
-                    Body.Angle = value.Radians;
                     Body.RegenerateConnectedFixtures();
-                }
-                else
-                {
-                    Body.Angle = value.Radians;
-                }
             }
         }
 

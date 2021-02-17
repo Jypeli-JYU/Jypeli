@@ -110,9 +110,6 @@ namespace Jypeli
 
             Objects.Add( (GameObject)childObject );
             childObject.Parent = this;
-
-            ((GameObject)childObject)._prevRelPos = childObject.RelativePositionToMainParent;
-            ((GameObject)childObject)._prevRelAngle = childObject.RelativeAngleToMainParent;
         }
 
         /// <summary> 
@@ -188,31 +185,19 @@ namespace Jypeli
             Objects.Update( time );
         }
 
-        internal Vector _prevRelPos;
-        internal Angle _prevRelAngle;
-        internal void AdjustChildPosition()
+        internal void AdjustChildPosition(Vector posChange, Angle angleChange)
         {
             foreach (var child in Objects)
             {
-                if(child is PhysicsObject)
-                {
-                    GameObject mainParent = child.GetMainParent();
-                    ((PhysicsObject)child).Body.Position = mainParent.Position.Transform(
-                        Matrix.CreateRotationZ(-(float)(mainParent.Angle.Radians)) *
-                        Matrix.CreateTranslation(child._prevRelPos) *
-                        Matrix.CreateRotationZ((float)(mainParent.Angle.Radians)));
-                    ((PhysicsObject)child).Body.Angle = (mainParent.Angle + child._prevRelAngle).Radians;
-                }
-                else
-                {
-                    GameObject mainParent = child.GetMainParent();
-                    child.Position = mainParent.Position.Transform(
-                        Matrix.CreateRotationZ(-(float)(mainParent.Angle.Radians)) *
-                        Matrix.CreateTranslation(child._prevRelPos) *
-                        Matrix.CreateRotationZ((float)(mainParent.Angle.Radians)));
-                    child.Angle = mainParent.Angle + child._prevRelAngle;
-                }
+                Vector transform = child.Position.Transform(
+                    Matrix.CreateTranslation(-child.Parent.Position) * 
+                    Matrix.CreateRotationZ((float)angleChange.Radians) *
+                    Matrix.CreateTranslation(child.Parent.Position) *
+                    Matrix.CreateTranslation(posChange)
+                    );
 
+                child.Position = transform;
+                child.Angle += angleChange;
             }
         }
 

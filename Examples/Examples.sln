@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marswagen", "Marswagen\Marswagen.csproj", "{FB02415C-36BE-4573-8273-7C3CC1732D06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Koripallo", "Koripallo\Koripallo.csproj", "{7B71F1F6-E74C-41FC-868F-7573A1A6FA39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pong", "Pong\Pong.csproj", "{02E4AF1C-1ACE-4785-97EE-EE66E9411F22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB02415C-36BE-4573-8273-7C3CC1732D06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB02415C-36BE-4573-8273-7C3CC1732D06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB02415C-36BE-4573-8273-7C3CC1732D06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB02415C-36BE-4573-8273-7C3CC1732D06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B71F1F6-E74C-41FC-868F-7573A1A6FA39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B71F1F6-E74C-41FC-868F-7573A1A6FA39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B71F1F6-E74C-41FC-868F-7573A1A6FA39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B71F1F6-E74C-41FC-868F-7573A1A6FA39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02E4AF1C-1ACE-4785-97EE-EE66E9411F22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02E4AF1C-1ACE-4785-97EE-EE66E9411F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02E4AF1C-1ACE-4785-97EE-EE66E9411F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02E4AF1C-1ACE-4785-97EE-EE66E9411F22}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {30AF90B4-69FE-46D1-BEBD-A3CD994A2245}
+	EndGlobalSection
+EndGlobal

@@ -163,6 +163,8 @@ namespace Jypeli
             if ( Math.Abs( AngularVelocity ) > MaxAngularVelocity )
                 AngularVelocity = Math.Sign( AngularVelocity ) * MaxAngularVelocity;
 
+            Body.Update(time);
+
             base.Update( time );
         }
     }

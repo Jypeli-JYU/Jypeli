@@ -251,8 +251,6 @@ namespace Jypeli.Assets
         }
         public override void Update(Time time)
         {
-            if(Parent != null)
-                this.Position = Parent.Position;
             base.Update(time);
         }
     }

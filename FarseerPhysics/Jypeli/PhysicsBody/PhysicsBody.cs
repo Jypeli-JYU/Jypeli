@@ -145,12 +145,10 @@ namespace Jypeli
 
         public void Update(Time time)
         {
-            if (Velocity.Magnitude > MaxVelocity)
-                Velocity = Vector.FromLengthAndAngle(MaxVelocity, Velocity.Angle);
-            if (AngularVelocity > MaxAngularVelocity)
-                AngularVelocity = MaxVelocity;
-
-            //base.Update( time );
+            // Lapsiolioiden sijainnin korjaus. 
+            // TODO: Tää on aika purkkapalloratkaisu
+            this.Owner.Position = this.Position;
+            this.Owner.Angle = Jypeli.Angle.FromRadians(this.Angle);
         }
 
         public void SetCollisionIgnorer(Ignorer ignorer)

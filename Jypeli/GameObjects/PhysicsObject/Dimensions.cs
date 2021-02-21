@@ -23,19 +23,25 @@ namespace Jypeli
             }
         }
 
+        private Vector prevPos;
         public override Vector Position
         {
             get { return Body.Position; }
             set 
             {
                 if (_childObjects?.Count != 0)
-                    AdjustChildPosition(value - Position, Angle.Zero);
+                {
+                    Vector change = value - prevPos;
+                    AdjustChildPosition(change, Angle.Zero);
+                }
                 Body.Position = value;
+                prevPos = value;
                 if (Parent != null)
                     Body.RegenerateConnectedFixtures();
             }
         }
 
+        private Angle prevAngle;
         [Save]
         public override Angle Angle
         {
@@ -43,8 +49,12 @@ namespace Jypeli
             set 
             {
                 if (_childObjects?.Count != 0)
-                    AdjustChildPosition(Vector.Zero, value - Angle);
+                {
+                    Angle change = value - prevAngle;
+                    AdjustChildPosition(Vector.Zero, change);
+                }
                 Body.Angle = value.Radians;
+                prevAngle = value;
                 if (Parent != null)
                     Body.RegenerateConnectedFixtures();
             }

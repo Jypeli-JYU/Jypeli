@@ -52,5 +52,6 @@ namespace Jypeli.Physics
         event CollisionHandler<IPhysicsBody, IPhysicsBody> Collided;
         event AdvancedCollisionHandler<IPhysicsBody, IPhysicsBody> Colliding;
         void RegenerateConnectedFixtures();
+        void Update(Time time);
     }
 }

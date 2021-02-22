@@ -133,8 +133,8 @@
   </Target>
   
   <ItemGroup>
-    <Content Include="..\Compiled\netcoreapp3.1\MonoGame.FrameWork.xml">
-      <PackagePath>lib\netcoreapp3.1</PackagePath>
+    <Content Include="..\Compiled\net5.0\MonoGame.FrameWork.xml">
+      <PackagePath>lib\net5.0</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     

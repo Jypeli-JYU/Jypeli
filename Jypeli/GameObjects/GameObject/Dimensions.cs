@@ -78,6 +78,7 @@ namespace Jypeli
             }
             set
             {
+                _childObjects?.UpdateChanges(); // Lapsioliot eivät muuten välttämättä vielä ole tällä listalla.
                 if (_childObjects?.Count != 0)
                     AdjustChildPosition(value - Position, Angle.Zero);
                 base.Position = value;
@@ -98,6 +99,7 @@ namespace Jypeli
             }
             set
             {
+                _childObjects?.UpdateChanges(); // Lapsioliot eivät muuten välttämättä vielä ole tällä listalla.
                 if (_childObjects?.Count != 0)
                     AdjustChildPosition(Vector.Zero, value - Angle);
                 _angle = value;

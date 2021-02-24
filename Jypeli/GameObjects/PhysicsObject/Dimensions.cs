@@ -29,6 +29,7 @@ namespace Jypeli
             get { return Body.Position; }
             set 
             {
+                _childObjects?.UpdateChanges(); // Lapsioliot eivät muuten välttämättä vielä ole tällä listalla.
                 if (_childObjects?.Count != 0)
                 {
                     Vector change = value - prevPos;
@@ -48,6 +49,7 @@ namespace Jypeli
             get { return Angle.FromRadians( Body.Angle ); }
             set 
             {
+                _childObjects?.UpdateChanges(); // Lapsioliot eivät muuten välttämättä vielä ole tällä listalla.
                 if (_childObjects?.Count != 0)
                 {
                     Angle change = value - prevAngle;

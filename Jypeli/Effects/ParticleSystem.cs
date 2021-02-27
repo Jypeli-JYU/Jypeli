@@ -107,6 +107,11 @@ namespace Jypeli.Effects
         /// </summary>
         public double AlphaAmount { get; set; }
 
+        /// <summary>
+        /// Suurin sallittu suunnan poikkeama asteina
+        /// </summary>
+        public double MaxAngleChange { get; set; }
+
         #endregion
 
         public BlendMode BlendMode { get; set; }

@@ -8,13 +8,12 @@ namespace Jypeli.Effects
     public class Flame : ParticleSystem
     {
         private double addTime;
-
         /// <summary>
         /// Luo uuden liekin.
         /// </summary>
         /// <param name="image">Partikkelin kuva.</param>
         public Flame(Image image)
-            : base(image, 100)
+            : base(image, 180)
         {
             Angle = Angle.FromDegrees(90);
             BlendMode = BlendMode.Alpha;
@@ -51,7 +50,7 @@ namespace Jypeli.Effects
         /// <returns>Partikkelin suunta</returns>
         protected override Vector GiveRandomDirection()
         {
-            return Vector.FromLengthAndAngle(1, Angle + Angle.FromDegrees(RandomGen.NextDouble(-5, 5)));
+            return Vector.FromLengthAndAngle(1, Angle + Angle.FromDegrees(RandomGen.NextDouble(-MaxAngleChange, MaxAngleChange)));
         }
 
         /// <summary>

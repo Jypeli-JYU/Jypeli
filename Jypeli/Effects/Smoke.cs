@@ -15,7 +15,7 @@ namespace Jypeli.Effects
         /// Savu, johon vaikuttaa tuuli
         /// </summary>
         public Smoke()
-            : base(Game.LoadImageFromResources("Smoke.png"), 100)
+            : base(Game.LoadImageFromResources("Smoke.png"), 180)
         {
             this.Angle = Angle.FromDegrees(90);
             this.width = 5;
@@ -27,7 +27,7 @@ namespace Jypeli.Effects
         /// <param name="particleImage">Partikkelin kuva</param>
         /// <param name="width">Savun leveys</param>
         public Smoke(Image particleImage, double width)
-            : base(particleImage, (int)width*4)
+            : base(particleImage, (int)width*8)
         {
             this.Angle = Angle.FromDegrees(90);
             this.width = width;
@@ -65,7 +65,7 @@ namespace Jypeli.Effects
         /// <returns>Partikkelin suunta</returns>
         protected override Vector GiveRandomDirection()
         {
-            return Vector.FromLengthAndAngle(1, Angle + Angle.FromDegrees(RandomGen.NextDouble(-5, 5)));
+            return Vector.FromLengthAndAngle(1, Angle + Angle.FromDegrees(RandomGen.NextDouble(-MaxAngleChange, MaxAngleChange)));
         }
 
         /// <summary>

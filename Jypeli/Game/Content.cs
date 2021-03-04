@@ -49,6 +49,16 @@ namespace Jypeli
         /// </summary>
         public MediaPlayer MediaPlayer { get; private set; }
 
+        /// <summary>
+        /// Pelin kaikkien ääniefektien voimakkuuskerroin, Väliltä 0-1.0.
+        /// Tämä on sama kuin SoundEffect.MasterVolume.
+        /// </summary>
+        public double MasterVolume
+        {
+            get => SoundEffect.MasterVolume;
+            set => SoundEffect.MasterVolume = value;
+        }
+
         // Need to find a way to get this working on Win8
 
         /// <summary>

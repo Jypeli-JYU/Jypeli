@@ -107,6 +107,12 @@ namespace Jypeli.Assets
         public TimeSpan TimeBetweenUse { get; set; }
 
         /// <summary>
+        /// Aseen laukauksen voimakkuus väliltä 0-1.0.
+        /// Oletuksena 0.5.
+        /// </summary>
+        public double Volume { get; set; }
+
+        /// <summary>
         /// Tulinopeus (ammusta sekunnissa)
         /// </summary>
         public double FireRate
@@ -152,6 +158,7 @@ namespace Jypeli.Assets
             Ammo = new IntMeter( Int32.MaxValue, 0, Int32.MaxValue );
             Ammo.MinValue = 0;
             MaxAmmoLifetime = TimeSpan.MaxValue;
+            Volume = 0.5;
         }
 
         /// <summary>
@@ -178,7 +185,7 @@ namespace Jypeli.Assets
                 timeOfLastUse = Game.Time.SinceStartOfGame;
 
                 if (AttackSound != null)
-                    AttackSound.Play();
+                    AttackSound.Play(Volume, 0, 0);
 
                 PhysicsObject p = CreateProjectile();
 

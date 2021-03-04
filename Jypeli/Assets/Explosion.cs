@@ -94,6 +94,12 @@ namespace Jypeli.Assets
         public double Force { get; set; }
 
         /// <summary>
+        /// Kuinka voimakas räjähdyksestä tuleva ääni on, väliltä 0-1.0.
+        /// Oletusarvona 0.2.
+        /// </summary>
+        public double Volume { get; set; }
+
+        /// <summary>
         /// Tapahtuu, kun paineaalto osuu peliolioon.
         /// </summary>
         public event Action<IPhysicsObject, Vector> ShockwaveReachesObject;
@@ -122,6 +128,7 @@ namespace Jypeli.Assets
             MaxRadius = radius;
             Speed = 250.0;
             Force = 1000.0;
+            Volume = 0.2;
             shockWave = new GameObject( 1, 1, Shape.Circle );
             shockWave.Color = new Color( 240, 248, 255, 60 );
             Add( shockWave );
@@ -273,7 +280,7 @@ namespace Jypeli.Assets
             pan = AdvanceMath.MathHelper.Clamp( (float)pan, (float)-1.0, (float)1.0 );
             if ( !double.IsNaN( pan ) )  // sometimes pan can be Nan, that is why this check is here
             {
-                Sound.Play( 1.0f, pitch, pan );
+                Sound.Play(Volume, pitch, pan );
             }
         }
     }

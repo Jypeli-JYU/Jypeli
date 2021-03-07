@@ -176,6 +176,7 @@ namespace Jypeli
         void StartMoveWindow()
         {
             if ( Game == null ) return;
+            if (!CapturesMouse) return;
             foreach (var obj in Objects)
             {
                 if (obj is Widget w && w.IsCapturingMouse)

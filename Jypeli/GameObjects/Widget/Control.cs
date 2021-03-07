@@ -21,7 +21,7 @@ namespace Jypeli
         /// </summary>
         public bool IsModal { get; set; }
 
-        public bool CapturesMouse { get; protected set; }
+        public bool CapturesMouse { get; set; }
         public bool IsCapturingMouse
         {
             get

@@ -340,8 +340,8 @@ namespace Jypeli.Controls.Keyboard
 
         public static void DrawStringWithShadow(SpriteBatch sb, string text, DynamicSpriteFont font, Vector2 location, XnaColor color)
         {
-            sb.DrawString(font, text, new Vector2(location.X + 1f, location.Y + 1f), XnaColor.Black);
-            sb.DrawString(font, text, location, color);
+            font.DrawText(Graphics.FontRenderer, text, (new Vector2(location.X + 1f, location.Y + 1f)).ToSystemNumerics(), XnaColor.Black.ToSystemDrawing());
+            font.DrawText(Graphics.FontRenderer, text, location.ToSystemNumerics(), color.ToSystemDrawing());
         }
 
         public static void DrawRectangle(Texture2D whitePixelTexture, SpriteBatch sb, XnaRectangle rect, int thickness, XnaColor color)

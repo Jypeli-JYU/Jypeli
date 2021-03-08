@@ -103,18 +103,15 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-  
+    
   <ItemGroup>
-    <Compile Include="..\FontStashSharp\src\**\*.cs" LinkBase="SpriteFontPlus" />
-    <Compile Include="..\FontStashSharp\deps\StbTrueTypeSharp\src\*.cs" LinkBase="FontStashSharp\StbTrueTypeSharp" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.1" />
   </ItemGroup>
 
   <!-- MonoGamen, ja sen DLL:ien ymppääminen paketoituun nugettiin ei onnistu niin yksinkertaisesti kuin voisi kuvitella... -->
   
   <ItemGroup>
+    <ProjectReference Include="..\FontStashSharp\src\FontStashSharp\FontStashSharp.csproj" />
     <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.DesktopGL.csproj" PrivateAssets="All">
       <Private>True</Private>
     </ProjectReference>

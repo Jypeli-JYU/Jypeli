@@ -278,7 +278,7 @@ namespace Jypeli
 
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
             spriteBatch.Begin();
-            spriteBatch.DrawString(font.XnaFont, text, xnaPos, color.AsXnaColor());
+            font.XnaFont.DrawText(Graphics.FontRenderer, text, xnaPos.ToSystemNumerics(), color.AsXnaColor().ToSystemDrawing());
             spriteBatch.End();
         }
 
@@ -296,7 +296,7 @@ namespace Jypeli
 
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
             spriteBatch.Begin( SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, m );
-            spriteBatch.DrawString( font.XnaFont, text, Vector2.Zero, color.AsXnaColor());
+            font.XnaFont.DrawText(Graphics.FontRenderer, text, Vector2.Zero.ToSystemNumerics(), color.AsXnaColor().ToSystemDrawing());
             spriteBatch.End();
         }
 
@@ -314,7 +314,7 @@ namespace Jypeli
 
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, m);
-            spriteBatch.DrawString( font.XnaFont, text, Vector2.Zero, colors.ConvertAll(v => v.AsXnaColor()).ToArray() );
+            font.XnaFont.DrawText(Graphics.FontRenderer, text, Vector2.Zero.ToSystemNumerics(), colors.ConvertAll(v => v.AsXnaColor().ToSystemDrawing()).ToArray());
             spriteBatch.End();
         }
 

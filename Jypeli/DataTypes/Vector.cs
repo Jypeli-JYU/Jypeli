@@ -509,6 +509,16 @@ namespace Jypeli
             return new Microsoft.Xna.Framework.Vector2( (float)v.X, (float)v.Y );
         }
 
+        public static implicit operator Vector(System.Numerics.Vector2 v)
+        {
+            return new Vector(v.X, v.Y);
+        }
+
+        public static implicit operator System.Numerics.Vector2(Vector v)
+        {
+            return new System.Numerics.Vector2((float)v.X, (float)v.Y);
+        }
+
         public static implicit operator Vector( Microsoft.Xna.Framework.Vector3 v )
         {
             return new Vector( v.X, v.Y );

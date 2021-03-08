@@ -175,7 +175,7 @@ namespace Jypeli
 
             for ( int i = 0; i < messages.Count; i++ )
             {
-                spriteBatch.DrawString( this.Font.XnaFont, messages[i].Text, new Vector2( 0, i * fontHeight ), messages[i].Color.AsXnaColor() );
+                Font.XnaFont.DrawText(Graphics.FontRenderer, messages[i].Text, (new Vector2(0, i * fontHeight)).ToSystemNumerics(), messages[i].Color.AsXnaColor().ToSystemDrawing());
             }
 
             spriteBatch.End();

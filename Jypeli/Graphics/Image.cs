@@ -770,7 +770,7 @@ namespace Jypeli
             device.Clear( ClearOptions.Target | ClearOptions.DepthBuffer, backgroundColor.AsXnaColor(), 1.0f, 0 );
 
             spriteBatch.Begin();
-            spriteBatch.DrawString( font.XnaFont, text, XnaV2.Zero, textColor.AsXnaColor() );
+            font.XnaFont.DrawText(Graphics.FontRenderer, text, XnaV2.Zero.ToSystemNumerics(), textColor.AsXnaColor().ToSystemDrawing());
             spriteBatch.End();
 
             //device.SetRenderTarget( 0, null );
@@ -814,7 +814,7 @@ namespace Jypeli
 
             spriteBatch.Begin();
             spriteBatch.Draw( img.XNATexture, rt.Bounds, XnaColor.White );
-            spriteBatch.DrawString( font.XnaFont, text, new XnaV2( xpos, ypos ), textColor.AsXnaColor() );
+            font.XnaFont.DrawText(Graphics.FontRenderer, text, (new XnaV2(xpos, ypos)).ToSystemNumerics(), textColor.AsXnaColor().ToSystemDrawing());
             spriteBatch.End();
 
             //device.SetRenderTarget( 0, null );

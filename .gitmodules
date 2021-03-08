@@ -1,6 +1,7 @@
 [submodule "MonoGame"]
 	path = MonoGame
 	url = https://github.com/MonoGame/MonoGame.git
+
 [submodule "FontStashSharp"]
 	path = FontStashSharp
 	url = https://github.com/rds1983/FontStashSharp.git

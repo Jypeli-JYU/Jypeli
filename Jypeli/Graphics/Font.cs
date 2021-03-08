@@ -206,12 +206,7 @@ namespace Jypeli
         {
             if (fontSystem == null)
             {
-                if(blurAmount != 0)
-                    fontSystem = FontSystemFactory.CreateBlurry(Game.GraphicsDevice, 1024, 1024, blurAmount);
-                else if (strokeAmount != 0)
-                    fontSystem = FontSystemFactory.CreateStroked(Game.GraphicsDevice, 1024, 1024, strokeAmount);
-                else
-                    fontSystem = FontSystemFactory.Create(Game.GraphicsDevice, 1024, 1024);
+                fontSystem = new FontSystem(StbTrueTypeSharpFontLoader.Instance, new Texture2DManager(Game.GraphicsDevice), 1024, 1024, blurAmount, StrokeAmount);
 
                 Stream s;
                 if (this.source == ContentSource.ResourceContent) s = Game.ResourceContent.StreamInternalResource("Jypeli.Content.Fonts." + name);

@@ -50,6 +50,14 @@ namespace Jypeli
     // * Does it add overhead in execution? I don't think so, if the compiler is smart at all.
     //   Since the vectors are struct types, their handling should be done entirely in the stack.
 
+    // MR, 2021:
+    // TODO: AdvancedMath paketista voisi hiljalleen alkaa luopumaan.
+    // On hieman hämmentävää kun löytyy neljää eri vektoria (Jypeli, AdvancedMath, MonoGame sekä System.Numerics).
+    // Nyt kuitenkin onnistuu kaikkien noiden konversiot Jypelin kanssa.
+    // MonoGame on (ehkä joskus) vaihtamassa System.Numericsin vektoreihin ja matriiseihin.
+
+    // Matriisit voisi myös tuoda suoraan Jypelin puolelle, niille löytyy kuitenkin käyttöä sieltä sun täältä.
+
 
     /// <summary>
     /// 2D-vektori.
@@ -135,7 +143,7 @@ namespace Jypeli
             double x, y;
             x = p1.X - p2.X;
             y = p1.Y - p2.Y;
-            return MathHelper.Sqrt( (float)(x * x + y * y) );
+            return Math.Sqrt( (float)(x * x + y * y) );
         }
 
         /// <summary>
@@ -173,14 +181,25 @@ namespace Jypeli
             return new Vector( a.X * b.X, a.Y * b.Y );
         }
 
-        public double Distance(Vector2D vector)
+        /// <summary>
+        /// Etäisyys kahden pisteen välillä
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        public double Distance(Vector vector)
         {
             return Distance(this, vector);
         }
 
-        public double ScalarProjection( Vector unitVector )
+        /// <summary>
+        /// Skalaariprojektio annettuun vektoriin
+        /// https://en.wikipedia.org/wiki/Scalar_projection
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        public double ScalarProjection(Vector vector)
         {
-            return ( Vector.DotProduct( this, unitVector ) / unitVector.MagnitudeSquared );
+            return (Vector.DotProduct(this, vector) / vector.MagnitudeSquared);
         }
 
         /// <summary>
@@ -309,7 +328,14 @@ namespace Jypeli
             return vectors.Length > 0 ? new Vector( sumX, sumY ) / vectors.Length : Vector.Zero;
         }
 
+        /// <summary>
+        /// Vektorin X-komponentti.
+        /// </summary>
         [Save] public double X;
+
+        /// <summary>
+        /// Vektorin Y-komponentti
+        /// </summary>
         [Save] public double Y;
 
         /// <summary>
@@ -362,6 +388,12 @@ namespace Jypeli
             return ToString( NumberFormatInfo.InvariantInfo );
         }
 
+        /// <summary>
+        /// Vektori merkkijonona muodossa (x,y), jossa x ja y on
+        /// muotoiltu annetun formaatin mukaisesti
+        /// </summary>
+        /// <param name="formatProvider"></param>
+        /// <returns></returns>
         public string ToString( IFormatProvider formatProvider )
         {
             string x = X.ToString( formatProvider );
@@ -369,11 +401,23 @@ namespace Jypeli
             return string.Format( "({0},{1})", x, y );
         }
 
+        /// <summary>
+        /// Muodostaa (x,y) muodossa olevasta merkkijonsta vektorin
+        /// </summary>
+        /// <param name="vectorStr"></param>
+        /// <returns></returns>
         public static Vector Parse( string vectorStr )
         {
             return Parse( vectorStr, NumberFormatInfo.InvariantInfo );
         }
 
+        /// <summary>
+        /// Muodostaa (x,y) muodossa olevasta merkkijonsta vektorin, jossa x ja y  on
+        /// muotoiltu annetun formaatin mukaisesti
+        /// </summary>
+        /// <param name="vectorStr"></param>
+        /// <param name="formatProvider"></param>
+        /// <returns></returns>
         public static Vector Parse( string vectorStr, IFormatProvider formatProvider )
         {
             string[] splitStr = vectorStr.Split( '(', ',', ')' );
@@ -387,7 +431,42 @@ namespace Jypeli
             return new Vector( x, y );
         }
 
-        public static Vector operator +( Vector left, Vector right )
+        /// <summary>
+        /// Vektorin hajautuskoodi
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(X.GetHashCode(), Y.GetHashCode());
+        }
+
+        /// <summary>
+        /// Onko annettu vektori yhtäsuuri tämän kanssa.
+        /// Tosi, jos vektorien komponentit ovat <c>double.Epsilon</c>in päässä toisistaan.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(Object obj)
+        {
+            if (obj is not Vector) return false;
+            
+            Vector v = (Vector)obj;
+
+            double x = v.X;
+            double y = v.Y;
+
+            return (Math.Abs(X - x) < double.Epsilon) && (Math.Abs(Y - y) < double.Epsilon);
+        }
+
+        #region operators
+
+        /// <summary>
+        /// Summaa vektorit yhteen
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static Vector operator +(Vector left, Vector right)
         {
             Vector result;
             result.X = left.X + right.X;
@@ -395,7 +474,13 @@ namespace Jypeli
             return result;
         }
 
-        public static Vector operator -( Vector left, Vector right )
+        /// <summary>
+        /// Vähentää vektorit toisistaan
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static Vector operator -(Vector left, Vector right)
         {
             Vector result;
             result.X = left.X - right.X;
@@ -403,7 +488,13 @@ namespace Jypeli
             return result;
         }
 
-        public static Vector operator *( Vector source, double scalar )
+        /// <summary>
+        /// Kertoo vektorin skalaarilla
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="scalar"></param>
+        /// <returns></returns>
+        public static Vector operator *(Vector source, double scalar)
         {
             Vector result;
             result.X = source.X * scalar;
@@ -411,12 +502,24 @@ namespace Jypeli
             return result;
         }
 
-        public static Vector operator *( double scalar, Vector source )
+        /// <summary>
+        /// Kertoo vektorin skalaarilla
+        /// </summary>
+        /// <param name="scalar"></param>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static Vector operator *(double scalar, Vector source)
         {
             return source * scalar;
         }
 
-        public static Vector operator /( Vector source, double scalar )
+        /// <summary>
+        /// Jakaa vektorin skalaarilla
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="scalar"></param>
+        /// <returns></returns>
+        public static Vector operator /(Vector source, double scalar)
         {
             // TJ: Let's not implement this using operator* in order to
             // avoid rounding errors.
@@ -426,7 +529,12 @@ namespace Jypeli
             return result;
         }
 
-        public static Vector operator -( Vector source )
+        /// <summary>
+        /// Miinustaa vektorin toisesta
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static Vector operator -(Vector source)
         {
             Vector result;
             result.X = -source.X;
@@ -434,99 +542,162 @@ namespace Jypeli
             return result;
         }
 
-        public override int GetHashCode()
-        {
-            return ObjectHelper.GetHashCode( X.GetHashCode(), Y.GetHashCode() );
-        }
-
-        public override bool Equals( object obj )
-        {
-            double x, y;
-
-            if ( obj is Vector )
-            {
-                x = ( (Vector)obj ).X;
-                y = ( (Vector)obj ).Y;
-            }
-            else if ( obj is Vector2D )
-            {
-                x = ( (Vector2D)obj ).X;
-                y = ( (Vector2D)obj ).Y;
-            }
-            else if ( obj is Vector3D )
-            {
-                x = ( (Vector3D)obj ).X;
-                y = ( (Vector3D)obj ).Y;
-            }
-            else if ( obj is Vector4D )
-            {
-                x = ( (Vector4D)obj ).X;
-                y = ( (Vector4D)obj ).Y;
-            }
-            else
-                return false;
-
-#if WINDOWS_PHONE
-            // TK: Double.Epsilon is too small for the phone to recognize
-            return ( Math.Abs( this.X - x ) < float.Epsilon ) && ( Math.Abs( this.Y - y ) < float.Epsilon );
-#else
-            return ( Math.Abs( this.X - x ) < double.Epsilon ) && ( Math.Abs( this.Y - y ) < double.Epsilon );
-#endif
-        }
-
+        /// <summary>
+        /// Ovatko vektorit samat
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator ==( Vector left, Vector right )
         {
-#if WINDOWS_PHONE || ANDROID
-            // TK: Double.Epsilon is too small for the phone to recognize
-            return ( Math.Abs( left.X - right.X ) < float.Epsilon ) && ( Math.Abs( left.Y - right.Y ) < float.Epsilon );
-#else
             return ( Math.Abs( left.X - right.X ) < double.Epsilon ) && ( Math.Abs( left.Y - right.Y ) < double.Epsilon );
-#endif
         }
 
+        /// <summary>
+        /// Ovatko vektorit eri
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator !=( Vector left, Vector right )
         {
             return !( left == right );
         }
 
-        public static implicit operator Vector( Vector2D v )
+        #region AdvMath conversions
+
+        /// <summary>
+        /// Muuttaa dvancedMath.Vector2D -> Jypeli.Vector
+        /// </summary>
+        /// <param name="v"></param>
+        public static implicit operator Vector(Vector2D v)
         {
-            return new Vector( v.X, v.Y );
+            return new Vector(v.X, v.Y);
         }
 
-        public static implicit operator Vector2D( Vector v )
+        /// <summary>
+        /// Muuttaa Jypeli.Vector -> AdvancedMath.Vector2D
+        /// </summary>
+        /// <param name="v"></param>
+        public static implicit operator Vector2D(Vector v)
         {
-            return new Vector2D( v.X, v.Y );
+            return new Vector2D(v.X, v.Y);
         }
 
-        public static implicit operator Vector( Microsoft.Xna.Framework.Vector2 v )
+        #endregion
+        #region MonoGame conversions
+
+        /// <summary>
+        /// Muuttaa Microsoft.Xna.Framework.Vector2 -> Jypeli.Vector
+        /// </summary>
+        /// <param name="v"></param>
+        public static implicit operator Vector(Microsoft.Xna.Framework.Vector2 v)
         {
-            return new Vector( v.X, v.Y );
+            return new Vector(v.X, v.Y);
         }
 
-        public static implicit operator Microsoft.Xna.Framework.Vector2( Vector v )
+        /// <summary>
+        /// Muuttaa Jypeli.Vector -> Microsoft.Xna.Framework.Vector2
+        /// </summary>
+        /// <param name="v"></param>
+        public static implicit operator Microsoft.Xna.Framework.Vector2(Vector v)
         {
-            return new Microsoft.Xna.Framework.Vector2( (float)v.X, (float)v.Y );
+            return new Microsoft.Xna.Framework.Vector2((float)v.X, (float)v.Y);
         }
 
+        /// <summary>
+        /// Muuttaa Microsoft.Xna.Framework.Vector3 -> Jypeli.Vector
+        /// </summary>
+        /// <param name="v"></param>
+        public static implicit operator Vector(Microsoft.Xna.Framework.Vector3 v)
+        {
+            return new Vector(v.X, v.Y);
+        }
+
+        /// <summary>
+        /// Muuttaa Jypeli.Vector -> Microsoft.Xna.Framework.Vector3
+        /// </summary>
+        /// <param name="v"></param>
+        public static implicit operator Microsoft.Xna.Framework.Vector3(Vector v)
+        {
+            return new Microsoft.Xna.Framework.Vector3((float)v.X, (float)v.Y, 0);
+        }
+
+        /// <summary>
+        /// Muuttaa Microsoft.Xna.Framework.Vector4 -> Jypeli.Vector
+        /// </summary>
+        /// <param name="v"></param>
+        public static implicit operator Vector(Microsoft.Xna.Framework.Vector4 v)
+        {
+            return new Vector(v.X, v.Y);
+        }
+
+        /// <summary>
+        /// Muuttaa Jypeli.Vector -> Microsoft.Xna.Framework.Vector4
+        /// </summary>
+        /// <param name="v"></param>
+        public static implicit operator Microsoft.Xna.Framework.Vector4(Vector v)
+        {
+            return new Microsoft.Xna.Framework.Vector4((float)v.X, (float)v.Y, 0, 0);
+        }
+
+        #endregion
+        #region System.Numerics conversions
+
+        /// <summary>
+        /// Muuttaa System.Numerics.Vector2 -> Jypeli.Vector
+        /// </summary>
+        /// <param name="v"></param>
         public static implicit operator Vector(System.Numerics.Vector2 v)
         {
             return new Vector(v.X, v.Y);
         }
 
+        /// <summary>
+        /// Muuttaa Jypeli.Vector -> System.Numerics.Vector2
+        /// </summary>
+        /// <param name="v"></param>
         public static implicit operator System.Numerics.Vector2(Vector v)
         {
             return new System.Numerics.Vector2((float)v.X, (float)v.Y);
         }
 
-        public static implicit operator Vector( Microsoft.Xna.Framework.Vector3 v )
+        /// <summary>
+        /// Muuttaa System.Numerics.Vector3 -> Jypeli.Vector
+        /// </summary>
+        /// <param name="v"></param>
+        public static implicit operator Vector(System.Numerics.Vector3 v)
         {
-            return new Vector( v.X, v.Y );
+            return new Vector(v.X, v.Y);
         }
 
-        public static implicit operator Microsoft.Xna.Framework.Vector3( Vector v )
+        /// <summary>
+        /// Muuttaa Jypeli.Vector -> System.Numerics.Vector3
+        /// </summary>
+        /// <param name="v"></param>
+        public static implicit operator System.Numerics.Vector3(Vector v)
         {
-            return new Microsoft.Xna.Framework.Vector3( (float)v.X, (float)v.Y, 0 );
+            return new System.Numerics.Vector3((float)v.X, (float)v.Y, 0);
         }
+
+        /// <summary>
+        /// Muuttaa System.Numerics.Vector4 -> Jypeli.Vector
+        /// </summary>
+        /// <param name="v"></param>
+        public static implicit operator Vector(System.Numerics.Vector4 v)
+        {
+            return new Vector(v.X, v.Y);
+        }
+
+        /// <summary>
+        /// Muuttaa Jypeli.Vector -> System.Numerics.Vector4
+        /// </summary>
+        /// <param name="v"></param>
+        public static implicit operator System.Numerics.Vector4(Vector v)
+        {
+            return new System.Numerics.Vector4((float)v.X, (float)v.Y, 0, 0);
+        }
+        #endregion
+        #endregion
     }
 }

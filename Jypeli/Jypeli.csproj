@@ -12,7 +12,7 @@
     <Authors>University of Jyväskylä</Authors>
     <Company />
     <Product />
-    <Description>Jypeli is a simple C# game programming library built on top of MonoGame and .NET Core. It is used as a tool for teaching programming in the University of Jyväskylä.</Description>
+    <Description>Jypeli is a simple C# game programming library built on top of MonoGame and .NET. It is used as a tool for teaching programming in the University of Jyväskylä.</Description>
     <Copyright>University of Jyväskylä</Copyright>
     <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>

@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccelerometerTestAndroid", "AccelerometerTestAndroid\AccelerometerTest.csproj", "{743A5A2B-650F-4C46-961B-A0B9FA5861E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.Android", "..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Android.csproj", "{BA9476CF-99BA-4D03-92F2-73D2C5E58883}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.Android", "..\..\Jypeli\Jypeli.Android.csproj", "{F5D93EB7-50FA-482C-8A1C-F4CAD5CFB16D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.Physics2d.Android", "..\..\Physics2d\Jypeli.Physics2d.Android.csproj", "{F9BEBE7C-93D0-480A-8F6B-08B3F741D105}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{743A5A2B-650F-4C46-961B-A0B9FA5861E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{743A5A2B-650F-4C46-961B-A0B9FA5861E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{743A5A2B-650F-4C46-961B-A0B9FA5861E7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{743A5A2B-650F-4C46-961B-A0B9FA5861E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{743A5A2B-650F-4C46-961B-A0B9FA5861E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{743A5A2B-650F-4C46-961B-A0B9FA5861E7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BA9476CF-99BA-4D03-92F2-73D2C5E58883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA9476CF-99BA-4D03-92F2-73D2C5E58883}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA9476CF-99BA-4D03-92F2-73D2C5E58883}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA9476CF-99BA-4D03-92F2-73D2C5E58883}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5D93EB7-50FA-482C-8A1C-F4CAD5CFB16D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5D93EB7-50FA-482C-8A1C-F4CAD5CFB16D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5D93EB7-50FA-482C-8A1C-F4CAD5CFB16D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5D93EB7-50FA-482C-8A1C-F4CAD5CFB16D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9BEBE7C-93D0-480A-8F6B-08B3F741D105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9BEBE7C-93D0-480A-8F6B-08B3F741D105}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9BEBE7C-93D0-480A-8F6B-08B3F741D105}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9BEBE7C-93D0-480A-8F6B-08B3F741D105}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

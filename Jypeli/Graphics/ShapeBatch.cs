@@ -36,12 +36,7 @@ namespace Jypeli
         Effect effect;
         Matrix matrix;
 
-        static readonly SamplerState samplerState = new SamplerState
-        {
-            AddressU = TextureAddressMode.Clamp,
-            AddressW = TextureAddressMode.Clamp,
-            AddressV = TextureAddressMode.Clamp,
-        };
+        SamplerState samplerState;
 
         int iVertexBuffer = 0;
         int iIndexBuffer = 0;
@@ -52,6 +47,12 @@ namespace Jypeli
 
         public void Initialize()
         {
+            samplerState = new SamplerState
+            {
+                AddressU = TextureAddressMode.Clamp,
+                AddressW = TextureAddressMode.Clamp,
+                AddressV = TextureAddressMode.Clamp,
+            };
             //var capabilities = Game.GraphicsDevice.GraphicsDeviceCapabilities;
             // Capabilities no longer supported in XNA 4.0
             // GraphicsProfile.Reach maximum primitive count = 65535

@@ -11,8 +11,9 @@ namespace Jypeli.Tests.Common
     public abstract class TestClass
     {
         protected MockGame game;
+
         [SetUp]
-        public void Setup()
+        public virtual void Setup()
         {
             game = new MockGame();
         }

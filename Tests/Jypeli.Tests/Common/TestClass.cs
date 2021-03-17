@@ -19,7 +19,7 @@ namespace Jypeli.Tests.Common
         }
 
         [TearDown]
-        public void TearDown()
+        public virtual void TearDown()
         {
             game.Exit();
             game.Dispose();

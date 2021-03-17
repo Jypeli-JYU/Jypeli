@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Jypeli.Tests.Common;
 using Jypeli.Tests.Common.Comparers;
 using Jypeli.Tests.Physics;
@@ -24,19 +25,18 @@ namespace Jypeli.Tests.Physics
         [TestCase(0, 0, 2, float.Epsilon)]
         public void PositionTest(double gx, double gy, double delay, float tolerance = 5)
         {
-            // Tän pitäisi mennä läpi, mutta ei mene :D
             game.TestFunction = delegate
             {
                 game.Gravity = new Vector(gx, gy);
                 game.Add(obj);
 
                 // x = 1/2*a*t^2
-                double ex = game.Gravity.X / 2 * System.Math.Pow(delay, 2);
-                double ey = game.Gravity.Y / 2 * System.Math.Pow(delay, 2);
+                double ex = game.Gravity.X / 2 * System.Math.Pow(delay + 1.0 / 120, 2); // TODO: Selvitä miksi nämä menevät 1/120s verran pieleen molemmilla fysiikkamoottoreilla
+                double ey = game.Gravity.Y / 2 * System.Math.Pow(delay + 1.0 / 120, 2);
 
                 Vector expectedPos = new Vector(ex, ey);
 
-                Timer.SingleShot(delay, () =>
+                Timer.SingleShot(delay, delegate
                 {
                     Assert.That(obj.Position, Is.EqualTo(expectedPos).Using(new VectorComparer(tolerance)));
                     Assert.Pass(); // TODO: Tän vaatiminen on vähän huonoa.

@@ -262,12 +262,15 @@ namespace Jypeli.GameObjects
             set
             {
                 if (Parent != null)
-                    Position = Parent.Position.Transform(Matrix.CreateTranslation(value) * Matrix.CreateRotationZ((float)Parent.Angle.Radians));
+                    Position = value.Transform(Matrix.CreateRotationZ((float)Parent.Angle.Radians) * Matrix.CreateTranslation(Parent.Position));
                 else
                     Position = value;
             }
         }
 
+        /// <summary>
+        /// Sijainti suhteessa vanhimpaan vanhempaan
+        /// </summary>
         public Vector RelativePositionToMainParent
         {
             get
@@ -283,7 +286,11 @@ namespace Jypeli.GameObjects
             }
             set
             {
-                throw new NotImplementedException();
+                GameObject mainParent = ((GameObject)this).GetMainParent();
+                if (Parent != null)
+                    Position = value.Transform(Matrix.CreateRotationZ((float)mainParent.Angle.Radians) * Matrix.CreateTranslation(mainParent.Position));
+                else
+                    Position = value;
             }
         }
 
@@ -308,6 +315,11 @@ namespace Jypeli.GameObjects
             }
         }
 
+        /// <summary>
+        /// Olion kulma suhteessa vanhimpaan vanhempaan.
+        /// Jos olio ei ole minkään toisen peliolion lapsiolio,
+        /// tämä on sama kuin <c>Angle</c>.
+        /// </summary>
         public Angle RelativeAngleToMainParent
         {
             get
@@ -321,7 +333,13 @@ namespace Jypeli.GameObjects
             }
             set
             {
-                throw new NotImplementedException();
+                if (Parent != null)
+                {
+                    GameObject mainParent = ((GameObject)this).GetMainParent();
+                    Angle = mainParent.Angle + value;
+                }
+                else
+                    Angle = value;
             }
         }
 

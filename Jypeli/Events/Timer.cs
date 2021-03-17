@@ -343,19 +343,21 @@ namespace Jypeli
             {
                 timer.timeToTrigger -= dt;
 
-                while ( timer.timeToTrigger.TotalSeconds <= 0 )
+                while (timer.timeToTrigger.TotalSeconds <= 0)
                 {
                     // Trigger timeouts
                     timer.timeToTrigger += timer.trigInterval; // TODO: MessageDisplay.MessageTime = TimeSpan.MaxValue; Aiheuttaa tässä kohdassa overflown
-                    if(timer._enabled && timer.Timeout is not null)
-                        timer.Timeout();
-                    if (timer.TimesLimited)
+                    if (timer._enabled && timer.Timeout is not null)
                     {
-                        if (--timer.Times.Value <= 0)
+                        if (timer.TimesLimited)
                         {
-                            // The timer has executed its maximum times, stop it
-                            timer.Stop();
+                            if (--timer.Times.Value <= 0)
+                            {
+                                // The timer has executed its maximum times, stop it
+                                timer.Stop();
+                            }
                         }
+                        timer.Timeout();
                     }
                 }
             }

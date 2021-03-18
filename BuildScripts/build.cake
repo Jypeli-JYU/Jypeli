@@ -8,14 +8,14 @@
 
 var target = Argument("build-target", "Default");
 var templateversion = "1.3.0";
-var configuration = Argument("build-configuration", "Release");
+var configuration = Argument("configuration", "Release");
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
 
 MSBuildSettings msPackSettings, mdPackSettings;
-DotNetCoreMSBuildSettings dnBuildSettings;
+DotNetCoreBuildSettings dnBuildSettings;
 DotNetCorePackSettings dnPackSettings;
 
 private void PackMSBuild(string filePath)
@@ -66,9 +66,11 @@ Task("Prep")
     mdPackSettings.Configuration = configuration;
     mdPackSettings.WithTarget("PackageAddin");
 
-    dnBuildSettings = new DotNetCoreMSBuildSettings();
+    dnBuildSettings = new DotNetCoreBuildSettings
+    {
+        Configuration = configuration,
+    };
     dnPackSettings = new DotNetCorePackSettings();
-    dnPackSettings.MSBuildSettings = dnBuildSettings;
     dnPackSettings.Verbosity = DotNetCoreVerbosity.Minimal;
     dnPackSettings.Configuration = configuration;
 });
@@ -103,6 +105,15 @@ Task("BuildFarseer")
     PackDotnet(path);
 });
 
+Task("Test")
+    .IsDependentOn("Build")
+    .Does(() =>
+{
+    DotNetCoreTest("../Jypeli.NET.sln", new DotNetCoreTestSettings
+    {
+        Configuration = configuration
+    });
+});
 
 Task("PackDotNetTemplates")
     .IsDependentOn("Prep")
@@ -157,6 +168,7 @@ Task("Pack")
 
 Task("All")
     .IsDependentOn("Build")
+    .IsDependentOn("Test")
     .IsDependentOn("Pack");
 
 Task("Default")

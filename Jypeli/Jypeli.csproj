@@ -8,7 +8,7 @@
     <AssemblyName>Jypeli</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageId>Jypeli.NET</PackageId>
-    <Version>10.0.7</Version>
+    <Version>10.0.8</Version>
     <Authors>University of Jyväskylä</Authors>
     <Company />
     <Product />
@@ -30,6 +30,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>JYPELI;UseDouble;DESKTOP;DISABLE_LIGHTING_EFFECT;MONOGAME</DefineConstants>
+    <Optimize>true</Optimize>
     <OutputPath>../Compiled</OutputPath>
     <DocumentationFile></DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -119,8 +120,8 @@
 
   <PropertyGroup>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
-    <AssemblyVersion>10.0.7.0</AssemblyVersion>
-    <FileVersion>10.0.7.0</FileVersion>
+    <AssemblyVersion>10.0.8.0</AssemblyVersion>
+    <FileVersion>10.0.8.0</FileVersion>
     <PackageIcon>jypeli_logo.png</PackageIcon>
   </PropertyGroup>
   <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">

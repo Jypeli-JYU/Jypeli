@@ -139,6 +139,7 @@ namespace Jypeli
 
             AddedToGame += AddControls;
 
+            CapturesMouse = true;
             this.IsModal = true;
 
             Game.AssertInitialized( RefreshLayout );

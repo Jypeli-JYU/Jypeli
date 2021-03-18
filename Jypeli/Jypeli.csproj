@@ -130,7 +130,7 @@
   </Target>
   
   <ItemGroup>
-    <Content Include="..\Compiled\net5.0\MonoGame.FrameWork.xml">
+    <Content Include="..\Compiled\net5.0\MonoGame.Framework.xml">
       <PackagePath>lib\net5.0</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

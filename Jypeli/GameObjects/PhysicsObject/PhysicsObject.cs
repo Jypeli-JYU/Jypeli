@@ -162,8 +162,9 @@ namespace Jypeli
                 Velocity = Vector.FromLengthAndAngle( MaxVelocity, Velocity.Angle );
             if ( Math.Abs( AngularVelocity ) > MaxAngularVelocity )
                 AngularVelocity = Math.Sign( AngularVelocity ) * MaxAngularVelocity;
-
-            Body.Update(time);
+            
+            if(!IsDestroyed)
+                Body.Update(time);
 
             base.Update( time );
         }

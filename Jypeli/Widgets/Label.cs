@@ -141,7 +141,8 @@ namespace Jypeli
 
 
         /// <summary>
-        /// Millä tavalla desimaalinumerot muotoillaan
+        /// Millä tavalla desimaalinumerot muotoillaan.
+        /// Tämän asettaminen ylikirjoittaa <c>DecimalPlaces</c> asetuksen.
         /// </summary>
         public string DoubleFormatString
         {
@@ -175,17 +176,9 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Voidaan käyttää tekstin helpompaan asettamiseen.
-        /// Asettaa IntFormatStringin ja DoubleFormatStringin.
+        /// Asettaa tekstin, joka näkyy ennen kiinnitetyn mittarin arvoa.
         /// </summary>
-        public string Title
-        {
-            set
-            {
-                IntFormatString = value + ": {0}";
-                DoubleFormatString = value + ": {0}";
-            }
-        }
+        public string Title { get; set; }
 
         /// <summary>
         /// Kuinka tekstikentän koko määräytyy.
@@ -371,12 +364,12 @@ namespace Jypeli
             if ( Meter is IntMeter )
             {
                 int newNumber = ( (IntMeter)Meter ).Value;
-                Text = string.Format( intFormatString, newNumber );
+                Text = Title + string.Format( intFormatString, newNumber );
             }
             else if ( Meter is DoubleMeter )
             {
                 double newNumber = ( (DoubleMeter)Meter ).Value;
-                Text = string.Format( doubleFormatString, newNumber );
+                Text = Title + string.Format( doubleFormatString, newNumber );
             }
         }
 

@@ -50,17 +50,17 @@
     <None Remove="Content\Images\Cannon.png" />
     <None Remove="Content\Images\CannonBall.png" />
     <None Remove="Content\Images\DownArrow.png" />
-    <None Remove="Content\Images\explosion.png" />
-    <None Remove="Content\Images\explosion2.png" />
+    <None Remove="Content\Images\Explosion.png" />
+    <None Remove="Content\Images\Explosion2.png" />
     <None Remove="Content\Images\Grenade.png" />
     <None Remove="Content\Images\PlasmaCannon.png" />
-    <None Remove="Content\Images\smoke.png" />
+    <None Remove="Content\Images\Smoke.png" />
     <None Remove="Content\Images\Tank.png" />
     <None Remove="Content\Images\UpArrow.png" />
     <None Remove="Content\Sounds\CannonFire.wav" />
-    <None Remove="Content\Sounds\explosionSound.wav" />
-    <None Remove="Content\Sounds\implosionSound.wav" />
-    <None Remove="Content\Sounds\laser.wav" />
+    <None Remove="Content\Sounds\ExplosionSound.wav" />
+    <None Remove="Content\Sounds\ImplosionSound.wav" />
+    <None Remove="Content\Sounds\Laser.wav" />
     <None Remove="Content\Sounds\MGAttack.wav" />
     <None Remove="Content\Sounds\PlasmaAttack.wav" />
     <None Include="..\Documentation\jypeli_logo.png">
@@ -93,11 +93,6 @@
     <EmbeddedResource Include="Content\Sounds\PlasmaAttack.wav" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Content\src\" />
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  
   <ItemGroup>
     <None Include="..\Licenses\Jypeli.txt">
       <Pack>True</Pack>

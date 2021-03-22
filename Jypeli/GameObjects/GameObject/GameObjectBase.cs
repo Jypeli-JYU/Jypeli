@@ -382,37 +382,37 @@ namespace Jypeli.GameObjects
         /// <summary>
         /// Olion vasemman reunan suhteellinen x-koordinaatti.
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public double RelativeLeft
         {
-            get { throw new NotImplementedException();/*return RelativePosition.X + 0.5 * ( Size.Y * Math.Abs( Angle.Sin ) - Size.X * Math.Abs( Angle.Cos ) );*/ }
+            get { return RelativePosition.X - (0.5 * (Size.Y * Math.Abs(RelativeAngle.Sin) + Size.X * Math.Abs(RelativeAngle.Cos))); }
+            set { RelativePosition = new Vector(value + (Size.X / 2), RelativePosition.Y); }
         }
 
         /// <summary>
         /// Olion oikean reunan suhteellinen x-koordinaatti.
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public double RelativeRight
         {
-            get { throw new NotImplementedException();/*return RelativePosition.X + 0.5 * ( Size.Y * Math.Abs( Angle.Sin ) + Size.X * Math.Abs( Angle.Cos ) );*/ }
+            get { return RelativePosition.X + (0.5 * (Size.Y * Math.Abs(RelativeAngle.Sin) + Size.X * Math.Abs(RelativeAngle.Cos))); }
+            set { RelativePosition = new Vector(value - (Size.X / 2), RelativePosition.Y); }
         }
 
         /// <summary>
         /// Olion yläreunan suhteellinen y-koordinaatti.
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public double RelativeTop
         {
-            get { throw new NotImplementedException();/*return RelativePosition.Y + 0.5 * ( Size.X * Math.Abs( Angle.Sin ) + Size.Y * Math.Abs( Angle.Cos ) );*/ }
+            get { return RelativePosition.Y + 0.5 * (Size.X * Math.Abs(RelativeAngle.Sin) + Size.Y * Math.Abs(RelativeAngle.Cos)); }
+            set { RelativePosition = new Vector(RelativePosition.X, value - Size.Y / 2); }
         }
 
         /// <summary>
         /// Olion alareunan suhteellinen y-koordinaatti.
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public double RelativeBottom
         {
-            get { throw new NotImplementedException();/*return RelativePosition.Y - 0.5 * ( Size.X * Math.Abs( Angle.Sin ) + Size.Y * Math.Abs( Angle.Cos ) );*/ }
+            get { return RelativePosition.Y - (0.5 * (Size.X * Math.Abs(RelativeAngle.Sin) + Size.Y * Math.Abs(RelativeAngle.Cos))); }
+            set { RelativePosition = new Vector(RelativePosition.X, value + (Size.Y / 2)); }
         }
 
         /// <summary>

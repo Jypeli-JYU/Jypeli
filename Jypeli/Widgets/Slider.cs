@@ -132,11 +132,14 @@ namespace Jypeli.Widgets
             Vector u = Vector.FromLengthAndAngle(1, this.Angle);
             double newVal = newPos.ScalarProjection(u);
 
-            if (newVal < Track.Left) Knob.X = Track.Left;
-            else if (newVal > Track.Right) Knob.X = Track.Right;
-            else Knob.X = newVal;
+            if (newVal < Track.RelativeLeft)
+                Knob.RelativeLeft = Track.RelativeLeft;
+            else if (newVal > Track.RelativeRight)
+                Knob.RelativeRight = Track.RelativeRight;
+            else
+                Knob.RelativePosition = new Vector(newVal, 0);
 
-            Meter.RelativeValue = (newVal - Track.Left) / Track.Width;
+            Meter.RelativeValue = (newVal - Track.RelativeLeft) / Track.Width;
         }
 
         private void MousePress()

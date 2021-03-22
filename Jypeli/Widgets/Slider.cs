@@ -124,7 +124,7 @@ namespace Jypeli.Widgets
         protected override void UpdateValue()
         {
             if (Knob != null && Track != null && Meter != null)
-                Knob.X = Track.Left + Track.Width * Meter.RelativeValue;
+                Knob.RelativePosition = new Vector(Track.RelativeLeft + Track.Width * Meter.RelativeValue, 0);
         }
 
         private void GenMove(Vector newPos)

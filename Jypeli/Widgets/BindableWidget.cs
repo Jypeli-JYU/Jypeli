@@ -69,7 +69,7 @@ namespace Jypeli.Widgets
             UnsetChangedEvent();
             Meter = new DoubleMeter( 0, 0, 100 );
             SetChangedEvent();
-            Game.AssertInitialized( UpdateValue );
+            AddedToGame += UpdateValue;
         }
 
         /// <summary>

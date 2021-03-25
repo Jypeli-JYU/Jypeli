@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+using System.Numerics;
 
 
 namespace FarseerPhysics.Common.ConvexHull

@@ -22,9 +22,9 @@
 
 using System;
 using System.Diagnostics;
+using System.Numerics;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Common;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Dynamics.Contacts
@@ -881,9 +881,7 @@ namespace FarseerPhysics.Dynamics.Contacts
                             var pointB = MathUtils.Mul(ref xfB, manifold.Points[0].LocalPoint);
                             if (Vector2.DistanceSquared(pointA, pointB) > Settings.Epsilon * Settings.Epsilon)
                             {
-                                normal = pointB - pointA;
-                                normal.Normalize();
-                                //Nez.Vector2Ext.Normalize(ref normal);
+                                normal = Vector2.Normalize(pointB - pointA);
                             }
 
                             var cA = pointA + radiusA * normal;
@@ -944,9 +942,8 @@ namespace FarseerPhysics.Dynamics.Contacts
                         {
                             var pointA = MathUtils.Mul(ref xfA, pc.LocalPoint);
                             var pointB = MathUtils.Mul(ref xfB, pc.LocalPoints[0]);
-                            normal = pointB - pointA;
-                            normal.Normalize();
-                            //Nez.Vector2Ext.Normalize(ref normal);
+                            normal = Vector2.Normalize(pointB - pointA);
+                            
                             point = 0.5f * (pointA + pointB);
                             separation = Vector2.Dot(pointB - pointA, normal) - pc.RadiusA - pc.RadiusB;
                             break;

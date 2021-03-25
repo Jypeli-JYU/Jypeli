@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Numerics;
 using System.Text;
 using FarseerPhysics.Collision;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Common
@@ -553,7 +553,7 @@ namespace FarseerPhysics.Common
         /// Transforms the polygon using the defined matrix.
         /// </summary>
         /// <param name="transform">The matrix to use as transformation.</param>
-        public void Transform(ref Matrix transform)
+        public void Transform(ref Matrix3x2 transform)
         {
             // Transform main polygon
             for (int i = 0; i < Count; i++)
@@ -565,8 +565,10 @@ namespace FarseerPhysics.Common
                 for (int i = 0; i < Holes.Count; i++)
                 {
                     Vector2[] temp = Holes[i].ToArray();
-                    Vector2.Transform(temp, ref transform, temp);
-
+                    for (int j = 0; j < temp.Length; j++)
+                    {
+                        temp[j] = Vector2.Transform(temp[j], transform);
+                    }
                     Holes[i] = new Vertices(temp);
                 }
             }

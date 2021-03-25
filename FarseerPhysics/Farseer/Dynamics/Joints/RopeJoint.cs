@@ -21,8 +21,8 @@
 */
 
 using System;
+using System.Numerics;
 using FarseerPhysics.Common;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Dynamics.Joints
@@ -274,8 +274,7 @@ namespace FarseerPhysics.Dynamics.Joints
             var u = cB + rB - cA - rA;
 
             var length = u.Length();
-            u.Normalize();
-            //Nez.Vector2Ext.Normalize(ref u);
+            u = Vector2.Normalize(u);
             float C = length - MaxLength;
 
             C = MathUtils.Clamp(C, 0.0f, Settings.MaxLinearCorrection);

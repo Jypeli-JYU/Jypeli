@@ -35,11 +35,10 @@ using FarseerPhysics.Common;
 using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Dynamics.Joints;
-using Microsoft.Xna.Framework;
 using Jypeli.Physics;
 using Jypeli;
 using Jypeli.Farseer;
-using FarseerPhysics.Factories;
+using System.Numerics;
 
 namespace FarseerPhysics.Dynamics
 {
@@ -72,7 +71,7 @@ namespace FarseerPhysics.Dynamics
         /// </summary>
         /// <value>The gravity.</value>
         public Vector2 Gravity;
-        Vector IPhysicsEngine.Gravity
+        Jypeli.Vector IPhysicsEngine.Gravity
         {
             get => Gravity * FSConvert.SimToDisplay;
             set
@@ -1546,7 +1545,7 @@ namespace FarseerPhysics.Dynamics
             return pb;
         }
 
-        public IAxleJoint CreateJoint(IPhysicsObject obj1, IPhysicsObject obj2, Vector pivot)
+        public IAxleJoint CreateJoint(IPhysicsObject obj1, IPhysicsObject obj2, Jypeli.Vector pivot)
         {
             PhysicsObject o1 = obj1 as PhysicsObject;
             PhysicsObject o2 = obj2 as PhysicsObject;
@@ -1578,7 +1577,7 @@ namespace FarseerPhysics.Dynamics
             }
         }
 
-        public IAxleJoint CreateJoint(IPhysicsObject obj1, Vector pivot)
+        public IAxleJoint CreateJoint(IPhysicsObject obj1, Jypeli.Vector pivot)
         {
             throw new NotImplementedException(); // TODO: Liitokset yhden kappaleen ja maailman välille.
         }

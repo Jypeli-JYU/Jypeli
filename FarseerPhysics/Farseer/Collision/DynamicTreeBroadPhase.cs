@@ -22,9 +22,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using FarseerPhysics.Dynamics;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Collision

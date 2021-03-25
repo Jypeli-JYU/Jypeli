@@ -28,17 +28,14 @@
  * Modified for Farseer engine by Mikko Röyskö
  */
 
-using System;
 using FarseerPhysics.Dynamics;
-using AdvanceMath;
-using System.Diagnostics;
-using Microsoft.Xna.Framework;
 using Jypeli.Farseer;
 using FarseerPhysics.Common;
 using FarseerPhysics;
 using System.Collections.Generic;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Common.Decomposition;
+using System.Numerics;
 
 namespace Jypeli
 {

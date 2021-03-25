@@ -23,9 +23,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Numerics;
 using FarseerPhysics.Common;
 using FarseerPhysics.Dynamics;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Collision
@@ -361,8 +361,7 @@ namespace FarseerPhysics.Collision
             var p2 = input.Point2;
             var r = p2 - p1;
             Debug.Assert(r.LengthSquared() > 0.0f);
-            r.Normalize();
-            //Nez.Vector2Ext.Normalize(ref r);
+            r = Vector2.Normalize(r);
 
             // v is perpendicular to the segment.
             var absV = MathUtils.Abs(new Vector2(-r.Y, r.X)); //FPE: Inlined the 'v' variable
@@ -376,8 +375,8 @@ namespace FarseerPhysics.Collision
             var segmentAABB = new AABB();
             {
                 var t = p1 + maxFraction * (p2 - p1);
-                Vector2.Min(ref p1, ref t, out segmentAABB.LowerBound);
-                Vector2.Max(ref p1, ref t, out segmentAABB.UpperBound);
+                segmentAABB.LowerBound = Vector2.Min(p1, t);
+                segmentAABB.UpperBound = Vector2.Max(p1, t);
             }
 
             _raycastStack.Clear();

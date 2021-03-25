@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Numerics;
 using FarseerPhysics.Common.TextureTools;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 
 namespace FarseerPhysics.Common
@@ -91,7 +90,7 @@ namespace FarseerPhysics.Common
             {
                 int numberOfEdges = (segments * 4 + 8);
 
-                float stepSize = MathHelper.TwoPi / (numberOfEdges - 4);
+                float stepSize = 2 * MathF.PI / (numberOfEdges - 4);
                 int perPhase = numberOfEdges / 4;
 
                 var posOffset = new Vector2(width / 2 - xRadius, height / 2 - yRadius);
@@ -154,7 +153,7 @@ namespace FarseerPhysics.Common
         {
             var vertices = new Vertices();
 
-            float stepSize = MathHelper.TwoPi / numberOfEdges;
+            float stepSize = 2 * MathF.PI / numberOfEdges;
 
             vertices.Add(new Vector2(xRadius, 0));
             for (int i = numberOfEdges - 1; i > 0; --i)
@@ -246,7 +245,7 @@ namespace FarseerPhysics.Common
             // top
             vertices.Add(new Vector2(topRadius, newHeight));
 
-            float stepSize = MathHelper.Pi / topEdges;
+            float stepSize = MathF.PI / topEdges;
             for (int i = 1; i < topEdges; i++)
             {
                 vertices.Add(new Vector2(topRadius * (float)Math.Cos(stepSize * i),
@@ -258,7 +257,7 @@ namespace FarseerPhysics.Common
             // bottom
             vertices.Add(new Vector2(-bottomRadius, -newHeight));
 
-            stepSize = MathHelper.Pi / bottomEdges;
+            stepSize = MathF.PI / bottomEdges;
             for (int i = 1; i < bottomEdges; i++)
             {
                 vertices.Add(new Vector2(-bottomRadius * (float)Math.Cos(stepSize * i),
@@ -282,9 +281,9 @@ namespace FarseerPhysics.Common
         {
             var vertices = new Vertices();
 
-            float stepSize = MathHelper.TwoPi / numberOfTeeth;
+            float stepSize = 2 * MathF.PI / numberOfTeeth;
             tipPercentage /= 100f;
-            MathHelper.Clamp(tipPercentage, 0f, 1f);
+            tipPercentage = Math.Clamp(tipPercentage, 0f, 1f);
             float toothTipStepSize = (stepSize / 2f) * tipPercentage;
 
             float toothAngleStepSize = (stepSize - (toothTipStepSize * 2f)) / 2f;
@@ -318,8 +317,9 @@ namespace FarseerPhysics.Common
             return vertices;
         }
 
-
-        public static Vertices CreatePolygonFromTextureData(Texture2D texture)
+        
+        //TODO: Onko tämä parempi/huonompi kuin Jypelin vastaava?
+        public static Vertices CreatePolygonFromTextureData(Microsoft.Xna.Framework.Graphics.Texture2D texture)
         {
             var data = new uint[texture.Width * texture.Height];
             texture.GetData(data, 0, data.Length);

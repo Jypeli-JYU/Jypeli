@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Common;
 using FarseerPhysics.Common.Decomposition;
 using FarseerPhysics.Dynamics;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Factories
@@ -128,14 +128,14 @@ namespace FarseerPhysics.Factories
         public static Fixture AttachLineArc(float radians, int sides, float radius, bool closed, Body body)
         {
             var arc = PolygonTools.CreateArc(radians, sides, radius);
-            arc.Rotate((MathHelper.Pi - radians) / 2);
+            arc.Rotate((MathF.PI - radians) / 2);
             return closed ? AttachLoopShape(arc, body) : AttachChainShape(arc, body);
         }
 
         public static List<Fixture> AttachSolidArc(float density, float radians, int sides, float radius, Body body)
         {
             var arc = PolygonTools.CreateArc(radians, sides, radius);
-            arc.Rotate((MathHelper.Pi - radians) / 2);
+            arc.Rotate((MathF.PI - radians) / 2);
 
             // Close the arc
             arc.Add(arc[0]);

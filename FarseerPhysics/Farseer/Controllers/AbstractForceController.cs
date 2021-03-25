@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Numerics;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
-
+using Vector2 = System.Numerics.Vector2;
 
 namespace FarseerPhysics.Controllers
 {

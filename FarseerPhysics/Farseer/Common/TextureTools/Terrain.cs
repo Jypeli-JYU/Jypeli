@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Common.Decomposition;
 using FarseerPhysics.Common.PolygonManipulation;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Common.TextureTools

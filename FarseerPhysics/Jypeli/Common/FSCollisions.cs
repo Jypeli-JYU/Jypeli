@@ -1,12 +1,12 @@
 ﻿//#define DEBUG_FSCOLLISIONS // uncomment to enable Debug of collision points and normals
 
 using System;
+using System.Numerics;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Common;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
-using Microsoft.Xna.Framework;
 using FSTransform = FarseerPhysics.Common.Transform;
 
 
@@ -232,7 +232,7 @@ namespace Jypeli.Farseer
                     result.Point = clipPoint * FSConvert.SimToDisplay;
 
                     // Ensure normal points from A to B
-                    Vector2.Negate(ref result.Normal, out result.Normal);
+                    result.Normal = Vector2.Negate(result.Normal);
 
                     result.MinimumTranslationVector = result.Normal * -separation;
                 }
@@ -309,7 +309,7 @@ namespace Jypeli.Farseer
                 var pointB = MathUtils.Mul(ref secondTransform, _manifold.Points[0].LocalPoint);
 
                 result.Normal = pointA - pointB;
-                result.Normal.Normalize();
+                result.Normal = Vector2.Normalize(result.Normal);
                 //Vector2Ext.Normalize(ref result.Normal);
 
                 var cA = pointA - circleA.Radius * result.Normal;
@@ -348,7 +348,7 @@ namespace Jypeli.Farseer
                     var pointB = MathUtils.Mul(ref circleTransform, _manifold.Points[0].LocalPoint);
 
                     result.Normal = pointA - pointB;
-                    result.Normal.Normalize();
+                    result.Normal = Vector2.Normalize(result.Normal);
                     //Vector2Ext.Normalize(ref result.Normal);
 
                     var cA = pointA - edge.Radius * result.Normal;
@@ -359,7 +359,7 @@ namespace Jypeli.Farseer
                     var separation = Vector2.Dot(pointA - pointB, result.Normal) - edge.Radius - circle.Radius;
 
                     // Ensure normal points from A to B
-                    Vector2.Negate(ref result.Normal, out result.Normal);
+                    result.Normal = Vector2.Negate(result.Normal);
                     result.MinimumTranslationVector = result.Normal * Math.Abs(separation);
                 }
                 else // FaceA
@@ -419,7 +419,7 @@ namespace Jypeli.Farseer
                     result.Point = clipPoint * FSConvert.SimToDisplay;
 
                     // Ensure normal points from A to B
-                    Vector2.Negate(ref result.Normal, out result.Normal);
+                    result.Normal = Vector2.Negate(result.Normal);
 
                     result.MinimumTranslationVector = result.Normal * -separation;
                 }

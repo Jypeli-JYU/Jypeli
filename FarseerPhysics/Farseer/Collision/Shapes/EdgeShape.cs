@@ -20,8 +20,8 @@
 * 3. This notice may not be removed or altered from any source distribution. 
 */
 
+using System.Numerics;
 using FarseerPhysics.Common;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Collision.Shapes
@@ -148,9 +148,7 @@ namespace FarseerPhysics.Collision.Shapes
             var v1 = _vertex1;
             var v2 = _vertex2;
             var e = v2 - v1;
-            var normal = new Vector2(e.Y, -e.X); //TODO: Could possibly cache the normal.
-            normal.Normalize();
-            //Nez.Vector2Ext.Normalize(ref normal);
+            var normal = Vector2.Normalize(new Vector2(e.Y, -e.X)); //TODO: Could possibly cache the normal.
 
             // q = p1 + t * d
             // dot(normal, q - v1) = 0

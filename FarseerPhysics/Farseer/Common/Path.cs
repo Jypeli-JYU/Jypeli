@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Common
@@ -122,8 +122,8 @@ namespace FarseerPhysics.Common
         /// <param name="value">The amount to rotate by in radians.</param>
         public void Rotate(float value)
         {
-            Matrix rotationMatrix;
-            Matrix.CreateRotationZ(value, out rotationMatrix);
+            Matrix4x4 rotationMatrix = Matrix4x4.CreateRotationZ(value);
+
 
             for (int i = 0; i < ControlPoints.Count; i++)
                 ControlPoints[i] = Vector2.Transform(ControlPoints[i], rotationMatrix);
@@ -166,7 +166,7 @@ namespace FarseerPhysics.Common
 
         public Vector2 GetPosition(float time)
         {
-            Vector2 temp;
+            Microsoft.Xna.Framework.Vector2 temp;
 
             if (ControlPoints.Count < 2)
                 throw new Exception("You need at least 2 control points to calculate a position.");
@@ -195,9 +195,9 @@ namespace FarseerPhysics.Common
 
                 // relative time
                 float lt = (time - _deltaT * p) / _deltaT;
-
-                temp = Vector2.CatmullRom(ControlPoints[p0], ControlPoints[p1], ControlPoints[p2], ControlPoints[p3],
-                    lt);
+                
+                
+                temp = Microsoft.Xna.Framework.Vector2.CatmullRom(ControlPoints[p0], ControlPoints[p1], ControlPoints[p2], ControlPoints[p3], lt);
 
                 RemoveAt(ControlPoints.Count - 1);
             }
@@ -221,12 +221,11 @@ namespace FarseerPhysics.Common
 
                 // relative time
                 float lt = (time - _deltaT * p) / _deltaT;
-
-                temp = Vector2.CatmullRom(ControlPoints[p0], ControlPoints[p1], ControlPoints[p2], ControlPoints[p3],
-                    lt);
+                
+                temp = Microsoft.Xna.Framework.Vector2.CatmullRom(ControlPoints[p0], ControlPoints[p1], ControlPoints[p2], ControlPoints[p3], lt);
             }
 
-            return temp;
+            return new Vector2(temp.X, temp.Y);
         }
 
         /// <summary>
@@ -242,13 +241,12 @@ namespace FarseerPhysics.Common
             var b = GetPosition(offsetTime);
 
             Vector2 output, temp;
-            Vector2.Subtract(ref a, ref b, out temp);
+            temp = Vector2.Subtract(a, b);
 
             output.X = -temp.Y;
             output.Y = temp.X;
 
-            output.Normalize();
-            //Nez.Vector2Ext.Normalize(ref output);
+            output = Vector2.Normalize(output);
 
             return output;
         }

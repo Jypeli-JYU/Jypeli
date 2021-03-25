@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Dynamics;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Common.PhysicsLogic
@@ -71,7 +71,7 @@ namespace FarseerPhysics.Common.PhysicsLogic
                     var forceVector = pos - overlappingBody.Position;
                     forceVector *=
                         1f / (float)Math.Sqrt(forceVector.X * forceVector.X + forceVector.Y * forceVector.Y);
-                    forceVector *= MathHelper.Min(force * forcePercent, maxForce);
+                    forceVector *= MathF.Min(force * forcePercent, maxForce);
                     forceVector *= -1;
 
                     overlappingBody.ApplyLinearImpulse(forceVector);
@@ -91,7 +91,7 @@ namespace FarseerPhysics.Common.PhysicsLogic
             if (float.IsNaN(percent))
                 return 0f;
 
-            return MathHelper.Clamp(percent, 0f, 1f);
+            return Math.Clamp(percent, 0f, 1f);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.Xna.Framework;
+using System.Numerics;
 
 
 namespace FarseerPhysics.Common.TextureTools
@@ -51,7 +51,7 @@ namespace FarseerPhysics.Common.TextureTools
         /// <summary>
         /// Can be used for scaling.
         /// </summary>
-        public Matrix Transform = Matrix.Identity;
+        public Matrix3x2 Transform = Matrix3x2.Identity;
 
         /// <summary>
         /// Alpha (coverage) tolerance. Default is 20: Every pixel with a coverage value equal or greater to 20 will be counts as solid.
@@ -107,7 +107,7 @@ namespace FarseerPhysics.Common.TextureTools
 
         public TextureConverter(byte? alphaTolerance, float? hullTolerance,
                                 bool? holeDetection, bool? multipartDetection, bool? pixelOffsetOptimization,
-                                Matrix? transform)
+                                Matrix3x2? transform)
         {
             Initialize(null, null, alphaTolerance, hullTolerance, holeDetection,
                 multipartDetection, pixelOffsetOptimization, transform);
@@ -120,7 +120,7 @@ namespace FarseerPhysics.Common.TextureTools
 
         public TextureConverter(uint[] data, int width, byte? alphaTolerance,
                                 float? hullTolerance, bool? holeDetection, bool? multipartDetection,
-                                bool? pixelOffsetOptimization, Matrix? transform)
+                                bool? pixelOffsetOptimization, Matrix3x2? transform)
         {
             Initialize(data, width, alphaTolerance, hullTolerance, holeDetection,
                 multipartDetection, pixelOffsetOptimization, transform);
@@ -131,7 +131,7 @@ namespace FarseerPhysics.Common.TextureTools
 
         void Initialize(uint[] data, int? width, byte? alphaTolerance, float? hullTolerance, bool? holeDetection,
                         bool? multipartDetection,
-                        bool? pixelOffsetOptimization, Matrix? transform)
+                        bool? pixelOffsetOptimization, Matrix3x2? transform)
         {
             if (data != null && !width.HasValue)
                 throw new ArgumentNullException(nameof(width), "'width' can't be null if 'data' is set.");
@@ -170,7 +170,7 @@ namespace FarseerPhysics.Common.TextureTools
             if (transform.HasValue)
                 this.Transform = transform.Value;
             else
-                this.Transform = Matrix.Identity;
+                this.Transform = Matrix3x2.Identity;
         }
 
 
@@ -381,7 +381,7 @@ namespace FarseerPhysics.Common.TextureTools
             ) // Only when VerticesDetectionType.Separated? -> Recheck.
                 ApplyTriangulationCompatibleWinding(ref detectedPolygons);
 
-            if (Transform != Matrix.Identity)
+            if (Transform != Matrix3x2.Identity)
                 ApplyTransform(ref detectedPolygons);
 
             return detectedPolygons;
@@ -879,9 +879,7 @@ namespace FarseerPhysics.Common.TextureTools
 
                     if (edgeFound)
                     {
-                        slope = polygon[nearestEdgeVertex2Index] - polygon[nearestEdgeVertex1Index];
-                        slope.Normalize();
-                        //Nez.Vector2Ext.Normalize(ref slope);
+                        slope = Vector2.Normalize(polygon[nearestEdgeVertex2Index] - polygon[nearestEdgeVertex1Index]);
 
                         var tempVector = polygon[nearestEdgeVertex1Index];
                         distance = Vector2.Distance(tempVector, foundEdgeCoord);

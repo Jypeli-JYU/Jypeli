@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Numerics;
 
 
 namespace FarseerPhysics.Controllers
@@ -43,8 +44,8 @@ namespace FarseerPhysics.Controllers
                     }
                     else
                     {
-                        Direction.Normalize();
-                        //Nez.Vector2Ext.Normalize(ref Direction);
+                        Direction = Vector2.Normalize(Direction);
+
                         forceVector = Direction;
 
                         if (forceVector.Length() == 0)
@@ -57,15 +58,13 @@ namespace FarseerPhysics.Controllers
                     // Calculate random Variation
                     if (Variation != 0)
                     {
-                        var strengthVariation = (float)randomize.NextDouble() * MathHelper.Clamp(Variation, 0, 1);
-                        forceVector.Normalize();
-                        //Nez.Vector2Ext.Normalize(ref forceVector);
+                        var strengthVariation = (float)randomize.NextDouble() * Math.Clamp(Variation, 0, 1);
+                        forceVector = Vector2.Normalize(forceVector);
                         body.ApplyForce(forceVector * strength * decayMultiplier * strengthVariation);
                     }
                     else
                     {
-                        forceVector.Normalize();
-                        //Nez.Vector2Ext.Normalize(ref forceVector);
+                        forceVector = Vector2.Normalize(forceVector);
                         body.ApplyForce(forceVector * strength * decayMultiplier);
                     }
                 }

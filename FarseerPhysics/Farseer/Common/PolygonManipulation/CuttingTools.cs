@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Numerics;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Common.PolygonManipulation
@@ -113,9 +113,7 @@ namespace FarseerPhysics.Common.PolygonManipulation
                     offset = (newPolygon[n][cutAdded[n] - 1] - newPolygon[n][cutAdded[n]]);
                 else
                     offset = (newPolygon[n][newPolygon[n].Count - 1] - newPolygon[n][0]);
-                offset.Normalize();
-                offset.Normalize();
-                //Nez.Vector2Ext.Normalize(ref offset);
+                offset = Vector2.Normalize(offset);
 
                 if (!offset.IsValid())
                     offset = Vector2.One;
@@ -126,8 +124,7 @@ namespace FarseerPhysics.Common.PolygonManipulation
                     offset = (newPolygon[n][cutAdded[n] + 2] - newPolygon[n][cutAdded[n] + 1]);
                 else
                     offset = (newPolygon[n][0] - newPolygon[n][newPolygon[n].Count - 1]);
-                offset.Normalize();
-                //Nez.Vector2Ext.Normalize(ref offset);
+                offset = Vector2.Normalize(offset);
 
                 if (!offset.IsValid())
                     offset = Vector2.One;

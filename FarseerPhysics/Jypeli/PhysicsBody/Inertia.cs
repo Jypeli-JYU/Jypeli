@@ -28,9 +28,9 @@
  * Modified for Farseer engine by Mikko Röyskö
  */
 
+using System.Numerics;
 using FarseerPhysics.Dynamics;
 using Jypeli.Farseer;
-using Microsoft.Xna.Framework;
 
 namespace Jypeli
 {

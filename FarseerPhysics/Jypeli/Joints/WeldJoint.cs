@@ -27,8 +27,6 @@
  * Author: Mikko Röyskö
  */
 
-using System;
-
 using FSJoint = FarseerPhysics.Dynamics.Joints.WeldJoint;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics;

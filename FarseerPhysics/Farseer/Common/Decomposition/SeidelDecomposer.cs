@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Numerics;
 using FarseerPhysics.Common.Decomposition.Seidel;
-using Microsoft.Xna.Framework;
 using Point = FarseerPhysics.Common.Decomposition.Seidel.Point;
 
 

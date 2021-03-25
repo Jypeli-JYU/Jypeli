@@ -28,8 +28,6 @@
  * Modified for Farseer engine by Mikko Röyskö
  */
 
-using System;
-
 using FSJoint = FarseerPhysics.Dynamics.Joints.DistanceJoint;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics;

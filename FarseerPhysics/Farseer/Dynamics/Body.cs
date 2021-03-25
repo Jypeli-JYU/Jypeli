@@ -24,15 +24,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Common;
 using FarseerPhysics.Common.PhysicsLogic;
 using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Dynamics.Joints;
-using Microsoft.Xna.Framework;
 using Jypeli.Farseer;
 using Jypeli;
+using System.Numerics;
 
 namespace FarseerPhysics.Dynamics
 {
@@ -1310,13 +1309,13 @@ namespace FarseerPhysics.Dynamics
 
         internal static bool CheckOneWay(Body a, Body b)
         {
-            Vector normalA = a.LinearVelocity;
+            Jypeli.Vector normalA = a.LinearVelocity;
             normalA = normalA.Normalize();
 
-            Vector normalB = b.LinearVelocity;
+            Jypeli.Vector normalB = b.LinearVelocity;
             normalB = normalB.Normalize();
 
-            return !(Vector.DotProduct(b.oneWayDir, normalA) > 0.5 || Vector.DotProduct(a.oneWayDir, normalB) > 0.5);
+            return !(Jypeli.Vector.DotProduct(b.oneWayDir, normalA) > 0.5 || Jypeli.Vector.DotProduct(a.oneWayDir, normalB) > 0.5);
         }
 
         internal void Advance(float alpha)

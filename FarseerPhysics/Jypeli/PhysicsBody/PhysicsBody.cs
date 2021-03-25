@@ -35,9 +35,8 @@ using FarseerPhysics.Factories;
 using FarseerPhysics.Collision.Shapes;
 using Jypeli.Farseer;
 using Jypeli.Physics;
-using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using System.Linq;
+using System.Numerics;
 
 namespace Jypeli
 {

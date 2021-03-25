@@ -22,8 +22,8 @@
 
 using System;
 using System.Diagnostics;
+using System.Numerics;
 using FarseerPhysics.Common;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Collision.Shapes
@@ -116,8 +116,7 @@ namespace FarseerPhysics.Collision.Shapes
 
                 //TODO: Check results here
                 output.Normal = s + a * r;
-                output.Normal.Normalize();
-                //Nez.Vector2Ext.Normalize(ref output.Normal);
+                output.Normal = Vector2.Normalize(output.Normal);
                 return true;
             }
 

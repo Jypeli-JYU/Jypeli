@@ -68,7 +68,7 @@ namespace Jypeli
         /// <summary>
         /// Ei toteutettu.
         /// </summary>
-        public List<List<Vector2>> Vertices => new List<List<Vector2>>();
+        List<List<System.Numerics.Vector2>> IPhysicsBody.Vertices { get => throw new System.NotImplementedException(); }
 
         #region Constructors
 

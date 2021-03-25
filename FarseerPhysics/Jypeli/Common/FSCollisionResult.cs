@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Numerics;
 using FarseerPhysics.Dynamics;
-using Microsoft.Xna.Framework;
 
 
 namespace Jypeli.Farseer
@@ -61,8 +61,8 @@ namespace Jypeli.Farseer
         /// </summary>
         public void InvertResult()
         {
-            Vector2.Negate(ref MinimumTranslationVector, out MinimumTranslationVector);
-            Vector2.Negate(ref Normal, out Normal);
+            MinimumTranslationVector = Vector2.Negate(MinimumTranslationVector);
+            Normal = Vector2.Negate(Normal);
         }
 
 

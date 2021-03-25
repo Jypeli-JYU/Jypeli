@@ -20,8 +20,8 @@
 * 3. This notice may not be removed or altered from any source distribution. 
 */
 
+using System.Numerics;
 using FarseerPhysics.Common;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Dynamics.Joints
@@ -250,8 +250,7 @@ namespace FarseerPhysics.Dynamics.Joints
                 var maxImpulse = h * MaxForce;
                 if (_linearImpulse.LengthSquared() > maxImpulse * maxImpulse)
                 {
-                    _linearImpulse.Normalize();
-                    //Nez.Vector2Ext.Normalize(ref _linearImpulse);
+                    _linearImpulse = Vector2.Normalize(_linearImpulse);
                     _linearImpulse *= maxImpulse;
                 }
 

@@ -22,8 +22,8 @@
 
 using System;
 using System.Diagnostics;
+using System.Numerics;
 using System.Runtime.InteropServices;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Common
@@ -821,7 +821,7 @@ namespace FarseerPhysics.Common
         /// </summary>
         public void Normalize()
         {
-            var d = MathHelper.TwoPi * (float)Math.Floor(A0 / MathHelper.TwoPi);
+            var d = 2*MathF.PI * (float)Math.Floor(A0 / 2 * MathF.PI);
             A0 -= d;
             A -= d;
         }

@@ -22,8 +22,8 @@
 
 using System;
 using System.Diagnostics;
+using System.Numerics;
 using FarseerPhysics.Common;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Dynamics.Joints
@@ -282,9 +282,8 @@ namespace FarseerPhysics.Dynamics.Joints
             set
             {
                 _axis1 = value;
-                LocalXAxis = BodyA.GetLocalVector(_axis1);
-                LocalXAxis.Normalize();
-                //Nez.Vector2Ext.Normalize(ref LocalXAxis);
+                LocalXAxis = Vector2.Normalize(BodyA.GetLocalVector(_axis1));
+
                 _localYAxisA = MathUtils.Cross(1.0f, LocalXAxis);
             }
         }

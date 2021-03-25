@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Dynamics;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Common.PhysicsLogic
@@ -66,7 +66,7 @@ namespace FarseerPhysics.Common.PhysicsLogic
         /// <summary>
         /// Two degrees: maximum angle from edges to first ray tested
         /// </summary>
-        const float maxEdgeOffset = MathHelper.Pi / 90;
+        const float maxEdgeOffset = MathF.PI / 90;
 
         /// <summary>
         /// Ratio of arc length to angle from edges to first ray tested.
@@ -84,7 +84,7 @@ namespace FarseerPhysics.Common.PhysicsLogic
         /// Max angle between rays (used when segment is large).
         /// Defaults to 15 degrees
         /// </summary>
-        public float MaxAngle = MathHelper.Pi / 15;
+        public float MaxAngle = MathF.PI / 15;
 
         /// <summary>
         /// Maximum number of shapes involved in the explosion.
@@ -199,16 +199,16 @@ namespace FarseerPhysics.Common.PhysicsLogic
                         var newAngle = (float)Math.Atan2(toVertex.Y, toVertex.X);
                         var diff = (newAngle - angleToCentroid);
 
-                        diff = (diff - MathHelper.Pi) % (2 * MathHelper.Pi);
+                        diff = (diff - MathF.PI) % (2 * MathF.PI);
 
                         // the minus pi is important. It means cutoff for going other direction is at 180 deg where it needs to be
 
                         if (diff < 0.0f)
-                            diff += 2 * MathHelper.Pi; // correction for not handling negs
+                            diff += 2 * MathF.PI; // correction for not handling negs
 
-                        diff -= MathHelper.Pi;
+                        diff -= MathF.PI;
 
-                        if (Math.Abs(diff) > MathHelper.Pi)
+                        if (Math.Abs(diff) > MathF.PI)
                             continue; // Something's wrong, point not in shape but exists angle diff > 180
 
                         if (diff > max)
@@ -247,7 +247,7 @@ namespace FarseerPhysics.Common.PhysicsLogic
                 if (i == valIndex - 1)
                 {
                     // the single edgecase
-                    midpt = (vals[0] + MathHelper.Pi * 2 + vals[i]);
+                    midpt = (vals[0] + MathF.PI * 2 + vals[i]);
                 }
                 else
                 {
@@ -304,7 +304,7 @@ namespace FarseerPhysics.Common.PhysicsLogic
                         _data[0] = fi;
                         while (_data.First().Min >= _data.First().Max)
                         {
-                            fi.Min -= MathHelper.Pi * 2;
+                            fi.Min -= MathF.PI * 2;
                             _data[0] = fi;
                         }
                     }
@@ -314,7 +314,7 @@ namespace FarseerPhysics.Common.PhysicsLogic
                     while ((_data.Count > 0)
                            && (_data.Last().Min >= _data.Last().Max)) // just making sure min<max
                     {
-                        last.Min = _data.Last().Min - 2 * MathHelper.Pi;
+                        last.Min = _data.Last().Min - 2 * MathF.PI;
                         _data[lastPos] = last;
                     }
 
@@ -333,7 +333,7 @@ namespace FarseerPhysics.Common.PhysicsLogic
 
                 var arclen = _data[i].Max - _data[i].Min;
 
-                var first = MathHelper.Min(maxEdgeOffset, EdgeRatio * arclen);
+                var first = MathF.Min(maxEdgeOffset, EdgeRatio * arclen);
                 var insertedRays = (int)Math.Ceiling(((arclen - 2.0f * first) - (MinRays - 1) * MaxAngle) / MaxAngle);
 
                 if (insertedRays < 0)
@@ -373,7 +373,7 @@ namespace FarseerPhysics.Common.PhysicsLogic
 
                         // the force that is to be applied for this particular ray.
                         // offset is angular coverage. lambda*length of segment is distance.
-                        var impulse = (arclen / (MinRays + insertedRays)) * maxForce * 180.0f / MathHelper.Pi *
+                        var impulse = (arclen / (MinRays + insertedRays)) * maxForce * 180.0f / MathF.PI *
                                       (1.0f - Math.Min(1.0f, minlambda));
 
                         // We Apply the impulse!!!
@@ -402,7 +402,7 @@ namespace FarseerPhysics.Common.PhysicsLogic
                 if (!IsActiveOn(fix.Body))
                     continue;
 
-                var impulse = MinRays * maxForce * 180.0f / MathHelper.Pi;
+                var impulse = MinRays * maxForce * 180.0f / MathF.PI;
                 Vector2 hitPoint;
 
                 var circShape = fix.Shape as CircleShape;

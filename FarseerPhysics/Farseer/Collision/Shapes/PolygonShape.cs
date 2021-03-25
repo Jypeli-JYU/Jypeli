@@ -21,9 +21,9 @@
 */
 
 using System.Diagnostics;
+using System.Numerics;
 using FarseerPhysics.Common;
 using FarseerPhysics.Common.ConvexHull;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Collision.Shapes
@@ -122,9 +122,7 @@ namespace FarseerPhysics.Collision.Shapes
                 Debug.Assert(edge.LengthSquared() > Settings.Epsilon * Settings.Epsilon);
 
                 // FPE optimization: Normals.Add(MathHelper.Cross(edge, 1.0f));
-                var temp = new Vector2(edge.Y, -edge.X);
-                temp.Normalize();
-                //Nez.Vector2Ext.Normalize(ref temp);
+                var temp = Vector2.Normalize(new Vector2(edge.Y, -edge.X));
                 _normals.Add(temp);
             }
 
@@ -186,7 +184,7 @@ namespace FarseerPhysics.Collision.Shapes
                 Vector2 e1 = Vertices[i] - s;
                 Vector2 e2 = i + 1 < Vertices.Count ? Vertices[i + 1] - s : Vertices[0] - s;
 
-                var D = MathUtils.Cross(e1, e2);
+                var D = MathUtils.Cross(ref e1, ref e2);
 
                 var triangleArea = 0.5f * D;
                 area += triangleArea;

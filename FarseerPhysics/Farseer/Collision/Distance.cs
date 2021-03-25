@@ -22,9 +22,9 @@
 
 using System;
 using System.Diagnostics;
+using System.Numerics;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Common;
-using Microsoft.Xna.Framework;
 
 
 namespace FarseerPhysics.Collision
@@ -772,8 +772,7 @@ namespace FarseerPhysics.Collision
                     // Move the witness points to the outer surface.
                     output.Distance -= rA + rB;
                     var normal = output.PointB - output.PointA;
-                    normal.Normalize();
-                    //Nez.Vector2Ext.Normalize(ref normal);
+                    normal = Vector2.Normalize(normal);
                     output.PointA += rA * normal;
                     output.PointB -= rB * normal;
                 }

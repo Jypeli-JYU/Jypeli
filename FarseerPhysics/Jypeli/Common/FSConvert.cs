@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Numerics;
 
 
 namespace Jypeli.Farseer
@@ -42,7 +42,7 @@ namespace Jypeli.Farseer
 
         public static void ToDisplayUnits(ref Vector2 simUnits, out Vector2 displayUnits)
         {
-            Vector2.Multiply(ref simUnits, SimToDisplay, out displayUnits);
+            displayUnits = Vector2.Multiply(simUnits, SimToDisplay);
         }
 
         public static Vector3 ToDisplayUnits(Vector3 simUnits)
@@ -89,7 +89,7 @@ namespace Jypeli.Farseer
 
         public static void ToSimUnits(ref Vector2 displayUnits, out Vector2 simUnits)
         {
-            Vector2.Multiply(ref displayUnits, DisplayToSim, out simUnits);
+            simUnits = Vector2.Multiply(displayUnits, DisplayToSim);
         }
 
         public static Vector2 ToSimUnits(float x, float y)

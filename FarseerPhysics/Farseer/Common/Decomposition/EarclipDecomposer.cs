@@ -21,8 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.Xna.Framework;
-
+using System.Numerics;
 
 namespace FarseerPhysics.Common.Decomposition
 {
@@ -126,13 +125,10 @@ namespace FarseerPhysics.Common.Decomposition
                         var d2 = new Vector2(xrem[i] - xrem[lower], yrem[i] - yrem[lower]);
                         var d3 = new Vector2(xrem[lower] - xrem[upper], yrem[lower] - yrem[upper]);
 
-                        d1.Normalize();
-                        d2.Normalize();
-                        d3.Normalize();
+                        d1 = Vector2.Normalize(d1);
+                        d2 = Vector2.Normalize(d2);
+                        d3 = Vector2.Normalize(d3);
 
-                        //Nez.Vector2Ext.Normalize(ref d1);
-                        //Nez.Vector2Ext.Normalize(ref d2);
-                        //Nez.Vector2Ext.Normalize(ref d3);
                         float cross12;
                         MathUtils.Cross(ref d1, ref d2, out cross12);
                         cross12 = Math.Abs(cross12);

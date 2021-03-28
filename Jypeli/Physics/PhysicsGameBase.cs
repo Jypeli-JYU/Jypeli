@@ -145,7 +145,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Nollaa kaiken (kontrollit, näyttöobjektit, ajastimet ja fysiikkamoottorin).
+        /// Tuhoaa kaikki pelioliot, ajastimet, törmäyksenkuuntelijat ja näppäinkuuntelijat, sekä resetoi kameran.
         /// </summary>
         public override void ClearAll()
         {

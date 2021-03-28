@@ -175,10 +175,9 @@ namespace Jypeli
         ///
         /// Taulukon tavut luetaan järjestyksessä punainen, vihreä, sininen, läpinäkyvyys
         /// </summary>
-        /// <param name="image">Kuva</param>
         /// <param name="byteArr">Tavutaulukko</param>
         /// <param name="height">Kuvan leveys</param>
-        /// <param name="height">Kuvan korkeus</param>
+        /// <param name="width">Kuvan korkeus</param>
         public void SetData(byte[] byteArr, int height, int width)
         {
             Color[,] newColor = new Color[height, width];

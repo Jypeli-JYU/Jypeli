@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009 University of Jyv�skyl�, Department of Mathematical
+ * Copyright (c) 2009 University of Jyväskylä, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero J�ntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
 using System;
@@ -42,27 +42,27 @@ namespace Jypeli
         protected Action arrivedAction = null;
 
         /// <summary>
-        /// Siirt�� oliota.
+        /// Siirtää oliota.
         /// </summary>
-        /// <param name="movement">Vektori, joka m��ritt�� kuinka paljon siirret��n.</param>
+        /// <param name="movement">Vektori, joka määrittää kuinka paljon siirretään.</param>
         public virtual void Move( Vector movement )
         {
             Position += movement;
         }
 
         /// <summary>
-        /// Yritt�� siirty� annettuun paikkaan annetulla nopeudella.
-        /// Laukaisee annetun aliohjelman, kun paikkaan on p��sty.
+        /// Yrittää siirtyä annettuun paikkaan annetulla nopeudella.
+        /// Laukaisee annetun aliohjelman, kun paikkaan on päästy.
         /// </summary>
-        /// <param name="location">Paikka johon siirryt��n</param>
+        /// <param name="location">Paikka johon siirrytään</param>
         /// <param name="speed">
-        /// Nopeus (paikkayksikk�� sekunnissa) jolla liikutaan.
-        /// Nopeus on maksiminopeus. Jos v�liss� on hitaampaa maastoa tai
-        /// esteit�, liikkumisnopeus voi olla alle sen.
+        /// Nopeus (paikkayksikköä sekunnissa) jolla liikutaan.
+        /// Nopeus on maksiminopeus. Jos välissä on hitaampaa maastoa tai
+        /// esteitä, liikkumisnopeus voi olla alle sen.
         /// </param>
         /// <param name="doWhenArrived">
-        /// Aliohjelma, joka ajetaan kun paikkaan on p��sty.
-        /// Voi olla null, jos ei haluta mit��n aliohjelmaa.
+        /// Aliohjelma, joka ajetaan kun paikkaan on päästy.
+        /// Voi olla null, jos ei haluta mitään aliohjelmaa.
         /// </param>
         public override void MoveTo( Vector location, double speed, Action doWhenArrived )
         {
@@ -82,7 +82,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Pys�ytt�� MoveTo-aliohjelmalla aloitetun liikkeen.
+        /// Pysäyttää MoveTo-aliohjelmalla aloitetun liikkeen.
         /// </summary>
         public void StopMoveTo()
         {
@@ -121,13 +121,13 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Laittaa kappaleen v�r�htelem��n edestakaisin nykyisen paikkansa ymp�rill� tietyn akselin suuntaisesti.
+        /// Laittaa kappaleen värähtelemään edestakaisin nykyisen paikkansa ympärillä tietyn akselin suuntaisesti.
         /// </summary>
-        /// <param name="axis">Akseli, jonka suunnassa v�r�hdell��n. Pituudella ei v�li�, vain suunnalla.</param>
-        /// <param name="amplitude">Amplitudi eli ��rip�iden v�linen et�isyys.</param>
-        /// <param name="frequency">Taajuus, eli kuinka monta jaksoa sekunnissa v�r�hdell��n.</param>
-        /// <param name="phase">Vaihe, eli mist� kohtaa jaksoa aloitetaan. Vaihteluv�li 0 - 2 * Math.PI (siniaalto)</param>
-        /// <param name="damping">Vaimennuskerroin. 0 = ei vaimene, mit� suurempi niin sit� nopeammin vaimenee.</param>
+        /// <param name="axis">Akseli, jonka suunnassa värähdellään. Pituudella ei väliä, vain suunnalla.</param>
+        /// <param name="amplitude">Amplitudi eli ääripäiden välinen etäisyys.</param>
+        /// <param name="frequency">Taajuus, eli kuinka monta jaksoa sekunnissa värähdellään.</param>
+        /// <param name="phase">Vaihe, eli mistä kohtaa jaksoa aloitetaan. Vaihteluväli 0 - 2 * Math.PI (siniaalto)</param>
+        /// <param name="damping">Vaimennuskerroin. 0 = ei vaimene, mitä suurempi niin sitä nopeammin vaimenee.</param>
         public void Oscillate( Vector axis, double amplitude, double frequency, double phase = 0, double damping = 0 )
         {
             if ( oscillators == null )
@@ -138,12 +138,12 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Laittaa kappaleen kulman v�r�htelem��n edestakaisin.
+        /// Laittaa kappaleen kulman värähtelemään edestakaisin.
         /// </summary>
-        /// <param name="direction">V�r�htelyn suunta (1 = my�t�p�iv��n, -1 = vastap�iv��n)</param>
-        /// <param name="amplitude">Amplitudi eli ��rip�iden v�linen et�isyys (radiaaneina).</param>
-        /// <param name="frequency">Taajuus, eli kuinka monta jaksoa sekunnissa v�r�hdell��n.</param>
-        /// <param name="damping">Vaimennuskerroin. 0 = ei vaimene, mit� suurempi niin sit� nopeammin vaimenee.</param>
+        /// <param name="direction">Värähtelyn suunta (1 = myötäpäivään, -1 = vastapäivään)</param>
+        /// <param name="amplitude">Amplitudi eli ääripäiden välinen etäisyys (radiaaneina).</param>
+        /// <param name="frequency">Taajuus, eli kuinka monta jaksoa sekunnissa värähdellään.</param>
+        /// <param name="damping">Vaimennuskerroin. 0 = ei vaimene, mitä suurempi niin sitä nopeammin vaimenee.</param>
         public void OscillateAngle( double direction, UnlimitedAngle amplitude, double frequency, double damping = 0 )
         {
             if ( oscillators == null )
@@ -154,7 +154,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Asettaa uuden tasapainoaseman v�r�htelyille.
+        /// Asettaa uuden tasapainoaseman värähtelyille.
         /// </summary>
         public void SetEquilibrium()
         {
@@ -162,7 +162,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Poistaa kaikki v�r�htelyt kappaleelta.
+        /// Poistaa kaikki värähtelyt kappaleelta.
         /// </summary>
         public void ClearOscillations()
         {
@@ -170,7 +170,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Pys�ytt�� kaiken liikkeen.
+        /// Pysäyttää kaiken liikkeen.
         /// </summary>
         public virtual void Stop()
         {

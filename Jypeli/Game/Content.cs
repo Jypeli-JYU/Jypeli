@@ -147,7 +147,7 @@ namespace Jypeli
         /// <summary>
         /// Soittaa ääniefektin.
         /// </summary>
-        /// <param name="name">Äänen nimi päätteineen/param>
+        /// <param name="name">Äänen nimi päätteineen</param>
         public static void PlaySound(string name)
         {
             LoadSoundEffect(name).Play();

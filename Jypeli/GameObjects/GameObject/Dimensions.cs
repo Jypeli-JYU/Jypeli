@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009 University of Jyv�skyl�, Department of Mathematical
+ * Copyright (c) 2009 University of Jyväskylä, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero J�ntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
 using System;
@@ -38,7 +38,7 @@ namespace Jypeli
 
         /// <summary>
         /// Olion koko pelimaailmassa.
-        /// Kertoo olion ��rirajat, ei muotoa.
+        /// Kertoo olion äärirajat, ei muotoa.
         /// </summary>
         public override Vector Size
         {
@@ -116,7 +116,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Olion muoto merkkijonona (kentt�editorin k�ytt��n)
+        /// Olion muoto merkkijonona (kenttäeditorin käyttöön)
         /// </summary>
         internal string ShapeString
         {
@@ -131,7 +131,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Onko piste <c>p</c> t�m�n olion sis�puolella.
+        /// Onko piste <c>p</c> tämän olion sisäpuolella.
         /// </summary>
         public bool IsInside( Vector point )
         {
@@ -176,7 +176,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Onko piste <c>p</c> t�m�n olion ymp�r�iv�n suorakulmion sis�puolella.
+        /// Onko piste <c>p</c> tämän olion ympäröivän suorakulmion sisäpuolella.
         /// </summary>
         public bool IsInsideRect( Vector point )
         {
@@ -209,9 +209,9 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Onko peliolio kahden pisteen v�liss�
+        /// Onko peliolio kahden pisteen välissä
         /// </summary>
-        /// <param name="pos1">Ensimm�inen piste</param>
+        /// <param name="pos1">Ensimmäinen piste</param>
         /// <param name="pos2">Toinen piste</param>
         /// <returns></returns>
         public bool IsBetween(Vector pos1, Vector pos2)

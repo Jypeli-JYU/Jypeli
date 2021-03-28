@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009 University of Jyv?skyl?, Department of Mathematical
+ * Copyright (c) 2009 University of Jyväskylä, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero J?ntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen, Mikko Röyskö
  */
 
 using System;
@@ -48,7 +48,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Olion lapsiolioiden lukum??r?.
+        /// Olion lapsiolioiden lukumäärä.
         /// Kuten Objects.Count, mutta optimoitu.
         /// </summary>
         public int ObjectCount
@@ -117,8 +117,8 @@ namespace Jypeli
         /// kutsu mielummin olion <c>Destroy</c>-metodia. 
         /// </summary> 
         /// <remarks> 
-        /// Oliota ei poisteta v?litt?m?sti, vaan viimeist??n seuraavan 
-        /// p?ivityksen j?lkeen. 
+        /// Oliota ei poisteta välittömästi, vaan viimeistään seuraavan 
+        /// päivityksen jälkeen. 
         /// </remarks> 
         public void Remove( IGameObject childObject )
         {
@@ -201,6 +201,11 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Antaa olion korkeimman tason isäntäolion.
+        /// Eli vanhemman vanhemman...
+        /// </summary>
+        /// <returns></returns>
         public GameObject GetMainParent()
         {
             if (this.Parent is null) return this;

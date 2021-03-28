@@ -76,13 +76,13 @@ public class Marswagen : PhysicsGame
         LuoKentta();
         LisaaLaskurit();
         LisaaHpPalkki();
-        lisaaTykinVoimaPalkki();
+        LisaaTykinVoimaPalkki();
         LataaEfektit();
         AsetaNapit();
 
         kopteriAjastin = new Timer();
         kopteriAjastin.Interval = 1.2;
-        kopteriAjastin.Timeout += kopteriPaivitys;
+        kopteriAjastin.Timeout += KopteriPaivitys;
         kopteriAjastin.Start();
     }
 
@@ -137,7 +137,7 @@ public class Marswagen : PhysicsGame
         Add(hpPalkki);
     }
 
-    void lisaaTykinVoimaPalkki()
+    void LisaaTykinVoimaPalkki()
     {
         voimaMittari = new DoubleMeter(0);
         voimaMittari.MaxValue = 150000.0;
@@ -234,7 +234,7 @@ public class Marswagen : PhysicsGame
         tankki.Mass = 20;
 
         tankki.Cannon.Power.MaxValue = double.PositiveInfinity;
-        tankki.Cannon.ProjectileCollision += tykkiOsui;
+        tankki.Cannon.ProjectileCollision += TykkiOsui;
         tankki.Cannon.Image = tykinKuva;
         tankki.Cannon.Ammo.Value = int.MaxValue;
 
@@ -242,7 +242,8 @@ public class Marswagen : PhysicsGame
         kk.X += 25;
         kk.TimeBetweenUse = new TimeSpan(0, 0, 0, 0, 300);
         kk.Ammo.Value = int.MaxValue;
-        kk.ProjectileCollision += luotiOsui;
+        kk.ProjectileCollision += LuotiOsui;
+        kk.Position = tankki.Position;
         tankki.Add(kk);
 
         Add(tankki);
@@ -272,7 +273,7 @@ public class Marswagen : PhysicsGame
             kopteri.MirrorImage();
         }
 
-        AddCollisionHandler(kopteri, kopterinTormays);
+        AddCollisionHandler(kopteri, KopterinTormays);
         kopteriLista.Add(kopteri);
         Add(kopteri);
     }
@@ -287,7 +288,7 @@ public class Marswagen : PhysicsGame
         tyyppi.CanRotate = false;
         tyyppi.IgnoresCollisionResponse = true;
         tyyppi.Tag = "tyyppi";
-        AddCollisionHandler(tyyppi, laskuvarjonTormays);
+        AddCollisionHandler(tyyppi, LaskuvarjonTormays);
 
         if (RandomGen.NextBool())
         {
@@ -317,10 +318,10 @@ public class Marswagen : PhysicsGame
 
         Timer laskeutuneenAjastin = new Timer();
         laskeutuneenAjastin.Interval = 1.5;
-        laskeutuneenAjastin.Timeout += delegate { laskeutunutAmpuu(laskeutunutTyyppi, laskeutuneenAjastin); };
+        laskeutuneenAjastin.Timeout += delegate { LaskeutunutAmpuu(laskeutunutTyyppi, laskeutuneenAjastin); };
         laskeutuneenAjastin.Start();
 
-        AddCollisionHandler(laskeutunutTyyppi, laskeutuneenTormays);
+        AddCollisionHandler(laskeutunutTyyppi, LaskeutuneenTormays);
         Add(laskeutunutTyyppi);
         return laskeutunutTyyppi;
     }
@@ -336,27 +337,27 @@ public class Marswagen : PhysicsGame
     }
 
     //Laskeutuneen tyypin aseen kulma
-    Angle LaskeAmpujanKulma(PlatformCharacter ampuja, double suunta)
+    Angle LaskeAmpujanKulma(PlatformCharacter ampuja)
     {
         Vector v = new Vector(Math.Sign(tankki.X - ampuja.X), RandomGen.NextDouble(-0.1, 0.1));
         return v.Angle;
     }
 
-    void laskeutunutAmpuu(PlatformCharacter ampuja, Timer sender)
+    void LaskeutunutAmpuu(PlatformCharacter ampuja, Timer sender)
     {
         if (ampuja != null && !ampuja.IsDestroyed)
         {
             double suunta = LaskeAmpujanSuunta(ampuja);
             ampuja.Walk(suunta);
 
-            ampuja.Weapon.Angle = LaskeAmpujanKulma(ampuja, suunta);
+            ampuja.Weapon.Angle = LaskeAmpujanKulma(ampuja);
 
             PhysicsObject ammus = ampuja.Weapon.Shoot();
             if (ammus != null)
             {
                 ammus.Size = new Vector(10, 10);
                 ammus.IgnoresCollisionResponse = true;
-                AddCollisionHandler(ammus, laskeutuneenLuotiOsui);
+                AddCollisionHandler(ammus, LaskeutuneenLuotiOsui);
             }
 
             ampuja.Walk(suunta * 200);
@@ -370,7 +371,7 @@ public class Marswagen : PhysicsGame
     }
 
     //Hallitse koptereiden ja laskuvarjomiesten tiheyttä & määrää jne täältä ja ajastimen intervalista
-    void kopteriPaivitys()
+    void KopteriPaivitys()
     {
         for (int i = 0; i < kopteriLista.Count; i++)
         {
@@ -415,7 +416,7 @@ public class Marswagen : PhysicsGame
 
     }
 
-    void kopterinTormays(PhysicsObject kopteri, PhysicsObject kohde)
+    void KopterinTormays(PhysicsObject kopteri, PhysicsObject kohde)
     {
         if (kohde.Tag.ToString() == "reuna")
         {
@@ -433,9 +434,9 @@ public class Marswagen : PhysicsGame
         }
     }
 
-    void laskuvarjonTormays(PhysicsObject tyyppi, PhysicsObject kohde)
+    void LaskuvarjonTormays(PhysicsObject tyyppi, PhysicsObject kohde)
     {
-        if (kohde != tankki && kohde != maa && kohde.Tag != "reuna" && kohde.Tag != "tankki")
+        if (kohde != tankki && kohde != maa && kohde.Tag.ToString() != "reuna" && kohde.Tag.ToString() != "tankki")
             return;
 
         tyyppiLista.Remove(tyyppi);
@@ -462,7 +463,7 @@ public class Marswagen : PhysicsGame
         }
     }
 
-    void laskeutuneenTormays(PhysicsObject tyyppi, PhysicsObject kohde)
+    void LaskeutuneenTormays(PhysicsObject tyyppi, PhysicsObject kohde)
     {
         if (kohde == tankki)
         {
@@ -472,7 +473,7 @@ public class Marswagen : PhysicsGame
         }
     }
 
-    void laskeutuneenLuotiOsui(PhysicsObject ammus, PhysicsObject kohde)
+    void LaskeutuneenLuotiOsui(PhysicsObject ammus, PhysicsObject kohde)
     {
         if (kohde.Tag.ToString() == "laskeutunut") return;
         if (kohde == tankki)
@@ -484,7 +485,7 @@ public class Marswagen : PhysicsGame
         else ammus.Destroy();
     }
 
-    void luotiOsui(PhysicsObject ammus, PhysicsObject kohde)
+    void LuotiOsui(PhysicsObject ammus, PhysicsObject kohde)
     {
         if (kohde == tankki) return;
         if (kohde.Tag.ToString() == "tyyppi")
@@ -504,7 +505,7 @@ public class Marswagen : PhysicsGame
         else if (kohde == maa || kohde.Tag.ToString() == "reuna") ammus.Destroy();
     }
 
-    void tykkiOsui(PhysicsObject ammus, PhysicsObject kohde)
+    void TykkiOsui(PhysicsObject ammus, PhysicsObject kohde)
     {
         if (kohde == tankki) return;
         if (kohde.Tag.ToString() == "tyyppi")
@@ -542,28 +543,28 @@ public class Marswagen : PhysicsGame
         Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, null);
 
 
-        Keyboard.Listen(Key.Left, ButtonState.Down, aja, "Liiku vasemmalle", tankki, 10.0);
-        Keyboard.Listen(Key.Right, ButtonState.Down, aja, "Liiku oikealle", tankki, -10.0);
-        Keyboard.Listen(Key.Left, ButtonState.Released, aja, "Liiku vasemmalle", tankki, 0.0);
-        Keyboard.Listen(Key.Right, ButtonState.Released, aja, "Liiku oikealle", tankki, 0.0);
-        Keyboard.Listen(Key.Up, ButtonState.Down, kaannaPutkea, "Käännä putkea vastapäivään", tankki, Angle.FromDegrees(2));
-        Keyboard.Listen(Key.Down, ButtonState.Down, kaannaPutkea, "Käännä putkea myötäpäivään", tankki, Angle.FromDegrees(-2));
-        Keyboard.Listen(Key.Up, ButtonState.Down, kaannaKK, "Käännä putkea vastapäivään", tankki, Angle.FromDegrees(2));
-        Keyboard.Listen(Key.Down, ButtonState.Down, kaannaKK, "Käännä putkea myötäpäivään", tankki, Angle.FromDegrees(-2));
+        Keyboard.Listen(Key.Left, ButtonState.Down, Aja, "Liiku vasemmalle", tankki, 10.0);
+        Keyboard.Listen(Key.Right, ButtonState.Down, Aja, "Liiku oikealle", tankki, -10.0);
+        Keyboard.Listen(Key.Left, ButtonState.Released, Aja, "Liiku vasemmalle", tankki, 0.0);
+        Keyboard.Listen(Key.Right, ButtonState.Released, Aja, "Liiku oikealle", tankki, 0.0);
+        Keyboard.Listen(Key.Up, ButtonState.Down, KaannaPutkea, "Käännä putkea vastapäivään", tankki, Angle.FromDegrees(2));
+        Keyboard.Listen(Key.Down, ButtonState.Down, KaannaPutkea, "Käännä putkea myötäpäivään", tankki, Angle.FromDegrees(-2));
+        Keyboard.Listen(Key.Up, ButtonState.Down, KaannaKK, "Käännä putkea vastapäivään", tankki, Angle.FromDegrees(2));
+        Keyboard.Listen(Key.Down, ButtonState.Down, KaannaKK, "Käännä putkea myötäpäivään", tankki, Angle.FromDegrees(-2));
 
-        Keyboard.Listen(Key.Space, ButtonState.Down, lataaTykinVoimaa, "Ammu tykillä", 1500.0);
-        Keyboard.Listen(Key.Space, ButtonState.Released, ammuTykilla, null, tankki);
-        Keyboard.Listen(Key.LeftControl, ButtonState.Down, ammuKK, "Ammu konekiväärillä");
+        Keyboard.Listen(Key.Space, ButtonState.Down, LataaTykinVoimaa, "Ammu tykillä", 1500.0);
+        Keyboard.Listen(Key.Space, ButtonState.Released, AmmuTykilla, null, tankki);
+        Keyboard.Listen(Key.LeftControl, ButtonState.Down, AmmuKK, "Ammu konekiväärillä");
 
         Keyboard.Listen(Key.H, ButtonState.Pressed, delegate { tahtaysavustin = !tahtaysavustin; }, "Näytä tähtäysavustin");
     }
 
-    void lataaTykinVoimaa(double lisaVoima)
+    void LataaTykinVoimaa(double lisaVoima)
     {
         voimaMittari.Value += lisaVoima;
     }
 
-    void ammuKK()
+    void AmmuKK()
     {
         PhysicsObject ammus = kk.Shoot();
         if (ammus != null)
@@ -575,7 +576,7 @@ public class Marswagen : PhysicsGame
         }
     }
 
-    void ammuTykilla(Tank t)
+    void AmmuTykilla(Tank t)
     {
         t.Cannon.Power.Value = voimaMittari.Value;
         PhysicsObject ammus = t.Cannon.Shoot();
@@ -589,17 +590,17 @@ public class Marswagen : PhysicsGame
         voimaMittari.Value = 0;
     }
 
-    void aja(Tank t, double vaanto)
+    void Aja(Tank t, double vaanto)
     {
         t.Accelerate(vaanto);
     }
 
-    void kaannaPutkea(Tank t, Angle kaanto)
+    void KaannaPutkea(Tank t, Angle kaanto)
     {
         t.Cannon.Angle += kaanto;
     }
 
-    void kaannaKK(Tank t, Angle kaanto)
+    void KaannaKK(Tank t, Angle kaanto)
     {
         kk.Angle += kaanto;
     }

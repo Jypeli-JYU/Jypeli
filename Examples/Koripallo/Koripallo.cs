@@ -59,17 +59,17 @@ public class Koripallo : PhysicsGame
 
         liikkuvuusAjastin = new Timer();
         liikkuvuusAjastin.Interval = 0.003;
-        liikkuvuusAjastin.Timeout += liikutaKoria;
+        liikkuvuusAjastin.Timeout += LiikutaKoria;
 
         KentanVaihtoAjastin = new Timer();
         KentanVaihtoAjastin.Interval = 1.5;
-        KentanVaihtoAjastin.Timeout += seuraavaKentta;
+        KentanVaihtoAjastin.Timeout += SeuraavaKentta;
 
-        luoKentta(Level.Width, Level.Height, 1);
-        asetaNapit();
+        LuoKentta(Level.Width, Level.Height, 1);
+        AsetaNapit();
     }
 
-    void liikutaKoria()
+    void LiikutaKoria()
     {
         if ((levy.Top >= Level.Top) || (korinVerkko.Bottom <= Level.Bottom))
         {
@@ -83,7 +83,7 @@ public class Koripallo : PhysicsGame
         korinVerkko.Y += korinSuunta;
     }
 
-    void asetaPallo()
+    void AsetaPallo()
     {
         pallo.IgnoresGravity = true;
         pallo.AngularVelocity = 0.0;
@@ -93,7 +93,7 @@ public class Koripallo : PhysicsGame
         saakoHeittaa = true;
     }
 
-    void luoPelaaja()
+    void LuoPelaaja()
     {
         pelaaja = new GameObject(200, 200);
         Animation heitto = new Animation(pelaajanKuvat);
@@ -104,7 +104,7 @@ public class Koripallo : PhysicsGame
         Add(pelaaja);
     }
 
-    void luoPallo()
+    void LuoPallo()
     {
         pallo = new PhysicsObject(50.0, 50.0, Shape.Circle);
         pallo.Mass = 12.0;
@@ -112,20 +112,20 @@ public class Koripallo : PhysicsGame
         pallo.KineticFriction = 0.6;
         pallo.AngularDamping = 0.99;
         pallo.Image = pallonKuva;
-        asetaPallo();
+        AsetaPallo();
 
-        AddCollisionHandler(pallo, pallonTormayksenKasittely);
+        AddCollisionHandler(pallo, PallonTormayksenKasittely);
         Add(pallo);
     }
 
-    PhysicsObject teeKorinReunat(Vector v)
+    PhysicsObject TeeKorinReunat(Vector v)
     {
         PhysicsObject reunaPallo = PhysicsObject.CreateStaticObject(v.X, v.Y);
         reunaPallo.Shape = Shape.Circle;
         return reunaPallo;
     }
 
-    void luoKori()
+    void LuoKori()
     {
         levy = PhysicsObject.CreateStaticObject(13.0, 250.0);
         levy.Shape = Shape.Rectangle;
@@ -134,9 +134,9 @@ public class Koripallo : PhysicsGame
         Add(levy);
 
         Vector pallonKoko = new Vector(5.0, 5.0);
-        koriVasen = teeKorinReunat(pallonKoko);
-        koriOikea = teeKorinReunat(pallonKoko);
-        koriKeskus = teeKorinReunat(pallonKoko);
+        koriVasen = TeeKorinReunat(pallonKoko);
+        koriOikea = TeeKorinReunat(pallonKoko);
+        koriKeskus = TeeKorinReunat(pallonKoko);
 
         koriOikea.Color = Color.Red;
         koriOikea.Y = levy.Bottom + 20.0;
@@ -161,7 +161,7 @@ public class Koripallo : PhysicsGame
         Add(korinVerkko);
     }
 
-    void luoKenttaNaytto(int kentanNro)
+    void LuoKenttaNaytto(int kentanNro)
     {
         kenttaLaskuri = new IntMeter(kentanNro);
 
@@ -183,7 +183,7 @@ public class Koripallo : PhysicsGame
         kenttaRuutu.Add(kenttaNaytto);
     }
 
-    void luoVoimaMittari()
+    void LuoVoimaMittari()
     {
         voimaMittari = new DoubleMeter(0);
         voimaMittari.MaxValue = 30000;
@@ -195,7 +195,7 @@ public class Koripallo : PhysicsGame
         Add(voimaPalkki);
     }
 
-    void luoKentta(double leveys, double korkeus, int kentanNro)
+    void LuoKentta(double leveys, double korkeus, int kentanNro)
     {
         Level.Width = leveys;
         Level.Height = korkeus;
@@ -212,11 +212,11 @@ public class Koripallo : PhysicsGame
         Level.CreateLeftBorder();
         Level.CreateRightBorder();
 
-        luoPelaaja();
-        luoPallo();
-        luoKori();
-        luoKenttaNaytto(kentanNro);
-        luoVoimaMittari();
+        LuoPelaaja();
+        LuoPallo();
+        LuoKori();
+        LuoKenttaNaytto(kentanNro);
+        LuoVoimaMittari();
 
         if (kentanNro >= 2)
         {
@@ -232,17 +232,17 @@ public class Koripallo : PhysicsGame
         Camera.ZoomToLevel();
     }
 
-    void seuraavaKentta()
+    void SeuraavaKentta()
     {
         kenttaLaskuri.Value++;
         ClearAll();
 
-        luoKentta(1.1 * Level.Width, 1.1 * Level.Height, kenttaLaskuri.Value);
+        LuoKentta(1.1 * Level.Width, 1.1 * Level.Height, kenttaLaskuri.Value);
 
-        asetaNapit();
+        AsetaNapit();
     }
 
-    void pallonTormayksenKasittely(PhysicsObject pallo, PhysicsObject kohde)
+    void PallonTormayksenKasittely(PhysicsObject pallo, PhysicsObject kohde)
     {
         if ((kohde != pelaaja) && (kohde != koriKeskus))
         {
@@ -257,7 +257,7 @@ public class Koripallo : PhysicsGame
         }
     }
 
-    void laskeVoima()
+    void LaskeVoima()
     {
         if (saakoHeittaa)
         {
@@ -268,7 +268,7 @@ public class Koripallo : PhysicsGame
         }
     }
 
-    void laskeVoimaPadilla()
+    void LaskeVoimaPadilla()
     {
         if (saakoHeittaa)
         {
@@ -278,7 +278,7 @@ public class Koripallo : PhysicsGame
         }
     }
 
-    void heitaPallo()
+    void HeitaPallo()
     {
         ControllerOne.Vibrate(0.2, 0.2, 0, 0, 0.5);
         pelaaja.Animation.Start(1);
@@ -289,7 +289,7 @@ public class Koripallo : PhysicsGame
         voimaMittari.Reset();
     }
 
-    void pyoritaPalloa(double kulmanopeus)
+    void PyoritaPalloa(double kulmanopeus)
     {
         if (saakoHeittaa)
         {
@@ -297,7 +297,7 @@ public class Koripallo : PhysicsGame
         }
     }
 
-    void pyoritaPalloaPadilla()
+    void PyoritaPalloaPadilla()
     {
         if (saakoHeittaa)
         {
@@ -382,11 +382,11 @@ public class Koripallo : PhysicsGame
         LopetaHeitto();
     }
 
-    void asetaNapit()
+    void AsetaNapit()
     {
         Mouse.Listen(MouseButton.Left, ButtonState.Pressed, AloitaHeittoHiirella, null);
         Mouse.Listen(MouseButton.Left, ButtonState.Released, LopetaHeitto, null);
-        Mouse.Listen(MouseButton.Right, ButtonState.Pressed, asetaPallo, "Palauta pallo alkutilanteeseen");
+        Mouse.Listen(MouseButton.Right, ButtonState.Pressed, AsetaPallo, "Palauta pallo alkutilanteeseen");
         Mouse.ListenMovement(0.1, HeitaHiirella, null);
 
         //TouchPanel.Listen(ButtonState.Pressed, AloitaHeittoKosketuksella, null);
@@ -394,18 +394,18 @@ public class Koripallo : PhysicsGame
         //TouchPanel.Listen(ButtonState.Down, HeitaKosketuksella, null);
         //PhoneBackButton.Listen(ConfirmExit,"Lopettaa pelin");
 
-        Keyboard.Listen(Key.Space, ButtonState.Down, laskeVoima, "Pidä pohjassa heiton voimakkuuden säätämiseen.");
-        Keyboard.Listen(Key.Space, ButtonState.Released, heitaPallo, null);
-        Keyboard.Listen(Key.Left, ButtonState.Down, pyoritaPalloa, "Anna pallolle alakierrettä.", 0.2);
-        Keyboard.Listen(Key.Right, ButtonState.Down, pyoritaPalloa, "Anna pallolle yläkierrettä.", -0.2);
+        Keyboard.Listen(Key.Space, ButtonState.Down, LaskeVoima, "Pidä pohjassa heiton voimakkuuden säätämiseen.");
+        Keyboard.Listen(Key.Space, ButtonState.Released, HeitaPallo, null);
+        Keyboard.Listen(Key.Left, ButtonState.Down, PyoritaPalloa, "Anna pallolle alakierrettä.", 0.2);
+        Keyboard.Listen(Key.Right, ButtonState.Down, PyoritaPalloa, "Anna pallolle yläkierrettä.", -0.2);
 
         Keyboard.Listen(Key.F1, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet");
         //Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Poistu");
 
-        ControllerOne.Listen(Button.RightTrigger, ButtonState.Down, laskeVoimaPadilla, "Pidä pohjassa heiton voimakkuuden säätämiseen.");
-        ControllerOne.Listen(Button.RightTrigger, ButtonState.Released, heitaPallo, null);
-        ControllerOne.Listen(Button.RightStick, ButtonState.Up, pyoritaPalloaPadilla, "Anna pallolle kierrettä.");
-        ControllerOne.Listen(Button.A, ButtonState.Pressed, asetaPallo, "Palauta pallo alkutilanteeseen");
+        ControllerOne.Listen(Button.RightTrigger, ButtonState.Down, LaskeVoimaPadilla, "Pidä pohjassa heiton voimakkuuden säätämiseen.");
+        ControllerOne.Listen(Button.RightTrigger, ButtonState.Released, HeitaPallo, null);
+        ControllerOne.Listen(Button.RightStick, ButtonState.Up, PyoritaPalloaPadilla, "Anna pallolle kierrettä.");
+        ControllerOne.Listen(Button.A, ButtonState.Pressed, AsetaPallo, "Palauta pallo alkutilanteeseen");
 
         ControllerOne.Listen(Button.Start, ButtonState.Pressed, ShowControlHelp, "Näytä ohjeet");
         ControllerOne.Listen(Button.Back, ButtonState.Pressed, Exit, "Poistu");

@@ -47,6 +47,7 @@ using Jypeli;
 using Jypeli.Farseer;
 using System.Numerics;
 using System.Threading;
+using System.Threading.Tasks;
 using FarseerPhysics.Contacts;
 
 namespace FarseerPhysics.Dynamics
@@ -146,12 +147,16 @@ namespace FarseerPhysics.Dynamics
         public ControllerDelegate ControllerRemoved;
 
         /// <summary>
+        /// Käytetäänkö fysiikan laskemiseen useampaa prosessoriydintä.
+        /// Mikäli <c>true</c>, käytetään 2 * järjestelmässä olevaa säiettä.
+        /// </summary>
+        public static bool Multithreaded { get; set; } = true;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="World"/> class.
         /// </summary>
         public World()
         {
-            ThreadPool.SetMinThreads(16, 16);
-            int i = ThreadPool.ThreadCount;
             Island = new Island();
             Enabled = true;
             ControllerList = new List<Controller>();

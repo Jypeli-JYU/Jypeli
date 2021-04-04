@@ -365,10 +365,10 @@ namespace FarseerPhysics.Dynamics.Contacts
 
         public void SolveVelocityConstraints()
         {
-            if (_count >= _velocityConstraintsMultithreadThreshold && System.Environment.ProcessorCount > 1)
+            if (_count >= _velocityConstraintsMultithreadThreshold && ContactManager.ThreadsToUse > 1)
             {
                 if (_count == 0) return;
-                var batchSize = (int)Math.Ceiling((float)_count / (System.Environment.ProcessorCount*2));
+                var batchSize = (int)Math.Ceiling((float)_count / ContactManager.ThreadsToUse);
                 var batches = (int)Math.Ceiling((float)_count / batchSize);
 
 #if NET40 || NET45 || NETSTANDARD2_0
@@ -806,10 +806,10 @@ namespace FarseerPhysics.Dynamics.Contacts
         {
             bool contactsOkay = false;
 
-            if (_count >= _positionConstraintsMultithreadThreshold && System.Environment.ProcessorCount > 1)
+            if (_count >= _positionConstraintsMultithreadThreshold && ContactManager.ThreadsToUse > 1)
             {
                 if (_count == 0) return true;
-                var batchSize = (int)Math.Ceiling((float)_count / System.Environment.ProcessorCount);
+                var batchSize = (int)Math.Ceiling((float)_count / ContactManager.ThreadsToUse);
                 var batches = (int)Math.Ceiling((float)_count / batchSize);
 
 #if NET40 || NET45 || NETSTANDARD2_0 || PORTABLE40 || PORTABLE45 || W10 || W8_1 || WP8_1

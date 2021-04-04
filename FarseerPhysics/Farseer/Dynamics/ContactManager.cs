@@ -32,7 +32,9 @@
 */
 #endregion
 
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Contacts;
 using FarseerPhysics.Dynamics.Contacts;
@@ -66,6 +68,11 @@ namespace FarseerPhysics.Dynamics
         /// Typical values are {128 or 256}.
         /// </summary>
         public int CollideMultithreadThreshold = 256;
+        
+        /// <summary>
+        /// Kuinka monta suoritinta korkeintaan käytetään fysiikan laskemiseen.
+        /// </summary>
+        public static int ThreadsToUse = 1;
         #endregion
 
 
@@ -122,6 +129,13 @@ namespace FarseerPhysics.Dynamics
 
         internal ContactManager(IBroadPhase broadPhase)
         {
+            if (World.Multithreaded)
+            {
+                ThreadsToUse = Environment.ProcessorCount * 2;
+                ThreadPool.SetMaxThreads(ThreadsToUse, ThreadsToUse);
+            }
+            
+            
             ContactList = new ContactListHead();
             ContactCount = 0;
             _contactPoolList = new ContactListHead();
@@ -323,7 +337,7 @@ namespace FarseerPhysics.Dynamics
         internal void Collide()
         {
 #if NET40 || NET45 || NETSTANDARD2_0 || PORTABLE40 || PORTABLE45 || W10 || W8_1 || WP8_1
-            if (this.ContactCount > CollideMultithreadThreshold && System.Environment.ProcessorCount > 1)
+            if (this.ContactCount > CollideMultithreadThreshold && ThreadsToUse > 1)
             {
                 CollideMultiCore();
                 return;

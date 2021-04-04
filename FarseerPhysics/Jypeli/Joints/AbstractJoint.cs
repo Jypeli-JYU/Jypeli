@@ -55,7 +55,7 @@ namespace Jypeli
         /// </summary>
         public bool IsDestroyed
         {
-            get { return innerJoint.Enabled; }
+            get { return !innerJoint.Enabled; }
         }
 
         /// <summary>

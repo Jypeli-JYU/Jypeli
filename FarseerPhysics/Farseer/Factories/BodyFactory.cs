@@ -14,7 +14,8 @@ namespace FarseerPhysics.Factories
         public static Body CreateBody(World world, Vector2 position = new Vector2(), float rotation = 0,
                                       BodyType bodyType = BodyType.Static, object userData = null)
         {
-            return new Body(world, position, rotation, bodyType, userData);
+            return new Body(); // TODO:
+            //return new Body(world, position, rotation, bodyType, userData);
         }
 
         public static Body CreateEdge(World world, Vector2 start, Vector2 end, object userData = null)
@@ -51,7 +52,7 @@ namespace FarseerPhysics.Factories
                 throw new ArgumentOutOfRangeException(nameof(height), "Height must be more than 0 meters");
 
             var newBody = CreateBody(world, position, rotation, bodyType);
-            newBody.UserData = userData;
+            newBody.Tag = userData;
 
             var rectangleVertices = PolygonTools.CreateRectangle(width / 2, height / 2);
             var rectangleShape = new PolygonShape(rectangleVertices, density);
@@ -175,34 +176,13 @@ namespace FarseerPhysics.Factories
         }
 
         public static Body CreateSolidArc(World world, float density, float radians, int sides, float radius,
-                                          Vector2 position = new Vector2(), float rotation = 0,
-                                          BodyType bodyType = BodyType.Static)
+            Vector2 position = new Vector2(), float rotation = 0,
+            BodyType bodyType = BodyType.Static)
         {
             var body = CreateBody(world, position, rotation, bodyType);
             FixtureFactory.AttachSolidArc(density, radians, sides, radius, body);
 
             return body;
-        }
-
-        public static BreakableBody CreateBreakableBody(World world, Vertices vertices, float density,
-                                                        Vector2 position = new Vector2(), float rotation = 0)
-        {
-            //TODO: Implement a Voronoi diagram algorithm to split up the vertices
-            var triangles = Triangulate.ConvexPartition(vertices, TriangulationAlgorithm.Earclip);
-
-            var breakableBody = new BreakableBody(world, triangles, density, position, rotation);
-            breakableBody.MainBody.Position = position;
-            world.AddBreakableBody(breakableBody);
-            return breakableBody;
-        }
-
-        public static BreakableBody CreateBreakableBody(World world, IEnumerable<Shape> shapes,
-                                                        Vector2 position = new Vector2(), float rotation = 0)
-        {
-            var breakableBody = new BreakableBody(world, shapes, position, rotation);
-            breakableBody.MainBody.Position = position;
-            world.AddBreakableBody(breakableBody);
-            return breakableBody;
         }
     }
 }

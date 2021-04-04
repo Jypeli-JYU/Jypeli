@@ -1,4 +1,38 @@
-﻿using System;
+﻿#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
+/*
+* Farseer Physics Engine:
+* Copyright (c) 2012 Ian Qvist
+* 
+* Original source Box2D:
+* Copyright (c) 2006-2011 Erin Catto http://www.box2d.org 
+* 
+* This software is provided 'as-is', without any express or implied 
+* warranty.  In no event will the authors be held liable for any damages 
+* arising from the use of this software. 
+* Permission is granted to anyone to use this software for any purpose, 
+* including commercial applications, and to alter it and redistribute it 
+* freely, subject to the following restrictions: 
+* 1. The origin of this software must not be misrepresented; you must not 
+* claim that you wrote the original software. If you use this software 
+* in a product, an acknowledgment in the product documentation would be 
+* appreciated but is not required. 
+* 2. Altered source versions must be plainly marked as such, and must not be 
+* misrepresented as being the original software. 
+* 3. This notice may not be removed or altered from any source distribution. 
+*/
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
@@ -22,8 +56,7 @@ namespace FarseerPhysics.Common
         /// </summary>
         public List<Vector2> ControlPoints;
 
-        float _deltaT;
-
+        private float _deltaT;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Path"/> class.
@@ -64,7 +97,7 @@ namespace FarseerPhysics.Common
         /// True if the curve is closed.
         /// </summary>
         /// <value><c>true</c> if closed; otherwise, <c>false</c>.</value>
-        public bool IsClosed { get; set; }
+        public bool Closed { get; set; }
 
         /// <summary>
         /// Gets the next index of a controlpoint
@@ -77,7 +110,6 @@ namespace FarseerPhysics.Common
             {
                 return 0;
             }
-
             return index + 1;
         }
 
@@ -92,7 +124,6 @@ namespace FarseerPhysics.Common
             {
                 return ControlPoints.Count - 1;
             }
-
             return index - 1;
         }
 
@@ -103,7 +134,7 @@ namespace FarseerPhysics.Common
         public void Translate(ref Vector2 vector)
         {
             for (int i = 0; i < ControlPoints.Count; i++)
-                ControlPoints[i] = Vector2.Add(ControlPoints[i], vector);
+                ControlPoints[i] = ControlPoints[i] + vector;
         }
 
         /// <summary>
@@ -113,7 +144,7 @@ namespace FarseerPhysics.Common
         public void Scale(ref Vector2 value)
         {
             for (int i = 0; i < ControlPoints.Count; i++)
-                ControlPoints[i] = Vector2.Multiply(ControlPoints[i], value);
+                ControlPoints[i] = ControlPoints[i] * value;
         }
 
         /// <summary>
@@ -122,11 +153,10 @@ namespace FarseerPhysics.Common
         /// <param name="value">The amount to rotate by in radians.</param>
         public void Rotate(float value)
         {
-            Matrix4x4 rotationMatrix = Matrix4x4.CreateRotationZ(value);
-
+            var rotation = Complex.FromAngle(value);
 
             for (int i = 0; i < ControlPoints.Count; i++)
-                ControlPoints[i] = Vector2.Transform(ControlPoints[i], rotationMatrix);
+                ControlPoints[i] = Complex.Multiply(ControlPoints[i], ref rotation);
         }
 
         public override string ToString()
@@ -140,7 +170,6 @@ namespace FarseerPhysics.Common
                     builder.Append(" ");
                 }
             }
-
             return builder.ToString();
         }
 
@@ -153,7 +182,8 @@ namespace FarseerPhysics.Common
         /// <returns></returns>
         public Vertices GetVertices(int divisions)
         {
-            var verts = new Vertices();
+            Vertices verts = new Vertices();
+
             float timeStep = 1f / divisions;
 
             for (float i = 0; i < 1f; i += timeStep)
@@ -166,12 +196,12 @@ namespace FarseerPhysics.Common
 
         public Vector2 GetPosition(float time)
         {
-            Microsoft.Xna.Framework.Vector2 temp;
+            Vector2 temp;
 
             if (ControlPoints.Count < 2)
                 throw new Exception("You need at least 2 control points to calculate a position.");
 
-            if (IsClosed)
+            if (Closed)
             {
                 Add(ControlPoints[0]);
 
@@ -195,9 +225,8 @@ namespace FarseerPhysics.Common
 
                 // relative time
                 float lt = (time - _deltaT * p) / _deltaT;
-                
-                
-                temp = Microsoft.Xna.Framework.Vector2.CatmullRom(ControlPoints[p0], ControlPoints[p1], ControlPoints[p2], ControlPoints[p3], lt);
+
+                CalcCatmullRom(ControlPoints[p0], ControlPoints[p1], ControlPoints[p2], ControlPoints[p3], lt, out temp);
 
                 RemoveAt(ControlPoints.Count - 1);
             }
@@ -221,11 +250,33 @@ namespace FarseerPhysics.Common
 
                 // relative time
                 float lt = (time - _deltaT * p) / _deltaT;
-                
-                temp = Microsoft.Xna.Framework.Vector2.CatmullRom(ControlPoints[p0], ControlPoints[p1], ControlPoints[p2], ControlPoints[p3], lt);
+
+                CalcCatmullRom(ControlPoints[p0], ControlPoints[p1], ControlPoints[p2], ControlPoints[p3], lt, out temp);
             }
 
-            return new Vector2(temp.X, temp.Y);
+            return temp;
+        }
+
+        private void CalcCatmullRom(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, float amount, out Vector2 result)
+        {
+            double sqAmount = amount * amount;
+            double cuAmount = sqAmount * amount;
+            
+            double x;
+            double y;
+            x = 2.0 * p1.X;
+            y = 2.0 * p1.Y;
+            x += (p2.X - p0.X) * amount;
+            y += (p2.Y - p0.Y) * amount;
+            x += (2.0 * p0.X - 5.0 * p1.X + 4.0 * p2.X - p3.X) * sqAmount;
+            y += (2.0 * p0.Y - 5.0 * p1.Y + 4.0 * p2.Y - p3.Y) * sqAmount;
+            x += (3.0 * p1.X - p0.X - 3.0 * p2.X + p3.X) * cuAmount;
+            y += (3.0 * p1.Y - p0.Y - 3.0 * p2.Y + p3.Y) * cuAmount;
+            x *= 0.5;
+            y *= 0.5;
+
+            result.X = (float)x;
+            result.Y = (float)y;
         }
 
         /// <summary>
@@ -235,12 +286,13 @@ namespace FarseerPhysics.Common
         /// <returns>The normal.</returns>
         public Vector2 GetPositionNormal(float time)
         {
-            var offsetTime = time + 0.0001f;
+            float offsetTime = time + 0.0001f;
 
-            var a = GetPosition(time);
-            var b = GetPosition(offsetTime);
+            Vector2 a = GetPosition(time);
+            Vector2 b = GetPosition(offsetTime);
 
             Vector2 output, temp;
+
             temp = Vector2.Subtract(a, b);
 
             output.X = -temp.Y;
@@ -279,7 +331,7 @@ namespace FarseerPhysics.Common
                 length += Vector2.Distance(verts[i - 1], verts[i]);
             }
 
-            if (IsClosed)
+            if (Closed)
                 length += Vector2.Distance(verts[ControlPoints.Count - 1], verts[0]);
 
             return length;
@@ -316,7 +368,7 @@ namespace FarseerPhysics.Common
                 Vector2 normal = GetPositionNormal(t);
                 float angle = (float)Math.Atan2(normal.Y, normal.X);
 
-                verts.Add(new Vector3(end, angle));
+                verts.Add(new Vector3(end.X, end.Y, angle));
 
                 // until we reach the correct distance down the curve
                 while (deltaLength >= Vector2.Distance(start, end))
@@ -327,19 +379,12 @@ namespace FarseerPhysics.Common
                     if (t >= 1f)
                         break;
                 }
-
                 if (t >= 1f)
                     break;
 
                 start = end;
             }
-
             return verts;
-        }
-
-        public static string GetFileNameWithoutExtension(string fontFile)
-        {
-            throw new NotImplementedException();
         }
     }
 }

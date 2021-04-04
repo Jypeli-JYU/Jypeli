@@ -17,19 +17,19 @@ namespace FarseerPhysics.Factories
         public static Fixture AttachEdge(Vector2 start, Vector2 end, Body body, object userData = null)
         {
             var edgeShape = new EdgeShape(start, end);
-            return body.CreateFixture(edgeShape, userData);
+            return body.CreateFixture(edgeShape);
         }
 
         public static Fixture AttachChainShape(Vertices vertices, Body body, object userData = null)
         {
             var shape = new ChainShape(vertices);
-            return body.CreateFixture(shape, userData);
+            return body.CreateFixture(shape);
         }
 
         public static Fixture AttachLoopShape(Vertices vertices, Body body, object userData = null)
         {
             var shape = new ChainShape(vertices, true);
-            return body.CreateFixture(shape, userData);
+            return body.CreateFixture(shape);
         }
 
         public static Fixture AttachRectangle(float width, float height, float density, Vector2 offset, Body body,
@@ -38,7 +38,7 @@ namespace FarseerPhysics.Factories
             var rectangleVertices = PolygonTools.CreateRectangle(width / 2, height / 2);
             rectangleVertices.Translate(ref offset);
             var rectangleShape = new PolygonShape(rectangleVertices, density);
-            return body.CreateFixture(rectangleShape, userData);
+            return body.CreateFixture(rectangleShape);
         }
 
         public static List<Fixture> AttachRoundedRectangle(float width, float height, float xRadius, float yRadius,
@@ -65,7 +65,7 @@ namespace FarseerPhysics.Factories
                 throw new ArgumentOutOfRangeException(nameof(radius), "Radius must be more than 0 meters");
 
             var circleShape = new CircleShape(radius, density);
-            return body.CreateFixture(circleShape, userData);
+            return body.CreateFixture(circleShape);
         }
 
         public static Fixture AttachCircle(float radius, float density, Body body, Vector2 offset,
@@ -76,7 +76,7 @@ namespace FarseerPhysics.Factories
 
             var circleShape = new CircleShape(radius, density);
             circleShape.Position = offset;
-            return body.CreateFixture(circleShape, userData);
+            return body.CreateFixture(circleShape);
         }
 
         public static Fixture AttachPolygon(Vertices vertices, float density, Body body, object userData = null)
@@ -85,7 +85,7 @@ namespace FarseerPhysics.Factories
                 throw new ArgumentOutOfRangeException(nameof(vertices), "Too few points to be a polygon");
 
             var polygon = new PolygonShape(vertices, density);
-            return body.CreateFixture(polygon, userData);
+            return body.CreateFixture(polygon);
         }
 
         public static Fixture AttachEllipse(float xRadius, float yRadius, int edges, float density, Body body,
@@ -99,7 +99,7 @@ namespace FarseerPhysics.Factories
 
             var ellipseVertices = PolygonTools.CreateEllipse(xRadius, yRadius, edges);
             var polygonShape = new PolygonShape(ellipseVertices, density);
-            return body.CreateFixture(polygonShape, userData);
+            return body.CreateFixture(polygonShape);
         }
 
         public static List<Fixture> AttachCompoundPolygon(List<Vertices> list, float density, Body body,
@@ -113,12 +113,12 @@ namespace FarseerPhysics.Factories
                 if (vertices.Count == 2)
                 {
                     var shape = new EdgeShape(vertices[0], vertices[1]);
-                    res.Add(body.CreateFixture(shape, userData));
+                    res.Add(body.CreateFixture(shape));
                 }
                 else
                 {
                     var shape = new PolygonShape(vertices, density);
-                    res.Add(body.CreateFixture(shape, userData));
+                    res.Add(body.CreateFixture(shape));
                 }
             }
 

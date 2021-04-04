@@ -1,4 +1,15 @@
-﻿/*
+﻿#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
+/*
 * Farseer Physics Engine:
 * Copyright (c) 2012 Ian Qvist
 * 
@@ -19,11 +30,13 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
 using System;
 using System.Diagnostics;
 using System.Numerics;
 using FarseerPhysics.Common;
+using Complex = FarseerPhysics.Common.Complex;
 
 
 namespace FarseerPhysics.Collision
@@ -33,8 +46,8 @@ namespace FarseerPhysics.Collision
     /// </summary>
     public class TOIInput
     {
-        public DistanceProxy ProxyA = new DistanceProxy();
-        public DistanceProxy ProxyB = new DistanceProxy();
+        public DistanceProxy ProxyA;
+        public DistanceProxy ProxyB;
         public Sweep SweepA;
         public Sweep SweepB;
         public float TMax; // defines sweep interval [0, tMax]
@@ -62,24 +75,27 @@ namespace FarseerPhysics.Collision
         FaceB
     }
 
-
     public static class SeparationFunction
     {
-        [ThreadStatic] static Vector2 _axis;
-        [ThreadStatic] static Vector2 _localPoint;
-        [ThreadStatic] static DistanceProxy _proxyA;
-        [ThreadStatic] static DistanceProxy _proxyB;
-        [ThreadStatic] static Sweep _sweepA, _sweepB;
-        [ThreadStatic] static SeparationFunctionType _type;
+        [ThreadStatic]
+        private static Vector2 _axis;
+        [ThreadStatic]
+        private static Vector2 _localPoint;
+        [ThreadStatic]
+        private static DistanceProxy _proxyA;
+        [ThreadStatic]
+        private static DistanceProxy _proxyB;
+        [ThreadStatic]
+        private static Sweep _sweepA, _sweepB;
+        [ThreadStatic]
+        private static SeparationFunctionType _type;
 
-
-        public static void Set(ref SimplexCache cache, DistanceProxy proxyA, ref Sweep sweepA, DistanceProxy proxyB,
-                               ref Sweep sweepB, float t1)
+        public static void Set(ref SimplexCache cache, ref DistanceProxy proxyA, ref Sweep sweepA, ref DistanceProxy proxyB, ref Sweep sweepB, float t1)
         {
             _localPoint = Vector2.Zero;
             _proxyA = proxyA;
             _proxyB = proxyB;
-            var count = cache.Count;
+            int count = cache.Count;
             Debug.Assert(0 < count && count < 3);
 
             _sweepA = sweepA;
@@ -92,59 +108,60 @@ namespace FarseerPhysics.Collision
             if (count == 1)
             {
                 _type = SeparationFunctionType.Points;
-                var localPointA = _proxyA.vertices[cache.IndexA[0]];
-                var localPointB = _proxyB.vertices[cache.IndexB[0]];
-                var pointA = MathUtils.Mul(ref xfA, localPointA);
-                var pointB = MathUtils.Mul(ref xfB, localPointB);
-                _axis = pointB - pointA;
-                _axis = Vector2.Normalize(_axis);
+                Vector2 localPointA = _proxyA.Vertices[cache.IndexA[0]];
+                Vector2 localPointB = _proxyB.Vertices[cache.IndexB[0]];
+                Vector2 pointA = Transform.Multiply(ref localPointA, ref xfA);
+                Vector2 pointB = Transform.Multiply(ref localPointB, ref xfB);
+                _axis = Vector2.Normalize(pointB - pointA);
             }
             else if (cache.IndexA[0] == cache.IndexA[1])
             {
                 // Two points on B and one on A.
                 _type = SeparationFunctionType.FaceB;
-                var localPointB1 = proxyB.vertices[cache.IndexB[0]];
-                var localPointB2 = proxyB.vertices[cache.IndexB[1]];
+                Vector2 localPointB1 = proxyB.Vertices[cache.IndexB[0]];
+                Vector2 localPointB2 = proxyB.Vertices[cache.IndexB[1]];
 
-                var a = localPointB2 - localPointB1;
+                Vector2 a = localPointB2 - localPointB1;
                 _axis = new Vector2(a.Y, -a.X);
                 _axis = Vector2.Normalize(_axis);
-                var normal = MathUtils.Mul(ref xfB.Q, _axis);
+                Vector2 normal = Complex.Multiply(ref _axis, ref xfB.q);
 
                 _localPoint = 0.5f * (localPointB1 + localPointB2);
-                var pointB = MathUtils.Mul(ref xfB, _localPoint);
+                Vector2 pointB = Transform.Multiply(ref _localPoint, ref xfB);
 
-                var localPointA = proxyA.vertices[cache.IndexA[0]];
-                var pointA = MathUtils.Mul(ref xfA, localPointA);
+                Vector2 localPointA = proxyA.Vertices[cache.IndexA[0]];
+                Vector2 pointA = Transform.Multiply(ref localPointA, ref xfA);
 
-                var s = Vector2.Dot(pointA - pointB, normal);
+                float s = Vector2.Dot(pointA - pointB, normal);
                 if (s < 0.0f)
+                {
                     _axis = -_axis;
+                }
             }
             else
             {
                 // Two points on A and one or two points on B.
                 _type = SeparationFunctionType.FaceA;
-                var localPointA1 = _proxyA.vertices[cache.IndexA[0]];
-                var localPointA2 = _proxyA.vertices[cache.IndexA[1]];
+                Vector2 localPointA1 = _proxyA.Vertices[cache.IndexA[0]];
+                Vector2 localPointA2 = _proxyA.Vertices[cache.IndexA[1]];
 
-                var a = localPointA2 - localPointA1;
+                Vector2 a = localPointA2 - localPointA1;
                 _axis = new Vector2(a.Y, -a.X);
                 _axis = Vector2.Normalize(_axis);
-                var normal = MathUtils.Mul(ref xfA.Q, _axis);
+                Vector2 normal = Complex.Multiply(ref _axis, ref xfA.q);
 
                 _localPoint = 0.5f * (localPointA1 + localPointA2);
-                var pointA = MathUtils.Mul(ref xfA, _localPoint);
+                Vector2 pointA = Transform.Multiply(ref _localPoint, ref xfA);
 
-                var localPointB = _proxyB.vertices[cache.IndexB[0]];
-                var pointB = MathUtils.Mul(ref xfB, localPointB);
+                Vector2 localPointB = _proxyB.Vertices[cache.IndexB[0]];
+                Vector2 pointB = Transform.Multiply(ref localPointB, ref xfB);
 
-                var s = Vector2.Dot(pointB - pointA, normal);
+                float s = Vector2.Dot(pointB - pointA, normal);
                 if (s < 0.0f)
+                {
                     _axis = -_axis;
+                }
             }
-
-            //FPE note: the returned value that used to be here has been removed, as it was not used.
         }
 
         public static float FindMinSeparation(out int indexA, out int indexB, float t)
@@ -157,53 +174,53 @@ namespace FarseerPhysics.Collision
             {
                 case SeparationFunctionType.Points:
                     {
-                        var axisA = MathUtils.MulT(ref xfA.Q, _axis);
-                        var axisB = MathUtils.MulT(ref xfB.Q, -_axis);
+                        Vector2 axisA =  Complex.Divide(ref _axis, ref xfA.q);
+                        Vector2 axisB = -Complex.Divide(ref _axis, ref xfB.q);
 
                         indexA = _proxyA.GetSupport(axisA);
                         indexB = _proxyB.GetSupport(axisB);
 
-                        var localPointA = _proxyA.vertices[indexA];
-                        var localPointB = _proxyB.vertices[indexB];
+                        Vector2 localPointA = _proxyA.Vertices[indexA];
+                        Vector2 localPointB = _proxyB.Vertices[indexB];
 
-                        var pointA = MathUtils.Mul(ref xfA, localPointA);
-                        var pointB = MathUtils.Mul(ref xfB, localPointB);
+                        Vector2 pointA = Transform.Multiply(ref localPointA, ref xfA);
+                        Vector2 pointB = Transform.Multiply(ref localPointB, ref xfB);
 
-                        var separation = Vector2.Dot(pointB - pointA, _axis);
+                        float separation = Vector2.Dot(pointB - pointA, _axis);
                         return separation;
                     }
 
                 case SeparationFunctionType.FaceA:
                     {
-                        var normal = MathUtils.Mul(ref xfA.Q, _axis);
-                        var pointA = MathUtils.Mul(ref xfA, _localPoint);
+                        Vector2 normal = Complex.Multiply(ref _axis, ref xfA.q);
+                        Vector2 pointA = Transform.Multiply(ref _localPoint, ref xfA);
 
-                        var axisB = MathUtils.MulT(ref xfB.Q, -normal);
+                        Vector2 axisB = -Complex.Divide(ref normal, ref xfB.q);
 
                         indexA = -1;
                         indexB = _proxyB.GetSupport(axisB);
 
-                        var localPointB = _proxyB.vertices[indexB];
-                        var pointB = MathUtils.Mul(ref xfB, localPointB);
+                        Vector2 localPointB = _proxyB.Vertices[indexB];
+                        Vector2 pointB = Transform.Multiply(ref localPointB, ref xfB);
 
-                        var separation = Vector2.Dot(pointB - pointA, normal);
+                        float separation = Vector2.Dot(pointB - pointA, normal);
                         return separation;
                     }
 
                 case SeparationFunctionType.FaceB:
                     {
-                        var normal = MathUtils.Mul(ref xfB.Q, _axis);
-                        var pointB = MathUtils.Mul(ref xfB, _localPoint);
+                        Vector2 normal = Complex.Multiply(ref _axis, ref xfB.q);
+                        Vector2 pointB = Transform.Multiply(ref _localPoint, ref xfB);
 
-                        var axisA = MathUtils.MulT(ref xfA.Q, -normal);
+                        Vector2 axisA = -Complex.Divide(ref normal, ref xfA.q);
 
                         indexB = -1;
                         indexA = _proxyA.GetSupport(axisA);
 
-                        var localPointA = _proxyA.vertices[indexA];
-                        var pointA = MathUtils.Mul(ref xfA, localPointA);
+                        Vector2 localPointA = _proxyA.Vertices[indexA];
+                        Vector2 pointA = Transform.Multiply(ref localPointA, ref xfA);
 
-                        var separation = Vector2.Dot(pointA - pointB, normal);
+                        float separation = Vector2.Dot(pointA - pointB, normal);
                         return separation;
                     }
 
@@ -225,35 +242,35 @@ namespace FarseerPhysics.Collision
             {
                 case SeparationFunctionType.Points:
                     {
-                        var localPointA = _proxyA.vertices[indexA];
-                        var localPointB = _proxyB.vertices[indexB];
+                        Vector2 localPointA = _proxyA.Vertices[indexA];
+                        Vector2 localPointB = _proxyB.Vertices[indexB];
 
-                        var pointA = MathUtils.Mul(ref xfA, localPointA);
-                        var pointB = MathUtils.Mul(ref xfB, localPointB);
-                        var separation = Vector2.Dot(pointB - pointA, _axis);
+                        Vector2 pointA = Transform.Multiply(ref localPointA, ref xfA);
+                        Vector2 pointB = Transform.Multiply(ref localPointB, ref xfB);
+                        float separation = Vector2.Dot(pointB - pointA, _axis);
 
                         return separation;
                     }
                 case SeparationFunctionType.FaceA:
                     {
-                        var normal = MathUtils.Mul(ref xfA.Q, _axis);
-                        var pointA = MathUtils.Mul(ref xfA, _localPoint);
+                        Vector2 normal = Complex.Multiply(ref _axis, ref xfA.q);
+                        Vector2 pointA = Transform.Multiply(ref _localPoint, ref xfA);
 
-                        var localPointB = _proxyB.vertices[indexB];
-                        var pointB = MathUtils.Mul(ref xfB, localPointB);
+                        Vector2 localPointB = _proxyB.Vertices[indexB];
+                        Vector2 pointB = Transform.Multiply(ref localPointB, ref xfB);
 
-                        var separation = Vector2.Dot(pointB - pointA, normal);
+                        float separation = Vector2.Dot(pointB - pointA, normal);
                         return separation;
                     }
                 case SeparationFunctionType.FaceB:
                     {
-                        var normal = MathUtils.Mul(ref xfB.Q, _axis);
-                        var pointB = MathUtils.Mul(ref xfB, _localPoint);
+                        Vector2 normal = Complex.Multiply(ref _axis, ref xfB.q);
+                        Vector2 pointB = Transform.Multiply(ref _localPoint, ref xfB);
 
-                        var localPointA = _proxyA.vertices[indexA];
-                        var pointA = MathUtils.Mul(ref xfA, localPointA);
+                        Vector2 localPointA = _proxyA.Vertices[indexA];
+                        Vector2 pointA = Transform.Multiply(ref localPointA, ref xfA);
 
-                        var separation = Vector2.Dot(pointA - pointB, normal);
+                        float separation = Vector2.Dot(pointA - pointB, normal);
                         return separation;
                     }
                 default:
@@ -263,15 +280,15 @@ namespace FarseerPhysics.Collision
         }
     }
 
-
     public static class TimeOfImpact
     {
         // CCD via the local separating axis method. This seeks progression
         // by computing the largest time at which separation is maintained.
 
-        [ThreadStatic] public static int TOICalls, TOIIters, TOIMaxIters;
-        [ThreadStatic] public static int TOIRootIters, TOIMaxRootIters;
-        [ThreadStatic] static DistanceInput _distanceInput;
+        [ThreadStatic]
+        public static int TOICalls, TOIIters, TOIMaxIters;
+        [ThreadStatic]
+        public static int TOIRootIters, TOIMaxRootIters;
 
         /// <summary>
         /// Compute the upper bound on time before two shapes penetrate. Time is represented as
@@ -282,7 +299,7 @@ namespace FarseerPhysics.Collision
         /// </summary>
         /// <param name="output">The output.</param>
         /// <param name="input">The input.</param>
-        public static void CalculateTimeOfImpact(out TOIOutput output, TOIInput input)
+        public static void CalculateTimeOfImpact(out TOIOutput output, ref TOIInput input)
         {
             if (Settings.EnableDiagnostics) //FPE: We only gather diagnostics when enabled
                 ++TOICalls;
@@ -291,29 +308,30 @@ namespace FarseerPhysics.Collision
             output.State = TOIOutputState.Unknown;
             output.T = input.TMax;
 
-            var sweepA = input.SweepA;
-            var sweepB = input.SweepB;
+            Sweep sweepA = input.SweepA;
+            Sweep sweepB = input.SweepB;
 
-            // Large rotations can make the root finder fail, so we normalize the sweep angles.
+            // Large rotations can make the root finder fail, so we normalize the
+            // sweep angles.
             sweepA.Normalize();
             sweepB.Normalize();
 
-            var tMax = input.TMax;
+            float tMax = input.TMax;
 
-            var totalRadius = input.ProxyA.radius + input.ProxyB.radius;
-            var target = Math.Max(Settings.LinearSlop, totalRadius - 3.0f * Settings.LinearSlop);
+            float totalRadius = input.ProxyA.Radius + input.ProxyB.Radius;
+            float target = Math.Max(Settings.LinearSlop, totalRadius - 3.0f * Settings.LinearSlop);
             const float tolerance = 0.25f * Settings.LinearSlop;
             Debug.Assert(target > tolerance);
 
-            var t1 = 0.0f;
+            float t1 = 0.0f;
             const int k_maxIterations = 20;
-            var iter = 0;
+            int iter = 0;
 
             // Prepare input for distance query.
-            _distanceInput = _distanceInput ?? new DistanceInput();
-            _distanceInput.ProxyA = input.ProxyA;
-            _distanceInput.ProxyB = input.ProxyB;
-            _distanceInput.UseRadii = false;
+            DistanceInput distanceInput = new DistanceInput();
+            distanceInput.ProxyA = input.ProxyA;
+            distanceInput.ProxyB = input.ProxyB;
+            distanceInput.UseRadii = false;
 
             // The outer loop progressively attempts to compute new separating axes.
             // This loop terminates when an axis is repeated (no progress is made).
@@ -325,11 +343,11 @@ namespace FarseerPhysics.Collision
 
                 // Get the distance between shapes. We can also use the results
                 // to get a separating axis.
-                _distanceInput.TransformA = xfA;
-                _distanceInput.TransformB = xfB;
+                distanceInput.TransformA = xfA;
+                distanceInput.TransformB = xfB;
                 DistanceOutput distanceOutput;
                 SimplexCache cache;
-                Distance.ComputeDistance(out distanceOutput, out cache, _distanceInput);
+                Distance.ComputeDistance(out distanceOutput, out cache, distanceInput);
 
                 // If the shapes are overlapped, we give up on continuous collision.
                 if (distanceOutput.Distance <= 0.0f)
@@ -348,18 +366,18 @@ namespace FarseerPhysics.Collision
                     break;
                 }
 
-                SeparationFunction.Set(ref cache, input.ProxyA, ref sweepA, input.ProxyB, ref sweepB, t1);
+                SeparationFunction.Set(ref cache, ref input.ProxyA, ref sweepA, ref input.ProxyB, ref sweepB, t1);
 
                 // Compute the TOI on the separating axis. We do this by successively
                 // resolving the deepest point. This loop is bounded by the number of vertices.
-                var done = false;
-                var t2 = tMax;
-                var pushBackIter = 0;
+                bool done = false;
+                float t2 = tMax;
+                int pushBackIter = 0;
                 for (; ; )
                 {
                     // Find the deepest point at t2. Store the witness point indices.
                     int indexA, indexB;
-                    var s2 = SeparationFunction.FindMinSeparation(out indexA, out indexB, t2);
+                    float s2 = SeparationFunction.FindMinSeparation(out indexA, out indexB, t2);
 
                     // Is the final configuration separated?
                     if (s2 > target + tolerance)
@@ -425,7 +443,7 @@ namespace FarseerPhysics.Collision
                         if (Settings.EnableDiagnostics) //FPE: We only gather diagnostics when enabled
                             ++TOIRootIters;
 
-                        var s = SeparationFunction.Evaluate(indexA, indexB, t);
+                        float s = SeparationFunction.Evaluate(indexA, indexB, t);
 
                         if (Math.Abs(s - target) < tolerance)
                         {
@@ -458,7 +476,9 @@ namespace FarseerPhysics.Collision
                     ++pushBackIter;
 
                     if (pushBackIter == Settings.MaxPolygonVertices)
+                    {
                         break;
+                    }
                 }
 
                 ++iter;
@@ -467,7 +487,9 @@ namespace FarseerPhysics.Collision
                     ++TOIIters;
 
                 if (done)
+                {
                     break;
+                }
 
                 if (iter == k_maxIterations)
                 {

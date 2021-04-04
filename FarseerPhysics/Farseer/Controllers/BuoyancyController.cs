@@ -9,8 +9,6 @@ namespace FarseerPhysics.Controllers
 {
     public sealed class BuoyancyController : Controller
     {
-        #region Properties/Fields
-
         /// <summary>
         /// Controls the rotational drag that the fluid exerts on the bodies within it. Use higher values will simulate thick fluid, like honey, lower values to
         /// simulate water-like fluids. 
@@ -23,7 +21,7 @@ namespace FarseerPhysics.Controllers
         public float Density;
 
         /// <summary>
-        /// Controls the linear drag that the fluid exerts on the bodies within it. Use higher values will simulate thick fluid, like honey, lower values to
+        /// Controls the linear drag that the fluid exerts on the bodies within it.  Use higher values will simulate thick fluid, like honey, lower values to
         /// simulate water-like fluids.
         /// </summary>
         public float LinearDragCoefficient;
@@ -33,15 +31,12 @@ namespace FarseerPhysics.Controllers
         /// </summary>
         public Vector2 Velocity;
 
-        AABB _container;
+        private AABB _container;
 
-        Vector2 _gravity;
-        Vector2 _normal;
-        float _offset;
-        Dictionary<int, Body> _uniqueBodies = new Dictionary<int, Body>();
-
-        #endregion
-
+        private Vector2 _gravity;
+        private Vector2 _normal;
+        private float _offset;
+        private ICollection<Body> _uniqueBodies = new List<Body>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BuoyancyController"/> class.
@@ -51,21 +46,19 @@ namespace FarseerPhysics.Controllers
         /// <param name="linearDragCoefficient">Linear drag coefficient of the fluid</param>
         /// <param name="rotationalDragCoefficient">Rotational drag coefficient of the fluid</param>
         /// <param name="gravity">The direction gravity acts. Buoyancy force will act in opposite direction of gravity.</param>
-        public BuoyancyController(AABB container, float density, float linearDragCoefficient,
-                                  float rotationalDragCoefficient, Vector2 gravity)
-            : base(ControllerType.BuoyancyController)
+        public BuoyancyController(AABB container, float density, float linearDragCoefficient, float rotationalDragCoefficient, Vector2 gravity)
         {
-            this.Container = container;
+            Container = container;
             _normal = new Vector2(0, 1);
-            this.Density = density;
-            this.LinearDragCoefficient = linearDragCoefficient;
+            Density = density;
+            LinearDragCoefficient = linearDragCoefficient;
             AngularDragCoefficient = rotationalDragCoefficient;
             _gravity = gravity;
         }
 
         public AABB Container
         {
-            get => _container;
+            get { return _container; }
             set
             {
                 _container = value;
@@ -77,20 +70,18 @@ namespace FarseerPhysics.Controllers
         {
             _uniqueBodies.Clear();
             World.QueryAABB(fixture =>
+                                {
+                                    if (fixture.Body.BodyType == BodyType.Static || !fixture.Body.Awake)
+                                        return true;
+
+                                    if (!_uniqueBodies.Contains(fixture.Body))
+                                        _uniqueBodies.Add(fixture.Body);
+
+                                    return true;
+                                }, ref _container);
+
+            foreach (Body body in _uniqueBodies)
             {
-                if (fixture.Body.IsStatic || !fixture.Body.IsAwake)
-                    return true;
-
-                if (!_uniqueBodies.ContainsKey(fixture.Body.BodyId))
-                    _uniqueBodies.Add(fixture.Body.BodyId, fixture.Body);
-
-                return true;
-            }, ref _container);
-
-            foreach (KeyValuePair<int, Body> kv in _uniqueBodies)
-            {
-                Body body = kv.Value;
-
                 Vector2 areac = Vector2.Zero;
                 Vector2 massc = Vector2.Zero;
                 float area = 0;
@@ -125,12 +116,12 @@ namespace FarseerPhysics.Controllers
                     continue;
 
                 //Buoyancy
-                var buoyancyForce = -Density * area * _gravity;
+                Vector2 buoyancyForce = -Density * area * _gravity;
                 body.ApplyForce(buoyancyForce, massc);
 
                 //Linear drag
-                var dragForce = body.GetLinearVelocityFromWorldPoint(areac) - Velocity;
-                dragForce *= -LinearDragCoefficient * area;
+                Vector2 dragVelocity = body.GetLinearVelocityFromWorldPoint(areac) - Velocity;
+                Vector2 dragForce = dragVelocity * (-LinearDragCoefficient * area);
                 body.ApplyForce(dragForce, areac);
 
                 //Angular drag

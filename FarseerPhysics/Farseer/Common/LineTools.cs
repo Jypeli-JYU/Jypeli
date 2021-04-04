@@ -1,4 +1,38 @@
-﻿using System;
+﻿#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
+/*
+* Farseer Physics Engine:
+* Copyright (c) 2012 Ian Qvist
+* 
+* Original source Box2D:
+* Copyright (c) 2006-2011 Erin Catto http://www.box2d.org 
+* 
+* This software is provided 'as-is', without any express or implied 
+* warranty.  In no event will the authors be held liable for any damages 
+* arising from the use of this software. 
+* Permission is granted to anyone to use this software for any purpose, 
+* including commercial applications, and to alter it and redistribute it 
+* freely, subject to the following restrictions: 
+* 1. The origin of this software must not be misrepresented; you must not 
+* claim that you wrote the original software. If you use this software 
+* in a product, an acknowledgment in the product documentation would be 
+* appreciated but is not required. 
+* 2. Altered source versions must be plainly marked as such, and must not be 
+* misrepresented as being the original software. 
+* 3. This notice may not be removed or altered from any source distribution. 
+*/
+#endregion
+
+using System;
 using System.Numerics;
 using FarseerPhysics.Collision;
 
@@ -16,8 +50,8 @@ namespace FarseerPhysics.Common
             if (start == end)
                 return Vector2.Distance(point, start);
 
-            Vector2 v = Vector2.Subtract(end, start);
-            Vector2 w = Vector2.Subtract(point, start);
+            Vector2 v = end - start;
+            Vector2 w = point - start;
 
             float c1 = Vector2.Dot(w, v);
             if (c1 <= 0) return Vector2.Distance(point, start);
@@ -26,7 +60,7 @@ namespace FarseerPhysics.Common
             if (c2 <= c1) return Vector2.Distance(point, end);
 
             float b = c1 / c2;
-            Vector2 pointOnLine = Vector2.Add(start, Vector2.Multiply(v, b));
+            Vector2 pointOnLine = start + v * b;
             return Vector2.Distance(point, pointOnLine);
         }
 
@@ -39,8 +73,7 @@ namespace FarseerPhysics.Common
         ///Grazing lines should not return true.
         /// 
         /// </summary>
-        public static bool LineIntersect2(ref Vector2 a0, ref Vector2 a1, ref Vector2 b0, ref Vector2 b1,
-                                          out Vector2 intersectionPoint)
+        public static bool LineIntersect2(ref Vector2 a0, ref Vector2 a1, ref Vector2 b0, ref  Vector2 b1, out Vector2 intersectionPoint)
         {
             intersectionPoint = Vector2.Zero;
 
@@ -71,7 +104,6 @@ namespace FarseerPhysics.Common
                 //Lines are too close to parallel to call
                 return false;
             }
-
             ua /= denom;
             ub /= denom;
 
@@ -103,7 +135,6 @@ namespace FarseerPhysics.Common
                 i.X = (b2 * c1 - b1 * c2) / det;
                 i.Y = (a1 * c2 - a2 * c1) / det;
             }
-
             return i;
         }
 
@@ -131,8 +162,7 @@ namespace FarseerPhysics.Common
         /// <param name="secondIsSegment">Set this to true to require that the
         /// intersection point be on the second line segment.</param>
         /// <returns>True if an intersection is detected, false otherwise.</returns>
-        public static bool LineIntersect(ref Vector2 point1, ref Vector2 point2, ref Vector2 point3, ref Vector2 point4,
-                                         bool firstIsSegment, bool secondIsSegment, out Vector2 point)
+        public static bool LineIntersect(ref Vector2 point1, ref Vector2 point2, ref Vector2 point3, ref Vector2 point4, bool firstIsSegment, bool secondIsSegment, out Vector2 point)
         {
             point = new Vector2();
 
@@ -209,11 +239,9 @@ namespace FarseerPhysics.Common
         /// <param name="secondIsSegment">Set this to true to require that the
         /// intersection point be on the second line segment.</param>
         /// <returns>True if an intersection is detected, false otherwise.</returns>
-        public static bool LineIntersect(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4,
-                                         bool firstIsSegment, bool secondIsSegment, out Vector2 intersectionPoint)
+        public static bool LineIntersect(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4, bool firstIsSegment, bool secondIsSegment, out Vector2 intersectionPoint)
         {
-            return LineIntersect(ref point1, ref point2, ref point3, ref point4, firstIsSegment, secondIsSegment,
-                out intersectionPoint);
+            return LineIntersect(ref point1, ref point2, ref point3, ref point4, firstIsSegment, secondIsSegment, out intersectionPoint);
         }
 
         /// <summary>
@@ -230,8 +258,7 @@ namespace FarseerPhysics.Common
         /// <param name="intersectionPoint">This is set to the intersection
         /// point if an intersection is detected.</param>
         /// <returns>True if an intersection is detected, false otherwise.</returns>
-        public static bool LineIntersect(ref Vector2 point1, ref Vector2 point2, ref Vector2 point3, ref Vector2 point4,
-                                         out Vector2 intersectionPoint)
+        public static bool LineIntersect(ref Vector2 point1, ref Vector2 point2, ref Vector2 point3, ref Vector2 point4, out Vector2 intersectionPoint)
         {
             return LineIntersect(ref point1, ref point2, ref point3, ref point4, true, true, out intersectionPoint);
         }
@@ -250,8 +277,7 @@ namespace FarseerPhysics.Common
         /// <param name="intersectionPoint">This is set to the intersection
         /// point if an intersection is detected.</param>
         /// <returns>True if an intersection is detected, false otherwise.</returns>
-        public static bool LineIntersect(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4,
-                                         out Vector2 intersectionPoint)
+        public static bool LineIntersect(Vector2 point1, Vector2 point2, Vector2 point3, Vector2 point4, out Vector2 intersectionPoint)
         {
             return LineIntersect(ref point1, ref point2, ref point3, ref point4, true, true, out intersectionPoint);
         }

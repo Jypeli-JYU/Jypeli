@@ -1,4 +1,15 @@
-﻿/*
+﻿#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
+/*
 * Farseer Physics Engine:
 * Copyright (c) 2012 Ian Qvist
 * 
@@ -19,7 +30,9 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
+using System.Numerics;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics.Contacts;
@@ -28,6 +41,26 @@ using FarseerPhysics.Dynamics.Joints;
 
 namespace FarseerPhysics.Dynamics
 {
+    /// <summary>
+    /// Called for each fixture found in the query.
+    /// <returns>true: Continues the query, false: Terminate the query</returns>
+    /// </summary>
+    public delegate bool QueryReportFixtureDelegate(Fixture fixture);
+
+    /// <summary>
+    /// Called for each fixture found in the query. You control how the ray cast
+    /// proceeds by returning a float:
+    /// return -1: ignore this fixture and continue
+    /// return 0: terminate the ray cast
+    /// return fraction: clip the ray to this point
+    /// return 1: don't clip the ray and continue
+    /// @param fixture the fixture hit by the ray
+    /// @param point the point of initial intersection
+    /// @param normal the normal vector at the point of intersection
+    /// @return 0 to terminate, fraction to clip the ray for closest hit, 1 to continue
+    /// </summary>
+    public delegate float RayCastReportFixtureDelegate(Fixture fixture, Vector2 point, Vector2 normal, float fraction);
+
     /// <summary>
     /// This delegate is called when a contact is deleted
     /// </summary>
@@ -42,24 +75,23 @@ namespace FarseerPhysics.Dynamics
 
     public delegate void PostSolveDelegate(Contact contact, ContactVelocityConstraint impulse);
 
-    public delegate void FixtureDelegate(Fixture fixture);
+    public delegate void FixtureDelegate(World sender, Body body, Fixture fixture);
 
-    public delegate void JointDelegate(Joint joint);
+    public delegate void JointDelegate(World sender, Joint joint);
 
-    public delegate void BodyDelegate(Body body);
+    public delegate void BodyDelegate(World sender, Body body);
 
-    public delegate void ControllerDelegate(Controller controller);
+    public delegate void ControllerDelegate(World sender, Controller controller);
 
     public delegate bool CollisionFilterDelegate(Fixture fixtureA, Fixture fixtureB);
 
-    public delegate void BroadphaseDelegate(ref FixtureProxy proxyA, ref FixtureProxy proxyB);
+    public delegate void BroadphaseDelegate(int proxyIdA, int proxyIdB);
 
-    public delegate bool BeforeCollisionEventHandler(Fixture fixtureA, Fixture fixtureB);
+    public delegate bool BeforeCollisionEventHandler(Fixture sender, Fixture other);
 
-    public delegate bool OnCollisionEventHandler(Fixture fixtureA, Fixture fixtureB, Contact contact);
+    public delegate bool OnCollisionEventHandler(Fixture sender, Fixture other, Contact contact);
 
-    public delegate void AfterCollisionEventHandler(Fixture fixtureA, Fixture fixtureB, Contact contact,
-                                                    ContactVelocityConstraint impulse);
+    public delegate void AfterCollisionEventHandler(Fixture sender, Fixture other, Contact contact, ContactVelocityConstraint impulse);
 
-    public delegate void OnSeparationEventHandler(Fixture fixtureA, Fixture fixtureB);
+    public delegate void OnSeparationEventHandler(Fixture sender, Fixture other, Contact contact);
 }

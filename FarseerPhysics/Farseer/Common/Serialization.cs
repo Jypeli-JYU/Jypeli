@@ -13,54 +13,55 @@ using FarseerPhysics.Dynamics.Joints;
 
 namespace FarseerPhysics.Common
 {
-    /// <summary>
+ /// <summary>
     /// Serialize the world into an XML file
     /// </summary>
     public static class WorldSerializer
     {
         /// <summary>
-        /// Serialize the world to an XML file
+        /// Serialize the world to a stream in XML format
         /// </summary>
         /// <param name="world"></param>
-        /// <param name="fileStream"></param>
-        public static void Serialize(World world, Stream fileStream)
+        /// <param name="stream"></param>
+        public static void Serialize(World world, Stream stream)
         {
-            WorldXmlSerializer.Serialize(world, fileStream);
+            WorldXmlSerializer.Serialize(world, stream);
         }
 
         /// <summary>
-        /// Deserialize the world from an XML file
+        /// Deserialize the world from a stream XML
         /// </summary>
-        /// <param name="fileStream"></param>
-        public static World Deserialize(Stream fileStream)
+        /// <param name="stream"></param>
+        public static World Deserialize(Stream stream)
         {
-            return WorldXmlDeserializer.Deserialize(fileStream);
+            return WorldXmlDeserializer.Deserialize(stream);
         }
     }
 
-
     internal static class WorldXmlSerializer
     {
-        static XmlWriter _writer;
+        private static XmlWriter _writer;
 
-        static void SerializeShape(Shape shape)
+        private static void SerializeShape(Shape shape)
         {
             _writer.WriteStartElement("Shape");
             _writer.WriteAttributeString("Type", shape.ShapeType.ToString());
-            _writer.WriteAttributeString("Density", shape.Density.ToString());
+            _writer.WriteAttributeString("Density", FloatToString(shape.Density));
 
             switch (shape.ShapeType)
             {
                 case ShapeType.Circle:
                     {
-                        var circle = (CircleShape)shape;
-                        _writer.WriteElementString("Radius", circle.Radius.ToString());
+                        CircleShape circle = (CircleShape)shape;
+
+                        WriteElement("Radius", circle.Radius);
+
                         WriteElement("Position", circle.Position);
                     }
                     break;
                 case ShapeType.Polygon:
                     {
-                        var poly = (PolygonShape)shape;
+                        PolygonShape poly = (PolygonShape)shape;
 
                         _writer.WriteStartElement("Vertices");
                         foreach (Vector2 v in poly.Vertices)
@@ -72,14 +73,14 @@ namespace FarseerPhysics.Common
                     break;
                 case ShapeType.Edge:
                     {
-                        var poly = (EdgeShape)shape;
+                        EdgeShape poly = (EdgeShape)shape;
                         WriteElement("Vertex1", poly.Vertex1);
                         WriteElement("Vertex2", poly.Vertex2);
                     }
                     break;
                 case ShapeType.Chain:
                     {
-                        var chain = (ChainShape)shape;
+                        ChainShape chain = (ChainShape)shape;
 
                         _writer.WriteStartElement("Vertices");
                         foreach (Vector2 v in chain.Vertices)
@@ -97,52 +98,51 @@ namespace FarseerPhysics.Common
             _writer.WriteEndElement();
         }
 
-        static void SerializeFixture(Fixture fixture)
+        private static void SerializeFixture(List<Fixture> fixtures, Fixture fixture)
         {
             _writer.WriteStartElement("Fixture");
-            _writer.WriteAttributeString("Id", fixture.FixtureId.ToString());
+            _writer.WriteAttributeString("Id", fixtures.IndexOf(fixture).ToString());
 
             _writer.WriteStartElement("FilterData");
             _writer.WriteElementString("CategoryBits", ((int)fixture.CollisionCategories).ToString());
             _writer.WriteElementString("MaskBits", ((int)fixture.CollidesWith).ToString());
             _writer.WriteElementString("GroupIndex", fixture.CollisionGroup.ToString());
-            _writer.WriteElementString("CollisionIgnores", Join("|", fixture._collisionIgnores));
             _writer.WriteEndElement();
 
-            _writer.WriteElementString("Friction", fixture.Friction.ToString());
+            WriteElement("Friction", fixture.Friction);
             _writer.WriteElementString("IsSensor", fixture.IsSensor.ToString());
-            _writer.WriteElementString("Restitution", fixture.Restitution.ToString());
+            WriteElement("Restitution", fixture.Restitution);
 
-            if (fixture.UserData != null)
+            if (fixture.Tag != null)
             {
-                _writer.WriteStartElement("UserData");
-                WriteDynamicType(fixture.UserData.GetType(), fixture.UserData);
+                _writer.WriteStartElement("Tag");
+                WriteDynamicType(fixture.Tag.GetType(), fixture.Tag);
                 _writer.WriteEndElement();
             }
 
             _writer.WriteEndElement();
         }
-
-        static void SerializeBody(List<Fixture> fixtures, List<Shape> shapes, Body body)
+        
+        private static void SerializeBody(List<Fixture> fixtures, List<Shape> shapes, Body body)
         {
             _writer.WriteStartElement("Body");
             _writer.WriteAttributeString("Type", body.BodyType.ToString());
             _writer.WriteElementString("Active", body.Enabled.ToString());
-            _writer.WriteElementString("AllowSleep", body.IsSleepingAllowed.ToString());
-            _writer.WriteElementString("Angle", body.Rotation.ToString());
-            _writer.WriteElementString("AngularDamping", body.AngularDamping.ToString());
-            _writer.WriteElementString("AngularVelocity", body.AngularVelocity.ToString());
-            _writer.WriteElementString("Awake", body.IsAwake.ToString());
+            _writer.WriteElementString("AllowSleep", body.SleepingAllowed.ToString());
+            WriteElement("Angle", body.Rotation);
+            WriteElement("AngularDamping", body.AngularDamping);
+            WriteElement("AngularVelocity", body.AngularVelocity);
+            _writer.WriteElementString("Awake", body.Awake.ToString());
             _writer.WriteElementString("Bullet", body.IsBullet.ToString());
             _writer.WriteElementString("FixedRotation", body.FixedRotation.ToString());
-            _writer.WriteElementString("LinearDamping", body.LinearDamping.ToString());
+            WriteElement("LinearDamping", body.LinearDamping);
             WriteElement("LinearVelocity", body.LinearVelocity);
             WriteElement("Position", body.Position);
 
-            if (body.UserData != null)
+            if (body.Tag != null)
             {
-                _writer.WriteStartElement("UserData");
-                WriteDynamicType(body.UserData.GetType(), body.UserData);
+                _writer.WriteStartElement("Tag");
+                WriteDynamicType(body.Tag.GetType(), body.Tag);
                 _writer.WriteEndElement();
             }
 
@@ -150,8 +150,8 @@ namespace FarseerPhysics.Common
             for (int i = 0; i < body.FixtureList.Count; i++)
             {
                 _writer.WriteStartElement("Pair");
-                _writer.WriteAttributeString("FixtureId", FindIndex(fixtures, body.FixtureList[i]).ToString());
-                _writer.WriteAttributeString("ShapeId", FindIndex(shapes, body.FixtureList[i].Shape).ToString());
+                _writer.WriteAttributeString("FixtureId", fixtures.IndexOf(body.FixtureList[i]).ToString());
+                _writer.WriteAttributeString("ShapeId", shapes.IndexOf(body.FixtureList[i].Shape).ToString());
                 _writer.WriteEndElement();
             }
 
@@ -159,22 +159,22 @@ namespace FarseerPhysics.Common
             _writer.WriteEndElement();
         }
 
-        static void SerializeJoint(List<Body> bodies, Joint joint)
+        private static void SerializeJoint(List<Body> bodies, Joint joint)
         {
             _writer.WriteStartElement("Joint");
             _writer.WriteAttributeString("Type", joint.JointType.ToString());
 
-            WriteElement("BodyA", FindIndex(bodies, joint.BodyA));
-            WriteElement("BodyB", FindIndex(bodies, joint.BodyB));
+            WriteElement("BodyA", bodies.IndexOf(joint.BodyA));
+            WriteElement("BodyB", bodies.IndexOf(joint.BodyB));
 
             WriteElement("CollideConnected", joint.CollideConnected);
 
             WriteElement("Breakpoint", joint.Breakpoint);
 
-            if (joint.UserData != null)
+            if (joint.Tag != null)
             {
-                _writer.WriteStartElement("UserData");
-                WriteDynamicType(joint.UserData.GetType(), joint.UserData);
+                _writer.WriteStartElement("Tag");
+                WriteDynamicType(joint.Tag.GetType(), joint.Tag);
                 _writer.WriteEndElement();
             }
 
@@ -182,7 +182,7 @@ namespace FarseerPhysics.Common
             {
                 case JointType.Distance:
                     {
-                        var distanceJoint = (DistanceJoint)joint;
+                        DistanceJoint distanceJoint = (DistanceJoint)joint;
                         WriteElement("DampingRatio", distanceJoint.DampingRatio);
                         WriteElement("FrequencyHz", distanceJoint.Frequency);
                         WriteElement("Length", distanceJoint.Length);
@@ -192,7 +192,7 @@ namespace FarseerPhysics.Common
                     break;
                 case JointType.Friction:
                     {
-                        var frictionJoint = (FrictionJoint)joint;
+                        FrictionJoint frictionJoint = (FrictionJoint)joint;
                         WriteElement("LocalAnchorA", frictionJoint.LocalAnchorA);
                         WriteElement("LocalAnchorB", frictionJoint.LocalAnchorB);
                         WriteElement("MaxForce", frictionJoint.MaxForce);
@@ -203,7 +203,7 @@ namespace FarseerPhysics.Common
                     throw new Exception("Gear joint not supported by serialization");
                 case JointType.Wheel:
                     {
-                        var wheelJoint = (WheelJoint)joint;
+                        WheelJoint wheelJoint = (WheelJoint)joint;
                         WriteElement("EnableMotor", wheelJoint.MotorEnabled);
                         WriteElement("LocalAnchorA", wheelJoint.LocalAnchorA);
                         WriteElement("LocalAnchorB", wheelJoint.LocalAnchorB);
@@ -218,7 +218,7 @@ namespace FarseerPhysics.Common
                     {
                         //NOTE: Does not conform with Box2DScene
 
-                        var prismaticJoint = (PrismaticJoint)joint;
+                        PrismaticJoint prismaticJoint = (PrismaticJoint)joint;
                         WriteElement("EnableLimit", prismaticJoint.LimitEnabled);
                         WriteElement("EnableMotor", prismaticJoint.MotorEnabled);
                         WriteElement("LocalAnchorA", prismaticJoint.LocalAnchorA);
@@ -232,7 +232,7 @@ namespace FarseerPhysics.Common
                     break;
                 case JointType.Pulley:
                     {
-                        var pulleyJoint = (PulleyJoint)joint;
+                        PulleyJoint pulleyJoint = (PulleyJoint)joint;
                         WriteElement("WorldAnchorA", pulleyJoint.WorldAnchorA);
                         WriteElement("WorldAnchorB", pulleyJoint.WorldAnchorB);
                         WriteElement("LengthA", pulleyJoint.LengthA);
@@ -240,12 +240,12 @@ namespace FarseerPhysics.Common
                         WriteElement("LocalAnchorA", pulleyJoint.LocalAnchorA);
                         WriteElement("LocalAnchorB", pulleyJoint.LocalAnchorB);
                         WriteElement("Ratio", pulleyJoint.Ratio);
-                        WriteElement("Constant", pulleyJoint.constant);
+                        WriteElement("Constant", pulleyJoint.Constant);
                     }
                     break;
                 case JointType.Revolute:
                     {
-                        var revoluteJoint = (RevoluteJoint)joint;
+                        RevoluteJoint revoluteJoint = (RevoluteJoint)joint;
                         WriteElement("EnableLimit", revoluteJoint.LimitEnabled);
                         WriteElement("EnableMotor", revoluteJoint.MotorEnabled);
                         WriteElement("LocalAnchorA", revoluteJoint.LocalAnchorA);
@@ -259,18 +259,17 @@ namespace FarseerPhysics.Common
                     break;
                 case JointType.Weld:
                     {
-                        var weldJoint = (WeldJoint)joint;
+                        WeldJoint weldJoint = (WeldJoint)joint;
                         WriteElement("LocalAnchorA", weldJoint.LocalAnchorA);
                         WriteElement("LocalAnchorB", weldJoint.LocalAnchorB);
                     }
                     break;
-
                 //
                 // Not part of Box2DScene
                 //
                 case JointType.Rope:
                     {
-                        var ropeJoint = (RopeJoint)joint;
+                        RopeJoint ropeJoint = (RopeJoint)joint;
                         WriteElement("LocalAnchorA", ropeJoint.LocalAnchorA);
                         WriteElement("LocalAnchorB", ropeJoint.LocalAnchorB);
                         WriteElement("MaxLength", ropeJoint.MaxLength);
@@ -278,7 +277,7 @@ namespace FarseerPhysics.Common
                     break;
                 case JointType.Angle:
                     {
-                        var angleJoint = (AngleJoint)joint;
+                        AngleJoint angleJoint = (AngleJoint)joint;
                         WriteElement("BiasFactor", angleJoint.BiasFactor);
                         WriteElement("MaxImpulse", angleJoint.MaxImpulse);
                         WriteElement("Softness", angleJoint.Softness);
@@ -287,12 +286,12 @@ namespace FarseerPhysics.Common
                     break;
                 case JointType.Motor:
                     {
-                        var motorJoint = (MotorJoint)joint;
+                        MotorJoint motorJoint = (MotorJoint)joint;
                         WriteElement("AngularOffset", motorJoint.AngularOffset);
                         WriteElement("LinearOffset", motorJoint.LinearOffset);
                         WriteElement("MaxForce", motorJoint.MaxForce);
                         WriteElement("MaxTorque", motorJoint.MaxTorque);
-                        WriteElement("CorrectionFactor", motorJoint.correctionFactor);
+                        WriteElement("CorrectionFactor", motorJoint.CorrectionFactor);
                     }
                     break;
                 default:
@@ -302,188 +301,154 @@ namespace FarseerPhysics.Common
             _writer.WriteEndElement();
         }
 
-        static void WriteDynamicType(Type type, object val)
+        private static void WriteDynamicType(Type type, object val)
         {
             _writer.WriteElementString("Type", type.AssemblyQualifiedName);
 
             _writer.WriteStartElement("Value");
-            var serializer = new XmlSerializer(type);
-
-            //var xmlnsEmpty = new XmlSerializerNamespaces();
-            //xmlnsEmpty.Add( "", "" );
-
+            XmlSerializer serializer = new XmlSerializer(type);
             serializer.Serialize(_writer, val);
             _writer.WriteEndElement();
         }
 
-        static void WriteElement(string name, Vector2 vec)
+        private static void WriteElement(string name, Vector2 vec)
         {
-            _writer.WriteElementString(name, vec.X + " " + vec.Y);
+            _writer.WriteElementString(name, FloatToString(vec.X) + " " + FloatToString(vec.Y));
         }
 
-        static void WriteElement(string name, int val)
+        private static void WriteElement(string name, int val)
         {
             _writer.WriteElementString(name, val.ToString());
         }
 
-        static void WriteElement(string name, bool val)
+        private static void WriteElement(string name, bool val)
         {
             _writer.WriteElementString(name, val.ToString());
         }
 
-        static void WriteElement(string name, float val)
+        private static void WriteElement(string name, float val)
         {
-            _writer.WriteElementString(name, val.ToString());
+            _writer.WriteElementString(name, FloatToString(val));
         }
 
-        static int FindIndex(List<Body> list, Body item)
+        private static string FloatToString(float value)
         {
-            for (int i = 0; i < list.Count; ++i)
-                if (list[i] == item)
-                    return i;
-
-            return -1;
+            return value.ToString(System.Globalization.CultureInfo.InvariantCulture);
         }
 
-        static int FindIndex(List<Fixture> list, Fixture item)
+        private static String Join(List<Fixture> fixtures, IEnumerable<Fixture> values)
         {
-            for (int i = 0; i < list.Count; ++i)
-                if (list[i].CompareTo(item))
-                    return i;
-
-            return -1;
-        }
-
-        static int FindIndex(List<Shape> list, Shape item)
-        {
-            for (int i = 0; i < list.Count; ++i)
-                if (list[i].CompareTo(item))
-                    return i;
-
-            return -1;
-        }
-
-        static String Join<T>(String separator, IEnumerable<T> values)
-        {
-            using (IEnumerator<T> en = values.GetEnumerator())
+            using (var en = values.GetEnumerator())
             {
                 if (!en.MoveNext())
-                    return string.Empty;
+                    return String.Empty;
 
-                var result = new StringBuilder();
+                StringBuilder result = new StringBuilder();
                 if (en.Current != null)
                 {
-                    // handle the case that the enumeration has null entries
-                    // and the case where their ToString() override is broken
-                    string value = en.Current.ToString();
-                    if (value != null)
-                        result.Append(value);
+                    var fixture = en.Current;
+                    var fixtureId = fixtures.IndexOf(fixture);
+                    result.Append(fixtureId.ToString());
                 }
 
                 while (en.MoveNext())
                 {
-                    result.Append(separator);
-                    if (en.Current != null)
-                    {
-                        // handle the case that the enumeration has null entries
-                        // and the case where their ToString() override is broken
-                        string value = en.Current.ToString();
-                        if (value != null)
-                            result.Append(value);
-                    }
-                }
+                    result.Append("|");
 
+                    var fixture = en.Current;
+                    var fixtureId = fixtures.IndexOf(fixture);
+                    result.Append(fixtureId.ToString());
+                }
                 return result.ToString();
             }
         }
 
         internal static void Serialize(World world, Stream stream)
         {
-            var bodies = new List<Body>();
-            var fixtures = new List<Fixture>();
-            var shapes = new List<Shape>();
+            List<Body> bodies = new List<Body>();
+            List<Fixture> fixtures = new List<Fixture>();
+            List<Shape> shapes = new List<Shape>();
 
-            var settings = new XmlWriterSettings();
+            XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.NewLineOnAttributes = false;
             settings.OmitXmlDeclaration = true;
 
-            using (_writer = XmlWriter.Create(stream, settings))
+            _writer = XmlWriter.Create(stream, settings);
+
+            _writer.WriteStartElement("World");
+            _writer.WriteAttributeString("Version", "3");
+            WriteElement("Gravity", world.Gravity);
+
+            _writer.WriteStartElement("Shapes");
+
+            foreach (Body body in world.BodyList)
             {
-                _writer.WriteStartElement("World");
-                _writer.WriteAttributeString("Version", "3");
-                WriteElement("Gravity", world.Gravity);
-
-                _writer.WriteStartElement("Shapes");
-
-                foreach (Body body in world.BodyList)
+                foreach (Fixture fixture in body.FixtureList)
                 {
-                    foreach (Fixture fixture in body.FixtureList)
+                    if (!shapes.Contains(fixture.Shape))
                     {
-                        if (!shapes.Any(s2 => fixture.Shape.CompareTo(s2)))
-                        {
-                            SerializeShape(fixture.Shape);
-                            shapes.Add(fixture.Shape);
-                        }
+                        shapes.Add(fixture.Shape);
+                        SerializeShape(fixture.Shape);
                     }
                 }
-
-                _writer.WriteEndElement();
-                _writer.WriteStartElement("Fixtures");
-
-                foreach (Body body in world.BodyList)
-                {
-                    foreach (Fixture fixture in body.FixtureList)
-                    {
-                        if (!fixtures.Any(f2 => fixture.CompareTo(f2)))
-                        {
-                            SerializeFixture(fixture);
-                            fixtures.Add(fixture);
-                        }
-                    }
-                }
-
-                _writer.WriteEndElement();
-                _writer.WriteStartElement("Bodies");
-
-                foreach (var body in world.BodyList)
-                {
-                    bodies.Add(body);
-                    SerializeBody(fixtures, shapes, body);
-                }
-
-                _writer.WriteEndElement();
-                _writer.WriteStartElement("Joints");
-
-                foreach (Joint joint in world.JointList)
-                {
-                    SerializeJoint(bodies, joint);
-                }
-
-                _writer.WriteEndElement();
-                _writer.WriteEndElement();
-
-                _writer.Flush();
             }
+
+            _writer.WriteEndElement();
+            _writer.WriteStartElement("Fixtures");
+
+            foreach (Body body in world.BodyList)
+            {
+                foreach (Fixture fixture in body.FixtureList)
+                {
+                    if (!fixtures.Contains(fixture))
+                    {
+                        fixtures.Add(fixture);
+                        SerializeFixture(fixtures, fixture);
+                    }
+                }
+            }
+
+            _writer.WriteEndElement();
+            _writer.WriteStartElement("Bodies");
+
+            foreach (Body body in world.BodyList)
+            {
+                bodies.Add(body);
+                SerializeBody(fixtures, shapes, body);
+            }
+
+            _writer.WriteEndElement();
+            _writer.WriteStartElement("Joints");
+
+            foreach (Joint joint in world.JointList)
+            {
+                SerializeJoint(bodies, joint);
+            }
+
+            _writer.WriteEndElement();
+            _writer.WriteEndElement();
+
+            _writer.Flush();
         }
     }
-
 
     internal static class WorldXmlDeserializer
     {
         internal static World Deserialize(Stream stream)
         {
-            var world = new World(Vector2.Zero);
+            World world = new World(Vector2.Zero);
             Deserialize(world, stream);
             return world;
         }
 
-        static void Deserialize(World world, Stream stream)
+        private static void Deserialize(World world, Stream stream)
         {
-            var bodies = new List<Body>();
-            var fixtures = new List<Fixture>();
-            var joints = new List<Joint>();
-            var shapes = new List<Shape>();
+            List<Body> bodies = new List<Body>();
+            List<Fixture> fixtures = new List<Fixture>();
+
+            List<Joint> joints = new List<Joint>();
+            List<Shape> shapes = new List<Shape>();
 
             XMLFragmentElement root = XMLFragmentParser.LoadFromStream(stream);
 
@@ -510,14 +475,14 @@ namespace FarseerPhysics.Common
                         if (element.Name.ToLower() != "shape")
                             throw new Exception();
 
-                        var type = (ShapeType)Enum.Parse(typeof(ShapeType), element.Attributes[0].Value, true);
-                        float density = float.Parse(element.Attributes[1].Value);
+                        ShapeType type = (ShapeType)Enum.Parse(typeof(ShapeType), element.Attributes[0].Value, true);
+                        float density = ParseFloat(element.Attributes[1].Value);
 
                         switch (type)
                         {
                             case ShapeType.Circle:
                                 {
-                                    var shape = new CircleShape();
+                                    CircleShape shape = new CircleShape();
                                     shape._density = density;
 
                                     foreach (XMLFragmentElement sn in element.Elements)
@@ -525,7 +490,7 @@ namespace FarseerPhysics.Common
                                         switch (sn.Name.ToLower())
                                         {
                                             case "radius":
-                                                shape.Radius = float.Parse(sn.Value);
+                                                shape.Radius = ParseFloat(sn.Value);
                                                 break;
                                             case "position":
                                                 shape.Position = ReadVector(sn);
@@ -540,7 +505,7 @@ namespace FarseerPhysics.Common
                                 break;
                             case ShapeType.Polygon:
                                 {
-                                    var shape = new PolygonShape();
+                                    PolygonShape shape = new PolygonShape();
                                     shape._density = density;
 
                                     foreach (XMLFragmentElement sn in element.Elements)
@@ -549,7 +514,7 @@ namespace FarseerPhysics.Common
                                         {
                                             case "vertices":
                                                 {
-                                                    var verts = new List<Vector2>(sn.Elements.Count);
+                                                    List<Vector2> verts = new List<Vector2>(sn.Elements.Count);
 
                                                     foreach (XMLFragmentElement vert in sn.Elements)
                                                         verts.Add(ReadVector(vert));
@@ -568,7 +533,7 @@ namespace FarseerPhysics.Common
                                 break;
                             case ShapeType.Edge:
                                 {
-                                    var shape = new EdgeShape();
+                                    EdgeShape shape = new EdgeShape();
                                     shape._density = density;
 
                                     foreach (XMLFragmentElement sn in element.Elements)
@@ -597,13 +562,12 @@ namespace FarseerPhysics.Common
                                                 throw new Exception();
                                         }
                                     }
-
                                     shapes.Add(shape);
                                 }
                                 break;
                             case ShapeType.Chain:
                                 {
-                                    var shape = new ChainShape();
+                                    ChainShape shape = new ChainShape();
                                     shape._density = density;
 
                                     foreach (XMLFragmentElement sn in element.Elements)
@@ -612,7 +576,7 @@ namespace FarseerPhysics.Common
                                         {
                                             case "vertices":
                                                 {
-                                                    var verts = new List<Vector2>(sn.Elements.Count);
+                                                    List<Vector2> verts = new List<Vector2>(sn.Elements.Count);
 
                                                     foreach (XMLFragmentElement vert in sn.Elements)
                                                         verts.Add(ReadVector(vert));
@@ -631,7 +595,6 @@ namespace FarseerPhysics.Common
                                                 throw new Exception();
                                         }
                                     }
-
                                     shapes.Add(shape);
                                 }
                                 break;
@@ -647,12 +610,12 @@ namespace FarseerPhysics.Common
                 {
                     foreach (XMLFragmentElement element in fixtureElement.Elements)
                     {
-                        var fixture = new Fixture();
+                        Fixture fixture = new Fixture();
 
                         if (element.Name.ToLower() != "fixture")
                             throw new Exception();
 
-                        fixture.FixtureId = int.Parse(element.Attributes[0].Value);
+                        int fixtureId = int.Parse(element.Attributes[0].Value);
 
                         foreach (XMLFragmentElement sn in element.Elements)
                         {
@@ -672,29 +635,21 @@ namespace FarseerPhysics.Common
                                             case "groupindex":
                                                 fixture._collisionGroup = short.Parse(ssn.Value);
                                                 break;
-                                            case "CollisionIgnores":
-                                                string[] split = ssn.Value.Split('|');
-                                                foreach (string s in split)
-                                                {
-                                                    fixture._collisionIgnores.Add(int.Parse(s));
-                                                }
-
-                                                break;
                                         }
                                     }
 
                                     break;
                                 case "friction":
-                                    fixture.Friction = float.Parse(sn.Value);
+                                    fixture.Friction = ParseFloat(sn.Value);
                                     break;
                                 case "issensor":
                                     fixture.IsSensor = bool.Parse(sn.Value);
                                     break;
                                 case "restitution":
-                                    fixture.Restitution = float.Parse(sn.Value);
+                                    fixture.Restitution = ParseFloat(sn.Value);
                                     break;
-                                case "userdata":
-                                    fixture.UserData = ReadSimpleType(sn, null, false);
+                                case "tag":
+                                    fixture.Tag = ReadSimpleType(sn, null, false);
                                     break;
                             }
                         }
@@ -703,15 +658,16 @@ namespace FarseerPhysics.Common
                     }
                 }
             }
-
+            
             //Read bodies
+            Dictionary<Fixture, Fixture> mapFixtureClones = new Dictionary<Fixture,Fixture>();
             foreach (XMLFragmentElement bodyElement in root.Elements)
             {
                 if (bodyElement.Name.ToLower() == "bodies")
                 {
                     foreach (XMLFragmentElement element in bodyElement.Elements)
                     {
-                        var body = new Body(world);
+                        Body body = world.CreateBody();
 
                         if (element.Name.ToLower() != "body")
                             throw new Exception();
@@ -726,22 +682,22 @@ namespace FarseerPhysics.Common
                                     body._enabled = bool.Parse(sn.Value);
                                     break;
                                 case "allowsleep":
-                                    body.IsSleepingAllowed = bool.Parse(sn.Value);
+                                    body.SleepingAllowed = bool.Parse(sn.Value);
                                     break;
                                 case "angle":
                                     {
                                         Vector2 position = body.Position;
-                                        body.SetTransformIgnoreContacts(ref position, float.Parse(sn.Value));
+                                        body.SetTransformIgnoreContacts(ref position, ParseFloat(sn.Value));
                                     }
                                     break;
                                 case "angulardamping":
-                                    body.AngularDamping = float.Parse(sn.Value);
+                                    body.AngularDamping = ParseFloat(sn.Value);
                                     break;
                                 case "angularvelocity":
-                                    body.AngularVelocity = float.Parse(sn.Value);
+                                    body.AngularVelocity = ParseFloat(sn.Value);
                                     break;
                                 case "awake":
-                                    body.IsAwake = bool.Parse(sn.Value);
+                                    body.Awake = bool.Parse(sn.Value);
                                     break;
                                 case "bullet":
                                     body.IsBullet = bool.Parse(sn.Value);
@@ -750,7 +706,7 @@ namespace FarseerPhysics.Common
                                     body.FixedRotation = bool.Parse(sn.Value);
                                     break;
                                 case "lineardamping":
-                                    body.LinearDamping = float.Parse(sn.Value);
+                                    body.LinearDamping = ParseFloat(sn.Value);
                                     break;
                                 case "linearvelocity":
                                     body.LinearVelocity = ReadVector(sn);
@@ -762,18 +718,18 @@ namespace FarseerPhysics.Common
                                         body.SetTransformIgnoreContacts(ref position, rotation);
                                     }
                                     break;
-                                case "userdata":
-                                    body.UserData = ReadSimpleType(sn, null, false);
+                                case "tag":
+                                    body.Tag = ReadSimpleType(sn, null, false);
                                     break;
                                 case "bindings":
                                     {
                                         foreach (XMLFragmentElement pair in sn.Elements)
                                         {
                                             Fixture fix = fixtures[int.Parse(pair.Attributes[0].Value)];
-                                            fix.Shape = shapes[int.Parse(pair.Attributes[1].Value)].Clone();
-                                            fix.CloneOnto(body);
+                                            var shape = shapes[int.Parse(pair.Attributes[1].Value)].Clone();
+                                            var clone = fix.CloneOnto(body, shape);
+                                            mapFixtureClones[fix] = clone;
                                         }
-
                                         break;
                                     }
                             }
@@ -796,11 +752,11 @@ namespace FarseerPhysics.Common
                         if (n.Name.ToLower() != "joint")
                             throw new Exception();
 
-                        var type = (JointType)Enum.Parse(typeof(JointType), n.Attributes[0].Value, true);
+                        JointType type = (JointType)Enum.Parse(typeof(JointType), n.Attributes[0].Value, true);
 
                         int bodyAIndex = -1, bodyBIndex = -1;
                         bool collideConnected = false;
-                        object userData = null;
+                        object jointTag = null;
 
                         foreach (XMLFragmentElement sn in n.Elements)
                         {
@@ -815,8 +771,8 @@ namespace FarseerPhysics.Common
                                 case "collideconnected":
                                     collideConnected = bool.Parse(sn.Value);
                                     break;
-                                case "userdata":
-                                    userData = ReadSimpleType(sn, null, false);
+                                case "tag":
+                                    jointTag = ReadSimpleType(sn, null, false);
                                     break;
                             }
                         }
@@ -826,6 +782,21 @@ namespace FarseerPhysics.Common
 
                         switch (type)
                         {
+                            //case JointType.FixedMouse:
+                            //    joint = new FixedMouseJoint();
+                            //    break;
+                            //case JointType.FixedRevolute:
+                            //    break;
+                            //case JointType.FixedDistance:
+                            //    break;
+                            //case JointType.FixedLine:
+                            //    break;
+                            //case JointType.FixedPrismatic:
+                            //    break;
+                            //case JointType.FixedAngle:
+                            //    break;
+                            //case JointType.FixedFriction:
+                            //    break;
                             case JointType.Distance:
                                 joint = new DistanceJoint();
                                 break;
@@ -863,11 +834,11 @@ namespace FarseerPhysics.Common
                         }
 
                         joint.CollideConnected = collideConnected;
-                        joint.UserData = userData;
+                        joint.Tag = jointTag;
                         joint.BodyA = bodyA;
                         joint.BodyB = bodyB;
                         joints.Add(joint);
-                        world.AddJoint(joint);
+                        world.Add(joint);
 
                         foreach (XMLFragmentElement sn in n.Elements)
                         {
@@ -879,13 +850,13 @@ namespace FarseerPhysics.Common
                                         switch (sn.Name.ToLower())
                                         {
                                             case "dampingratio":
-                                                ((DistanceJoint)joint).DampingRatio = float.Parse(sn.Value);
+                                                ((DistanceJoint)joint).DampingRatio = ParseFloat(sn.Value);
                                                 break;
                                             case "frequencyhz":
-                                                ((DistanceJoint)joint).Frequency = float.Parse(sn.Value);
+                                                ((DistanceJoint)joint).Frequency = ParseFloat(sn.Value);
                                                 break;
                                             case "length":
-                                                ((DistanceJoint)joint).Length = float.Parse(sn.Value);
+                                                ((DistanceJoint)joint).Length = ParseFloat(sn.Value);
                                                 break;
                                             case "localanchora":
                                                 ((DistanceJoint)joint).LocalAnchorA = ReadVector(sn);
@@ -907,10 +878,10 @@ namespace FarseerPhysics.Common
                                                 ((FrictionJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
                                             case "maxforce":
-                                                ((FrictionJoint)joint).MaxForce = float.Parse(sn.Value);
+                                                ((FrictionJoint)joint).MaxForce = ParseFloat(sn.Value);
                                                 break;
                                             case "maxtorque":
-                                                ((FrictionJoint)joint).MaxTorque = float.Parse(sn.Value);
+                                                ((FrictionJoint)joint).MaxTorque = ParseFloat(sn.Value);
                                                 break;
                                         }
                                     }
@@ -929,16 +900,16 @@ namespace FarseerPhysics.Common
                                                 ((WheelJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
                                             case "motorspeed":
-                                                ((WheelJoint)joint).MotorSpeed = float.Parse(sn.Value);
+                                                ((WheelJoint)joint).MotorSpeed = ParseFloat(sn.Value);
                                                 break;
                                             case "dampingratio":
-                                                ((WheelJoint)joint).DampingRatio = float.Parse(sn.Value);
+                                                ((WheelJoint)joint).DampingRatio = ParseFloat(sn.Value);
                                                 break;
                                             case "maxmotortorque":
-                                                ((WheelJoint)joint).MaxMotorTorque = float.Parse(sn.Value);
+                                                ((WheelJoint)joint).MaxMotorTorque = ParseFloat(sn.Value);
                                                 break;
                                             case "frequencyhz":
-                                                ((WheelJoint)joint).Frequency = float.Parse(sn.Value);
+                                                ((WheelJoint)joint).Frequency = ParseFloat(sn.Value);
                                                 break;
                                             case "axis":
                                                 ((WheelJoint)joint).Axis = ReadVector(sn);
@@ -966,19 +937,19 @@ namespace FarseerPhysics.Common
                                                 ((PrismaticJoint)joint).Axis = ReadVector(sn);
                                                 break;
                                             case "maxmotorforce":
-                                                ((PrismaticJoint)joint).MaxMotorForce = float.Parse(sn.Value);
+                                                ((PrismaticJoint)joint).MaxMotorForce = ParseFloat(sn.Value);
                                                 break;
                                             case "motorspeed":
-                                                ((PrismaticJoint)joint).MotorSpeed = float.Parse(sn.Value);
+                                                ((PrismaticJoint)joint).MotorSpeed = ParseFloat(sn.Value);
                                                 break;
                                             case "lowertranslation":
-                                                ((PrismaticJoint)joint).LowerLimit = float.Parse(sn.Value);
+                                                ((PrismaticJoint)joint).LowerLimit = ParseFloat(sn.Value);
                                                 break;
                                             case "uppertranslation":
-                                                ((PrismaticJoint)joint).UpperLimit = float.Parse(sn.Value);
+                                                ((PrismaticJoint)joint).UpperLimit = ParseFloat(sn.Value);
                                                 break;
                                             case "referenceangle":
-                                                ((PrismaticJoint)joint).ReferenceAngle = float.Parse(sn.Value);
+                                                ((PrismaticJoint)joint).ReferenceAngle = ParseFloat(sn.Value);
                                                 break;
                                         }
                                     }
@@ -994,10 +965,10 @@ namespace FarseerPhysics.Common
                                                 ((PulleyJoint)joint).WorldAnchorB = ReadVector(sn);
                                                 break;
                                             case "lengtha":
-                                                ((PulleyJoint)joint).LengthA = float.Parse(sn.Value);
+                                                ((PulleyJoint)joint).LengthA = ParseFloat(sn.Value);
                                                 break;
                                             case "lengthb":
-                                                ((PulleyJoint)joint).LengthB = float.Parse(sn.Value);
+                                                ((PulleyJoint)joint).LengthB = ParseFloat(sn.Value);
                                                 break;
                                             case "localanchora":
                                                 ((PulleyJoint)joint).LocalAnchorA = ReadVector(sn);
@@ -1006,10 +977,10 @@ namespace FarseerPhysics.Common
                                                 ((PulleyJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
                                             case "ratio":
-                                                ((PulleyJoint)joint).Ratio = float.Parse(sn.Value);
+                                                ((PulleyJoint)joint).Ratio = ParseFloat(sn.Value);
                                                 break;
                                             case "constant":
-                                                ((PulleyJoint)joint).constant = float.Parse(sn.Value);
+                                                ((PulleyJoint)joint).Constant = ParseFloat(sn.Value);
                                                 break;
                                         }
                                     }
@@ -1031,19 +1002,19 @@ namespace FarseerPhysics.Common
                                                 ((RevoluteJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
                                             case "maxmotortorque":
-                                                ((RevoluteJoint)joint).MaxMotorTorque = float.Parse(sn.Value);
+                                                ((RevoluteJoint)joint).MaxMotorTorque = ParseFloat(sn.Value);
                                                 break;
                                             case "motorspeed":
-                                                ((RevoluteJoint)joint).MotorSpeed = float.Parse(sn.Value);
+                                                ((RevoluteJoint)joint).MotorSpeed = ParseFloat(sn.Value);
                                                 break;
                                             case "lowerangle":
-                                                ((RevoluteJoint)joint).LowerLimit = float.Parse(sn.Value);
+                                                ((RevoluteJoint)joint).LowerLimit = ParseFloat(sn.Value);
                                                 break;
                                             case "upperangle":
-                                                ((RevoluteJoint)joint).UpperLimit = float.Parse(sn.Value);
+                                                ((RevoluteJoint)joint).UpperLimit = ParseFloat(sn.Value);
                                                 break;
                                             case "referenceangle":
-                                                ((RevoluteJoint)joint).ReferenceAngle = float.Parse(sn.Value);
+                                                ((RevoluteJoint)joint).ReferenceAngle = ParseFloat(sn.Value);
                                                 break;
                                         }
                                     }
@@ -1072,7 +1043,7 @@ namespace FarseerPhysics.Common
                                                 ((RopeJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
                                             case "maxlength":
-                                                ((RopeJoint)joint).MaxLength = float.Parse(sn.Value);
+                                                ((RopeJoint)joint).MaxLength = ParseFloat(sn.Value);
                                                 break;
                                         }
                                     }
@@ -1084,16 +1055,16 @@ namespace FarseerPhysics.Common
                                         switch (sn.Name.ToLower())
                                         {
                                             case "biasfactor":
-                                                ((AngleJoint)joint).BiasFactor = float.Parse(sn.Value);
+                                                ((AngleJoint)joint).BiasFactor = ParseFloat(sn.Value);
                                                 break;
                                             case "maximpulse":
-                                                ((AngleJoint)joint).MaxImpulse = float.Parse(sn.Value);
+                                                ((AngleJoint)joint).MaxImpulse = ParseFloat(sn.Value);
                                                 break;
                                             case "softness":
-                                                ((AngleJoint)joint).Softness = float.Parse(sn.Value);
+                                                ((AngleJoint)joint).Softness = ParseFloat(sn.Value);
                                                 break;
                                             case "targetangle":
-                                                ((AngleJoint)joint).TargetAngle = float.Parse(sn.Value);
+                                                ((AngleJoint)joint).TargetAngle = ParseFloat(sn.Value);
                                                 break;
                                         }
                                     }
@@ -1102,22 +1073,21 @@ namespace FarseerPhysics.Common
                                     switch (sn.Name.ToLower())
                                     {
                                         case "angularoffset":
-                                            ((MotorJoint)joint).AngularOffset = float.Parse(sn.Value);
+                                            ((MotorJoint)joint).AngularOffset = ParseFloat(sn.Value);
                                             break;
                                         case "linearoffset":
                                             ((MotorJoint)joint).LinearOffset = ReadVector(sn);
                                             break;
                                         case "maxforce":
-                                            ((MotorJoint)joint).MaxForce = float.Parse(sn.Value);
+                                            ((MotorJoint)joint).MaxForce = ParseFloat(sn.Value);
                                             break;
                                         case "maxtorque":
-                                            ((MotorJoint)joint).MaxTorque = float.Parse(sn.Value);
+                                            ((MotorJoint)joint).MaxTorque = ParseFloat(sn.Value);
                                             break;
                                         case "correctionfactor":
-                                            ((MotorJoint)joint).correctionFactor = float.Parse(sn.Value);
+                                            ((MotorJoint)joint).CorrectionFactor = ParseFloat(sn.Value);
                                             break;
                                     }
-
                                     break;
                             }
                         }
@@ -1125,37 +1095,45 @@ namespace FarseerPhysics.Common
                 }
             }
 
+#if LEGACY_ASYNCADDREMOVE
             world.ProcessChanges();
+#endif
         }
 
-        static Vector2 ReadVector(XMLFragmentElement node)
+        private static Vector2 ReadVector(XMLFragmentElement node)
         {
             string[] values = node.Value.Split(' ');
-            return new Vector2(float.Parse(values[0]), float.Parse(values[1]));
+            return new Vector2(ParseFloat(values[0]), ParseFloat(values[1]));
         }
 
-        static object ReadSimpleType(XMLFragmentElement node, Type type, bool outer)
+        private static object ReadSimpleType(XMLFragmentElement node, Type type, bool outer)
         {
             if (type == null)
                 return ReadSimpleType(node.Elements[1], Type.GetType(node.Elements[0].Value), outer);
 
-            var serializer = new XmlSerializer(type);
-            using (var stream = new MemoryStream())
+            XmlSerializer serializer = new XmlSerializer(type);
+
+            using (MemoryStream stream = new MemoryStream())
             {
-                var writer = new StreamWriter(stream);
+                StreamWriter writer = new StreamWriter(stream);
                 {
                     writer.Write((outer) ? node.OuterXml : node.InnerXml);
                     writer.Flush();
                     stream.Position = 0;
                 }
-                var settings = new XmlReaderSettings();
+                XmlReaderSettings settings = new XmlReaderSettings();
                 settings.ConformanceLevel = ConformanceLevel.Fragment;
 
                 return serializer.Deserialize(XmlReader.Create(stream, settings));
             }
         }
-    }
 
+        private static float ParseFloat(string value)
+        {
+            return float.Parse(value, System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+    }
 
     #region XMLFragment
 
@@ -1167,12 +1145,18 @@ namespace FarseerPhysics.Common
 
     internal class XMLFragmentElement
     {
-        List<XMLFragmentAttribute> _attributes = new List<XMLFragmentAttribute>();
-        List<XMLFragmentElement> _elements = new List<XMLFragmentElement>();
+        private List<XMLFragmentAttribute> _attributes = new List<XMLFragmentAttribute>();
+        private List<XMLFragmentElement> _elements = new List<XMLFragmentElement>();
 
-        public IList<XMLFragmentElement> Elements => _elements;
+        public IList<XMLFragmentElement> Elements
+        {
+            get { return _elements; }
+        }
 
-        public IList<XMLFragmentAttribute> Attributes => _attributes;
+        public IList<XMLFragmentAttribute> Attributes
+        {
+            get { return _attributes; }
+        }
 
         public string Name { get; set; }
         public string Value { get; set; }
@@ -1202,7 +1186,10 @@ namespace FarseerPhysics.Common
 
         public int Position { get; set; }
 
-        int Length => Buffer.Length;
+        private int Length
+        {
+            get { return Buffer.Length; }
+        }
 
         public char Next
         {
@@ -1214,22 +1201,27 @@ namespace FarseerPhysics.Common
             }
         }
 
-        public bool EndOfBuffer => Position == Length;
+        public bool EndOfBuffer
+        {
+            get { return Position == Length; }
+        }
     }
-
 
     internal class XMLFragmentParser
     {
-        static List<char> _punctuation = new List<char> { '/', '<', '>', '=' };
-        FileBuffer _buffer;
-        XMLFragmentElement _rootNode;
+        private static List<char> _punctuation = new List<char> { '/', '<', '>', '=' };
+        private FileBuffer _buffer;
+        private XMLFragmentElement _rootNode;
 
         public XMLFragmentParser(Stream stream)
         {
             Load(stream);
         }
-
-        public XMLFragmentElement RootNode => _rootNode;
+        
+        public XMLFragmentElement RootNode
+        {
+            get { return _rootNode; }
+        }
 
         public void Load(Stream stream)
         {
@@ -1238,12 +1230,12 @@ namespace FarseerPhysics.Common
 
         public static XMLFragmentElement LoadFromStream(Stream stream)
         {
-            var x = new XMLFragmentParser(stream);
+            XMLFragmentParser x = new XMLFragmentParser(stream);
             x.Parse();
             return x.RootNode;
         }
 
-        string NextToken()
+        private string NextToken()
         {
             string str = "";
             bool _done = false;
@@ -1288,7 +1280,7 @@ namespace FarseerPhysics.Common
             return str;
         }
 
-        string PeekToken()
+        private string PeekToken()
         {
             int oldPos = _buffer.Position;
             string str = NextToken();
@@ -1296,7 +1288,7 @@ namespace FarseerPhysics.Common
             return str;
         }
 
-        string ReadUntil(char c)
+        private string ReadUntil(char c)
         {
             string str = "";
 
@@ -1323,7 +1315,7 @@ namespace FarseerPhysics.Common
             return str;
         }
 
-        string TrimControl(string str)
+        private string TrimControl(string str)
         {
             string newStr = str;
 
@@ -1343,7 +1335,7 @@ namespace FarseerPhysics.Common
             return newStr;
         }
 
-        string TrimTags(string outer)
+        private string TrimTags(string outer)
         {
             int start = outer.IndexOf('>') + 1;
             int end = outer.LastIndexOf('<');
@@ -1362,7 +1354,7 @@ namespace FarseerPhysics.Common
             if (token != "<")
                 throw new XMLFragmentException("Expected \"<\", got " + token);
 
-            var element = new XMLFragmentElement();
+            XMLFragmentElement element = new XMLFragmentElement();
             element.Name = NextToken();
 
             while (true)
@@ -1383,11 +1375,10 @@ namespace FarseerPhysics.Common
                 }
                 else
                 {
-                    var attribute = new XMLFragmentAttribute();
+                    XMLFragmentAttribute attribute = new XMLFragmentAttribute();
                     attribute.Name = token;
                     if ((token = NextToken()) != "=")
                         throw new XMLFragmentException("Expected \"=\", got " + token);
-
                     attribute.Value = NextToken();
 
                     element.Attributes.Add(attribute);
@@ -1409,9 +1400,7 @@ namespace FarseerPhysics.Common
                         token = NextToken();
                         NextToken(); // skip >
 
-                        element.OuterXml =
-                            TrimControl(_buffer.Buffer.Substring(startOuterXml, _buffer.Position - startOuterXml))
-                                .Trim();
+                        element.OuterXml = TrimControl(_buffer.Buffer.Substring(startOuterXml, _buffer.Position - startOuterXml)).Trim();
                         element.InnerXml = TrimTags(element.OuterXml);
 
                         if (token != element.Name)
@@ -1437,7 +1426,7 @@ namespace FarseerPhysics.Common
             return element;
         }
 
-        void Parse()
+        private void Parse()
         {
             _rootNode = TryParseNode();
 

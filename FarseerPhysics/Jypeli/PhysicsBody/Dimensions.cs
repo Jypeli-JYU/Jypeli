@@ -56,12 +56,12 @@ namespace Jypeli
         [Save]
         public Vector Position
         {
-            get => FSBody._xf.P * FSConvert.SimToDisplay;
+            get => FSBody._xf.p * FSConvert.SimToDisplay;
             set
             {
                 Vector2 temp = new Vector2((float)value.X, (float)value.Y) * FSConvert.DisplayToSim;
                 if (Owner.Parent is null)
-                    FSBody.IsAwake = true;
+                    FSBody.Awake = true;
                 // Farseer ei hirveästi arvosta kappaleen raahaamista hiirellä suoraan sijaintia muuttamalla.
                 // TODO: Kappaleille jonkin sortin "EnableDragging" tms. ja FixedMouseJoint
                 FSBody.SetTransform(ref temp, (float)Angle);
@@ -114,7 +114,7 @@ namespace Jypeli
 
             for(int i = 0; i < FSBody.FixtureList.Count; i++)
             {
-                FSBody.DestroyFixture(FSBody.FixtureList[i]);
+                FSBody.Remove(FSBody.FixtureList[i]);
             }
 
             List<Fixture> fs = new List<Fixture>();
@@ -128,7 +128,7 @@ namespace Jypeli
                 List<Vertices> vertices = CreatePhysicsShape(shape, this._size);
                 fs.AddRange(FixtureFactory.AttachCompoundPolygon(vertices, defaultDensity, FSBody));
             }
-            fs.ForEach((f) => { f.OnCollision += collisionHandlers; f.UserData = FSBody; });
+            fs.ForEach((f) => { f.OnCollision += collisionHandlers; f.Tag = FSBody; });
         }
 
         /// <summary>

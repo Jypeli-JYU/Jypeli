@@ -36,6 +36,7 @@ using FarseerPhysics.Collision.Shapes;
 using Jypeli.Farseer;
 using Jypeli.Physics;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace Jypeli
@@ -146,8 +147,11 @@ namespace Jypeli
         {
             // Lapsiolioiden sijainnin korjaus. 
             // TODO: Tää on aika purkkapalloratkaisu
-            this.Owner.Position = this.Position;
-            this.Owner.Angle = Jypeli.Angle.FromRadians(this.Angle);
+            if (this.Owner.GetChildObjects<GameObject>().Count() > 0)
+            {
+                this.Owner.Position = this.Position;
+                this.Owner.Angle = Jypeli.Angle.FromRadians(this.Angle);
+            }
         }
 
         public void SetCollisionIgnorer(Ignorer ignorer)

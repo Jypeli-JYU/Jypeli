@@ -82,7 +82,7 @@ namespace FarseerPhysics.Dynamics
         public Vector2 oneWayDir;
         
         internal AdaptedIgnorer CollisionIgnorer;
-        
+
         private float _angularDamping;
         private BodyType _bodyType;
         private float _inertia;
@@ -310,7 +310,7 @@ namespace FarseerPhysics.Dynamics
 #endif
 
 #if USE_AWAKE_BODY_SET
-						if (InWorld && !World.AwakeBodySet.Contains(this))
+						if (World is not null && !World.AwakeBodySet.Contains(this))
 							World.AwakeBodySet.Add(this);
 #endif
                     }
@@ -320,7 +320,7 @@ namespace FarseerPhysics.Dynamics
 #if USE_AWAKE_BODY_SET
 					// Check even for BodyType.Static because if this body had just been changed to Static it will have
 					// set Awake = false in the process.
-					if (InWorld && World.AwakeBodySet.Contains(this))
+					if (World is not null && World.AwakeBodySet.Contains(this))
 						World.AwakeBodySet.Remove(this);
 #endif
                     ResetDynamics();

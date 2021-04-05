@@ -244,7 +244,7 @@ namespace FarseerPhysics.Dynamics
 
             // If AwakeBodyList is empty, the Island code will not have a chance
             // to update the diagnostics timer so reset the timer here. 
-            Island.JointUpdateTime = 0;
+            Island.JointUpdateTime = TimeSpan.Zero;
       
             Debug.Assert(AwakeBodyList.Count == 0);
             AwakeBodyList.AddRange(AwakeBodySet);
@@ -468,8 +468,8 @@ namespace FarseerPhysics.Dynamics
 #if OPTIMIZE_TOI
                 foreach (var b in TOISet)
                 {
-                    b.Flags &= ~BodyFlags.Island;
-                    b.Sweep.Alpha0 = 0.0f;
+                    b._island = false;
+                    b._sweep.Alpha0 = 0.0f;
                 }
 #else
                 for (int i = 0; i < BodyList.Count; i++)
@@ -568,14 +568,14 @@ namespace FarseerPhysics.Dynamics
                             if (!TOISet.Contains(bA))
                             {
                                 TOISet.Add(bA);
-                                bA.Flags &= ~BodyFlags.Island;
-                                bA.Sweep.Alpha0 = 0.0f;
+                                bA._island = false;
+                                bA._sweep.Alpha0 = 0.0f;
                             }
                             if (!TOISet.Contains(bB))
                             {
                                 TOISet.Add(bB);
-                                bB.Flags &= ~BodyFlags.Island;
-                                bB.Sweep.Alpha0 = 0.0f;
+                                bB._island = false;
+                                bB._sweep.Alpha0 = 0.0f;
                             }
                         }
 #endif
@@ -768,7 +768,7 @@ namespace FarseerPhysics.Dynamics
                                 if (!TOISet.Contains(other))
                                 {
                                     TOISet.Add(other);
-                                    other.Sweep.Alpha0 = 0.0f;
+                                    other._sweep.Alpha0 = 0.0f;
                                 }
                             }
 #endif
@@ -943,7 +943,6 @@ namespace FarseerPhysics.Dynamics
                 throw new ArgumentException("body belongs to another world.", "body");
 
 #if USE_AWAKE_BODY_SET
-                    Debug.Assert(!body.IsDisposed);
                     if (body.Awake)
                     {
                         if (!AwakeBodySet.Contains(body))

@@ -55,6 +55,15 @@ namespace Jypeli
             set { effectInstance.Pitch = (float)Clamp( value, -1.0, 1.0 ); }
         }
 
+        /// <summary>
+        /// Äänen tila.
+        /// </summary>
+        /// <returns></returns>
+        public SoundState State
+        {
+            get => effectInstance.State;
+        }
+
         internal Sound( SoundEffectInstance s )
         {
             effectInstance = s;

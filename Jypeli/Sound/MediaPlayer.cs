@@ -78,8 +78,7 @@ namespace Jypeli
         /// </summary>
         public bool IsPlaying
         {
-            //TODO: Fix
-            get { return Microsoft.Xna.Framework.Media.MediaPlayer.State == MediaState.Playing; }
+            get { return sound.State == SoundState.Playing; }
         }
 
         internal MediaPlayer()

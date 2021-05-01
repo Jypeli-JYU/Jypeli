@@ -116,9 +116,9 @@ namespace Jypeli
             FSBody = world.CreateBody(bodyType: BodyType.Dynamic);// BodyFactory.CreateBody(world, bodyType: BodyType.Dynamic);
             FSBody.owner = this;
             FSBody.Enabled = false;
-            if (shape is Ellipse && width != height)
+            if (shape is Ellipse && width == height)
             {
-                Fixture f = FSBody.CreateFixture(new CircleShape((float)height, 1f * FSConvert.SimToDisplay));
+                Fixture f = FixtureFactory.AttachCircle((float)height * FSConvert.DisplayToSim / 2, 1f, FSBody);
                 f.Tag = FSBody;
             }
             else

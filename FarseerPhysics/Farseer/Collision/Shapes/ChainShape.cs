@@ -1,3 +1,14 @@
+#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
 /*
 * Farseer Physics Engine:
 * Copyright (c) 2012 Ian Qvist
@@ -19,6 +30,7 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
 using System.Diagnostics;
 using System.Numerics;
@@ -40,8 +52,58 @@ namespace FarseerPhysics.Collision.Shapes
         /// The vertices. These are not owned/freed by the chain Shape.
         /// </summary>
         public Vertices Vertices;
+        private Vector2 _prevVertex, _nextVertex;
+        private bool _hasPrevVertex, _hasNextVertex;
+        private static EdgeShape _edgeShape = new EdgeShape();
 
-        public override int ChildCount => Vertices.Count - 1;
+        /// <summary>
+        /// Constructor for ChainShape. By default have 0 in density.
+        /// </summary>
+        public ChainShape()
+            : base(0)
+        {
+            ShapeType = ShapeType.Chain;
+            _radius = Settings.PolygonRadius;
+        }
+
+        /// <summary>
+        /// Create a new chainshape from the vertices.
+        /// </summary>
+        /// <param name="vertices">The vertices to use. Must contain 2 or more vertices.</param>
+        /// <param name="createLoop">Set to true to create a closed loop. It connects the first vertice to the last, and automatically adjusts connectivity to create smooth collisions along the chain.</param>
+        public ChainShape(Vertices vertices, bool createLoop = false)
+            : base(0)
+        {
+            ShapeType = ShapeType.Chain;
+            _radius = Settings.PolygonRadius;
+
+            Debug.Assert(vertices != null && vertices.Count >= 3);
+            Debug.Assert(vertices[0] != vertices[vertices.Count - 1]); // FPE. See http://www.box2d.org/forum/viewtopic.php?f=4&t=7973&p=35363
+
+            for (int i = 1; i < vertices.Count; ++i)
+            {
+                Vector2 v1 = vertices[i - 1];
+                Vector2 v2 = vertices[i];
+
+                // If the code crashes here, it means your vertices are too close together.
+                Debug.Assert(Vector2.DistanceSquared(v1, v2) > Settings.LinearSlop * Settings.LinearSlop);
+            }
+
+            Vertices = new Vertices(vertices);
+
+            if (createLoop)
+            {
+                Vertices.Add(vertices[0]);
+                PrevVertex = Vertices[Vertices.Count - 2]; //FPE: We use the properties instead of the private fields here.
+                NextVertex = Vertices[1]; //FPE: We use the properties instead of the private fields here.
+            }
+        }
+
+        public override int ChildCount
+        {
+            // edge count = vertex count - 1
+            get { return Vertices.Count - 1; }
+        }
 
         /// <summary>
         /// Establish connectivity to a vertex that precedes the first vertex.
@@ -49,9 +111,11 @@ namespace FarseerPhysics.Collision.Shapes
         /// </summary>
         public Vector2 PrevVertex
         {
-            get => _prevVertex;
+            get { return _prevVertex; }
             set
             {
+                Debug.Assert(value != null);
+
                 _prevVertex = value;
                 _hasPrevVertex = true;
             }
@@ -63,39 +127,14 @@ namespace FarseerPhysics.Collision.Shapes
         /// </summary>
         public Vector2 NextVertex
         {
-            get => _nextVertex;
+            get { return _nextVertex; }
             set
             {
+                Debug.Assert(value != null);
+
                 _nextVertex = value;
                 _hasNextVertex = true;
             }
-        }
-
-        Vector2 _prevVertex, _nextVertex;
-        bool _hasPrevVertex, _hasNextVertex;
-        static EdgeShape _edgeShape = new EdgeShape();
-
-
-        /// <summary>
-        /// Constructor for ChainShape. By default have 0 in density.
-        /// </summary>
-        public ChainShape() : base(0)
-        {
-            ShapeType = ShapeType.Chain;
-            _radius = Settings.PolygonRadius;
-        }
-
-        /// <summary>
-        /// Create a new chainshape from the vertices.
-        /// </summary>
-        /// <param name="vertices">The vertices to use. Must contain 2 or more vertices.</param>
-        /// <param name="createLoop">Set to true to create a closed loop. It connects the first vertice to the last, and automatically adjusts connectivity to create smooth collisions along the chain.</param>
-        public ChainShape(Vertices vertices, bool createLoop = false) : base(0)
-        {
-            ShapeType = ShapeType.Chain;
-            _radius = Settings.PolygonRadius;
-
-            SetVertices(vertices, createLoop);
         }
 
         /// <summary>
@@ -143,38 +182,9 @@ namespace FarseerPhysics.Collision.Shapes
         /// <param name="index">The index.</param>
         public EdgeShape GetChildEdge(int index)
         {
-            var edgeShape = new EdgeShape();
+            EdgeShape edgeShape = new EdgeShape();
             GetChildEdge(edgeShape, index);
             return edgeShape;
-        }
-
-        public void SetVertices(Vertices vertices, bool createLoop = false)
-        {
-            Debug.Assert(vertices != null && vertices.Count >= 3);
-            Debug.Assert(vertices[0] !=
-                         vertices[
-                             vertices.Count -
-                             1]); // FPE. See http://www.box2d.org/forum/viewtopic.php?f=4&t=7973&p=35363
-
-            for (int i = 1; i < vertices.Count; ++i)
-            {
-                var v1 = vertices[i - 1];
-                var v2 = vertices[i];
-
-                // If the code crashes here, it means your vertices are too close together.
-                Debug.Assert(Vector2.DistanceSquared(v1, v2) > Settings.LinearSlop * Settings.LinearSlop);
-            }
-
-            this.Vertices = vertices;
-
-            if (createLoop)
-            {
-                this.Vertices.Add(vertices[0]);
-                PrevVertex =
-                    this.Vertices
-                        [this.Vertices.Count - 2]; // FPE: We use the properties instead of the private fields here.
-                NextVertex = this.Vertices[1]; // FPE: We use the properties instead of the private fields here.
-            }
         }
 
         public override bool TestPoint(ref Transform transform, ref Vector2 point)
@@ -182,15 +192,16 @@ namespace FarseerPhysics.Collision.Shapes
             return false;
         }
 
-        public override bool RayCast(out RayCastOutput output, ref RayCastInput input, ref Transform transform,
-                                     int childIndex)
+        public override bool RayCast(out RayCastOutput output, ref RayCastInput input, ref Transform transform, int childIndex)
         {
             Debug.Assert(childIndex < Vertices.Count);
 
             int i1 = childIndex;
             int i2 = childIndex + 1;
             if (i2 == Vertices.Count)
+            {
                 i2 = 0;
+            }
 
             _edgeShape.Vertex1 = Vertices[i1];
             _edgeShape.Vertex2 = Vertices[i2];
@@ -205,10 +216,12 @@ namespace FarseerPhysics.Collision.Shapes
             int i1 = childIndex;
             int i2 = childIndex + 1;
             if (i2 == Vertices.Count)
+            {
                 i2 = 0;
+            }
 
-            var v1 = MathUtils.Mul(ref transform, Vertices[i1]);
-            var v2 = MathUtils.Mul(ref transform, Vertices[i2]);
+            Vector2 v1 = Transform.Multiply(Vertices[i1], ref transform);
+            Vector2 v2 = Transform.Multiply(Vertices[i2], ref transform);
 
             aabb.LowerBound = Vector2.Min(v1, v2);
             aabb.UpperBound = Vector2.Max(v1, v2);
@@ -246,7 +259,7 @@ namespace FarseerPhysics.Collision.Shapes
 
         public override Shape Clone()
         {
-            var clone = new ChainShape();
+            ChainShape clone = new ChainShape();
             clone.ShapeType = ShapeType;
             clone._density = _density;
             clone._radius = _radius;

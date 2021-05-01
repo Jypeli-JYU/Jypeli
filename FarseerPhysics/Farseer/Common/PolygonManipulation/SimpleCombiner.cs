@@ -38,13 +38,12 @@ namespace FarseerPhysics.Common.PolygonManipulation
         ///<param name="triangles">The triangles.</param>
         ///<param name="maxPolys">The maximun number of polygons to return.</param>
         ///<param name="tolerance">The tolerance</param>
-        public static List<Vertices> PolygonizeTriangles(List<Vertices> triangles, int maxPolys = int.MaxValue,
-                                                         float tolerance = 0.001f)
+        public static List<Vertices> PolygonizeTriangles(List<Vertices> triangles, int maxPolys = int.MaxValue, float tolerance = 0.001f)
         {
             if (triangles.Count <= 0)
                 return triangles;
 
-            var polys = new List<Vertices>();
+            List<Vertices> polys = new List<Vertices>();
 
             bool[] covered = new bool[triangles.Count];
             for (int i = 0; i < triangles.Count; ++i)
@@ -98,7 +97,6 @@ namespace FarseerPhysics.Common.PolygonManipulation
                         {
                             continue;
                         }
-
                         Vertices newP = AddTriangle(triangles[index], poly);
                         if (newP == null)
                             continue; // is this right
@@ -144,8 +142,7 @@ namespace FarseerPhysics.Common.PolygonManipulation
             return polys;
         }
 
-
-        static Vertices AddTriangle(Vertices t, Vertices vertices)
+        private static Vertices AddTriangle(Vertices t, Vertices vertices)
         {
             // First, find vertices that connect
             int firstP = -1;
@@ -194,7 +191,6 @@ namespace FarseerPhysics.Common.PolygonManipulation
                     }
                 }
             }
-
             // Fix ordering if first should be last vertex of poly
             if (firstP == 0 && secondP == vertices.Count - 1)
             {

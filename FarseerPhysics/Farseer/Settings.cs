@@ -1,4 +1,15 @@
-﻿/*
+﻿#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
+/*
 * Farseer Physics Engine:
 * Copyright (c) 2012 Ian Qvist
 * 
@@ -19,6 +30,7 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
 using System;
 using FarseerPhysics.Dynamics;
@@ -48,7 +60,7 @@ namespace FarseerPhysics
         /// NOTE: If you are using a debug view that shows performance counters,
         /// you might want to enable this.
         /// </summary>
-        public static bool EnableDiagnostics = true;
+        public static bool EnableDiagnostics = false;
 
         /// <summary>
         /// Set this to true to skip sanity checks in the engine. This will speed up the
@@ -65,7 +77,7 @@ namespace FarseerPhysics
         /// <summary>
         /// The number of position iterations used in the solver.
         /// </summary>
-        public static int PositionIterations = 4;
+        public static int PositionIterations = 3;
 
         /// <summary>
         /// Enable/Disable Continuous Collision Detection (CCD)
@@ -106,7 +118,7 @@ namespace FarseerPhysics
         /// <summary>
         /// The maximum number of vertices on a convex polygon.
         /// </summary>
-        public static int MaxPolygonVertices = 16; // TODO: Tää voi potentiaalisesti tuottaa ongelmia, default 8.
+        public static int MaxPolygonVertices = 8;
 
         /// <summary>
         /// Farseer Physics Engine has a different way of filtering fixtures than Box2d.
@@ -172,7 +184,7 @@ namespace FarseerPhysics
         /// this smaller means polygons will have an insufficient buffer for continuous collision.
         /// Making it larger may create artifacts for vertex collision.
         /// </summary>
-        public const float PolygonRadius = (1.0f * LinearSlop);
+        public const float PolygonRadius = (2.0f * LinearSlop);
 
         // Dynamics
 
@@ -226,7 +238,7 @@ namespace FarseerPhysics
         /// The maximum linear velocity of a body. This limit is very large and is used
         /// to prevent numerical problems. You shouldn't need to adjust this.
         /// </summary>
-        public const float MaxTranslation = 100.0f; // TODO: Mitä näihin voisi laittaa
+        public const float MaxTranslation = 2.0f; // TODO: Mitä näihin voisi laittaa
 
         public const float MaxTranslationSquared = (MaxTranslation * MaxTranslation);
 
@@ -234,7 +246,7 @@ namespace FarseerPhysics
         /// The maximum angular velocity of a body. This limit is very large and is used
         /// to prevent numerical problems. You shouldn't need to adjust this.
         /// </summary>
-        public const float MaxRotation = (500f * Pi);
+        public const float MaxRotation = (5f * Pi);
 
         public const float MaxRotationSquared = (MaxRotation * MaxRotation);
 

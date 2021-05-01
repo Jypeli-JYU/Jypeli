@@ -15,7 +15,7 @@ namespace FarseerPhysics.Factories
         public static MotorJoint CreateMotorJoint(World world, Body bodyA, Body bodyB, bool useWorldCoordinates = false)
         {
             var joint = new MotorJoint(bodyA, bodyB, useWorldCoordinates);
-            world.AddJoint(joint);
+            //world.Add(joint);
             return joint;
         }
 
@@ -27,7 +27,7 @@ namespace FarseerPhysics.Factories
                                                         Vector2 anchorB, bool useWorldCoordinates = false)
         {
             var joint = new RevoluteJoint(bodyA, bodyB, anchorA, anchorB, useWorldCoordinates);
-            world.AddJoint(joint);
+            //world.Add(joint);
             return joint;
         }
 
@@ -35,7 +35,7 @@ namespace FarseerPhysics.Factories
         {
             var localanchorA = bodyA.GetLocalPoint(bodyB.GetWorldPoint(anchor));
             var joint = new RevoluteJoint(bodyA, bodyB, localanchorA, anchor);
-            world.AddJoint(joint);
+            //world.Add(joint);
             return joint;
         }
 
@@ -47,7 +47,7 @@ namespace FarseerPhysics.Factories
                                                 bool useWorldCoordinates = false)
         {
             var ropeJoint = new RopeJoint(bodyA, bodyB, anchorA, anchorB, useWorldCoordinates);
-            world.AddJoint(ropeJoint);
+            //world.Add(ropeJoint);
             return ropeJoint;
         }
 
@@ -59,7 +59,7 @@ namespace FarseerPhysics.Factories
                                                 bool useWorldCoordinates = false)
         {
             var weldJoint = new WeldJoint(bodyA, bodyB, anchorA, anchorB, useWorldCoordinates);
-            world.AddJoint(weldJoint);
+            //world.Add(weldJoint);
             return weldJoint;
         }
 
@@ -71,7 +71,7 @@ namespace FarseerPhysics.Factories
                                                           Vector2 axis, bool useWorldCoordinates = false)
         {
             PrismaticJoint joint = new PrismaticJoint(bodyA, bodyB, anchor, axis, useWorldCoordinates);
-            world.AddJoint(joint);
+            //world.Add(joint);
             return joint;
         }
 
@@ -83,7 +83,7 @@ namespace FarseerPhysics.Factories
                                                   bool useWorldCoordinates = false)
         {
             WheelJoint joint = new WheelJoint(bodyA, bodyB, anchor, axis, useWorldCoordinates);
-            world.AddJoint(joint);
+            //world.Add(joint);
             return joint;
         }
 
@@ -99,7 +99,7 @@ namespace FarseerPhysics.Factories
         public static AngleJoint CreateAngleJoint(World world, Body bodyA, Body bodyB)
         {
             var angleJoint = new AngleJoint(bodyA, bodyB);
-            world.AddJoint(angleJoint);
+            //world.Add(angleJoint);
             return angleJoint;
         }
 
@@ -111,7 +111,7 @@ namespace FarseerPhysics.Factories
                                                         Vector2 anchorB, bool useWorldCoordinates = false)
         {
             var distanceJoint = new DistanceJoint(bodyA, bodyB, anchorA, anchorB, useWorldCoordinates);
-            world.AddJoint(distanceJoint);
+            //world.Add(distanceJoint);
             return distanceJoint;
         }
 
@@ -128,7 +128,7 @@ namespace FarseerPhysics.Factories
                                                         bool useWorldCoordinates = false)
         {
             var frictionJoint = new FrictionJoint(bodyA, bodyB, anchor, useWorldCoordinates);
-            world.AddJoint(frictionJoint);
+            //world.Add(frictionJoint);
             return frictionJoint;
         }
 
@@ -145,7 +145,7 @@ namespace FarseerPhysics.Factories
                                                 float ratio)
         {
             var gearJoint = new GearJoint(bodyA, bodyB, jointA, jointB, ratio);
-            world.AddJoint(gearJoint);
+            //world.Add(gearJoint);
             return gearJoint;
         }
 
@@ -159,7 +159,7 @@ namespace FarseerPhysics.Factories
         {
             var pulleyJoint = new PulleyJoint(bodyA, bodyB, anchorA, anchorB, worldAnchorA, worldAnchorB, ratio,
                 useWorldCoordinates);
-            world.AddJoint(pulleyJoint);
+            //world.Add(pulleyJoint);
             return pulleyJoint;
         }
 
@@ -170,7 +170,7 @@ namespace FarseerPhysics.Factories
         public static FixedMouseJoint CreateFixedMouseJoint(World world, Body body, Vector2 worldAnchor)
         {
             var joint = new FixedMouseJoint(body, worldAnchor);
-            world.AddJoint(joint);
+            //world.Add(joint);
             return joint;
         }
 

@@ -1,4 +1,15 @@
-﻿/*
+﻿#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
+/*
 * Farseer Physics Engine:
 * Copyright (c) 2012 Ian Qvist
 * 
@@ -19,6 +30,7 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
 using System;
 
@@ -27,8 +39,8 @@ namespace FarseerPhysics.Common
 {
     public struct FixedArray2<T>
     {
-        T _value0;
-        T _value1;
+        private T _value0;
+        private T _value1;
 
         public T this[int index]
         {
@@ -63,9 +75,9 @@ namespace FarseerPhysics.Common
 
     public struct FixedArray3<T>
     {
-        T _value0;
-        T _value1;
-        T _value2;
+        private T _value0;
+        private T _value1;
+        private T _value2;
 
         public T this[int index]
         {
@@ -105,10 +117,10 @@ namespace FarseerPhysics.Common
 
     public struct FixedArray4<T>
     {
-        T _value0;
-        T _value1;
-        T _value2;
-        T _value3;
+        private T _value0;
+        private T _value1;
+        private T _value2;
+        private T _value3;
 
         public T this[int index]
         {
@@ -153,14 +165,14 @@ namespace FarseerPhysics.Common
 
     public struct FixedArray8<T>
     {
-        T _value0;
-        T _value1;
-        T _value2;
-        T _value3;
-        T _value4;
-        T _value5;
-        T _value6;
-        T _value7;
+        private T _value0;
+        private T _value1;
+        private T _value2;
+        private T _value3;
+        private T _value4;
+        private T _value5;
+        private T _value6;
+        private T _value7;
 
         public T this[int index]
         {

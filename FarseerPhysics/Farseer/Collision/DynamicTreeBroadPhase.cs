@@ -1,4 +1,15 @@
-﻿/*
+﻿#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
+/*
 * Farseer Physics Engine:
 * Copyright (c) 2012 Ian Qvist
 * 
@@ -19,6 +30,7 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
 using System;
 using System.Collections.Generic;
@@ -29,7 +41,7 @@ using FarseerPhysics.Dynamics;
 
 namespace FarseerPhysics.Collision
 {
-    struct Pair : IComparable<Pair>
+    internal struct Pair : IComparable<Pair>
     {
         public int ProxyIdA;
         public int ProxyIdB;
@@ -38,19 +50,17 @@ namespace FarseerPhysics.Collision
 
         public int CompareTo(Pair other)
         {
-            if (ProxyIdA < other.ProxyIdA)
+            if (ProxyIdB < other.ProxyIdB)
             {
                 return -1;
             }
-
-            if (ProxyIdA == other.ProxyIdA)
+            if (ProxyIdB == other.ProxyIdB)
             {
-                if (ProxyIdB < other.ProxyIdB)
+                if (ProxyIdA < other.ProxyIdA)
                 {
                     return -1;
                 }
-
-                if (ProxyIdB == other.ProxyIdB)
+                if (ProxyIdA == other.ProxyIdA)
                 {
                     return 0;
                 }
@@ -62,59 +72,32 @@ namespace FarseerPhysics.Collision
         #endregion
     }
 
-
     /// <summary>
     /// The broad-phase is used for computing pairs and performing volume queries and ray casts.
     /// This broad-phase does not persist pairs. Instead, this reports potentially new pairs.
     /// It is up to the client to consume the new pairs and to track subsequent overlap.
     /// </summary>
-    public class DynamicTreeBroadPhase
+    public class DynamicTreeBroadPhase : IBroadPhase
     {
-        #region Properties/Fields
+        private const int NullProxy = -1;
+        private int[] _moveBuffer;
+        private int _moveCapacity;
+        private int _moveCount;
 
-        /// <summary>
-        /// Get the number of proxies.
-        /// </summary>
-        /// <value>The proxy count.</value>
-        public int ProxyCount => _proxyCount;
-
-        /// <summary>
-        /// Get the tree quality based on the area of the tree.
-        /// </summary>
-        public float TreeQuality => _tree.AreaRatio;
-
-        /// <summary>
-        /// Gets the balance of the tree.
-        /// </summary>
-        public int TreeBalance => _tree.MaxBalance;
-
-        /// <summary>
-        /// Gets the height of the tree.
-        /// </summary>
-        public int TreeHeight => _tree.Height;
-
-        const int nullProxy = -1;
-        int[] _moveBuffer;
-        int _moveCapacity;
-        int _moveCount;
-
-        Pair[] _pairBuffer;
-        int _pairCapacity;
-        int _pairCount;
-        int _proxyCount;
-        Func<int, bool> _queryCallback;
-        int _queryProxyId;
-        DynamicTree _tree = new DynamicTree();
-
-        #endregion
-
+        private Pair[] _pairBuffer;
+        private int _pairCapacity;
+        private int _pairCount;
+        private int _proxyCount;
+        private BroadPhaseQueryCallback _queryCallbackCache;
+        private int _queryProxyId;
+        private DynamicTree<FixtureProxy> _tree = new DynamicTree<FixtureProxy>();
 
         /// <summary>
         /// Constructs a new broad phase based on the dynamic tree implementation
         /// </summary>
         public DynamicTreeBroadPhase()
         {
-            _queryCallback = QueryCallback;
+            _queryCallbackCache = new BroadPhaseQueryCallback(QueryCallback);
             _proxyCount = 0;
 
             _pairCapacity = 16;
@@ -127,16 +110,26 @@ namespace FarseerPhysics.Collision
         }
 
         /// <summary>
+        /// Get the number of proxies.
+        /// </summary>
+        /// <value>The proxy count.</value>
+        public int ProxyCount
+        {
+            get { return _proxyCount; }
+        }
+
+        /// <summary>
         /// Create a proxy with an initial AABB. Pairs are not reported until
         /// UpdatePairs is called.
         /// </summary>
         /// <param name="proxy">The user data.</param>
         /// <returns></returns>
-        public int AddProxy(ref FixtureProxy proxy)
+        public int AddProxy(ref AABB aabb)
         {
-            int proxyId = _tree.AddProxy(ref proxy.AABB, proxy);
+            int proxyId = _tree.AddProxy(ref aabb);
             ++_proxyCount;
             BufferMove(proxyId);
+
             return proxyId;
         }
 
@@ -153,9 +146,11 @@ namespace FarseerPhysics.Collision
 
         public void MoveProxy(int proxyId, ref AABB aabb, Vector2 displacement)
         {
-            var buffer = _tree.MoveProxy(proxyId, ref aabb, displacement);
+            bool buffer = _tree.MoveProxy(proxyId, ref aabb, displacement);
             if (buffer)
+            {
                 BufferMove(proxyId);
+            }
         }
 
         public void TouchProxy(int proxyId)
@@ -163,7 +158,7 @@ namespace FarseerPhysics.Collision
             BufferMove(proxyId);
         }
 
-        void BufferMove(int proxyId)
+        private void BufferMove(int proxyId)
         {
             if (_moveCount == _moveCapacity)
             {
@@ -177,12 +172,14 @@ namespace FarseerPhysics.Collision
             ++_moveCount;
         }
 
-        void UnBufferMove(int proxyId)
+        private void UnBufferMove(int proxyId)
         {
-            for (var i = 0; i < _moveCount; ++i)
+            for (int i = 0; i < _moveCount; ++i)
             {
                 if (_moveBuffer[i] == proxyId)
-                    _moveBuffer[i] = nullProxy;
+                {
+                    _moveBuffer[i] = NullProxy;
+                }
             }
         }
 
@@ -191,16 +188,18 @@ namespace FarseerPhysics.Collision
         /// </summary>
         /// <param name="proxyId"></param>
         /// <returns></returns>
-        bool QueryCallback(int proxyId)
+        private bool QueryCallback(int proxyId)
         {
             // A proxy cannot form a pair with itself.
             if (proxyId == _queryProxyId)
+            {
                 return true;
+            }
 
             // Grow the pair buffer as needed.
             if (_pairCount == _pairCapacity)
             {
-                var oldBuffer = _pairBuffer;
+                Pair[] oldBuffer = _pairBuffer;
                 _pairCapacity *= 2;
                 _pairBuffer = new Pair[_pairCapacity];
                 Array.Copy(oldBuffer, _pairBuffer, _pairCount);
@@ -218,10 +217,14 @@ namespace FarseerPhysics.Collision
         /// </summary>
         /// <param name="proxyId">The proxy id.</param>
         /// <param name="aabb">The aabb.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void GetFatAABB(int proxyId, out AABB aabb)
         {
             _tree.GetFatAABB(proxyId, out aabb);
+        }
+
+        public void SetProxy(int proxyId, ref FixtureProxy proxy)
+        {
+            _tree.SetUserData(proxyId, proxy);
         }
 
         /// <summary>
@@ -229,7 +232,6 @@ namespace FarseerPhysics.Collision
         /// </summary>
         /// <param name="proxyId">The proxy id.</param>
         /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public FixtureProxy GetProxy(int proxyId)
         {
             return _tree.GetUserData(proxyId);
@@ -241,13 +243,9 @@ namespace FarseerPhysics.Collision
         /// <param name="proxyIdA">The proxy id A.</param>
         /// <param name="proxyIdB">The proxy id B.</param>
         /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TestOverlap(int proxyIdA, int proxyIdB)
         {
-            AABB aabbA, aabbB;
-            _tree.GetFatAABB(proxyIdA, out aabbA);
-            _tree.GetFatAABB(proxyIdB, out aabbB);
-            return AABB.TestOverlap(ref aabbA, ref aabbB);
+            return _tree.TestFatAABBOverlap(proxyIdA, proxyIdB);
         }
 
         /// <summary>
@@ -263,16 +261,17 @@ namespace FarseerPhysics.Collision
             for (int j = 0; j < _moveCount; ++j)
             {
                 _queryProxyId = _moveBuffer[j];
-                if (_queryProxyId == nullProxy)
+                if (_queryProxyId == NullProxy)
+                {
                     continue;
+                }
 
                 // We have to query the tree with the fat AABB so that
                 // we don't fail to create a pair that may touch later.
-                AABB fatAABB;
-                _tree.GetFatAABB(_queryProxyId, out fatAABB);
+                AABB fatAABB = _tree.GetFatAABB(_queryProxyId);
 
                 // Query tree, create pairs and add them pair buffer.
-                _tree.Query(_queryCallback, ref fatAABB);
+                _tree.Query(_queryCallbackCache, ref fatAABB);
             }
 
             // Reset move buffer
@@ -285,20 +284,19 @@ namespace FarseerPhysics.Collision
             int i = 0;
             while (i < _pairCount)
             {
-                var primaryPair = _pairBuffer[i];
-                var userDataA = _tree.GetUserData(primaryPair.ProxyIdA);
-                var userDataB = _tree.GetUserData(primaryPair.ProxyIdB);
+                Pair primaryPair = _pairBuffer[i];
 
-                callback(ref userDataA, ref userDataB);
+                callback(primaryPair.ProxyIdA, primaryPair.ProxyIdB);
                 ++i;
 
                 // Skip any duplicate pairs.
                 while (i < _pairCount)
                 {
-                    var pair = _pairBuffer[i];
+                    Pair pair = _pairBuffer[i];
                     if (pair.ProxyIdA != primaryPair.ProxyIdA || pair.ProxyIdB != primaryPair.ProxyIdB)
+                    {
                         break;
-
+                    }
                     ++i;
                 }
             }
@@ -313,21 +311,9 @@ namespace FarseerPhysics.Collision
         /// </summary>
         /// <param name="callback">The callback.</param>
         /// <param name="aabb">The aabb.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Query(Func<int, bool> callback, ref AABB aabb)
+        public void Query(BroadPhaseQueryCallback callback, ref AABB aabb)
         {
             _tree.Query(callback, ref aabb);
-        }
-
-        /// <summary>
-        /// Query an AABB for overlapping proxies
-        /// </summary>
-        /// <param name="aabb">Aabb.</param>
-        /// <param name="fixtures">Fixtures.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Query(ref AABB aabb, List<Fixture> fixtures)
-        {
-            _tree.Query(ref aabb, fixtures);
         }
 
         /// <summary>
@@ -339,16 +325,38 @@ namespace FarseerPhysics.Collision
         /// </summary>
         /// <param name="callback">A callback class that is called for each proxy that is hit by the ray.</param>
         /// <param name="input">The ray-cast input data. The ray extends from p1 to p1 + maxFraction * (p2 - p1).</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void RayCast(Func<RayCastInput, int, float> callback, ref RayCastInput input)
+        public void RayCast(BroadPhaseRayCastCallback callback, ref RayCastInput input)
         {
             _tree.RayCast(callback, ref input);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void ShiftOrigin(Vector2 newOrigin)
         {
             _tree.ShiftOrigin(newOrigin);
+        }
+
+        /// <summary>
+        /// Get the tree quality based on the area of the tree.
+        /// </summary>
+        public float TreeQuality
+        {
+            get { return _tree.AreaRatio; }
+        }
+
+        /// <summary>
+        /// Gets the balance of the tree.
+        /// </summary>
+        public int TreeBalance
+        {
+            get { return _tree.MaxBalance; }
+        }
+
+        /// <summary>
+        /// Gets the height of the tree.
+        /// </summary>
+        public int TreeHeight
+        {
+            get { return _tree.Height; }
         }
     }
 }

@@ -14,8 +14,6 @@ namespace FarseerPhysics.Common.TextureTools
     /// </summary>
     public class Terrain
     {
-        #region Properties/Fields
-
         /// <summary>
         /// World to manage terrain in.
         /// </summary>
@@ -66,22 +64,19 @@ namespace FarseerPhysics.Common.TextureTools
         /// <summary>
         /// Point cloud defining the terrain.
         /// </summary>
-        sbyte[,] _terrainMap;
+        private sbyte[,] _terrainMap;
 
         /// <summary>
         /// Generated bodies.
         /// </summary>
-        List<Body>[,] _bodyMap;
+        private List<Body>[,] _bodyMap;
 
-        float _localWidth;
-        float _localHeight;
-        int _xnum;
-        int _ynum;
-        AABB _dirtyArea;
-        Vector2 _topLeft;
-
-        #endregion
-
+        private float _localWidth;
+        private float _localHeight;
+        private int _xnum;
+        private int _ynum;
+        private AABB _dirtyArea;
+        private Vector2 _topLeft;
 
         /// <summary>
         /// Creates a new terrain.
@@ -90,7 +85,7 @@ namespace FarseerPhysics.Common.TextureTools
         /// <param name="area">The area of the terrain.</param>
         public Terrain(World world, AABB area)
         {
-            this.World = world;
+            World = world;
             Width = area.Width;
             Height = area.Height;
             Center = area.Center;
@@ -105,9 +100,9 @@ namespace FarseerPhysics.Common.TextureTools
         /// <param name="height">The height of the terrain.</param>
         public Terrain(World world, Vector2 position, float width, float height)
         {
-            this.World = world;
-            this.Width = width;
-            this.Height = height;
+            World = world;
+            Width = width;
+            Height = height;
             Center = position;
         }
 
@@ -138,8 +133,7 @@ namespace FarseerPhysics.Common.TextureTools
             _bodyMap = new List<Body>[_xnum, _ynum];
 
             // make sure to mark the dirty area to an infinitely small box
-            _dirtyArea = new AABB(new Vector2(float.MaxValue, float.MaxValue),
-                new Vector2(float.MinValue, float.MinValue));
+            _dirtyArea = new AABB(new Vector2(float.MaxValue, float.MaxValue), new Vector2(float.MinValue, float.MinValue));
         }
 
         /// <summary>
@@ -153,8 +147,7 @@ namespace FarseerPhysics.Common.TextureTools
             {
                 for (int y = 0; y < data.GetUpperBound(1); y++)
                 {
-                    if (x + offset.X >= 0 && x + offset.X < _localWidth && y + offset.Y >= 0 &&
-                        y + offset.Y < _localHeight)
+                    if (x + offset.X >= 0 && x + offset.X < _localWidth && y + offset.Y >= 0 && y + offset.Y < _localHeight)
                     {
                         _terrainMap[(int)(x + offset.X), (int)(y + offset.Y)] = data[x, y];
                     }
@@ -173,7 +166,7 @@ namespace FarseerPhysics.Common.TextureTools
         {
             // find local position
             // make position local to map space
-            var p = location - _topLeft;
+            Vector2 p = location - _topLeft;
 
             // find map position for each axis
             p.X = p.X * _localWidth / Width;
@@ -212,11 +205,10 @@ namespace FarseerPhysics.Common.TextureTools
 
             RemoveOldData(xStart, xEnd, yStart, yEnd);
 
-            _dirtyArea = new AABB(new Vector2(float.MaxValue, float.MaxValue),
-                new Vector2(float.MinValue, float.MinValue));
+            _dirtyArea = new AABB(new Vector2(float.MaxValue, float.MaxValue), new Vector2(float.MinValue, float.MinValue));
         }
 
-        void RemoveOldData(int xStart, int xEnd, int yStart, int yEnd)
+        private void RemoveOldData(int xStart, int xEnd, int yStart, int yEnd)
         {
             for (int x = xStart; x < xEnd; x++)
             {
@@ -227,7 +219,7 @@ namespace FarseerPhysics.Common.TextureTools
                     {
                         for (int i = 0; i < _bodyMap[x, y].Count; i++)
                         {
-                            World.RemoveBody(_bodyMap[x, y][i]);
+                            World.Remove(_bodyMap[x, y][i]);
                         }
                     }
 
@@ -239,20 +231,18 @@ namespace FarseerPhysics.Common.TextureTools
             }
         }
 
-        void GenerateTerrain(int gx, int gy)
+        private void GenerateTerrain(int gx, int gy)
         {
             float ax = gx * CellSize;
             float ay = gy * CellSize;
 
-            var polys = MarchingSquares.DetectSquares(
-                new AABB(new Vector2(ax, ay), new Vector2(ax + CellSize, ay + CellSize)), SubCellSize, SubCellSize,
-                _terrainMap, Iterations, true);
+            List<Vertices> polys = MarchingSquares.DetectSquares(new AABB(new Vector2(ax, ay), new Vector2(ax + CellSize, ay + CellSize)), SubCellSize, SubCellSize, _terrainMap, Iterations, true);
             if (polys.Count == 0) return;
 
             _bodyMap[gx, gy] = new List<Body>();
 
             // create the scale vector
-            var scale = new Vector2(1f / PointsPerUnit, 1f / -PointsPerUnit);
+            Vector2 scale = new Vector2(1f / PointsPerUnit, 1f / -PointsPerUnit);
 
             // create physics object for this grid cell
             foreach (Vertices item in polys)
@@ -260,13 +250,14 @@ namespace FarseerPhysics.Common.TextureTools
                 // does this need to be negative?
                 item.Scale(ref scale);
                 item.Translate(ref _topLeft);
-                var simplified = SimplifyTools.CollinearSimplify(item);
+                Vertices simplified = SimplifyTools.CollinearSimplify(item);
 
-                var decompPolys = Triangulate.ConvexPartition(simplified, Decomposer);
+                List<Vertices> decompPolys = Triangulate.ConvexPartition(simplified, Decomposer);
+
                 foreach (Vertices poly in decompPolys)
                 {
                     if (poly.Count > 2)
-                        _bodyMap[gx, gy].Add(BodyFactory.CreatePolygon(World, poly, 1));
+                        _bodyMap[gx, gy].Add(World.CreatePolygon(poly, 1));
                 }
             }
         }

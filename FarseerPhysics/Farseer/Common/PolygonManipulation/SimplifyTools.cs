@@ -21,13 +21,13 @@ namespace FarseerPhysics.Common.PolygonManipulation
             if (vertices.Count <= 3)
                 return vertices;
 
-            var simplified = new Vertices(vertices.Count);
+            Vertices simplified = new Vertices(vertices.Count);
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                var prev = vertices.PreviousVertex(i);
-                var current = vertices[i];
-                var next = vertices.NextVertex(i);
+                Vector2 prev = vertices.PreviousVertex(i);
+                Vector2 current = vertices[i];
+                Vector2 next = vertices.NextVertex(i);
 
                 //If they collinear, continue
                 if (MathUtils.IsCollinear(ref prev, ref current, ref next, collinearityTolerance))
@@ -38,7 +38,6 @@ namespace FarseerPhysics.Common.PolygonManipulation
 
             return simplified;
         }
-
 
         /// <summary>
         /// Ramer-Douglas-Peucker polygon simplification algorithm. This is the general recursive version that does not use the
@@ -70,8 +69,7 @@ namespace FarseerPhysics.Common.PolygonManipulation
             return simplified;
         }
 
-
-        static void SimplifySection(Vertices vertices, int i, int j, bool[] usePoint, float distanceTolerance)
+        private static void SimplifySection(Vertices vertices, int i, int j, bool[] usePoint, float distanceTolerance)
         {
             if ((i + 1) == j)
                 return;
@@ -107,7 +105,6 @@ namespace FarseerPhysics.Common.PolygonManipulation
                 SimplifySection(vertices, maxIndex, j, usePoint, distanceTolerance);
             }
         }
-
 
         /// <summary>
         /// Merges all parallel edges in the list of vertices
@@ -183,20 +180,21 @@ namespace FarseerPhysics.Common.PolygonManipulation
             return newVertices;
         }
 
-
         /// <summary>
         /// Merges the identical points in the polygon.
         /// </summary>
         /// <param name="vertices">The vertices.</param>
         public static Vertices MergeIdenticalPoints(Vertices vertices)
         {
-            var unique = new HashSet<Vector2>();
+            HashSet<Vector2> unique = new HashSet<Vector2>();
+
             foreach (Vector2 vertex in vertices)
+            {
                 unique.Add(vertex);
+            }
 
             return new Vertices(unique);
         }
-
 
         /// <summary>
         /// Reduces the polygon by distance.
@@ -227,7 +225,6 @@ namespace FarseerPhysics.Common.PolygonManipulation
             return simplified;
         }
 
-
         /// <summary>
         /// Reduces the polygon by removing the Nth vertex in the vertices list.
         /// </summary>
@@ -242,7 +239,7 @@ namespace FarseerPhysics.Common.PolygonManipulation
             if (nth == 0)
                 return vertices;
 
-            var simplified = new Vertices(vertices.Count);
+            Vertices simplified = new Vertices(vertices.Count);
 
             for (int i = 0; i < vertices.Count; i++)
             {
@@ -254,7 +251,6 @@ namespace FarseerPhysics.Common.PolygonManipulation
 
             return simplified;
         }
-
 
         /// <summary>
         /// Simplify the polygon by removing all points that in pairs of 3 have an area less than the tolerance.

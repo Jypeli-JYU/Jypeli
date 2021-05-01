@@ -36,6 +36,7 @@ using FarseerPhysics.Collision.Shapes;
 using Jypeli.Farseer;
 using Jypeli.Physics;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace Jypeli
@@ -66,8 +67,8 @@ namespace Jypeli
         /// </summary>
         public bool IgnoresPhysicsLogics
         {
-            get { return FSBody.IgnoresPhysicsLogics; }
-            set { FSBody.IgnoresPhysicsLogics = value; }
+            get { return FSBody.IgnoreGravity; } // TODO: Mitä tän käytännössä pitäisi tehdä?
+            set { FSBody.IgnoreGravity = value; }
         }
 
         /// <summary>
@@ -111,20 +112,20 @@ namespace Jypeli
         {
             this._size = new Vector(width, height) * FSConvert.DisplayToSim;
             this._shape = shape;
-            
-            FSBody = BodyFactory.CreateBody(world, bodyType: BodyType.Dynamic);
+
+            FSBody = world.CreateBody(bodyType: BodyType.Dynamic);// BodyFactory.CreateBody(world, bodyType: BodyType.Dynamic);
             FSBody.owner = this;
             FSBody.Enabled = false;
-            if (shape is Ellipse && width != height)
+            if (shape is Ellipse && width == height)
             {
-                Fixture f = FSBody.CreateFixture(new CircleShape((float)height, 1f * FSConvert.SimToDisplay));
-                f.UserData = FSBody;
+                Fixture f = FixtureFactory.AttachCircle((float)height * FSConvert.DisplayToSim / 2, 1f, FSBody);
+                f.Tag = FSBody;
             }
             else
             {
                 List<Vertices> vertices = CreatePhysicsShape(shape, this._size);
                 List<Fixture> fixtures = FixtureFactory.AttachCompoundPolygon(vertices, 1f, FSBody);
-                fixtures.ForEach((f) => f.UserData = FSBody);
+                fixtures.ForEach((f) => f.Tag = FSBody);
             }
         }
 
@@ -146,8 +147,11 @@ namespace Jypeli
         {
             // Lapsiolioiden sijainnin korjaus. 
             // TODO: Tää on aika purkkapalloratkaisu
-            this.Owner.Position = this.Position;
-            this.Owner.Angle = Jypeli.Angle.FromRadians(this.Angle);
+            if (this.Owner.GetChildObjects<GameObject>().Count() > 0)
+            {
+                this.Owner.Position = this.Position;
+                this.Owner.Angle = Jypeli.Angle.FromRadians(this.Angle);
+            }
         }
 
         public void SetCollisionIgnorer(Ignorer ignorer)
@@ -208,8 +212,8 @@ namespace Jypeli
 
             for (int i = 0; i < fs.Count; i++)
             {
-                if ((Body)fs[i].UserData == ((PhysicsBody)physObj.Body).FSBody)
-                    physMainParent.FSBody.DestroyFixture(fs[i]);
+                if ((Body)fs[i].Tag == ((PhysicsBody)physObj.Body).FSBody)
+                    physMainParent.FSBody.Remove(fs[i]);
             }
             if (physObj.Parent != null)
                 PhysicsGame.Instance.Engine.ConnectBodies((PhysicsObject)physObj.Parent, physObj);

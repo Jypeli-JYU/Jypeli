@@ -19,10 +19,12 @@
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>NETSTANDARD2_0;USE_AWAKE_BODY_SET;USE_ACTIVE_CONTACT_SET</DefineConstants>
     <OutputPath>../Compiled</OutputPath>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineConstants>NETSTANDARD2_0;USE_AWAKE_BODY_SET;USE_ACTIVE_CONTACT_SET</DefineConstants>
     <OutputPath>../Compiled</OutputPath>
   </PropertyGroup>
   

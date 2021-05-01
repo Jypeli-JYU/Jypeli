@@ -1,29 +1,42 @@
-﻿/*
+﻿#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
+/*
 * Farseer Physics Engine:
 * Copyright (c) 2012 Ian Qvist
 * 
 * Original source Box2D:
-* Copyright (c) 2006-2011 Erin Catto http://www.box2d.org
-*
-* This software is provided 'as-is', without any express or implied
-* warranty.  In no event will the authors be held liable for any damages
-* arising from the use of this software.
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-* 1. The origin of this software must not be misrepresented; you must not
-* claim that you wrote the original software. If you use this software
-* in a product, an acknowledgment in the product documentation would be
-* appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-* misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
+* Copyright (c) 2006-2011 Erin Catto http://www.box2d.org 
+* 
+* This software is provided 'as-is', without any express or implied 
+* warranty.  In no event will the authors be held liable for any damages 
+* arising from the use of this software. 
+* Permission is granted to anyone to use this software for any purpose, 
+* including commercial applications, and to alter it and redistribute it 
+* freely, subject to the following restrictions: 
+* 1. The origin of this software must not be misrepresented; you must not 
+* claim that you wrote the original software. If you use this software 
+* in a product, an acknowledgment in the product documentation would be 
+* appreciated but is not required. 
+* 2. Altered source versions must be plainly marked as such, and must not be 
+* misrepresented as being the original software. 
+* 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
 using System;
 using System.Diagnostics;
 using System.Numerics;
 using FarseerPhysics.Common;
+using Complex = FarseerPhysics.Common.Complex;
 
 
 namespace FarseerPhysics.Collision.Shapes
@@ -33,14 +46,43 @@ namespace FarseerPhysics.Collision.Shapes
     /// </summary>
     public class CircleShape : Shape
     {
-        public override int ChildCount => 1;
+        internal Vector2 _position;
+
+        /// <summary>
+        /// Create a new circle with the desired radius and density.
+        /// </summary>
+        /// <param name="radius">The radius of the circle.</param>
+        /// <param name="density">The density of the circle.</param>
+        public CircleShape(float radius, float density)
+            : base(density)
+        {
+            Debug.Assert(radius >= 0);
+            Debug.Assert(density >= 0);
+
+            ShapeType = ShapeType.Circle;
+            _position = Vector2.Zero;
+            Radius = radius; // The Radius property cache 2radius and calls ComputeProperties(). So no need to call ComputeProperties() here.
+        }
+
+        internal CircleShape()
+            : base(0)
+        {
+            ShapeType = ShapeType.Circle;
+            _radius = 0.0f;
+            _position = Vector2.Zero;
+        }
+
+        public override int ChildCount
+        {
+            get { return 1; }
+        }
 
         /// <summary>
         /// Get or set the position of the circle
         /// </summary>
         public Vector2 Position
         {
-            get => _position;
+            get { return _position; }
             set
             {
                 _position = value;
@@ -48,41 +90,14 @@ namespace FarseerPhysics.Collision.Shapes
             }
         }
 
-        internal Vector2 _position;
-
-
-        /// <summary>
-        /// Create a new circle with the desired radius and density.
-        /// </summary>
-        /// <param name="radius">The radius of the circle.</param>
-        /// <param name="density">The density of the circle.</param>
-        public CircleShape(float radius, float density) : base(density)
-        {
-            Debug.Assert(radius >= 0);
-            Debug.Assert(density >= 0);
-
-            ShapeType = ShapeType.Circle;
-            _position = Vector2.Zero;
-            base.Radius =
-                radius; // The Radius property cache 2radius and calls ComputeProperties(). So no need to call ComputeProperties() here.
-        }
-
-        internal CircleShape() : base(0)
-        {
-            ShapeType = ShapeType.Circle;
-            _radius = 0.0f;
-            _position = Vector2.Zero;
-        }
-
         public override bool TestPoint(ref Transform transform, ref Vector2 point)
         {
-            var center = transform.P + MathUtils.Mul(transform.Q, Position);
-            var d = point - center;
+            Vector2 center = transform.p + Complex.Multiply(ref _position, ref transform.q);
+            Vector2 d = point - center;
             return Vector2.Dot(d, d) <= _2radius;
         }
 
-        public override bool RayCast(out RayCastOutput output, ref RayCastInput input, ref Transform transform,
-                                     int childIndex)
+        public override bool RayCast(out RayCastOutput output, ref RayCastInput input, ref Transform transform, int childIndex)
         {
             // Collision Detection in Interactive 3D Environments by Gino van den Bergen
             // From Section 3.1.2
@@ -91,19 +106,21 @@ namespace FarseerPhysics.Collision.Shapes
 
             output = new RayCastOutput();
 
-            var pos = transform.P + MathUtils.Mul(transform.Q, this.Position);
-            var s = input.Point1 - pos;
-            var b = Vector2.Dot(s, s) - _2radius;
+            Vector2 position = transform.p + Complex.Multiply(ref _position, ref transform.q);
+            Vector2 s = input.Point1 - position;
+            float b = Vector2.Dot(s, s) - _2radius;
 
             // Solve quadratic equation.
-            var r = input.Point2 - input.Point1;
-            var c = Vector2.Dot(s, r);
-            var rr = Vector2.Dot(r, r);
-            var sigma = c * c - rr * b;
+            Vector2 r = input.Point2 - input.Point1;
+            float c = Vector2.Dot(s, r);
+            float rr = Vector2.Dot(r, r);
+            float sigma = c * c - rr * b;
 
             // Check for negative discriminant and short segment.
             if (sigma < 0.0f || rr < Settings.Epsilon)
+            {
                 return false;
+            }
 
             // Find the point of intersection of the line with the circle.
             float a = -(c + (float)Math.Sqrt(sigma));
@@ -115,8 +132,7 @@ namespace FarseerPhysics.Collision.Shapes
                 output.Fraction = a;
 
                 //TODO: Check results here
-                output.Normal = s + a * r;
-                output.Normal = Vector2.Normalize(output.Normal);
+                output.Normal = Vector2.Normalize(s + a * r);
                 return true;
             }
 
@@ -125,14 +141,21 @@ namespace FarseerPhysics.Collision.Shapes
 
         public override void ComputeAABB(out AABB aabb, ref Transform transform, int childIndex)
         {
-            var p = transform.P + MathUtils.Mul(transform.Q, Position);
-            aabb.LowerBound = new Vector2(p.X - Radius, p.Y - Radius);
-            aabb.UpperBound = new Vector2(p.X + Radius, p.Y + Radius);
+            // OPT: Vector2 p = transform.p + Complex.Multiply(ref _position, ref transform.q);
+            var pX = (_position.X * transform.q.Real - _position.Y * transform.q.Imaginary) + transform.p.X;
+            var pY = (_position.Y * transform.q.Real + _position.X * transform.q.Imaginary) + transform.p.Y;
+
+            // OPT: aabb.LowerBound = new Vector2(p.X - Radius, p.Y - Radius);
+            // OPT: aabb.UpperBound = new Vector2(p.X + Radius, p.Y + Radius);
+            aabb.LowerBound.X = pX - Radius;
+            aabb.LowerBound.Y = pY - Radius;
+            aabb.UpperBound.X = pX + Radius;
+            aabb.UpperBound.Y = pY + Radius;
         }
 
         internal override sealed void ComputeProperties()
         {
-            var area = Settings.Pi * _2radius;
+            float area = Constant.Pi * _2radius;
             MassData.Area = area;
             MassData.Mass = Density * area;
             MassData.Centroid = Position;
@@ -145,24 +168,23 @@ namespace FarseerPhysics.Collision.Shapes
         {
             sc = Vector2.Zero;
 
-            var p = MathUtils.Mul(ref xf, Position);
+            Vector2 p = Transform.Multiply(ref _position, ref xf);
             float l = -(Vector2.Dot(normal, p) - offset);
             if (l < -Radius + Settings.Epsilon)
             {
                 //Completely dry
                 return 0;
             }
-
             if (l > Radius)
             {
                 //Completely wet
                 sc = p;
-                return Settings.Pi * _2radius;
+                return Constant.Pi * _2radius;
             }
 
             //Magic
             float l2 = l * l;
-            float area = _2radius * (float)((Math.Asin(l / Radius) + Settings.Pi / 2) + l * Math.Sqrt(_2radius - l2));
+            float area = _2radius * (float)((Math.Asin(l / Radius) + Constant.Pi / 2) + l * Math.Sqrt(_2radius - l2));
             float com = -2.0f / 3.0f * (float)Math.Pow(_2radius - l2, 1.5f) / area;
 
             sc.X = p.X + normal.X * com;

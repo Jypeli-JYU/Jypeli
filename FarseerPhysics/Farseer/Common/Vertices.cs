@@ -45,32 +45,26 @@ namespace FarseerPhysics.Common
         /// </summary>
         SideTooSmall
     }
-
-
+    
     [DebuggerDisplay("Count = {Count} Vertices = {ToString()}")]
     public class Vertices : List<Vector2>
     {
-        internal bool attachedToBody;
+        public Vertices() { }
 
-        /// <summary>
-        /// You can add holes to this collection.
-        /// It will get respected by some of the triangulation algoithms, but otherwise not used.
-        /// </summary>
-        public List<Vertices> Holes;
-
-
-        public Vertices()
-        {
-        }
-
-        public Vertices(int capacity) : base(capacity)
-        {
-        }
+        public Vertices(int capacity) : base(capacity) { }
 
         public Vertices(IEnumerable<Vector2> vertices)
         {
             AddRange(vertices);
         }
+
+        internal bool AttachedToBody { get; set; }
+
+        /// <summary>
+        /// You can add holes to this collection.
+        /// It will get respected by some of the triangulation algoithms, but otherwise not used.
+        /// </summary>
+        public List<Vertices> Holes { get; set; }
 
         /// <summary>
         /// Gets the next index. Used for iterating all the edges with wrap-around.
@@ -132,7 +126,6 @@ namespace FarseerPhysics.Common
                 area += vi.X * vj.Y;
                 area -= vi.Y * vj.X;
             }
-
             area /= 2.0f;
             return area;
         }
@@ -195,7 +188,6 @@ namespace FarseerPhysics.Common
                 {
                     lowerBound.X = this[i].X;
                 }
-
                 if (this[i].X > upperBound.X)
                 {
                     upperBound.X = this[i].X;
@@ -205,7 +197,6 @@ namespace FarseerPhysics.Common
                 {
                     lowerBound.Y = this[i].Y;
                 }
-
                 if (this[i].Y > upperBound.Y)
                 {
                     upperBound.Y = this[i].Y;
@@ -233,11 +224,10 @@ namespace FarseerPhysics.Common
         /// <param name="value">The vector.</param>
         public void Translate(ref Vector2 value)
         {
-            Debug.Assert(!attachedToBody,
-                "Translating vertices that are used by a Body can result in unstable behavior. Use Body.Position instead.");
+            Debug.Assert(!AttachedToBody, "Translating vertices that are used by a Body can result in unstable behavior. Use Body.Position instead.");
 
             for (int i = 0; i < Count; i++)
-                this[i] = Vector2.Add(this[i], value);
+                this[i] = this[i] + value;
 
             if (Holes != null && Holes.Count > 0)
             {
@@ -263,10 +253,10 @@ namespace FarseerPhysics.Common
         /// <param name="value">The Value.</param>
         public void Scale(ref Vector2 value)
         {
-            Debug.Assert(!attachedToBody, "Scaling vertices that are used by a Body can result in unstable behavior.");
+            Debug.Assert(!AttachedToBody, "Scaling vertices that are used by a Body can result in unstable behavior.");
 
             for (int i = 0; i < Count; i++)
-                this[i] = Vector2.Multiply(this[i], value);
+                this[i] = this[i] * value;
 
             if (Holes != null && Holes.Count > 0)
             {
@@ -280,20 +270,21 @@ namespace FarseerPhysics.Common
         /// <summary>
         /// Rotate the vertices with the defined value in radians.
         /// 
-        /// Warning: Using this method on an active set of vertices of a Body, will cause problems with collisions. Use Body.Rotation instead.
+        /// Warning: Using this method on an active set of vertices of a Body,
+        /// will cause problems with collisions. Use Body.Rotation instead.
         /// </summary>
         /// <param name="value">The amount to rotate by in radians.</param>
         public void Rotate(float value)
         {
-            Debug.Assert(!attachedToBody, "Rotating vertices that are used by a Body can result in unstable behavior.");
+            Debug.Assert(!AttachedToBody, "Rotating vertices that are used by a Body can result in unstable behavior.");
 
-            var cos = (float)Math.Cos(value);
-            var sin = (float)Math.Sin(value);
+            float num1 = (float)Math.Cos(value);
+            float num2 = (float)Math.Sin(value);
 
-            for (var i = 0; i < Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                var position = this[i];
-                this[i] = new Vector2((position.X * cos + position.Y * -sin), (position.X * sin + position.Y * cos));
+                Vector2 position = this[i];
+                this[i] = new Vector2((position.X * num1 + position.Y * -num2), (position.X * num2 + position.Y * num1));
             }
 
             if (Holes != null && Holes.Count > 0)
@@ -346,7 +337,6 @@ namespace FarseerPhysics.Common
                         return false;
                 }
             }
-
             return true;
         }
 
@@ -400,7 +390,6 @@ namespace FarseerPhysics.Common
                         return false;
                 }
             }
-
             return true;
         }
 
@@ -432,7 +421,7 @@ namespace FarseerPhysics.Common
             {
                 int next = i + 1 < Count ? i + 1 : 0;
                 Vector2 edge = this[next] - this[i];
-                if (edge.LengthSquared() <= Settings.Epsilon * Settings.Epsilon)
+                if (edge.LengthSquared() <= Settings.Epsilon*Settings.Epsilon)
                 {
                     return PolygonError.SideTooSmall;
                 }
@@ -501,7 +490,6 @@ namespace FarseerPhysics.Common
                 {
                     return 0;
                 }
-
                 // Test edge for intersection with ray from point
                 if (p1.Y <= point.Y)
                 {
@@ -518,7 +506,6 @@ namespace FarseerPhysics.Common
                     }
                 }
             }
-
             return (wn == 0 ? -1 : 1);
         }
 
@@ -549,31 +536,6 @@ namespace FarseerPhysics.Common
             return true;
         }
 
-        /// <summary>
-        /// Transforms the polygon using the defined matrix.
-        /// </summary>
-        /// <param name="transform">The matrix to use as transformation.</param>
-        public void Transform(ref Matrix3x2 transform)
-        {
-            // Transform main polygon
-            for (int i = 0; i < Count; i++)
-                this[i] = Vector2.Transform(this[i], transform);
-
-            // Transform holes
-            if (Holes != null && Holes.Count > 0)
-            {
-                for (int i = 0; i < Holes.Count; i++)
-                {
-                    Vector2[] temp = Holes[i].ToArray();
-                    for (int j = 0; j < temp.Length; j++)
-                    {
-                        temp[j] = Vector2.Transform(temp[j], transform);
-                    }
-                    Holes[i] = new Vertices(temp);
-                }
-            }
-        }
-
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
@@ -585,7 +547,6 @@ namespace FarseerPhysics.Common
                     builder.Append(" ");
                 }
             }
-
             return builder.ToString();
         }
     }

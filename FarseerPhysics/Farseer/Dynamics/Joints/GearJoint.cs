@@ -1,3 +1,14 @@
+#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
 /*
 * Farseer Physics Engine:
 * Copyright (c) 2012 Ian Qvist
@@ -19,10 +30,12 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
 using System.Diagnostics;
 using System.Numerics;
 using FarseerPhysics.Common;
+using Complex = FarseerPhysics.Common.Complex;
 
 
 namespace FarseerPhysics.Dynamics.Joints
@@ -59,79 +72,39 @@ namespace FarseerPhysics.Dynamics.Joints
     /// </summary>
     public class GearJoint : Joint
     {
-        #region Properties/Fields
+        private JointType _typeA;
+        private JointType _typeB;
 
-        public override Vector2 WorldAnchorA
-        {
-            get => _bodyA.GetWorldPoint(_localAnchorA);
-            set => Debug.Assert(false, "You can't set the world anchor on this joint type.");
-        }
-
-        public override Vector2 WorldAnchorB
-        {
-            get => _bodyB.GetWorldPoint(_localAnchorB);
-            set => Debug.Assert(false, "You can't set the world anchor on this joint type.");
-        }
-
-        /// <summary>
-        /// The gear ratio.
-        /// </summary>
-        public float Ratio
-        {
-            get => _ratio;
-            set
-            {
-                Debug.Assert(MathUtils.IsValid(value));
-                _ratio = value;
-            }
-        }
-
-        /// <summary>
-        /// The first revolute/prismatic joint attached to the gear joint.
-        /// </summary>
-        public Joint JointA { get; private set; }
-
-        /// <summary>
-        /// The second revolute/prismatic joint attached to the gear joint.
-        /// </summary>
-        public Joint JointB { get; private set; }
-
-        JointType _typeA;
-        JointType _typeB;
-
-        Body _bodyA;
-        Body _bodyB;
-        Body _bodyC;
-        Body _bodyD;
+        private Body _bodyA;
+        private Body _bodyB;
+        private Body _bodyC;
+        private Body _bodyD;
 
         // Solver shared
-        Vector2 _localAnchorA;
-        Vector2 _localAnchorB;
-        Vector2 _localAnchorC;
-        Vector2 _localAnchorD;
+        private Vector2 _localAnchorA;
+        private Vector2 _localAnchorB;
+        private Vector2 _localAnchorC;
+        private Vector2 _localAnchorD;
 
-        Vector2 _localAxisC;
-        Vector2 _localAxisD;
+        private Vector2 _localAxisC;
+        private Vector2 _localAxisD;
 
-        float _referenceAngleA;
-        float _referenceAngleB;
+        private float _referenceAngleA;
+        private float _referenceAngleB;
 
-        float _constant;
-        float _ratio;
+        private float _constant;
+        private float _ratio;
 
-        float _impulse;
+        private float _impulse;
 
         // Solver temp
-        int _indexA, _indexB, _indexC, _indexD;
-        Vector2 _lcA, _lcB, _lcC, _lcD;
-        float _mA, _mB, _mC, _mD;
-        float _iA, _iB, _iC, _iD;
-        Vector2 _JvAC, _JvBD;
-        float _JwA, _JwB, _JwC, _JwD;
-        float _mass;
-
-        #endregion
-
+        private int _indexA, _indexB, _indexC, _indexD;
+        private Vector2 _lcA, _lcB, _lcC, _lcD;
+        private float _mA, _mB, _mC, _mD;
+        private float _iA, _iB, _iC, _iD;
+        private Vector2 _JvAC, _JvBD;
+        private float _JwA, _JwB, _JwC, _JwD;
+        private float _mass;
 
         /// <summary>
         /// Requires two existing revolute or prismatic joints (any combination will work).
@@ -145,24 +118,24 @@ namespace FarseerPhysics.Dynamics.Joints
         public GearJoint(Body bodyA, Body bodyB, Joint jointA, Joint jointB, float ratio = 1f)
         {
             JointType = JointType.Gear;
-            base.BodyA = bodyA;
-            base.BodyB = bodyB;
-            this.JointA = jointA;
-            this.JointB = jointB;
-            this.Ratio = ratio;
+            BodyA = bodyA;
+            BodyB = bodyB;
+            JointA = jointA;
+            JointB = jointB;
+            Ratio = ratio;
 
             _typeA = jointA.JointType;
             _typeB = jointB.JointType;
 
-            //Debug.Assert(_typeA == JointType.Revolute || _typeA == JointType.Prismatic );
-            //Debug.Assert(_typeB == JointType.Revolute || _typeB == JointType.Prismatic );
+            Debug.Assert(_typeA == JointType.Revolute || _typeA == JointType.Prismatic || _typeA == JointType.FixedRevolute || _typeA == JointType.FixedPrismatic);
+            Debug.Assert(_typeB == JointType.Revolute || _typeB == JointType.Prismatic || _typeB == JointType.FixedRevolute || _typeB == JointType.FixedPrismatic);
 
             float coordinateA, coordinateB;
 
             // TODO_ERIN there might be some problem with the joint edges in b2Joint.
 
-            _bodyC = jointA.BodyA;
-            _bodyA = jointA.BodyB;
+            _bodyC = JointA.BodyA;
+            _bodyA = JointA.BodyB;
 
             // Get geometry of joint1
             Transform xfA = _bodyA._xf;
@@ -189,12 +162,12 @@ namespace FarseerPhysics.Dynamics.Joints
                 _localAxisC = prismatic.LocalXAxis;
 
                 Vector2 pC = _localAnchorC;
-                Vector2 pA = MathUtils.MulT(xfC.Q, MathUtils.Mul(xfA.Q, _localAnchorA) + (xfA.P - xfC.P));
+                Vector2 pA = Complex.Divide(Complex.Multiply(ref _localAnchorA, ref xfA.q) + (xfA.p - xfC.p), ref xfC.q);
                 coordinateA = Vector2.Dot(pA - pC, _localAxisC);
             }
 
-            _bodyD = jointB.BodyA;
-            _bodyB = jointB.BodyB;
+            _bodyD = JointB.BodyA;
+            _bodyB = JointB.BodyB;
 
             // Get geometry of joint2
             Transform xfB = _bodyB._xf;
@@ -221,7 +194,7 @@ namespace FarseerPhysics.Dynamics.Joints
                 _localAxisD = prismatic.LocalXAxis;
 
                 Vector2 pD = _localAnchorD;
-                Vector2 pB = MathUtils.MulT(xfD.Q, MathUtils.Mul(xfB.Q, _localAnchorB) + (xfB.P - xfD.P));
+                Vector2 pB = Complex.Divide(Complex.Multiply(ref _localAnchorB, ref xfB.q) + (xfB.p - xfD.p), ref xfD.q);
                 coordinateB = Vector2.Dot(pB - pD, _localAxisD);
             }
 
@@ -229,6 +202,41 @@ namespace FarseerPhysics.Dynamics.Joints
             _constant = coordinateA + _ratio * coordinateB;
             _impulse = 0.0f;
         }
+
+        public override Vector2 WorldAnchorA
+        {
+            get { return _bodyA.GetWorldPoint(_localAnchorA); }
+            set { Debug.Assert(false, "You can't set the world anchor on this joint type."); }
+        }
+
+        public override Vector2 WorldAnchorB
+        {
+            get { return _bodyB.GetWorldPoint(_localAnchorB); }
+            set { Debug.Assert(false, "You can't set the world anchor on this joint type."); }
+        }
+
+        /// <summary>
+        /// The gear ratio.
+        /// </summary>
+        public float Ratio
+        {
+            get { return _ratio; }
+            set
+            {
+                Debug.Assert(MathUtils.IsValid(value));
+                _ratio = value;
+            }
+        }
+
+        /// <summary>
+        /// The first revolute/prismatic joint attached to the gear joint.
+        /// </summary>
+        public Joint JointA { get; private set; }
+
+        /// <summary>
+        /// The second revolute/prismatic joint attached to the gear joint.
+        /// </summary>
+        public Joint JointB { get; private set; }
 
         public override Vector2 GetReactionForce(float invDt)
         {
@@ -261,23 +269,26 @@ namespace FarseerPhysics.Dynamics.Joints
             _iC = _bodyC._invI;
             _iD = _bodyD._invI;
 
-            float aA = data.Positions[_indexA].A;
-            Vector2 vA = data.Velocities[_indexA].V;
-            float wA = data.Velocities[_indexA].W;
+            float aA = data.positions[_indexA].a;
+            Vector2 vA = data.velocities[_indexA].v;
+            float wA = data.velocities[_indexA].w;
 
-            float aB = data.Positions[_indexB].A;
-            Vector2 vB = data.Velocities[_indexB].V;
-            float wB = data.Velocities[_indexB].W;
+            float aB = data.positions[_indexB].a;
+            Vector2 vB = data.velocities[_indexB].v;
+            float wB = data.velocities[_indexB].w;
 
-            float aC = data.Positions[_indexC].A;
-            Vector2 vC = data.Velocities[_indexC].V;
-            float wC = data.Velocities[_indexC].W;
+            float aC = data.positions[_indexC].a;
+            Vector2 vC = data.velocities[_indexC].v;
+            float wC = data.velocities[_indexC].w;
 
-            float aD = data.Positions[_indexD].A;
-            Vector2 vD = data.Velocities[_indexD].V;
-            float wD = data.Velocities[_indexD].W;
+            float aD = data.positions[_indexD].a;
+            Vector2 vD = data.velocities[_indexD].v;
+            float wD = data.velocities[_indexD].w;
 
-            Rot qA = new Rot(aA), qB = new Rot(aB), qC = new Rot(aC), qD = new Rot(aD);
+            Complex qA = Complex.FromAngle(aA);
+            Complex qB = Complex.FromAngle(aB);
+            Complex qC = Complex.FromAngle(aC);
+            Complex qD = Complex.FromAngle(aD);
 
             _mass = 0.0f;
 
@@ -290,12 +301,12 @@ namespace FarseerPhysics.Dynamics.Joints
             }
             else
             {
-                Vector2 u = MathUtils.Mul(qC, _localAxisC);
-                Vector2 rC = MathUtils.Mul(qC, _localAnchorC - _lcC);
-                Vector2 rA = MathUtils.Mul(qA, _localAnchorA - _lcA);
+                Vector2 u = Complex.Multiply(ref _localAxisC, ref qC);
+                Vector2 rC = Complex.Multiply(_localAnchorC - _lcC, ref qC);
+                Vector2 rA = Complex.Multiply(_localAnchorA - _lcA, ref qA);
                 _JvAC = u;
-                _JwC = MathUtils.Cross(rC, u);
-                _JwA = MathUtils.Cross(rA, u);
+                _JwC = MathUtils.Cross(ref rC, ref u);
+                _JwA = MathUtils.Cross(ref rA, ref u);
                 _mass += _mC + _mA + _iC * _JwC * _JwC + _iA * _JwA * _JwA;
             }
 
@@ -308,19 +319,19 @@ namespace FarseerPhysics.Dynamics.Joints
             }
             else
             {
-                Vector2 u = MathUtils.Mul(qD, _localAxisD);
-                Vector2 rD = MathUtils.Mul(qD, _localAnchorD - _lcD);
-                Vector2 rB = MathUtils.Mul(qB, _localAnchorB - _lcB);
+                Vector2 u = Complex.Multiply(ref _localAxisD, ref qD);
+                Vector2 rD = Complex.Multiply(_localAnchorD - _lcD, ref qD);
+                Vector2 rB = Complex.Multiply(_localAnchorB - _lcB, ref qB);
                 _JvBD = _ratio * u;
-                _JwD = _ratio * MathUtils.Cross(rD, u);
-                _JwB = _ratio * MathUtils.Cross(rB, u);
+                _JwD = _ratio * MathUtils.Cross(ref rD, ref u);
+                _JwB = _ratio * MathUtils.Cross(ref rB, ref u);
                 _mass += _ratio * _ratio * (_mD + _mB) + _iD * _JwD * _JwD + _iB * _JwB * _JwB;
             }
 
             // Compute effective mass.
             _mass = _mass > 0.0f ? 1.0f / _mass : 0.0f;
 
-            if (Settings.EnableWarmstarting)
+            if (data.step.warmStarting)
             {
                 vA += (_mA * _impulse) * _JvAC;
                 wA += _iA * _impulse * _JwA;
@@ -336,26 +347,26 @@ namespace FarseerPhysics.Dynamics.Joints
                 _impulse = 0.0f;
             }
 
-            data.Velocities[_indexA].V = vA;
-            data.Velocities[_indexA].W = wA;
-            data.Velocities[_indexB].V = vB;
-            data.Velocities[_indexB].W = wB;
-            data.Velocities[_indexC].V = vC;
-            data.Velocities[_indexC].W = wC;
-            data.Velocities[_indexD].V = vD;
-            data.Velocities[_indexD].W = wD;
+            data.velocities[_indexA].v = vA;
+            data.velocities[_indexA].w = wA;
+            data.velocities[_indexB].v = vB;
+            data.velocities[_indexB].w = wB;
+            data.velocities[_indexC].v = vC;
+            data.velocities[_indexC].w = wC;
+            data.velocities[_indexD].v = vD;
+            data.velocities[_indexD].w = wD;
         }
 
         internal override void SolveVelocityConstraints(ref SolverData data)
         {
-            Vector2 vA = data.Velocities[_indexA].V;
-            float wA = data.Velocities[_indexA].W;
-            Vector2 vB = data.Velocities[_indexB].V;
-            float wB = data.Velocities[_indexB].W;
-            Vector2 vC = data.Velocities[_indexC].V;
-            float wC = data.Velocities[_indexC].W;
-            Vector2 vD = data.Velocities[_indexD].V;
-            float wD = data.Velocities[_indexD].W;
+            Vector2 vA = data.velocities[_indexA].v;
+            float wA = data.velocities[_indexA].w;
+            Vector2 vB = data.velocities[_indexB].v;
+            float wB = data.velocities[_indexB].w;
+            Vector2 vC = data.velocities[_indexC].v;
+            float wC = data.velocities[_indexC].w;
+            Vector2 vD = data.velocities[_indexD].v;
+            float wD = data.velocities[_indexD].w;
 
             float Cdot = Vector2.Dot(_JvAC, vA - vC) + Vector2.Dot(_JvBD, vB - vD);
             Cdot += (_JwA * wA - _JwC * wC) + (_JwB * wB - _JwD * wD);
@@ -372,28 +383,31 @@ namespace FarseerPhysics.Dynamics.Joints
             vD -= (_mD * impulse) * _JvBD;
             wD -= _iD * impulse * _JwD;
 
-            data.Velocities[_indexA].V = vA;
-            data.Velocities[_indexA].W = wA;
-            data.Velocities[_indexB].V = vB;
-            data.Velocities[_indexB].W = wB;
-            data.Velocities[_indexC].V = vC;
-            data.Velocities[_indexC].W = wC;
-            data.Velocities[_indexD].V = vD;
-            data.Velocities[_indexD].W = wD;
+            data.velocities[_indexA].v = vA;
+            data.velocities[_indexA].w = wA;
+            data.velocities[_indexB].v = vB;
+            data.velocities[_indexB].w = wB;
+            data.velocities[_indexC].v = vC;
+            data.velocities[_indexC].w = wC;
+            data.velocities[_indexD].v = vD;
+            data.velocities[_indexD].w = wD;
         }
 
         internal override bool SolvePositionConstraints(ref SolverData data)
         {
-            Vector2 cA = data.Positions[_indexA].C;
-            float aA = data.Positions[_indexA].A;
-            Vector2 cB = data.Positions[_indexB].C;
-            float aB = data.Positions[_indexB].A;
-            Vector2 cC = data.Positions[_indexC].C;
-            float aC = data.Positions[_indexC].A;
-            Vector2 cD = data.Positions[_indexD].C;
-            float aD = data.Positions[_indexD].A;
+            Vector2 cA = data.positions[_indexA].c;
+            float aA = data.positions[_indexA].a;
+            Vector2 cB = data.positions[_indexB].c;
+            float aB = data.positions[_indexB].a;
+            Vector2 cC = data.positions[_indexC].c;
+            float aC = data.positions[_indexC].a;
+            Vector2 cD = data.positions[_indexD].c;
+            float aD = data.positions[_indexD].a;
 
-            Rot qA = new Rot(aA), qB = new Rot(aB), qC = new Rot(aC), qD = new Rot(aD);
+            Complex qA = Complex.FromAngle(aA);
+            Complex qB = Complex.FromAngle(aB);
+            Complex qC = Complex.FromAngle(aC);
+            Complex qD = Complex.FromAngle(aD);
 
             const float linearError = 0.0f;
 
@@ -414,16 +428,16 @@ namespace FarseerPhysics.Dynamics.Joints
             }
             else
             {
-                Vector2 u = MathUtils.Mul(qC, _localAxisC);
-                Vector2 rC = MathUtils.Mul(qC, _localAnchorC - _lcC);
-                Vector2 rA = MathUtils.Mul(qA, _localAnchorA - _lcA);
+                Vector2 u = Complex.Multiply(ref _localAxisC, ref qC);
+                Vector2 rC = Complex.Multiply(_localAnchorC - _lcC, ref qC);
+                Vector2 rA = Complex.Multiply(_localAnchorA - _lcA, ref qA);
                 JvAC = u;
-                JwC = MathUtils.Cross(rC, u);
-                JwA = MathUtils.Cross(rA, u);
+                JwC = MathUtils.Cross(ref rC, ref u);
+                JwA = MathUtils.Cross(ref rA, ref u);
                 mass += _mC + _mA + _iC * JwC * JwC + _iA * JwA * JwA;
 
                 Vector2 pC = _localAnchorC - _lcC;
-                Vector2 pA = MathUtils.MulT(qC, rA + (cA - cC));
+                Vector2 pA = Complex.Divide(rA + (cA - cC), ref qC);
                 coordinateA = Vector2.Dot(pA - pC, _localAxisC);
             }
 
@@ -438,16 +452,16 @@ namespace FarseerPhysics.Dynamics.Joints
             }
             else
             {
-                Vector2 u = MathUtils.Mul(qD, _localAxisD);
-                Vector2 rD = MathUtils.Mul(qD, _localAnchorD - _lcD);
-                Vector2 rB = MathUtils.Mul(qB, _localAnchorB - _lcB);
+                Vector2 u = Complex.Multiply(ref _localAxisD, ref qD);
+                Vector2 rD = Complex.Multiply(_localAnchorD - _lcD, ref qD);
+                Vector2 rB = Complex.Multiply(_localAnchorB - _lcB, ref qB);
                 JvBD = _ratio * u;
-                JwD = _ratio * MathUtils.Cross(rD, u);
-                JwB = _ratio * MathUtils.Cross(rB, u);
+                JwD = _ratio * MathUtils.Cross(ref rD, ref u);
+                JwB = _ratio * MathUtils.Cross(ref rB, ref u);
                 mass += _ratio * _ratio * (_mD + _mB) + _iD * JwD * JwD + _iB * JwB * JwB;
 
                 Vector2 pD = _localAnchorD - _lcD;
-                Vector2 pB = MathUtils.MulT(qD, rB + (cB - cD));
+                Vector2 pB = Complex.Divide(rB + (cB - cD), ref qD);
                 coordinateB = Vector2.Dot(pB - pD, _localAxisD);
             }
 
@@ -468,14 +482,14 @@ namespace FarseerPhysics.Dynamics.Joints
             cD -= _mD * impulse * JvBD;
             aD -= _iD * impulse * JwD;
 
-            data.Positions[_indexA].C = cA;
-            data.Positions[_indexA].A = aA;
-            data.Positions[_indexB].C = cB;
-            data.Positions[_indexB].A = aB;
-            data.Positions[_indexC].C = cC;
-            data.Positions[_indexC].A = aC;
-            data.Positions[_indexD].C = cD;
-            data.Positions[_indexD].A = aD;
+            data.positions[_indexA].c = cA;
+            data.positions[_indexA].a = aA;
+            data.positions[_indexB].c = cB;
+            data.positions[_indexB].a = aB;
+            data.positions[_indexC].c = cC;
+            data.positions[_indexC].a = aC;
+            data.positions[_indexD].c = cD;
+            data.positions[_indexD].a = aD;
 
             // TODO_ERIN not implemented
             return linearError < Settings.LinearSlop;

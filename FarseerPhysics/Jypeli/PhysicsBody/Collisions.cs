@@ -70,16 +70,14 @@ namespace Jypeli
             set { FSBody.CollisionIgnorer = _adaptedIgnorer = new AdaptedIgnorer(value); }
         }
 
-        // TODO: Kaikki
-
         /// <summary>
         /// Jättääkö olio törmäyksen huomioimatta. Jos tosi, törmäyksestä
         /// tulee tapahtuma, mutta itse törmäystä ei tapahdu.
         /// </summary>
         public bool IgnoresCollisionResponse
-        {
-            get { return FSBody.IsSensor; }
-            set { FSBody.IsSensor = value; }
+        {// TODO: tälle helpompi tapa
+            get { return FSBody.FixtureList[0].IsSensor; }
+            set { FSBody.SetIsSensor(value); }
         }
 
         /// <summary>

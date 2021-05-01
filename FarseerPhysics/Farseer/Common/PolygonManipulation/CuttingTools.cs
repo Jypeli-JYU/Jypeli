@@ -20,8 +20,7 @@ namespace FarseerPhysics.Common.PolygonManipulation
         /// <param name="exitPoint">The exit point - The end point</param>
         /// <param name="first">The first collection of vertexes</param>
         /// <param name="second">The second collection of vertexes</param>
-        public static void SplitShape(Fixture fixture, Vector2 entryPoint, Vector2 exitPoint, out Vertices first,
-                                      out Vertices second)
+        public static void SplitShape(Fixture fixture, Vector2 entryPoint, Vector2 exitPoint, out Vertices first, out Vertices second)
         {
             Vector2 localEntryPoint = fixture.Body.GetLocalPoint(ref entryPoint);
             Vector2 localExitPoint = fixture.Body.GetLocalPoint(ref exitPoint);
@@ -59,10 +58,8 @@ namespace FarseerPhysics.Common.PolygonManipulation
             for (int i = 0; i < vertices.Count; i++)
             {
                 int n;
-
                 //Find out if this vertex is on the old or new shape.
-                if (Vector2.Dot(MathUtils.Cross(localExitPoint - localEntryPoint, 1), vertices[i] - localEntryPoint) >
-                    Settings.Epsilon)
+                if (Vector2.Dot(MathUtils.Cross(localExitPoint - localEntryPoint, 1), vertices[i] - localEntryPoint) > Settings.Epsilon)
                     n = 0;
                 else
                     n = 1;
@@ -77,7 +74,6 @@ namespace FarseerPhysics.Common.PolygonManipulation
                         newPolygon[last].Add(localExitPoint);
                         newPolygon[last].Add(localEntryPoint);
                     }
-
                     if (last == 1)
                     {
                         Debug.Assert(cutAdded[last] == -1);
@@ -98,7 +94,6 @@ namespace FarseerPhysics.Common.PolygonManipulation
                 newPolygon[0].Add(localExitPoint);
                 newPolygon[0].Add(localEntryPoint);
             }
-
             if (cutAdded[1] == -1)
             {
                 cutAdded[1] = newPolygon[1].Count;
@@ -110,9 +105,13 @@ namespace FarseerPhysics.Common.PolygonManipulation
             {
                 Vector2 offset;
                 if (cutAdded[n] > 0)
+                {
                     offset = (newPolygon[n][cutAdded[n] - 1] - newPolygon[n][cutAdded[n]]);
+                }
                 else
+                {
                     offset = (newPolygon[n][newPolygon[n].Count - 1] - newPolygon[n][0]);
+                }
                 offset = Vector2.Normalize(offset);
 
                 if (!offset.IsValid())
@@ -121,9 +120,13 @@ namespace FarseerPhysics.Common.PolygonManipulation
                 newPolygon[n][cutAdded[n]] += Settings.Epsilon * offset;
 
                 if (cutAdded[n] < newPolygon[n].Count - 2)
+                {
                     offset = (newPolygon[n][cutAdded[n] + 2] - newPolygon[n][cutAdded[n] + 1]);
+                }
                 else
+                {
                     offset = (newPolygon[n][0] - newPolygon[n][newPolygon[n].Count - 1]);
+                }
                 offset = Vector2.Normalize(offset);
 
                 if (!offset.IsValid())
@@ -136,7 +139,6 @@ namespace FarseerPhysics.Common.PolygonManipulation
             second = newPolygon[1];
         }
 
-
         /// <summary>
         /// This is a high-level function to cuts fixtures inside the given world, using the start and end points.
         /// Note: We don't support cutting when the start or end is inside a shape.
@@ -147,9 +149,9 @@ namespace FarseerPhysics.Common.PolygonManipulation
         /// <returns>True if the cut was performed.</returns>
         public static bool Cut(World world, Vector2 start, Vector2 end)
         {
-            var fixtures = new List<Fixture>();
-            var entryPoints = new List<Vector2>();
-            var exitPoints = new List<Vector2>();
+            List<Fixture> fixtures = new List<Fixture>();
+            List<Vector2> entryPoints = new List<Vector2>();
+            List<Vector2> exitPoints = new List<Vector2>();
 
             //We don't support cutting when the start or end is inside a shape.
             if (world.TestPoint(start) != null || world.TestPoint(end) != null)
@@ -157,18 +159,18 @@ namespace FarseerPhysics.Common.PolygonManipulation
 
             //Get the entry points
             world.RayCast((f, p, n, fr) =>
-            {
-                fixtures.Add(f);
-                entryPoints.Add(p);
-                return 1;
-            }, start, end);
+                              {
+                                  fixtures.Add(f);
+                                  entryPoints.Add(p);
+                                  return 1;
+                              }, start, end);
 
             //Reverse the ray to get the exitpoints
             world.RayCast((f, p, n, fr) =>
-            {
-                exitPoints.Add(p);
-                return 1;
-            }, end, start);
+                              {
+                                  exitPoints.Add(p);
+                                  return 1;
+                              }, end, start);
 
             //We only have a single point. We need at least 2
             if (entryPoints.Count + exitPoints.Count < 2)
@@ -190,8 +192,7 @@ namespace FarseerPhysics.Common.PolygonManipulation
                     //Delete the original shape and create two new. Retain the properties of the body.
                     if (first.CheckPolygon() == PolygonError.NoError)
                     {
-                        Body firstFixture = BodyFactory.CreatePolygon(world, first, fixtures[i].Shape.Density,
-                            fixtures[i].Body.Position);
+                        Body firstFixture = world.CreatePolygon(first, fixtures[i].Shape.Density, fixtures[i].Body.Position);
                         firstFixture.Rotation = fixtures[i].Body.Rotation;
                         firstFixture.LinearVelocity = fixtures[i].Body.LinearVelocity;
                         firstFixture.AngularVelocity = fixtures[i].Body.AngularVelocity;
@@ -200,15 +201,14 @@ namespace FarseerPhysics.Common.PolygonManipulation
 
                     if (second.CheckPolygon() == PolygonError.NoError)
                     {
-                        Body secondFixture = BodyFactory.CreatePolygon(world, second, fixtures[i].Shape.Density,
-                            fixtures[i].Body.Position);
+                        Body secondFixture = world.CreatePolygon(second, fixtures[i].Shape.Density, fixtures[i].Body.Position);
                         secondFixture.Rotation = fixtures[i].Body.Rotation;
                         secondFixture.LinearVelocity = fixtures[i].Body.LinearVelocity;
                         secondFixture.AngularVelocity = fixtures[i].Body.AngularVelocity;
                         secondFixture.BodyType = BodyType.Dynamic;
                     }
 
-                    world.RemoveBody(fixtures[i].Body);
+                    world.Remove(fixtures[i].Body);
                 }
             }
 

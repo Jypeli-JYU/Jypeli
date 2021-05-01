@@ -1,3 +1,14 @@
+#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
 /*
 * Farseer Physics Engine:
 * Copyright (c) 2012 Ian Qvist
@@ -19,9 +30,12 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
+using System;
 using System.Numerics;
 using FarseerPhysics.Common;
+using Complex = FarseerPhysics.Common.Complex;
 
 
 namespace FarseerPhysics.Collision.Shapes
@@ -33,34 +47,67 @@ namespace FarseerPhysics.Collision.Shapes
     /// </summary>
     public class EdgeShape : Shape
     {
-        public override int ChildCount => 1;
+        /// <summary>
+        /// Edge start vertex
+        /// </summary>
+        internal Vector2 _vertex1;
+
+        /// <summary>
+        /// Edge end vertex
+        /// </summary>
+        internal Vector2 _vertex2;
+
+        internal EdgeShape()
+            : base(0)
+        {
+            ShapeType = ShapeType.Edge;
+            _radius = Settings.PolygonRadius;
+        }
+
+        /// <summary>
+        /// Create a new EdgeShape with the specified start and end.
+        /// </summary>
+        /// <param name="start">The start of the edge.</param>
+        /// <param name="end">The end of the edge.</param>
+        public EdgeShape(Vector2 start, Vector2 end)
+            : base(0)
+        {
+            ShapeType = ShapeType.Edge;
+            _radius = Settings.PolygonRadius;
+            Set(start, end);
+        }
+
+        public override int ChildCount
+        {
+            get { return 1; }
+        }
 
         /// <summary>
         /// Is true if the edge is connected to an adjacent vertex before vertex 1.
         /// </summary>
-        public bool HasVertex0;
+        public bool HasVertex0 { get; set; }
 
         /// <summary>
         /// Is true if the edge is connected to an adjacent vertex after vertex2.
         /// </summary>
-        public bool HasVertex3;
+        public bool HasVertex3 { get; set; }
 
         /// <summary>
         /// Optional adjacent vertices. These are used for smooth collision.
         /// </summary>
-        public Vector2 Vertex0;
+        public Vector2 Vertex0 { get; set; }
 
         /// <summary>
         /// Optional adjacent vertices. These are used for smooth collision.
         /// </summary>
-        public Vector2 Vertex3;
+        public Vector2 Vertex3 { get; set; }
 
         /// <summary>
         /// These are the edge vertices
         /// </summary>
         public Vector2 Vertex1
         {
-            get => _vertex1;
+            get { return _vertex1; }
             set
             {
                 _vertex1 = value;
@@ -73,41 +120,12 @@ namespace FarseerPhysics.Collision.Shapes
         /// </summary>
         public Vector2 Vertex2
         {
-            get => _vertex2;
+            get { return _vertex2; }
             set
             {
                 _vertex2 = value;
                 ComputeProperties();
             }
-        }
-
-        /// <summary>
-        /// Edge start vertex
-        /// </summary>
-        internal Vector2 _vertex1;
-
-        /// <summary>
-        /// Edge end vertex
-        /// </summary>
-        internal Vector2 _vertex2;
-
-
-        internal EdgeShape() : base(0)
-        {
-            ShapeType = ShapeType.Edge;
-            _radius = Settings.PolygonRadius;
-        }
-
-        /// <summary>
-        /// Create a new EdgeShape with the specified start and end.
-        /// </summary>
-        /// <param name="start">The start of the edge.</param>
-        /// <param name="end">The end of the edge.</param>
-        public EdgeShape(Vector2 start, Vector2 end) : base(0)
-        {
-            ShapeType = ShapeType.Edge;
-            _radius = Settings.PolygonRadius;
-            Set(start, end);
         }
 
         /// <summary>
@@ -130,8 +148,7 @@ namespace FarseerPhysics.Collision.Shapes
             return false;
         }
 
-        public override bool RayCast(out RayCastOutput output, ref RayCastInput input, ref Transform transform,
-                                     int childIndex)
+        public override bool RayCast(out RayCastOutput output, ref RayCastInput input, ref Transform transform, int childIndex)
         {
             // p = p1 + t * d
             // v = v1 + s * e
@@ -141,61 +158,101 @@ namespace FarseerPhysics.Collision.Shapes
             output = new RayCastOutput();
 
             // Put the ray into the edge's frame of reference.
-            var p1 = MathUtils.MulT(transform.Q, input.Point1 - transform.P);
-            var p2 = MathUtils.MulT(transform.Q, input.Point2 - transform.P);
-            var d = p2 - p1;
+            Vector2 p1 = Complex.Divide(input.Point1 - transform.p, ref transform.q);
+            Vector2 p2 = Complex.Divide(input.Point2 - transform.p, ref transform.q);
+            Vector2 d = p2 - p1;
 
-            var v1 = _vertex1;
-            var v2 = _vertex2;
-            var e = v2 - v1;
-            var normal = Vector2.Normalize(new Vector2(e.Y, -e.X)); //TODO: Could possibly cache the normal.
+            Vector2 v1 = _vertex1;
+            Vector2 v2 = _vertex2;
+            Vector2 e = v2 - v1;
+            Vector2 normal = new Vector2(e.Y, -e.X); //TODO: Could possibly cache the normal.
+            normal = Vector2.Normalize(normal);
 
             // q = p1 + t * d
             // dot(normal, q - v1) = 0
             // dot(normal, p1 - v1) + t * dot(normal, d) = 0
-            var numerator = Vector2.Dot(normal, v1 - p1);
-            var denominator = Vector2.Dot(normal, d);
+            float numerator = Vector2.Dot(normal, v1 - p1);
+            float denominator = Vector2.Dot(normal, d);
 
             if (denominator == 0.0f)
+            {
                 return false;
+            }
 
             float t = numerator / denominator;
             if (t < 0.0f || input.MaxFraction < t)
+            {
                 return false;
+            }
 
-            var q = p1 + t * d;
+            Vector2 q = p1 + t * d;
 
             // q = v1 + s * r
             // s = dot(q - v1, r) / dot(r, r)
-            var r = v2 - v1;
-            var rr = Vector2.Dot(r, r);
+            Vector2 r = v2 - v1;
+            float rr = Vector2.Dot(r, r);
             if (rr == 0.0f)
+            {
                 return false;
+            }
 
             float s = Vector2.Dot(q - v1, r) / rr;
             if (s < 0.0f || 1.0f < s)
+            {
                 return false;
+            }
 
             output.Fraction = t;
             if (numerator > 0.0f)
+            {
                 output.Normal = -normal;
+            }
             else
+            {
                 output.Normal = normal;
-
+            }
             return true;
         }
 
         public override void ComputeAABB(out AABB aabb, ref Transform transform, int childIndex)
         {
-            var v1 = MathUtils.Mul(ref transform, _vertex1);
-            var v2 = MathUtils.Mul(ref transform, _vertex2);
+            // OPT: Vector2 v1 = Transform.Multiply(ref _vertex1, ref transform);            
+            float v1X = (_vertex1.X * transform.q.Real - _vertex1.Y * transform.q.Imaginary) + transform.p.X;
+            float v1Y = (_vertex1.Y * transform.q.Real + _vertex1.X * transform.q.Imaginary) + transform.p.Y;
+            // OPT: Vector2 v2 = Transform.Multiply(ref _vertex2, ref transform);
+            float v2X = (_vertex2.X * transform.q.Real - _vertex2.Y * transform.q.Imaginary) + transform.p.X;
+            float v2Y = (_vertex2.Y * transform.q.Real + _vertex2.X * transform.q.Imaginary) + transform.p.Y;
 
-            var lower = Vector2.Min(v1, v2);
-            var upper = Vector2.Max(v1, v2);
+            // OPT: aabb.LowerBound = Vector2.Min(v1, v2);
+            // OPT: aabb.UpperBound = Vector2.Max(v1, v2);
+            if (v1X < v2X)
+            {
+                aabb.LowerBound.X = v1X;
+                aabb.UpperBound.X = v2X;
+            }
+            else
+            {
+                aabb.LowerBound.X = v2X;
+                aabb.UpperBound.X = v1X;
+            }
+            if (v1Y < v2Y)
+            {
+                aabb.LowerBound.Y = v1Y;
+                aabb.UpperBound.Y = v2Y;
+            }
+            else
+            {
+                aabb.LowerBound.Y = v2Y;
+                aabb.UpperBound.Y = v1Y;
+            }
 
-            var r = new Vector2(Radius, Radius);
-            aabb.LowerBound = lower - r;
-            aabb.UpperBound = upper + r;
+            // OPT: Vector2 r = new Vector2(Radius, Radius);
+            // OPT: aabb.LowerBound = aabb.LowerBound - r;
+            // OPT: aabb.UpperBound = aabb.LowerBound + r;
+            aabb.LowerBound.X -= Radius;
+            aabb.LowerBound.Y -= Radius;
+            aabb.UpperBound.X += Radius;
+            aabb.UpperBound.Y += Radius;
         }
 
         internal override void ComputeProperties()
@@ -221,7 +278,7 @@ namespace FarseerPhysics.Collision.Shapes
 
         public override Shape Clone()
         {
-            var clone = new EdgeShape();
+            EdgeShape clone = new EdgeShape();
             clone.ShapeType = ShapeType;
             clone._radius = _radius;
             clone._density = _density;

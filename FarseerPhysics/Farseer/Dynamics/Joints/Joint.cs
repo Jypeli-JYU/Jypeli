@@ -1,3 +1,14 @@
+#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
 /*
 * Farseer Physics Engine:
 * Copyright (c) 2012 Ian Qvist
@@ -19,6 +30,7 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
 using System;
 using System.Diagnostics;
@@ -34,7 +46,6 @@ namespace FarseerPhysics.Dynamics.Joints
         Prismatic,
         Distance,
         Pulley,
-
         //Mouse, <- We have fixed mouse
         Gear,
         Wheel,
@@ -45,7 +56,13 @@ namespace FarseerPhysics.Dynamics.Joints
 
         //FPE note: From here on and down, it is only FPE joints
         Angle,
-        FixedMouse
+        FixedMouse,
+        FixedRevolute,
+        FixedDistance,
+        FixedLine,
+        FixedPrismatic,
+        FixedAngle,
+        FixedFriction,
     }
 
     public enum LimitState
@@ -86,16 +103,45 @@ namespace FarseerPhysics.Dynamics.Joints
         public JointEdge Prev;
     }
 
-
     public abstract class Joint
     {
-        #region Properties/Fields
+        private float _breakpoint;
+        private double _breakpointSquared;
 
         /// <summary>
         /// Indicate if this join is enabled or not. Disabling a joint
         /// means it is still in the simulation, but inactive.
         /// </summary>
         public bool Enabled = true;
+
+        internal JointEdge EdgeA = new JointEdge();
+        internal JointEdge EdgeB = new JointEdge();
+        internal bool IslandFlag;
+
+        protected Joint()
+        {
+            Breakpoint = float.MaxValue;
+
+            //Connected bodies should not collide by default
+            CollideConnected = false;
+        }
+
+        protected Joint(Body bodyA, Body bodyB) : this()
+        {
+            //Can't connect a joint to the same body twice.
+            Debug.Assert(bodyA != bodyB);
+
+            BodyA = bodyA;
+            BodyB = bodyB;
+        }
+
+        /// <summary>
+        /// Constructor for fixed joint
+        /// </summary>
+        protected Joint(Body body) : this()
+        {
+            BodyA = body;
+        }
 
         /// <summary>
         /// Gets or sets the type of the joint.
@@ -129,12 +175,12 @@ namespace FarseerPhysics.Dynamics.Joints
         /// Set the user data pointer.
         /// </summary>
         /// <value>The data.</value>
-        public object UserData;
+        public object Tag;
 
         /// <summary>
         /// Set this flag to true if the attached bodies should collide.
         /// </summary>
-        public bool CollideConnected;
+        public bool CollideConnected { get; set; }
 
         /// <summary>
         /// The Breakpoint simply indicates the maximum Value the JointError can be before it breaks.
@@ -142,7 +188,7 @@ namespace FarseerPhysics.Dynamics.Joints
         /// </summary>
         public float Breakpoint
         {
-            get => _breakpoint;
+            get { return _breakpoint; }
             set
             {
                 _breakpoint = value;
@@ -153,42 +199,7 @@ namespace FarseerPhysics.Dynamics.Joints
         /// <summary>
         /// Fires when the joint is broken.
         /// </summary>
-        public event Action<Joint, float> OnJointBroke;
-
-        float _breakpoint;
-        double _breakpointSquared;
-
-        internal JointEdge edgeA = new JointEdge();
-        internal JointEdge edgeB = new JointEdge();
-        internal bool islandFlag;
-
-        #endregion
-
-
-        protected Joint()
-        {
-            Breakpoint = float.MaxValue;
-
-            //Connected bodies should not collide by default
-            CollideConnected = false;
-        }
-
-        protected Joint(Body bodyA, Body bodyB) : this()
-        {
-            //Can't connect a joint to the same body twice.
-            Debug.Assert(bodyA != bodyB);
-
-            this.BodyA = bodyA;
-            this.BodyB = bodyB;
-        }
-
-        /// <summary>
-        /// Constructor for fixed joint
-        /// </summary>
-        protected Joint(Body body) : this()
-        {
-            BodyA = body;
-        }
+        public event Action<Joint, float> Broke;
 
         /// <summary>
         /// Get the reaction force on body at the joint anchor in Newtons.
@@ -205,10 +216,10 @@ namespace FarseerPhysics.Dynamics.Joints
         protected void WakeBodies()
         {
             if (BodyA != null)
-                BodyA.IsAwake = true;
+                BodyA.Awake = true;
 
             if (BodyB != null)
-                BodyB.IsAwake = true;
+                BodyB.Awake = true;
         }
 
         /// <summary>
@@ -216,7 +227,13 @@ namespace FarseerPhysics.Dynamics.Joints
         /// </summary>
         public bool IsFixedType()
         {
-            return JointType == JointType.FixedMouse || BodyA.IsStatic || BodyB.IsStatic;
+            return JointType == JointType.FixedRevolute ||
+                   JointType == JointType.FixedDistance ||
+                   JointType == JointType.FixedPrismatic ||
+                   JointType == JointType.FixedLine ||
+                   JointType == JointType.FixedMouse ||
+                   JointType == JointType.FixedAngle ||
+                   JointType == JointType.FixedFriction;
         }
 
         internal abstract void InitVelocityConstraints(ref SolverData data);
@@ -233,8 +250,8 @@ namespace FarseerPhysics.Dynamics.Joints
 
             Enabled = false;
 
-            if (OnJointBroke != null)
-                OnJointBroke(this, (float)Math.Sqrt(jointErrorSquared));
+            if (Broke != null)
+                Broke(this, (float)Math.Sqrt(jointErrorSquared));
         }
 
         internal abstract void SolveVelocityConstraints(ref SolverData data);

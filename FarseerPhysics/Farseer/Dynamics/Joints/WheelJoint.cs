@@ -1,3 +1,14 @@
+#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
 /*
 * Farseer Physics Engine:
 * Copyright (c) 2012 Ian Qvist
@@ -19,10 +30,12 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
 using System;
 using System.Numerics;
 using FarseerPhysics.Common;
+using Complex = FarseerPhysics.Common.Complex;
 
 
 namespace FarseerPhysics.Dynamics.Joints
@@ -52,166 +65,39 @@ namespace FarseerPhysics.Dynamics.Joints
     /// </summary>
     public class WheelJoint : Joint
     {
-        #region Properties/Fields
-
-        /// <summary>
-        /// The local anchor point on BodyA
-        /// </summary>
-        public Vector2 LocalAnchorA;
-
-        /// <summary>
-        /// The local anchor point on BodyB
-        /// </summary>
-        public Vector2 LocalAnchorB;
-
-        public override Vector2 WorldAnchorA
-        {
-            get => BodyA.GetWorldPoint(LocalAnchorA);
-            set => LocalAnchorA = BodyA.GetLocalPoint(value);
-        }
-
-        public override Vector2 WorldAnchorB
-        {
-            get => BodyB.GetWorldPoint(LocalAnchorB);
-            set => LocalAnchorB = BodyB.GetLocalPoint(value);
-        }
-
-        /// <summary>
-        /// The axis at which the suspension moves.
-        /// </summary>
-        public Vector2 Axis
-        {
-            get => _axis;
-            set
-            {
-                _axis = value;
-                LocalXAxis = BodyA.GetLocalVector(_axis);
-                _localYAxis = MathUtils.Cross(1.0f, LocalXAxis);
-            }
-        }
-
-        /// <summary>
-        /// The axis in local coordinates relative to BodyA
-        /// </summary>
-        public Vector2 LocalXAxis { get; private set; }
-
-        /// <summary>
-        /// The desired motor speed in radians per second.
-        /// </summary>
-        public float MotorSpeed
-        {
-            get => _motorSpeed;
-            set
-            {
-                WakeBodies();
-                _motorSpeed = value;
-            }
-        }
-
-        /// <summary>
-        /// The maximum motor torque, usually in N-m.
-        /// </summary>
-        public float MaxMotorTorque
-        {
-            get => _maxMotorTorque;
-            set
-            {
-                WakeBodies();
-                _maxMotorTorque = value;
-            }
-        }
-
-        /// <summary>
-        /// Suspension frequency, zero indicates no suspension
-        /// </summary>
-        public float Frequency;
-
-        /// <summary>
-        /// Suspension damping ratio, one indicates critical damping
-        /// </summary>
-        public float DampingRatio;
-
-        /// <summary>
-        /// Gets the translation along the axis
-        /// </summary>
-        public float JointTranslation
-        {
-            get
-            {
-                var bA = BodyA;
-                var bB = BodyB;
-
-                var pA = bA.GetWorldPoint(LocalAnchorA);
-                var pB = bB.GetWorldPoint(LocalAnchorB);
-                var d = pB - pA;
-                var axis = bA.GetWorldVector(LocalXAxis);
-
-                float translation = Vector2.Dot(d, axis);
-                return translation;
-            }
-        }
-
-        /// <summary>
-        /// Gets the angular velocity of the joint
-        /// </summary>
-        public float JointSpeed
-        {
-            get
-            {
-                float wA = BodyA.AngularVelocity;
-                float wB = BodyB.AngularVelocity;
-                return wB - wA;
-            }
-        }
-
-        /// <summary>
-        /// Enable/disable the joint motor.
-        /// </summary>
-        public bool MotorEnabled
-        {
-            get => _enableMotor;
-            set
-            {
-                WakeBodies();
-                _enableMotor = value;
-            }
-        }
-
         // Solver shared
-        Vector2 _localYAxis;
+        private Vector2 _localXAxis;
+        private Vector2 _localYAxis;
 
-        float _impulse;
-        float _motorImpulse;
-        float _springImpulse;
+        private float _impulse;
+        private float _motorImpulse;
+        private float _springImpulse;
 
-        float _maxMotorTorque;
-        float _motorSpeed;
-        bool _enableMotor;
+        private float _maxMotorTorque;
+        private float _motorSpeed;
+        private bool _enableMotor;
 
         // Solver temp
-        int _indexA;
-        int _indexB;
-        Vector2 _localCenterA;
-        Vector2 _localCenterB;
-        float _invMassA;
-        float _invMassB;
-        float _invIA;
-        float _invIB;
+        private int _indexA;
+        private int _indexB;
+        private Vector2 _localCenterA;
+        private Vector2 _localCenterB;
+        private float _invMassA;
+        private float _invMassB;
+        private float _invIA;
+        private float _invIB;
 
-        Vector2 _ax, _ay;
-        float _sAx, _sBx;
-        float _sAy, _sBy;
+        private Vector2 _ax, _ay;
+        private float _sAx, _sBx;
+        private float _sAy, _sBy;
 
-        float _mass;
-        float _motorMass;
-        float _springMass;
+        private float _mass;
+        private float _motorMass;
+        private float _springMass;
 
-        float _bias;
-        float _gamma;
-        Vector2 _axis;
-
-        #endregion
-
+        private float _bias;
+        private float _gamma;
+        private Vector2 _axis;
 
         internal WheelJoint()
         {
@@ -242,7 +128,130 @@ namespace FarseerPhysics.Dynamics.Joints
                 LocalAnchorB = anchor;
             }
 
-            this.Axis = axis; //FPE only: We maintain the original value as it is supposed to.
+            Axis = axis; //FPE only: We maintain the original value as it is supposed to.
+        }
+
+        /// <summary>
+        /// The local anchor point on BodyA
+        /// </summary>
+        public Vector2 LocalAnchorA { get; set; }
+
+        /// <summary>
+        /// The local anchor point on BodyB
+        /// </summary>
+        public Vector2 LocalAnchorB { get; set; }
+
+        public override Vector2 WorldAnchorA
+        {
+            get { return BodyA.GetWorldPoint(LocalAnchorA); }
+            set { LocalAnchorA = BodyA.GetLocalPoint(value); }
+        }
+
+        public override Vector2 WorldAnchorB
+        {
+            get { return BodyB.GetWorldPoint(LocalAnchorB); }
+            set { LocalAnchorB = BodyB.GetLocalPoint(value); }
+        }
+
+        /// <summary>
+        /// The axis at which the suspension moves.
+        /// </summary>
+        public Vector2 Axis
+        {
+            get { return _axis; }
+            set
+            {
+                _axis = value;
+                _localXAxis = BodyA.GetLocalVector(_axis);
+                _localYAxis = MathUtils.Rot90(ref _localXAxis);
+            }
+        }
+
+        /// <summary>
+        /// The axis in local coordinates relative to BodyA
+        /// </summary>
+        public Vector2 LocalXAxis { get { return _localXAxis; } }
+
+        /// <summary>
+        /// The desired motor speed in radians per second.
+        /// </summary>
+        public float MotorSpeed
+        {
+            get { return _motorSpeed; }
+            set
+            {
+                WakeBodies();
+                _motorSpeed = value;
+            }
+        }
+
+        /// <summary>
+        /// The maximum motor torque, usually in N-m.
+        /// </summary>
+        public float MaxMotorTorque
+        {
+            get { return _maxMotorTorque; }
+            set
+            {
+                WakeBodies();
+                _maxMotorTorque = value;
+            }
+        }
+
+        /// <summary>
+        /// Suspension frequency, zero indicates no suspension
+        /// </summary>
+        public float Frequency { get; set; }
+
+        /// <summary>
+        /// Suspension damping ratio, one indicates critical damping
+        /// </summary>
+        public float DampingRatio { get; set; }
+
+        /// <summary>
+        /// Gets the translation along the axis
+        /// </summary>
+        public float JointTranslation
+        {
+            get
+            {
+                Body bA = BodyA;
+                Body bB = BodyB;
+
+                Vector2 pA = bA.GetWorldPoint(LocalAnchorA);
+                Vector2 pB = bB.GetWorldPoint(LocalAnchorB);
+                Vector2 d = pB - pA;
+                Vector2 axis = bA.GetWorldVector(ref _localXAxis);
+
+                float translation = Vector2.Dot(d, axis);
+                return translation;
+            }
+        }
+
+        /// <summary>
+        /// Gets the angular velocity of the joint
+        /// </summary>
+        public float JointSpeed
+        {
+            get
+            {
+                float wA = BodyA.AngularVelocity;
+                float wB = BodyB.AngularVelocity;
+                return wB - wA;
+            }
+        }
+
+        /// <summary>
+        /// Enable/disable the joint motor.
+        /// </summary>
+        public bool MotorEnabled
+        {
+            get { return _enableMotor; }
+            set
+            {
+                WakeBodies();
+                _enableMotor = value;
+            }
         }
 
         /// <summary>
@@ -278,28 +287,29 @@ namespace FarseerPhysics.Dynamics.Joints
             float mA = _invMassA, mB = _invMassB;
             float iA = _invIA, iB = _invIB;
 
-            Vector2 cA = data.Positions[_indexA].C;
-            float aA = data.Positions[_indexA].A;
-            Vector2 vA = data.Velocities[_indexA].V;
-            float wA = data.Velocities[_indexA].W;
+            Vector2 cA = data.positions[_indexA].c;
+            float aA = data.positions[_indexA].a;
+            Vector2 vA = data.velocities[_indexA].v;
+            float wA = data.velocities[_indexA].w;
 
-            Vector2 cB = data.Positions[_indexB].C;
-            float aB = data.Positions[_indexB].A;
-            Vector2 vB = data.Velocities[_indexB].V;
-            float wB = data.Velocities[_indexB].W;
+            Vector2 cB = data.positions[_indexB].c;
+            float aB = data.positions[_indexB].a;
+            Vector2 vB = data.velocities[_indexB].v;
+            float wB = data.velocities[_indexB].w;
 
-            Rot qA = new Rot(aA), qB = new Rot(aB);
+            Complex qA = Complex.FromAngle(aA);
+            Complex qB = Complex.FromAngle(aB);
 
             // Compute the effective masses.
-            Vector2 rA = MathUtils.Mul(qA, LocalAnchorA - _localCenterA);
-            Vector2 rB = MathUtils.Mul(qB, LocalAnchorB - _localCenterB);
+            Vector2 rA = Complex.Multiply(LocalAnchorA - _localCenterA, ref qA);
+            Vector2 rB = Complex.Multiply(LocalAnchorB - _localCenterB, ref qB);
             Vector2 d1 = cB + rB - cA - rA;
 
             // Point to line constraint
             {
-                _ay = MathUtils.Mul(qA, _localYAxis);
+                _ay = Complex.Multiply(ref _localYAxis, ref qA);
                 _sAy = MathUtils.Cross(d1 + rA, _ay);
-                _sBy = MathUtils.Cross(rB, _ay);
+                _sBy = MathUtils.Cross(ref rB, ref _ay);
 
                 _mass = mA + mB + iA * _sAy * _sAy + iB * _sBy * _sBy;
 
@@ -315,9 +325,9 @@ namespace FarseerPhysics.Dynamics.Joints
             _gamma = 0.0f;
             if (Frequency > 0.0f)
             {
-                _ax = MathUtils.Mul(qA, LocalXAxis);
+                _ax = Complex.Multiply(ref _localXAxis, ref qA);
                 _sAx = MathUtils.Cross(d1 + rA, _ax);
-                _sBx = MathUtils.Cross(rB, _ax);
+                _sBx = MathUtils.Cross(ref rB, ref _ax);
 
                 float invMass = mA + mB + iA * _sAx * _sAx + iB * _sBx * _sBx;
 
@@ -328,7 +338,7 @@ namespace FarseerPhysics.Dynamics.Joints
                     float C = Vector2.Dot(d1, _ax);
 
                     // Frequency
-                    float omega = 2.0f * Settings.Pi * Frequency;
+                    float omega = Constant.Tau * Frequency;
 
                     // Damping coefficient
                     float d = 2.0f * _springMass * DampingRatio * omega;
@@ -337,7 +347,7 @@ namespace FarseerPhysics.Dynamics.Joints
                     float k = _springMass * omega * omega;
 
                     // magic formulas
-                    float h = data.Step.Dt;
+                    float h = data.step.dt;
                     _gamma = h * (d + h * k);
                     if (_gamma > 0.0f)
                     {
@@ -373,12 +383,12 @@ namespace FarseerPhysics.Dynamics.Joints
                 _motorImpulse = 0.0f;
             }
 
-            if (Settings.EnableWarmstarting)
+            if (data.step.warmStarting)
             {
                 // Account for variable time step.
-                _impulse *= data.Step.DtRatio;
-                _springImpulse *= data.Step.DtRatio;
-                _motorImpulse *= data.Step.DtRatio;
+                _impulse *= data.step.dtRatio;
+                _springImpulse *= data.step.dtRatio;
+                _motorImpulse *= data.step.dtRatio;
 
                 Vector2 P = _impulse * _ay + _springImpulse * _ax;
                 float LA = _impulse * _sAy + _springImpulse * _sAx + _motorImpulse;
@@ -397,10 +407,10 @@ namespace FarseerPhysics.Dynamics.Joints
                 _motorImpulse = 0.0f;
             }
 
-            data.Velocities[_indexA].V = vA;
-            data.Velocities[_indexA].W = wA;
-            data.Velocities[_indexB].V = vB;
-            data.Velocities[_indexB].W = wB;
+            data.velocities[_indexA].v = vA;
+            data.velocities[_indexA].w = wA;
+            data.velocities[_indexB].v = vB;
+            data.velocities[_indexB].w = wB;
         }
 
         internal override void SolveVelocityConstraints(ref SolverData data)
@@ -408,10 +418,10 @@ namespace FarseerPhysics.Dynamics.Joints
             float mA = _invMassA, mB = _invMassB;
             float iA = _invIA, iB = _invIB;
 
-            Vector2 vA = data.Velocities[_indexA].V;
-            float wA = data.Velocities[_indexA].W;
-            Vector2 vB = data.Velocities[_indexB].V;
-            float wB = data.Velocities[_indexB].W;
+            Vector2 vA = data.velocities[_indexA].v;
+            float wA = data.velocities[_indexA].w;
+            Vector2 vB = data.velocities[_indexB].v;
+            float wB = data.velocities[_indexB].w;
 
             // Solve spring constraint
             {
@@ -436,7 +446,7 @@ namespace FarseerPhysics.Dynamics.Joints
                 float impulse = -_motorMass * Cdot;
 
                 float oldImpulse = _motorImpulse;
-                float maxImpulse = data.Step.Dt * _maxMotorTorque;
+                float maxImpulse = data.step.dt * _maxMotorTorque;
                 _motorImpulse = MathUtils.Clamp(_motorImpulse + impulse, -maxImpulse, maxImpulse);
                 impulse = _motorImpulse - oldImpulse;
 
@@ -461,29 +471,30 @@ namespace FarseerPhysics.Dynamics.Joints
                 wB += iB * LB;
             }
 
-            data.Velocities[_indexA].V = vA;
-            data.Velocities[_indexA].W = wA;
-            data.Velocities[_indexB].V = vB;
-            data.Velocities[_indexB].W = wB;
+            data.velocities[_indexA].v = vA;
+            data.velocities[_indexA].w = wA;
+            data.velocities[_indexB].v = vB;
+            data.velocities[_indexB].w = wB;
         }
 
         internal override bool SolvePositionConstraints(ref SolverData data)
         {
-            Vector2 cA = data.Positions[_indexA].C;
-            float aA = data.Positions[_indexA].A;
-            Vector2 cB = data.Positions[_indexB].C;
-            float aB = data.Positions[_indexB].A;
+            Vector2 cA = data.positions[_indexA].c;
+            float aA = data.positions[_indexA].a;
+            Vector2 cB = data.positions[_indexB].c;
+            float aB = data.positions[_indexB].a;
 
-            Rot qA = new Rot(aA), qB = new Rot(aB);
+            Complex qA = Complex.FromAngle(aA);
+            Complex qB = Complex.FromAngle(aB);
 
-            Vector2 rA = MathUtils.Mul(qA, LocalAnchorA - _localCenterA);
-            Vector2 rB = MathUtils.Mul(qB, LocalAnchorB - _localCenterB);
+            Vector2 rA = Complex.Multiply(LocalAnchorA - _localCenterA, ref qA);
+            Vector2 rB = Complex.Multiply(LocalAnchorB - _localCenterB, ref qB);
             Vector2 d = (cB - cA) + rB - rA;
 
-            Vector2 ay = MathUtils.Mul(qA, _localYAxis);
+            Vector2 ay = Complex.Multiply(ref _localYAxis, ref qA);
 
             float sAy = MathUtils.Cross(d + rA, ay);
-            float sBy = MathUtils.Cross(rB, ay);
+            float sBy = MathUtils.Cross(ref rB, ref ay);
 
             float C = Vector2.Dot(d, ay);
 
@@ -508,10 +519,10 @@ namespace FarseerPhysics.Dynamics.Joints
             cB += _invMassB * P;
             aB += _invIB * LB;
 
-            data.Positions[_indexA].C = cA;
-            data.Positions[_indexA].A = aA;
-            data.Positions[_indexB].C = cB;
-            data.Positions[_indexB].A = aB;
+            data.positions[_indexA].c = cA;
+            data.positions[_indexA].a = aA;
+            data.positions[_indexB].c = cB;
+            data.positions[_indexB].a = aB;
 
             return Math.Abs(C) <= Settings.LinearSlop;
         }

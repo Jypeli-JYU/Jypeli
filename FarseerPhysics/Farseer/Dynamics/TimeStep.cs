@@ -1,4 +1,18 @@
-﻿/*
+﻿#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
+/*
+* Farseer Physics Engine:
+* Copyright (c) 2012 Ian Qvist
+* 
 * Original source Box2D:
 * Copyright (c) 2006-2011 Erin Catto http://www.box2d.org 
 * 
@@ -16,6 +30,7 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
 using System.Numerics;
 
@@ -25,43 +40,49 @@ namespace FarseerPhysics.Dynamics
     /// <summary>
     /// This is an internal structure.
     /// </summary>
-    public struct TimeStep
+    internal struct TimeStep
     {
         /// <summary>
         /// Time step (Delta time)
         /// </summary>
-        public float Dt;
+        public float dt;
 
         /// <summary>
         /// dt * inv_dt0
         /// </summary>
-        public float DtRatio;
+        public float dtRatio;
 
         /// <summary>
         /// Inverse time step (0 if dt == 0).
         /// </summary>
-        public float Inv_dt;
+        public float inv_dt;
+
+        public int positionIterations;
+        public int velocityIterations;
+
+        public bool warmStarting;
     }
 
     /// This is an internal structure.
-    public struct Position
+    internal struct SolverPosition
     {
-        public Vector2 C;
-        public float A;
+        public Vector2 c;
+        public float a;
     }
 
     /// This is an internal structure.
-    public struct Velocity
+    internal struct SolverVelocity
     {
-        public Vector2 V;
-        public float W;
+        public Vector2 v;
+        public float w;
     }
 
     /// Solver Data
-    public struct SolverData
+    internal struct SolverData
     {
-        public TimeStep Step;
-        public Position[] Positions;
-        public Velocity[] Velocities;
+        internal TimeStep step;
+        internal SolverPosition[] positions;
+        internal SolverVelocity[] velocities;
+        internal int[] locks;
     }
 }

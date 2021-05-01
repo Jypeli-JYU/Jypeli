@@ -12,51 +12,50 @@ namespace FarseerPhysics.Controllers
         DistanceSquared
     }
 
-
     public class GravityController : Controller
     {
-        public float MinRadius;
-        public float MaxRadius;
-        public float Strength;
-        public GravityType GravityType = GravityType.DistanceSquared;
-        public List<Body> Bodies = new List<Body>();
-        public List<Vector2> Points = new List<Vector2>();
-
-
-        public GravityController(float strength) : base(ControllerType.GravityController)
+        public GravityController(float strength)
         {
-            this.Strength = strength;
+            Strength = strength;
             MaxRadius = float.MaxValue;
+            GravityType = GravityType.DistanceSquared;
+            Points = new List<Vector2>();
+            Bodies = new List<Body>();
         }
 
-        public GravityController(float strength, float maxRadius, float minRadius) : base(ControllerType
-            .GravityController)
+        public GravityController(float strength, float maxRadius, float minRadius)
         {
-            this.MinRadius = minRadius;
-            this.MaxRadius = maxRadius;
-            this.Strength = strength;
-            this.GravityType = GravityType.DistanceSquared;
-            this.Points = new List<Vector2>();
-            this.Bodies = new List<Body>();
+            MinRadius = minRadius;
+            MaxRadius = maxRadius;
+            Strength = strength;
+            GravityType = GravityType.DistanceSquared;
+            Points = new List<Vector2>();
+            Bodies = new List<Body>();
         }
+
+        public float MinRadius { get; set; }
+        public float MaxRadius { get; set; }
+        public float Strength { get; set; }
+        public GravityType GravityType { get; set; }
+        public List<Body> Bodies { get; set; }
+        public List<Vector2> Points { get; set; }
 
         public override void Update(float dt)
         {
-            var f = Vector2.Zero;
+            Vector2 f = Vector2.Zero;
 
-            foreach (var worldBody in World.BodyList)
+            foreach (Body worldBody in World.BodyList)
             {
                 if (!IsActiveOn(worldBody))
                     continue;
 
                 foreach (Body controllerBody in Bodies)
                 {
-                    if (worldBody == controllerBody || (worldBody.IsStatic && controllerBody.IsStatic) ||
-                        !controllerBody.Enabled)
+                    if (worldBody == controllerBody || (worldBody.BodyType == BodyType.Static && controllerBody.BodyType == BodyType.Static) || !controllerBody.Enabled)
                         continue;
 
-                    var d = controllerBody.Position - worldBody.Position;
-                    var r2 = d.LengthSquared();
+                    Vector2 d = controllerBody.Position - worldBody.Position;
+                    float r2 = d.LengthSquared();
 
                     if (r2 <= Settings.Epsilon || r2 > MaxRadius * MaxRadius || r2 < MinRadius * MinRadius)
                         continue;
@@ -76,8 +75,8 @@ namespace FarseerPhysics.Controllers
 
                 foreach (Vector2 point in Points)
                 {
-                    var d = point - worldBody.Position;
-                    var r2 = d.LengthSquared();
+                    Vector2 d = point - worldBody.Position;
+                    float r2 = d.LengthSquared();
 
                     if (r2 <= Settings.Epsilon || r2 > MaxRadius * MaxRadius || r2 < MinRadius * MinRadius)
                         continue;

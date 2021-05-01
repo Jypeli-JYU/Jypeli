@@ -1,4 +1,15 @@
-﻿/*
+﻿#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
+/*
 * Farseer Physics Engine:
 * Copyright (c) 2012 Ian Qvist
 * 
@@ -19,10 +30,12 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
 using System;
 using System.Numerics;
 using FarseerPhysics.Common;
+using Complex = FarseerPhysics.Common.Complex;
 
 
 namespace FarseerPhysics.Dynamics.Joints
@@ -45,60 +58,22 @@ namespace FarseerPhysics.Dynamics.Joints
     /// </summary>
     public class RopeJoint : Joint
     {
-        #region Properties/Fields
-
-        /// <summary>
-        /// The local anchor point on BodyA
-        /// </summary>
-        public Vector2 LocalAnchorA;
-
-        /// <summary>
-        /// The local anchor point on BodyB
-        /// </summary>
-        public Vector2 LocalAnchorB;
-
-        public override sealed Vector2 WorldAnchorA
-        {
-            get => BodyA.GetWorldPoint(LocalAnchorA);
-            set => LocalAnchorA = BodyA.GetLocalPoint(value);
-        }
-
-        public override sealed Vector2 WorldAnchorB
-        {
-            get => BodyB.GetWorldPoint(LocalAnchorB);
-            set => LocalAnchorB = BodyB.GetLocalPoint(value);
-        }
-
-        /// <summary>
-        /// Get or set the maximum length of the rope.
-        /// By default, it is the distance between the two anchor points.
-        /// </summary>
-        public float MaxLength;
-
-        /// <summary>
-        /// Gets the state of the joint.
-        /// </summary>
-        public LimitState State { get; private set; }
-
         // Solver shared
-        float _impulse;
-        float _length;
+        private float _impulse;
+        private float _length;
 
         // Solver temp
-        int _indexA;
-        int _indexB;
-        Vector2 _localCenterA;
-        Vector2 _localCenterB;
-        float _invMassA;
+        private int _indexA;
+        private int _indexB;
+        private Vector2 _localCenterA;
+        private Vector2 _localCenterB;
+        private float _invMassA;
         private float _invMassB;
-        float _invIA;
-        float _invIB;
-        float _mass;
+        private float _invIA;
+        private float _invIB;
+        private float _mass;
         private Vector2 _rA, _rB;
-        Vector2 _u;
-
-        #endregion
-
+        private Vector2 _u;
 
         internal RopeJoint()
         {
@@ -134,6 +109,39 @@ namespace FarseerPhysics.Dynamics.Joints
             MaxLength = d.Length();
         }
 
+        /// <summary>
+        /// The local anchor point on BodyA
+        /// </summary>
+        public Vector2 LocalAnchorA { get; set; }
+
+        /// <summary>
+        /// The local anchor point on BodyB
+        /// </summary>
+        public Vector2 LocalAnchorB { get; set; }
+
+        public override sealed Vector2 WorldAnchorA
+        {
+            get { return BodyA.GetWorldPoint(LocalAnchorA); }
+            set { LocalAnchorA = BodyA.GetLocalPoint(value); }
+        }
+
+        public override sealed Vector2 WorldAnchorB
+        {
+            get { return BodyB.GetWorldPoint(LocalAnchorB); }
+            set { LocalAnchorB = BodyB.GetLocalPoint(value); }
+        }
+
+        /// <summary>
+        /// Get or set the maximum length of the rope.
+        /// By default, it is the distance between the two anchor points.
+        /// </summary>
+        public float MaxLength { get; set; }
+
+        /// <summary>
+        /// Gets the state of the joint.
+        /// </summary>
+        public LimitState State { get; private set; }
+
         public override Vector2 GetReactionForce(float invDt)
         {
             return (invDt * _impulse) * _u;
@@ -155,20 +163,21 @@ namespace FarseerPhysics.Dynamics.Joints
             _invIA = BodyA._invI;
             _invIB = BodyB._invI;
 
-            Vector2 cA = data.Positions[_indexA].C;
-            float aA = data.Positions[_indexA].A;
-            Vector2 vA = data.Velocities[_indexA].V;
-            float wA = data.Velocities[_indexA].W;
+            Vector2 cA = data.positions[_indexA].c;
+            float aA = data.positions[_indexA].a;
+            Vector2 vA = data.velocities[_indexA].v;
+            float wA = data.velocities[_indexA].w;
 
-            Vector2 cB = data.Positions[_indexB].C;
-            float aB = data.Positions[_indexB].A;
-            Vector2 vB = data.Velocities[_indexB].V;
-            float wB = data.Velocities[_indexB].W;
+            Vector2 cB = data.positions[_indexB].c;
+            float aB = data.positions[_indexB].a;
+            Vector2 vB = data.velocities[_indexB].v;
+            float wB = data.velocities[_indexB].w;
 
-            Rot qA = new Rot(aA), qB = new Rot(aB);
+            Complex qA = Complex.FromAngle(aA);
+            Complex qB = Complex.FromAngle(aB);
 
-            _rA = MathUtils.Mul(qA, LocalAnchorA - _localCenterA);
-            _rB = MathUtils.Mul(qB, LocalAnchorB - _localCenterB);
+            _rA = Complex.Multiply(LocalAnchorA - _localCenterA, ref qA);
+            _rB = Complex.Multiply(LocalAnchorB - _localCenterB, ref qB);
             _u = cB + _rB - cA - _rA;
 
             _length = _u.Length();
@@ -196,51 +205,51 @@ namespace FarseerPhysics.Dynamics.Joints
             }
 
             // Compute effective mass.
-            float crA = MathUtils.Cross(_rA, _u);
-            float crB = MathUtils.Cross(_rB, _u);
+            float crA = MathUtils.Cross(ref _rA, ref _u);
+            float crB = MathUtils.Cross(ref _rB, ref _u);
             float invMass = _invMassA + _invIA * crA * crA + _invMassB + _invIB * crB * crB;
 
             _mass = invMass != 0.0f ? 1.0f / invMass : 0.0f;
 
-            if (Settings.EnableWarmstarting)
+            if (data.step.warmStarting)
             {
                 // Scale the impulse to support a variable time step.
-                _impulse *= data.Step.DtRatio;
+                _impulse *= data.step.dtRatio;
 
                 Vector2 P = _impulse * _u;
                 vA -= _invMassA * P;
-                wA -= _invIA * MathUtils.Cross(_rA, P);
+                wA -= _invIA * MathUtils.Cross(ref _rA, ref P);
                 vB += _invMassB * P;
-                wB += _invIB * MathUtils.Cross(_rB, P);
+                wB += _invIB * MathUtils.Cross(ref _rB, ref P);
             }
             else
             {
                 _impulse = 0.0f;
             }
 
-            data.Velocities[_indexA].V = vA;
-            data.Velocities[_indexA].W = wA;
-            data.Velocities[_indexB].V = vB;
-            data.Velocities[_indexB].W = wB;
+            data.velocities[_indexA].v = vA;
+            data.velocities[_indexA].w = wA;
+            data.velocities[_indexB].v = vB;
+            data.velocities[_indexB].w = wB;
         }
 
         internal override void SolveVelocityConstraints(ref SolverData data)
         {
-            Vector2 vA = data.Velocities[_indexA].V;
-            float wA = data.Velocities[_indexA].W;
-            Vector2 vB = data.Velocities[_indexB].V;
-            float wB = data.Velocities[_indexB].W;
+            Vector2 vA = data.velocities[_indexA].v;
+            float wA = data.velocities[_indexA].w;
+            Vector2 vB = data.velocities[_indexB].v;
+            float wB = data.velocities[_indexB].w;
 
             // Cdot = dot(u, v + cross(w, r))
-            Vector2 vpA = vA + MathUtils.Cross(wA, _rA);
-            Vector2 vpB = vB + MathUtils.Cross(wB, _rB);
+            Vector2 vpA = vA + MathUtils.Cross(wA, ref _rA);
+            Vector2 vpB = vB + MathUtils.Cross(wB, ref _rB);
             float C = _length - MaxLength;
             float Cdot = Vector2.Dot(_u, vpB - vpA);
 
             // Predictive constraint.
             if (C < 0.0f)
             {
-                Cdot += data.Step.Inv_dt * C;
+                Cdot += data.step.inv_dt * C;
             }
 
             float impulse = -_mass * Cdot;
@@ -250,47 +259,48 @@ namespace FarseerPhysics.Dynamics.Joints
 
             Vector2 P = impulse * _u;
             vA -= _invMassA * P;
-            wA -= _invIA * MathUtils.Cross(_rA, P);
+            wA -= _invIA * MathUtils.Cross(ref _rA, ref P);
             vB += _invMassB * P;
-            wB += _invIB * MathUtils.Cross(_rB, P);
+            wB += _invIB * MathUtils.Cross(ref _rB, ref P);
 
-            data.Velocities[_indexA].V = vA;
-            data.Velocities[_indexA].W = wA;
-            data.Velocities[_indexB].V = vB;
-            data.Velocities[_indexB].W = wB;
+            data.velocities[_indexA].v = vA;
+            data.velocities[_indexA].w = wA;
+            data.velocities[_indexB].v = vB;
+            data.velocities[_indexB].w = wB;
         }
 
         internal override bool SolvePositionConstraints(ref SolverData data)
         {
-            var cA = data.Positions[_indexA].C;
-            var aA = data.Positions[_indexA].A;
-            var cB = data.Positions[_indexB].C;
-            var aB = data.Positions[_indexB].A;
+            Vector2 cA = data.positions[_indexA].c;
+            float aA = data.positions[_indexA].a;
+            Vector2 cB = data.positions[_indexB].c;
+            float aB = data.positions[_indexB].a;
 
-            Rot qA = new Rot(aA), qB = new Rot(aB);
+            Complex qA = Complex.FromAngle(aA);
+            Complex qB = Complex.FromAngle(aB);
 
-            var rA = MathUtils.Mul(qA, LocalAnchorA - _localCenterA);
-            var rB = MathUtils.Mul(qB, LocalAnchorB - _localCenterB);
-            var u = cB + rB - cA - rA;
+            Vector2 rA = Complex.Multiply(LocalAnchorA - _localCenterA, ref qA);
+            Vector2 rB = Complex.Multiply(LocalAnchorB - _localCenterB, ref qB);
+            Vector2 u = cB + rB - cA - rA;
 
-            var length = u.Length();
+            float length = u.Length();
             u = Vector2.Normalize(u);
             float C = length - MaxLength;
 
             C = MathUtils.Clamp(C, 0.0f, Settings.MaxLinearCorrection);
 
-            var impulse = -_mass * C;
-            var P = impulse * u;
+            float impulse = -_mass * C;
+            Vector2 P = impulse * u;
 
             cA -= _invMassA * P;
-            aA -= _invIA * MathUtils.Cross(rA, P);
+            aA -= _invIA * MathUtils.Cross(ref rA, ref P);
             cB += _invMassB * P;
-            aB += _invIB * MathUtils.Cross(rB, P);
+            aB += _invIB * MathUtils.Cross(ref rB, ref P);
 
-            data.Positions[_indexA].C = cA;
-            data.Positions[_indexA].A = aA;
-            data.Positions[_indexB].C = cB;
-            data.Positions[_indexB].A = aB;
+            data.positions[_indexA].c = cA;
+            data.positions[_indexA].a = aA;
+            data.positions[_indexB].c = cB;
+            data.positions[_indexB].a = aB;
 
             return length - MaxLength < Settings.LinearSlop;
         }

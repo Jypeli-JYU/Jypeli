@@ -1,4 +1,15 @@
-﻿/*
+﻿#region licenses
+/* Original source Aether Physics 2D:
+ * Copyright (c) 2020 Kastellanos Nikolaos
+ * https://github.com/tainicom/Aether.Physics2D
+*/
+
+/* Original source Farseer Physics Engine:
+ * Copyright (c) 2014 Ian Qvist, http://farseerphysics.codeplex.com
+ * Microsoft Permissive License (Ms-PL) v1.1
+ */
+
+/*
 * Farseer Physics Engine:
 * Copyright (c) 2012 Ian Qvist
 * 
@@ -19,6 +30,7 @@
 * misrepresented as being the original software. 
 * 3. This notice may not be removed or altered from any source distribution. 
 */
+#endregion
 
 using System;
 using System.Diagnostics;
@@ -53,7 +65,6 @@ namespace FarseerPhysics.Collision.Shapes
         /// </summary>
         public float Mass { get; internal set; }
 
-
         /// <summary>
         /// The equal operator
         /// </summary>
@@ -62,8 +73,7 @@ namespace FarseerPhysics.Collision.Shapes
         /// <returns></returns>
         public static bool operator ==(MassData left, MassData right)
         {
-            return (left.Area == right.Area && left.Mass == right.Mass && left.Centroid == right.Centroid &&
-                    left.Inertia == right.Inertia);
+            return (left.Area == right.Area && left.Mass == right.Mass && left.Centroid == right.Centroid && left.Inertia == right.Inertia);
         }
 
         /// <summary>
@@ -106,7 +116,6 @@ namespace FarseerPhysics.Collision.Shapes
         }
     }
 
-
     public enum ShapeType
     {
         Unknown = -1,
@@ -117,7 +126,6 @@ namespace FarseerPhysics.Collision.Shapes
         TypeCount = 4,
     }
 
-
     /// <summary>
     /// A shape is used for collision detection. You can create a shape however you like.
     /// Shapes used for simulation in World are created automatically when a Fixture
@@ -125,6 +133,16 @@ namespace FarseerPhysics.Collision.Shapes
     /// </summary>
     public abstract class Shape
     {
+        internal float _density;
+        internal float _radius;
+        internal float _2radius;
+
+        protected Shape(float density)
+        {
+            _density = density;
+            ShapeType = ShapeType.Unknown;
+        }
+
         /// <summary>
         /// Contains the properties of the shape such as:
         /// - Area of the shape
@@ -153,10 +171,11 @@ namespace FarseerPhysics.Collision.Shapes
         /// <value>The density.</value>
         public float Density
         {
-            get => _density;
+            get { return _density; }
             set
             {
                 Debug.Assert(value >= 0);
+
                 _density = value;
                 ComputeProperties();
             }
@@ -168,7 +187,7 @@ namespace FarseerPhysics.Collision.Shapes
         /// </summary>
         public float Radius
         {
-            get => _radius;
+            get { return _radius; }
             set
             {
                 Debug.Assert(value >= 0);
@@ -178,17 +197,6 @@ namespace FarseerPhysics.Collision.Shapes
 
                 ComputeProperties();
             }
-        }
-
-        internal float _density;
-        internal float _radius;
-        internal float _2radius;
-
-
-        protected Shape(float density)
-        {
-            _density = density;
-            ShapeType = ShapeType.Unknown;
         }
 
         /// <summary>
@@ -214,8 +222,7 @@ namespace FarseerPhysics.Collision.Shapes
         /// <param name="transform">The transform to be applied to the shape.</param>
         /// <param name="childIndex">The child shape index.</param>
         /// <returns>True if the ray-cast hits the shape</returns>
-        public abstract bool RayCast(out RayCastOutput output, ref RayCastInput input, ref Transform transform,
-                                     int childIndex);
+        public abstract bool RayCast(out RayCastOutput output, ref RayCastInput input, ref Transform transform, int childIndex);
 
         /// <summary>
         /// Given a transform, compute the associated axis aligned bounding box for a child shape.
@@ -230,28 +237,6 @@ namespace FarseerPhysics.Collision.Shapes
         /// The inertia tensor is computed about the local origin, not the centroid.
         /// </summary>
         internal abstract void ComputeProperties();
-
-        /// <summary>
-        /// Compare this shape to another shape based on type and properties.
-        /// </summary>
-        /// <param name="shape">The other shape</param>
-        /// <returns>True if the two shapes are the same.</returns>
-        public bool CompareTo(Shape shape)
-        {
-            if (shape is PolygonShape && this is PolygonShape)
-                return ((PolygonShape)this).CompareTo((PolygonShape)shape);
-
-            if (shape is CircleShape && this is CircleShape)
-                return ((CircleShape)this).CompareTo((CircleShape)shape);
-
-            if (shape is EdgeShape && this is EdgeShape)
-                return ((EdgeShape)this).CompareTo((EdgeShape)shape);
-
-            if (shape is ChainShape && this is ChainShape)
-                return ((ChainShape)this).CompareTo((ChainShape)shape);
-
-            return false;
-        }
 
         /// <summary>
         /// Used for the buoyancy controller

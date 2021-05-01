@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Content;
 using XnaSong = Microsoft.Xna.Framework.Media.Song;
-
-using Microsoft.Xna.Framework.Media;
-
+using Microsoft.Xna.Framework.Audio;
 
 namespace Jypeli
 {
@@ -78,7 +76,7 @@ namespace Jypeli
         /// </summary>
         public bool IsPlaying
         {
-            get { return sound.State == SoundState.Playing; }
+            get { return sound?.State == SoundState.Playing; }
         }
 
         internal MediaPlayer()

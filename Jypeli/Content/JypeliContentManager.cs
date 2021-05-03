@@ -2,16 +2,15 @@
 using System.IO;
 using System.Reflection;
 
-namespace Microsoft.Xna.Framework.Content
+namespace Jypeli.Content
 {
-    public class JypeliContentManager : ContentManager
+    public class JypeliContentManager
     {
-        public JypeliContentManager(IServiceProvider provider)
-            : base(provider)
+        public JypeliContentManager()
         {
         }
 
-        protected override System.IO.Stream OpenStream(string assetName)
+        protected Stream OpenStream(string assetName)
         {
 #if WINDOWS_STOREAPP
             var assembly = typeof( JypeliContentManager ).GetTypeInfo().Assembly;

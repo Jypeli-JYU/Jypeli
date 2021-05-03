@@ -29,6 +29,7 @@
 
 using System;
 using System.IO;
+using Jypeli.Content;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -59,8 +60,6 @@ namespace Jypeli
             set => SoundEffect.MasterVolume = value;
         }
 
-        // Need to find a way to get this working on Win8
-
         /// <summary>
         /// Kirjaston mukana tuleva sisältö.
         /// Voidaan käyttää esimerkiksi tekstuurien lataamiseen.
@@ -71,7 +70,7 @@ namespace Jypeli
 
         private void InitXnaContent()
         {
-            ResourceContent = new JypeliContentManager(this.Services);
+            ResourceContent = new JypeliContentManager();
             Content.RootDirectory = "Content";
             MediaPlayer = new MediaPlayer();
         }

@@ -7,10 +7,6 @@ namespace Jypeli
         public event Action<Exception> ReadAccessDenied;
         public event Action<Exception> WriteAccessDenied;
 
-        protected virtual void Initialize()
-        {
-        }
-
         private void OnAccessDenied( Exception e, bool write )
         {
             if ( !write && ReadAccessDenied != null )

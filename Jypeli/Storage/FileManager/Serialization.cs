@@ -80,7 +80,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Vie virran sisällön tiedostoon.
+        /// Vie virran sisÃ¤llÃ¶n tiedostoon.
         /// </summary>
         /// <param name="objStream">Virta</param>
         /// <param name="fileName">Tiedoston nimi</param>

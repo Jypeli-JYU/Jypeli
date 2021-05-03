@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Jypeli
 {
@@ -8,7 +10,7 @@ namespace Jypeli
         protected string _currentDir;
 
         /// <summary>
-        /// Nykyinen tyˆhakemisto.
+        /// Nykyinen ty√∂hakemisto.
         /// </summary>
         public string CurrentDirectory
         {
@@ -17,27 +19,8 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Vaihtaa nykyist‰ hakemistoa.
-        /// </summary>
-        /// <param name="path">Hakemistopolku</param>
-        /// <returns>Vaihdettiinko hakemistoa</returns>
-        public abstract bool ChDir( string path );
-        
-        /// <summary>
-        /// Luo uuden hakemiston.
-        /// </summary>
-        /// <param name="path">Luotavan hakemiston nimi.</param>
-        public abstract void MkDir( string path );
-
-        /// <summary>
-        /// Poistaa hakemiston.
-        /// </summary>
-        /// <param name="path">Poistettavan hakemiston nimi.</param>
-        public abstract void RmDir( string path );
-
-        /// <summary>
-        /// Vaihtaa tyˆhakemistoa j‰tt‰en edellisen hakemiston muistiin.
-        /// Kutsu PopDir kun haluat palauttaa tyˆhakemiston edelliseen arvoonsa.
+        /// Vaihtaa ty√∂hakemistoa j√§tt√§en edellisen hakemiston muistiin.
+        /// Kutsu PopDir kun haluat palauttaa ty√∂hakemiston edelliseen arvoonsa.
         /// </summary>
         /// <param name="dir"></param>
         public void PushDir( string dir )
@@ -47,13 +30,64 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Palauttaa edellisen tyˆhakemiston.
-        /// Jos edellist‰ tyˆhakemistoa ei ole tallennettu, s‰ilytet‰‰n nykyinen.
+        /// Palauttaa edellisen ty√∂hakemiston.
+        /// Jos edellist√∂ ty√∂hakemistoa ei ole tallennettu, s√§ilytet√§√§n nykyinen.
         /// </summary>
         public void PopDir()
         {
             if ( prevDirs.Count > 0 )
                 _currentDir = prevDirs.Pop();
+        }
+
+        /// <summary>
+        /// Vaihtaa ty√∂hakemistoa.
+        /// </summary>
+        /// <param name="path">Hakemistopolku.</param>
+        /// <returns>Onnistuiko hakemiston vaihtaminen (palauttaa false jos hakemistoa ei ole).</returns>
+        public virtual bool ChDir( string path )
+        {
+            Initialize();
+            MakeAbsolute( ref path );
+
+            if ( !FMAssert( Directory.Exists, false, false, path ) )
+                return false;
+
+            _currentDir = path;
+            return true;
+        }
+
+        /// <summary>
+        /// Luo uuden hakemiston.
+        /// </summary>
+        /// <param name="path">Hakemistopolku.</param>
+        public virtual void MkDir( string path )
+        {
+            Initialize();
+            MakeAbsolute( ref path );
+            FMAssert( Directory.CreateDirectory, true, null, path );
+        }
+
+        /// <summary>
+        /// Tuhoaa hakemiston. Heitt√§√§ poikkeuksen jos hakemisto ei ole tyhj√§.
+        /// Ei heit√§ poikkeusta, jos hakemistoa ei ole olemassa.
+        /// </summary>
+        /// <param name="path"></param>
+        public virtual void RmDir( string path )
+        {
+            Initialize();
+            MakeAbsolute( ref path );
+            FMAssert( Directory.Delete, true, path );
+        }
+
+        /// <summary>
+        /// Antaa listan nykyisess√§ hakemistossa olevista tiedostoista.
+        /// </summary>
+        /// <returns></returns>
+        public virtual IList<string> GetFileList()
+        {
+            Initialize();
+            string[] fileList = FMAssert( Directory.GetFiles, false, new string[] { }, _currentDir );
+            return fileList.ToList<string>().AsReadOnly();
         }
     }
 }

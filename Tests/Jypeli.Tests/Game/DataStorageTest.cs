@@ -25,7 +25,7 @@ namespace Jypeli.Tests.Game
             if (tiedosto != null && tiedosto.Stream.CanRead)
                 tiedosto.Close();
 
-            DataStorage.ChDir(WindowsLocation.DataPath); // TODO: Windows-viitteistä pitä hankkiutua eroon.
+            DataStorage.ChDir(FileLocation.DataPath);
 
             if(DataStorage.Exists("testi.txt"))
                 DataStorage.Delete("testi.txt");

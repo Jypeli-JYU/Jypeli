@@ -14,12 +14,7 @@
 
         public ComputerDevice()
         {
-			// TODO: merge these into one class
-
-            this.Storage = new WindowsFileManager( WindowsLocation.DataPath, WindowsLocation.MyDocuments );
-
-			//this.Storage = new LinuxFileManager();
-
+            this.Storage = new FileManager(FileLocation.DataPath, FileLocation.MyDocuments);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Jypeli
 {
-    public abstract partial class FileManager : Updatable
+    public partial class FileManager : Updatable
     {
         public class AsyncOperation
         {

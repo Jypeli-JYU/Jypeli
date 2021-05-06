@@ -90,10 +90,10 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Avaa tiedoston (lukua varten) ja tekee sill‰ jotain.
+        /// Avaa tiedoston (lukua varten) ja tekee sill√§ jotain.
         /// </summary>
         /// <param name="fileName">Tiedoston nimi</param>
-        /// <param name="callback">Mit‰ tehd‰‰n (aliohjelman nimi)</param>
+        /// <param name="callback">Mit√§ tehd√§√§n (aliohjelman nimi)</param>
         /// <example>
         /// {
         ///    DoWith( "kuva.png", AsetaKuva );
@@ -115,10 +115,10 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Avaa tiedoston netist‰ (lukua varten) ja tekee sill‰ jotain.
+        /// Avaa tiedoston netist√§ (lukua varten) ja tekee sill√§ jotain.
         /// </summary>
         /// <param name="url">Nettiosoite</param>
-        /// <param name="callback">Mit‰ tehd‰‰n (aliohjelman nimi)</param>
+        /// <param name="callback">Mit√§ tehd√§√§n (aliohjelman nimi)</param>
         /// <example>
         /// {
         ///    DoWith( "http://www.google.fi/images/srpr/logo3w.png", AsetaKuva );
@@ -139,12 +139,12 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Avaa tiedoston netist‰ (lukua varten) ja tekee sill‰ jotain.
+        /// Avaa tiedoston netist√§ (lukua varten) ja tekee sill√§ jotain.
         /// </summary>
         /// <param name="url">Nettiosoite</param>
-        /// <param name="timeout">Paljonko aikaa tiedoston lataamiselle annetaan. Mik‰li
-        /// lataaminen ei onnistu annetussa ajassa, se keskeytet‰‰n.</param>
-        /// <param name="callback">Mit‰ tehd‰‰n (aliohjelman nimi)</param>
+        /// <param name="timeout">Paljonko aikaa tiedoston lataamiselle annetaan. Mik√§li
+        /// lataaminen ei onnistu annetussa ajassa, se keskeytet√§√§n.</param>
+        /// <param name="callback">Mit√§ tehd√§√§n (aliohjelman nimi)</param>
         /// <example>
         /// {
         ///    DoWith( "http://www.google.fi/images/srpr/logo3w.png", AsetaKuva );
@@ -216,7 +216,7 @@ namespace Jypeli
         /// Laukaisee aliohjelman kun annetut operaatiot on suoritettu.
         /// </summary>
         /// <param name="callback">Aliohjelma</param>
-        /// <param name="timeout">Kuinka pitk‰‰n odotetaan yksitt‰ist‰ operaatiota ennen kuin luovutetaan</param>
+        /// <param name="timeout">Kuinka pitk√§√§n odotetaan yksitt√§ist√§ operaatiota ennen kuin luovutetaan</param>
         /// <param name="actions">Operaatiot</param>
         public void TriggerOnComplete( Action callback, TimeSpan timeout, params AsyncOperation[] actions )
         {

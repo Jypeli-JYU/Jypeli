@@ -61,10 +61,10 @@ namespace Jypeli
     }
 
     /// <summary>
-    /// Jypelin sis‰iset metodit ja propertyt joihin k‰ytt‰j‰n ei tarvitse
-    /// p‰‰st‰ k‰siksi kuuluvat t‰h‰n luokkaan. Kaikki oliot jotka toteuttavat
-    /// IGameObject-rajapinnan toteuttavat myˆs IGameObjectInternal-rajapinnan.
-    /// Ota t‰m‰ huomioon jos aiot tehd‰ oman olion joka toteuttaa suoraan
+    /// Jypelin sis√§iset metodit ja propertyt joihin k√§ytt√§j√§n ei tarvitse
+    /// p√§√§st√§ k√§siksi kuuluvat t√§h√§n luokkaan. Kaikki oliot jotka toteuttavat
+    /// IGameObject-rajapinnan toteuttavat my√∂s IGameObjectInternal-rajapinnan.
+    /// Ota t√§m√§ huomioon jos aiot tehd√§ oman olion joka toteuttaa suoraan
     /// IGameObject(Internal)-rajapinnan.
     /// <example>
     /// void UpdateObject(IGameObject obj)

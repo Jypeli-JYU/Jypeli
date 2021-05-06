@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009-2011 University of Jyv‰skyl‰, Department of Mathematical
+ * Copyright (c) 2009-2011 University of Jyv√§skyl√§, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tomi Karppinen, Tero J‰ntti
+ * Authors: Tomi Karppinen, Tero J√§ntti
  */
 
 
@@ -78,7 +78,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Alustaa uuden kyselyikkunan kiinte‰n kokoiseksi.
+        /// Alustaa uuden kyselyikkunan kiinte√§n kokoiseksi.
         /// </summary>
         /// <param name="width">Ikkunan leveys</param>
         /// <param name="height">Ikkunan korkeus</param>

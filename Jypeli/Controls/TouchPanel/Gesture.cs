@@ -58,7 +58,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Sormien et‰isyysvektori maailmassa eleen alussa.
+        /// Sormien et√§isyysvektori maailmassa eleen alussa.
         /// </summary>
         public Vector WorldDistanceBefore
         {
@@ -69,7 +69,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Sormien et‰isyysvektori maailmassa eleen lopussa.
+        /// Sormien et√§isyysvektori maailmassa eleen lopussa.
         /// </summary>
         public Vector WorldDistanceAfter
         {
@@ -80,7 +80,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Sormien et‰isyysvektori ruudulla eleen alussa.
+        /// Sormien et√§isyysvektori ruudulla eleen alussa.
         /// </summary>
         public Vector ScreenDistanceBefore
         {
@@ -91,7 +91,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Sormien et‰isyysvektori ruudulla eleen lopussa.
+        /// Sormien et√§isyysvektori ruudulla eleen lopussa.
         /// </summary>
         public Vector ScreenDistanceAfter
         {

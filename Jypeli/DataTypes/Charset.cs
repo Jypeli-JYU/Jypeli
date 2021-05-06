@@ -1,8 +1,8 @@
 namespace Jypeli
 {
     /// <summary>
-    /// Yleisesti k‰ytettyj‰ merkkijoukkoja.
-    /// Voit yhdistell‰ merkkijoukkoja +:lla.
+    /// Yleisesti k√§ytettyj√§ merkkijoukkoja.
+    /// Voit yhdistell√§ merkkijoukkoja +:lla.
     /// </summary>
     public static class Charset
     {
@@ -12,17 +12,17 @@ namespace Jypeli
         public static string Digits = "0123456789";
 
         /// <summary>
-        /// Aakkoset pienill‰ kirjaimilla a - ˆ.
+        /// Aakkoset pienill√§ kirjaimilla a - √∂.
         /// </summary>
-        public static string LowerCaseAlphabet = "abcdefghijklmnopqrstuvwxyzÂ‰ˆ";
+        public static string LowerCaseAlphabet = "abcdefghijklmnopqrstuvwxyz√•√§√∂";
 
         /// <summary>
-        /// Aakkoset isoilla kirjaimilla A - ÷.
+        /// Aakkoset isoilla kirjaimilla A - √ñ.
         /// </summary>
-        public static string UpperCaseAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ≈ƒ÷";
+        public static string UpperCaseAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ√Ö√Ñ√ñ";
 
         /// <summary>
-        /// Aakkoset pienill‰ kirjaimilla a - z.
+        /// Aakkoset pienill√§ kirjaimilla a - z.
         /// </summary>
         public static string LowerCaseAlphabetUS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -32,42 +32,42 @@ namespace Jypeli
         public static string UpperCaseAlphabetUS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         /// <summary>
-        /// Lauseessa k‰ytett‰v‰t v‰limerkit.
+        /// Lauseessa k√§ytett√§v√§t v√§limerkit.
         /// </summary>
         public static string Punctuation = ".,:;-_ ?!";
 
         /// <summary>
-        /// Yleisimm‰t rahayksikkˆjen tunnukset.
+        /// Yleisimm√§t rahayksikk√∂jen tunnukset.
         /// </summary>
-        public static string Currency = "Ä$£•";
+        public static string Currency = "‚Ç¨$¬£¬•";
 
         /// <summary>
         /// Erikoismerkit.
         /// </summary>
-        public static string Special = Currency + Punctuation + "%#+-*/\\%&|{[<=>]}\"'`§^~";
+        public static string Special = Currency + Punctuation + "%#+-*/\\%&|{[<=>]}\"'`¬§^~";
 
         /// <summary>
-        /// Aakkoset pienill‰ ja isoilla kirjaimilla a - ˆ, A - ÷
+        /// Aakkoset pienill√§ ja isoilla kirjaimilla a - √∂, A - √ñ
         /// </summary>
         public static string Alphabet = LowerCaseAlphabet + UpperCaseAlphabet;
 
         /// <summary>
-        /// Aakkoset pienill‰ ja isoilla kirjaimilla a - z, A - Z
+        /// Aakkoset pienill√§ ja isoilla kirjaimilla a - z, A - Z
         /// </summary>
         public static string AlphabetUS = LowerCaseAlphabetUS + UpperCaseAlphabetUS;
 
         /// <summary>
-        /// Aakkoset pienill‰ ja isoilla kirjaimilla a - ˆ, A - ÷ + numerot
+        /// Aakkoset pienill√§ ja isoilla kirjaimilla a - √∂, A - √ñ + numerot
         /// </summary>
         public static string Alphanumeric = LowerCaseAlphabet + UpperCaseAlphabet + Digits;
 
         /// <summary>
-        /// Aakkoset pienill‰ ja isoilla kirjaimilla a - z, A - Z + numerot
+        /// Aakkoset pienill√§ ja isoilla kirjaimilla a - z, A - Z + numerot
         /// </summary>
         public static string AlphanumericUS = LowerCaseAlphabetUS + UpperCaseAlphabetUS + Digits;
 
         /// <summary>
-        /// Kaikki suomalaisella n‰pp‰imistˆll‰ kirjoitettavissa olevat merkit.
+        /// Kaikki suomalaisella n√§pp√§imist√∂ll√§ kirjoitettavissa olevat merkit.
         /// </summary>
         public static string FinnishKeyboard = Alphanumeric + Special;
     }

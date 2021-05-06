@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009 University of Jyv‰skyl‰, Department of Mathematical
+ * Copyright (c) 2009 University of Jyv√§skyl√§, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero J‰ntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero J√§ntti, Tomi Karppinen, Janne Nikkanen.
  */
 
 
@@ -37,18 +37,18 @@ namespace Jypeli
         private Vector _textureWrapSize = new Vector( 1, 1 );
 
         /// <summary>
-        /// Piirret‰‰nkˆ oliota ruudulle.
+        /// Piirret√§√§nk√∂ oliota ruudulle.
         /// </summary>
         [Save]
         public bool IsVisible { get; set; }
 
         /// <summary>
-        /// Animaatio. Voi olla <c>null</c>, jolloin piirret‰‰n vain v‰ri.
+        /// Animaatio. Voi olla <c>null</c>, jolloin piirret√§√§n vain v√§ri.
         /// </summary>
         public override Animation Animation { get; set; }
 
         /// <summary>
-        /// M‰‰ritt‰‰ kuinka moneen kertaan kuva piirret‰‰n. Esimerkiksi (3.0, 2.0) piirt‰‰
+        /// M√§√§ritt√§√§ kuinka moneen kertaan kuva piirret√§√§n. Esimerkiksi (3.0, 2.0) piirt√§√§
         /// kuvan 3 kertaa vaakasuunnassa ja 2 kertaa pystysuunnassa.
         /// </summary>
         [Save]
@@ -59,7 +59,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// V‰ri, jonka v‰risen‰ olio piirret‰‰n, jos tekstuuria ei ole m‰‰ritelty.
+        /// V√§ri, jonka v√§risen√§ olio piirret√§√§n, jos tekstuuria ei ole m√§√§ritelty.
         /// </summary>
         public virtual Color Color
         {
@@ -68,14 +68,14 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Jos <c>true</c>, kuva piirret‰‰n niin, ettei se mene olion muodon
-        /// ‰‰riviivojen yli. Toisin sanoen kuva piirret‰‰n tarkasti vain
-        /// muodon m‰‰ritt‰m‰lle alueelle.
+        /// Jos <c>true</c>, kuva piirret√§√§n niin, ettei se mene olion muodon
+        /// √§√§riviivojen yli. Toisin sanoen kuva piirret√§√§n tarkasti vain
+        /// muodon m√§√§ritt√§m√§lle alueelle.
         /// </summary>
         /// <remarks>
-        /// T‰m‰n asettaminen tekee olion piirt‰misest‰ hitaamman. Jos
-        /// muoto on yksinkertainen, harkitse voisiko kuvan piirt‰‰ niin, ett‰
-        /// l‰pin‰kyvyytt‰ k‰ytt‰m‰ll‰ saadaan kuvasta halutun muotoinen.
+        /// T√§m√§n asettaminen tekee olion piirt√§misest√§ hitaamman. Jos
+        /// muoto on yksinkertainen, harkitse voisiko kuvan piirt√§√§ niin, ett√§
+        /// l√§pin√§kyvyytt√§ k√§ytt√§m√§ll√§ saadaan kuvasta halutun muotoinen.
         /// </remarks>
         public bool TextureFillsShape
         {
@@ -84,8 +84,8 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// J‰tt‰‰kˆ olio kent‰n valaistuksen huomiotta.
-        /// Asetettu oletuksena k‰yttˆliittym‰komponenteilla (widget).
+        /// J√§tt√§√§k√∂ olio kent√§n valaistuksen huomiotta.
+        /// Asetettu oletuksena k√§ytt√∂liittym√§komponenteilla (widget).
         /// </summary>
         public bool IgnoresLighting { get; set; }
 
@@ -112,7 +112,7 @@ namespace Jypeli
 #endif
 
         /// <summary>
-        /// K‰‰nt‰‰ olion kuvan vaakasuunnassa.
+        /// K√§√§nt√§√§ olion kuvan vaakasuunnassa.
         /// </summary>
         public void MirrorImage()
         {
@@ -120,7 +120,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// K‰‰nt‰‰ olion kuvan pystysuunnassa.
+        /// K√§√§nt√§√§ olion kuvan pystysuunnassa.
         /// </summary>
         public void FlipImage()
         {

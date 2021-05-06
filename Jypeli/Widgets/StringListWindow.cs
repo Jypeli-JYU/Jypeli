@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009-2011 University of Jyv‰skyl‰, Department of Mathematical
+ * Copyright (c) 2009-2011 University of Jyv√§skyl√§, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tomi Karppinen, Tero J‰ntti
+ * Authors: Tomi Karppinen, Tero J√§ntti
  */
 
 
@@ -32,7 +32,7 @@
 namespace Jypeli
 {
     /// <summary>
-    /// Ikkuna, joka sis‰lt‰‰ listan merkkijonoja.
+    /// Ikkuna, joka sis√§lt√§√§ listan merkkijonoja.
     /// </summary>
     public class StringListWindow : CustomQueryWindow<StringListWidget>
     {
@@ -53,7 +53,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Luo uuden merkkijonolistaikkunan ja asettaa sille kiinte‰n koon.
+        /// Luo uuden merkkijonolistaikkunan ja asettaa sille kiinte√§n koon.
         /// </summary>
         /// <param name="width">Ikkunan leveys</param>
         /// <param name="height">Ikkunan korkeus</param>

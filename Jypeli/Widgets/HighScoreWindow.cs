@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009-2011 University of Jyv‰skyl‰, Department of Mathematical
+ * Copyright (c) 2009-2011 University of Jyv√§skyl√§, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tomi Karppinen, Tero J‰ntti
+ * Authors: Tomi Karppinen, Tero J√§ntti
  */
 
 
@@ -41,7 +41,7 @@ namespace Jypeli.Widgets
         string nameStr = "";
 
         /// <summary>
-        /// Nimensyˆttˆikkuna.
+        /// Nimensy√∂tt√∂ikkuna.
         /// </summary>
         public InputWindow NameInputWindow { get; private set; }
 
@@ -54,7 +54,7 @@ namespace Jypeli.Widgets
         }
 
         /// <summary>
-        /// Pisin mahdollinen nimi, jonka listaan voi syˆtt‰‰.
+        /// Pisin mahdollinen nimi, jonka listaan voi sy√∂tt√§√§.
         /// </summary>
         public int MaxNameLength
         {
@@ -97,13 +97,13 @@ namespace Jypeli.Widgets
 
         /// <summary>
         /// Luo uuden parhaiden pisteiden ikkunan.
-        /// T‰m‰ versio antaa pelaajan kirjoittaa nimens‰ listalle jos tulos
-        /// on tarpeeksi hyv‰.
+        /// T√§m√§ versio antaa pelaajan kirjoittaa nimens√§ listalle jos tulos
+        /// on tarpeeksi hyv√§.
         /// </summary>
-        /// <param name="normalMessage">Normaalisti n‰ytett‰v‰ viesti</param>
-        /// <param name="nameMessage">Viesti joka n‰ytet‰‰n kun pelaaja p‰‰see listalle</param>
+        /// <param name="normalMessage">Normaalisti n√§ytett√§v√§ viesti</param>
+        /// <param name="nameMessage">Viesti joka n√§ytet√§√§n kun pelaaja p√§√§see listalle</param>
         /// <param name="list">Lista</param>
-        /// <param name="newScore">Viimeisimm‰n pelin pistem‰‰r‰</param>
+        /// <param name="newScore">Viimeisimm√§n pelin pistem√§√§r√§</param>
         public HighScoreWindow( string normalMessage, string nameMessage, ScoreList list, double newScore )
             : base( normalMessage )
         {
@@ -114,15 +114,15 @@ namespace Jypeli.Widgets
 
         /// <summary>
         /// Luo uuden parhaiden pisteiden ikkunan.
-        /// T‰m‰ versio antaa pelaajan kirjoittaa nimens‰ listalle jos tulos
-        /// on tarpeeksi hyv‰.
+        /// T√§m√§ versio antaa pelaajan kirjoittaa nimens√§ listalle jos tulos
+        /// on tarpeeksi hyv√§.
         /// </summary>
         /// <param name="width">Leveys</param>
         /// <param name="height">Korkeus</param>
-        /// <param name="normalMessage">Normaalisti n‰ytett‰v‰ viesti</param>
-        /// <param name="nameMessage">Viesti joka n‰ytet‰‰n kun pelaaja p‰‰see listalle</param>
+        /// <param name="normalMessage">Normaalisti n√§ytett√§v√§ viesti</param>
+        /// <param name="nameMessage">Viesti joka n√§ytet√§√§n kun pelaaja p√§√§see listalle</param>
         /// <param name="list">Lista</param>
-        /// <param name="newScore">Viimeisimm‰n pelin pistem‰‰r‰</param>
+        /// <param name="newScore">Viimeisimm√§n pelin pistem√§√§r√§</param>
         public HighScoreWindow( double width, double height, string normalMessage, string nameMessage, ScoreList list, double newScore )
             : base( width, height, normalMessage )
         {
@@ -132,7 +132,7 @@ namespace Jypeli.Widgets
         }
 
         /// <summary>
-        /// N‰ytt‰‰ nimensyˆttˆikkunan.
+        /// N√§ytt√§√§ nimensy√∂tt√∂ikkunan.
         /// </summary>
         /// <param name="newScore"></param>
         public void ShowNameInput( double newScore )

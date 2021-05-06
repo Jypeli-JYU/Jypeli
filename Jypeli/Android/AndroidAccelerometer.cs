@@ -19,7 +19,7 @@
 //        }
 
 //        /// <summary>
-//        /// K‰ynnist‰‰ kiihtyvyysanturin.
+//        /// K√§ynnist√§√§ kiihtyvyysanturin.
 //        /// </summary>
 //        public override void Start()
 //        {
@@ -31,7 +31,7 @@
 //        }
 
 //        /// <summary>
-//        /// Pys‰ytt‰‰ kiihtyvyysanturin.
+//        /// Pys√§ytt√§√§ kiihtyvyysanturin.
 //        /// </summary>
 //        public override void Stop()
 //        {

@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009-2011 University of Jyv‰skyl‰, Department of Mathematical
+ * Copyright (c) 2009-2011 University of Jyv√§skyl√§, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero J‰ntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero J√§ntti, Tomi Karppinen, Janne Nikkanen.
  */
 
 using System;
@@ -63,17 +63,17 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Kuinka monta viesti‰ kerrallaan n‰ytet‰‰n.
+        /// Kuinka monta viesti√§ kerrallaan n√§ytet√§√§n.
         /// </summary>
         public int MaxMessageCount { get; set; }
 
         /// <summary>
-        /// Kuinka pitk‰‰n yksi viesti n‰kyy.
+        /// Kuinka pitk√§√§n yksi viesti n√§kyy.
         /// </summary>
         public TimeSpan MessageTime { get; set; }
 
         /// <summary>
-        /// K‰ytett‰v‰ fontti.
+        /// K√§ytett√§v√§ fontti.
         /// </summary>
         public Font Font
         {
@@ -87,12 +87,12 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Tekstin v‰ri.
+        /// Tekstin v√§ri.
         /// </summary>
         public Color TextColor { get; set; }
 
         /// <summary>
-        /// Tekstin taustav‰ri.
+        /// Tekstin taustav√§ri.
         /// </summary>
         public Color BackgroundColor
         {
@@ -105,10 +105,10 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Onko n‰yttˆ reaaliaikainen (oletuksena ei)
-        /// Jos on, vanhin viesti poistetaan heti jos viestien maksimim‰‰r‰
-        /// tulee t‰yteen. Jos ei, viesti j‰‰ jonoon odottamaan kunnes
-        /// vanhimman viestin n‰yttˆaika tulee t‰yteen.
+        /// Onko n√§ytt√∂ reaaliaikainen (oletuksena ei)
+        /// Jos on, vanhin viesti poistetaan heti jos viestien maksimim√§√§r√§
+        /// tulee t√§yteen. Jos ei, viesti j√§√§ jonoon odottamaan kunnes
+        /// vanhimman viestin n√§ytt√∂aika tulee t√§yteen.
         /// </summary>
         public bool RealTime { get; set; }
 
@@ -122,7 +122,7 @@ namespace Jypeli
         private Timer removeTimer;
         
         /// <summary>
-        /// Luo uuden viestin‰ytˆn.
+        /// Luo uuden viestin√§yt√∂n.
         /// </summary>
         public MessageDisplay()
             : base( Game.Screen.WidthSafe, Game.Screen.HeightSafe )
@@ -204,7 +204,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Lis‰‰ uuden viestin n‰kym‰‰n.
+        /// Lis√§√§ uuden viestin n√§kym√§√§n.
         /// </summary>
         public void Add( string message )
         {
@@ -239,7 +239,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Lis‰‰ uuden viestin n‰kym‰‰n.
+        /// Lis√§√§ uuden viestin n√§kym√§√§n.
         /// </summary>
         public void Add( string message, Color color )
         {
@@ -267,7 +267,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Poistaa kaikki lis‰tyt viestit.
+        /// Poistaa kaikki lis√§tyt viestit.
         /// </summary>
         public override void Clear()
         {

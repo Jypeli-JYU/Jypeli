@@ -36,7 +36,7 @@ namespace Jypeli
     }
     
     /// <summary>
-    /// Usein k‰ytettyj‰ polkuja Windowsissa.
+    /// Usein k√§ytettyj√§ polkuja Windowsissa.
     /// </summary>
     public static class FileLocation
     {

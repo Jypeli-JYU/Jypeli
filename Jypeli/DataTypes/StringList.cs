@@ -5,7 +5,7 @@ using System.IO;
 namespace Jypeli
 {
     /// <summary>
-    /// J‰rjestetty lista merkkijonoja.
+    /// J√§rjestetty lista merkkijonoja.
     /// </summary>
     public class StringList : INotifyList<string>
     {
@@ -106,8 +106,8 @@ namespace Jypeli
 
         /// <summary>
         /// Listan pituus.
-        /// Jos asetetaan pienemm‰ksi kuin nykyinen koko, ylimenev‰t rivit poistetaan.
-        /// Jos asetetaan suuremmaksi kuin nykyinen koko, lis‰t‰‰n tyhji‰ rivej‰.
+        /// Jos asetetaan pienemm√§ksi kuin nykyinen koko, ylimenev√§t rivit poistetaan.
+        /// Jos asetetaan suuremmaksi kuin nykyinen koko, lis√§t√§√§n tyhji√§ rivej√§.
         /// </summary>
         public int Length
         {
@@ -129,13 +129,13 @@ namespace Jypeli
 
         /// <summary>
         /// Listan pituus.
-        /// Jos asetetaan pienemm‰ksi kuin nykyinen koko, ylimenev‰t rivit poistetaan.
-        /// Jos asetetaan suuremmaksi kuin nykyinen koko, lis‰t‰‰n tyhji‰ rivej‰.
+        /// Jos asetetaan pienemm√§ksi kuin nykyinen koko, ylimenev√§t rivit poistetaan.
+        /// Jos asetetaan suuremmaksi kuin nykyinen koko, lis√§t√§√§n tyhji√§ rivej√§.
         /// </summary>
         public int Count { get { return Length; } /*set { Length = value; }*/ }
 
         /// <summary>
-        /// Tapahtuu kun listan sis‰ltˆ muuttuu.
+        /// Tapahtuu kun listan sis√§lt√∂ muuttuu.
         /// </summary>
         public event Action Changed;
 
@@ -146,7 +146,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Luo uuden tyhj‰n merkkijonolistan.
+        /// Luo uuden tyhj√§n merkkijonolistan.
         /// </summary>
         public StringList()
         {
@@ -222,7 +222,7 @@ namespace Jypeli
 #if !WINDOWS_STOREAPP
         /// <summary>
         /// Lukee merkkijonolistan tiedostosta.
-        /// Huom. toimii vain PC:ll‰, k‰yt‰ mieluummin
+        /// Huom. toimii vain PC:ll√§, k√§yt√§ mieluummin
         /// FromAsset-metodia jos vain mahdollista.
         /// </summary>
         /// <param name="path">Tiedoston polku.</param>
@@ -244,7 +244,7 @@ namespace Jypeli
 #endif
 
         /// <summary>
-        /// Lis‰‰ yhden tai useamman rivin merkkijonolistaan.
+        /// Lis√§√§ yhden tai useamman rivin merkkijonolistaan.
         /// </summary>
         /// <param name="lines">Rivi(t)</param>
         /// <returns>Lista itse</returns>
@@ -256,7 +256,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Lis‰‰ toisen merkkijonolistan t‰m‰n per‰‰n.
+        /// Lis√§√§ toisen merkkijonolistan t√§m√§n per√§√§n.
         /// </summary>
         /// <param name="list">Merkkijonolista</param>
         /// <returns>Lista itse</returns>
@@ -268,7 +268,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Lis‰‰ toisen merkkijonolistan t‰m‰n per‰‰n.
+        /// Lis√§√§ toisen merkkijonolistan t√§m√§n per√§√§n.
         /// </summary>
         /// <param name="list">Lista merkkijonoja.</param>
         /// <returns>Lista itse</returns>
@@ -280,7 +280,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Lis‰‰ olion merkkijonolistan per‰‰n.
+        /// Lis√§√§ olion merkkijonolistan per√§√§n.
         /// </summary>
         /// <param name="obj">Olio.</param>
         /// <returns>Lista itse</returns>
@@ -300,7 +300,7 @@ namespace Jypeli
 
         /// <summary>
         /// Poistaa yhden tai useamman rivin.
-        /// Kaikki rivin ilmentym‰t poistetaan.
+        /// Kaikki rivin ilmentym√§t poistetaan.
         /// </summary>
         /// <param name="lines">Poistettava(t) rivi(t)</param>
         /// <returns>Lista itse</returns>
@@ -316,10 +316,10 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Poistaa listassa m‰‰ritellyt rivit.
-        /// Kaikki rivin ilmentym‰t poistetaan.
+        /// Poistaa listassa m√§√§ritellyt rivit.
+        /// Kaikki rivin ilmentym√§t poistetaan.
         /// </summary>
-        /// <param name="list">Lista joka sis‰lt‰‰ poistettavat rivit</param>
+        /// <param name="list">Lista joka sis√§lt√§√§ poistettavat rivit</param>
         /// <returns>Lista itse</returns>
         public StringList RemoveAll( List<string> list )
         {
@@ -333,10 +333,10 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Poistaa toisessa listassa m‰‰ritellyt rivit.
-        /// Kaikki rivin ilmentym‰t poistetaan.
+        /// Poistaa toisessa listassa m√§√§ritellyt rivit.
+        /// Kaikki rivin ilmentym√§t poistetaan.
         /// </summary>
-        /// <param name="list">Lista joka sis‰lt‰‰ poistettavat rivit</param>
+        /// <param name="list">Lista joka sis√§lt√§√§ poistettavat rivit</param>
         /// <returns>Lista itse</returns>
         public StringList RemoveAll( StringList list )
         {
@@ -345,7 +345,7 @@ namespace Jypeli
 
         /// <summary>
         /// Poistaa yhden tai useamman rivin.
-        /// Vain ensimm‰inen ilmentym‰ poistetaan.
+        /// Vain ensimm√§inen ilmentym√§ poistetaan.
         /// </summary>
         /// <param name="lines">Poistettava(t) rivi(t)</param>
         /// <returns>Lista itse</returns>
@@ -361,10 +361,10 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Poistaa listassa m‰‰ritellyt rivit.
-        /// Vain ensimm‰inen ilmentym‰ poistetaan.
+        /// Poistaa listassa m√§√§ritellyt rivit.
+        /// Vain ensimm√§inen ilmentym√§ poistetaan.
         /// </summary>
-        /// <param name="list">Lista joka sis‰lt‰‰ poistettavat rivit</param>
+        /// <param name="list">Lista joka sis√§lt√§√§ poistettavat rivit</param>
         /// <returns>Lista itse</returns>
         public StringList RemoveFirst( List<string> list )
         {
@@ -378,10 +378,10 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Poistaa toisessa listassa m‰‰ritellyt rivit.
-        /// Vain ensimm‰inen ilmentym‰ poistetaan.
+        /// Poistaa toisessa listassa m√§√§ritellyt rivit.
+        /// Vain ensimm√§inen ilmentym√§ poistetaan.
         /// </summary>
-        /// <param name="list">Lista joka sis‰lt‰‰ poistettavat rivit</param>
+        /// <param name="list">Lista joka sis√§lt√§√§ poistettavat rivit</param>
         /// <returns>Lista itse</returns>
         public StringList RemoveFirst( StringList list )
         {
@@ -390,7 +390,7 @@ namespace Jypeli
 
         /// <summary>
         /// Poistaa yhden tai useamman rivin.
-        /// Vain viimeinen ilmentym‰ poistetaan.
+        /// Vain viimeinen ilmentym√§ poistetaan.
         /// </summary>
         /// <param name="lines">Poistettava(t) rivi(t)</param>
         /// <returns>Lista itse</returns>
@@ -406,10 +406,10 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Poistaa listassa m‰‰ritellyt rivit.
-        /// Vain ensimm‰inen ilmentym‰ poistetaan.
+        /// Poistaa listassa m√§√§ritellyt rivit.
+        /// Vain ensimm√§inen ilmentym√§ poistetaan.
         /// </summary>
-        /// <param name="list">Lista joka sis‰lt‰‰ poistettavat rivit</param>
+        /// <param name="list">Lista joka sis√§lt√§√§ poistettavat rivit</param>
         /// <returns>Lista itse</returns>
         public StringList RemoveLast( List<string> list )
         {
@@ -423,10 +423,10 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Poistaa toisessa listassa m‰‰ritellyt rivit.
-        /// Vain ensimm‰inen ilmentym‰ poistetaan.
+        /// Poistaa toisessa listassa m√§√§ritellyt rivit.
+        /// Vain ensimm√§inen ilmentym√§ poistetaan.
         /// </summary>
-        /// <param name="list">Lista joka sis‰lt‰‰ poistettavat rivit</param>
+        /// <param name="list">Lista joka sis√§lt√§√§ poistettavat rivit</param>
         /// <returns>Lista itse</returns>
         public StringList RemoveLast( StringList list )
         {
@@ -434,10 +434,10 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Tarkistaa, lˆytyykˆ rivi listasta.
+        /// Tarkistaa, l√∂ytyyk√∂ rivi listasta.
         /// </summary>
-        /// <param name="line">Etsitt‰v‰ rivi.</param>
-        /// <returns>true jos lˆytyy</returns>
+        /// <param name="line">Etsitt√§v√§ rivi.</param>
+        /// <returns>true jos l√∂ytyy</returns>
         public bool Contains( string line )
         {
             for ( int i = 0; i < strings.Count; i++ )
@@ -449,11 +449,11 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Palauttaa listasta ensimm‰isen annetulla merkkijonolla
+        /// Palauttaa listasta ensimm√§isen annetulla merkkijonolla
         /// alkavan merkkijonon.
         /// </summary>
-        /// <param name="line">Etsitt‰v‰n rivin alku.</param>
-        /// <returns>Lˆydetty merkkijono tai null jos ei lˆytynyt.</returns>
+        /// <param name="line">Etsitt√§v√§n rivin alku.</param>
+        /// <returns>L√∂ydetty merkkijono tai null jos ei l√∂ytynyt.</returns>
         public string FirstBeginningWith( string line )
         {
             for ( int i = 0; i < strings.Count; i++ )
@@ -466,7 +466,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Tyhjent‰‰ listan.
+        /// Tyhjent√§√§ listan.
         /// </summary>
         public void Clear()
         {

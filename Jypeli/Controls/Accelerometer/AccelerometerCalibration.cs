@@ -2,12 +2,12 @@ namespace Jypeli
 {
     /// <summary>
     /// Kalibrointi puhelimen kallistuksen nollakohdalle.
-    /// (Asento missä puhelinta ei ole kallistettu yhtään)
+    /// (Asento missÃ¤ puhelinta ei ole kallistettu yhtÃ¤Ã¤n)
     /// </summary>
     public enum AccelerometerCalibration
     {
         /// <summary>
-        /// Puhelin on vaakatasossa näyttö ylöspäin.
+        /// Puhelin on vaakatasossa nÃ¤yttÃ¶ ylÃ¶spÃ¤in.
         /// </summary>
         ZeroAngle,
 

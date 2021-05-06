@@ -16,12 +16,12 @@ namespace Jypeli
         High = 20,
 
         /// <summary>
-        /// Kallistus/ele tunnistetaan melko myöhään.
+        /// Kallistus/ele tunnistetaan melko myÃ¶hÃ¤Ã¤n.
         /// </summary>
         Medium = 50,
 
         /// <summary>
-        /// Kallistus/ele tunnistetaan myöhään.
+        /// Kallistus/ele tunnistetaan myÃ¶hÃ¤Ã¤n.
         /// </summary>
         Low = 70,
     }

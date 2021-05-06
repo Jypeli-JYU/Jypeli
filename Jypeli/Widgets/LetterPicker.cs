@@ -23,7 +23,7 @@ namespace Jypeli
         public event Action<LetterPicker> LetterChanged;
 
         /// <summary>
-        /// Merkit joita k‰ytet‰‰n.
+        /// Merkit joita k√§ytet√§√§n.
         /// </summary>
         public string Charset { get; set; }
 
@@ -70,12 +70,12 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Nuoli ylˆsp‰in.
+        /// Nuoli yl√∂sp√§in.
         /// </summary>
         public Widget UpArrow { get; set; }
 
         /// <summary>
-        /// Nuoli alasp‰in.
+        /// Nuoli alasp√§in.
         /// </summary>
         public Widget DownArrow { get; set; }
 
@@ -84,7 +84,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
-        /// <param name="charset">K‰ytett‰v‰t merkit.</param>
+        /// <param name="charset">K√§ytett√§v√§t merkit.</param>
         /// <param name="initialCharacter">Oletusmerkki</param>
         public LetterPicker( double width, double height, string charset = "", char initialCharacter = 'a' )
             : base( width, height )

@@ -8,16 +8,16 @@ namespace Jypeli
         private ListenContext _context = new ListenContext();
 
         /// <summary>
-        /// T‰h‰n listaan lis‰tyt kuuntelijat tuhotaan automaattisesti
-        /// kun Widget poistetaan pelist‰.
+        /// T√§h√§n listaan lis√§tyt kuuntelijat tuhotaan automaattisesti
+        /// kun Widget poistetaan pelist√§.
         /// </summary>
         internal List<Listener> associatedListeners = new List<Listener>();
 
         public ListenContext ControlContext { get { return _context; } }
 
         /// <summary>
-        /// Jos <c>true</c>, pelin sek‰ ikkunan alla olevien widgettien
-        /// ohjaimet eiv‰t ole k‰ytˆss‰ kun ikkuna on n‰kyviss‰.
+        /// Jos <c>true</c>, pelin sek√§ ikkunan alla olevien widgettien
+        /// ohjaimet eiv√§t ole k√§yt√∂ss√§ kun ikkuna on n√§kyviss√§.
         /// </summary>
         public bool IsModal { get; set; }
 

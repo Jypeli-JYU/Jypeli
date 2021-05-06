@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009 University of Jyv‰skyl‰, Department of Mathematical
+ * Copyright (c) 2009 University of Jyv√§skyl√§, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero J‰ntti, Tomi Karppinen
+ * Authors: Tero J√§ntti, Tomi Karppinen
  */
 
 using Microsoft.Xna.Framework;
@@ -45,7 +45,7 @@ namespace Jypeli
         internal long DurationInTicks = 0;
 
         /// <summary>
-        /// Id-tunnus t‰lle kosketukselle.
+        /// Id-tunnus t√§lle kosketukselle.
         /// </summary>
         public int Id { get; private set; }
 

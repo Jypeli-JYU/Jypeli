@@ -39,7 +39,7 @@ namespace Jypeli
         bool IgnoresPhysicsLogics { get; set; }
 
         /// <summary>
-        /// Tapahtuu, kun tˆrm‰t‰‰n toiseen fysiikkaolioon.
+        /// Tapahtuu, kun t√∂rm√§t√§√§n toiseen fysiikkaolioon.
         /// </summary>
         event CollisionHandler<IPhysicsObject, IPhysicsObject> Collided;
 
@@ -56,10 +56,10 @@ namespace Jypeli
     }
 
     /// <summary>
-    /// Jypelin sis‰iset metodit ja propertyt joihin k‰ytt‰j‰n ei tarvitse
-    /// p‰‰st‰ k‰siksi kuuluvat t‰h‰n luokkaan. Kaikki oliot jotka toteuttavat
-    /// IPhysicsObject-rajapinnan toteuttavat myˆs IPhysicsObjectInternal-rajapinnan.
-    /// Ota t‰m‰ huomioon jos aiot tehd‰ oman olion joka toteuttaa suoraan
+    /// Jypelin sis√§iset metodit ja propertyt joihin k√§ytt√§j√§n ei tarvitse
+    /// p√§√§st√§ k√§siksi kuuluvat t√§h√§n luokkaan. Kaikki oliot jotka toteuttavat
+    /// IPhysicsObject-rajapinnan toteuttavat my√∂s IPhysicsObjectInternal-rajapinnan.
+    /// Ota t√§m√§ huomioon jos aiot tehd√§ oman olion joka toteuttaa suoraan
     /// IPhysicsObject(Internal)-rajapinnan.
     /// <example>
     /// void UpdateObject(IPhysics obj)
@@ -73,14 +73,14 @@ namespace Jypeli
     }
 
     /// <summary>
-    /// Tˆrm‰ystapahtumiin liitett‰v‰n metodin tyyppi. Tˆrm‰yksen k‰sittelev‰ll‰
+    /// T√∂rm√§ystapahtumiin liitett√§v√§n metodin tyyppi. T√∂rm√§yksen k√§sittelev√§ll√§
     /// metodilla ei ole paluuarvoa ja se ottaa yhden <code>Collision</code>-tyyppisen
     /// parametrin.
     /// </summary>
     public delegate void CollisionHandler<O, T>( O collidingObject, T otherObject );
 
     /// <summary>
-    /// Tˆrm‰ystapahtumiin liitett‰v‰n metodin tyyppi. Tˆrm‰yksen k‰sittelev‰ll‰
+    /// T√∂rm√§ystapahtumiin liitett√§v√§n metodin tyyppi. T√∂rm√§yksen k√§sittelev√§ll√§
     /// metodilla ei ole paluuarvoa ja se ottaa yhden <code>Collision</code>-tyyppisen
     /// parametrin.
     /// </summary>

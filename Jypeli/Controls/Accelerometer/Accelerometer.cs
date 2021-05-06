@@ -18,7 +18,7 @@ namespace Jypeli
         public AccelerometerCalibration Calibration { get; set; }
 
         /// <summary>
-        /// Kallistuksen t‰m‰nhetkinen suunta.
+        /// Kallistuksen t√§m√§nhetkinen suunta.
         /// </summary>
         public Vector Reading
         {
@@ -56,7 +56,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// N‰ytˆn suunta.
+        /// N√§yt√∂n suunta.
         /// </summary>
         public DisplayOrientation DisplayOrientation
         {
@@ -64,27 +64,27 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Herkkyys jos kuunnellaan suuntia ja eleit‰ ilman erikseen annettua herkkyytt‰.
+        /// Herkkyys jos kuunnellaan suuntia ja eleit√§ ilman erikseen annettua herkkyytt√§.
         /// </summary>
         public double DefaultSensitivity { get; private set; }
 
         /// <summary>
-        /// Herkkyys jos kuunnellaan suuntia analogisesti ilman erikseen annettua herkkyytt‰.
+        /// Herkkyys jos kuunnellaan suuntia analogisesti ilman erikseen annettua herkkyytt√§.
         /// </summary>
         public double DefaultAnalogSensitivity { get; private set; }
 
         /// <summary>
-        /// M‰‰ritt‰‰ onko Shake ja Tap k‰ytˆss‰.
+        /// M√§√§ritt√§√§ onko Shake ja Tap k√§yt√∂ss√§.
         /// </summary>
         public bool GesturesEnabled { get; set; }
 
         /// <summary>
-        /// Aika millisekunteina joka pit‰‰ kulua napautusten v‰liss‰.
+        /// Aika millisekunteina joka pit√§√§ kulua napautusten v√§liss√§.
         /// </summary>
         public int TimeBetweenTaps { get; set; }
 
         /// <summary>
-        /// Aika millisekunteina joka pit‰‰ kulua ravistusten v‰liss‰.
+        /// Aika millisekunteina joka pit√§√§ kulua ravistusten v√§liss√§.
         /// </summary>
         public int TimeBetweenShakes { get; set; }
 
@@ -123,7 +123,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// K‰ynnist‰‰ kiihtyvyysanturin.
+        /// K√§ynnist√§√§ kiihtyvyysanturin.
         /// </summary>
         public virtual void Start()
         {
@@ -134,7 +134,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Pys‰ytt‰‰ kiihtyvyysanturin.
+        /// Pys√§ytt√§√§ kiihtyvyysanturin.
         /// </summary>
         public virtual void Stop()
         {
@@ -150,7 +150,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Pys‰ytt‰‰ kiihtyvyysanturin annetuksi ajaksi.
+        /// Pys√§ytt√§√§ kiihtyvyysanturin annetuksi ajaksi.
         /// </summary>
         /// <param name="seconds">Aika sekunteina</param>
         public void PauseForDuration( double seconds )

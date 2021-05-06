@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009 University of Jyv‰skyl‰, Department of Mathematical
+ * Copyright (c) 2009 University of Jyv√§skyl√§, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero J‰ntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero J√§ntti, Tomi Karppinen, Janne Nikkanen.
  */
 
 using System;
@@ -52,11 +52,11 @@ namespace Jypeli
 
     // MR, 2021:
     // TODO: AdvancedMath paketista voisi hiljalleen alkaa luopumaan.
-    // On hieman h‰mment‰v‰‰ kun lˆytyy nelj‰‰ eri vektoria (Jypeli, AdvancedMath, MonoGame sek‰ System.Numerics).
+    // On hieman h√§mment√§v√§√§ kun l√∂ytyy nelj√§√§ eri vektoria (Jypeli, AdvancedMath, MonoGame sek√§ System.Numerics).
     // Nyt kuitenkin onnistuu kaikkien noiden konversiot Jypelin kanssa.
-    // MonoGame on (ehk‰ joskus) vaihtamassa System.Numericsin vektoreihin ja matriiseihin.
+    // MonoGame on (ehk√§ joskus) vaihtamassa System.Numericsin vektoreihin ja matriiseihin.
 
-    // Matriisit voisi myˆs tuoda suoraan Jypelin puolelle, niille lˆytyy kuitenkin k‰yttˆ‰ sielt‰ sun t‰‰lt‰.
+    // Matriisit voisi my√∂s tuoda suoraan Jypelin puolelle, niille l√∂ytyy kuitenkin k√§ytt√∂√§ sielt√§ sun t√§√§lt√§.
 
 
     /// <summary>
@@ -71,17 +71,17 @@ namespace Jypeli
         public static readonly Vector Zero = new Vector( 0, 0 );
 
         /// <summary>
-        /// Yksikkˆvektori.
+        /// Yksikk√∂vektori.
         /// </summary>
         public static readonly Vector One = new Vector( 1, 1 );
 
         /// <summary>
-        /// Vaakasuuntainen yksikkˆvektori (pituus 1, suunta oikealle).
+        /// Vaakasuuntainen yksikk√∂vektori (pituus 1, suunta oikealle).
         /// </summary>
         public static readonly Vector UnitX = new Vector( 1.0, 0.0 );
 
         /// <summary>
-        /// Pystysuuntainen yksikkˆvektori (pituus 1, suunta ylˆs).
+        /// Pystysuuntainen yksikk√∂vektori (pituus 1, suunta yl√∂s).
         /// </summary>
         public static readonly Vector UnitY = new Vector( 0.0, 1.0 );
 
@@ -128,7 +128,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Luo vektorin kulman perusteella yksikkˆpituudella.
+        /// Luo vektorin kulman perusteella yksikk√∂pituudella.
         /// </summary>
         public static Vector FromAngle( Angle angle )
         {
@@ -136,7 +136,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Et‰isyys kahden pisteen v‰lill‰.
+        /// Et√§isyys kahden pisteen v√§lill√§.
         /// </summary>
         public static double Distance( Vector p1, Vector p2 )
         {
@@ -182,7 +182,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Et‰isyys kahden pisteen v‰lill‰
+        /// Et√§isyys kahden pisteen v√§lill√§
         /// </summary>
         /// <param name="vector"></param>
         /// <returns></returns>
@@ -203,7 +203,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Laskee ja palauttaa t‰m‰n pisteen et‰isyyden toiseen pisteeseen.
+        /// Laskee ja palauttaa t√§m√§n pisteen et√§isyyden toiseen pisteeseen.
         /// </summary>
         public Vector Project( Vector to )
         {
@@ -234,7 +234,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Palauttaa uuden vektorin, jossa x ja y on vaihdettu kesken‰‰n.
+        /// Palauttaa uuden vektorin, jossa x ja y on vaihdettu kesken√§√§n.
         /// </summary>
         /// <returns></returns>
         public Vector Transpose()
@@ -243,7 +243,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Palauttaa lyhimm‰n vektorin.
+        /// Palauttaa lyhimm√§n vektorin.
         /// </summary>
         /// <param name="vectors">Vektorit</param>
         /// <returns>Lyhin vektori.</returns>
@@ -266,7 +266,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Palauttaa pisimm‰n vektorin.
+        /// Palauttaa pisimm√§n vektorin.
         /// </summary>
         /// <param name="vectors">Vektorit</param>
         /// <returns>Pisin vektori.</returns>
@@ -347,7 +347,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Vektorin pituuden neliˆ.
+        /// Vektorin pituuden neli√∂.
         /// </summary>
         public double MagnitudeSquared
         {
@@ -441,8 +441,8 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Onko annettu vektori yht‰suuri t‰m‰n kanssa.
-        /// Tosi, jos vektorien komponentit ovat <c>double.Epsilon</c>in p‰‰ss‰ toisistaan.
+        /// Onko annettu vektori yht√§suuri t√§m√§n kanssa.
+        /// Tosi, jos vektorien komponentit ovat <c>double.Epsilon</c>in p√§√§ss√§ toisistaan.
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -475,7 +475,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// V‰hent‰‰ vektorit toisistaan
+        /// V√§hent√§√§ vektorit toisistaan
         /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>

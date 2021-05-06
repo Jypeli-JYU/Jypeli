@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009 University of Jyv‰skyl‰, Department of Mathematical
+ * Copyright (c) 2009 University of Jyv√§skyl√§, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -48,7 +48,7 @@ namespace Jypeli
         public string LastEnteredName = "";
 
         /// <summary>
-        /// Kuinka monta nime‰ listalle mahtuu.
+        /// Kuinka monta nime√§ listalle mahtuu.
         /// </summary>
         public int Count
         {
@@ -70,7 +70,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Nimet ja pisteet. Indeksointi alkaa yhdest‰.
+        /// Nimet ja pisteet. Indeksointi alkaa yhdest√§.
         /// <example>
         /// string ykkosenNimi = Lista[1].Name;
         /// double ykkosenPisteet = Lista[1].Score;
@@ -95,12 +95,12 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// K‰‰nteinen j‰rjestys, ts. pienempi tulos on parempi.
+        /// K√§√§nteinen j√§rjestys, ts. pienempi tulos on parempi.
         /// </summary>
         public bool Reverse { get; private set; }
 
         /// <summary>
-        /// Tapahtuu kun listan sis‰ltˆ muuttuu.
+        /// Tapahtuu kun listan sis√§lt√∂ muuttuu.
         /// </summary>
         public event Action Changed;
 
@@ -111,7 +111,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Luo tyhj‰n, 10 sijan top-listan.
+        /// Luo tyhj√§n, 10 sijan top-listan.
         /// </summary>
         public ScoreList()
             : this( 10, false, 0 )
@@ -119,11 +119,11 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Luo uuden, tyhj‰n top-listan.
+        /// Luo uuden, tyhj√§n top-listan.
         /// </summary>
-        /// <param name="length">Kuinka monta nime‰ listalla voi olla enint‰‰n.</param>
-        /// <param name="reverse">K‰‰nteinen j‰rjestys (false = suurempi tulos parempi, true = pienempi tulos parempi).</param>
-        /// <param name="baseScore">Pohjatulos, jota parempi hyv‰ksytt‰v‰n tuloksen on oltava.</param>
+        /// <param name="length">Kuinka monta nime√§ listalla voi olla enint√§√§n.</param>
+        /// <param name="reverse">K√§√§nteinen j√§rjestys (false = suurempi tulos parempi, true = pienempi tulos parempi).</param>
+        /// <param name="baseScore">Pohjatulos, jota parempi hyv√§ksytt√§v√§n tuloksen on oltava.</param>
         /// <param name="defaultName">Oletusnimi tyhjille paikoille.</param>
         public ScoreList( int length, bool reverse, double baseScore, string defaultName )
         {
@@ -140,11 +140,11 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Luo uuden, tyhj‰n top-listan.
+        /// Luo uuden, tyhj√§n top-listan.
         /// </summary>
-        /// <param name="length">Kuinka monta nime‰ listalla voi olla enint‰‰n.</param>
-        /// <param name="reverse">K‰‰nteinen j‰rjestys (false = suurempi tulos parempi, true = pienempi tulos parempi).</param>
-        /// <param name="baseScore">Pohjatulos, jota parempi hyv‰ksytt‰v‰n tuloksen on oltava.</param>
+        /// <param name="length">Kuinka monta nime√§ listalla voi olla enint√§√§n.</param>
+        /// <param name="reverse">K√§√§nteinen j√§rjestys (false = suurempi tulos parempi, true = pienempi tulos parempi).</param>
+        /// <param name="baseScore">Pohjatulos, jota parempi hyv√§ksytt√§v√§n tuloksen on oltava.</param>
         public ScoreList(int length, bool reverse, double baseScore)
              : this(length, reverse, baseScore, "-")
         {
@@ -156,7 +156,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Tarkistaa, onko kaksi listaa yht‰suuret.
+        /// Tarkistaa, onko kaksi listaa yht√§suuret.
         /// </summary>
         /// <param name="obj">Toinen lista</param>
         /// <returns></returns>
@@ -178,7 +178,7 @@ namespace Jypeli
         /// Tarkistaa, kelpaako tulos listalle.
         /// </summary>
         /// <param name="score">Tulos</param>
-        /// <returns>true jos tulos riit‰‰ listalle p‰‰semiseksi, false jos ei.</returns>
+        /// <returns>true jos tulos riit√§√§ listalle p√§√§semiseksi, false jos ei.</returns>
         public bool Qualifies( double score )
         {
             return Reverse && score < _scores[_scores.Length - 1].Score ||
@@ -186,11 +186,11 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Lis‰‰ nimen ja pisteet listalle, jos tulos on tarpeeksi hyv‰.
+        /// Lis√§√§ nimen ja pisteet listalle, jos tulos on tarpeeksi hyv√§.
         /// </summary>
         /// <param name="name">Nimi.</param>
         /// <param name="score">Pisteet.</param>
-        /// <returns>Pistesija, tai -1 jos tulos ei ole riitt‰v‰ listalle p‰‰semiseksi.</returns>
+        /// <returns>Pistesija, tai -1 jos tulos ei ole riitt√§v√§ listalle p√§√§semiseksi.</returns>
         public int Add( string name, double score )
         {
             if ( !Qualifies( score ) )
@@ -226,7 +226,7 @@ namespace Jypeli
         public string Name;
 
         /// <summary>
-        /// Pistem‰‰r‰
+        /// Pistem√§√§r√§
         /// </summary>
         [Save]
         public double Score;
@@ -235,7 +235,7 @@ namespace Jypeli
         /// Luo uuden sijoituksen listalle.
         /// </summary>
         /// <param name="name">Nimi</param>
-        /// <param name="score">Pistem‰‰r‰.</param>
+        /// <param name="score">Pistem√§√§r√§.</param>
         public ScoreItem( string name, double score )
         {
             Position = -1;

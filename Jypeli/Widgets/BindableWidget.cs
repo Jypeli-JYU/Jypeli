@@ -3,7 +3,7 @@ using System;
 namespace Jypeli.Widgets
 {
     /// <summary>
-    /// Widget, joka voidaan asettaa n‰ytt‰m‰‰n halutun mittarin arvoa.
+    /// Widget, joka voidaan asettaa n√§ytt√§m√§√§n halutun mittarin arvoa.
     /// </summary>
     public abstract class BindableWidget : Widget
     {
@@ -11,7 +11,7 @@ namespace Jypeli.Widgets
 
         /// <summary>
         /// Mittari, jonka arvoa kontrolli seuraa.
-        /// Jos kontrollia ei ole kiinnitetty mittariin, se k‰ytt‰‰ omaa sis‰ist‰ mittariaan.
+        /// Jos kontrollia ei ole kiinnitetty mittariin, se k√§ytt√§√§ omaa sis√§ist√§ mittariaan.
         /// </summary>
         public Meter Meter { get; private set; }
 
@@ -87,9 +87,9 @@ namespace Jypeli.Widgets
         }
 
         /// <summary>
-        /// Poistaa k‰ytˆst‰ tapahtuman, joka reagoi Meter.Value muutokseen kutsumalla UpdateValue-metodia.
-        /// K‰yt‰ t‰t‰, kun haluat asettaa mittarin arvon kontrollin sis‰ll‰.
-        /// ƒl‰ unohda kutsua SetChangedEvent muutoksen j‰lkeen!
+        /// Poistaa k√§yt√∂st√§ tapahtuman, joka reagoi Meter.Value muutokseen kutsumalla UpdateValue-metodia.
+        /// K√§yt√§ t√§t√§, kun haluat asettaa mittarin arvon kontrollin sis√§ll√§.
+        /// √Ñl√§ unohda kutsua SetChangedEvent muutoksen j√§lkeen!
         /// </summary>
         protected void UnsetChangedEvent()
         {
@@ -134,7 +134,7 @@ namespace Jypeli.Widgets
 
         /// <summary>
         /// Kutsutaan automaattisesti, kun mittarin arvo on muuttunut.
-        /// Ylikirjoita t‰m‰ koodilla, joka muuttaa widgetin ulkon‰kˆ‰ asianmukaisesti.
+        /// Ylikirjoita t√§m√§ koodilla, joka muuttaa widgetin ulkon√§k√∂√§ asianmukaisesti.
         /// </summary>
         protected abstract void UpdateValue();
     }

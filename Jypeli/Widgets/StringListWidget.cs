@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009-2011 University of Jyv‰skyl‰, Department of Mathematical
+ * Copyright (c) 2009-2011 University of Jyv√§skyl√§, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tomi Karppinen, Tero J‰ntti
+ * Authors: Tomi Karppinen, Tero J√§ntti
  */
 
 using System;
@@ -36,7 +36,7 @@ using FontStashSharp;
 namespace Jypeli
 {
     /// <summary>
-    /// K‰yttˆliittym‰komponentti, joka n‰ytt‰‰ listan merkkijonoja.
+    /// K√§ytt√∂liittym√§komponentti, joka n√§ytt√§√§ listan merkkijonoja.
     /// </summary>
     public class StringListWidget : ListWidget<string, Label>
     {
@@ -59,7 +59,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Tekstin v‰ri.
+        /// Tekstin v√§ri.
         /// </summary>
         public Color TextColor
         {
@@ -118,7 +118,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Luo uuden (tyhj‰n) merkkijonolistakomponentin, joka on sidottu olemassaolevaan
+        /// Luo uuden (tyhj√§n) merkkijonolistakomponentin, joka on sidottu olemassaolevaan
         /// listaan.
         /// </summary>
         /// <param name="list">Olemassaoleva lista.</param>
@@ -128,7 +128,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Luo uuden (tyhj‰n) merkkijonolistakomponentin.
+        /// Luo uuden (tyhj√§n) merkkijonolistakomponentin.
         /// </summary>
         public StringListWidget()
             : base( new StringList() )

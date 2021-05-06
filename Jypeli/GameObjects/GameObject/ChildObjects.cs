@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009 University of Jyv‰skyl‰, Department of Mathematical
+ * Copyright (c) 2009 University of Jyv√§skyl√§, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero J‰ntti, Tomi Karppinen, Janne Nikkanen, Mikko Rˆyskˆ
+ * Authors: Tero J√§ntti, Tomi Karppinen, Janne Nikkanen, Mikko R√∂ysk√∂
  */
 
 using System;
@@ -48,7 +48,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Olion lapsiolioiden lukum‰‰r‰.
+        /// Olion lapsiolioiden lukum√§√§r√§.
         /// Kuten Objects.Count, mutta optimoitu.
         /// </summary>
         public int ObjectCount
@@ -90,10 +90,10 @@ namespace Jypeli
         public SynchronousList<GameObject> GetChildObjectList => Objects;
 
         /// <summary>
-        /// Lis‰‰ annetun peliolion t‰m‰n olion lapseksi. Lapsiolio liikkuu t‰m‰n olion mukana.
+        /// Lis√§√§ annetun peliolion t√§m√§n olion lapseksi. Lapsiolio liikkuu t√§m√§n olion mukana.
         /// </summary>
         /// <remarks>
-        /// <c>PhysicsObject</c>-tyyppiset oliot voi lis‰t‰ lapsiolioksi ainoastaan jos k‰ytˆss‰ on Farseer-fysiikkamoottori.
+        /// <c>PhysicsObject</c>-tyyppiset oliot voi lis√§t√§ lapsiolioksi ainoastaan jos k√§yt√∂ss√§ on Farseer-fysiikkamoottori.
         /// </remarks>
         public void Add( IGameObject childObject )
         {
@@ -117,8 +117,8 @@ namespace Jypeli
         /// kutsu mielummin olion <c>Destroy</c>-metodia. 
         /// </summary> 
         /// <remarks> 
-        /// Oliota ei poisteta v‰littˆm‰sti, vaan viimeist‰‰n seuraavan 
-        /// p‰ivityksen j‰lkeen. 
+        /// Oliota ei poisteta v√§litt√∂m√§sti, vaan viimeist√§√§n seuraavan 
+        /// p√§ivityksen j√§lkeen. 
         /// </remarks> 
         public void Remove( IGameObject childObject )
         {
@@ -202,7 +202,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Antaa olion korkeimman tason is‰nt‰olion.
+        /// Antaa olion korkeimman tason is√§nt√§olion.
         /// Eli vanhemman vanhemman...
         /// </summary>
         /// <returns></returns>

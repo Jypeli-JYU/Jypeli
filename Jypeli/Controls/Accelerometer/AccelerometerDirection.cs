@@ -21,7 +21,7 @@ namespace Jypeli
         Right,
 
         /// <summary>
-        /// Kallistetaan ylˆs.
+        /// Kallistetaan yl√∂s.
         /// </summary>
         Up,
 
@@ -36,7 +36,7 @@ namespace Jypeli
         Shake,
 
         /// <summary>
-        /// Puhelimen "nopea liike"-ele, esim. n‰p‰ytys tai t‰r‰hdys.
+        /// Puhelimen "nopea liike"-ele, esim. n√§p√§ytys tai t√§r√§hdys.
         /// </summary>
         Tap
     }

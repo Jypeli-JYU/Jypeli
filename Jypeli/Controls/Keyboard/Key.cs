@@ -1,6 +1,6 @@
 #region MIT License
 /*
- * Copyright (c) 2009 University of Jyv‰skyl‰, Department of Mathematical
+ * Copyright (c) 2009 University of Jyv√§skyl√§, Department of Mathematical
  * Information Technology.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@
 #endregion
 
 /*
- * Authors: Tero J‰ntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero J√§ntti, Tomi Karppinen, Janne Nikkanen.
  */
 
 using Microsoft.Xna.Framework.Input;
@@ -32,7 +32,7 @@ using Microsoft.Xna.Framework.Input;
 namespace Jypeli
 {
     /// <summary>
-    /// N‰pp‰imistˆn n‰pp‰in.
+    /// N√§pp√§imist√∂n n√§pp√§in.
     /// </summary>
     public enum Key
     {

@@ -62,11 +62,9 @@ namespace Jypeli
 
         /// <summary>
         /// Kirjaston mukana tuleva sisältö.
-        /// Voidaan käyttää esimerkiksi tekstuurien lataamiseen.
+        /// Voidaan käyttää esimerkiksi sisäisten tekstuurien lataamiseen.
         /// </summary>
         public static JypeliContentManager ResourceContent { get; private set; }
-
-        private static string internalResourcePath = "Jypeli.Content.";
 
         private void InitXnaContent()
         {
@@ -92,8 +90,7 @@ namespace Jypeli
         /// <returns>Kuva</returns>
         public static Image LoadImageFromResources(string name)
         {
-            name = internalResourcePath + "Images." + name;
-            return new Image(Texture2D.FromStream(Game.GraphicsDevice, ResourceContent.StreamInternalResource(name)));
+            return ResourceContent.LoadInternalImage(name);
         }
 
         /// <summary>
@@ -169,8 +166,7 @@ namespace Jypeli
         /// <returns>SoundEffect-olio</returns>
         public static SoundEffect LoadSoundEffectFromResources(string name)
         {
-            name = internalResourcePath + "Sounds." + name;
-            return new SoundEffect(XnaSoundEffect.FromStream(ResourceContent.StreamInternalResource(name)));
+            return ResourceContent.LoadInternalSoundEffect(name);
         }
 
         /// <summary>

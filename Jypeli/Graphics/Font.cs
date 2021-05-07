@@ -209,7 +209,7 @@ namespace Jypeli
                 fontSystem = new FontSystem(StbTrueTypeSharpFontLoader.Instance, new Texture2DManager(Game.GraphicsDevice), 1024, 1024, blurAmount, StrokeAmount);
 
                 Stream s;
-                if (this.source == ContentSource.ResourceContent) s = Game.ResourceContent.StreamInternalResource("Jypeli.Content.Fonts." + name);
+                if (this.source == ContentSource.ResourceContent) s = Game.ResourceContent.StreamInternalFont(name);
                 else s = File.Open(name, FileMode.Open, FileAccess.Read, FileShare.ReadWrite); // Tässä pitää jostain syystä olla ReadWrite, vaikka tiedosto ainoastaan luetaan.
 
                 fontSystem.AddFont(s);

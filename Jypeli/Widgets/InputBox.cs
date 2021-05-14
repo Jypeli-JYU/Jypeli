@@ -24,14 +24,11 @@
 #endregion
 
 /*
- * Authors: Tomi Karppinen, Tero Jäntti, Rami Pasanen
+ * Authors: Tomi Karppinen, Tero Jäntti, Rami Pasanen, Mikko Röyskö
  */
-
 
 using System;
 using Microsoft.Xna.Framework;
-
-// TODO: text input on Windows Phone
 
 namespace Jypeli
 {
@@ -65,6 +62,14 @@ namespace Jypeli
         /// </summary>
         public Widget Cursor { get; set; }
 
+        /// <summary>
+        /// Kursorin sijainti tekstissä.
+        /// </summary>
+        public int CursorPos { get; set; }
+
+        private int distFromEnd = 0;
+        private int firstVisibleChar = 0;
+
         public override Vector PreferredSize
         {
             get
@@ -84,6 +89,10 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Laatikkoon kirjoitettu teksti.
+        /// Jos asetetaan teksti joka on pidempi kuin <c>MaxCharacters</c>, se katkaistaan.
+        /// </summary>
         public override string Text
         {
             get { return base.Text; }
@@ -133,7 +142,7 @@ namespace Jypeli
             SizeMode = TextSizeMode.None;
             Size = PreferredSize;
 
-            Cursor = new Widget( Font.CharacterWidth, Font.CharacterHeight );
+            Cursor = new Widget(Font.MeasureSize("I").X/2, Font.CharacterHeight);
             Cursor.Color = new Color(255, 0, 0, 100);
             Add( Cursor );
             AddedToGame += UpdateCursorPosition;
@@ -143,7 +152,7 @@ namespace Jypeli
             cursorBlinkTimer.Timeout += BlinkCursor;
 
             AddedToGame += OnAdded;
-            Removed += onRemoved;
+            Removed += OnRemoved;
         }
        
         private void OnAdded()
@@ -156,8 +165,10 @@ namespace Jypeli
 #endif
 
             Game.Instance.Window.TextInput += InputText;
-			var l = Game.Instance.Keyboard.Listen(Key.Back, ButtonState.Pressed, EraseText, null).InContext(this);
-            associatedListeners.Add(l);
+            associatedListeners.Add(Game.Instance.Keyboard.Listen(Key.Back, ButtonState.Pressed, EraseText, null).InContext(this));
+            associatedListeners.Add(Game.Instance.Keyboard.Listen(Key.Left, ButtonState.Pressed, MoveCursor, null, -1).InContext(this));
+            associatedListeners.Add(Game.Instance.Keyboard.Listen(Key.Right, ButtonState.Pressed, MoveCursor, null, 1).InContext(this));
+            // TODO: Jos nuolta pitää hetken pohjassa, alkaa kursori liikkua nopeasti sivusuunnassa.
         }
 
 #if ANDROID
@@ -208,14 +219,13 @@ namespace Jypeli
 
 #endif
 
-        private void onRemoved()
+        private new void OnRemoved()
         {
             cursorBlinkTimer.Stop();
 #if ANDROID
             HideVirtualKeyboard();
 #endif
             Game.Instance.Window.TextInput -= InputText;
-
         }
 
         private void BlinkCursor()
@@ -223,16 +233,43 @@ namespace Jypeli
             Cursor.IsVisible = !Cursor.IsVisible;
         }
 
-        void UpdateCursorPosition()
+        private void UpdateCursorPosition()
         {
-            Cursor.Left = Math.Min( -Width / 2 + XMargin + TextSize.X, Width / 2 - Font.CharacterWidth );
+            string shownText = ShownText();
+            int endPos = CursorPos - firstVisibleChar;
+            double strLen = Font.MeasureSize(shownText.Substring(0, endPos < 0 ? 0 : endPos > shownText.Length ? shownText.Length : endPos)).X;
+            Cursor.Left = Left + strLen + Cursor.Width/2; // TODO: Tää menee vielä hieman pieleen, koska teksti ei aina välttämättä ala samasta kohtaa vasemmasta reunasta.
         }
 
+        private void MoveCursor(int dir)
+        {
+            if (CursorPos > 0 && dir == -1)
+            {
+                CursorPos--;
+                while (CursorPos < firstVisibleChar) {
+                    ShownText();
+                    distFromEnd++;
+                }
+            }
 
-        void InputText( object sender, TextInputEventArgs e )
+            if (CursorPos < Text.Length && dir == 1)
+            {
+                CursorPos++;
+                while (CursorPos > Text.Length - distFromEnd)
+                {
+                    distFromEnd--;
+                    ShownText();
+                }
+            }
+
+            UpdateCursorPosition();
+        }
+
+        private void InputText( object sender, TextInputEventArgs e )
         {
             if ( !this.ControlContext.Active ) return;
-			if ( e.Character == 0x7F || e.Character == 0x08 ) return;
+            char input = e.Character;
+            if ( input == 0x7F || input == 0x08 || input == 0x1B ) return; // delete, backspace, esc
 
             // TODO: Ei välttämättä tarvi välittää
             /*
@@ -242,44 +279,54 @@ namespace Jypeli
                 return;
             }
             */
-            AddText(e.Character.ToString());
+            AddText(input.ToString());
         }
 
 
-        void AddText(string text)
+        private void AddText(string text)
         {
-            Text += text;
+            Text = Text.Insert(CursorPos, text);
+            CursorPos++;
             OnTextChanged();
             UpdateCursorPosition();
         }
 
-        void EraseText()
+        private void EraseText()
         {
-            if (Text.Length == 0) return;
-            Text = Text.Substring(0, Text.Length - 1);
+            if (Text.Length == 0 || CursorPos == 0) return;
+            Text = Text.Remove(CursorPos-1, 1);
+            CursorPos--;
             OnTextChanged();
+            UpdateCursorPosition();
         }
 
-        public override void Draw( Matrix parentTransformation, Matrix transformation )
+        private string ShownText()
         {
-            if ( ! IsTruncated )
-                base.Draw( parentTransformation, transformation, Text );
-            else
+            string shownText = "";
+
+            for ( int i = Text.Length - 1 - distFromEnd; i >= 0; i-- )
             {
-                String shownText = "";
+                string newText = Text[i] + shownText;
 
-                for ( int i = Text.Length - 1; i >= 0; i-- )
+                if (Font.XnaFont.MeasureString(newText).X >= Width)
                 {
-                    String newText = Text[i] + shownText.ToString();
-
-                    if ( Font.XnaFont.MeasureString( newText ).X >= Width )
-                        break;
-
-                    shownText = newText;
+                    firstVisibleChar = i + 1;
+                    break;
                 }
 
-                base.Draw( parentTransformation, transformation, shownText );
+                firstVisibleChar = i;
+                shownText = newText;
             }
+
+            return shownText;
+        }
+        
+        public override void Draw(Matrix parentTransformation, Matrix transformation)
+        {
+            if(!IsTruncated)
+                base.Draw(parentTransformation, transformation, Text);
+            else
+                base.Draw(parentTransformation, transformation, ShownText());
         }
     }
 }

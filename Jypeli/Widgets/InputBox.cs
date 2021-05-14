@@ -235,10 +235,12 @@ namespace Jypeli
 
         private void UpdateCursorPosition()
         {
+            Cursor.Height = Font.MeasureSize("I").Y;
             string shownText = ShownText();
             int endPos = CursorPos - firstVisibleChar;
             double strLen = Font.MeasureSize(shownText.Substring(0, endPos < 0 ? 0 : endPos > shownText.Length ? shownText.Length : endPos)).X;
-            Cursor.Left = Left + strLen + Cursor.Width/2; // TODO: Tää menee vielä hieman pieleen, koska teksti ei aina välttämättä ala samasta kohtaa vasemmasta reunasta.
+            Cursor.Left = Left + strLen + Cursor.Width*2;
+            
         }
 
         private void MoveCursor(int dir)
@@ -308,7 +310,7 @@ namespace Jypeli
             {
                 string newText = Text[i] + shownText;
 
-                if (Font.XnaFont.MeasureString(newText).X >= Width)
+                if (Font.XnaFont.MeasureString(newText).X >= Width - XMargin * 2)
                 {
                     firstVisibleChar = i + 1;
                     break;

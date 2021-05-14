@@ -61,6 +61,15 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Tekstin fontti
+        /// </summary>
+        public Font Font
+        {
+            get { return InputBox.Font; }
+            set { InputBox.Font = value; }
+        }
+
+        /// <summary>
         /// Näytetäänkö ikkuna puhelimella. Oletuksena false, jolloin näytetään vain
         /// puhelimen oma tekstinsyöttöikkuna.
         /// </summary>

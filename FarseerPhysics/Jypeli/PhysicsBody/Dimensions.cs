@@ -142,7 +142,7 @@ namespace Jypeli
             if (shape is RaySegment)
             {
                 RaySegment raySegment = (RaySegment)shape;
-                res.Add(PolygonTools.CreateLine(raySegment.Origin, raySegment.Origin + raySegment.Direction*raySegment.Length));
+                res.Add(PolygonTools.CreateLine(raySegment.Origin, raySegment.Origin + raySegment.Direction * raySegment.Length * FSConvert.DisplayToSim));
                 return res;
             }
             else if (shape is Rectangle)

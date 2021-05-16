@@ -1,6 +1,7 @@
 ﻿using AdvanceMath;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Jypeli
 {
@@ -9,7 +10,6 @@ namespace Jypeli
     /// </summary>
     public class PhysicsStructure : GameObjects.GameObjectBase, IPhysicsObjectInternal, GameObjectContainer
     {
-        private double _softness = 0;
         private List<PhysicsObject> objects;
 
         /// <summary>
@@ -71,9 +71,12 @@ namespace Jypeli
         bool _ignoresLighting = false;
         PhysicsObject centerObject;
 
+        /// <summary>
+        /// Onko olio näkyvissä.
+        /// </summary>
         public bool IsVisible
         {
-            get { return false; }
+            get { return _isVisible; }
             set
             {
                 foreach (var obj in objects)
@@ -135,7 +138,7 @@ namespace Jypeli
 
         public Color Color
         {
-            get { throw new NotImplementedException(); }
+            get { return Color.Transparent; }
             set
             {
                 foreach (var obj in objects)
@@ -149,11 +152,8 @@ namespace Jypeli
             set { throw new NotImplementedException(); }
         }
 
-        //TODO
         /// <summary>
-        /// HUOM!
-        /// Fysiikkamoottorin bugin takia joillain kappaleilla tämän käyttö voi tuottaa "haamuvoimia", kappale lähtee itsestään pyörimään.
-        /// Joko aseta CanRotate = false, tai 
+        /// Olion kulma
         /// </summary>
         public override Angle Angle
         {
@@ -182,102 +182,195 @@ namespace Jypeli
             get { return null; }
         }
 
+        /// <summary>
+        /// Massa
+        /// </summary>
         public double Mass
         {
-            get { return centerObject.Mass; }
-            set { centerObject.Mass = value; }
+            get { return objects.Sum(item => item.Mass); }
+            set { objects.ForEach(item => item.Mass = value); }
         }
 
+        /// <summary>
+        /// Jätetäänkö painovoima huomioimatta
+        /// </summary>
         public bool IgnoresGravity
         {
             get { return centerObject.IgnoresGravity; }
-            set { centerObject.IgnoresGravity = value; }
+            set 
+            {
+                objects.ForEach(item => item.IgnoresGravity = value);
+                centerObject.IgnoresGravity = value;
+            }
         }
 
+        /// <summary>
+        /// Jätetäänkö törmäykset huomioimatta
+        /// </summary>
         public bool IgnoresCollisionResponse
         {
             get { return centerObject.IgnoresCollisionResponse; }
-            set { centerObject.IgnoresCollisionResponse = value; }
+            set 
+            {
+                objects.ForEach(item => item.IgnoresCollisionResponse = value);
+                centerObject.IgnoresCollisionResponse = value;
+            }
         }
 
+        /// <summary>
+        /// Jätetäänkö räjähdyksien paineaalto huomioimatta
+        /// </summary>
         public bool IgnoresExplosions
         {
             get { return centerObject.IgnoresExplosions; }
-            set { centerObject.IgnoresExplosions = value; }
+            set 
+            {
+                objects.ForEach(item => item.IgnoresExplosions = value);
+                centerObject.IgnoresExplosions = value;
+            }
         }
+
 
         public bool IgnoresPhysicsLogics
         {
             get { return centerObject.IgnoresPhysicsLogics; }
-            set { centerObject.IgnoresPhysicsLogics = value; }
+            set
+            {
+                objects.ForEach(item => item.IgnoresExplosions = value);
+                centerObject.IgnoresExplosions = value;
+            }
         }
 
+        /// <summary>
+        /// Olio, jolla voidaan välttää törmäykset muihin olioihin
+        /// </summary>
         public Ignorer CollisionIgnorer
         {
             get { return centerObject.CollisionIgnorer; }
-            set { centerObject.CollisionIgnorer = value; }
+            set
+            {
+                objects.ForEach(item => item.CollisionIgnorer = value);
+                centerObject.CollisionIgnorer = value;
+            }
         }
 
+        /// <summary>
+        /// Törmäysryhmä.
+        /// Oliot jotka ovat samassa törmäysryhmässä menevät toistensa läpi.
+        /// Jos ryhmä on nolla tai negatiivinen, sillä ei ole vaikutusta.
+        /// </summary>
         public int CollisionIgnoreGroup
         {
             get { return centerObject.CollisionIgnoreGroup; }
-            set { centerObject.CollisionIgnoreGroup = value; }
+            set
+            {
+                objects.ForEach(item => item.CollisionIgnoreGroup = value);
+                centerObject.CollisionIgnoreGroup = value;
+            }
         }
 
+        /// <summary>
+        /// Lepokitka
+        /// </summary>
         public double StaticFriction
         {
             get { return centerObject.StaticFriction; }
-            set { centerObject.StaticFriction = value; }
+            set
+            {
+                objects.ForEach(item => item.StaticFriction = value);
+                centerObject.StaticFriction = value;
+            }
         }
 
+        /// <summary>
+        /// Liikekita
+        /// </summary>
         public double KineticFriction
         {
             get { return centerObject.KineticFriction; }
-            set { centerObject.KineticFriction = value; }
+            set
+            {
+                objects.ForEach(item => item.KineticFriction = value);
+                centerObject.KineticFriction = value;
+            }
         }
 
+        /// <summary>
+        /// Kimmoisuuskerroin (0 = ei kimmoisa, 1 = täysin kimmoisa, yli 1 = saa energiaa tyhjästä)
+        /// </summary>
         public double Restitution
         {
             get { return centerObject.Restitution; }
-            set { centerObject.Restitution = value; }
+            set
+            {
+                objects.ForEach(item => item.Restitution = value);
+                centerObject.Restitution = value;
+            }
         }
 
+        /// <summary>
+        /// Nopeuskerroin.
+        /// Pienempi arvo kuin 1 (esim. 0.998) toimii kuten kitka / ilmanvastus.
+        /// </summary>
         public double LinearDamping
         {
             get { return centerObject.LinearDamping; }
-            set { centerObject.LinearDamping = value; }
+            set
+            {
+                objects.ForEach(item => item.LinearDamping = value);
+                centerObject.LinearDamping = value;
+            }
         }
 
+        /// <summary>
+        /// Kulmanopeuskerroin.
+        /// Pienempi arvo kuin 1 (esim. 0.998) toimii kuten kitka / ilmanvastus.
+        /// </summary>
         public double AngularDamping
         {
             get { return centerObject.AngularDamping; }
             set { centerObject.AngularDamping = value; }
         }
 
+        /// <summary>
+        /// Keskipisteen nopeus
+        /// </summary>
         public Vector Velocity
         {
             get { return centerObject.Velocity; }
             set { centerObject.Velocity = value; }
         }
 
+        /// <summary>
+        /// Keskipisteen kulmanopeus
+        /// </summary>
         public double AngularVelocity
         {
             get { return centerObject.AngularVelocity; }
             set { centerObject.AngularVelocity = value; }
         }
 
+        /// <summary>
+        /// Keskipisteen kiihtyvyys
+        /// </summary>
         public Vector Acceleration
         {
             get { return centerObject.Acceleration; }
             set { centerObject.Acceleration = value; }
         }
 
+        /// <summary>
+        /// Keskipisteen kulmakiihtyvyys
+        /// </summary>
         public double AngularAcceleration
         {
             get { return centerObject.AngularAcceleration; }
             set { centerObject.AngularAcceleration = value; }
         }
 
+        /// <summary>
+        /// Hitausmomentti
+        /// </summary>
         public double MomentOfInertia
         {
             get { return _setMomentOfInertia.HasValue ? _setMomentOfInertia.Value : _calcMomentOfInertia; }

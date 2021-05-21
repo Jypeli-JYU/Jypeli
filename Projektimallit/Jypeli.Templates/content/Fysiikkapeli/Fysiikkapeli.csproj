@@ -2,14 +2,14 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+        <TargetFrameworks>net5.0</TargetFrameworks>
         <PublishReadyToRun>false</PublishReadyToRun>
         <TieredCompilation>false</TieredCompilation>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Jypeli.Core" Version="9.*" />
-        <PackageReference Include="Jypeli.Physics2d.Core" Version="1.5.*" />
+        <PackageReference Include="Jypeli.NET" Version="10.*" />
+        <PackageReference Include="Jypeli.FarseerPhysics.NET" Version="1.0.*" />
     </ItemGroup>
 
 </Project>

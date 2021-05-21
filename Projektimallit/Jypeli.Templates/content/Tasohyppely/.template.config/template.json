@@ -18,5 +18,5 @@
     ],
     "sourceName": "Tasohyppelypeli",
     "preferNameDirectory": "true",
-    "description": "Peli jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää Physics2d-fysiikkamoottoria."
+    "description": "Peli jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää FarseerPhysics-fysiikkamoottoria."
 }

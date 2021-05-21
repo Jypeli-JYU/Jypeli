@@ -2,13 +2,13 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+        <TargetFrameworks>net5.0</TargetFrameworks>
         <PublishReadyToRun>false</PublishReadyToRun>
         <TieredCompilation>false</TieredCompilation>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Jypeli.Core" Version="9.*" />
+        <PackageReference Include="Jypeli.NET" Version="10.*" />
     </ItemGroup>
 
 </Project>

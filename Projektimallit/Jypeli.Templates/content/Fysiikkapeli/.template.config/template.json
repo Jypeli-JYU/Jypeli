@@ -18,5 +18,5 @@
     ],
     "sourceName": "Fysiikkapeli",
     "preferNameDirectory": "true",
-    "description": "Fysiikkapeli joka käyttää Physics2d-fysiikkamoottoria."
+    "description": "Fysiikkapeli joka käyttää FarseerPhysics-fysiikkamoottoria."
 }

@@ -16,7 +16,7 @@
 
     <NoWarn>NU5128</NoWarn>
 
-    <Authors>University of Jyväskylä</Authors>
+    <Author>University of Jyväskylä</Author>
 
     <Product>Jypelin projektimallit</Product>
   </PropertyGroup>

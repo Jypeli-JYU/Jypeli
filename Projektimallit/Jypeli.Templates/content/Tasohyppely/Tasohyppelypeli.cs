@@ -28,6 +28,8 @@ public class Tasohyppelypeli : PhysicsGame
         Camera.Follow(pelaaja1);
         Camera.ZoomFactor = 1.2;
         Camera.StayInLevel = true;
+        
+        MasterVolume = 0.5;
     }
 
     private void LuoKentta()

@@ -548,7 +548,7 @@ namespace FarseerPhysics.Dynamics
 #if USE_ACTIVE_CONTACT_SET
 			ActiveList.Clear();
 #endif
-
+            // TODO: Jää joskus tänne jumiin.
             // update contacts
             System.Threading.Tasks.Parallel.ForEach<Contact>(updateList, (c) =>
             {

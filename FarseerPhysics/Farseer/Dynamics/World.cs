@@ -146,14 +146,14 @@ namespace FarseerPhysics.Dynamics
         /// Käytetäänkö fysiikan laskemiseen useampaa prosessoriydintä.
         /// Mikäli <c>true</c>, käytetään 2 * järjestelmässä olevaa säiettä.
         /// </summary>
-        public static bool Multithreaded { get; set; } = true;
+        public static bool Multithreaded { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="World"/> class.
         /// </summary>
         public World()
         {
-            Multithreaded = true;
+            Multithreaded = false;
             Island = new Island();
             Enabled = true;
             ControllerList = new List<Controller>();
@@ -996,7 +996,7 @@ namespace FarseerPhysics.Dynamics
                 throw new ArgumentException("You are removing a body that is not in the simulation.", "body");
 
 #if USE_AWAKE_BODY_SET
-            Debug.Assert(!AwakeBodySet.Contains(body));
+            if (!AwakeBodySet.Contains(body)) return; //TODO: Selvitä miksi kappale ei aina ole täällä.
 #endif
 
             // Delete the attached joints.
@@ -1037,10 +1037,6 @@ namespace FarseerPhysics.Dynamics
 
             if (BodyRemoved != null)
                 BodyRemoved(this, body);
-
-#if USE_AWAKE_BODY_SET
-            Debug.Assert(!AwakeBodySet.Contains(body));
-#endif
         }
         
         /// <summary>

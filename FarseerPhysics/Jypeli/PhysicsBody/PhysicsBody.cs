@@ -53,6 +53,12 @@ namespace Jypeli
         public IPhysicsObject Owner { get; internal set; }
 
         /// <summary>
+        /// Luotavien fysiikkakappaleiden oletustiheys.
+        /// Oletuksena 0.001.
+        /// </summary>
+        public static float DefaultDensity { get; set; } = 0.001f;
+
+        /// <summary>
         /// Jättääkö olio painovoiman huomioimatta.
         /// </summary>
         public bool IgnoresGravity
@@ -118,13 +124,13 @@ namespace Jypeli
             FSBody.Enabled = false;
             if (shape is Ellipse && width == height)
             {
-                Fixture f = FixtureFactory.AttachCircle((float)height * FSConvert.DisplayToSim / 2, 1f, FSBody);
+                Fixture f = FixtureFactory.AttachCircle((float)height * FSConvert.DisplayToSim / 2, DefaultDensity, FSBody);
                 f.Tag = FSBody;
             }
             else
             {
                 List<Vertices> vertices = CreatePhysicsShape(shape, this._size);
-                List<Fixture> fixtures = FixtureFactory.AttachCompoundPolygon(vertices, 1f, FSBody);
+                List<Fixture> fixtures = FixtureFactory.AttachCompoundPolygon(vertices, DefaultDensity, FSBody);
                 fixtures.ForEach((f) => f.Tag = FSBody);
             }
         }

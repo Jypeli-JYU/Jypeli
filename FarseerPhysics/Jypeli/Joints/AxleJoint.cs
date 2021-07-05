@@ -93,7 +93,7 @@ namespace Jypeli
             World world = PhysicsGame.Instance.Engine as World;
             var first = firstObject.Body as PhysicsBody;
             var second = secondObject.Body as PhysicsBody;
-            InnerJoint = JointFactory.CreateDistanceJoint(world, first.FSBody, second.FSBody);
+            InnerJoint = JointFactory.CreateDistanceJoint(world, first.FSBody, second.FSBody, axlePosition * FSConvert.DisplayToSim, Vector.Zero);
             //InnerJoint.Enabled = false;
             Object1 = firstObject;
             Object2 = secondObject;

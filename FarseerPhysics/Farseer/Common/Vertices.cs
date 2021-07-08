@@ -224,7 +224,7 @@ namespace FarseerPhysics.Common
         /// <param name="value">The vector.</param>
         public void Translate(ref Vector2 value)
         {
-            Debug.Assert(!AttachedToBody, "Translating vertices that are used by a Body can result in unstable behavior. Use Body.Position instead.");
+            //Debug.Assert(!AttachedToBody, "Translating vertices that are used by a Body can result in unstable behavior. Use Body.Position instead.");
 
             for (int i = 0; i < Count; i++)
                 this[i] = this[i] + value;
@@ -276,7 +276,7 @@ namespace FarseerPhysics.Common
         /// <param name="value">The amount to rotate by in radians.</param>
         public void Rotate(float value)
         {
-            Debug.Assert(!AttachedToBody, "Rotating vertices that are used by a Body can result in unstable behavior.");
+            //Debug.Assert(!AttachedToBody, "Rotating vertices that are used by a Body can result in unstable behavior.");
 
             float num1 = (float)Math.Cos(value);
             float num2 = (float)Math.Sin(value);

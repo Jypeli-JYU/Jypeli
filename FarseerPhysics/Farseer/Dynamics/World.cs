@@ -1792,8 +1792,9 @@ namespace FarseerPhysics.Dynamics
                         break;
                 }
             }
-
+            fsBody2.FixtureList.Clear();
             fsBody2.Enabled = false;
+            fsBody1.ResetMassData();
         }
 
         public void AddJoint(IAxleJoint joint)

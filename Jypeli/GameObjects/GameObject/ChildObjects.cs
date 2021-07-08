@@ -95,7 +95,7 @@ namespace Jypeli
         /// <remarks>
         /// <c>PhysicsObject</c>-tyyppiset oliot voi lisätä lapsiolioksi ainoastaan jos käytössä on Farseer-fysiikkamoottori.
         /// </remarks>
-        public void Add( IGameObject childObject )
+        public void Add(IGameObject childObject)
         {
             //if (childObject is Jypeli.Assets.Explosion)
             //    throw new ArgumentException("Explosion as child object is not supported. Use Game.Add(explosion) instead.");
@@ -110,6 +110,8 @@ namespace Jypeli
 
             Objects.Add( (GameObject)childObject );
             childObject.Parent = this;
+            ((GameObject)childObject).InitialRelativePosition = childObject.RelativePositionToMainParent;
+            ((GameObject)childObject).InitialRelativeAngle = childObject.RelativeAngleToMainParent;
         }
 
         /// <summary> 
@@ -183,22 +185,11 @@ namespace Jypeli
         private void UpdateChildren( Time time )
         {
             Objects.Update( time );
-        }
 
-        internal void AdjustChildPosition(Vector posChange, Angle angleChange)
-        {
-            foreach (var child in Objects)
-            {
-                Vector transform = child.Position.Transform(
-                    Matrix.CreateTranslation(-child.Parent.Position) * 
-                    Matrix.CreateRotationZ((float)angleChange.Radians) *
-                    Matrix.CreateTranslation(child.Parent.Position) *
-                    Matrix.CreateTranslation(posChange)
-                    );
-
-                child.Position = transform;
-                child.Angle += angleChange;
-            }
+            Objects.ForEach(o => {
+                o.RelativePositionToMainParent = o.InitialRelativePosition;
+                o.RelativeAngleToMainParent = o.InitialRelativeAngle;
+            });
         }
 
         /// <summary>

@@ -23,46 +23,27 @@ namespace Jypeli
             }
         }
 
-        private Vector prevPos;
+        /// <inheritdoc/>
         public override Vector Position
         {
             get { return Body.Position; }
             set 
             {
-                _childObjects?.UpdateChanges(); // Lapsioliot eivät muuten välttämättä vielä ole tällä listalla.
-                if (_childObjects?.Count != 0)
-                {
-                    Vector change = value - prevPos;
-                    AdjustChildPosition(change, Angle.Zero);
-                }
                 Body.Position = value;
-                prevPos = value;
-                if (Parent != null)
-                    Body.RegenerateConnectedFixtures();
             }
         }
 
-        private Angle prevAngle;
-        [Save]
+        /// <inheritdoc/>
         public override Angle Angle
         {
-            get { return Angle.FromRadians( Body.Angle ); }
+            get { return Angle.FromRadians(Body.Angle); }
             set 
             {
-                _childObjects?.UpdateChanges(); // Lapsioliot eivät muuten välttämättä vielä ole tällä listalla.
-                if (_childObjects?.Count != 0)
-                {
-                    Angle change = value - prevAngle;
-                    AdjustChildPosition(Vector.Zero, change);
-                }
                 Body.Angle = value.Radians;
-                prevAngle = value;
-                if (Parent != null)
-                    Body.RegenerateConnectedFixtures();
             }
         }
 
-        [Save]
+        /// <inheritdoc/>
         public override Vector Size
         {
             get { return (Vector)Body.Size; }
@@ -74,7 +55,7 @@ namespace Jypeli
             }
         }
 
-        [Save]
+        /// <inheritdoc/>
         public override Shape Shape
         {
             get { return Body.Shape; }

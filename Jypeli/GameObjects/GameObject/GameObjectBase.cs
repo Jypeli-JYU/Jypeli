@@ -244,6 +244,9 @@ namespace Jypeli.GameObjects
             set { Size = new Vector( Size.X, value ); }
         }
 
+        internal Vector InitialRelativePosition { get; set; }
+        internal Angle InitialRelativeAngle { get; set; }
+
         /// <summary>
         /// Olion paikka suhteessa sen isäntäolioon.
         /// </summary>

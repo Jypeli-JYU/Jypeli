@@ -151,13 +151,6 @@ namespace Jypeli
 
         public void Update(Time time)
         {
-            // Lapsiolioiden sijainnin korjaus. 
-            // TODO: Tää on aika purkkapalloratkaisu
-            if (this.Owner.GetChildObjects<GameObject>().Count() > 0)
-            {
-                this.Owner.Position = this.Position;
-                this.Owner.Angle = Jypeli.Angle.FromRadians(this.Angle);
-            }
         }
 
         public void SetCollisionIgnorer(Ignorer ignorer)

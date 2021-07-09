@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Jypeli.GameObjects
 {
@@ -16,6 +17,8 @@ namespace Jypeli.GameObjects
 
         public bool IsUpdated { get { return true; } }
         public bool IsDestroyed { get; private set; }
+
+        public double W { get => 2 * Math.PI * Frequency; }
 
         public event Action Destroyed;
 
@@ -80,12 +83,17 @@ namespace Jypeli.GameObjects
 
         public Vector GetOffset()
         {
-            return Axis * Amplitude * GetDampingMultiplier() * Math.Sin( 2 * Math.PI * Frequency * t + Phase );
+            return Axis * Amplitude * GetDampingMultiplier() * Math.Sin(W * t + Phase);
         }
 
-        bool IsDynamic( IGameObject obj )
+        public Vector GetVelocity()
         {
-            return obj is IPhysicsObject && !double.IsInfinity( ( (IPhysicsObject)obj ).Mass );
+            return Axis * Amplitude * W * GetDampingMultiplier() * Math.Cos(W * t + Phase);
+        }
+
+        bool IsDynamic(IGameObject obj)
+        {
+            return obj is IPhysicsObject objp && objp.Mass != 0;
         }
 
         protected override void Apply()
@@ -93,14 +101,17 @@ namespace Jypeli.GameObjects
             if ( IsDynamic( Object ) )
             {
                 IPhysicsObject physObj = (IPhysicsObject)Object;
-                double d = ( Object.Position - Center ).ScalarProjection( Axis );
+                double d = ( Object.Position - Center ).ScalarProjection(Axis);
                 double angularFreq = 2 * Math.PI * Frequency;
                 double k = Math.Pow( angularFreq, 2 ) * physObj.Mass;
                 double force = -k * d;
-                double dampingForce = physObj.Velocity.ScalarProjection( Axis ) * Damping * physObj.Mass;
+                double dampingForce = physObj.Velocity.ScalarProjection(Axis) * Damping * physObj.Mass;
                 double totalForce = force - dampingForce;
 
                 physObj.Push( totalForce * Axis );
+            }else if(Object is PhysicsObject obj)
+            {
+                obj.Velocity = GetVelocity();
             }
             else
             {
@@ -132,39 +143,48 @@ namespace Jypeli.GameObjects
             this.Direction = Math.Sign( dir );
             this.Amplitude = a;
             this.Center = obj.Angle;
-
-            if ( Object is IPhysicsObject )
-            {
-                ( (IPhysicsObject)obj ).AngularVelocity = Direction * 2 * Amplitude.Radians * f;
-            }
         }
 
         public UnlimitedAngle GetOffset()
         {
-            return Direction * Amplitude * GetDampingMultiplier() * Math.Sin( 2 * Math.PI * Frequency * t + Phase );
+            return Direction * Amplitude * GetDampingMultiplier() * Math.Cos(W * t + Phase);
         }
 
         bool IsDynamic( IGameObject obj )
         {
-            return obj is IPhysicsObject && !double.IsInfinity( ( (IPhysicsObject)obj ).MomentOfInertia );
+            return obj is IPhysicsObject objp && objp.MomentOfInertia != 0;
         }
+
+        public double GetAngularVelocity()
+        {
+            return -W * Amplitude.Radians * Math.Sin(W * t + Phase);
+        }
+
+        List<double> lista = new List<double>();
+        List<double> lista2 = new List<double>();
 
         protected override void Apply()
         {
-            if ( IsDynamic( Object ) )
+            if (IsDynamic(Object))
             {
                 IPhysicsObject physObj = (IPhysicsObject)Object;
-                double d = Math.PI * ( Object.Angle.Radians - Center.Radians );
-                double k = Math.Pow( Frequency, 2 ) * physObj.MomentOfInertia;
+                double d = Math.Cos(W * t + Phase);
+                double k = physObj.MomentOfInertia * Math.Pow(W, 2) * Amplitude.Radians;
                 double torque = -k * d;
                 double dampingTorque = physObj.AngularVelocity * Damping * physObj.MomentOfInertia;
                 double totalTorque = torque - dampingTorque;
 
-                physObj.ApplyTorque( totalTorque );
+                physObj.ApplyTorque(totalTorque);
+                lista.Add(totalTorque);
+                lista2.Add(physObj.AngularVelocity);
+            }
+            else if (Object is PhysicsObject obj)
+            {
+                obj.AngularVelocity = GetAngularVelocity();
             }
             else
             {
-                Object.Angle = Angle.Sum( Center, GetOffset() );
+                Object.Angle = Angle.Sum(Center, GetOffset());
             }
         }
 

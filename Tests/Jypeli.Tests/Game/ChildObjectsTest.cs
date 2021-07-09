@@ -35,8 +35,8 @@ namespace Jypeli.Tests.Game
 
                 parent.MoveTo(posToMove, 20, () => 
                 {
-                    Assert.That(parent.Position, Is.EqualTo(posToMove).Using(new VectorComparer(0.001)));
-                    Assert.That(g.Position, Is.EqualTo(posToMove + delta).Using(new VectorComparer(0.001)));
+                    Assert.That(parent.Position, Is.EqualTo(posToMove).Using(new VectorComparer(0.1)));
+                    Assert.That(g.Position, Is.EqualTo(posToMove + delta).Using(new VectorComparer(0.1)));
                     Assert.Pass();
                 });
             };
@@ -61,8 +61,8 @@ namespace Jypeli.Tests.Game
 
                 parent.MoveTo(posToMove, 20, () =>
                 {
-                    Assert.That(parent.Position, Is.EqualTo(posToMove).Using(new VectorComparer(0.001)));
-                    Assert.That(g.Position, Is.EqualTo(posToMove + new Vector(-delta.X, delta.Y)).Using(new VectorComparer(0.001)));
+                    Assert.That(parent.Position, Is.EqualTo(posToMove).Using(new VectorComparer(0.1)));
+                    Assert.That(g.Position, Is.EqualTo(posToMove + new Vector(-delta.X, delta.Y)).Using(new VectorComparer(0.1)));
                     Assert.Pass();
                 });
             };
@@ -87,10 +87,8 @@ namespace Jypeli.Tests.Game
 
                 game.Add(parent);
 
-                parent.Angle = Angle.FromDegrees(90);
-
                 Assert.That(parent.Position, Is.EqualTo(parentPos).Using(new VectorComparer(0.001)));
-                Assert.That(g.Position, Is.EqualTo(parentPos + new Vector(-delta.X, delta.Y)).Using(new VectorComparer(0.001)));
+                Assert.That(g.Position, Is.EqualTo(parentPos + (new Vector(delta.X, delta.Y)).Transform(Microsoft.Xna.Framework.Matrix.CreateRotationZ((float)parent.Angle.Radians))).Using(new VectorComparer(0.001)));
                 Assert.That(g.RelativePosition, Is.EqualTo(delta).Using(new VectorComparer(0.001)));
                 Assert.Pass();
             };
@@ -120,10 +118,8 @@ namespace Jypeli.Tests.Game
 
                 game.Add(parent);
 
-                parent.Angle = Angle.FromDegrees(90);
-
                 Assert.That(parent.Position, Is.EqualTo(parentPos).Using(new VectorComparer(0.001)));
-                Assert.That(g2.Position, Is.EqualTo(parentPos + new Vector(-delta.X, delta.Y)).Using(new VectorComparer(0.001)));
+                Assert.That(g2.Position, Is.EqualTo(parentPos + (new Vector(delta.X, delta.Y)).Transform(Microsoft.Xna.Framework.Matrix.CreateRotationZ((float)parent.Angle.Radians))).Using(new VectorComparer(0.001)));
                 Assert.That(g2.RelativePositionToMainParent, Is.EqualTo(delta).Using(new VectorComparer(0.001)));
                 Assert.Pass();
             };

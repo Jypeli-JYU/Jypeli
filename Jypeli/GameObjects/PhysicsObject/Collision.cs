@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Jypeli.Physics
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    [Obsolete("Ei käytössä")]
     public class Collision
-    {        
+    {
         public class ContactPoint
         {
             public Vector Position { get; set; }

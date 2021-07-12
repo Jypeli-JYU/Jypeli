@@ -36,6 +36,10 @@ using FontStashSharp;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Viestikenttä, jolla voi laittaa tekstiä ruudulle.
+    /// Tätä sinun tuskin tarvitsee itse muodostaa.
+    /// </summary>
     public class MessageDisplay : Widget
     {
         private struct Message
@@ -161,6 +165,7 @@ namespace Jypeli
             UpdateTexture();
         }
         
+        /// <inheritdoc/>
         public override void Draw( Matrix parentTransformation, Matrix transformation )
         {
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
@@ -231,6 +236,10 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Lisää useita tekstirivejä viestinäkymään
+        /// </summary>
+        /// <param name="strings"></param>
         public void Add( IEnumerable<string> strings )
         {
             // TODO: optimization?

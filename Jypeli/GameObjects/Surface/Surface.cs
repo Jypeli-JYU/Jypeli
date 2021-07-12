@@ -439,6 +439,11 @@ namespace Jypeli
 
         #region Public methods
 
+        /// <summary>
+        /// Maanpinnan korkeus annetussa x-koordinaatissa
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public double GetGroundHeight( double x )
         {
             if ( heights == null || x < Left || x > Right ) return Top;
@@ -460,6 +465,11 @@ namespace Jypeli
             return Bottom + heights[lowerIndex] + relX * k;
         }
 
+        /// <summary>
+        /// Maanpinnan normaalivektori annetulla x-koordinaatilla
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public Vector GetGroundNormal( double x )
         {
             if ( heights == null || x < Left || x > Right ) return Vector.UnitY;

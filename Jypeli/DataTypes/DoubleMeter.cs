@@ -11,17 +11,28 @@ namespace Jypeli
     {
         private List<Operation> operations = new List<Operation>();
 
+        /// <inheritdoc/>
         public override double RelativeValue
         {
             get { return ( Value - MinValue ) / ( MaxValue - MinValue ); }
             set { Value = MinValue + value * ( MaxValue - MinValue ); }
         }
 
+        /// <summary>
+        /// Mittari, joka mittaa double-tyyppisiä arvoja.
+        /// </summary>
+        /// <param name="defaultValue">Oletusarvo</param>
         public DoubleMeter( double defaultValue )
             : base( defaultValue, 0.0, double.MaxValue )
         {
         }
 
+        /// <summary>
+        /// Mittari, joka mittaa double-tyyppisiä arvoja.
+        /// </summary>
+        /// <param name="defaultValue">Oletusarvo</param>
+        /// <param name="minValue">Minimiarvo</param>
+        /// <param name="maxValue">Maksimiarvo</param>
         public DoubleMeter(double defaultValue,double minValue, double maxValue)
             : base(defaultValue,minValue, maxValue)
         {

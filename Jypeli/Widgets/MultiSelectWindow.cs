@@ -195,26 +195,63 @@ namespace Jypeli
             _selectedIndex = -1;
         }
 
+        /// <summary>
+        /// Lisäää nappulalle tapahtumakuuntelijan
+        /// </summary>
+        /// <param name="item">Nappulan indeksi</param>
+        /// <param name="handler">Kuuntelija</param>
         public void AddItemHandler( int item, Action handler )
         {
             Buttons[item].Clicked += handler;
         }
 
+        /// <summary>
+        /// Lisäää nappulalle tapahtumakuuntelijan
+        /// </summary>
+        /// <typeparam name="T1">Kuuntelijan parametrin tyyppi</typeparam>
+        /// <param name="item">Nappulan indeksi</param>
+        /// <param name="handler">Kuuntelija</param>
+        /// <param name="p1">Kuuntelijan parametri</param>
         public void AddItemHandler<T1>( int item, Action<T1> handler, T1 p1 )
         {
             Buttons[item].Clicked += delegate { handler( p1 ); };
         }
 
+        /// <summary>
+        /// Lisäää nappulalle tapahtumakuuntelijan
+        /// </summary>
+        /// <typeparam name="T1">Kuuntelijan ensimmäisen parametrin tyyppi</typeparam>
+        /// <typeparam name="T2">Kuuntelijan toisen parametrin tyyppi</typeparam>
+        /// <param name="item">Nappulan indeksi</param>
+        /// <param name="handler">Kuuntelija</param>
+        /// <param name="p1">Kuuntelijan ensimmäinen parametri</param>
+        /// <param name="p2">Kuuntelijan toinen parametri</param>
         public void AddItemHandler<T1, T2>( int item, Action<T1, T2> handler, T1 p1, T2 p2 )
         {
             Buttons[item].Clicked += delegate { handler( p1, p2 ); };
         }
 
+        /// <summary>
+        /// Lisäää nappulalle tapahtumakuuntelijan
+        /// </summary>
+        /// <typeparam name="T1">Kuuntelijan ensimmäisen parametrin tyyppi</typeparam>
+        /// <typeparam name="T2">Kuuntelijan toisen parametrin tyyppi</typeparam>
+        /// <typeparam name="T3">Kuuntelijan kolmannen parametrin tyyppi</typeparam>
+        /// <param name="item">Nappulan indeksi</param>
+        /// <param name="handler">Kuuntelija</param>
+        /// <param name="p1">Kuuntelijan ensimmäinen parametri</param>
+        /// <param name="p2">Kuuntelijan toinen parametri</param>
+        /// <param name="p3">Kuuntelijan kolmas parametri</param>
         public void AddItemHandler<T1, T2, T3>( int item, Action<T1, T2, T3> handler, T1 p1, T2 p2, T3 p3 )
         {
             Buttons[item].Clicked += delegate { handler( p1, p2, p3 ); };
         }
 
+        /// <summary>
+        /// Poistaa nappulalta annetun tapahtumakuuntelijan
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="handler"></param>
         public void RemoveItemHandler( int item, Action handler )
         {
             Buttons[item].Clicked -= handler;
@@ -229,12 +266,20 @@ namespace Jypeli
             SelectButton( _selectedIndex );
         }
 
+        /// <summary>
+        /// Asettaa jokaisen nappulan värin vastaamaan arvoa
+        /// </summary>
+        /// <param name="color"></param>
         public void SetButtonColor( Color color )
         {
             _setButtonColor( color );
             _buttonColorSet = true;
         }
 
+        /// <summary>
+        /// Asettaa jokaisen nappulan tekstin värin vastaamaan arvoa
+        /// </summary>
+        /// <param name="color"></param>
         public void SetButtonTextColor( Color color )
         {
             for ( int i = 0; i < Buttons.Length; i++ )

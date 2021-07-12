@@ -176,6 +176,7 @@ namespace Jypeli.Widgets
             IsVisible = true;
         }
 
+        /// <inheritdoc/>
         protected override ScoreListWidget CreateQueryWidget()
         {
             return new ScoreListWidget() { Color = Color.Transparent };

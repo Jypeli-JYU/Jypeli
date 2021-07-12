@@ -381,21 +381,41 @@ namespace Jypeli
             return false;
         }
 
+        /// <summary>
+        /// Kulma merkkijonoa
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return radian.ToString( System.Globalization.NumberFormatInfo.InvariantInfo );
         }
 
+        /// <summary>
+        /// Kulma merkkijonona käyttäen annettua muotoilijaa
+        /// </summary>
+        /// <param name="formatProvider">Muotoilija</param>
+        /// <returns></returns>
         public string ToString( IFormatProvider formatProvider )
         {
             return radian.ToString( formatProvider );
         }
 
+        /// <summary>
+        /// Muodostaa äärettömän kulman merkkijonosta käyttäen annettua muotoilijaa
+        /// </summary>
+        /// <param name="angleStr">Kulma radiaaneina</param>
+        /// <param name="formatProvider">Muotoilija</param>
+        /// <returns>Ääretön kulma</returns>
         public static UnlimitedAngle Parse( string angleStr, IFormatProvider formatProvider )
         {
             return new UnlimitedAngle( double.Parse( angleStr, formatProvider ) );
         }
 
+        /// <summary>
+        /// Muodostaa äärettömän kulman annetusta merkkijonosta
+        /// </summary>
+        /// <param name="angleStr">Kulma radiaaneina</param>
+        /// <returns>Ääretön kulma</returns>
         public static UnlimitedAngle Parse( string angleStr )
         {
             return new UnlimitedAngle( double.Parse( angleStr, NumberFormatInfo.InvariantInfo ) );
@@ -423,6 +443,10 @@ namespace Jypeli
             return deg;
         }
 
+        /// <summary>
+        /// Tätä kulmaa vastaava yksikkövektori
+        /// </summary>
+        /// <returns></returns>
         public Vector GetVector()
         {
             return Vector.FromAngle( Limit() );

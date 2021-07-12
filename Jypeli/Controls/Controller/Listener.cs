@@ -197,6 +197,9 @@ namespace Jypeli
             get { return isDestroyed; }
         }
 
+        /// <summary>
+        /// Tuhoaa kuuntelijan
+        /// </summary>
         public void Destroy()
         {
             isDestroyed = true;

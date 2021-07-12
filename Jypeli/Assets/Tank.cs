@@ -149,6 +149,7 @@ namespace Jypeli.Assets
             }
         }
 
+        /// <inheritdoc/>
         public override void Destroy()
         {
             foreach ( var j in joints )

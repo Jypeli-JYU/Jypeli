@@ -35,6 +35,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Kuinka tekstikentän kokoa käsitellään.
+    /// </summary>
     public enum TextSizeMode
     {
         /// <summary>
@@ -357,6 +360,7 @@ namespace Jypeli
             UpdateValue();
         }
 
+        /// <inheritdoc/>
         protected override void UpdateValue()
         {
             if ( !initialized || !Bound ) return;
@@ -478,11 +482,13 @@ namespace Jypeli
             }
         }
 
+        /// <inheritdoc/>
         public override void Draw( Matrix parentTransformation, Matrix transformation )
         {
             Draw( parentTransformation, transformation, visibleText );
         }
 
+        /// <inheritdoc/>
         protected void Draw( Matrix parentTransformation, Matrix transformation, string text )
         {
             Matrix m = Matrix.CreateScale( _textScale )

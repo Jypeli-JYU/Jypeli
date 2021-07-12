@@ -48,6 +48,9 @@ namespace Jypeli
         private double _leftPadding = 0;
         private double _rightPadding = 0;
 
+        /// <summary>
+        /// Asettelijan omistaja
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public GameObject Parent { get; set; }
 
@@ -111,6 +114,10 @@ namespace Jypeli
         {
         }
 
+        /// <summary>
+        /// Päivittää kappaleiden kokovihjeet
+        /// </summary>
+        /// <param name="objects"></param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void UpdateSizeHints(IList<GameObject> objects)
         {
@@ -156,25 +163,38 @@ namespace Jypeli
             _preferredSize = new Vector(preferredWidth, preferredHeight);
         }
 
+        /// <summary>
+        /// Leveyssuuntainen koon asettelija
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Sizing HorizontalSizing
         {
             get { return _horizontalSizing; }
         }
 
+        /// <summary>
+        /// Pystysuuntainen koon asettelija
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Sizing VerticalSizing
         {
             get { return _verticalSizing; }
         }
 
+        /// <summary>
+        /// Olion suosima koko
+        /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Vector PreferredSize
         {
             get { return _preferredSize; }
         }
 
-
+        /// <summary>
+        /// Päivittää olioiden koon ja sijainnin
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <param name="maximumSize"></param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void Update(IList<GameObject> objects, Vector maximumSize)
         {

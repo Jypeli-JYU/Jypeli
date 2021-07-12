@@ -175,6 +175,11 @@ namespace Jypeli
             right = current + toRight * DefaultWidth / 2;
         }
 
+        /// <summary>
+        /// Onko annettu piste radan sisällä
+        /// </summary>
+        /// <param name="point">Piste</param>
+        /// <returns></returns>
         public bool IsInside(Vector point)
         {
             return ListHelpers.ArrayFind(Segments, seg => seg.IsInside(point)) != null;

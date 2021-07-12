@@ -33,8 +33,11 @@ using System.ComponentModel;
 
 namespace Jypeli.Widgets
 {
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class ScoreItemWidget : Widget
+
     {
         public Label Place;
         public Label Name;
@@ -52,6 +55,7 @@ namespace Jypeli.Widgets
             Add( Score );
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
     /// <summary>
     /// Käyttöliittymäkomponentti, joka näyttää parhaat pisteet.
@@ -165,6 +169,7 @@ namespace Jypeli.Widgets
         {
         }
 
+        /// <inheritdoc/>
         internal protected override ScoreItemWidget CreateWidget( ScoreItem item )
         {
             var w = new ScoreItemWidget();

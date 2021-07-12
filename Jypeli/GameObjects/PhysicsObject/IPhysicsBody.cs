@@ -3,8 +3,12 @@ using System.Numerics;
 
 namespace Jypeli.Physics
 {
+    /// <summary>
+    /// Rajapinta fysiikkamoottorin tietämää fysiikkakappaletta varten.
+    /// </summary>
     public interface IPhysicsBody
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         IPhysicsObject Owner { get; }
 
         Vector Size { get; set; }
@@ -53,5 +57,6 @@ namespace Jypeli.Physics
         event AdvancedCollisionHandler<IPhysicsBody, IPhysicsBody> Colliding;
         void RegenerateConnectedFixtures();
         void Update(Time time);
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

@@ -97,6 +97,9 @@ namespace Jypeli.Devices
             }
         }
 
+        /// <summary>
+        /// Fyysinen laite
+        /// </summary>
         protected Device()
         {
             // Initialize components as dummy ones if they're not initialized otherwise
@@ -136,6 +139,9 @@ namespace Jypeli.Devices
         {
         }
         
+        /// <summary>
+        /// Päivittää näytön koon ja asemoinnin
+        /// </summary>
         protected virtual void UpdateScreen()
         {
             Vector defaultSize = Game.Screen.ViewportSize;

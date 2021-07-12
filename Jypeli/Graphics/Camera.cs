@@ -317,16 +317,29 @@ namespace Jypeli
             ZoomTo( bottomLeft.X, bottomLeft.Y, topRight.X, topRight.Y );
         }
 
+        /// <summary>
+        /// Sijoittelee kameran annettuun suorakulmioon
+        /// </summary>
+        /// <param name="rectangle"></param>
         public void ZoomTo( BoundingRectangle rectangle )
         {
             ZoomTo( rectangle.Left, rectangle.Bottom, rectangle.Right, rectangle.Top );
         }
 
+        /// <summary>
+        /// Sijoittelee kameran annettuun suorakulmioon
+        /// annetulla marginaalilla
+        /// </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="borderSize"></param>
         public void ZoomTo( BoundingRectangle rectangle, double borderSize )
         {
             ZoomTo( rectangle.Left, rectangle.Bottom, rectangle.Right, rectangle.Top, borderSize );
         }
 
+        /// <summary>
+        /// Keskittää ja zoomaa kameran niin, että kaikki objektit näkyvät ruudulla.
+        /// </summary>
         public void ZoomToAllObjects()
         {
             ZoomToAllObjects( 0 );

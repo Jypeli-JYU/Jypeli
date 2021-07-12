@@ -32,6 +32,10 @@ using System;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Abstrakti kyselyikkuna
+    /// </summary>
+    /// <typeparam name="W"></typeparam>
     public abstract class CustomQueryWindow<W> : Window where W : Widget
     {
         internal virtual bool OkButtonOnPhone { get { return false; } }
@@ -51,6 +55,7 @@ namespace Jypeli
         /// </summary>
         public PushButton OKButton { get; private set; }
 
+        /// <inheritdoc/>
         public override Color Color
         {
             get { return base.Color; }
@@ -142,6 +147,10 @@ namespace Jypeli
             return buttonRow;
         }
 
+        /// <summary>
+        /// Luo widgetin kyselyikkunan käyttöön
+        /// </summary>
+        /// <returns></returns>
         protected abstract W CreateQueryWidget();
 
         private void AddListeners()

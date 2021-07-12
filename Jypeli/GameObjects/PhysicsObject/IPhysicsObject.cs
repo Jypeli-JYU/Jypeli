@@ -10,6 +10,7 @@ namespace Jypeli
     /// </summary>
     public interface IPhysicsObject : IGameObject, DelayedDestroyable
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         PhysicsStructure ParentStructure { get; }
 
         //Body Body { get; }
@@ -53,6 +54,7 @@ namespace Jypeli
         void StopHorizontal();
         void StopVertical();
         void StopAngular();
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 
     /// <summary>

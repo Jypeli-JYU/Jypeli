@@ -50,6 +50,11 @@ namespace Jypeli
         /// </summary>
         WheelJoint
     }
+
+    // TODO: Ehkä tämä pitäisi nimetä uudestaan, IJoint?
+    /// <summary>
+    /// Akseliliitos
+    /// </summary>
     public interface IAxleJoint : Destroyable, IDisposable
     {
         /// <summary>
@@ -72,9 +77,16 @@ namespace Jypeli
         /// </summary>
         double Softness { get; set; }
 
+        /// <summary>
+        /// Asettaa liitokselle fysiikkamoottorin
+        /// </summary>
+        /// <param name="engine"></param>
         [EditorBrowsable( EditorBrowsableState.Never )]
         void SetEngine( Jypeli.Physics.IPhysicsEngine engine );
 
+        /// <summary>
+        /// Lisää liitoksen fysiikkamoottorille
+        /// </summary>
         [EditorBrowsable( EditorBrowsableState.Never)]
         void AddToEngine();
     }

@@ -11,7 +11,6 @@ namespace Jypeli
     /// TODO: Tekee nyt käytännössä samat asiat kuin Sound-luokka. Voisiko yhdistää?
     public class MediaPlayer
     {
-        private ContentManager content;
         private Sound sound;
         private double volumeHolder = 0;
 

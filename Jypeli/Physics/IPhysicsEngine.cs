@@ -1,7 +1,11 @@
 ﻿namespace Jypeli.Physics
 {
+    /// <summary>
+    /// Rajapinta fysiikkamoottorille.
+    /// </summary>
     public interface IPhysicsEngine
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         Vector Gravity { get; set; }
 
         IPhysicsBody CreateBody( IPhysicsObject owner, double width, double height, Shape shape );

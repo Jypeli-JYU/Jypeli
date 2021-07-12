@@ -51,6 +51,10 @@ namespace Jypeli.Assets
             AttackSound = Game.LoadSoundEffectFromResources("CannonFire.wav");
         }
 
+        /// <summary>
+        /// Luo uuden ammuksen
+        /// </summary>
+        /// <returns>Ammus</returns>
         protected override PhysicsObject CreateProjectile()
         {
             return new CannonBall(5);
@@ -76,6 +80,10 @@ namespace Jypeli.Assets
             AttackSound = Game.LoadSoundEffectFromResources("MGAttack.wav");
         }
 
+        /// <summary>
+        /// Luo uuden ammuksen
+        /// </summary>
+        /// <returns>Ammus</returns>
         protected override PhysicsObject CreateProjectile()
         {
             return new Bullet(5);
@@ -103,6 +111,10 @@ namespace Jypeli.Assets
             TimeBetweenUse = TimeSpan.FromSeconds(0.1);
         }
 
+        /// <summary>
+        /// Luo uuden ammuksen
+        /// </summary>
+        /// <returns>Ammus</returns>
         protected override PhysicsObject CreateProjectile()
         {
             return new Projectile(3, 5, Color.Green);
@@ -131,6 +143,10 @@ namespace Jypeli.Assets
             TimeBetweenUse = TimeSpan.FromSeconds(0);
         }
 
+        /// <summary>
+        /// Luo uuden ammuksen
+        /// </summary>
+        /// <returns>Ammus</returns>
         protected override PhysicsObject CreateProjectile()
         {
             //return new Projectile( 10, 1, 5, Color.Red );
@@ -254,6 +270,7 @@ namespace Jypeli.Assets
             Exploded = true;
         }
 
+        /// <inheritdoc/>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void Update(Time time)
         {

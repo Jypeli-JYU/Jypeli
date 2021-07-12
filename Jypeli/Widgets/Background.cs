@@ -37,6 +37,7 @@ namespace Jypeli.Widgets
     /// </summary>
     public class Background : Widget
     {
+        /// <inheritdoc/>
         public override Animation Animation
         {
             get { return base.Animation; }
@@ -201,6 +202,7 @@ namespace Jypeli.Widgets
             return image;
         }
 
+        /// <inheritdoc/>
         public override void Draw( Matrix parentTransformation, Matrix transformation )
         {
             if ( Image == null ) return;

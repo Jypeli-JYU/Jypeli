@@ -42,6 +42,9 @@ namespace Jypeli
     [Save]
     public partial class GameObject : GameObjects.GameObjectBase, IGameObjectInternal
     {
+        /// <summary>
+        /// Tähän peliolioon liitetyt kuuntelijat
+        /// </summary>
         public List<Listener> AssociatedListeners { get; private set; }
 
         #region Destroyable

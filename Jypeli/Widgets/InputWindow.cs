@@ -127,6 +127,7 @@ namespace Jypeli
 #endif
         }
 
+        /// <inheritdoc/>
         protected override InputBox CreateQueryWidget()
         {
             //double widthInChars = Width / Font.Default.CharacterWidth;

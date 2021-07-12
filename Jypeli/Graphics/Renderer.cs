@@ -68,6 +68,9 @@ namespace Jypeli
             1, 3, 2
         };
 
+        /// <summary>
+        /// Onko valaistus käytössä
+        /// </summary>
         public static bool LightingEnabled { get; set; }
 
         static readonly BlendState NoDrawingToScreenBufferBlendState = new BlendState
@@ -121,6 +124,12 @@ namespace Jypeli
             return tempVertices;
         }
 
+        /// <summary>
+        /// Piirtää kuvan
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="matrix"></param>
+        /// <param name="wrapSize"></param>
         public static void DrawImage( Image texture, ref Matrix matrix, Vector wrapSize )
         {
             if ( wrapSize.X == 0 || wrapSize.Y == 0 ) return;
@@ -255,6 +264,9 @@ namespace Jypeli
             device.DepthStencilState = currentStencilState = drawAccordingToStencilBufferState;
         }
 
+        /// <summary>
+        /// Lopettaa muodon sisälle piirtämisen
+        /// </summary>
         public static void EndDrawingInsideShape()
         {
             if ( !isDrawingInsideShape )
@@ -328,6 +340,12 @@ namespace Jypeli
             EndDrawingInsideShape();
         }
 
+        /// <summary>
+        /// Piirtää muodon ruudulle
+        /// </summary>
+        /// <param name="shape"></param>
+        /// <param name="matrix"></param>
+        /// <param name="color"></param>
         public static void DrawShape( Shape shape, ref Matrix matrix, Color color )
         {
             if ( shape is RaySegment )
@@ -344,6 +362,12 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Piirtää säteen ruudulle
+        /// </summary>
+        /// <param name="segment"></param>
+        /// <param name="matrix"></param>
+        /// <param name="color"></param>
         public static void DrawRaySegment( RaySegment segment, ref Matrix matrix, Color color )
         {
             var device = Game.GraphicsDevice;
@@ -427,6 +451,12 @@ namespace Jypeli
             Graphics.ResetSamplerState();
         }
 
+        /// <summary>
+        /// Piirtää monikulmion ruudulle
+        /// </summary>
+        /// <param name="vertices"></param>
+        /// <param name="matrix"></param>
+        /// <param name="color"></param>
         public static void DrawPolygon( Vector[] vertices, ref Matrix matrix, Color color )
         {
             if ( vertices.Length < 3 )

@@ -144,6 +144,9 @@ namespace Jypeli.GameObjects
         /// </summary> 
         public event Action Destroyed;
 
+        /// <summary>
+        /// Kun olio tuhotaan
+        /// </summary>
         protected void OnDestroyed()
         {
             if ( Destroyed != null )
@@ -502,6 +505,9 @@ namespace Jypeli.GameObjects
             }
         }
 
+        /// <summary>
+        /// Kaikille peliobjekteille yhteinen kantaluokka
+        /// </summary>
         protected GameObjectBase()
         {
             this.CreationTime = Game.Time.SinceStartOfGame;

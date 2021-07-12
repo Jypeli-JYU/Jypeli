@@ -36,9 +36,24 @@ namespace Jypeli
     {
         private SynchronousList<Oscillator> oscillators = null;
 
+        /// <summary>
+        /// Ajastin joka liikuttaa kappaletta kohti kohdepistettä
+        /// </summary>
         protected Timer moveTimer = null;
+
+        /// <summary>
+        /// Piste johon liikutaan
+        /// </summary>
         protected Vector? moveTarget = null;
+
+        /// <summary>
+        /// Liikkumisnopeus kohdetta kohti
+        /// </summary>
         protected double moveSpeed;
+
+        /// <summary>
+        /// Kun olio saapuu kohteeseen
+        /// </summary>
         protected Action arrivedAction = null;
 
         /// <summary>
@@ -93,6 +108,9 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Liikuttaa kappaletta kohti määränpäätä.
+        /// </summary>
         protected virtual void MoveToTarget()
         {
             if ( !moveTarget.HasValue )

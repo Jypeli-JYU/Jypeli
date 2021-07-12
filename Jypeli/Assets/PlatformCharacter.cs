@@ -106,6 +106,7 @@ public class PlatformCharacter : PhysicsObject
         set { _turnsWhenWalking = value; }
     }
 
+    ///<inheritdoc/>
     public override Vector Size
     {
         get
@@ -126,6 +127,7 @@ public class PlatformCharacter : PhysicsObject
     /// </summary>
     public bool CanWalkAgainstWalls { get; set; }
 
+    /// <inheritdoc/>
     public override Jypeli.Ignorer CollisionIgnorer
     {
         get
@@ -140,6 +142,7 @@ public class PlatformCharacter : PhysicsObject
         }
     }
 
+    /// <inheritdoc/>
     public override int CollisionIgnoreGroup
     {
         get { return base.CollisionIgnoreGroup; }
@@ -343,6 +346,9 @@ public class PlatformCharacter : PhysicsObject
         }
     }
 
+    /// <summary>
+    /// Resetoi hahmon tilan ja pysäyttää animaation
+    /// </summary>
     public void Reset()
     {
         state = PlatformCharacterState.Idle;
@@ -362,6 +368,11 @@ public class PlatformCharacter : PhysicsObject
             Animation.Start( 1 );
     }
 
+    /// <summary>
+    /// Toistaa hahmolle animaation
+    /// </summary>
+    /// <param name="anim">Animaatio</param>
+    /// <param name="onPlayed">Suoritetaan kun animaatio on toistettu loppuun</param>
     public void PlayAnimation( Animation anim, Action onPlayed = null )
     {
         customAnimPlaying = true;
@@ -528,6 +539,7 @@ public class PlatformCharacter : PhysicsObject
         t.Start();
     }
 
+    /// <inheritdoc/>
     protected override void PrepareThrowable( PhysicsObject obj, Angle angle, double force, double distanceDelta, double axialDelta )
     {
         double d = ( this.Width + obj.Width ) / 2;
@@ -583,6 +595,7 @@ public class PlatformCharacter : PhysicsObject
         }
     }
 
+    /// <inheritdoc/>
     public override void Destroy()
     {
         for (int i = 0; i < collisionHelpers.Length; i++)
@@ -722,6 +735,7 @@ public class PlatformCharacter : PhysicsObject
         Walk( dv.X );
     }
 
+    /// <inheritdoc/>
     protected override void MoveToTarget()
     {
         if ( !moveTarget.HasValue )

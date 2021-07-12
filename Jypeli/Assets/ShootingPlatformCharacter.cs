@@ -6,11 +6,22 @@ using System;
 /// </summary>
 public class ShootingPlatformCharacter : PlatformCharacter
 {
+    /// <summary>
+    /// Tasohyppelypelin hahmo, joka ampuu aseella automaattisesti määritellyin väliajoin.
+    /// </summary>
+    /// <param name="width">Leveys</param>
+    /// <param name="height">Korkeus</param>
     public ShootingPlatformCharacter(double width, double height) : base(width, height)
     {
         AddedToGame += ShootingPlatformCharacter_AddedToGame;
     }
 
+    /// <summary>
+    /// Tasohyppelypelin hahmo, joka ampuu aseella automaattisesti määritellyin väliajoin.
+    /// </summary>
+    /// <param name="width">Leveys</param>
+    /// <param name="height">Korkeus</param>
+    /// <param name="shape">Muoto</param>
     public ShootingPlatformCharacter(double width, double height, Shape shape) : base(width, height, shape)
     {
         AddedToGame += ShootingPlatformCharacter_AddedToGame;
@@ -45,6 +56,7 @@ public class ShootingPlatformCharacter : PlatformCharacter
 
     private Timer timer;
 
+    /// <inheritdoc/>
     public override void Destroy()
     {
         base.Destroy();
@@ -73,6 +85,7 @@ public class ShootingPlatformCharacter : PlatformCharacter
         Weapon.Shoot();
     }
 
+    /// <inheritdoc/>
     public override void Update(Time time)
     {
         if (Weapon == null || Target == null || Target.IsDestroyed || !Target.IsAddedToGame)

@@ -60,7 +60,9 @@ namespace Jypeli.Effects
         }
     }
 
-
+    /// <summary>
+    /// Salama
+    /// </summary>
     public class Lightning : ParticleSystem
     {
         private LightningLayer[] layers;
@@ -80,6 +82,11 @@ namespace Jypeli.Effects
 
         private int particlesPerLayer;
 
+        /// <summary>
+        /// Salama
+        /// </summary>
+        /// <param name="particleImage">Partikkelien kuva</param>
+        /// <param name="maxAmountOfParticles">Kuinka monta partikkelia enimmillään luodaan</param>
         public Lightning(Image particleImage, int maxAmountOfParticles)
             : base(particleImage, maxAmountOfParticles)
         {
@@ -87,11 +94,13 @@ namespace Jypeli.Effects
             particlesPerLayer = maxAmountOfParticles / layers.Length;
         }
 
+        /// <inheritdoc/>
         protected override void InitializeParticle(Particle p, Vector position)
         {
             p.Initialize(position, 2.0, 0.0, 0.0, Vector.Zero, Vector.Zero, 0.4);
         }
 
+        /// <inheritdoc/>
         public override void Update(Time time)
         {
             double t = time.SinceLastUpdate.TotalSeconds;
@@ -134,6 +143,12 @@ namespace Jypeli.Effects
             }
         }
 
+        /// <summary>
+        /// Luo salamaniskun lähtien annetusta pisteestä
+        /// </summary>
+        /// <param name="startPoint">Lähtöpiste</param>
+        /// <param name="width">Leveys</param>
+        /// <param name="height">Korkeus</param>
         public void Strike(Vector startPoint, double width, double height)
         {
             double branchHeight = height / layerAmount;

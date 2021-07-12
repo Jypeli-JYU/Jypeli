@@ -3,10 +3,17 @@ using System.Text;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Avustava luokka tietotyyppien käsittelyyn
+    /// </summary>
     public abstract class TypeHelper
     {
-#if !WINDOWS_STOREAPP
-
+        /// <summary>
+        /// Periytyykö luokka toisesta
+        /// </summary>
+        /// <param name="actual">Luokka jota verrataan</param>
+        /// <param name="expected"> Mihin verrataan</param>
+        /// <returns></returns>
         public static bool InheritsFrom( Type actual, Type expected )
         {
             Type t = actual;
@@ -19,8 +26,12 @@ namespace Jypeli
 
             return false;
         }
-#endif
 
+        /// <summary>
+        /// Tyypin nimi merkkijonona
+        /// </summary>
+        /// <param name="type">Tyyppi</param>
+        /// <returns></returns>
         public static string ToString( Type type )
         {
             /* When objects of class Type are stored, things get a little
@@ -62,6 +73,11 @@ namespace Jypeli
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Parsii tyypin annetysta merkkijonosta
+        /// </summary>
+        /// <param name="typeStr"></param>
+        /// <returns></returns>
         public static Type Parse( string typeStr )
         {
             int genOpen = typeStr.IndexOf( '<' );

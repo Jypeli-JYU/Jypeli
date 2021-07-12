@@ -107,6 +107,10 @@ namespace Jypeli
             Engine.RemoveJoint( j );
         }
 
+        /// <summary>
+        /// Kun olio lisätään peliin
+        /// </summary>
+        /// <param name="obj"></param>
         protected override void OnObjectAdded( IGameObject obj )
         {
             if ( obj is PhysicsObject )
@@ -118,6 +122,10 @@ namespace Jypeli
             base.OnObjectAdded( obj );
         }
 
+        /// <summary>
+        /// Kun olio poistetaan pelistä
+        /// </summary>
+        /// <param name="obj"></param>
         protected override void OnObjectRemoved( IGameObject obj )
         {
             if ( obj is PhysicsObject )

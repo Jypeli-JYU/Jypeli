@@ -13,6 +13,9 @@ namespace Jypeli
         /// </summary>
         internal List<Listener> associatedListeners = new List<Listener>();
 
+        /// <summary>
+        /// Tämän Widgetin ohjainkuuntelijoiden konteksti
+        /// </summary>
         public ListenContext ControlContext { get { return _context; } }
 
         /// <summary>
@@ -21,16 +24,20 @@ namespace Jypeli
         /// </summary>
         public bool IsModal { get; set; }
 
+        /// <summary>
+        /// Kaappaako hiiren, eli meneekö hiiren tapahtumat tämän alla sijaitsevalle oliolle
+        /// </summary>
         public bool CapturesMouse { get; set; }
+
+        /// <summary>
+        /// Kaappaako hiirtä tällä hetkellä, eli:
+        /// <c>CapturesMouse</c> on true ja hiiri on tämän olion päällä, tai
+        /// Jokin tämän lapsista kaappaa hiirtä.
+        /// </summary>
         public bool IsCapturingMouse
         {
             get
             {
-                // A widget IsCapturingMouse if either:
-                //     it CapturesMouse and is under the cursor
-                // or:
-                //     one of its children IsCapturingMouse.
-
                 if (CapturesMouse && Game.Mouse.IsCursorOn(this))
                     return true;
 
@@ -44,6 +51,10 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Alustaa Widgetin ohjaimet käyttöön.
+        /// Sinun ei tarvitse kutsua tätä
+        /// </summary>
         public void InitControl()
         {
             if ( ControlContext == null || ControlContext.IsDestroyed )

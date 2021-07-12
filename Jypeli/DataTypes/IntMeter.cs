@@ -11,17 +11,28 @@ namespace Jypeli
     {
         private List<Operation> operations = new List<Operation>();
 
+        /// <inheritdoc/>
         public override double RelativeValue
         {
             get { return ( Value - MinValue ) / (double)( MaxValue - MinValue ); }
             set { Value = (int)( MinValue + value * ( MaxValue - MinValue ) ); }
         }
 
+        /// <summary>
+        /// Mittari, joka mittaa int-tyyppisiä arvoja.
+        /// </summary>
+        /// <param name="defaultValue">Oletusarvo</param>
         public IntMeter( int defaultValue )
             : base( defaultValue, 0, int.MaxValue )
         {
         }
 
+        /// <summary>
+        /// Mittari, joka mittaa int-tyyppisiä arvoja.
+        /// </summary>
+        /// <param name="defaultValue">Oletusarvo</param>
+        /// <param name="minValue">Minimiarvo</param>
+        /// <param name="MaxValue">Maksimiarvo</param>
         public IntMeter(int defaultValue,int minValue, int MaxValue)
             : base(defaultValue, minValue,MaxValue)
         {

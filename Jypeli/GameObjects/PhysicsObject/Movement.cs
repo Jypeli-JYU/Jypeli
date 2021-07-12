@@ -76,10 +76,13 @@ namespace Jypeli
             Body.ApplyForce( force );
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        [Obsolete("Ei käytössä")]
         public void Push( Vector force, TimeSpan time )
         {
             throw new NotImplementedException();
         }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Kohdistaa kappaleeseen impulssin. Tällä kappaleen saa nopeasti liikkeeseen.
@@ -145,6 +148,14 @@ namespace Jypeli
             Body.StopAngular();
         }
 
+        /// <summary>
+        /// Valmistelee heitettävän kappaleen heittoa varten valmiiksi, ei lisää sitä peliin.
+        /// </summary>
+        /// <param name="obj">Heitettävä</param>
+        /// <param name="angle">Lähtökulma</param>
+        /// <param name="force">Voima</param>
+        /// <param name="distanceDelta">Kuinka kaukaa hahmosta kappale lähtee liikkeelle</param>
+        /// <param name="axialDelta">Kuinka paljon lähtöpistettä siirretään sen liikeakselin suhteen</param>
         protected virtual void PrepareThrowable( PhysicsObject obj, Angle angle, double force, double distanceDelta, double axialDelta )
         {
             double d = ( this.Width + obj.Width ) / 2 + distanceDelta;
@@ -178,6 +189,9 @@ namespace Jypeli
             Hit( Mass * dv );
         }
 
+        /// <summary>
+        /// Siirtää oliota kohti kohdetta
+        /// </summary>
         protected override void MoveToTarget()
         {
             if ( !moveTarget.HasValue )

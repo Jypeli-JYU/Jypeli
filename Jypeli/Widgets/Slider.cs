@@ -26,6 +26,9 @@
 
 namespace Jypeli.Widgets
 {
+    /// <summary>
+    /// Liukusäädin
+    /// </summary>
     public class Slider : BindableWidget
     {
         private bool pressedDown = false;
@@ -109,18 +112,23 @@ namespace Jypeli.Widgets
             associatedListeners.AddItems(l1, l2, l3, l4, l5, l6);
         }
 
+        /// <inheritdoc/>
         public override void BindTo(Meter meter)
         {
             pressedDown = false;
             base.BindTo(meter);
         }
 
+        /// <inheritdoc/>
         public override void Unbind()
         {
             pressedDown = false;
             base.Unbind();
         }
 
+        /// <summary>
+        /// Päivittää liukusäätimen nupin arvoa vastaavaan sijaintiin
+        /// </summary>
         protected override void UpdateValue()
         {
             if (Knob != null && Track != null && Meter != null)

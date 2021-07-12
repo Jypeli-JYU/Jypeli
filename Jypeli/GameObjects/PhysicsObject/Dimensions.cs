@@ -6,7 +6,9 @@ namespace Jypeli
     {
         private BoundingRectangle _bRect = new BoundingRectangle();
 
-        [Save]
+        /// <summary>
+        /// Fysiikkamoottorin käsittelemä fysiikkakappale.
+        /// </summary>
         public IPhysicsBody Body { get; private set; }
 
         /// <summary>

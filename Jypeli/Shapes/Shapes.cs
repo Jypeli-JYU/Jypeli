@@ -52,6 +52,9 @@ namespace Jypeli
         /// </summary>
         public abstract bool IsUnitSize { get; }
 
+        /// <summary>
+        /// Muodon verteksit sisällään pitävä olio.
+        /// </summary>
         public abstract ShapeCache Cache { get; }
 
         /// <summary>
@@ -190,6 +193,7 @@ namespace Jypeli
             return new ShapeCache( vertices, triangles, outlineIndices );
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         protected static bool SameSide( Vector a, Vector b, Vector p1, Vector p2 )
         {
             double cp1 = Vector.CrossProduct( b - a, p1 - a );
@@ -260,7 +264,8 @@ namespace Jypeli
         {
             return x * x + y * y <= r;
         }
-        
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
         /// <summary>
         /// Onko piste muodon sisällä.
         /// Pisteen koordinaatiston origo on muodon keskellä.
@@ -296,15 +301,18 @@ namespace Jypeli
     {
         private static ShapeCache _cache = CreateRegularPolygonCache( 64 );
 
+        /// <inheritdoc/>
         public override ShapeCache Cache
         {
             get { return _cache; }
         }
 
+        /// <inheritdoc/>
         public override bool IsUnitSize { get { return true; } }
 
         internal Ellipse() { }
 
+        /// <inheritdoc/>
         public override bool IsInside( double x, double y )
         {
             return IsInsideCircle( x, y, 1 );
@@ -337,12 +345,15 @@ namespace Jypeli
 
         private static readonly ShapeCache _cache = new ShapeCache( vertices, triangles, outlineIndices );
 
+        /// <inheritdoc/>
         public override ShapeCache Cache { get { return _cache; } }
 
+        /// <inheritdoc/>
         public override bool IsUnitSize { get { return true; } }
 
         internal Rectangle() { }
 
+        /// <inheritdoc/>
         public override bool IsInside( double x, double y )
         {
             return ( Math.Abs( x ) <= 1 && Math.Abs( y ) <= 1 );
@@ -382,8 +393,10 @@ namespace Jypeli
 
         private static readonly ShapeCache _cache = new ShapeCache( vertices, triangles );
 
+        /// <inheritdoc/>
         public override ShapeCache Cache { get { return _cache; } }
 
+        /// <inheritdoc/>
         public override bool IsUnitSize { get { return true; } }
 
         internal Heart() { }
@@ -425,8 +438,10 @@ namespace Jypeli
 
         private static readonly ShapeCache _cache = new ShapeCache( vertices, triangles, outlineIndices );
 
+        /// <inheritdoc/>
         public override ShapeCache Cache { get { return _cache; } }
 
+        /// <inheritdoc/>
         public override bool IsUnitSize { get { return true; } }
 
         internal Star() { }
@@ -456,12 +471,15 @@ namespace Jypeli
 
         private static readonly ShapeCache _cache = new ShapeCache( vertices, triangles, outlineIndices );
 
+        /// <inheritdoc/>
         public override ShapeCache Cache { get { return _cache; } }
 
+        /// <inheritdoc/>
         public override bool IsUnitSize { get { return true; } }
 
-        internal Triangle() { }        
+        internal Triangle() { }
 
+        /// <inheritdoc/>
         public override bool IsInside( double x, double y )
         {
             return IsInsideTriangle( new Vector( x, y ), vertices[0], vertices[1], vertices[2] );
@@ -473,6 +491,7 @@ namespace Jypeli
     /// </summary>
     public class RaySegment : Shape
     {
+        /// <inheritdoc/>
         public override ShapeCache Cache
         {
             get { 
@@ -481,12 +500,30 @@ namespace Jypeli
             }
         }
 
+        /// <inheritdoc/>
         public override bool IsUnitSize { get { return false; } }
 
+        /// <summary>
+        /// Lähtöpiste
+        /// </summary>
         public Vector Origin;
+
+        /// <summary>
+        /// Suunta
+        /// </summary>
         public Vector Direction;
+
+        /// <summary>
+        /// Pituus
+        /// </summary>
         public double Length;
 
+        /// <summary>
+        /// Säde
+        /// </summary>
+        /// <param name="origin">Lähtöpiste</param>
+        /// <param name="direction">Suunta</param>
+        /// <param name="length">Pituus</param>
         public RaySegment( Vector origin, Vector direction, double length )
         {
             this.Origin = origin;
@@ -513,16 +550,28 @@ namespace Jypeli
             get { return isUnitSize; }
         }
 
+        /// <inheritdoc/>
         public override ShapeCache Cache
         {
             get { return _cache; }
         }
 
+        /// <summary>
+        /// Monikulmio.
+        /// Muodostamiseen kannattaa mielummin käyttää <c>Shape.CreateRegularPolygon</c> -metodia.
+        /// </summary>
+        /// <param name="cache"></param>
         public Polygon( ShapeCache cache )
             : this( cache, true )
         {
         }
 
+        /// <summary>
+        /// Monikulmio.
+        /// Muodostamiseen kannattaa mielummin käyttää <c>Shape.CreateRegularPolygon</c> -metodia.
+        /// </summary>
+        /// <param name="cache"></param>
+        /// <param name="isUnitSize"></param>
         public Polygon( ShapeCache cache, bool isUnitSize )
         {
             this._cache = cache;

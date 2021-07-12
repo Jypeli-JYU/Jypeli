@@ -11,6 +11,7 @@ namespace Jypeli
     {
         private double _tolerance = 30;
 
+        /// <inheritdoc/>
         protected override Color Null
         {
             get { return Color.Transparent; }
@@ -58,6 +59,12 @@ namespace Jypeli
             return new ColorTileMap( Game.LoadImage( assetName ) );
         }
 
+        /// <summary>
+        /// Vastaavatko alkiot toisiaan
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         protected virtual bool ItemEquals( Color a, Color b )
         {
             return ( a.AlphaComponent == b.AlphaComponent && Color.Distance( a, b ) <= ColorTolerance );

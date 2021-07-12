@@ -50,6 +50,7 @@
             Speed = speed;
         }
 
+        /// <inheritdoc/>
         protected override void OnAdd( IGameObject newOwner )
         {
             changeDirectionTimer.Start();
@@ -57,6 +58,7 @@
             base.OnAdd( newOwner );
         }
 
+        /// <inheritdoc/>
         protected override void OnRemove( IGameObject prevOwner )
         {
             changeDirectionTimer.Stop();
@@ -83,6 +85,7 @@
             base.OnCollision( target );
         }
 
+        /// <inheritdoc/>
         protected override void Update( Time time )
         {
             if ( Owner == null )

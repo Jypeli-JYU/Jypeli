@@ -24,6 +24,8 @@
 #endregion
 
 
+using System;
+
 namespace Jypeli.Effects
 {
     /// <summary>
@@ -77,6 +79,11 @@ namespace Jypeli.Effects
             }
         }
 
+        /// <summary>
+        /// Valo.
+        /// Ei käytössä!
+        /// </summary>
+        [Obsolete("Ei käytössä")]
         public Light()
         {
             Distance = 10.0;

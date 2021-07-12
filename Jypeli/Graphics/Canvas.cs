@@ -90,6 +90,12 @@ namespace Jypeli
             Reset();
         }
 
+        /// <summary>
+        /// Aloittaa canvaksen piirtämisen.
+        /// Sinun ei tarvitse kutsua tätä.
+        /// </summary>
+        /// <param name="worldMatrix"></param>
+        /// <param name="dimensionSource"></param>
         public void Begin( ref Matrix worldMatrix, Dimensional dimensionSource )
         {
             Graphics.LineBatch.Begin( ref worldMatrix );
@@ -98,6 +104,10 @@ namespace Jypeli
             this.worldMatrix = worldMatrix;
         }
         
+        /// <summary>
+        /// Lopettaa piirtämisen.
+        /// Sinun ei tarvitse kutsua tätä.
+        /// </summary>
         public void End()
         {
             Graphics.ImageBatch.End();

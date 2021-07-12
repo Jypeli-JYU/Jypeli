@@ -92,6 +92,10 @@ namespace Jypeli
             Layers.UpdateChanges();
         }
 
+        /// <summary>
+        /// Kun olio lisätään kerrokselle
+        /// </summary>
+        /// <param name="obj"></param>
         protected virtual void OnObjectAdded( IGameObject obj )
         {
             IGameObjectInternal iObj = obj as IGameObjectInternal;
@@ -103,6 +107,10 @@ namespace Jypeli
             if ( cObj != null ) ActivateObject( cObj );
         }
 
+        /// <summary>
+        /// Kun olio poistetaan kerrokselta
+        /// </summary>
+        /// <param name="obj"></param>
         protected virtual void OnObjectRemoved( IGameObject obj )
         {
             IGameObjectInternal iObj = obj as IGameObjectInternal;

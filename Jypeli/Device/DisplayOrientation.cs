@@ -48,16 +48,30 @@ namespace Jypeli
             this.Ymul = ymul;
         }
 
+        /// <summary>
+        /// Hajautuskoodi
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return Xmul * 2 + Ymul;
         }
 
+        /// <summary>
+        /// Onko näytön asemointi sama
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals( object obj )
         {
             return this.Equals( obj as DisplayOrientation );
         }
 
+        /// <summary>
+        /// Onko näytön asemointi sama
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals( DisplayOrientation other )
         {
             if ( other == null )
@@ -66,6 +80,12 @@ namespace Jypeli
             return other.Xmul == this.Xmul && other.Ymul == this.Ymul;
         }
 
+        /// <summary>
+        /// Onko näytön asemoinnit samat
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator ==( DisplayOrientation a, DisplayOrientation b )
         {
             if ( ReferenceEquals( a, null ) )
@@ -76,6 +96,12 @@ namespace Jypeli
             return a.Xmul == b.Xmul && a.Ymul == b.Ymul;
         }
 
+        /// <summary>
+        /// Onko näytön asemoinnit eri
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator !=( DisplayOrientation a, DisplayOrientation b )
         {
             if ( ReferenceEquals( a, null ) )

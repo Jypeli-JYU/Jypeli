@@ -1,11 +1,14 @@
 ﻿namespace Jypeli.Physics
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    // TODO: Tämän voinee poistaa?
     /// <summary>
     /// Allows us to have platforms that are one way.
     /// </summary>
     public class OneWayPlatformIgnorer : Ignorer
     {
         double depthAllowed;
+
 
         public OneWayPlatformIgnorer(double depthAllowed)
         {

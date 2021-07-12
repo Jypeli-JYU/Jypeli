@@ -136,6 +136,7 @@ namespace Jypeli
             SizingByLayout = false;
         }
 
+        /// <inheritdoc/>
         internal protected override Label CreateWidget( string item )
         {
             return new Label( item )

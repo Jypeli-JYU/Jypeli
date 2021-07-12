@@ -73,6 +73,12 @@ namespace Jypeli
             get { DoInitTexture(); return xnaTexture; }
         }
 
+        /// <summary>
+        /// Kuvan yksittäisten pikselien indeksointiin
+        /// </summary>
+        /// <param name="row">Rivi</param>
+        /// <param name="col">Sarake</param>
+        /// <returns>Pikselin väri</returns>
         public Color this[int row, int col]
         {
             get
@@ -399,6 +405,10 @@ namespace Jypeli
             this.InitDimensions += LoadContentTexture;
         }
 
+        /// <summary>
+        /// Kuva MonoGamen Texture2D oliosta
+        /// </summary>
+        /// <param name="texture"></param>
         [EditorBrowsable( EditorBrowsableState.Never )]
         public Image( Microsoft.Xna.Framework.Graphics.Texture2D texture )
         {
@@ -492,6 +502,10 @@ namespace Jypeli
             this.xnaTexture = new Texture2D( Game.GraphicsDevice, Width, Height );
         }
 
+        /// <summary>
+        /// Luo kopion kuvasta
+        /// </summary>
+        /// <returns></returns>
         public Image Clone()
         {
             Image copy;
@@ -1034,6 +1048,13 @@ namespace Jypeli
             return result;
         }
 
+        // TODO: On hyvin hämäävä nimi...
+        /// <summary>
+        /// Muuttaa kuvan jokaisen pikselin <c>alpha</c>-arvon vastaamaan annettua.
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
         public static Image Color( Image image, byte alpha )
         {
             Texture2D newTex = new Texture2D( image.XNATexture.GraphicsDevice, image.Width, image.Height, false, image.XNATexture.Format );
@@ -1052,6 +1073,12 @@ namespace Jypeli
             return new Image( newTex );
         }
 
+        /// <summary>
+        /// Yhditää kaksi kuvaa olemaan vierekkäin uudessa kuvassa.
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static Image TileHorizontal( Image left, Image right )
         {
             if ( left.Height != right.Height ) throw new InvalidOperationException( "Cannot tile two images with different height" );
@@ -1070,6 +1097,12 @@ namespace Jypeli
             return tiled;
         }
 
+        /// <summary>
+        /// Yhdistää kaksi kuvaa olemaan päällekkäin uudessa kuvassa
+        /// </summary>
+        /// <param name="top"></param>
+        /// <param name="bottom"></param>
+        /// <returns></returns>
         public static Image TileVertical( Image top, Image bottom )
         {
             if ( top.Width != bottom.Width ) throw new InvalidOperationException( "Cannot tile two images with different width" );
@@ -1090,6 +1123,14 @@ namespace Jypeli
 
         #endregion
 
+        /// <summary>
+        /// Leikkaa kuvasta palan ja palauttaa sen uutena kuvana
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="top"></param>
+        /// <param name="right"></param>
+        /// <param name="bottom"></param>
+        /// <returns></returns>
         public Image Area( int left, int top, int right, int bottom )
         {
             int width = right - left;
@@ -1108,6 +1149,10 @@ namespace Jypeli
             return areaImage;
         }
 
+        /// <summary>
+        /// Täyttää kuvan värillä
+        /// </summary>
+        /// <param name="backColor"></param>
         public void Fill( Color backColor )
         {
             DoInitTexture();

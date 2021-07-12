@@ -49,11 +49,24 @@ namespace Jypeli
                 (int)RedComponent, (int)GreenComponent, (int)BlueComponent, (int)AlphaComponent );
         }
 
+        /// <summary>
+        /// Uusi väri
+        /// </summary>
+        /// <param name="red">Punainen värikomponentti välillä 0-255</param>
+        /// <param name="green">Vihreä värikomponentti välillä 0-255</param>
+        /// <param name="blue">Sininen värikomponentti välillä 0-255</param>
         public Color( byte red, byte green, byte blue )
             : this( red, green, blue, byte.MaxValue )
         {
         }
 
+        /// <summary>
+        /// Uusi väri
+        /// </summary>
+        /// <param name="red">Punainen värikomponentti välillä 0-255</param>
+        /// <param name="green">Vihreä värikomponentti välillä 0-255</param>
+        /// <param name="blue">Sininen värikomponentti välillä 0-255</param>
+        /// <param name="alpha">Läpinäkymättömyys välillä 0-255</param>
         public Color( byte red, byte green, byte blue, byte alpha )
         {
             RedComponent = red;
@@ -62,26 +75,57 @@ namespace Jypeli
             AlphaComponent = alpha;
         }
 
+        /// <summary>
+        /// Uusi väri
+        /// </summary>
+        /// <param name="red">Punainen värikomponentti välillä 0-255</param>
+        /// <param name="green">Vihreä värikomponentti välillä 0-255</param>
+        /// <param name="blue">Sininen värikomponentti välillä 0-255</param>
+        /// <param name="alpha">Läpinäkymättömyys välillä 0-255</param>
         public Color( int red, int green, int blue, int alpha )
             : this( (byte)red, (byte)green, (byte)blue, (byte)alpha )
         {
         }
 
+        /// <summary>
+        /// Uusi väri
+        /// </summary>
+        /// <param name="red">Punainen värikomponentti välillä 0-255</param>
+        /// <param name="green">Vihreä värikomponentti välillä 0-255</param>
+        /// <param name="blue">Sininen värikomponentti välillä 0-255</param>
         public Color( int red, int green, int blue )
             : this( (byte)red, (byte)green, (byte)blue, byte.MaxValue )
         {
         }
 
+        /// <summary>
+        /// Uusi väri aiemman pohjalta uudella läpinäkyvyydellä
+        /// </summary>
+        /// <param name="rgb">Väri</param>
+        /// <param name="alpha">Läpinäkymättömyys välillä 0-255</param>
         public Color( Color rgb, byte alpha )
             : this( rgb.RedComponent, rgb.GreenComponent, rgb.BlueComponent, alpha )
         {
         }
 
+        /// <summary>
+        /// Uusi väri
+        /// </summary>
+        /// <param name="red">Punainen värikomponentti välillä 0-1.0</param>
+        /// <param name="green">Vihreä värikomponentti välillä 0-1.0</param>
+        /// <param name="blue">Sininen värikomponentti välillä 0-1.0</param>
         public Color( double red, double green, double blue )
             : this( red, green, blue, 1.0 )
         {
         }
 
+        /// <summary>
+        /// Uusi väri
+        /// </summary>
+        /// <param name="red">Punainen värikomponentti välillä 0-1.0</param>
+        /// <param name="green">Vihreä värikomponentti välillä 0-1.0</param>
+        /// <param name="blue">Sininen värikomponentti välillä 0-1.0</param>
+        /// <param name="alpha">Läpinäkymättömyys välillä 0-1.0</param>
         public Color( double red, double green, double blue, double alpha )
         {
             var xnaColor = new XnaColor(
@@ -342,6 +386,7 @@ namespace Jypeli
             return ToIntRGB().ToString( "X6" );
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static bool operator ==( Color c1, Color c2 )
         {
             return c1.RedComponent == c2.RedComponent
@@ -398,7 +443,15 @@ namespace Jypeli
         {
             return new Color( color );
         }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
+        /// <summary>
+        /// Lineaarinen interpolaatio värien välillä
+        /// </summary>
+        /// <param name="value1"></param>
+        /// <param name="value2"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
         public static Color Lerp( Color value1, Color value2, double amount )
         {
             return new Color( XnaColor.Lerp(

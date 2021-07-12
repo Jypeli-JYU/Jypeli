@@ -14,6 +14,9 @@ namespace Jypeli
         private bool _triesToJump = false;
         private Vector lastJumpingPosition;
 
+        /// <summary>
+        /// Suunta, johon aivot ovat ohjaamassa sen hallitsemaa oliota
+        /// </summary>
         public Direction Direction { get; set; }
 
         /// <summary>
@@ -52,17 +55,24 @@ namespace Jypeli
             set { _triesToJump = value; }
         }
 
+        /// <summary>
+        /// Aivot, jotka laittavat omistajansa hortoilemaan tasohyppelytasoa
+        /// edestakaisin.
+        /// </summary>
         public PlatformWandererBrain()
         {
             Direction = Direction.Right;
         }
 
+        /// <inheritdoc/>
         protected override void OnAddToGame()
         {
             base.OnAddToGame();
             lastJumpingPosition = this.Owner.Position;
         }
 
+        /// <inheritdoc/>
+        /// <param name="target"></param>
         public override void OnCollision( IGameObject target )
         {
             //if ( target is PhysicsObject && Owner.Y > target.Y && target.Width > Owner.Width )
@@ -77,6 +87,7 @@ namespace Jypeli
             base.OnCollision( target );
         }
 
+        /// <inheritdoc/>
         protected override void Update(Time time)
         {
             

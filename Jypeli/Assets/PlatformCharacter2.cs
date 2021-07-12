@@ -260,6 +260,11 @@ public class PlatformCharacter2 : PhysicsObject
             AnimJump.Start( 1 );
     }
 
+    /// <summary>
+    /// Toistaa animaation
+    /// </summary>
+    /// <param name="anim">Animaatio</param>
+    /// <param name="onPlayed">Mitä tehdään kun toistettu (oletuksena null)</param>
     public void PlayAnimation( Animation anim, Action onPlayed = null )
     {
         customAnimPlaying = true;
@@ -417,6 +422,7 @@ public class PlatformCharacter2 : PhysicsObject
         t.Start();
     }
 
+    /// <inheritdoc/>
     protected override void PrepareThrowable( PhysicsObject obj, Angle angle, double force, double distanceDelta, double axialDelta )
     {
         double d = ( this.Width + obj.Width ) / 2;

@@ -3,6 +3,10 @@ using System;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Yleinen äänen toistamiseen käytettävä luokka.
+    /// Tällä ei ole kovin suuria eroja <c>SoundEffect</c>-luokan kanssa.
+    /// </summary>
     public class Sound
     {
         SoundEffectInstance effectInstance;
@@ -69,6 +73,10 @@ namespace Jypeli
             effectInstance = s;
         }
 
+        /// <summary>
+        /// Toistaa äänen
+        /// </summary>
+        /// <param name="retries"></param>
         public void Play( int retries = 3 )
         {
             try
@@ -91,16 +99,25 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Jatkaa äänen toistamista
+        /// </summary>
         public void Resume()
         {
             effectInstance.Resume();
         }
 
+        /// <summary>
+        /// Pysäyttää äänen toistamisen
+        /// </summary>
         public void Stop()
         {
             effectInstance.Stop();
         }
 
+        /// <summary>
+        /// Keskeyttää äänen toistamisen
+        /// </summary>
         public void Pause()
         {
             effectInstance.Pause();

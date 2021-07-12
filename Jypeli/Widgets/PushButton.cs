@@ -122,6 +122,9 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Nappulan koko
+        /// </summary>
         public override Vector Size
         {
             get
@@ -403,12 +406,18 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Suoritetaan, kun nappulaa klikattiin hiiren vasemmalla näppäimellä
+        /// </summary>
         public void Click()
         {
             if ( Clicked != null )
                 Clicked();
         }
 
+        /// <summary>
+        /// Suoritetaan, kun nappulaa klikattiin hiiren oikealla näppäimellä
+        /// </summary>
         public void RightClick()
         {
             if ( RightClicked != null )
@@ -480,6 +489,7 @@ namespace Jypeli
             SetState( Game.Mouse.IsCursorOn( this ) ? State.Hover : State.Released );
         }
 
+        /// <inheritdoc/>
         public override void Draw( Matrix parentTransformation, Matrix transformation )
         {
             base.Draw( parentTransformation, transformation );

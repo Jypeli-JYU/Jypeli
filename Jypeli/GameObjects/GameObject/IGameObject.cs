@@ -9,6 +9,7 @@ namespace Jypeli
     /// </summary>
     public interface IGameObject : Destroyable, DimensionalRW, PositionalRW, Updatable, Tagged
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         Layer Layer { get; }
         IGameObject Parent { get; set; }
         Brain Brain { get; set; }
@@ -58,6 +59,7 @@ namespace Jypeli
 
         IEnumerable<T> GetChildObjects<T>() where T : IGameObject;
         IEnumerable<T> GetChildObjects<T>( Predicate<T> predicate ) where T : IGameObject;
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 
     /// <summary>

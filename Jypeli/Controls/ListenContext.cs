@@ -3,15 +3,20 @@ using System.Collections.Generic;
 
 namespace Jypeli.Controls
 {
+    /// <summary>
+    /// Kuuntelukonteksti ohjaimia varten
+    /// </summary>
     public class ListenContext : Destroyable
     {
         internal static ListenContext Null = new ListenContext() { Active = false };
 
         private bool _active = false;
 
+        /// <summary>
+        /// Onko tämä konteksti tällä hetkellä aktiivinen
+        /// </summary>
         public bool Active
         {
-            //get { return _active && !destroyed; }
             get
             {
                 if ( destroyed ) return false;
@@ -34,6 +39,9 @@ namespace Jypeli.Controls
         internal ListenContext parentContext = null;
         internal ControlContexted parentObject = null;
 
+        /// <summary>
+        /// Kuuluuko tämä konteksti johonkin toiseen kontekstiin.
+        /// </summary>
         public ListenContext Parent
         {
             get
@@ -55,6 +63,9 @@ namespace Jypeli.Controls
         /// </summary>
         public event Action Deactivated;
 
+        /// <summary>
+        /// Muodostaa uuden ohjainkontekstin
+        /// </summary>
         public ListenContext()
         {
         }
@@ -70,6 +81,10 @@ namespace Jypeli.Controls
             this.parentObject = parentObj;
         }
 
+        /// <summary>
+        /// Muodostaa uuden ohjainkontekstin tämän lapseksi
+        /// </summary>
+        /// <returns></returns>
         public ListenContext CreateSubcontext()
         {
             return new ListenContext( this );
@@ -87,20 +102,36 @@ namespace Jypeli.Controls
             Active = savedStates.Pop();
         }
 
+        /// <summary>
+        /// Aktivoi tämän ohjainkontekstin
+        /// </summary>
         public void Enable() { Active = true; }
+
+        /// <summary>
+        /// Asettaa tämän ohjainkontekstin pois käytöstä.
+        /// </summary>
         public void Disable() { Active = false; }
 
         #region Destroyable Members
 
         bool destroyed = false;
 
+        /// <summary>
+        /// Onko konteksti tuhottu
+        /// </summary>
         public bool IsDestroyed
         {
             get { return destroyed; }
         }
 
+        /// <summary>
+        /// Ajetaan kun konteksti tuhotaan
+        /// </summary>
         public event Action Destroyed;
 
+        /// <summary>
+        /// Tuhoaa kontekstin
+        /// </summary>
         public void Destroy()
         {
             destroyed = true;

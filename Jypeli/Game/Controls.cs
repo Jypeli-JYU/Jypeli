@@ -99,6 +99,9 @@ namespace Jypeli
             get { return Instance._context; }
         }
 
+        /// <summary>
+        /// Onko ohjauskonteksti modaalinen (ei)
+        /// </summary>
         public bool IsModal
         {
             get { return false; }

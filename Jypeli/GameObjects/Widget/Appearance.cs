@@ -15,10 +15,19 @@ namespace Jypeli
             this.IgnoresLighting = true;
         }
 
+        /// <summary>
+        /// Piirtää elementin ruudulle
+        /// </summary>
+        /// <param name="parentTransformation"></param>
+        /// <param name="transformation"></param>
         public virtual void Draw( Matrix parentTransformation, Matrix transformation )
         {
         }
 
+        /// <summary>
+        /// Piirtää elementin ruudulle
+        /// </summary>
+        /// <param name="parentTransformation"></param>
         public void Draw( Matrix parentTransformation )
         {
             if (!IsVisible)

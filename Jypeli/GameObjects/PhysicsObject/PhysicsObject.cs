@@ -2,6 +2,10 @@
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Kappale joka noudattaa fysiikan lakeja, johon voi törmätä.
+    /// Vaatii että käytössä on fysiikkapeli.
+    /// </summary>
     [Save]
     public partial class PhysicsObject : GameObject, IPhysicsObjectInternal
     {
@@ -30,7 +34,9 @@ namespace Jypeli
         /// </summary>
         public PhysicsStructure ParentStructure { get; internal set; }
 
-        [Save]
+        /// <summary>
+        /// Jättääkö räjähdysten paineaallon huomioimatta
+        /// </summary>
         public bool IgnoresExplosions { get; set; }
 
         /// <summary>
@@ -154,8 +160,10 @@ namespace Jypeli
         /// </summary>
         /// Tätä ei käytetä, mutta tämä periytyy kaukaiselta interfacelta DelayedDestroyable.
         /// Interfacet voisi suunnitella uusiksi, mikäli tätä ei voi toteuttaa.
+        [Obsolete("Ei käytössä")]
         public event Action Destroying;
 
+        ///<inheritdoc/>
         public override void Update( Time time )
         {
             if ( Velocity.Magnitude > MaxVelocity )

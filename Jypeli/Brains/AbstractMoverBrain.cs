@@ -36,10 +36,17 @@ namespace Jypeli
             set { _turnSpeed = value; }
         }
 
+        /// <summary>
+        /// Yleiset liikkumiseen tarkoitetut aivot
+        /// </summary>
         public AbstractMoverBrain()
         {
         }
 
+        /// <summary>
+        /// Yleiset liikkumiseen tarkoitetut aivot
+        /// </summary>
+        /// <param name="speed">Nopeus</param>
         public AbstractMoverBrain( double speed )
         {
             this.Speed = speed;
@@ -50,6 +57,10 @@ namespace Jypeli
             return Math.PI - Math.Abs( Math.Abs( a2 - a1 ) - Math.PI );
         }
 
+        /// <summary>
+        /// Kääntää aivojen hallitsemaan hahmoa
+        /// </summary>
+        /// <param name="angle">Kulma</param>
         public void Turn( Angle angle )
         {
             if ( !TurnWhileMoving || Game.Time.SinceLastUpdate.TotalSeconds == 0 || Owner == null || Owner.Angle == angle ) return;
@@ -71,6 +82,10 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Liikuttaa aivojen hallitsemaa hahmoa
+        /// </summary>
+        /// <param name="direction">Suunta</param>
         protected void Move( Vector direction )
         {
             if ( Owner == null || direction == Vector.Zero ) return;
@@ -79,6 +94,10 @@ namespace Jypeli
             Turn(direction.Angle);
         }
 
+        /// <summary>
+        /// Liikuttaa aivojen hallitsemaa hahmoa
+        /// </summary>
+        /// <param name="direction">Suunta</param>
         protected void Move( Angle direction )
         {
             if ( Owner == null ) return;

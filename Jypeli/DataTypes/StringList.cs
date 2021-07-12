@@ -11,7 +11,7 @@ namespace Jypeli
     {
         List<string> strings = new List<string>();
 
-
+        /// <inheritdoc/>
         public IEnumerator<string> GetEnumerator()
         {
             return strings.GetEnumerator();

@@ -317,14 +317,39 @@ namespace Jypeli
             get { return -Height / 2; }
         }
 
+        /// <summary>
+        /// Vasemman reunan sijainti johon lisätty pieni marginaali
+        /// </summary>
         public double LeftSafe { get { return Left + 10; } }
+
+        /// <summary>
+        /// Oikean reunan sijainti johon lisätty pieni marginaali
+        /// </summary>
         public double RightSafe { get { return Right - 10; } }
+
+        /// <summary>
+        /// Alareunan sijainti johon lisätty pieni marginaali
+        /// </summary>
         public double BottomSafe { get { return Bottom + 10; } }
+
+        /// <summary>
+        /// Yläreunan sijainti johon lisätty pieni marginaali
+        /// </summary>
         public double TopSafe { get { return Top + 10; } }
 
+        /// <summary>
+        /// Leveys johon lisätty pieni marginaali
+        /// </summary>
         public double WidthSafe { get { return RightSafe - LeftSafe; } }
+
+        /// <summary>
+        /// Korkeus johon lisätty pieni marginaali
+        /// </summary>
         public double HeightSafe { get { return TopSafe - BottomSafe; } }
 
+        /// <summary>
+        /// Skaalaa näkymän mahtumaan ruudulle
+        /// </summary>
 		public void ScaleToFit()
 		{
 			// TODO: Angle

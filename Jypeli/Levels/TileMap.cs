@@ -15,6 +15,7 @@ namespace Jypeli
         private Dictionary<char, Func<GameObject>> oldLegend = new Dictionary<char, Func<GameObject>>();
         private static string[] textExtensions = { ".txt", ".dat" };
 
+        /// <inheritdoc/>
         protected override char Null
         {
             get { return ' '; }

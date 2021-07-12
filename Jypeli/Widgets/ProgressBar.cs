@@ -74,6 +74,9 @@ namespace Jypeli.Widgets
         Matrix imgPart;
         Matrix colorPart;
 
+        /// <summary>
+        /// Päivittää mittarin näkymän vastaamaan sen arvoa
+        /// </summary>
         protected override void UpdateValue()
         {
             double barLength = Size.X * Meter.RelativeValue;
@@ -98,6 +101,7 @@ namespace Jypeli.Widgets
                 * Matrix.CreateTranslation((float)Position.X, (float)Position.Y, 0.0f);
         }
 
+        /// <inheritdoc/>
         public override void Draw(Matrix parentTransformation, Matrix transformation)
         {
             // TODO: Optimization?

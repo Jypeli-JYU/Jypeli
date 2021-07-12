@@ -48,6 +48,7 @@ namespace Jypeli
         /// </summary>
         public PushButton OKButton { get; private set; }
 
+        ///<inheritdoc/>
         public override Color Color
         {
             get

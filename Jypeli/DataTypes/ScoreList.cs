@@ -44,6 +44,9 @@ namespace Jypeli
         [EditorBrowsable(EditorBrowsableState.Never)]
         public ScoreItem[] _scores;
 
+        /// <summary>
+        /// Viimeksi kirjoitettu nimi
+        /// </summary>
         [Save]
         public string LastEnteredName = "";
 
@@ -243,6 +246,11 @@ namespace Jypeli
             Score = score;
         }
 
+        /// <summary>
+        /// Onko tämä piste-olio sama kuin toinen.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals( object obj )
         {
             if ( !( obj is ScoreItem ) )
@@ -252,6 +260,10 @@ namespace Jypeli
             return this.Name == other.Name && Math.Abs( this.Score - other.Score ) <= float.Epsilon;
         }
 
+        /// <summary>
+        /// Hajautuskoodi
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return Name.GetHashCode() + Score.GetHashCode();

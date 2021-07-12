@@ -403,21 +403,41 @@ namespace Jypeli
             return false;
         }
 
+        /// <summary>
+        /// Kulma radiaaneina
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return radian.ToString( System.Globalization.NumberFormatInfo.InvariantInfo );
         }
 
+        /// <summary>
+        /// Kulma radiaaneina annetussa muodossa
+        /// </summary>
+        /// <param name="formatProvider"></param>
+        /// <returns></returns>
         public string ToString( IFormatProvider formatProvider )
         {
             return radian.ToString( formatProvider );
         }
 
+        /// <summary>
+        /// Muodostaa kulman annetusta merkkijonosta
+        /// </summary>
+        /// <param name="angleStr">Kulma radiaaneina</param>
+        /// <param name="formatProvider"></param>
+        /// <returns></returns>
         public static Angle Parse( string angleStr, IFormatProvider formatProvider )
         {
             return new Angle( double.Parse( angleStr, formatProvider ) );
         }
 
+        /// <summary>
+        /// Muodostaa kulman annetusta merkkijonosta
+        /// </summary>
+        /// <param name="angleStr">Kulma radiaaneina</param>
+        /// <returns></returns>
         public static Angle Parse( string angleStr )
         {
             return new Angle( double.Parse( angleStr, NumberFormatInfo.InvariantInfo ) );
@@ -443,6 +463,10 @@ namespace Jypeli
             return Degrees >= 0 ? Degrees : 360 + Degrees;
         }
 
+        /// <summary>
+        /// Kulmaa vastaava yksikkövektori
+        /// </summary>
+        /// <returns></returns>
         public Vector GetVector()
         {
             return Vector.FromAngle( this );

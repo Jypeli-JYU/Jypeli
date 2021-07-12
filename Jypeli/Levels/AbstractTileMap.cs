@@ -4,8 +4,14 @@ using System.Linq;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Abstrakti ruutukartta. Tätä luokkaa et voi muodostaa.
+    /// Katso <c>ColorTileMap</c> ja <c>TileMap</c>
+    /// </summary>
+    /// <typeparam name="TileType"></typeparam>
     public abstract class AbstractTileMap<TileType>
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public delegate void TileMethod(Vector position, double width, double height);
         public delegate void TileMethod<T1>(Vector position, double width, double height, T1 p1);
         public delegate void TileMethod<T1, T2>(Vector position, double width, double height, T1 p1, T2 p2);
@@ -15,6 +21,8 @@ namespace Jypeli
         public delegate void TileMethod<T1, T2, T3, T4, T5, T6>(Vector position, double width, double height, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6);
 
         public delegate void RouteMethod(List<Vector> route, double width, double height);
+
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         struct TileMethodCall
         {
@@ -38,11 +46,27 @@ namespace Jypeli
         }
 
         private List<TileMethodCall> optimized = new List<TileMethodCall>();
+
+        /// <summary>
+        /// Ruutuja vastaavat metodit
+        /// </summary>
         protected Dictionary<TileType, TileMethod> legend = new Dictionary<TileType, TileMethod>();
+
+        /// <summary>
+        /// Ruudut
+        /// </summary>
         protected TileType[,] tiles;
 
+        /// <summary>
+        /// Tyhjä ruutumerkki
+        /// </summary>
         protected abstract TileType Null { get; }
 
+        /// <summary>
+        /// Ruutukartan oletusmuodostaja.
+        /// Tätä luokkaa et voi muodostaa.
+        /// </summary>
+        /// <param name="tiles"></param>
         public AbstractTileMap(TileType[,] tiles)
         {
             if (tiles.GetLength(0) == 0 || tiles.GetLength(1) == 0)
@@ -275,6 +299,11 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Antaa ruutukartan symbolia vastaavan metodin
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <returns></returns>
         protected TileMethod GetMethodForSymbol(TileType symbol)
         {
             if (symbol.Equals(Null)) return null;
@@ -288,6 +317,12 @@ namespace Jypeli
             return null;
         }
 
+        /// <summary>
+        /// Ovatko ruutukartan merkit samat
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         protected virtual bool SymbolEquals(TileType a, TileType b)
         {
             return a.Equals(b);

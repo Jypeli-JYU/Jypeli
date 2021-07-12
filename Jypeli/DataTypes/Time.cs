@@ -12,6 +12,9 @@ namespace Jypeli
     /// </summary>
     public struct Time
     {
+        /// <summary>
+        /// Nolla-aika
+        /// </summary>
         public static readonly Time Zero = new Time();
 
         private TimeSpan _upd;

@@ -5,10 +5,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Jypeli.Effects
 {
+    /// <summary>
+    /// Sekoitusmoodi, kuinka päällekkäin olevat osittain läpinäkyvät kappaleet näkyvät
+    /// </summary>
     public enum BlendMode
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         Alpha,
         Additive
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 
 
@@ -114,6 +119,9 @@ namespace Jypeli.Effects
 
         #endregion
 
+        /// <summary>
+        /// Sekoitusmoodi
+        /// </summary>
         public BlendMode BlendMode { get; set; }
 
         /// <summary>
@@ -199,6 +207,12 @@ namespace Jypeli.Effects
             AddEffect(new Vector(x, y), numberOfParticles);
         }
 
+        /// <summary>
+        /// Lisää efektin kentälle
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="angle"></param>
+        /// <param name="numberOfParticles"></param>
         public void AddEffect(Vector position, Angle angle, int numberOfParticles)
         {
             for (int i = 0; i < numberOfParticles && freeParticles.Count > 0; i++)

@@ -33,6 +33,9 @@ namespace Jypeli
             get { return objects.Count; }
         }
 
+        /// <summary>
+        /// Fysiikkastruktuurin ympäröivä neliö
+        /// </summary>
         public BoundingRectangle BoundingRectangle
         {
             get
@@ -56,12 +59,6 @@ namespace Jypeli
                 return new BoundingRectangle(new Vector(left, top), new Vector(right, bottom));
             }
         }
-
-        #region Tagged
-
-        public object Tag { get; set; }
-
-        #endregion
 
         #region IGameObject
 
@@ -101,6 +98,9 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Tähän liittyvät näppäinkuuntelijat
+        /// </summary>
         public List<Listener> AssociatedListeners { get; private set; }
 
         /// <summary>
@@ -112,30 +112,43 @@ namespace Jypeli
             set { centerObject.Position = value; }
         }
 
+        /// <summary>
+        /// Ei toteutettu
+        /// </summary>
         public override Vector Size
         {
             get { return BoundingRectangle.Size; }
             set { throw new NotImplementedException("Setting size for a structure is not implemented."); }
         }
 
+        /// <summary>
+        /// Ei toteutettu
+        /// </summary>
         public override Animation Animation
         {
             get { return null; }
             set { throw new InvalidOperationException("Physics structure has no image or animation."); }
         }
 
+        /// <summary>
+        /// Ei toteutettu
+        /// </summary>
         public Vector TextureWrapSize
         {
             get { return new Vector(1, 1); }
             set { throw new NotImplementedException(); }
         }
 
+        /// <summary>
+        /// Ei toteutettu
+        /// </summary>
         public bool TextureFillsShape
         {
             get { return false; }
             set { throw new NotImplementedException(); }
         }
 
+        ///<inheritdoc/>
         public Color Color
         {
             get { return Color.Transparent; }
@@ -146,6 +159,9 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Ei toteutettu
+        /// </summary>
         public Shape Shape
         {
             get { return Shape.Rectangle; }
@@ -230,14 +246,16 @@ namespace Jypeli
             }
         }
 
-
+        /// <summary>
+        /// Jättääkö fysiikkalogiikat huomioimatta
+        /// </summary>
         public bool IgnoresPhysicsLogics
         {
             get { return centerObject.IgnoresPhysicsLogics; }
             set
             {
-                objects.ForEach(item => item.IgnoresExplosions = value);
-                centerObject.IgnoresExplosions = value;
+                objects.ForEach(item => item.IgnoresPhysicsLogics = value);
+                centerObject.IgnoresPhysicsLogics = value;
             }
         }
 
@@ -455,6 +473,7 @@ namespace Jypeli
             }
         }
 
+        ///<inheritdoc/>
         public override void Update(Time time)
         {
             foreach (var obj in objects)
@@ -488,6 +507,10 @@ namespace Jypeli
 
         }
 
+        /// <summary>
+        /// Poistaa kappaleen fysiikkastruktuurista
+        /// </summary>
+        /// <param name="obj"></param>
         public void Remove(IGameObject obj)
         {
             if (!(obj is PhysicsObject))
@@ -519,6 +542,11 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Onko piste fysiikkarakenteen sisällä
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         public bool IsInside(Vector point)
         {
             foreach (var obj in objects)
@@ -532,61 +560,102 @@ namespace Jypeli
 
         #region IPhysicsObject
 
+        /// <summary>
+        /// Kohdistaa rakenteen keskipisteeseen impulssin
+        /// </summary>
+        /// <param name="impulse"></param>
         public void Hit(Vector impulse)
         {
             centerObject.Hit(impulse);
         }
 
+        /// <summary>
+        /// Työntää rakenteen keskipistettä
+        /// </summary>
+        /// <param name="force"></param>
         public void Push(Vector force)
         {
             centerObject.Push(force);
         }
 
+        /// <summary>
+        /// Työntää keskipistettä jonkin ajan
+        /// </summary>
+        /// <param name="force"></param>
+        /// <param name="time"></param>
         public void Push(Vector force, TimeSpan time)
         {
             centerObject.Push(force, time);
         }
 
+        /// <summary>
+        /// Kohdistaa vääntömomentin
+        /// </summary>
+        /// <param name="torque"></param>
         public void ApplyTorque(double torque)
         {
             centerObject.ApplyTorque(torque);
         }
 
+        /// <summary>
+        /// Liikuttaa rakennetta
+        /// </summary>
+        /// <param name="movement"></param>
         public void Move(Vector movement)
         {
             centerObject.Move(movement);
         }
 
+        ///<inheritdoc/>
         public override void MoveTo(Vector location, double speed, Action doWhenArrived)
         {
             centerObject.MoveTo(location, speed, doWhenArrived);
         }
 
+        /// <summary>
+        /// Lopettaa liikkumisen kohdetta kohti
+        /// </summary>
         public void StopMoveTo()
         {
             centerObject.StopMoveTo();
         }
 
+        /// <summary>
+        /// Pysäyttää liikkeen
+        /// </summary>
         public void Stop()
         {
             centerObject.Stop();
         }
 
+        /// <summary>
+        /// Pysäyttää sivusuuntaisen liikkeen
+        /// </summary>
         public void StopHorizontal()
         {
             centerObject.StopHorizontal();
         }
 
+        /// <summary>
+        /// Pysäyttää pystysuuntaisen liikkeen
+        /// </summary>
         public void StopVertical()
         {
             centerObject.StopVertical();
         }
 
+        /// <summary>
+        /// Pysäyttää annetun akselin suuntaisen liikkeen
+        /// </summary>
+        /// <param name="axis"></param>
         public void StopAxial(Vector axis)
         {
             centerObject.StopAxial(axis);
         }
 
+        /// <summary>
+        /// Pysäyttää pyörimisen
+        /// </summary>
         public void StopAngular()
         {
             centerObject.StopAngular();
@@ -606,12 +675,18 @@ namespace Jypeli
         /// </summary> 
         public event Action Destroying;
 
+        /// <summary>
+        /// Kun oliota käydään tuhoamaan
+        /// </summary>
         protected void OnDestroying()
         {
             if (Destroying != null)
                 Destroying();
         }
 
+        /// <summary>
+        /// Tuhoaa olion
+        /// </summary>
         public override void Destroy()
         {
             IsDestroying = true;
@@ -619,6 +694,9 @@ namespace Jypeli
             Game.DoNextUpdate(ReallyDestroy);
         }
 
+        /// <summary>
+        /// Tuhoaa olion välittömästi, ei kutsu <c>OnDestroying</c> funktiota.
+        /// </summary>
         protected virtual void ReallyDestroy()
         {
             foreach (var obj in objects) obj.Destroy();
@@ -632,7 +710,7 @@ namespace Jypeli
 
         public IGameObject Parent
         {
-            get { throw new NotImplementedException(); }
+            get { throw new NotImplementedException(); } // TODO: Tämän ehkä voi poistaa, saattaa toimia.
             set { throw new NotImplementedException(); }
         }
 

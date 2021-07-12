@@ -22,6 +22,12 @@
             return null;
         }
 
+        /// <summary>
+        /// Kertoo onko taulukossa vähintään annettu määrä ei null-arvon omaavia alkioita
+        /// </summary>
+        /// <param name="howMany"></param>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public static bool IsNotNull( int howMany, params object[] list )
         {
             int notNull = 0;

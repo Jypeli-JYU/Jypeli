@@ -48,9 +48,14 @@ namespace Jypeli
         Expanding
     }
 
-
+    /// <summary>
+    /// Leveyssuuntainen väli
+    /// </summary>
     public class HorizontalSpacer : GameObject
     {
+        /// <summary>
+        /// Leveyssuuntainen väli
+        /// </summary>
         public HorizontalSpacer()
             : base(1, 1)
         {
@@ -60,8 +65,14 @@ namespace Jypeli
         }
     }
 
+    /// <summary>
+    /// Pystysuuntainen väli
+    /// </summary>
     public class VerticalSpacer : GameObject
     {
+        /// <summary>
+        /// Pystysuuntainen väli
+        /// </summary>
         public VerticalSpacer()
             : base(1, 1)
         {
@@ -82,11 +93,25 @@ namespace Jypeli
     [EditorBrowsable(EditorBrowsableState.Never)]
     public interface ILayout
     {
+        /// <summary>
+        /// Asettelijan omistaja
+        /// </summary>
         GameObject Parent { get; set; }
 
+        /// <summary>
+        /// Kuinka tämän hallitsemat oliot asetellaan sivusuunnassa
+        /// </summary>
         Sizing HorizontalSizing { get; }
+
+        /// <summary>
+        /// Kuinka tämän hallitsemat oliot asetellaan pystysuunnassa
+        /// </summary>
         Sizing VerticalSizing { get; }
 
+        /// <summary>
+        /// Koko, jota oliolla tulisi olla asettelijan sisällä. Todellinen koko voi olla
+        /// pienempi, jos tilaa ei ole tarpeeksi.
+        /// </summary>
         Vector PreferredSize { get; }
 
         /// <summary>
@@ -109,8 +134,18 @@ namespace Jypeli
         /// </summary>
         double RightPadding { get; set; }
 
+        /// <summary>
+        /// Päivittää asettelijan koon
+        /// </summary>
+        /// <param name="objects"></param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         void UpdateSizeHints(IList<GameObject> objects);
+
+        /// <summary>
+        /// Päivittää asettelijan olioiden sijainnit
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <param name="maximumSize"></param>
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         void Update(IList<GameObject> objects, Vector maximumSize);

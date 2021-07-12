@@ -133,6 +133,10 @@ namespace Jypeli.Assets
         /// </summary>
         public event Action<PhysicsObject> Shooting;
 
+        /// <summary>
+        /// Suoritetaan kun ase ampuu
+        /// </summary>
+        /// <param name="projectile">Ammus</param>
         protected void OnShooting( PhysicsObject projectile )
         {
             if ( Shooting != null )
@@ -204,6 +208,11 @@ namespace Jypeli.Assets
             return null;
         }
 
+        /// <summary>
+        /// Ampuu ammuksen annetulla voimalla
+        /// </summary>
+        /// <param name="projectile"></param>
+        /// <param name="power"></param>
         protected void ShootProjectile( PhysicsObject projectile, double power )
         {
             if ( !IsAddedToGame )
@@ -243,6 +252,11 @@ namespace Jypeli.Assets
             projectile.Hit( impulse );
         }
 
+        /// <summary>
+        /// Lisää törmäyksenkäsittelijän ammukselle
+        /// </summary>
+        /// <param name="projectile">Ammus</param>
+        /// <param name="handler">Käsittelijä</param>
         protected void SetCollisionHandler( PhysicsObject projectile, CollisionHandler<PhysicsObject, PhysicsObject> handler )
         {
             if ( handler == null )
@@ -256,6 +270,8 @@ namespace Jypeli.Assets
             else
                 throw new InvalidOperationException( "Cannot set a collision handler to non-physics game!" );
         }
+
+        /// <inheritdoc/>
         public override void Update(Time time)
         {
             base.Update(time);

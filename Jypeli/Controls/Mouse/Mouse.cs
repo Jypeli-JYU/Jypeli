@@ -539,12 +539,48 @@ namespace Jypeli
             return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p1, p2, p3 );
         }
 
+        /// <summary>
+        /// Kuuntelee hiiren rullaa
+        /// </summary>
+        /// <param name="handler">Tapahtuman käsittelijä.</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <returns></returns>
         public Listener ListenWheel(Action handler, string helpText) => ListenWheelGeneric(handler, helpText, null);
 
+        /// <summary>
+        /// Kuuntelee hiiren rullaa
+        /// </summary>
+        /// <typeparam name="T">Tapahtuman käsittelijän parametrin tyyppi.</typeparam>
+        /// <param name="handler">Tapahtuman käsittelijä.</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p">Tapahtuman käsittelijän parametri.</param>
+        /// <returns></returns>
         public Listener ListenWheel<T>(Action<T> handler, string helpText, T p) => ListenWheelGeneric(handler, helpText, p);
 
+        /// <summary>
+        /// Kuuntelee hiiren rullaa
+        /// </summary>
+        /// <typeparam name="T1">Tapahtuman käsittelijän ensimmäisen parametrin tyyppi.</typeparam>
+        /// <typeparam name="T2">Tapahtuman käsittelijän toise parametrin tyyppi.</typeparam>
+        /// <param name="handler">Tapahtuman käsittelijä.</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">Tapahtuman käsittelijän ensimmäinen parametri.</param>
+        /// <param name="p2">Tapahtuman käsittelijän toinen parametri.</param>
+        /// <returns></returns>
         public Listener ListenWheel<T1, T2>(Action<T1, T2> handler, string helpText, T1 p1, T2 p2) => ListenWheelGeneric(handler, helpText, p1, p2);
 
+        /// <summary>
+        /// Kuuntelee hiiren rullaa
+        /// </summary>
+        /// <typeparam name="T1">Tapahtuman käsittelijän ensimmäisen parametrin tyyppi.</typeparam>
+        /// <typeparam name="T2">Tapahtuman käsittelijän toise parametrin tyyppi.</typeparam>
+        /// <typeparam name="T3">Tapahtuman käsittelijän kolmannen parametrin tyyppi.</typeparam>
+        /// <param name="handler">Tapahtuman käsittelijä.</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">Tapahtuman käsittelijän ensimmäinen parametri.</param>
+        /// <param name="p2">Tapahtuman käsittelijän toinen parametri.</param>
+        /// <param name="p3">Tapahtuman käsittelijän kolmas parametri.</param>
+        /// <returns></returns>
         public Listener ListenWheel<T1, T2, T3>(Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3) => ListenWheelGeneric(handler, helpText, p1, p2, p3);
 
         /// <summary>

@@ -11,6 +11,7 @@ namespace Jypeli
         Timer timer;
         int dx;
 
+        /// <inheritdoc/>
         public bool Active
         {
             get { return timer.Enabled; }
@@ -34,13 +35,17 @@ namespace Jypeli
             meter.Value += dx;
         }
 
+        /// <inheritdoc/>
         public void Stop()
         {
             timer.Stop();
             if ( Stopped != null ) Stopped();
         }
 
+        /// <inheritdoc/>
         public event Action Finished;
+
+        /// <inheritdoc/>
         public event Action Stopped;
 
         private void OnFinished()
@@ -59,6 +64,7 @@ namespace Jypeli
         Timer timer;
         double dx;
 
+        /// <inheritdoc/>
         public bool Active
         {
             get { return timer.Enabled; }
@@ -91,13 +97,17 @@ namespace Jypeli
             meter.Value += dx;
         }
 
+        /// <inheritdoc/>
         public void Stop()
         {
             timer.Stop();
             if ( Stopped != null ) Stopped();
         }
 
+        /// <inheritdoc/>
         public event Action Finished;
+
+        /// <inheritdoc/>
         public event Action Stopped;
 
         private void OnFinished()

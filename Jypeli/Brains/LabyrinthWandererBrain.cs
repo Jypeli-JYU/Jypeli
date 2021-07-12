@@ -81,7 +81,7 @@ namespace Jypeli
             labyrinthWallTag = wallTag;
         }
 
-
+        /// <inheritdoc/>
         protected override void OnAdd(IGameObject newOwner)
         {
             direction = RandomGen.NextDirection().GetVector() * tileSize;
@@ -89,7 +89,7 @@ namespace Jypeli
             base.OnAdd(newOwner);
         }
 
-        
+        /// <inheritdoc/>
         protected override void OnAddToGame()
         {
             Game.DoNextUpdate(SetNextDirectionAndDestination);

@@ -5,6 +5,9 @@
     /// </summary>
     public interface Tagged
     {
+        /// <summary>
+        /// Olion tagi, voi olla mitä tahansa
+        /// </summary>
         object Tag { get; set; }
     }
 }

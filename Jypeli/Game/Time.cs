@@ -80,6 +80,10 @@ namespace Jypeli
             ExecutePendingActions();
         }
 
+        /// <summary>
+        /// Ajetaan kun pelin tilannetta päivitetään.
+        /// </summary>
+        /// <param name="gameTime"></param>
         [EditorBrowsable( EditorBrowsableState.Never )]
         protected override void Update( GameTime gameTime )
         {

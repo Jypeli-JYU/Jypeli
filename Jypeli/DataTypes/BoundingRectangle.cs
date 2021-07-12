@@ -139,6 +139,13 @@ namespace Jypeli
         {
             return point.X >= Left && point.X <= Right && point.Y >= Bottom && point.Y <= Top;
         }
+
+        /// <summary>
+        /// Leikkaavatko suorakaiteet toisiaan
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
 		public static bool Intersects( BoundingRectangle a, BoundingRectangle b )
         {
             bool xcond = a.Right >= b.Left && a.Left <= b.Right || b.Right >= a.Left && b.Left <= a.Right;
@@ -146,6 +153,12 @@ namespace Jypeli
             return xcond && ycond;
         }
 
+        /// <summary>
+        /// Suorakaiteiden leikkaus
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>Leikkaus</returns>
         public static BoundingRectangle GetIntersection( BoundingRectangle a, BoundingRectangle b )
         {
             double left = Math.Max( a.Left, b.Left );
@@ -159,6 +172,12 @@ namespace Jypeli
             return new BoundingRectangle( left + iw / 2, bot + ih / 2, iw, ih );
         }
 
+        /// <summary>
+        /// Mihin suuntaan leikkaus on suhteessa suorakaiteen keskipistettä
+        /// </summary>
+        /// <param name="rect">Suorakulmio</param>
+        /// <param name="intersection">Leikkaus</param>
+        /// <returns>Suunta</returns>
         public static Direction GetIntersectionDirection( BoundingRectangle rect, BoundingRectangle intersection )
         {
             double dx = rect.X - intersection.X;

@@ -43,6 +43,14 @@ namespace Jypeli
         {
             get { return false; }
         }
+
+        /// <summary>
+        /// Voivatko kappaleet törmätä toisiinsa
+        /// </summary>
+        /// <param name="thisBody"></param>
+        /// <param name="otherBody"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public override bool CanCollide( IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other )
         {
             return other!= this;

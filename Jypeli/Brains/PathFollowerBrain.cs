@@ -146,6 +146,7 @@ namespace Jypeli.Assets
             DistanceToWaypoint = new DoubleMeter( double.PositiveInfinity, 0, double.PositiveInfinity );
         }
 
+        /// <inheritdoc/>
         protected override void Update(Time time)
         {
             if ( Owner == null || Path == null || Path.Count == 0 ) return;

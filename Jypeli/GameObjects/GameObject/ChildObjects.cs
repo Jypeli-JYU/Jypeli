@@ -131,6 +131,9 @@ namespace Jypeli
             childObject.Parent = null;
         }
 
+        /// <summary>
+        /// Alustaa lapsioliot
+        /// </summary>
         protected virtual void InitChildren()
         {
             if ( _childObjects != null ) return;

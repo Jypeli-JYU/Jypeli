@@ -27,12 +27,16 @@ namespace Jypeli
         /// </summary>
         public string Charset { get; set; }
 
+        /// <inheritdoc/>
         public override Font Font
         {
             get { return base.Font; }
             set { base.Font = value; UpdateSize(); }
         }
 
+        /// <summary>
+        /// Koko
+        /// </summary>
         public override Vector Size
         {
             get { return base.Size; }
@@ -194,6 +198,7 @@ namespace Jypeli
             return x;
         }
 
+        /// <inheritdoc/>
         public override void Update( Time time )
         {
             if ( _touch != null )
@@ -218,6 +223,7 @@ namespace Jypeli
             base.Update( time );
         }
 
+        /// <inheritdoc/>
         public override void Draw( Matrix parentTransformation, Matrix transformation )
         {
             if ( _indexDelta == 0 )

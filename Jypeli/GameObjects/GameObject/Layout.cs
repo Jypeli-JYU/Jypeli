@@ -67,6 +67,9 @@
             }
         }
 
+        /// <summary>
+        /// Onko olion koko asettelijan muokkaama
+        /// </summary>
         public bool SizingByLayout
         {
             get { return _sizeByLayout; }
@@ -111,12 +114,23 @@
             }
         }
 
+        /// <summary>
+        /// Alustaa asettelijan käyttöön
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         public void InitLayout( double width, double height )
         {
             autoResizeChildObjects = false;
             this.PreferredSize = new Vector( width, height );
         }
 
+        /// <summary>
+        /// Alustaa asettelijan käyttöön
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="layout"></param>
         public void InitLayout( double width, double height, ILayout layout )
         {
             this.Layout = layout;

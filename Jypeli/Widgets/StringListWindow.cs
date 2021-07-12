@@ -46,6 +46,10 @@ namespace Jypeli
 
         internal override bool OkButtonOnPhone { get { return true; } }
 
+        /// <summary>
+        /// Merkkijonolistaikkuna
+        /// </summary>
+        /// <param name="question">Viesti tai kysymys</param>
         public StringListWindow( string question )
             : base( question )
         {
@@ -64,6 +68,7 @@ namespace Jypeli
             AddedToGame += AddControls;
         }
 
+        /// <inheritdoc/>
         protected override StringListWidget CreateQueryWidget()
         {
             return new StringListWidget() { HorizontalSizing = Sizing.Expanding, VerticalSizing = Sizing.Expanding, Color = Color.Transparent };

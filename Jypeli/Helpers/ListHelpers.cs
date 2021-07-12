@@ -112,6 +112,9 @@ namespace Jypeli
         }
 #endif
 
+        //TODO: Iso osa seuraavista metodeista on jo toteutettu standardikirjastoon.
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         /// <summary>
         /// Muuntaa kokoelman tietyn tyyppisiä olioita kokoelmaksi toisen tyyppisiä olioita.
         /// </summary>
@@ -133,6 +136,7 @@ namespace Jypeli
 
             return outList;
         }
+
 
         public static List<T> FindAll<T>( this IEnumerable<T> items, Predicate<T> pred )
         {

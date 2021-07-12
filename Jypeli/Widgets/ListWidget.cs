@@ -33,23 +33,39 @@ using Jypeli.GameObjects;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Rullattava lista widgeteille
+    /// </summary>
+    /// <typeparam name="O">Widgetin tyyppi</typeparam>
     [EditorBrowsable( EditorBrowsableState.Never )]
     public class ScrollableList<O> : Widget where O : Widget
     {
+        /// <summary>
+        /// Onko lista kelattu ylös
+        /// </summary>
         public bool IsAtTop
         {
             get { return _layout.StartIndex == 0; }
         }
 
+        /// <summary>
+        /// Onko lista kelattu alas
+        /// </summary>
         public bool IsAtBottom
         {
             get { return _layout.EndIndex == _childObjects.Count; }
         }
 
+        /// <summary>
+        /// Lisättyjen kappaleiden määrä
+        /// </summary>
         public int ItemCount { get { return _childObjects.Count; } }
 
         private VerticalScrollLayout _layout;
 
+        /// <summary>
+        /// Rullattava lista
+        /// </summary>
         public ScrollableList()
             : base( new VerticalScrollLayout() )
         {
@@ -105,16 +121,25 @@ namespace Jypeli
         }
 #endif
 
+        /// <summary>
+        /// Kelaa listan ylös
+        /// </summary>
         public void ScrollUp()
         {
             _layout.ScrollUp( Objects.items );
         }
 
+        /// <summary>
+        /// Kelaa listan alas
+        /// </summary>
         public void ScrollDown()
         {
             _layout.ScrollDown( Objects.items );
         }
 
+        /// <summary>
+        /// Tyhjentää listan
+        /// </summary>
         public override void Clear()
         {
             _layout.StartIndex = 0;
@@ -122,6 +147,11 @@ namespace Jypeli
             base.Clear();
         }
 
+        /// <summary>
+        /// Indeksointioperaatio
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public O this[int index]
         {
             get { return (O)_childObjects[index]; }
@@ -143,17 +173,18 @@ namespace Jypeli
     public abstract class ListWidget<T, O> : Widget
         where O : Widget
     {
-#if WINDOWS
         static Image upImage = null;
         static Image downImage = null;
         static Image transparentImage = null;
 
         PushButton scrollUpButton = null;
         PushButton scrollDownButton = null;
-#endif
 
         private INotifyList<T> List;
 
+        /// <summary>
+        /// Listan sisältö
+        /// </summary>
         internal protected ScrollableList<O> Content;
 
         /// <summary>
@@ -164,13 +195,16 @@ namespace Jypeli
             get { return List; }
         }
 
+        /// <summary>
+        /// Listakomponentti.
+        /// Liitetään annettuun listaa, tälle tehdyt muutokset päivittyvät annetun listan komponenteille
+        /// </summary>
+        /// <param name="list"></param>
         public ListWidget( INotifyList<T> list )
             : base( new HorizontalLayout() )
         {
             Add( Content = new ScrollableList<O> { Color = Color.Transparent } );
-#if WINDOWS
             Add( CreateVerticalScrollPanel() );
-#endif
 
             Bind( list );
 
@@ -189,7 +223,6 @@ namespace Jypeli
             associatedListeners.AddItems(l1, l2);
         }
 
-#if WINDOWS
         private Widget CreateVerticalScrollPanel()
         {
             Widget scrollPanel = new Widget( new VerticalLayout() ) { Color = Color.Transparent, HorizontalSizing = Sizing.FixedSize };
@@ -213,8 +246,10 @@ namespace Jypeli
 
             return scrollPanel;
         }
-#endif
 
+        /// <summary>
+        /// Tyhjentää widgetin sisällön
+        /// </summary>
         protected void Reset()
         {
             Content.Clear();
@@ -224,40 +259,32 @@ namespace Jypeli
                 Content.Add( CreateWidget( item ) );
             }
 
-#if WINDOWS
             // This is a bit tricky case. Because the clear call above doesn't take
             // effect immediately, calling UpdateLayout() uses old objects when updating
             // layout. Thus, let's just wait for at least one update to occur.
             Game.DoNextUpdate( delegate { if ( !Content.IsAtBottom ) ShowDownButton(); } );
-#endif
         }
 
-#if WINDOWS
         private void ShowUpButton()
         {
             scrollUpButton.Image = upImage;
         }
-#endif
 
-#if WINDOWS
         private void ShowDownButton()
         {
             scrollDownButton.Image = downImage;
         }
-#endif
 
-#if WINDOWS
         private void Hide(PushButton button)
         {
             button.Image = transparentImage;
         }
-#endif
+
 
         private void scrollDown()
         {
             Content.ScrollDown();
 
-#if WINDOWS
             if ( !Content.IsAtTop )
             {
                 ShowUpButton();
@@ -267,19 +294,16 @@ namespace Jypeli
             {
                 Hide( scrollDownButton );
             }
-#endif
         }
 
         private void scrollUp()
         {
             Content.ScrollUp();
 
-#if WINDOWS
             if ( Content.IsAtTop )
             {
                 Hide( scrollUpButton );
             }
-#endif
         }
 
         private void listChanged()

@@ -31,6 +31,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Jypeli
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     /// <summary>
     /// Näppäimistön näppäin.
     /// </summary>

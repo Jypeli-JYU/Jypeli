@@ -76,6 +76,11 @@ namespace Jypeli
         [Save] double _height = 800;
 
         private Game game;
+
+        /// <summary>
+        /// Taustavalo
+        /// </summary>
+        [Obsolete("Ei käytössä")]
         public double AmbientLight { get; set; }
 
         /// <summary>

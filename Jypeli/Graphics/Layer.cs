@@ -73,11 +73,15 @@ namespace Jypeli
             BottomRight = new Vector2( 1.0f, 1.0f ),
         };
 
+        /// <summary>
+        /// Kerroksen oliot
+        /// </summary>
         public SynchronousList<IGameObject> Objects = new SynchronousList<IGameObject>();
 
-//#if !DISABLE_EFFECTS
+        /// <summary>
+        /// Kerroksen efektit
+        /// </summary>
         public SynchronousList<ParticleSystem> Effects = new SynchronousList<ParticleSystem>();
-//#endif
 
         private List<IGameObject> objectsWithImage = new List<IGameObject>();
         private List<IGameObject> objectsWithoutImage = new List<IGameObject>();
@@ -85,6 +89,10 @@ namespace Jypeli
 
         private Vector _relativeTransition = new Vector( 1, 1 );
 
+        /// <summary>
+        /// Ajetaanko kerrokselle päivitystä
+        /// (Aina kyllä)
+        /// </summary>
         public bool IsUpdated
         {
             get { return true; }
@@ -116,7 +124,9 @@ namespace Jypeli
         /// </summary>
         public Grid Grid { get; set; }
 
-
+        /// <summary>
+        /// Muodostaa uuden kerroksen
+        /// </summary>
         public Layer()
         {
             DrawOrder = DrawOrder.Irrelevant;
@@ -135,13 +145,11 @@ namespace Jypeli
 
         private void ObjectAdded( IGameObject obj )
         {
-//#if !DISABLE_EFFECTS
             if (obj is ParticleSystem)
             {
                 Effects.Add((ParticleSystem)obj);
             }
             else
-//#endif
             if (obj is CustomDrawable)
             {
                 objectsWithDrawMethod.Add(obj);
@@ -160,13 +168,11 @@ namespace Jypeli
 
         private void ObjectRemoved( IGameObject obj )
         {
-//#if !DISABLE_EFFECTS
             if (obj is ParticleSystem)
             {
                 Effects.Remove((ParticleSystem)obj);
             }
             else
-//#endif
             {
                 objectsWithDrawMethod.Remove(obj);
                 objectsWithImage.Remove(obj);
@@ -186,11 +192,12 @@ namespace Jypeli
             Objects.Remove( o );
         }
 
+        /// <summary>
+        /// Tyhjentää kerroksen olioista
+        /// </summary>
         public void Clear()
         {
-//#if !DISABLE_EFFECTS
             Effects.Clear();
-//#endif
             Objects.Clear();
             objectsWithImage.Clear();
             objectsWithoutImage.Clear();
@@ -206,13 +213,14 @@ namespace Jypeli
             Objects.UpdateChanges();
         }
 
+        /// <summary>
+        /// Ajaa päivityksen kerroksen olioille ja efekteille
+        /// </summary>
+        /// <param name="time"></param>
         public void Update( Time time )
         {
             Objects.Update( time );
-
-//#if !DISABLE_EFFECTS
             Effects.Update(time);
-//#endif
         }
 
         internal void Draw( Camera camera )
@@ -234,9 +242,7 @@ namespace Jypeli
                     break;
             }
 
-//#if !DISABLE_EFFECTS
             Effects.ForEach( e => e.Draw(worldMatrix) );
-//#endif
 
             if ( Grid != null )
             {

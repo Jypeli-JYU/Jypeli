@@ -363,6 +363,10 @@ namespace Jypeli
 
         #region IEnumerable<Image> Members
 
+        /// <summary>
+        /// Animaation kuvien iteraattori
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<Image> GetEnumerator()
         {
             foreach ( Image frame in frames )

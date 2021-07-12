@@ -132,6 +132,11 @@ namespace Jypeli
             IsPaused = true;
         }
 
+        /// <summary>
+        /// Suoritetaan kun peli on sulkeutumassa
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         protected override void OnExiting( object sender, EventArgs args )
         {
             if ( Exiting != null )

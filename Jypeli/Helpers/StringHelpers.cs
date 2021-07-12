@@ -3,14 +3,11 @@ using System.Text;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Sisältää avustusmetodeja merkkijonojen käsittelyyn.
+    /// </summary>
     public static class StringHelpers
     {
-#if XBOX
-        public static void Clear( this StringBuilder sb )
-        {
-            sb.Length = 0;
-        }
-#endif
 
         /// <summary>
         /// Vertaa kahta oliota, jotka ovat joko merkkijonoja tai StringBuildereita, merkki kerrallaan.
@@ -122,6 +119,12 @@ namespace Jypeli
             return removed;
         }
 
+        /// <summary>
+        /// StringBuilderin indeksi jossa annettu funktio on ensimmäisen kerran tosi.
+        /// </summary>
+        /// <param name="builder">StringBuilder</param>
+        /// <param name="pred">Funktio</param>
+        /// <returns></returns>
         public static int IndexForWhich( this StringBuilder builder, Predicate<char> pred )
         {
             for ( int i = 0; i < builder.Length; i++ )
@@ -133,11 +136,22 @@ namespace Jypeli
             return -1;
         }
 
+        /// <summary>
+        /// Missä indeksissä annettu merkki sijaitsee
+        /// </summary>
+        /// <param name="builder">StringBuilder</param>
+        /// <param name="c">Merkki</param>
+        /// <returns></returns>
         public static int IndexOf( this StringBuilder builder, char c )
         {
             return builder.IndexForWhich( ch => ch == c );
         }
 
+        /// <summary>
+        /// Poistaa kaiken joka tulee ennen ehdon toteutumista
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="pred"></param>
         public static void RemoveLeading( this StringBuilder builder, Predicate<char> pred )
         {
             int i = 0;
@@ -151,6 +165,11 @@ namespace Jypeli
                 builder.Remove( 0, i );
         }
 
+        /// <summary>
+        /// Poistaa kaiken joka tulee ehdon toteutumisen jälkeen
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="pred"></param>
         public static void RemoveTrailing( this StringBuilder builder, Predicate<char> pred )
         {
             int i = 0;
@@ -164,12 +183,21 @@ namespace Jypeli
                 builder.Remove( i + 1, builder.Length - i - 1 );
         }
 
+        /// <summary>
+        /// Poistaa tyhjät merkit alusta ja lopusta
+        /// </summary>
+        /// <param name="builder"></param>
         public static void Trim( this StringBuilder builder )
         {
             builder.RemoveLeading( c => Char.IsWhiteSpace( c ) );
             builder.RemoveTrailing( c => Char.IsWhiteSpace( c ) );
         }
 
+        /// <summary>
+        /// Ottaa ensimmäisen sanan ja lisää sen toiseen StringBuilderiin
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dest"></param>
         public static void TakeFirstWord( this StringBuilder src, StringBuilder dest )
         {
             int ws = src.IndexForWhich( c => char.IsWhiteSpace( c ) );
@@ -193,6 +221,12 @@ namespace Jypeli
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Lisää merkkijonon jokaisen merkkijonotaulukon alkion alkuun
+        /// </summary>
+        /// <param name="s">Alkuihin lisättävä merkkijono</param>
+        /// <param name="ends">Merkkijonot</param>
+        /// <returns></returns>
         public static string[] Append( this string s, params object[] ends )
         {
             string[] results = new string[ends.Length];

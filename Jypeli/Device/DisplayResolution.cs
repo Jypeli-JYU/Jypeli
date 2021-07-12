@@ -2,6 +2,9 @@
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Mobiililaitteiden resoluutiovaihtoehdot
+    /// </summary>
     public class DisplayResolution : IEquatable<DisplayResolution>
     {
         /// <summary>
@@ -69,16 +72,30 @@ namespace Jypeli
             this.Height = height;
         }
 
+        /// <summary>
+        /// Hajautuskoodi
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return ( Width << 16 ) | Height;
         }
 
+        /// <summary>
+        /// Onko ruutujen koot samat
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals( object obj )
         {
             return this.Equals( obj as DisplayResolution );
         }
 
+        /// <summary>
+        /// Onko ruutujen koot samat
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals( DisplayResolution other )
         {
             if ( other == null )
@@ -87,6 +104,12 @@ namespace Jypeli
             return other.Width == this.Width && other.Height == this.Height;
         }
 
+        /// <summary>
+        /// Onko ruutujen koot samat
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator ==(DisplayResolution a, DisplayResolution b)
         {
             if ( ReferenceEquals(a, null) )
@@ -97,6 +120,12 @@ namespace Jypeli
             return a.Width == b.Width && a.Height == b.Height;
         }
 
+        /// <summary>
+        /// Onko ruutujen koot eri
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator !=( DisplayResolution a, DisplayResolution b )
         {
             if ( ReferenceEquals( a, null ) )

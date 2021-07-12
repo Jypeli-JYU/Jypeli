@@ -1,5 +1,8 @@
 ﻿namespace Jypeli.WP8
 {
+    /// <summary>
+    /// Näytön asento
+    /// </summary>
     public static class DisplayOrientation
     {
         /// <summary>
@@ -31,6 +34,9 @@
 
 namespace Jypeli.WP7
 {
+    /// <summary>
+    /// Näytön asento
+    /// </summary>
     public static class DisplayOrientation
     {
         /// <summary>

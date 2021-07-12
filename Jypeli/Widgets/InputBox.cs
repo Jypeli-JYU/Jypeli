@@ -70,6 +70,7 @@ namespace Jypeli
         private int distFromEnd = 0;
         private int firstVisibleChar = 0;
 
+        /// <inheritdoc/>
         public override Vector PreferredSize
         {
             get
@@ -78,6 +79,7 @@ namespace Jypeli
             }
         }
 
+        /// <inheritdoc/>
         public override Vector Size
         {
             get { return base.Size; }
@@ -110,6 +112,9 @@ namespace Jypeli
         /// </summary>
         public event Action<string> TextChanged;
 
+        /// <summary>
+        /// Kun tekstin sisältö muuttuu
+        /// </summary>
         protected void OnTextChanged()
         {
             if ( TextChanged != null )
@@ -323,6 +328,7 @@ namespace Jypeli
             return shownText;
         }
         
+        /// <inheritdoc/>
         public override void Draw(Matrix parentTransformation, Matrix transformation)
         {
             if(!IsTruncated)

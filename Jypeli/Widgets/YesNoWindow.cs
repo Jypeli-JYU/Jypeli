@@ -65,6 +65,12 @@ namespace Jypeli
         {
         }
 
+        /// <summary>
+        /// Kyllä/Ei ikkuna
+        /// </summary>
+        /// <param name="question">Kysymys</param>
+        /// <param name="yesString">Kyllä-vaihtoehto</param>
+        /// <param name="noString">Ei-vaihtoehto</param>
         public YesNoWindow( string question, string yesString, string noString )
             : base( question, yesString, noString )
         {

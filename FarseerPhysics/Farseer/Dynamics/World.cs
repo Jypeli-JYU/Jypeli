@@ -995,10 +995,6 @@ namespace FarseerPhysics.Dynamics
             if (body.World != this)
                 throw new ArgumentException("You are removing a body that is not in the simulation.", "body");
 
-#if USE_AWAKE_BODY_SET
-            if (!AwakeBodySet.Contains(body)) return; //TODO: Selvitä miksi kappale ei aina ole täällä.
-#endif
-
             // Delete the attached joints.
             JointEdge je = body.JointList;
             while (je != null)

@@ -29,14 +29,14 @@
 
 using System;
 using System.ComponentModel;
-using AdvanceMath;
+using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 
 using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
 using XnaColor = Microsoft.Xna.Framework.Color;
 using System.Reflection;
 using Jypeli.Physics2d;
-
+using System.Collections.Generic;
 
 namespace Jypeli
 {
@@ -116,28 +116,24 @@ namespace Jypeli
         /// ja käyttää kerran luotua kuviota kaikille olioille.
         /// </remarks>
         /// <param name="image">Kuva, josta muoto luetaan.</param>
-        public static Shape FromImage( Image image )
+        public static Shape FromImage(Image image)
         {
-            Texture2D texture = image.XNATexture;
-            IBitmap bm = new TextureBitmap( texture );
-            Vector2D[] vertices = VertexHelper.CreateFromBitmap( bm );
+            List<Vector> vertices = TextureToShapeConverter.DetectVertices(image.GetDataUInt().Cast<uint>().ToArray(), image.Width);
 
-            for ( int i = 0; i < vertices.Length; i++ )
+            for (int i = 0; i < vertices.Count; i++)
             {
-                vertices[i].X /= texture.Width;
-                vertices[i].Y /= texture.Height;
-
-                // The center of the texture coordinates is at top left corner, but the center of
-                // game objects is by default at the center of the object.
-                vertices[i] -= new Vector2D( (float)0.5, (float)0.5 );
+                // Nämä voisi yhdistää, mutta pidetään erillisenä luettavuuden takia.
+                vertices[i] = new Vector(vertices[i].X / image.Width, vertices[i].Y / image.Height);
+                vertices[i] -= new Vector((float)0.5, (float)0.5);
+                vertices[i] = new Vector(vertices[i].X , -vertices[i].Y); // Muoto tulee muuten ylösalaisin
             }
 
-            Vector[] polygonVertices = new Vector[vertices.Length];
-            for ( int i = 0; i < vertices.Length; i++ )
-                polygonVertices[i] = new Vector( vertices[i].X, vertices[i].Y );
+            Vector[] polygonVertices = new Vector[vertices.Count];
+            for (int i = 0; i < vertices.Count; i++)
+                polygonVertices[i] = new Vector(vertices[i].X, vertices[i].Y);
 
-            ShapeCache cache = new ShapeCache( polygonVertices );
-            return new Polygon( cache );
+            ShapeCache cache = new ShapeCache(polygonVertices);
+            return new Polygon(cache);
         }
 
         /// <summary>

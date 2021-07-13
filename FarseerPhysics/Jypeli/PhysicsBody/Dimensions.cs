@@ -43,7 +43,6 @@ namespace Jypeli
     {
         Shape _shape;
         Vector _size;
-        private float defaultDensity = 1f;
 
         /// <summary>
         /// Fysiikkamoottorin käyttämä tietorakenne.
@@ -120,13 +119,13 @@ namespace Jypeli
             List<Fixture> fs = new List<Fixture>();
             if (shape == Shape.Circle || shape == Shape.Ellipse) // Ympyrä on oikeasti ellipsi ja ellipsi voi olla ympyrä
                 if (Size.X == Size.Y)
-                    fs.Add(FixtureFactory.AttachCircle((float)Size.X / 2 * FSConvert.DisplayToSim, defaultDensity, FSBody));
+                    fs.Add(FixtureFactory.AttachCircle((float)Size.X / 2 * FSConvert.DisplayToSim, DefaultDensity, FSBody));
                 else
-                    fs.Add(FixtureFactory.AttachEllipse((float)Size.X / 2 * FSConvert.DisplayToSim, (float)Size.Y / 2 * FSConvert.DisplayToSim, Settings.MaxPolygonVertices, defaultDensity, FSBody));
+                    fs.Add(FixtureFactory.AttachEllipse((float)Size.X / 2 * FSConvert.DisplayToSim, (float)Size.Y / 2 * FSConvert.DisplayToSim, Settings.MaxPolygonVertices, DefaultDensity, FSBody));
             else
             {
                 List<Vertices> vertices = CreatePhysicsShape(shape, this._size);
-                fs.AddRange(FixtureFactory.AttachCompoundPolygon(vertices, defaultDensity, FSBody));
+                fs.AddRange(FixtureFactory.AttachCompoundPolygon(vertices, DefaultDensity, FSBody));
             }
             fs.ForEach((f) => { f.OnCollision += collisionHandlers; f.Tag = FSBody; });
         }

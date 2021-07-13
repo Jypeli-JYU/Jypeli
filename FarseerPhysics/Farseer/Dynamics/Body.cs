@@ -325,9 +325,10 @@ namespace FarseerPhysics.Dynamics
 #endif
                     ResetDynamics();
                     _sleepTime = 0.0f;
-                    
+
 #if USE_ACTIVE_CONTACT_SET
-                    World.ContactManager.UpdateActiveContacts(ContactList, false);
+                    if (World is not null)
+                        World.ContactManager.UpdateActiveContacts(ContactList, false);
 #endif
                 }
 

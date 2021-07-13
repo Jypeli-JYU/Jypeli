@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using Jypeli.Physics.Joints;
 
 namespace Jypeli.Assets
 {
@@ -42,7 +43,7 @@ namespace Jypeli.Assets
 
         private Cannon cannon;
         private List<PhysicsObject> wheels = new List<PhysicsObject>();
-        private List<IAxleJoint> joints = new List<IAxleJoint>();
+        private List<IMotorJoint> joints = new List<IMotorJoint>();
         //private IntMeter ammo = new IntMeter( 10 );
         private IntMeter hitPoints = new IntMeter( 10 );
 
@@ -74,6 +75,21 @@ namespace Jypeli.Assets
         /// </summary>
         public Cannon Cannon { get { return cannon; } }
 
+        /// <summary>
+        /// Moottorin vääntömomentti
+        /// </summary>
+        public double MotorTorque
+        {
+            get
+            {
+                return joints[0].MaxMotorTorque;
+            }
+            set
+            {
+                joints.ForEach(j => j.MaxMotorTorque = value);
+            }
+        }
+
 
         /// <summary>
         /// Alustaa uuden tankin.
@@ -89,6 +105,7 @@ namespace Jypeli.Assets
             Shape = commonShape;
             HitPoints.LowerLimit += Break;
             CollisionIgnorer = new ObjectIgnorer();
+            LinearDamping = 0.99;
 
             cannon = new Cannon( Width * 0.75, Height * 0.2 );
             Cannon.Position = new Vector(0, Height * 0.25);
@@ -124,28 +141,17 @@ namespace Jypeli.Assets
                 wheel.Position = axlePos;
                 wheel.Mass = this.Mass / 20;
                 wheel.KineticFriction = 1.0;
+                wheel.AngularDamping = 0.8;
 
-                if (pg.FarseerGame)
-                {
-                    IAxleJoint joint = pg.Engine.CreateJoint(this, wheel, JointTypes.WheelJoint);
-                    
-                    // TODO: Näille voisi lisäillä propertyt
-                    Type type = joint.GetType();
-                    type.GetProperty("Softness").SetMethod.Invoke(joint, new object[] { this.Mass/6 });
-                    type.GetProperty("MotorEnabled").SetMethod.Invoke(joint, new object[] { true });
-                    type.GetProperty("MaxMotorTorque").SetMethod.Invoke(joint, new object[] { 1000 });
-                    type.GetProperty("Axis").SetMethod.Invoke(joint, new object[] { Vector.UnitY });
+                IMotorJoint joint = (IMotorJoint)pg.Engine.CreateJoint(this, wheel, JointTypes.WheelJoint);
 
-                    joints.Add(joint);
-                }
-                else
-                {
-                    wheel.Body.AngularDamping = 0.95f;
-                    IAxleJoint joint = pg.Engine.CreateJoint(this, wheel, new Vector(axlePos.X, axlePos.Y));
-                    joint.Softness = 0.01f;
-                    joints.Add(joint);
-                    pg.Add(joint);
-                }
+                joint.Softness = Mass;
+                joint.MaxMotorTorque = Mass * 50;
+                joint.MotorEnabled = false;
+                joint.Axis = Vector.UnitY;
+
+                joints.Add(joint);
+                pg.Add(joint);
             }
         }
 
@@ -171,40 +177,18 @@ namespace Jypeli.Assets
         }
 
         /// <summary>
-        /// Kiihdyttää tankkia.
+        /// Kiihdyttää tankkia annettuun nopeuteen.
+        /// Kutsu tätä jatkuvasti (Esim. <c>Keyboard.Listen</c> ja <c>ButtonState.Down</c>)
         /// </summary>
-        /// <param name="power">
-        ///     Physics2d: Teho välillä <c>-1.0</c>-<c>1.0</c>
-        ///     Farseer: Renkaiden pyörimisnopeus, radiaaneina sekunnissa.
-        /// </param>
-        public void Accelerate( double power )
+        /// <param name="speed">Nopeus johon kiihdytetään.</param>
+        public void Accelerate(double speed)
         {
-            if (PhysicsGameBase.Instance.FarseerGame)
+            double rotSpeed = speed / wheels[0].Width * 2;
+            foreach (var j in joints)
             {
-                //TODO: Tähän voisi joskus pohtia paremman ratkaisun farseerilla.
-                Type type = joints[0].GetType();
-                System.Reflection.PropertyInfo pi = type.GetProperty("MotorSpeed");
-                foreach (var j in joints)
-                {
-                    pi.SetMethod.Invoke(j, new object[] { power });
-                } 
+                j.MotorEnabled = true;
+                j.MotorSpeed = rotSpeed;
             }
-            else
-            {
-                double realPower = power;
-                if (power > 1.0)
-                    realPower = 1.0;
-                else if (power < -1.0)
-                    realPower = -1.0;
-
-                double torque = Mass * realPower * 3000;
-
-                foreach (var w in wheels)
-                {
-                    w.Body.ApplyTorque((float)(torque / wheels.Count));
-                }
-            }
-
         }
 
         /// <summary>
@@ -223,6 +207,16 @@ namespace Jypeli.Assets
         public void Shoot()
         {
             Cannon.Shoot();
+        }
+
+        /// <inheritdoc/>
+        public override void Update(Time time)
+        {
+            foreach (var j in joints)
+            {
+                j.MotorEnabled = false;
+            }
+            base.Update(time);
         }
     }
 }

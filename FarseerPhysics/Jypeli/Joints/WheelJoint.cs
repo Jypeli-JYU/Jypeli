@@ -30,6 +30,7 @@
 using FSJoint = FarseerPhysics.Dynamics.Joints.WheelJoint;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics;
+using Jypeli.Physics.Joints;
 
 namespace Jypeli
 {
@@ -37,7 +38,7 @@ namespace Jypeli
     /// Rengasliitos kahden olion välille. 
     /// Voidaan käyttää esimerkiksi auton renkaiden luomiseen
     /// </summary>
-    public class WheelJoint : AbstractJoint
+    public class WheelJoint : AbstractJoint, IMotorJoint
     {
         /// <summary>
         /// Pyörimisakselin (tämänhetkiset) koordinaatit.

@@ -171,7 +171,7 @@ namespace Jypeli
                 // TODO: Mille kaikille muodoille tää tarvii tehdä?
                 // TODO: Mikä on paras algoritmi?
                 // TODO: Tuottaa tietyissä tilanteissa hyvin raskaita muotoja.
-                res.AddRange(Triangulate.ConvexPartition(vertices, TriangulationAlgorithm.Bayazit));
+                res.AddRange(CDTDecomposer.ConvexPartition(vertices));
                 return res;
             }
         }

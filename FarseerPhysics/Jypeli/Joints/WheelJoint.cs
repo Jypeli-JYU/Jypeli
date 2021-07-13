@@ -93,7 +93,7 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Moottorin pyörimisnopeus.
+        /// Moottorin pyörimisnopeus radiaaneina sekunnissa.
         /// </summary>
         public double MotorSpeed
         {

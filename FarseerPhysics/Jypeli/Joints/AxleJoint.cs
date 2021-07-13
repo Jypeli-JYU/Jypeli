@@ -32,6 +32,7 @@ using FSJoint = FarseerPhysics.Dynamics.Joints.DistanceJoint;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics;
 using Jypeli.Farseer;
+using System;
 
 namespace Jypeli
 {
@@ -68,19 +69,25 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Liitoksen pehmeys eli kuinka paljon sillä on liikkumavaraa.
-        /// (Ei toteutettu)
+        /// Liitoksen joustavuus.
+        /// ks. myös <c>DampingRatio</c>
         /// </summary>
         public override double Softness
         {
-            get
-            {
-                return 0;
-            }
-            set
-            {
-            }
+            get { return InnerJoint.Frequency; }
+            set { InnerJoint.Frequency = (float)value; }
         }
+
+        /// <summary>
+        /// Liitoksen oskillaation vaimennuskerroin, väliltä 0-1;
+        /// ks. myös <c>Softness</c>
+        /// </summary>
+        public double DampingRatio
+        {
+            get { return InnerJoint.DampingRatio; }
+            set { InnerJoint.DampingRatio = (float)value; }
+        }
+
 
         /// <summary>
         /// Luo uuden akseliliitoksen kahden olion välille.
@@ -94,6 +101,8 @@ namespace Jypeli
             var first = firstObject.Body as PhysicsBody;
             var second = secondObject.Body as PhysicsBody;
             InnerJoint = JointFactory.CreateDistanceJoint(world, first.FSBody, second.FSBody, axlePosition * FSConvert.DisplayToSim, Vector.Zero);
+            InnerJoint.DampingRatio = 0.5f;
+            InnerJoint.Frequency = 50;
             //InnerJoint.Enabled = false;
             Object1 = firstObject;
             Object2 = secondObject;

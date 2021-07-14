@@ -1,5 +1,4 @@
 ﻿using System;
-using AdvanceMath;
 
 namespace Jypeli
 {
@@ -507,7 +506,7 @@ namespace Jypeli
         public PhysicsObject CreateGround( double[] heights, double scale, Image image )
         {
             var ground = new Surface( this.Width, heights, scale );
-            ground.Position = new Vector( Center.X, Bottom - ( MathHelper.Max( heights ) / 2 ) );
+            ground.Position = new Vector( Center.X, Bottom - ( heights.Max() / 2 ) );
             ground.Image = image;
             game.Add( ground );
             return ground;

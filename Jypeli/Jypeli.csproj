@@ -101,6 +101,10 @@
   </ItemGroup>
     
   <ItemGroup>
+    <PackageReference Include="Silk.NET.Input" Version="2.6.0" />
+    <PackageReference Include="Silk.NET.OpenAL.Soft.Native" Version="1.21.1.1" />
+    <PackageReference Include="Silk.NET.OpenGL" Version="2.6.0" />
+    <PackageReference Include="Silk.NET.Windowing" Version="2.6.0" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.1" />
   </ItemGroup>
 
@@ -108,9 +112,6 @@
   
   <ItemGroup>
     <ProjectReference Include="..\FontStashSharp\src\FontStashSharp\FontStashSharp.csproj" />
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.DesktopGL.csproj" PrivateAssets="All">
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
 
   <PropertyGroup>

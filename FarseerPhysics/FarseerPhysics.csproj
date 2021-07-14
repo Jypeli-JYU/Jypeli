@@ -30,7 +30,6 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Jypeli\Jypeli.csproj" />
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.DesktopGL.csproj" PrivateAssets="All" />
   </ItemGroup>
   <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
 

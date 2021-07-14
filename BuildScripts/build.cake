@@ -158,7 +158,6 @@ Task("PackVSMacTemplates")
 
 Task("Build")
     .IsDependentOn("BuildJypeli")
-    .IsDependentOn("BuildPhysics2d")
     .IsDependentOn("BuildFarseer");
 
 Task("Pack")

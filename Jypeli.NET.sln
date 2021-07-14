@@ -4,8 +4,6 @@ VisualStudioVersion = 16.0.29418.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jypeli", "Jypeli\Jypeli.csproj", "{0CE0EBFA-81E9-4B0A-AEAC-3558BF95C0E0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jypeli.Physics2d", "Physics2d\Jypeli.Physics2d.csproj", "{0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarseerPhysics", "FarseerPhysics\FarseerPhysics.csproj", "{14910AE8-DEFC-432C-AA82-4DB8F9DAC5CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{8BE3FD62-3AF4-4DAC-824F-972BF02E9779}"
@@ -25,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jypeli.Tests", "Tests\Jypeli.Tests\Jypeli.Tests.csproj", "{2478A834-FED1-4125-A732-DEA49BAAA536}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jypeli.Tests", "Tests\Jypeli.Tests\Jypeli.Tests.csproj", "{2478A834-FED1-4125-A732-DEA49BAAA536}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,14 +41,6 @@ Global
 		{0CE0EBFA-81E9-4B0A-AEAC-3558BF95C0E0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0CE0EBFA-81E9-4B0A-AEAC-3558BF95C0E0}.Release|x86.ActiveCfg = Release|Any CPU
 		{0CE0EBFA-81E9-4B0A-AEAC-3558BF95C0E0}.Release|x86.Build.0 = Release|Any CPU
-		{0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8}.Debug|x86.Build.0 = Debug|Any CPU
-		{0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8}.Release|x86.ActiveCfg = Release|Any CPU
-		{0A5C7C1D-1388-45A9-AF7A-56E94AB68AB8}.Release|x86.Build.0 = Release|Any CPU
 		{14910AE8-DEFC-432C-AA82-4DB8F9DAC5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{14910AE8-DEFC-432C-AA82-4DB8F9DAC5CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14910AE8-DEFC-432C-AA82-4DB8F9DAC5CE}.Debug|x86.ActiveCfg = Debug|Any CPU

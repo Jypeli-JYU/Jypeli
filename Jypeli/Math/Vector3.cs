@@ -157,5 +157,10 @@ namespace Jypeli
         {
             return new System.Numerics.Vector3(vector.X, vector.Y, vector.Z);
         }
+
+        public override string ToString()
+        {
+            return $"x:{X}, y:{Y}, z:{Z}";
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace Jypeli
         private bool windowSizeSet = false;
         private bool windowPositionSet = false;
 
-        private IWindow window;
+        internal IWindow window;
 
         /// <summary>
         /// Onko peli kokoruututilassa.

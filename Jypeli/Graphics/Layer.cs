@@ -348,7 +348,7 @@ namespace Jypeli
             Graphics.ShapeBatch.Begin( ref worldMatrix );
             foreach ( var o in objectsWithoutImage )
             {
-                if ( !o.IsVisible || !Game.Instance.IsObjectOnScreen(o) )
+                if (!o.IsVisible)
                     continue;
 
                 bool hasChildObjects = o.ObjectCount > 0;

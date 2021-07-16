@@ -53,8 +53,6 @@ namespace Jypeli.Rendering.OpenGl
             Vao.Bind();
             shader.Use();
 
-            shader.SetUniform("uModel", Matrix4x4.CreateScale(0.2f));
-
             Gl.DrawElements(primitives, numIndices, DrawElementsType.UnsignedInt, null);
         }
 
@@ -71,7 +69,7 @@ out vec4 fCol;
 void main()
 {
     //Multiplying our uniform with the vertex position, the multiplication order here does matter.
-    gl_Position =  uModel * vPos;
+    gl_Position =  vPos;
     fCol = vUv;
 }
         ";

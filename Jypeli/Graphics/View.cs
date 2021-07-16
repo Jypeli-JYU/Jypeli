@@ -256,7 +256,7 @@ namespace Jypeli
         {
 			get
             {
-                return 200;//Game.GraphicsDeviceManager.PreferredBackBufferWidth;
+                return Game.Instance.window.Size.X;
             }
         }
 
@@ -267,7 +267,7 @@ namespace Jypeli
         {
             get
             {
-                return 200;// Game.GraphicsDeviceManager.PreferredBackBufferHeight;
+                return Game.Instance.window.Size.Y;
             }
         }
 

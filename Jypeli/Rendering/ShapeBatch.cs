@@ -114,10 +114,10 @@ namespace Jypeli
             }
 
             Matrix matrix =
-                //Matrix.CreateScale( (float)size.X, (float)size.Y, 1f )
-                 Matrix.CreateRotationZ( angle )
-                * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0 )
-                ;
+                Matrix.CreateScale((float)size.X, (float)size.Y, 1f)
+                * Matrix.CreateRotationZ(angle)
+                * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0)
+                * Matrix.CreateOrthographic(1024, 768, 1, -1); // TODO: Jos tähän laittaa Game.Screen.ViewportWidth... Ei käyttäydy oikein ikkunan kokoa muutettaessa
 
             uint startIndex = iVertexBuffer;
 

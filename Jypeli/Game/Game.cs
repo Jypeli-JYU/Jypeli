@@ -210,7 +210,7 @@ namespace Jypeli
         private void InitWindow()
         {
             var options = WindowOptions.Default;
-            options.Size = new Silk.NET.Maths.Vector2D<int>(800, 600);
+            options.Size = new Silk.NET.Maths.Vector2D<int>(1024, 768);
             options.Title = "Jypeli!";
 
             window = Silk.NET.Windowing.Window.Create(options);

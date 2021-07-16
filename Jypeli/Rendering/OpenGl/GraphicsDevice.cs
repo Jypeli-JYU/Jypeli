@@ -44,9 +44,6 @@ namespace Jypeli.Rendering.OpenGl
 
         internal static void DrawUserIndexedPrimitives(PrimitiveType primitives, VertexPositionColor[] vertexBuffer, uint numIndices, uint[] indexBuffer)
         {
-            Gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
-            Gl.ClearColor(0.5f, 0.5f, 0.5f, 0.5f);
-
             Gl.Enable(GLEnum.Blend);
             Gl.BlendFunc(GLEnum.SrcAlpha, GLEnum.OneMinusSrcAlpha);
 
@@ -92,5 +89,11 @@ void main()
     FragColor = fCol;
 }
         ";
+
+        public static void Clear(Color bgColor)
+        {
+            Gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
+            Gl.ClearColor(bgColor.RedComponent/255f, bgColor.GreenComponent / 255f, bgColor.BlueComponent / 255f, bgColor.AlphaComponent / 255f);
+        }
     }
 }

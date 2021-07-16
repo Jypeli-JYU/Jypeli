@@ -341,9 +341,9 @@ namespace Jypeli
         {
             //Console.WriteLine(gameTime.ElapsedGameTime.Milliseconds);
             UpdateFps(gameTime);
-            /*GraphicsDevice.SetRenderTarget( Screen.RenderTarget );
-			GraphicsDevice.Clear( Level.BackgroundColor.AsXnaColor() );
-
+            //GraphicsDevice.SetRenderTarget( Screen.RenderTarget );
+            GraphicsDevice.Clear(Level.BackgroundColor);
+            /*
             if ( Level.Background.Image != null && !Level.Background.MovesWithCamera )
             {
                 SpriteBatch spriteBatch = Jypeli.Graphics.SpriteBatch;

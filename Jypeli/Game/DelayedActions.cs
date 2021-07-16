@@ -137,12 +137,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        protected override void OnExiting( object sender, EventArgs args )
+        protected void OnExiting( object sender, EventArgs args )
         {
             if ( Exiting != null )
                 Exiting();
 
-            base.OnExiting( sender, args );
         }
 
         private void ExecutePendingActions()

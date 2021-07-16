@@ -101,7 +101,7 @@ namespace Jypeli.Widgets
 
         private void InitializeControls()
         {
-            var l1 = Game.Mouse.ListenOn(this, MouseButton.Left, ButtonState.Pressed, MousePress, null).InContext(this);
+            /*var l1 = Game.Mouse.ListenOn(this, MouseButton.Left, ButtonState.Pressed, MousePress, null).InContext(this);
             var l2 = Game.Mouse.Listen(MouseButton.Left, ButtonState.Released, MouseRelease, null).InContext(this);
             var l3 = Game.Mouse.ListenMovement(1.0, MouseMove, null).InContext(this);
 
@@ -109,7 +109,7 @@ namespace Jypeli.Widgets
             var l5 = Game.TouchPanel.Listen(ButtonState.Released, TouchRelease, null).InContext(this);
             var l6 = Game.TouchPanel.Listen(ButtonState.Down, TouchMove, null).InContext(this);
 
-            associatedListeners.AddItems(l1, l2, l3, l4, l5, l6);
+            associatedListeners.AddItems(l1, l2, l3, l4, l5, l6);*/
         }
 
         /// <inheritdoc/>
@@ -159,10 +159,10 @@ namespace Jypeli.Widgets
 
         private void MouseMove()
         {
-            Knob.Color = pressedDown || Game.Mouse.IsCursorOn(this) ? _activeColor : _inactiveColor;
+            /*Knob.Color = pressedDown || Game.Mouse.IsCursorOn(this) ? _activeColor : _inactiveColor;
 
             if (pressedDown)
-                GenMove(Game.Mouse.PositionOnScreen - this.Position);
+                GenMove(Game.Mouse.PositionOnScreen - this.Position);*/
         }
 
         private void MouseRelease()

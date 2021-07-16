@@ -1,7 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Content;
-using XnaSong = Microsoft.Xna.Framework.Media.Song;
-using Microsoft.Xna.Framework.Audio;
 
 namespace Jypeli
 {
@@ -75,7 +72,7 @@ namespace Jypeli
         /// </summary>
         public bool IsPlaying
         {
-            get { return sound?.State == SoundState.Playing; }
+            get { return false; }// sound?.State == SoundState.Playing; }
         }
 
         internal MediaPlayer()
@@ -93,7 +90,7 @@ namespace Jypeli
             {
                 sound.Stop();
             }
-
+            /*
             try
             {
                 sound = Game.LoadSoundEffect(songName).CreateSound();
@@ -103,7 +100,7 @@ namespace Jypeli
                 throw new Exception(
                     "Could not play the song \"" + songName + "\".\n" +
                     "Please check that you added the song to the Content project and typed the name correctly.", e);
-            }
+            }*/
             sound.Play();
         }
 

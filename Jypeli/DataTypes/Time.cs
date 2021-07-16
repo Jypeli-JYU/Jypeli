@@ -1,9 +1,5 @@
 ﻿using System;
 
-#if JYPELI
-using Microsoft.Xna.Framework;
-#endif
-
 
 namespace Jypeli
 {
@@ -49,19 +45,10 @@ namespace Jypeli
 
 #if JYPELI
 
-        /// <summary>
-        /// Rakentaa ajan XNA:n GameTimestä.
-        /// </summary>
-        /// <param name="gameTime">XNA:n vastaava olio</param>
-        internal Time( GameTime gameTime )
-            : this( gameTime.ElapsedGameTime, gameTime.TotalGameTime )
+        internal void Advance(double dt)
         {
-        }
-
-        internal void Advance( GameTime gameTime )
-        {
-            _upd = gameTime.ElapsedGameTime;
-            _start += gameTime.ElapsedGameTime;
+            _upd = TimeSpan.FromSeconds(dt);
+            _start += _upd;
         }
 #endif
 

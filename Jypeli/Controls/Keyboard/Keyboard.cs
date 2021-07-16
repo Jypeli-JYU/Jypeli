@@ -29,15 +29,14 @@
 
 using System;
 using Jypeli.Controls;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+using Silk.NET.GLFW;
 
 namespace Jypeli
 {
     /// <summary>
     /// Näppäimistö.
     /// </summary>
-    public class Keyboard : Controller<KeyboardState, Key>
+    /*public class Keyboard : Controller<KeyboardState, Key>
     {
         /// <summary>
         /// Tapahtuu kun tekstiä syötetään näppäimistöltä.
@@ -47,20 +46,20 @@ namespace Jypeli
         internal Keyboard()
         {
 #if DESKTOP
-            Game.Instance.Window.TextInput += delegate( object sender, TextInputEventArgs args )
-            {
-                if ( TextInput != null ) TextInput( args.Character );
-            };
+            //Game.Instance.Window.TextInput += delegate( object sender, TextInputEventArgs args )
+            //{
+            //    if ( TextInput != null ) TextInput( args.Character );
+            //};
 #endif
         }
-
+        
         internal override KeyboardState GetState()
         {
-            return Microsoft.Xna.Framework.Input.Keyboard.GetState();
+            return default;// Microsoft.Xna.Framework.Input.Keyboard.GetState();
         }
 
         private ChangePredicate<KeyboardState> MakeTriggerRule( Key k, ButtonState state )
-        {
+        {/*
             Keys key = (Keys)k;
 
             switch ( state )
@@ -77,14 +76,14 @@ namespace Jypeli
                 case ButtonState.Released:
                     return delegate( KeyboardState prev, KeyboardState curr ) { return ( prev.IsKeyDown( key ) && curr.IsKeyUp( key ) ); };
             }
-
-            return AlwaysTrigger;
+            */
+         /*   return AlwaysTrigger;
         }
 
         private string GetKeyName( Key k )
         {
             string keyStr = k.ToString();
-
+            /*
             if ( k == Key.OemQuotes ) keyStr = "ä";
             if ( k == Key.OemTilde ) keyStr = "ö";
             if ( k == Key.OemPlus || k == Key.Add ) keyStr = "+";
@@ -93,8 +92,8 @@ namespace Jypeli
             if ( k == Key.Divide ) keyStr = "/";
             if ( k == Key.Aring ) keyStr = "å";
             if ( k == Key.LessOrGreater ) keyStr = "<";
-
-            return "Keyboard " + keyStr;
+            */
+           /* return "Keyboard " + keyStr;
         }
 
         /// <summary>
@@ -104,7 +103,7 @@ namespace Jypeli
         /// <returns>Näppäimen tila</returns>
         public ButtonState GetKeyState( Key k )
         {
-            Keys key = (Keys)k;
+            /*Keys key = (Keys)k;
             bool down = CurrentState.IsKeyDown( key );
             bool lastdown = PrevState.IsKeyDown( key );
 
@@ -114,8 +113,8 @@ namespace Jypeli
                 return ButtonState.Pressed;
             if ( lastdown && !down )
                 return ButtonState.Released;
-
-            return ButtonState.Up;
+            */
+           /* return ButtonState.Up;
         }
 
         /// <summary>
@@ -126,7 +125,7 @@ namespace Jypeli
         /// </returns>
         public bool IsShiftDown()
         {
-            return CurrentState.IsKeyDown( Keys.LeftShift ) || CurrentState.IsKeyDown( Keys.RightShift );
+            return false;// CurrentState.IsKeyDown( Keys.LeftShift ) || CurrentState.IsKeyDown( Keys.RightShift );
         }
 
         /// <summary>
@@ -137,7 +136,7 @@ namespace Jypeli
         /// </returns>
         public bool IsCtrlDown()
         {
-            return CurrentState.IsKeyDown( Keys.LeftControl ) || CurrentState.IsKeyDown( Keys.RightControl );
+            return false;// CurrentState.IsKeyDown( Keys.LeftControl ) || CurrentState.IsKeyDown( Keys.RightControl );
         }
 
         /// <summary>
@@ -148,7 +147,7 @@ namespace Jypeli
         /// </returns>
         public bool IsAltDown()
         {
-            return CurrentState.IsKeyDown( Keys.LeftAlt ) || CurrentState.IsKeyDown( Keys.RightAlt );
+            return false;// CurrentState.IsKeyDown( Keys.LeftAlt ) || CurrentState.IsKeyDown( Keys.RightAlt );
         }
 
         /// <summary>
@@ -375,5 +374,5 @@ namespace Jypeli
             Listen( Key.Right, state, handler, helpText, Vector.UnitX, p1, p2, p3 );
         }
         #endregion
-    }
+    }*/
 }

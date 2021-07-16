@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Jypeli.Rendering;
+
+using Matrix = System.Numerics.Matrix4x4;
 
 #if !DISABLE_EFFECTS
 using Jypeli.Effects;
@@ -12,10 +13,32 @@ namespace Jypeli
 {
     internal class TextureCoordinates
     {
-        public Vector2 TopLeft;
-        public Vector2 TopRight;
-        public Vector2 BottomLeft;
-        public Vector2 BottomRight;
+        public Vector TopLeft;
+        public Vector TopRight;
+        public Vector BottomLeft;
+        public Vector BottomRight;
+    }
+
+    /// <summary>
+    /// DUMMY
+    /// </summary>
+    internal class Texture2D
+    {
+        public Texture2D()
+        {
+
+        }
+    }
+
+    /// <summary>
+    /// DUMMY
+    /// </summary>
+    internal class Effect
+    {
+        public Effect()
+        {
+
+        }
     }
 
     /// <summary>
@@ -94,7 +117,7 @@ namespace Jypeli
         private void Flush()
         {
             if ( iTexture > 0 )
-            {
+            {/*
                 var device = Game.GraphicsDevice;
                 device.RasterizerState = RasterizerState.CullClockwise;
                 device.BlendState = BlendState.AlphaBlend;
@@ -109,14 +132,14 @@ namespace Jypeli
                     PrimitiveType.TriangleList,
                     vertexBuffer, 0,
                     iTexture * 2 );
-
+                */
                 Graphics.ResetSamplerState();
             }
 
             iTexture = 0;
         }
 
-        public void Draw( TextureCoordinates c, Vector2 position, Vector2 size, float angle )
+        public void Draw( TextureCoordinates c, Vector position, Vector size, float angle )
         {
             Debug.Assert( beginHasBeenCalled );
 
@@ -124,9 +147,9 @@ namespace Jypeli
                 Flush();
 
             Matrix matrix =
-                Matrix.CreateScale( size.X, size.Y, 1f )
+                Matrix.CreateScale((float)size.X, (float)size.Y, 1f )
                 * Matrix.CreateRotationZ( angle )
-                * Matrix.CreateTranslation( position.X, position.Y, 0 )
+                * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0 )
                 ;
             Vector3[] transformedPoints = new Vector3[VerticesPerTexture];
             Vector3.Transform( Vertices, ref matrix, transformedPoints );

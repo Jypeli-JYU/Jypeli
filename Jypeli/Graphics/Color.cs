@@ -1,7 +1,7 @@
 ﻿using System;
 
-using XnaColor = Microsoft.Xna.Framework.Color;
 using System.Globalization;
+using System.Runtime.InteropServices;
 
 namespace Jypeli
 {
@@ -34,20 +34,6 @@ namespace Jypeli
         /// </summary>
         [Save]
         public byte AlphaComponent;
-
-        internal Color( XnaColor c )
-        {
-            RedComponent = c.R;
-            GreenComponent = c.G;
-            BlueComponent = c.B;
-            AlphaComponent = c.A;
-        }
-
-        internal XnaColor AsXnaColor()
-        {
-            return new XnaColor(
-                (int)RedComponent, (int)GreenComponent, (int)BlueComponent, (int)AlphaComponent );
-        }
 
         /// <summary>
         /// Uusi väri
@@ -107,7 +93,7 @@ namespace Jypeli
             : this( rgb.RedComponent, rgb.GreenComponent, rgb.BlueComponent, alpha )
         {
         }
-
+        /*
         /// <summary>
         /// Uusi väri
         /// </summary>
@@ -118,7 +104,7 @@ namespace Jypeli
             : this( red, green, blue, 1.0 )
         {
         }
-
+        // TODO: SILK colors
         /// <summary>
         /// Uusi väri
         /// </summary>
@@ -138,7 +124,7 @@ namespace Jypeli
             BlueComponent = xnaColor.B;
             AlphaComponent = xnaColor.A;
         }
-
+        */
         /// <summary>
         /// Pakkaa kolme kokonaislukua väriä vastaavaksi kokonaisluvuksi
         /// </summary>
@@ -324,20 +310,6 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Laskee kahden värin (euklidisen) etäisyyden RGB-väriavaruudessa.
-        /// Värikomponentit ovat välillä 0-255 joten suurin mahdollinen etäisyys
-        /// (musta ja valkoinen) on noin 441,68.
-        /// </summary>
-        /// <returns>Etäisyys</returns>
-        internal static double Distance( XnaColor a, XnaColor b )
-        {
-            double rd = Math.Pow( a.R - b.R, 2 );
-            double gd = Math.Pow( a.G - b.G, 2 );
-            double bd = Math.Pow( a.B - b.B, 2 );
-            return Math.Sqrt( rd + gd + bd );
-        }
-
-        /// <summary>
         /// Muuttaa värin ARGB-kokonaisluvuksi
         /// </summary>
         /// <returns></returns>
@@ -434,17 +406,8 @@ namespace Jypeli
             return !( c1 == c2 );
         }
 
-        public static explicit operator XnaColor( Color color )
-        {
-            return color.AsXnaColor();
-        }
-
-        public static explicit operator Color( XnaColor color )
-        {
-            return new Color( color );
-        }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-
+        /*
         /// <summary>
         /// Lineaarinen interpolaatio värien välillä
         /// </summary>
@@ -459,7 +422,7 @@ namespace Jypeli
                 value2.AsXnaColor(),
                 (float)amount ) );
         }
-
+        */
         /// <summary>
         /// Antaa tummemman värin. Vähentaa jokaista kolmea osaväriä arvon <c>howMuch</c>
         /// verran.
@@ -475,7 +438,6 @@ namespace Jypeli
             if ( r < 0 ) r = 0;
             if ( g < 0 ) g = 0;
             if ( b < 0 ) b = 0;
-            Microsoft.Xna.Framework.Color x = c.AsXnaColor();
             return new Color( (byte)r, (byte)g, (byte)b, c.AlphaComponent );
         }
 
@@ -494,7 +456,6 @@ namespace Jypeli
             if ( r > byte.MaxValue ) r = byte.MaxValue;
             if ( g > byte.MaxValue ) g = byte.MaxValue;
             if ( b > byte.MaxValue ) b = byte.MaxValue;
-            Microsoft.Xna.Framework.Color x = c.AsXnaColor();
             return new Color( (byte)r, (byte)g, (byte)b, c.AlphaComponent );
         }
         /// <summary>
@@ -517,12 +478,12 @@ namespace Jypeli
                 sums[3] += colors[i].AlphaComponent / 255.0;
             }
 
-            return new Color(
+            return new Color(50, 50, 50);/*
                 sums[0] / colors.Length,
                 sums[1] / colors.Length,
                 sums[2] / colors.Length,
                 sums[3] / colors.Length
-            );
+            );*/
         }
 
         /// <summary>
@@ -928,7 +889,7 @@ namespace Jypeli
         /// <summary>
         /// Läpinäkyvä väri.
         /// </summary>
-        public static readonly Color Transparent = new Color( XnaColor.Transparent );
+        public static readonly Color Transparent = new Color( 0,0,0,0 );
 
         /// <summary>
         /// Turkoosi.

@@ -1,18 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XnaGame = Microsoft.Xna.Framework.Game;
-using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
-using XnaColor = Microsoft.Xna.Framework.Color;
-using XnaMouse = Microsoft.Xna.Framework.Input.Mouse;
-using XnaTouchPanel = Microsoft.Xna.Framework.Input.Touch.TouchPanel;
-using XnaButtonState = Microsoft.Xna.Framework.Input.ButtonState;
-using Microsoft.Xna.Framework.Input.Touch;
 using FontStashSharp;
 
 namespace Jypeli.Controls.Keyboard
@@ -23,7 +13,7 @@ namespace Jypeli.Controls.Keyboard
     /// virtuaalinäppäimistön käyttö MonoGamen ja Jypelin kanssa on
     /// haastavaa tai mahdotonta.
     /// </summary>
-    class VirtualKeyboard : DrawableGameComponent
+    class VirtualKeyboard// : DrawableGameComponent
     {
         internal const int KEY_PADDING = 5;
 
@@ -36,7 +26,7 @@ namespace Jypeli.Controls.Keyboard
             new VirtualKeyInfo[] {new VirtualKeyInfo("Space", " ", 7), new VirtualKeyInfo("= >", "", 4, VirtualKeyType.Enter)},
         };
 
-        public VirtualKeyboard(Game jypeliGame) : base(jypeliGame)
+        public VirtualKeyboard(Game jypeliGame)// : base(jypeliGame)
         {
             this.game = jypeliGame;
         }
@@ -46,7 +36,7 @@ namespace Jypeli.Controls.Keyboard
         public event EventHandler BackspacePressed;
 
         private Game game;
-        private SpriteBatch spriteBatch;
+        //private SpriteBatch spriteBatch;
 
         private List<VirtualKey> keys;
 
@@ -57,17 +47,20 @@ namespace Jypeli.Controls.Keyboard
 
         private Texture2D whitePixelTexture;
 
-        private MouseState prevMouseState;
+        public bool Visible { get; private set; }
+        public bool Enabled { get; private set; }
 
-        public override void Initialize()
+        //private MouseState prevMouseState;
+
+        public void Initialize()
         {
-            base.Initialize();
+            //base.Initialize();
 
             keys = new List<VirtualKey>();
-            Width = Game.GraphicsDevice.Viewport.Width;
-            Height = Game.GraphicsDevice.Viewport.Height / 2;
+            Width = 200;//Game.GraphicsDevice.Viewport.Width;
+            Height = 200;//Game.GraphicsDevice.Viewport.Height / 2;
 
-            Y = Game.GraphicsDevice.Viewport.Height - Height;
+            Y = 200;//Game.GraphicsDevice.Viewport.Height - Height;
 
             int highestKeyCount = GetKeyCountOnSingleLine();
 
@@ -94,8 +87,8 @@ namespace Jypeli.Controls.Keyboard
                 }
             }
 
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            whitePixelTexture = XnaRenderer.CreateTexture(GraphicsDevice, Color.White, 1, 1);
+            //spriteBatch = new SpriteBatch(GraphicsDevice);
+            //whitePixelTexture = XnaRenderer.CreateTexture(GraphicsDevice, Color.White, 1, 1);
         }
 
         private int GetKeyCountOnSingleLine()
@@ -152,7 +145,8 @@ namespace Jypeli.Controls.Keyboard
             key.Pressed();
         }
 
-        public override void Update(GameTime gameTime)
+        /*
+        public override void Update(Time gameTime)
         {
             bool checkForKeyPress;
 
@@ -202,7 +196,8 @@ namespace Jypeli.Controls.Keyboard
 
             base.Update(gameTime);
         }
-
+        */
+        /*
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied,
@@ -216,7 +211,7 @@ namespace Jypeli.Controls.Keyboard
             spriteBatch.End();
 
             base.Draw(gameTime);
-        }
+        }*/
     }
 
     /// <summary>
@@ -224,19 +219,19 @@ namespace Jypeli.Controls.Keyboard
     /// </summary>
     internal class VirtualKey
     {
-        private static XnaColor backgroundColorIdle = XnaColor.Gray;
-        private static XnaColor textColorIdle = XnaColor.White;
-        private static XnaColor backgroundColorPressed = XnaColor.White;
-        private static XnaColor textColorPressed = XnaColor.Red;
+        private static Color backgroundColorIdle = Color.Gray;
+        private static Color textColorIdle = Color.White;
+        private static Color backgroundColorPressed = Color.White;
+        private static Color textColorPressed = Color.Red;
 
         private const float HIGHLIGHT_TIME_ON_PRESS = 0.125f;
 
-        public VirtualKey(XnaGame game, string text)
+        public VirtualKey(Game game, string text)
         {
             UIText = text;
         }
 
-        public VirtualKey(XnaGame game, string text, string value,
+        public VirtualKey(Game game, string text, string value,
             int x, int y, int width, int height, Font font, VirtualKeyType type) : this(game, text)
         {
             X = x;
@@ -271,8 +266,8 @@ namespace Jypeli.Controls.Keyboard
 
         private double highlightTime;
 
-        private XnaColor backgroundColor = backgroundColorIdle;
-        private XnaColor textColor = textColorIdle;
+        private Color backgroundColor = backgroundColorIdle;
+        private Color textColor = textColorIdle;
 
         /// <summary>
         /// Kutsutaan, kun näppäintä on painettu.
@@ -283,7 +278,7 @@ namespace Jypeli.Controls.Keyboard
             backgroundColor = backgroundColorPressed;
             textColor = textColorPressed;
         }
-
+        /*
         /// <summary>
         /// Päivittää näppäimen tilaa.
         /// </summary>
@@ -300,7 +295,7 @@ namespace Jypeli.Controls.Keyboard
                 }
             }
         }
-
+        
         /// <summary>
         /// Piirtää näppäimen.
         /// </summary>
@@ -311,9 +306,9 @@ namespace Jypeli.Controls.Keyboard
             XnaRenderer.DrawRectangle(whitePixelTexture, sb, drawRectangle, 2, new XnaColor(196, 196, 196, 255));
             XnaRenderer.DrawStringWithShadow(sb, UIText, Font.XnaFont, 
                 new Vector2(xOffset + X + VirtualKeyboard.KEY_PADDING, yOffset + Y + VirtualKeyboard.KEY_PADDING), textColor);
-        }
+        }*/
     }
-
+    /*
     /// <summary>
     /// Sisältää näppäimistön piitämiseen käytettyjä metodeja.
     /// </summary>
@@ -352,7 +347,7 @@ namespace Jypeli.Controls.Keyboard
             sb.Draw(whitePixelTexture, new XnaRectangle(rect.X, rect.Y + rect.Height - thickness, rect.Width, thickness), color);
         }
     }
-
+    */
 
     /// <summary>
     /// Näppäimen tyyppi.

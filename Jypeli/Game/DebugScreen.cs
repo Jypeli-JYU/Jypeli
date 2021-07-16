@@ -1,5 +1,6 @@
 ﻿using System.Text;
-using Microsoft.Xna.Framework;
+
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -139,9 +140,9 @@ namespace Jypeli
         /// MonoGamen aika edellisestä ruudunpäivityksestä.
         /// </summary>
         /// <param name="gameTime"></param>
-        private void UpdateFps(GameTime gameTime)
+        private void UpdateFps(Time gameTime)
         {
-            fpsText = (10000000.0 / gameTime.ElapsedGameTime.Ticks).ToString("F2");
+            fpsText = (10000000.0 / gameTime.SinceLastUpdate.Ticks).ToString("F2");
             if (fpsSkipCounter++ > 10)
             {
                 fpsSkipCounter = 0;
@@ -150,7 +151,7 @@ namespace Jypeli
 
         private void UpdateDebugScreen(Time time)
         {
-            if (DebugKeyEnabled && Keyboard.GetKeyState(Key.F12) == ButtonState.Pressed)
+            //if (DebugKeyEnabled && Keyboard.GetKeyState(Key.F12) == ButtonState.Pressed)
             {
                 DebugScreenVisible = !DebugScreenVisible;
 
@@ -225,11 +226,11 @@ namespace Jypeli
                 double y1 = hmul * vertexes[j].Y;
                 double x2 = wmul * vertexes[j + 1].X;
                 double y2 = hmul * vertexes[j + 1].Y;
-
+/*
                 var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
                 var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
 
-                canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
+                canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);*/
             }
 
             if (vertexes.Length > 2)
@@ -238,11 +239,11 @@ namespace Jypeli
                 double y1 = hmul * vertexes[vertexes.Length - 1].Y;
                 double x2 = wmul * vertexes[0].X;
                 double y2 = hmul * vertexes[0].Y;
-
+                /*
                 var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
                 var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
 
-                canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
+                canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);*/
             }
             if (obj.Shape == Shape.Circle && DebugViewSettings.DrawCircleRotation)
             {
@@ -250,11 +251,11 @@ namespace Jypeli
                 double y1 = 0;
                 double x2 = obj.Width / 2;
                 double y2 = 0;
-
+                /*
                 var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
                 var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
 
-                canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
+                canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);*/
             }
         }
 
@@ -283,11 +284,11 @@ namespace Jypeli
                     double y1 = hmul * vertexes[j].Y;
                     double x2 = wmul * vertexes[j + 1].X;
                     double y2 = hmul * vertexes[j + 1].Y;
-
+                    /*
                     var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
                     var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
 
-                    canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
+                    canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);*/
                 }
 
                 if (vertexes.Count > 2)
@@ -296,11 +297,11 @@ namespace Jypeli
                     double y1 = hmul * vertexes[vertexes.Count - 1].Y;
                     double x2 = wmul * vertexes[0].X;
                     double y2 = hmul * vertexes[0].Y;
-
+                    /*
                     var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
                     var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
 
-                    canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
+                    canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);*/
                 }
             }
         }
@@ -316,7 +317,7 @@ namespace Jypeli
 
                     if (obj is PhysicsObject)
                     {
-                        PaintShapeOutlines(canvas, obj, Mouse.IsCursorOn((GameObject)obj) ? DebugViewSettings.PhysicsObjectHoverColor : DebugViewSettings.PhysicsObjectColor);
+                        //PaintShapeOutlines(canvas, obj, Mouse.IsCursorOn((GameObject)obj) ? DebugViewSettings.PhysicsObjectHoverColor : DebugViewSettings.PhysicsObjectColor);
                         if (DebugViewSettings.DrawPhysicsOutlines)
                             PaintPhysicsOutlines(canvas, (PhysicsObject)obj, DebugViewSettings.PhysicsObjectVertexColor);
                     }
@@ -327,11 +328,11 @@ namespace Jypeli
                             PhysicsStructure ps = obj as PhysicsStructure;
                             foreach (var o in ps.Objects)
                             {
-                                PaintShapeOutlines(canvas, o, Mouse.IsCursorOn(o) ? DebugViewSettings.GameObjectHoverColor : DebugViewSettings.GameObjectColor);
+                                //PaintShapeOutlines(canvas, o, Mouse.IsCursorOn(o) ? DebugViewSettings.GameObjectHoverColor : DebugViewSettings.GameObjectColor);
                             }
                         }
-                        else
-                            PaintShapeOutlines(canvas, obj, Mouse.IsCursorOn((GameObject)obj) ? DebugViewSettings.GameObjectHoverColor : DebugViewSettings.GameObjectColor);
+                        //else
+                            //PaintShapeOutlines(canvas, obj, Mouse.IsCursorOn((GameObject)obj) ? DebugViewSettings.GameObjectHoverColor : DebugViewSettings.GameObjectColor);
                     }
                 }
             }

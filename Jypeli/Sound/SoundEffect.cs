@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using Microsoft.Xna.Framework.Audio;
-
-using XnaSoundEffect = Microsoft.Xna.Framework.Audio.SoundEffect;
 using System.Collections.Generic;
 using System.IO;
 
@@ -51,7 +48,7 @@ namespace Jypeli
                 xnaEffect = FromContent(assetName);
             }
 
-            Position.MaxValue = xnaEffect.Duration.TotalSeconds;
+            //Position.MaxValue = xnaEffect.Duration.TotalSeconds;
         }
 
 
@@ -117,7 +114,7 @@ namespace Jypeli
             	DoLoad();
             	return new Sound( xnaEffect.CreateInstance() );
 			}
-			catch (NoAudioHardwareException)
+			catch
 			{
 				Game.Instance.OnNoAudioHardwareException();
 				return null;
@@ -169,7 +166,7 @@ namespace Jypeli
 	            posTimer.Start();
 	            IsPlaying = true;
 			}
-			catch (InstancePlayLimitException)
+			catch
 			{
 				// Too many sounds are playing at once
 				// Just ignore this for now...
@@ -196,6 +193,53 @@ namespace Jypeli
         {
             set { XnaSoundEffect.MasterVolume = (float)value; }
             get { return XnaSoundEffect.MasterVolume; }
+        }
+    }
+    /// <summary>
+    /// DUMMY
+    /// </summary>
+    internal class XnaSoundEffect
+    {
+        public static float MasterVolume { get; internal set; }
+        public TimeSpan Duration { get; internal set; }
+
+        internal static XnaSoundEffect FromStream(FileStream fs)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal SoundEffectInstance CreateInstance()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    internal class SoundEffectInstance
+    {
+        public bool IsLooped { get; internal set; }
+        public double Pan { get; internal set; }
+        public double Volume { get; internal set; }
+        public double Pitch { get; internal set; }
+        public SoundState State { get; internal set; }
+
+        internal void Pause()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Play()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Resume()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Stop()
+        {
+            throw new NotImplementedException();
         }
     }
 }

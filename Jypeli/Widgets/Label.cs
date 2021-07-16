@@ -30,8 +30,8 @@
 using System;
 using FontStashSharp;
 using Jypeli.Widgets;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -85,7 +85,7 @@ namespace Jypeli
 
         static double GetDefaultHeight()
         {
-            Vector2 fontDims = Font.Default.XnaFont.MeasureString( "A" );
+            Vector fontDims = Font.Default.XnaFont.MeasureString( "A" );
             return fontDims.Y;
         }
 
@@ -392,7 +392,7 @@ namespace Jypeli
                 return;
             }
 
-            Vector2 rawTextDims = xnaFont.MeasureString( visibleText );
+            Vector rawTextDims = xnaFont.MeasureString( visibleText );
             Vector clientArea = new Vector( this.Width - 2 * XMargin, this.Height - 2 * YMargin );
             Vector fullTextDims = new Vector( _textScale.X * rawTextDims.X, _textScale.Y * rawTextDims.Y );
             TextSize = new Vector( fullTextDims.X, fullTextDims.Y );
@@ -404,7 +404,7 @@ namespace Jypeli
                     break;
 
                 case TextSizeMode.StretchText:
-                    _textScale = new Vector( clientArea.X / rawTextDims.X, clientArea.Y / rawTextDims.Y );
+                    _textScale = new Vector3( (float)(clientArea.X / rawTextDims.X), (float)(clientArea.Y / rawTextDims.Y), 0);
                     TextSize = clientArea;
                     break;
 
@@ -430,15 +430,15 @@ namespace Jypeli
 
             visibleText = font.TruncateText( Text, textWidth );
 
-            Vector2 textDims = Font.XnaFont.MeasureString( visibleText );
+            Vector textDims = Font.XnaFont.MeasureString( visibleText );
             TextSize = new Vector( textDims.X, textDims.Y );
         }
 
         private void WrapText()
         {
             DynamicSpriteFont xnaFont = this.Font.XnaFont;
-            Vector2 rawTextDims = xnaFont.MeasureString( visibleText );
-            Vector2 fullTextDims = new Vector2( _textScale.X * rawTextDims.X, _textScale.Y * rawTextDims.Y );
+            Vector rawTextDims = xnaFont.MeasureString( visibleText );
+            Vector fullTextDims = new Vector( _textScale.X * rawTextDims.X, _textScale.Y * rawTextDims.Y );
 
             if ( Width <= 0 || fullTextDims.X <= Width )
                 return;
@@ -447,7 +447,7 @@ namespace Jypeli
             double softBreak = Math.Max( hardBreak / 2, hardBreak - 5 * Font.CharacterWidth );
 
             visibleText = Font.WrapText( visibleText, softBreak, hardBreak );
-            Vector2 textDims = xnaFont.MeasureString( visibleText );
+            Vector textDims = xnaFont.MeasureString( visibleText );
             base.Size = PreferredSize = new Vector( base.Size.X, textDims.Y + 2 * YMargin );
             TextSize = new Vector( textDims.X, textDims.Y );
         }

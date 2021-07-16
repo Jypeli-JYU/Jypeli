@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework.Audio;
-using System;
+﻿using System;
 
 namespace Jypeli
 {
@@ -122,5 +121,9 @@ namespace Jypeli
         {
             effectInstance.Pause();
         }
+    }
+
+    public class SoundState
+    {
     }
 }

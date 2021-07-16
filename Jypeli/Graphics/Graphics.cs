@@ -24,8 +24,7 @@
 #endregion
 
 using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -34,10 +33,10 @@ namespace Jypeli
     /// </summary>
     internal static class Graphics
     {
-        public static BasicEffect BasicTextureEffect;
-        public static BasicEffect BasicColorEffect;
+        //public static BasicEffect BasicTextureEffect;
+        //public static BasicEffect BasicColorEffect;
 
-        public static SpriteBatch SpriteBatch;
+        //public static SpriteBatch SpriteBatch;
 
         public static FontStashSharp.Renderer FontRenderer;
 
@@ -52,10 +51,10 @@ namespace Jypeli
 
         internal static readonly TextureCoordinates DefaultTextureCoords = new TextureCoordinates()
         {
-            TopLeft = new Vector2( 0.0f, 0.0f ),
-            TopRight = new Vector2( 1.0f, 0.0f ),
-            BottomLeft = new Vector2( 0.0f, 1.0f ),
-            BottomRight = new Vector2( 1.0f, 1.0f ),
+            TopLeft = new Vector(0.0, 0.0),
+            TopRight = new Vector(1.0, 0.0),
+            BottomLeft = new Vector(0.1, 1.0),
+            BottomRight = new Vector(1.0, 1.0),
         };
 
 #if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
@@ -73,15 +72,15 @@ namespace Jypeli
         // ...except on windows phone.
         private static bool is_PS_2_0_supported = false;
 #endif
-
+        /*
         public static SamplerState GetDefaultSamplerState()
         {
             return Game.SmoothTextures ? SamplerState.LinearClamp : SamplerState.PointClamp;
         }
-
+        */
         public static void Initialize()
         {
-            GraphicsDevice device = Game.GraphicsDevice;
+            /*GraphicsDevice device = Game.GraphicsDevice;
 
             BasicTextureEffect = new BasicEffect( device );
             // This must be set to false for textures to work with BasicEffect.
@@ -98,22 +97,22 @@ namespace Jypeli
 #endif
 
             SpriteBatch = new SpriteBatch( device );
-            FontRenderer = new FontStashSharp.Renderer(SpriteBatch);
+            FontRenderer = new FontStashSharp.Renderer(SpriteBatch);*/
             ImageBatch.Initialize();
             ShapeBatch.Initialize();
 
             ResetScreenSize();
 #if !LINUX
-            Game.GraphicsDevice.DeviceReset += GraphicsDevice_DeviceReset;
+            //Game.GraphicsDevice.DeviceReset += GraphicsDevice_DeviceReset;
 #endif
         }
-
+        /*
         public static DepthFormat SelectStencilMode()
         {
             GraphicsAdapter adapter = GraphicsAdapter.DefaultAdapter;
             SurfaceFormat format = adapter.CurrentDisplayMode.Format;
             return DepthFormat.Depth24Stencil8;
-            /*if ( adapter.CheckDepthStencilMatch( DeviceType.Hardware, format, format, DepthFormat.Depth24Stencil8 ) )
+            if ( adapter.CheckDepthStencilMatch( DeviceType.Hardware, format, format, DepthFormat.Depth24Stencil8 ) )
                 return DepthFormat.Depth24Stencil8;
             else if ( adapter.CheckDepthStencilMatch( DeviceType.Hardware, format, format, DepthFormat.Depth24Stencil8Single ) )
                 return DepthFormat.Depth24Stencil8Single;
@@ -122,27 +121,27 @@ namespace Jypeli
             else if ( adapter.CheckDepthStencilMatch( DeviceType.Hardware, format, format, DepthFormat.Depth15Stencil1 ) )
                 return DepthFormat.Depth15Stencil1;
             else
-                throw new ApplicationException( "Could Not Find Stencil Buffer for Default Adapter" );*/
-        }
-
-        private static SamplerState storedSamplerState;
+                throw new ApplicationException( "Could Not Find Stencil Buffer for Default Adapter" );
+    }
+        */
+        //private static SamplerState storedSamplerState;
 
         public static void SetSamplerState()
         {
-            storedSamplerState = Game.GraphicsDevice.SamplerStates[0];
-            Game.GraphicsDevice.SamplerStates[0] = GetDefaultSamplerState();
+            //storedSamplerState = Game.GraphicsDevice.SamplerStates[0];
+            //Game.GraphicsDevice.SamplerStates[0] = GetDefaultSamplerState();
         }
 
         public static void ResetSamplerState()
         {
-            Game.GraphicsDevice.SamplerStates[0] = storedSamplerState;
+            //Game.GraphicsDevice.SamplerStates[0] = storedSamplerState;
         }
 
         private static void GraphicsDevice_DeviceReset( object sender, EventArgs e )
         {
             ResetScreenSize();
         }
-
+    /*
         public static Effect GetTextureEffect( ref Matrix worldMatrix, Texture2D texture, bool lightingEnabled )
         {
 #if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
@@ -181,7 +180,7 @@ namespace Jypeli
                 return effect;
             }
         }
-
+    */
 #if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
         private static Effect GetLightingEffect( ref Matrix worldMatrix )
         {
@@ -212,7 +211,7 @@ namespace Jypeli
 
         public static void ResetScreenSize()
         {
-            GraphicsDevice device = Game.GraphicsDevice;
+            //GraphicsDevice device = Game.GraphicsDevice;
 
             ViewMatrix = Matrix.CreateLookAt(
                 new Vector3( 0.0f, 0.0f, 1.0f ),
@@ -226,11 +225,12 @@ namespace Jypeli
                 );
 
             viewProjectionMatrix = ViewMatrix * ProjectionMatrix;
-
+            /*
             BasicColorEffect.View = ViewMatrix;
             BasicColorEffect.Projection = ProjectionMatrix;
             BasicTextureEffect.View = ViewMatrix;
             BasicTextureEffect.Projection = ProjectionMatrix;
+            */
         }
     }
 }

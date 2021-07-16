@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Microsoft.Xna.Framework;
 using Jypeli.Effects;
+
+using Matrix = System.Numerics.Matrix4x4;
 
 
 namespace Jypeli
@@ -67,10 +68,10 @@ namespace Jypeli
 
         static readonly TextureCoordinates defaultCoords = new TextureCoordinates()
         {
-            TopLeft = new Vector2( 0.0f, 0.0f ),
-            TopRight = new Vector2( 1.0f, 0.0f ),
-            BottomLeft = new Vector2( 0.0f, 1.0f ),
-            BottomRight = new Vector2( 1.0f, 1.0f ),
+            TopLeft = new Vector( 0.0f, 0.0f ),
+            TopRight = new Vector( 1.0f, 0.0f ),
+            BottomLeft = new Vector( 0.0f, 1.0f ),
+            BottomRight = new Vector( 1.0f, 1.0f ),
         };
 
         /// <summary>
@@ -355,7 +356,7 @@ namespace Jypeli
 
                 Renderer.LightingEnabled = !o.IgnoresLighting;
 
-                if ( isSimple && ( o.Image == null ) && ( o.Shape == Shape.Rectangle || o.Shape == Shape.Triangle ) )
+                if ( isSimple && ( o.Image == null ))
                 {
                     DrawShape( o, ref worldMatrix );
                 }
@@ -452,8 +453,8 @@ namespace Jypeli
 
         private void DrawTexture( IGameObject o, ref Matrix parentTransformation )
         {
-            Vector2 position = new Vector2( (float)o.Position.X, (float)o.Position.Y );
-            Vector2 scale = new Vector2( (float)o.Size.X, (float)o.Size.Y );
+            Vector position = new Vector( (float)o.Position.X, (float)o.Position.Y );
+            Vector scale = new Vector( (float)o.Size.X, (float)o.Size.Y );
             float rotation = o.RotateImage ? (float)o.Angle.Radians : 0;
 
             if ( o.IsVisible )
@@ -473,10 +474,10 @@ namespace Jypeli
 
                     TextureCoordinates customCoords = new TextureCoordinates()
                     {
-                        TopLeft = new Vector2( left, top ),
-                        TopRight = new Vector2( right, top ),
-                        BottomLeft = new Vector2( left, bottom ),
-                        BottomRight = new Vector2( right, bottom ),
+                        TopLeft = new Vector( left, top ),
+                        TopRight = new Vector( right, top ),
+                        BottomLeft = new Vector( left, bottom ),
+                        BottomRight = new Vector( right, bottom ),
                     };
 
                     if ( o.TextureWrapSize.X == wx && o.TextureWrapSize.Y == wy )
@@ -489,7 +490,7 @@ namespace Jypeli
                     float topLeftX = -(float)( o.TextureWrapSize.X - 1 ) / 2;
                     float topLeftY = -(float)( o.TextureWrapSize.Y - 1 ) / 2;
 
-                    Vector2 newScale = new Vector2(
+                    Vector newScale = new Vector(
                         scale.X / ( wx * (float)o.TextureWrapSize.X ),
                         scale.Y / ( wy * (float)o.TextureWrapSize.Y ) );
 
@@ -497,7 +498,7 @@ namespace Jypeli
                     {
                         for ( int x = 0; x < o.TextureWrapSize.X; x++ )
                         {
-                            Vector2 newPosition = position + new Vector2( ( topLeftX + x ) * newScale.X, ( topLeftY + y ) * newScale.Y );
+                            Vector newPosition = position + new Vector( ( topLeftX + x ) * newScale.X, ( topLeftY + y ) * newScale.Y );
                             Graphics.ImageBatch.Draw( customCoords, newPosition, newScale, rotation );
                         }
                     }
@@ -507,32 +508,13 @@ namespace Jypeli
 
         private void DrawShape( IGameObject o, ref Matrix parentTransformation )
         {
-            Vector2 position = new Vector2( (float)o.Position.X, (float)o.Position.Y );
-            Vector2 scale = new Vector2( (float)o.Size.X, (float)o.Size.Y );
+            Vector position = new Vector( (float)o.Position.X, (float)o.Position.Y );
+            Vector scale = new Vector( (float)o.Size.X, (float)o.Size.Y );
             float rotation = (float)o.Angle.Radians;
 
             if ( o.IsVisible )
             {
-                Vector[] vertices;
-                Int16[] indices;
-
-                if ( o.Shape == Shape.Rectangle )
-                {
-                    vertices = squareVertices;
-                    indices = squareIndices;
-                }
-                else if ( o.Shape == Shape.Triangle )
-                {
-                    vertices = triangleVertices;
-                    indices = triangleIndices;
-                }
-                else
-                {
-                    vertices = new Vector[] { };
-                    indices = new Int16[] { };
-                }
-
-                Graphics.ShapeBatch.Draw( vertices, indices, o.Color, position, scale, rotation );
+                Graphics.ShapeBatch.Draw( o.Shape.Cache, o.Color, position, scale, rotation );
             }
         }
 
@@ -542,16 +524,16 @@ namespace Jypeli
             if ( o.Shape.IsUnitSize )
                 drawScale = o.Size;
 
-            Vector2 position = new Vector2( (float)o.Position.X, (float)o.Position.Y );
-            Vector2 scale = new Vector2( (float)drawScale.X, (float)drawScale.Y );
+            Vector position = new Vector( (float)o.Position.X, (float)o.Position.Y );
+            Vector scale = new Vector( (float)drawScale.X, (float)drawScale.Y );
             float rotation = o.RotateImage ? (float)o.Angle.Radians : 0;
 
             if ( o.IsVisible )
             {
                 Matrix transformation =
-                    Matrix.CreateScale( scale.X, scale.Y, 1f )
+                    Matrix.CreateScale( (float)scale.X, (float)scale.Y, 1f )
                     * Matrix.CreateRotationZ( rotation )
-                    * Matrix.CreateTranslation( position.X, position.Y, 0f )
+                    * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0f )
                     * parentTransformation;
 
                 if ( o is CustomDrawable )

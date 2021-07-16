@@ -152,8 +152,8 @@ namespace Jypeli
 
             if ( Game.Instance != null )
             {
-                prevMouseVisible = Game.Instance.IsMouseVisible;
-                Game.Instance.IsMouseVisible = true;
+                //prevMouseVisible = Game.Instance.IsMouseVisible;
+                //Game.Instance.IsMouseVisible = true;
             }
         }
 
@@ -162,16 +162,16 @@ namespace Jypeli
             if (!IsModal)
                 return;
 
-            if ( Game.Instance != null )
-                Game.Instance.IsMouseVisible = prevMouseVisible;
+            //if ( Game.Instance != null )
+            //    Game.Instance.IsMouseVisible = prevMouseVisible;
         }
 
         void AddControls()
         {
-            var l1 = Game.Mouse.ListenOn( this, MouseButton.Left, ButtonState.Pressed, StartMoveWindow, null ).InContext( this );
-            var l2 = Game.Mouse.Listen( MouseButton.Left, ButtonState.Down, MoveWindow, null ).InContext( this );
-            var l3 = Game.Mouse.ListenOn( this, MouseButton.Left, ButtonState.Released, EndMoveWindow, null ).InContext( this );
-            associatedListeners.AddItems(l1, l2, l3);
+            //var l1 = Game.Mouse.ListenOn( this, MouseButton.Left, ButtonState.Pressed, StartMoveWindow, null ).InContext( this );
+            //var l2 = Game.Mouse.Listen( MouseButton.Left, ButtonState.Down, MoveWindow, null ).InContext( this );
+            //var l3 = Game.Mouse.ListenOn( this, MouseButton.Left, ButtonState.Released, EndMoveWindow, null ).InContext( this );
+            //associatedListeners.AddItems(l1, l2, l3);
         }
 
         void StartMoveWindow()
@@ -184,14 +184,14 @@ namespace Jypeli
                     return;
             }
 
-            movementCenter = this.Position - Game.Mouse.PositionOnScreen;
+            //movementCenter = this.Position - Game.Mouse.PositionOnScreen;
             moving = true;
         }
 
         void MoveWindow()
         {
             if ( !moving ) return;
-            this.Position = movementCenter + Game.Mouse.PositionOnScreen;
+            //this.Position = movementCenter + Game.Mouse.PositionOnScreen;
         }
 
         void EndMoveWindow()

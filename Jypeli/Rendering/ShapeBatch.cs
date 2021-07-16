@@ -1,8 +1,11 @@
 ﻿
 using System;
 using System.Diagnostics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Jypeli.Rendering;
+using Jypeli.Rendering.OpenGl;
+using Silk.NET.OpenGL;
+
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -31,15 +34,15 @@ namespace Jypeli
         /// to the graphics card. We just have to make sure that the buffer size
         /// isn't larger than 16000.
         /// </remarks>
-        Int16[] indexBuffer;
+        uint[] indexBuffer;
 
-        Effect effect;
+        //Effect effect;
         Matrix matrix;
 
-        SamplerState samplerState;
+        //SamplerState samplerState;
 
-        int iVertexBuffer = 0;
-        int iIndexBuffer = 0;
+        uint iVertexBuffer = 0;
+        uint iIndexBuffer = 0;
         bool beginHasBeenCalled = false;
 
         public bool LightingEnabled = true;
@@ -47,19 +50,21 @@ namespace Jypeli
 
         public void Initialize()
         {
+            /*
             samplerState = new SamplerState
             {
                 AddressU = TextureAddressMode.Clamp,
                 AddressW = TextureAddressMode.Clamp,
                 AddressV = TextureAddressMode.Clamp,
             };
+            */
             //var capabilities = Game.GraphicsDevice.GraphicsDeviceCapabilities;
             // Capabilities no longer supported in XNA 4.0
             // GraphicsProfile.Reach maximum primitive count = 65535
             int vertexBufferSize = Math.Min( DefaultBufferSize, 65535 * 3 );
             
             vertexBuffer = new VertexPositionColor[vertexBufferSize];
-            indexBuffer = new Int16[vertexBufferSize * 2];
+            indexBuffer = new uint[vertexBufferSize * 2];
         }
 
         public void Begin( ref Matrix matrix )
@@ -83,54 +88,52 @@ namespace Jypeli
         {
             if ( iIndexBuffer != 0 )
             {
-                Game.GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+                /*Game.GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
                 Game.GraphicsDevice.SamplerStates[0] = samplerState;
 
                 effect = Graphics.GetColorEffect(ref matrix, LightingEnabled);
                 for ( int i = 0; i < effect.CurrentTechnique.Passes.Count; i++ )
-                    effect.CurrentTechnique.Passes[i].Apply();
+                    effect.CurrentTechnique.Passes[i].Apply();*/
 
-                Game.GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColor>(
-                    PrimitiveType.TriangleList,
-                    vertexBuffer, 0, iVertexBuffer,
-                    indexBuffer, 0,
-                    iIndexBuffer / 3 );
+                GraphicsDevice.DrawUserIndexedPrimitives(
+                    PrimitiveType.Triangles,
+                    vertexBuffer, iIndexBuffer,
+                    indexBuffer);
             }
 
             iVertexBuffer = 0;
             iIndexBuffer = 0;
         }
 
-        public void Draw( Vector[] vertices, Int16[] indices, Color color, Vector2 position, Vector2 size, float angle )
+        public void Draw(ShapeCache cache, Color color, Vector position, Vector size, float angle)
         {
-            if ( ( iVertexBuffer + vertices.Length ) > vertexBuffer.Length ||
-                ( iIndexBuffer + indices.Length ) > indexBuffer.Length )
+            if ( ( iVertexBuffer + cache.Vertices.Length ) > vertexBuffer.Length ||
+                ( iIndexBuffer + cache.Triangles.Length ) > indexBuffer.Length )
             {
                 Flush();
             }
 
             Matrix matrix =
-                Matrix.CreateScale( size.X, size.Y, 1f )
-                * Matrix.CreateRotationZ( angle )
-                * Matrix.CreateTranslation( position.X, position.Y, 0 )
+                //Matrix.CreateScale( (float)size.X, (float)size.Y, 1f )
+                 Matrix.CreateRotationZ( angle )
+                * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0 )
                 ;
 
-            int startIndex = iVertexBuffer;
+            uint startIndex = iVertexBuffer;
 
-            for ( int i = 0; i < vertices.Length; i++ )
+            for (int i = 0; i < cache.Vertices.Length; i++)
             {
-                Vector p = vertices[i];
-                Vector3 p3 = new Vector3( (float)p.X, (float)p.Y, 0f );
-                vertexBuffer[iVertexBuffer].Position = Vector3.Transform( p3, matrix );
-                vertexBuffer[iVertexBuffer].Color = color.AsXnaColor();
-                iVertexBuffer++;
+                Vector v = cache.Vertices[i];
+                vertexBuffer[iVertexBuffer++] = new VertexPositionColor(Vector3.Transform(new Vector3((float)v.X, (float)v.Y, 0), matrix), color);
             }
 
-            for ( int i = 0; i < indices.Length; i++ )
+            for (int i = 0; i < cache.Triangles.Length; i++)
             {
-                indexBuffer[iIndexBuffer] = (Int16)( startIndex + indices[i] );
-                iIndexBuffer++;
+                indexBuffer[iIndexBuffer++] = (uint)cache.Triangles[i].i1 + startIndex;
+                indexBuffer[iIndexBuffer++] = (uint)cache.Triangles[i].i2 + startIndex;
+                indexBuffer[iIndexBuffer++] = (uint)cache.Triangles[i].i3 + startIndex;
             }
+
         }
     }
 }

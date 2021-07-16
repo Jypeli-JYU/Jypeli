@@ -196,7 +196,7 @@ namespace Jypeli
         /// <param name="assetName">Tiedoston nimi</param>        
         public static StringList FromAsset( string assetName )
         {
-            return new StringList( Game.Instance.Content.Load<string[]>( assetName ) );
+            return new StringList(/* Game.Instance.Content.Load<string[]>( assetName )*/ );
         }
 #endif
 

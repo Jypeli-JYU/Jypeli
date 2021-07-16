@@ -29,10 +29,10 @@
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Silk.NET.Maths;
+using Jypeli.Rendering.OpenGl;
 
-using XnaColor = Microsoft.Xna.Framework.Color;
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -43,35 +43,30 @@ namespace Jypeli
     /// </summary>
     public class ScreenView : Dimensional
     {
-        private RenderTarget2D _renderTarget = null;
-        private SpriteBatch renderBatch;
-        private Vector2 _center = Vector2.Zero;
+        private RenderTarget _renderTarget = null;
+        //private SpriteBatch renderBatch;
+        private Vector2D<float> _center = Vector2D<float>.Zero;
         private Vector3 _scale = Vector3.One;
-        private Vector2 _scale2 = Vector2.One;
+        private Vector _scale2 = Vector.One;
         private Vector3 _scaleInv = Vector3.One;
-        private Point _size;
+        private Vector _size;
         private float _angle = 0;
-        private SpriteEffects _effect = SpriteEffects.None;
+        //private SpriteEffects _effect = SpriteEffects.None;
         private bool _flipAndMirror;
-        private XnaColor _color = XnaColor.White;
-        private XnaColor _bgcolor = XnaColor.Black;
-        private Texture2D _bgTex = null;
-
-        /// <summary>
-        /// Näyttölaite.
-        /// </summary>
-        internal GraphicsDevice device;
+        private Color _color = Color.White;
+        private Color _bgcolor = Color.Black;
+        //private Texture2D _bgTex = null;
 
         /// <summary>
         /// Tekstuuri johon näkymä piirretään.
         /// </summary>
-        internal RenderTarget2D RenderTarget
+        internal RenderTarget RenderTarget
         {
             get
             {
                 if ( _renderTarget == null )
                 {
-                    _renderTarget = new RenderTarget2D( device, _size.X, _size.Y, false, device.DisplayMode.Format, DepthFormat.Depth24Stencil8 );
+                    _renderTarget = new RenderTarget((int)_size.X, (int)_size.Y);
                     Graphics.ResetScreenSize();
                 }
 
@@ -83,14 +78,13 @@ namespace Jypeli
         /// Alustaa uuden näyttönäkymän.
         /// </summary>
         /// <param name="device">XNA:n grafiikkalaite.</param>
-        public ScreenView( GraphicsDevice device )
+        public ScreenView()
         {
-            this.device = device;
-            this.renderBatch = new SpriteBatch( device );
-            this._bgTex = new Texture2D( device, 1, 1 );
-
-            PresentationParameters pp = device.PresentationParameters;
-            this._size = new Point( pp.BackBufferWidth, pp.BackBufferHeight );
+            //this.renderBatch = new SpriteBatch();
+            //this._bgTex = new Texture2D( device, 1, 1 );
+            //
+            //PresentationParameters pp = device.PresentationParameters;
+            this._size = new Vector(1280, 720);
         }
 
         /// <summary>
@@ -98,7 +92,7 @@ namespace Jypeli
         /// </summary>
         public Image Image
         {
-            get { return new Image( RenderTarget ); }
+            get { return new Image(20,20 /*RenderTarget*/ ); }
         }
 
         /// <summary>
@@ -108,12 +102,12 @@ namespace Jypeli
         {
             get
             {
-                return new Image( _bgTex );
+                return Image;// new Image( _bgTex );
             }
             set
             {
                 // Clone ensures that the image doesn't change unexpectedly
-                _bgTex = value.Clone().XNATexture;
+                //_bgTex = value.Clone().XNATexture;
             }
         }
 
@@ -126,19 +120,19 @@ namespace Jypeli
             get { return (Color)_bgcolor; }
             set
             {
-                _bgcolor = (XnaColor)value;
-                _bgTex = new Texture2D( RenderTarget.GraphicsDevice, 1, 1 );
-                _bgTex.SetData<XnaColor>( new XnaColor[] { (XnaColor)value } );
+                _bgcolor = value;
+                //_bgTex = new Texture2D( RenderTarget.GraphicsDevice, 1, 1 );
+                //_bgTex.SetData<Color>( new Color[] { value } );
             }
         }
 
         /// <summary>
         /// Näytön keskipiste.
         /// </summary>
-        public Vector Center
+        public Vector2D<float> Center
         {
-            get { return (Vector)_center; }
-            set { _center = (Vector2)value; }
+            get { return _center; }
+            set { _center = value; }
         }
 
         /// <summary>
@@ -146,8 +140,8 @@ namespace Jypeli
         /// </summary>
         public Color Color
         {
-            get { return (Color)_color; }
-            set { _color = (XnaColor)value; }
+            get { return _color; }
+            set { _color = value; }
         }
 
         /// <summary>
@@ -155,17 +149,17 @@ namespace Jypeli
         /// </summary>
         public bool IsFlipped
         {
-            get { return _flipAndMirror || _effect == SpriteEffects.FlipVertically; }
+            get { return _flipAndMirror /*|| _effect == SpriteEffects.FlipVertically*/; }
             set
             {
                 if ( IsMirrored )
                 {
-                    _effect = SpriteEffects.None;
+                    /*_effect = SpriteEffects.None;*/
                     _flipAndMirror = true;
                 }
                 else
                 {
-                    _effect = SpriteEffects.FlipVertically;
+                    /*_effect = SpriteEffects.FlipVertically;*/
                     _flipAndMirror = false;
                 }
             }
@@ -176,17 +170,17 @@ namespace Jypeli
         /// </summary>
         public bool IsMirrored
         {
-            get { return _flipAndMirror || _effect == SpriteEffects.FlipVertically; }
+            get { return _flipAndMirror /* || _effect == SpriteEffects.FlipVertically*/; }
             set
             {
                 if ( IsFlipped )
                 {
-                    _effect = SpriteEffects.None;
+                   // _effect = SpriteEffects.None;
                     _flipAndMirror = true;
                 }
                 else
                 {
-                    _effect = SpriteEffects.FlipHorizontally;
+                    //_effect = SpriteEffects.FlipHorizontally;
                     _flipAndMirror = false;
                 }
             }
@@ -210,7 +204,7 @@ namespace Jypeli
             set
             {
                 _scale = new Vector3( (float)value.X, (float)value.Y, 1 );
-                _scale2 = new Vector2( _scale.X, _scale.Y );
+                _scale2 = new Vector( _scale.X, _scale.Y );
                 _scaleInv = new Vector3( 1 / _scale.X, 1 / _scale.Y, 1 );
             }
         }
@@ -262,7 +256,7 @@ namespace Jypeli
         {
 			get
             {
-				return Game.GraphicsDeviceManager.PreferredBackBufferWidth;
+                return 200;//Game.GraphicsDeviceManager.PreferredBackBufferWidth;
             }
         }
 
@@ -273,7 +267,7 @@ namespace Jypeli
         {
             get
             {
-                return Game.GraphicsDeviceManager.PreferredBackBufferHeight;
+                return 200;// Game.GraphicsDeviceManager.PreferredBackBufferHeight;
             }
         }
 
@@ -363,7 +357,7 @@ namespace Jypeli
         /// <param name="screenSize"></param>
         /// <param name="objectSize"></param>
         /// <returns></returns>
-        internal static Vector FromXnaCoords( Vector2 position, Vector screenSize, Vector objectSize )
+        internal static Vector FromXnaCoords( Vector position, Vector screenSize, Vector objectSize )
         {
             double x = ( -screenSize.X + objectSize.X ) / 2 + position.X;
             double y = ( screenSize.Y - objectSize.Y ) / 2 - position.Y;
@@ -387,9 +381,9 @@ namespace Jypeli
         /// <param name="screenSize"></param>
         /// <param name="objectSize"></param>
         /// <returns></returns>
-        internal static Vector2 ToXnaCoords( Vector position, Vector screenSize, Vector objectSize )
+        internal static Vector ToXnaCoords( Vector position, Vector screenSize, Vector objectSize )
         {
-            return new Vector2(
+            return new Vector(
                 xToXna( (float)position.X, (float)screenSize.X, (float)objectSize.X ),
                 yToXna( (float)position.Y, (float)screenSize.Y, (float)objectSize.Y ) );
         }
@@ -406,7 +400,7 @@ namespace Jypeli
             // Keskitetään sprite ruudulla, mutta toteutetaan alkuperäinen muunnos Jypelin koordinaateissa.
             var centralize = Matrix.CreateTranslation((screenSize - scale) / 2);
             var toXna      = Matrix.CreateScale(1, -1, 1) * Matrix.CreateTranslation(screenSize / 2);
-            var toJypeli   = Matrix.Invert(toXna);
+            Matrix.Invert(toXna, out Matrix toJypeli);
 
             return centralize * toJypeli * matrix * toXna;
         }
@@ -441,21 +435,21 @@ namespace Jypeli
 
         internal void Render()
         {
-            float angle = _flipAndMirror ? _angle + Microsoft.Xna.Framework.MathHelper.Pi : _angle;
+            float angle = _flipAndMirror ? _angle + MathHelper.Pi : _angle;
 
-            device.SetRenderTarget( null );
+            /*device.SetRenderTarget( null );
             device.Clear( _bgcolor );
-
+            
             Matrix rotate = Matrix.CreateRotationZ(angle);
-            Vector2 devorigin = new Vector2( device.Viewport.Width, device.Viewport.Height ) / 2;
-            Vector2 rtorigin = new Vector2( RenderTarget.Width * _scale.X, RenderTarget.Height * _scale.Y ) / 2;
-            Vector2 diff = Vector2.Transform( -rtorigin, rotate );
-            var rectangle = new Microsoft.Xna.Framework.Rectangle( 0, 0, device.Viewport.Width, device.Viewport.Height );
-
+            Vector devorigin = new Vector( device.Viewport.Width, device.Viewport.Height ) / 2;
+            Vector rtorigin = new Vector( RenderTarget.Width * _scale.X, RenderTarget.Height * _scale.Y ) / 2;
+            Vector diff = Vector.Transform( -rtorigin, rotate );
+            var rectangle = new Rectangle<float>(new Vector2D<float>(0, 0), new Vector2D<float>(device.Viewport.Width, device.Viewport.Height));
+            
             renderBatch.Begin( SpriteSortMode.Immediate, BlendState.AlphaBlend, Graphics.GetDefaultSamplerState(), DepthStencilState.None, RasterizerState.CullCounterClockwise, null );
-            renderBatch.Draw( _bgTex, rectangle, XnaColor.White );
-            renderBatch.Draw( RenderTarget, devorigin + diff + _center, null, _color, angle, Vector2.Zero, _scale2, _effect, 1 );
-            renderBatch.End();
+            renderBatch.Draw( _bgTex, rectangle, Color.White );
+            renderBatch.Draw( RenderTarget, devorigin + diff + _center, null, _color, angle, Vector.Zero, _scale2, _effect, 1 );
+            renderBatch.End();*/
         }
     }
 

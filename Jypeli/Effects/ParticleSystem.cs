@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Jypeli.Rendering;
+
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli.Effects
 {
@@ -333,10 +334,10 @@ namespace Jypeli.Effects
         }
 
 
-        static readonly Vector2 textureTopLeft = new Vector2(0.0f, 0.0f);
-        static readonly Vector2 textureBottomLeft = new Vector2(0.0f, 1.0f);
-        static readonly Vector2 textureTopRight = new Vector2(1.0f, 0.0f);
-        static readonly Vector2 textureBottomRight = new Vector2(1.0f, 1.0f);
+        static readonly Vector textureTopLeft = new Vector(0.0f, 0.0f);
+        static readonly Vector textureBottomLeft = new Vector(0.0f, 1.0f);
+        static readonly Vector textureTopRight = new Vector(1.0f, 0.0f);
+        static readonly Vector textureBottomRight = new Vector(1.0f, 1.0f);
 
         static readonly Vector3 topLeft = new Vector3(-0.5f, 0.5f, 0);
         static readonly Vector3 bottomLeft = new Vector3(-0.5f, -0.5f, 0);
@@ -355,7 +356,7 @@ namespace Jypeli.Effects
             new VertexPositionTexture(bottomRight, textureBottomRight),
             new VertexPositionTexture(topRight, textureTopRight),
         };
-
+        /*
         private static BlendState ToXnaBlendState(BlendMode mode)
         {
             switch (mode)
@@ -367,10 +368,11 @@ namespace Jypeli.Effects
                 default:
                     return BlendState.AlphaBlend;
             }
-        }
+        }*/
 
         internal void Draw(Matrix worldMatrix)
         {
+            /*
             var device = Game.GraphicsDevice;
             var effect = Graphics.BasicTextureEffect;
 
@@ -438,7 +440,7 @@ namespace Jypeli.Effects
 
                     device.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
                 }
-            }
+            }*/
         }
     }
 }

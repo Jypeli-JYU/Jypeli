@@ -55,7 +55,7 @@ namespace Jypeli.Content
         /// <returns></returns>
         public SoundEffect LoadInternalSoundEffect(string assetName)
         {
-            return new SoundEffect(Microsoft.Xna.Framework.Audio.SoundEffect.FromStream(StreamInternalResource("Sounds." + assetName)));
+            return new SoundEffect("");//Microsoft.Xna.Framework.Audio.SoundEffect.FromStream(StreamInternalResource("Sounds." + assetName)));
         }
 
         /// <summary>

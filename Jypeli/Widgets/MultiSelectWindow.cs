@@ -290,7 +290,7 @@ namespace Jypeli
 
         private void AddControls()
         {
-            var Keyboard = Game.Instance.Keyboard;
+            /*var Keyboard = Game.Instance.Keyboard;
 
             for ( int i = 0; i < Math.Min( Buttons.Length, keys.Length ); i++ )
             {
@@ -313,7 +313,7 @@ namespace Jypeli
                 l2 = controller.Listen( Button.DPadDown, ButtonState.Pressed, selectNext, null ).InContext( this );
                 l3 = controller.Listen( Button.A, ButtonState.Pressed, confirmSelect, null ).InContext( this );
                 associatedListeners.AddItems(l1, l2, l3);
-            }
+            }*/
         }
 
         private void AddDefaultControls()
@@ -323,10 +323,10 @@ namespace Jypeli
 
             if ( _defaultCancel >= 0 && _defaultCancel < Buttons.Length )
             {
-                var l1 = Game.Instance.PhoneBackButton.Listen( Buttons[_defaultCancel].Click, null ).InContext( this );
+                /*var l1 = Game.Instance.PhoneBackButton.Listen( Buttons[_defaultCancel].Click, null ).InContext( this );
                 var l2 = Game.Instance.Keyboard.Listen( Key.Escape, ButtonState.Pressed, Buttons[_defaultCancel].Click, null ).InContext( this );
                 var l3 = Game.Instance.ControllerOne.Listen( Button.B, ButtonState.Pressed, Buttons[_defaultCancel].Click, null ).InContext( this );
-                _defaultListeners.AddItems(l1, l2, l3);
+                _defaultListeners.AddItems(l1, l2, l3);*/
             }
         }
 

@@ -1,13 +1,15 @@
 ﻿using System.Diagnostics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Jypeli.Rendering;
+using Jypeli.Rendering.OpenGl;
+
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
     internal class LineBatch
     {
         VertexPositionColor[] vertexBuffer = new VertexPositionColor[512];
-        Effect effect;
+        //Effect effect;
         Matrix matrix;
         int iVertexBuffer = 0;
         bool beginHasBeenCalled = false;
@@ -33,13 +35,13 @@ namespace Jypeli
         private void Flush()
         {
             if ( iVertexBuffer > 0 )
-            {
+            {/*
                 effect = Graphics.GetColorEffect(ref matrix, LightingEnabled);
                 for ( int i = 0; i < effect.CurrentTechnique.Passes.Count; i++ )
                     effect.CurrentTechnique.Passes[i].Apply();
 
-                Game.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                    PrimitiveType.LineList, vertexBuffer, 0, iVertexBuffer / 2);
+                GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
+                    PrimitiveType.LineList, vertexBuffer, 0, iVertexBuffer / 2);*/
             }
 
             iVertexBuffer = 0;
@@ -51,13 +53,13 @@ namespace Jypeli
             {
                 Flush();
             }
-
+            /*
             vertexBuffer[iVertexBuffer++] = new VertexPositionColor(
                 new Vector3((float)startPoint.X, (float)startPoint.Y, 0f),
                 color.AsXnaColor());
             vertexBuffer[iVertexBuffer++] = new VertexPositionColor(
                 new Vector3((float)endPoint.X, (float)endPoint.Y, 0f),
-                color.AsXnaColor());
+                color.AsXnaColor());*/
         }
     }
 }

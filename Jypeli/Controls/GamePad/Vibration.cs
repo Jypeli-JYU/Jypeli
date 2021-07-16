@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 
 namespace Jypeli.Controls.GamePad
 {
@@ -38,7 +37,7 @@ namespace Jypeli.Controls.GamePad
             // Lifetime progression
             LifetimeLeft -= time.SinceLastUpdate.TotalSeconds;
         }
-        
+        /*
         public static void Execute( PlayerIndex p, IEnumerable<Vibration> vibrations )
         {
             // Total vibrations
@@ -59,7 +58,7 @@ namespace Jypeli.Controls.GamePad
             //XnaGamePad.SetVibration( p, (float)lmotort, (float)rmotort );
             // MonoGame: no support yet
         }
-
+        */
         #region Destroyable Members
 
         public bool IsDestroyed { get; private set; }

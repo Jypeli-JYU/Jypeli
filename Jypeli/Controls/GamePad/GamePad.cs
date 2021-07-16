@@ -30,16 +30,12 @@
 using System;
 using Jypeli.Controls;
 using Jypeli.Controls.GamePad;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-
-using XnaGamePad = Microsoft.Xna.Framework.Input.GamePad;
 
 namespace Jypeli
 {
-    public class GamePad : Controller<GamePadState, Enum>
+    /*public class GamePad : Controller<GamePadState, Enum>
     {
-        private PlayerIndex playerIndex;
+        //private PlayerIndex playerIndex;
         private SynchronousList<Vibration> vibrations;
 
         /// <summary>
@@ -50,7 +46,7 @@ namespace Jypeli
         {
             get
             {
-                Vector2 v = CurrentState.ThumbSticks.Left;
+                Vector v = CurrentState.ThumbSticks.Left;
                 return new Vector( v.X, v.Y );
             }
         }
@@ -197,12 +193,12 @@ namespace Jypeli
 
         private string GetButtonName( Button b )
         {
-            return String.Format( "GamePad{0} {1}", playerIndex.ToString(), b.ToString() );
+            return "";// String.Format( "GamePad{0} {1}", playerIndex.ToString(), b.ToString() );
         }
 
         private string GetAnalogName( AnalogControl a )
         {
-            return String.Format( "GamePad{0} {1}", playerIndex.ToString(), a.ToString() );
+            return "";// String.Format( "GamePad{0} {1}", playerIndex.ToString(), a.ToString() );
         }
 
         /// <summary>
@@ -229,7 +225,7 @@ namespace Jypeli
         internal void UpdateVibrations( Time time )
         {
             vibrations.Update( time );
-            Vibration.Execute( playerIndex, vibrations );
+            //Vibration.Execute( playerIndex, vibrations );
         }
 
         /// <summary>
@@ -380,5 +376,5 @@ namespace Jypeli
             Action analogHandler = delegate { handler(GenerateAnalogState(control), p1, p2, p3); };
             return AddListener( rule, control, GetAnalogName( control ), helpText, analogHandler);
         }
-    }
+    }*/
 }

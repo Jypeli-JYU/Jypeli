@@ -38,8 +38,8 @@ namespace Jypeli
         {
             get
             {
-                if (CapturesMouse && Game.Mouse.IsCursorOn(this))
-                    return true;
+                //if (CapturesMouse && Game.Mouse.IsCursorOn(this))
+                //    return true;
 
                 foreach (var o in Objects)
                 {

@@ -33,16 +33,10 @@ using Jypeli.Controls;
 
 namespace Jypeli
 {
-    using Matrix = Microsoft.Xna.Framework.Matrix;
-    using XnaV2 = Microsoft.Xna.Framework.Vector2;
-    using XnaMouse = Microsoft.Xna.Framework.Input.Mouse;
-    using MouseState = Microsoft.Xna.Framework.Input.MouseState;
-    using XnaButtonState = Microsoft.Xna.Framework.Input.ButtonState;
-
     /// <summary>
     /// Hiiri.
     /// </summary>
-    public class Mouse : Controller<MouseState, MouseButton>
+    /*public class Mouse : Controller<MouseState, MouseButton>
     {
         private static readonly Dictionary<MouseButton, Func<MouseState, bool>> GetButtonDown = new Dictionary<MouseButton, Func<MouseState, bool>>( 5 )
         {
@@ -62,12 +56,12 @@ namespace Jypeli
         /// Jos ei käytetä, hiirtä voidaan liikuttaa rajatta, mutta sen paikkaa
         /// ruudulla ei voida määrittää.
         /// </summary>
-        public bool IsCursorVisible
+        /*public bool IsCursorVisible
         {
             get { return Game.Instance.IsMouseVisible; }
             set { Game.Instance.IsMouseVisible = value; }
-        }
-
+        }*/
+    /*
         /// <summary>
         /// Kursorin paikka ruutukoordinaateissa.
         /// </summary>
@@ -82,7 +76,7 @@ namespace Jypeli
 #if !WINRT && !WINDOWS_PHONE && !ANDROID
                 // Not supported on WinRT... only sets xna coords
                 Vector pos = value.Transform( screen.GetScreenInverse() );
-                XnaV2 xnapos = ScreenView.ToXnaCoords( pos, screen.ViewportSize, Vector.Zero );
+                Vector xnapos = ScreenView.ToXnaCoords( pos, screen.ViewportSize, Vector.Zero );
 
                 //CurrentState = new MouseState( CurrentState, xnapos );
                 CurrentState = new MouseState(
@@ -118,8 +112,8 @@ namespace Jypeli
             {
                 Matrix screenTransform = screen.GetScreenTransform();
 
-                XnaV2 curXna = new XnaV2( CurrentState.X, CurrentState.Y );
-                XnaV2 prevXna = new XnaV2( PrevState.X, PrevState.Y );
+                Vector curXna = new Vector( CurrentState.X, CurrentState.Y );
+                Vector prevXna = new Vector( PrevState.X, PrevState.Y );
                 Vector curScr = ScreenView.FromXnaCoords( curXna, screen.ViewportSize, Vector.Zero );
                 Vector prevScr = ScreenView.FromXnaCoords( prevXna, screen.ViewportSize, Vector.Zero );
                 Vector curr = curScr.Transform( screenTransform );
@@ -670,5 +664,5 @@ namespace Jypeli
             ChangePredicate<MouseState> rule = MakeTriggerRule( obj, HoverState.On, button, state );
             return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p1, p2, p3 );
         }
-    }
+    }*/
 }

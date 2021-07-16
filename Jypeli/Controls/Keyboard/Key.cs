@@ -27,7 +27,7 @@
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
-using Microsoft.Xna.Framework.Input;
+using Silk.NET.GLFW;
 
 namespace Jypeli
 {
@@ -37,8 +37,8 @@ namespace Jypeli
     /// </summary>
     public enum Key
     {
-        None = Keys.None,
-        Back = Keys.Back,
+        None = Keys.Unknown,
+        Back = Keys.Backspace,
         Tab = Keys.Tab,
         Enter = Keys.Enter,
         Pause = Keys.Pause,
@@ -56,16 +56,16 @@ namespace Jypeli
         PrintScreen = Keys.PrintScreen,
         Insert = Keys.Insert,
         Delete = Keys.Delete,
-        D0 = Keys.D0,
-        D1 = Keys.D1,
-        D2 = Keys.D2,
-        D3 = Keys.D3,
-        D4 = Keys.D4,
-        D5 = Keys.D5,
-        D6 = Keys.D6,
-        D7 = Keys.D7,
-        D8 = Keys.D8,
-        D9 = Keys.D9,
+        D0 = Keys.Number0,
+        D1 = Keys.Number1,
+        D2 = Keys.Number2,
+        D3 = Keys.Number3,
+        D4 = Keys.Number4,
+        D5 = Keys.Number5,
+        D6 = Keys.Number6,
+        D7 = Keys.Number7,
+        D8 = Keys.Number8,
+        D9 = Keys.Number9,
         A = Keys.A,
         B = Keys.B,
         C = Keys.C,
@@ -92,22 +92,22 @@ namespace Jypeli
         X = Keys.X,
         Y = Keys.Y,
         Z = Keys.Z,
-        NumPad0 = Keys.NumPad0,
-        NumPad1 = Keys.NumPad1,
-        NumPad2 = Keys.NumPad2,
-        NumPad3 = Keys.NumPad3,
-        NumPad4 = Keys.NumPad4,
-        NumPad5 = Keys.NumPad5,
-        NumPad6 = Keys.NumPad6,
-        NumPad7 = Keys.NumPad7,
-        NumPad8 = Keys.NumPad8,
-        NumPad9 = Keys.NumPad9,
-        Multiply = Keys.Multiply,
+        NumPad0 = Keys.Keypad0,
+        NumPad1 = Keys.Keypad1,
+        NumPad2 = Keys.Keypad2,
+        NumPad3 = Keys.Keypad3,
+        NumPad4 = Keys.Keypad4,
+        NumPad5 = Keys.Keypad5,
+        NumPad6 = Keys.Keypad6,
+        NumPad7 = Keys.Keypad7,
+        NumPad8 = Keys.Keypad8,
+        NumPad9 = Keys.Keypad9,
+        /*Multiply = Keys.Multiply,
         Add = Keys.Add,
         Separator = Keys.Separator,
         Subtract = Keys.Subtract,
         Decimal = Keys.Decimal,
-        Divide = Keys.Divide,
+        Divide = Keys.Divide,*/
         F1 = Keys.F1,
         F2 = Keys.F2,
         F3 = Keys.F3,
@@ -133,7 +133,7 @@ namespace Jypeli
         F23 = Keys.F23,
         F24 = Keys.F24,
         NumLock = Keys.NumLock,
-        Scroll = Keys.Scroll,
+        /*Scroll = Keys.Scroll,
         LeftShift = Keys.LeftShift,
         RightShift = Keys.RightShift,
         LeftControl = Keys.LeftControl,
@@ -148,6 +148,6 @@ namespace Jypeli
         OemPlus = Keys.OemPlus,
         LessOrGreater = Keys.OemBackslash,
         Period = Keys.OemPeriod,
-        Comma = Keys.OemComma,
+        Comma = Keys.OemComma,*/
     }
 }

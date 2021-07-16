@@ -30,12 +30,11 @@
 using System;
 using System.Linq;
 using FontStashSharp;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Jypeli.Rendering;
+using Jypeli.Rendering.OpenGl;
+using Silk.NET.OpenGL;
 
-using XnaV2 = Microsoft.Xna.Framework.Vector2;
-using XnaV3 = Microsoft.Xna.Framework.Vector3;
-
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -53,10 +52,10 @@ namespace Jypeli
         /// </summary>
         static readonly VertexPositionTexture[] textureVertices = new VertexPositionTexture[]
         {
-            new VertexPositionTexture( new XnaV3(-0.5f, 0.5f, 0), new XnaV2(0.0f, 0.0f) ),
-            new VertexPositionTexture( new XnaV3(-0.5f, -0.5f, 0), new XnaV2(0.0f, 1.0f) ),
-            new VertexPositionTexture( new XnaV3(0.5f, 0.5f, 0), new XnaV2(1.0f, 0.0f) ),
-            new VertexPositionTexture( new XnaV3(0.5f, -0.5f, 0), new XnaV2(1.0f, 1.0f) )
+            new VertexPositionTexture( new Vector3(-0.5f, 0.5f, 0), new Vector(0.0f, 0.0f) ),
+            new VertexPositionTexture( new Vector3(-0.5f, -0.5f, 0), new Vector(0.0f, 1.0f) ),
+            new VertexPositionTexture( new Vector3(0.5f, 0.5f, 0), new Vector(1.0f, 0.0f) ),
+            new VertexPositionTexture( new Vector3(0.5f, -0.5f, 0), new Vector(1.0f, 1.0f) )
         };
 
         /// <summary>
@@ -72,7 +71,7 @@ namespace Jypeli
         /// Onko valaistus käytössä
         /// </summary>
         public static bool LightingEnabled { get; set; }
-
+        /*
         static readonly BlendState NoDrawingToScreenBufferBlendState = new BlendState
         {
             ColorWriteChannels = ColorWriteChannels.None,
@@ -93,9 +92,9 @@ namespace Jypeli
             StencilFunction = CompareFunction.LessEqual,
             StencilPass = StencilOperation.Keep,
         };
-
+        */
         private static bool isDrawingInsideShape = false;
-        private static DepthStencilState currentStencilState = DepthStencilState.None;
+        //private static DepthStencilState currentStencilState = DepthStencilState.None;
 
         private static VertexPositionTexture[] MakeTextureVertices( Vector wrapSize )
         {
@@ -116,10 +115,10 @@ namespace Jypeli
             float top = -(float)Math.Sign( wrapSize.Y ) / 2 + 0.5f;
             float bottom = top + py;
                        
-            tempVertices[0].TextureCoordinate = new XnaV2( left, top );
-            tempVertices[1].TextureCoordinate = new XnaV2( left, bottom );
-            tempVertices[2].TextureCoordinate = new XnaV2( right, top );
-            tempVertices[3].TextureCoordinate = new XnaV2( right, bottom );
+            tempVertices[0].TextureCoordinate = new Vector(left, top);
+            tempVertices[1].TextureCoordinate = new Vector(left, bottom);
+            tempVertices[2].TextureCoordinate = new Vector(right, top);
+            tempVertices[3].TextureCoordinate = new Vector(right, bottom);
 
             return tempVertices;
         }
@@ -134,16 +133,16 @@ namespace Jypeli
         {
             if ( wrapSize.X == 0 || wrapSize.Y == 0 ) return;
 
-            var device = Game.GraphicsDevice;
+            //var device = Game.GraphicsDevice;
             var tempVertices = MakeTextureVertices( wrapSize );
 
-            device.RasterizerState = RasterizerState.CullClockwise;
+            //device.RasterizerState = RasterizerState.CullClockwise;
 #if WINDOWS_PHONE
             // The WP7 emulator interprets cullmodes incorectly sometimes.
             device.RasterizerState = RasterizerState.CullNone;
 #endif
 
-            device.BlendState = BlendState.AlphaBlend;
+            //device.BlendState = BlendState.AlphaBlend;
 
             float wrapX = (float)Math.Abs( wrapSize.X );
             float wrapY = (float)Math.Abs( wrapSize.Y );
@@ -151,7 +150,7 @@ namespace Jypeli
             if ( wrapX <= 1 && wrapY <= 1 )
             {
                 // Draw only once
-                DrawImageTexture( texture, matrix, device, tempVertices );
+                //DrawImageTexture( texture, matrix, device, tempVertices );
                 return;
             }
 
@@ -172,7 +171,7 @@ namespace Jypeli
                         Matrix.CreateScale( 1 / wrapX, 1 / wrapY, 1 ) *
                         Matrix.CreateTranslation( topLeftX + x * tileW, topLeftY - y * tileH, 0 ) *
                         matrix;
-                    DrawImageTexture( texture, m, device, tempVertices );
+                    //DrawImageTexture( texture, m, device, tempVertices );
                 }
 
                 if ( partX > 0 )
@@ -218,7 +217,7 @@ namespace Jypeli
                 }
             }
         }
-
+        /*
         private static void DrawImageTexture( Image texture, Matrix matrix, GraphicsDevice device, VertexPositionTexture[] tempVertices )
         {
             Effect effect = Graphics.GetTextureEffect( ref matrix, texture.XNATexture, LightingEnabled );
@@ -236,7 +235,7 @@ namespace Jypeli
 
             Graphics.ResetSamplerState();
         }
-
+        */
         /// <summary>
         /// Makes all the subsequent draw calls until <c>EndDrawingInsideShape</c> limit the
         /// drawing inside <c>shape</c> (transformed by the matrix).
@@ -254,14 +253,14 @@ namespace Jypeli
                 throw new Exception( "EndDrawingInsideShape must be called before calling this function again" );
 
             isDrawingInsideShape = true;
-            var device = Game.GraphicsDevice;
+            /*var device = Game.GraphicsDevice;
 
             device.Clear( ClearOptions.Stencil, Color.Black.AsXnaColor(), 0, 0 );
             device.DepthStencilState = currentStencilState = drawShapeToStencilBufferState;
 
             DrawFilledShape( shape.Cache, ref transformation, Color.White, NoDrawingToScreenBufferBlendState );
 
-            device.DepthStencilState = currentStencilState = drawAccordingToStencilBufferState;
+            device.DepthStencilState = currentStencilState = drawAccordingToStencilBufferState;*/
         }
 
         /// <summary>
@@ -272,7 +271,7 @@ namespace Jypeli
             if ( !isDrawingInsideShape )
                 throw new Exception( "BeginDrawingInsideShape must be called first" );
 
-            Game.GraphicsDevice.DepthStencilState = currentStencilState = DepthStencilState.None;
+            //Game.GraphicsDevice.DepthStencilState = currentStencilState = DepthStencilState.None;
             isDrawingInsideShape = false;
         }
 
@@ -285,13 +284,14 @@ namespace Jypeli
         /// <param name="color">Tekstin väri</param>
         public static void DrawText( string text, Vector position, Font font, Color color )
         {
+            /*
             Vector2 textSize = font.XnaFont.MeasureString(text);
             Vector2 xnaPos = ScreenView.ToXnaCoords( position, Game.Screen.Size, (Vector)textSize );
 
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
             spriteBatch.Begin();
             font.XnaFont.DrawText(Graphics.FontRenderer, text, xnaPos.ToSystemNumerics(), color.AsXnaColor().ToSystemDrawing());
-            spriteBatch.End();
+            spriteBatch.End();*/
         }
 
         /// <summary>
@@ -303,6 +303,7 @@ namespace Jypeli
         /// <param name="color">Tekstin väri</param>
         public static void DrawText( string text, ref Matrix transformation, Font font, Color color )
         {
+            /*
             Vector textSize = (Vector)font.XnaFont.MeasureString( text );
             Matrix m = ScreenView.ToXnaCoords(ref transformation, Game.Screen.Size, textSize );
 
@@ -310,6 +311,7 @@ namespace Jypeli
             spriteBatch.Begin( SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, m );
             font.XnaFont.DrawText(Graphics.FontRenderer, text, Vector2.Zero.ToSystemNumerics(), color.AsXnaColor().ToSystemDrawing());
             spriteBatch.End();
+            */
         }
 
         /// <summary>
@@ -321,6 +323,7 @@ namespace Jypeli
         /// <param name="colors">Tekstin kirjainten väri</param>
         public static void DrawText(string text, ref Matrix transformation, Font font, Color[] colors)
         {
+            /*
             Vector textSize = (Vector)font.XnaFont.MeasureString(text);
             Matrix m = ScreenView.ToXnaCoords(ref transformation, Game.Screen.Size, textSize);
 
@@ -328,6 +331,7 @@ namespace Jypeli
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, m);
             font.XnaFont.DrawText(Graphics.FontRenderer, text, Vector2.Zero.ToSystemNumerics(), colors.ConvertAll(v => v.AsXnaColor().ToSystemDrawing()).ToArray());
             spriteBatch.End();
+            */
         }
 
         /// <summary>
@@ -370,16 +374,13 @@ namespace Jypeli
         /// <param name="color"></param>
         public static void DrawRaySegment( RaySegment segment, ref Matrix matrix, Color color )
         {
-            var device = Game.GraphicsDevice;
 
             Vector endPoint = segment.Origin + segment.Direction * segment.Length;
 
             VertexPositionColor[] colorVertices = new VertexPositionColor[2];
-            colorVertices[0].Position = new Vector3( (float)segment.Origin.X, (float)segment.Origin.Y, 0 );
-            colorVertices[0].Color = color.AsXnaColor();
-            colorVertices[1].Position = new Vector3( (float)endPoint.X, (float)endPoint.Y, 0 );
-            colorVertices[1].Color = color.AsXnaColor();
-
+            colorVertices[0] = new VertexPositionColor(new Vector3( (float)segment.Origin.X, (float)segment.Origin.Y, 0 ), color);
+            colorVertices[1] = new VertexPositionColor(new Vector3( (float)endPoint.X, (float)endPoint.Y, 0 ), color);
+            /*
             BasicEffect effect = Graphics.BasicColorEffect;
             effect.World = matrix;
             Graphics.SetSamplerState();
@@ -387,7 +388,7 @@ namespace Jypeli
             {
                 pass.Apply();
                 device.DrawUserPrimitives<VertexPositionColor>( PrimitiveType.LineStrip, colorVertices, 0, 1 );
-            }
+            }*/
             Graphics.ResetSamplerState();
         }
 
@@ -408,18 +409,13 @@ namespace Jypeli
 
         internal static void DrawFilledShape( ShapeCache cache, ref Matrix matrix, Color color )
         {
-            DrawFilledShape( cache, ref matrix, color, BlendState.NonPremultiplied );
-        }
-
-        internal static void DrawFilledShape( ShapeCache cache, ref Matrix matrix, Color color, BlendState blendState )
-        {
-            var device = Game.GraphicsDevice;
+            //var device = Game.GraphicsDevice;
 
             VertexPositionColor[] vertices = new VertexPositionColor[cache.Vertices.Length];
             for ( int i = 0; i < vertices.Length; i++ )
             {
                 Vector v = cache.Vertices[i];
-                vertices[i] = new VertexPositionColor( new XnaV3( (float)v.X, (float)v.Y, 0 ), color.AsXnaColor() );
+                vertices[i] = new VertexPositionColor( new Vector3( (float)v.X, (float)v.Y, 0 ), color );
             }
 
             Int16[] indices = new Int16[cache.Triangles.Length * 3];
@@ -430,13 +426,13 @@ namespace Jypeli
                 indices[3 * i + 2] = cache.Triangles[i].i3;
             }
 
-            device.RasterizerState = RasterizerState.CullCounterClockwise;
-            device.BlendState = blendState;
+            //device.RasterizerState = RasterizerState.CullCounterClockwise;
+            //device.BlendState = blendState;
 #if WINDOWS_PHONE
             // The WP7 emulator interprets cullmodes incorectly sometimes.
             device.RasterizerState = RasterizerState.CullNone;
 #endif
-
+            /*
             Effect effect = Graphics.GetColorEffect( ref matrix, LightingEnabled );
             Graphics.SetSamplerState();
             foreach ( EffectPass pass in effect.CurrentTechnique.Passes )
@@ -447,7 +443,7 @@ namespace Jypeli
                     vertices, 0, vertices.Length,
                     indices, 0, indices.Length / 3
                     );
-            }
+            }*/
             Graphics.ResetSamplerState();
         }
 
@@ -461,7 +457,7 @@ namespace Jypeli
         {
             if ( vertices.Length < 3 )
                 throw new ArgumentException( "Polygon must have at least three vertices" );
-
+            /*
             var device = Game.GraphicsDevice;
 
             VertexPositionColor[] colorVertices = new VertexPositionColor[vertices.Length];
@@ -496,10 +492,11 @@ namespace Jypeli
                     );
 
             }
+            */
             Graphics.ResetSamplerState();
         }
 
-
+        /*
         internal static void DrawVertices( Vector[] vertices, Matrix matrix, Color color )
         {
             VertexPositionColor[] pointVertices = new VertexPositionColor[vertices.Length];
@@ -513,7 +510,7 @@ namespace Jypeli
             }
 
             var device = Game.GraphicsDevice;
-            //device.RenderState.PointSize = 2;
+            device.RenderState.PointSize = 2;
 
             BasicEffect effect = Graphics.BasicColorEffect;
             effect.World = matrix;
@@ -522,12 +519,12 @@ namespace Jypeli
             {
                 pass.Apply();
                 device.DrawUserPrimitives<VertexPositionColor>(
-                    PrimitiveType.LineList,
+                    PrimitiveType.Lines,
                     pointVertices, 0, pointVertices.Length
                     );
             }
             Graphics.ResetSamplerState();
-        }
+        }*/
     }
 }
 

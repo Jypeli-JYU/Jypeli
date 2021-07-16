@@ -30,11 +30,6 @@
 using System;
 using System.IO;
 using Jypeli.Content;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-using XnaSoundEffect = Microsoft.Xna.Framework.Audio.SoundEffect;
-
 #if NETFX_CORE
 using Windows.ApplicationModel.Resources;
 #else
@@ -69,7 +64,6 @@ namespace Jypeli
         private void InitXnaContent()
         {
             ResourceContent = new JypeliContentManager();
-            Content.RootDirectory = "Content";
             MediaPlayer = new MediaPlayer();
         }
 

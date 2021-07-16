@@ -27,7 +27,7 @@
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
-using Microsoft.Xna.Framework;
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli.Widgets
 {

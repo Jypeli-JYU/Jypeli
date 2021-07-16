@@ -28,7 +28,8 @@
  */
 
 using System;
-using Microsoft.Xna.Framework;
+
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -172,8 +173,8 @@ namespace Jypeli
                 previousImage = image;
             }
 
-            Vector2 scaleV = new Vector2( (float)( image.Width * scale.X ), (float)( image.Height * scale.Y ) );
-            Graphics.ImageBatch.Draw( Graphics.DefaultTextureCoords, (Vector2)point, scaleV, (float)angle.Radians );
+            Vector scaleV = new Vector( (float)( image.Width * scale.X ), (float)( image.Height * scale.Y ) );
+            Graphics.ImageBatch.Draw( Graphics.DefaultTextureCoords, point, scaleV, (float)angle.Radians );
         }
 
         /// <summary>

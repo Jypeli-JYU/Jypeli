@@ -29,8 +29,7 @@
 
 using System;
 using System.ComponentModel;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Silk.NET.Windowing;
 
 namespace Jypeli
 {
@@ -41,46 +40,17 @@ namespace Jypeli
         private bool windowSizeSet = false;
         private bool windowPositionSet = false;
 
-        /// <summary>
-        /// XNA:n grafiikkakortti.
-        /// </summary>
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        public static new GraphicsDevice GraphicsDevice
-        {
-            get
-            {
-                if ( Game.Instance == null ) return null;
-                return ( (Microsoft.Xna.Framework.Game)Instance ).GraphicsDevice;
-            }
-        }
-
-        /// <summary>
-        /// XNA:n grafiikkakorttien hallintaolio.
-        /// </summary>
-        //[EditorBrowsable(EditorBrowsableState.Never )]
-        public static GraphicsDeviceManager GraphicsDeviceManager { get; private set; }
+        private IWindow window;
 
         /// <summary>
         /// Onko peli kokoruututilassa.
         /// </summary>
         public bool IsFullScreen
         {
-            get { return isFullScreenRequested; }
+            get { return window.WindowState == WindowState.Fullscreen; }
             set
             {
-                if ( GraphicsDevice == null )
-                {
-                    // GraphicsDevice is not initialized yet.
-                    isFullScreenRequested = value;
-                }
-                else if ( ( GraphicsDeviceManager.IsFullScreen != value ) )
-                {
-#if WINDOWS_PHONE && !WINDOWS_PHONE81
-                    //Phone.ResetScreen();
-#else
-                    SetWindowSize( GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, value );
-#endif
-                }
+                window.WindowState = value ? WindowState.Fullscreen : WindowState.Normal;
             }
         }
 
@@ -110,7 +80,7 @@ namespace Jypeli
         /// <param name="y">Ikkunan yläreunan y-koordinaatti (kasvaa alaspäin)</param>
         public void SetWindowPosition( int x, int y )
         {
-            Window.Position = new Point( x, y );
+            window.Position = new Silk.NET.Maths.Vector2D<int>(x, y);
             windowPositionSet = true;
         }
 
@@ -119,11 +89,11 @@ namespace Jypeli
         /// </summary>
         public void CenterWindow()
         {
-
-            int W = (int)GraphicsDevice.DisplayMode.Width;
-            int H = (int)GraphicsDevice.DisplayMode.Height;
-			int w = (int)GraphicsDeviceManager.PreferredBackBufferWidth;
-			int h = (int)GraphicsDeviceManager.PreferredBackBufferHeight;
+            // TODO: SILK: CenterWindow
+            //int W = (int)GraphicsDevice.DisplayMode.Width;
+            //int H = (int)GraphicsDevice.DisplayMode.Height;
+            //int w = (int)GraphicsDeviceManager.PreferredBackBufferWidth;
+			//int h = (int)GraphicsDeviceManager.PreferredBackBufferHeight;
 
             //TODO: How to do this now?
 #if WINDOWS
@@ -133,7 +103,7 @@ namespace Jypeli
             //h += titleheight + 2 * borderwidth;
 #endif
 
-            SetWindowPosition( ( W - w ) / 2, ( H - h ) / 2 );
+            //SetWindowPosition( ( W - w ) / 2, ( H - h ) / 2 );
 
         }
 
@@ -194,10 +164,10 @@ namespace Jypeli
             //height = (int)(height * scaleFactor);
 
 
-            GraphicsDeviceManager.PreferredBackBufferWidth = width;
-			GraphicsDeviceManager.PreferredBackBufferHeight = height;
-			GraphicsDeviceManager.IsFullScreen = fullscreen;
-            
+            //GraphicsDeviceManager.PreferredBackBufferWidth = width;
+			//GraphicsDeviceManager.PreferredBackBufferHeight = height;
+            //GraphicsDeviceManager.IsFullScreen = fullscreen; // TODO: SILK DoSetWindowSize
+
             //TODO: is this needed?
 #if LINUX
 			//if (fullscreen) {
@@ -206,7 +176,7 @@ namespace Jypeli
 			//}
 #endif
 
-            GraphicsDeviceManager.ApplyChanges ();
+            //GraphicsDeviceManager.ApplyChanges ();
 			isFullScreenRequested = fullscreen;
 
 			if (Screen != null) {
@@ -219,8 +189,8 @@ namespace Jypeli
 
             windowSizeSet = true;
 
-            if ( GraphicsDevice != null )
-                CenterWindow();
+            //if ( GraphicsDevice != null )
+            //    CenterWindow();
         }
 
         /// <summary>
@@ -228,8 +198,8 @@ namespace Jypeli
         /// </summary>
         private void InitGraphics()
         {
-            Viewport viewPort = GraphicsDevice.Viewport;
-            Screen = new ScreenView( GraphicsDevice );
+            //Viewport viewPort = GraphicsDevice.Viewport;
+            Screen = new ScreenView();
             Jypeli.Graphics.Initialize();
 
             Camera = new Camera();

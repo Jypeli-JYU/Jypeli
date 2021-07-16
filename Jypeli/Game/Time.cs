@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Microsoft.Xna.Framework;
 
 namespace Jypeli
 {
@@ -67,6 +66,11 @@ namespace Jypeli
             Timer.UpdateAll( time, t => t.IgnorePause );
         }
 
+        protected void Update(double dt){
+            currentTime.Advance(dt);
+            this.Update(currentTime);
+        }
+
         /// <summary>
         /// Ajetaan kun pelin tilannetta päivitetään. Päivittämisen voi toteuttaa perityssä luokassa
         /// toteuttamalla tämän metodin. Perityn luokan metodissa tulee kutsua kantaluokan metodia.
@@ -79,18 +83,17 @@ namespace Jypeli
             UpdateHandlers( time );
             ExecutePendingActions();
         }
-
+        /*
         /// <summary>
         /// Ajetaan kun pelin tilannetta päivitetään.
         /// </summary>
         /// <param name="gameTime"></param>
         [EditorBrowsable( EditorBrowsableState.Never )]
-        protected override void Update( GameTime gameTime )
+        protected override void Update( Time time )
         {
             if ( !loadContentHasBeenCalled || !beginHasBeenCalled )
             {
                 // No updates until both LoadContent and Begin have been called
-                base.Update( gameTime );
                 return;
             }
 
@@ -107,6 +110,7 @@ namespace Jypeli
                 DataStorage.Update( currentRealTime );*/
 
             // The update in derived classes.
+            /*
             if ( !IsPaused )
             {
                 currentTime.Advance( gameTime );
@@ -120,6 +124,6 @@ namespace Jypeli
             UpdateDebugScreen( currentRealTime );
 
             base.Update( gameTime );
-        }
+        }*/
     }
 }

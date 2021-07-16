@@ -29,10 +29,9 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using XnaColor = Microsoft.Xna.Framework.Color;
 using FontStashSharp;
+
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -167,7 +166,7 @@ namespace Jypeli
         
         /// <inheritdoc/>
         public override void Draw( Matrix parentTransformation, Matrix transformation )
-        {
+        {/*
             SpriteBatch spriteBatch = Graphics.SpriteBatch;
             Matrix m =
                 Matrix.CreateTranslation( (float)Position.X, (float)Position.Y, 0 )
@@ -184,7 +183,7 @@ namespace Jypeli
             }
 
             spriteBatch.End();
-
+            */
             base.Draw( parentTransformation, transformation );
         }
 
@@ -200,7 +199,7 @@ namespace Jypeli
 
             for ( int i = 0; i < messages.Count; i++ )
             {
-                Vector2 dims = Font.XnaFont.MeasureString( messages[i].Text );
+                Vector dims = Font.XnaFont.MeasureString( messages[i].Text );
                 if ( dims.X > maxW ) maxW = dims.X;
             }
 

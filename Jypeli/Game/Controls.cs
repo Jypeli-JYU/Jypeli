@@ -29,7 +29,6 @@
 
 using System.Collections.Generic;
 using Jypeli.Controls;
-using Microsoft.Xna.Framework;
 
 namespace Jypeli
 {
@@ -41,7 +40,7 @@ namespace Jypeli
         /// <summary>
         /// Näppäimistö.
         /// </summary>
-        public Keyboard Keyboard { get; private set; }
+        //public Keyboard Keyboard { get; private set; }
 
         /// <summary>
         /// Hiiri.
@@ -64,32 +63,32 @@ namespace Jypeli
         /// <summary>
         /// Puhelimen takaisin-näppäin.
         /// </summary>
-        public BackButton PhoneBackButton { get; private set; }
+       // public BackButton PhoneBackButton { get; private set; }
 
         /// <summary>
         /// Lista kaikista peliohjaimista järjestyksessä.
         /// </summary>
-        public List<GamePad> GameControllers { get; private set; } 
+        //public List<GamePad> GameControllers { get; private set; } 
 
         /// <summary>
         /// Ensimmäinen peliohjain.
         /// </summary>
-        public GamePad ControllerOne { get { return GameControllers[0]; } }
+        //public GamePad ControllerOne { get { return GameControllers[0]; } }
 
         /// <summary>
         /// Toinen peliohjain.
         /// </summary>
-        public GamePad ControllerTwo { get { return GameControllers[1]; } }
+        //public GamePad ControllerTwo { get { return GameControllers[1]; } }
 
         /// <summary>
         /// Kolmas peliohjain.
         /// </summary>
-        public GamePad ControllerThree { get { return GameControllers[2]; } }
+        //public GamePad ControllerThree { get { return GameControllers[2]; } }
 
         /// <summary>
         /// Neljäs peliohjain.
         /// </summary>
-        public GamePad ControllerFour { get { return GameControllers[3]; } }
+        //public GamePad ControllerFour { get { return GameControllers[3]; } }
 
         /// <summary>
         /// Pelin pääohjainkonteksti.
@@ -119,21 +118,21 @@ namespace Jypeli
         {
             _context = new ListenContext() { Active = true };
 
-            Keyboard = new Keyboard();
-            Mouse = new Mouse( Screen );
-            PhoneBackButton = new BackButton();
+            //Keyboard = new Keyboard();
+            //Mouse = new Mouse( Screen );
+            //PhoneBackButton = new BackButton();
             TouchPanel = new TouchPanel( Screen );
 
-            GameControllers = new List<GamePad>( 4 );
-            GameControllers.Add( new GamePad( PlayerIndex.One ) );
-            GameControllers.Add( new GamePad( PlayerIndex.Two ) );
-            GameControllers.Add( new GamePad( PlayerIndex.Three ) );
-            GameControllers.Add( new GamePad( PlayerIndex.Four ) );
+            //GameControllers = new List<GamePad>( 4 );
+            //GameControllers.Add( new GamePad( PlayerIndex.One ) );
+            //GameControllers.Add( new GamePad( PlayerIndex.Two ) );
+            //GameControllers.Add( new GamePad( PlayerIndex.Three ) );
+            //GameControllers.Add( new GamePad( PlayerIndex.Four ) );
 
             _controllers = new List<Controller>();
-            _controllers.Add( Keyboard );
+            //_controllers.Add( Keyboard );
 #if !WINDOWS_PHONE && !ANDROID
-            _controllers.Add( Mouse );
+            //_controllers.Add( Mouse );
 #endif
             _controllers.Add( Accelerometer );
             _controllers.Add( TouchPanel );
@@ -141,10 +140,10 @@ namespace Jypeli
             _controllers.Add( PhoneBackButton );
 #endif
 #if NETCOREAPP
-            _controllers.AddRange( GameControllers );
+            //_controllers.AddRange( GameControllers );
 #endif
 
-            IsMouseVisible = true;
+            //IsMouseVisible = true;
         }
 
         private void UpdateControls( Time gameTime )
@@ -222,5 +221,12 @@ namespace Jypeli
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// DUMMY!
+    /// </summary>
+    public class Mouse
+    {
     }
 }

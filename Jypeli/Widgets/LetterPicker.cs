@@ -1,5 +1,5 @@
 using System;
-using Microsoft.Xna.Framework;
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -237,7 +237,7 @@ namespace Jypeli
 
             for ( int i = -1; i <= 1; i++ )
             {
-                Matrix m = Matrix.CreateScale( TextScale )
+                Matrix m = Matrix.CreateScale((float)TextScale.X, (float)TextScale.Y, 1)
                            * Matrix.CreateRotationZ( (float)Angle.Radians )
                            * Matrix.CreateTranslation( (float)Position.X, (float)( Position.Y - ( i - yDelta ) * TextSize.Y ), 0 )
                            * parentTransformation;

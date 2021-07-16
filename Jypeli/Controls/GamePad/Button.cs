@@ -27,14 +27,13 @@
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
-using Microsoft.Xna.Framework.Input;
 
 namespace Jypeli
 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public enum Button
     {
-        DPadUp = Buttons.DPadUp,
+       /* DPadUp = Buttons.DPadUp,
         DPadDown = Buttons.DPadDown,
         DPadLeft = Buttons.DPadLeft,
         DPadRight = Buttons.DPadRight,
@@ -83,6 +82,6 @@ namespace Jypeli
         /// <summary>
         /// Vasen liipasin.
         /// </summary>
-        LeftTrigger = Buttons.LeftTrigger
+        LeftTrigger = Buttons.LeftTrigger*/
     }
 }

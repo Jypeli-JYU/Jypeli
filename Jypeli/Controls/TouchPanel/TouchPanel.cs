@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Input.Touch;
 using Jypeli.Controls;
 
 namespace Jypeli
 {
-    using XnaTouchPanel = Microsoft.Xna.Framework.Input.Touch.TouchPanel;
-    using XnaGestureType = Microsoft.Xna.Framework.Input.Touch.GestureType;
 
     public delegate void TouchHandler( Touch touch );
     public delegate void TouchHandler<T>( Touch touch, T p );
@@ -21,7 +18,7 @@ namespace Jypeli
         protected static readonly Predicate<Touch> AlwaysTrigger = delegate { return true; };
 
         private ScreenView screen;
-        private TouchPanelCapabilities caps;
+        //private TouchPanelCapabilities caps;
         private List<Touch> touches;
         private List<Touch> newTouches;
         private List<Gesture> gestures;
@@ -39,7 +36,7 @@ namespace Jypeli
         /// </summary>
         public bool IsConnected
         {
-            get { return caps.IsConnected; }
+            get { return false; }//caps.IsConnected; }
         }
 
         /// <summary>
@@ -63,7 +60,7 @@ namespace Jypeli
         /// </summary>
         public int MaxTouches
         {
-            get { return caps.MaximumTouchCount; }
+            get { return 1; } //caps.MaximumTouchCount; }
         }
 
         /// <summary>
@@ -130,15 +127,15 @@ namespace Jypeli
 
 			try
 			{
-                this.caps = XnaTouchPanel.GetCapabilities();
+                //this.caps = XnaTouchPanel.GetCapabilities();
 			}
 			catch (TypeLoadException)
             {
-                this.caps = new TouchPanelCapabilities();
+                //this.caps = new TouchPanelCapabilities();
 			}
 
-            this.touches = new List<Touch>( caps.MaximumTouchCount );
-            this.newTouches = new List<Touch>( caps.MaximumTouchCount );
+            //this.touches = new List<Touch>( caps.MaximumTouchCount );
+            //this.newTouches = new List<Touch>( caps.MaximumTouchCount );
         }
 
         /// <summary>
@@ -177,8 +174,8 @@ namespace Jypeli
         }
 
         public void UpdateTouches()
-        {
-            var xnaTouches = XnaTouchPanel.GetState();
+        {/*
+            var xnaTouches = TouchPanel.GetState();
 
             for ( int i = 0; i < xnaTouches.Count; i++ )
             {
@@ -206,7 +203,7 @@ namespace Jypeli
                 // Released touch
                 ReleaseListeners.ForEach( dl => dl.CheckAndInvoke( touches[i] ) );
             }
-
+            */
             DownListeners.UpdateChanges();
             PressListeners.UpdateChanges();
             ReleaseListeners.UpdateChanges();
@@ -221,12 +218,12 @@ namespace Jypeli
         {
             var samples = new List<Gesture>();
 
-            if ( XnaTouchPanel.EnabledGestures == XnaGestureType.None )
+            /*if ( XnaTouchPanel.EnabledGestures == XnaGestureType.None )
                 return;
 
             while ( XnaTouchPanel.IsGestureAvailable )
                 samples.Add( new Gesture( XnaTouchPanel.ReadGesture() ) );
-
+            */
             this.GestureListeners.UpdateChanges();
             this.gestures = samples;
         }
@@ -479,7 +476,7 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         public Listener ListenGesture( GestureType type, TouchHandler handler, string helpText )
         {
-            XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
+            //XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
             return AddGestureListener( ( Gesture g ) => g.GestureType == type, helpText, handler );
         }
 
@@ -519,7 +516,7 @@ namespace Jypeli
         /// <param name="p1">1. parametri</param>
         public Listener ListenGesture<T1>( GestureType type, TouchHandler handler, string helpText, T1 p1 )
         {
-            XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
+            //XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
             return AddGestureListener( ( Gesture g ) => g.GestureType == type, helpText, handler, p1 );
         }
 
@@ -565,7 +562,7 @@ namespace Jypeli
         /// <param name="p2">2. parametri</param>
         public Listener ListenGesture<T1, T2>( GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2 )
         {
-            XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
+            //XnaTouchPanel.EnabledGestures |= type;
             return AddGestureListener( ( Gesture g ) => g.GestureType == type, helpText, handler, p1, p2 );
         }
 
@@ -617,7 +614,7 @@ namespace Jypeli
         /// <param name="p3">3. parametri</param>
         public Listener ListenGesture<T1, T2, T3>( GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3 )
         {
-            XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
+            //XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
             return AddGestureListener( ( Gesture g ) => g.GestureType == type, helpText, handler, p1, p2 );
         }
 

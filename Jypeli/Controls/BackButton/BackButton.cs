@@ -1,17 +1,12 @@
 ﻿using System;
 using Jypeli.Controls;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-
-using XnaGamePad = Microsoft.Xna.Framework.Input.GamePad;
-//using XnaButtons = Microsoft.Xna.Framework.Input.Buttons;
 
 namespace Jypeli
 {
     /// <summary>
     /// Puhelimen (tai peliohjaimen) takaisin-näppäin.
     /// </summary>
-    public class BackButton : Controller<bool, Button>
+    /*public class BackButton : Controller<bool, Button>
     {
         internal override bool GetState()
         {
@@ -84,5 +79,5 @@ namespace Jypeli
         {
             DisableAll();
         }
-    }
+    }*/
 }

@@ -30,10 +30,7 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
-using Microsoft.Xna.Framework.Graphics;
 
-using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
-using XnaColor = Microsoft.Xna.Framework.Color;
 using System.Reflection;
 using Jypeli.Physics2d;
 using System.Collections.Generic;
@@ -703,9 +700,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="texture">Tekstuuri.</param>
         /// <param name="isOpaque">Predikaatti, joka määrää, onko annettu väri läpinäkyvä.</param>
-        public TextureBitmap( Texture2D texture, Predicate<XnaColor> isOpaque )
+        public TextureBitmap( Texture2D texture, Predicate<Color> isOpaque )
         {
-            XnaColor[] scanline = new XnaColor[texture.Width];
+            /*Color[] scanline = new Color[texture.Width];
             XnaRectangle srcRect = new XnaRectangle( 0, 0, texture.Width, 1 );
 
             bitmap = new bool[texture.Width, texture.Height];
@@ -714,7 +711,7 @@ namespace Jypeli
             {
                 // Scan a line from the texture
                 srcRect.Y = i;
-                texture.GetData<XnaColor>( 0, srcRect, scanline, 0, texture.Width );
+                texture.GetData<Color>( 0, srcRect, scanline, 0, texture.Width );
 
                 for ( int j = 0; j < texture.Width; j++ )
                 {
@@ -722,7 +719,7 @@ namespace Jypeli
                     // increase downwards.
                     bitmap[j, texture.Height - i - 1] = isOpaque( scanline[j] );
                 }
-            }
+            }*/
         }
 
         /// <summary>
@@ -769,9 +766,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="c">Pikselin väri.</param>        
         /// <returns>Läpinäkyvyys.</returns>
-        public static bool IsOpaqueColor( XnaColor c )
+        public static bool IsOpaqueColor( Color c )
         {
-            return ( c.A >= 127 );
+            return c.AlphaComponent >= 127;
         }
     }
 }

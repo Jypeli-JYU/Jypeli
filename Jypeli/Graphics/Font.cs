@@ -1,10 +1,7 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
 using System.Text;
-using XnaV2 = Microsoft.Xna.Framework.Vector2;
 using FontStashSharp;
 using System.IO;
-using Microsoft.Xna.Framework.Content;
 using System.ComponentModel;
 using System.Collections.Generic;
 
@@ -206,16 +203,16 @@ namespace Jypeli
         {
             if (fontSystem == null)
             {
-                fontSystem = new FontSystem(StbTrueTypeSharpFontLoader.Instance, new Texture2DManager(Game.GraphicsDevice), 1024, 1024, blurAmount, StrokeAmount);
+                //fontSystem = new FontSystem(StbTrueTypeSharpFontLoader.Instance, new Texture2DManager(Game.GraphicsDevice), 1024, 1024, blurAmount, StrokeAmount);
 
                 Stream s;
                 if (this.source == ContentSource.ResourceContent) s = Game.ResourceContent.StreamInternalFont(name);
                 else s = File.Open(name, FileMode.Open, FileAccess.Read, FileShare.ReadWrite); // Tässä pitää jostain syystä olla ReadWrite, vaikka tiedosto ainoastaan luetaan.
 
-                fontSystem.AddFont(s);
-                xnaFont = fontSystem.GetFont(size);
+                //fontSystem.AddFont(s);
+                //xnaFont = fontSystem.GetFont(size);
 
-                mergedFonts.ForEach(name => MergeFont(name));
+                //mergedFonts.ForEach(name => MergeFont(name));
                 
                 s.Dispose();
             }

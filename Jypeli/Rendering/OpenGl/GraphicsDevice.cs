@@ -14,13 +14,13 @@ namespace Jypeli.Rendering.OpenGl
     {
         public static GL Gl;
 
-        private static BufferObject<VertexPositionColor> Vbo;
+        private static BufferObject<VertexPositionColorTexture> Vbo;
         private static BufferObject<uint> Ebo;
-        private static VertexArrayObject<VertexPositionColor, uint> Vao;
+        private static VertexArrayObject<VertexPositionColorTexture, uint> Vao;
 
         public static int bufferSize = 16384;
         private static uint[] Indices = new uint[bufferSize * 2];
-        private static VertexPositionColor[] Vertices = new VertexPositionColor[bufferSize];
+        private static VertexPositionColorTexture[] Vertices = new VertexPositionColorTexture[bufferSize];
 
         private static Shader shader;
 
@@ -37,16 +37,17 @@ namespace Jypeli.Rendering.OpenGl
             Gl = GL.GetApi(window);
 
             Ebo = new BufferObject<uint>(Gl, Indices, BufferTargetARB.ElementArrayBuffer);
-            Vbo = new BufferObject<VertexPositionColor>(Gl, Vertices, BufferTargetARB.ArrayBuffer);
-            Vao = new VertexArrayObject<VertexPositionColor, uint>(Gl, Vbo, Ebo);
+            Vbo = new BufferObject<VertexPositionColorTexture>(Gl, Vertices, BufferTargetARB.ArrayBuffer);
+            Vao = new VertexArrayObject<VertexPositionColorTexture, uint>(Gl, Vbo, Ebo);
 
             Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, 1, 0);
             Vao.VertexAttributePointer(1, 4, VertexAttribPointerType.Float, 1, 12);
+            Vao.VertexAttributePointer(2, 2, VertexAttribPointerType.Float, 1, 28);
 
             shader = new Shader(Gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultFragmentShader.glsl"));
         }
 
-        internal static void DrawUserIndexedPrimitives(PrimitiveType primitives, VertexPositionColor[] vertexBuffer, uint numIndices, uint[] indexBuffer)
+        internal static void DrawUserIndexedPrimitives(PrimitiveType primitives, VertexPositionColorTexture[] vertexBuffer, uint numIndices, uint[] indexBuffer)
         {
             Gl.Enable(GLEnum.Blend);
             Gl.BlendFunc(GLEnum.SrcAlpha, GLEnum.OneMinusSrcAlpha);
@@ -58,13 +59,24 @@ namespace Jypeli.Rendering.OpenGl
             shader.Use();
 
             shader.SetUniform("world", World * View * Projection);
+            shader.SetUniform("type", 0);
 
             Gl.DrawElements(primitives, numIndices, DrawElementsType.UnsignedInt, null);
         }
 
-        internal static void SetUniformMat4(string uName, Matrix4x4 value)
+        internal static void DrawUserPrimitives(PrimitiveType primitives, VertexPositionColorTexture[] vertexBuffer, uint numIndices)
         {
-            shader.SetUniform(uName, value);
+            Gl.Disable(GLEnum.DepthTest);
+
+            Vbo.UpdateBuffer(0, vertexBuffer);
+
+            Vao.Bind();
+            shader.Use();
+
+            shader.SetUniform("world", Matrix4x4.Identity);
+            shader.SetUniform("type", 1);
+
+            Gl.DrawArrays(primitives, 0, numIndices);
         }
 
         public static void Clear(Color bgColor)
@@ -75,7 +87,10 @@ namespace Jypeli.Rendering.OpenGl
 
         internal static void SetRenderTarget(RenderTarget renderTarget)
         {
-            renderTarget.Bind();
+            if(renderTarget is null)
+                Gl.BindFramebuffer(GLEnum.Framebuffer, 0);
+            else
+                renderTarget.Bind();
         }
 
         public static void Dispose()
@@ -85,5 +100,6 @@ namespace Jypeli.Rendering.OpenGl
             Vao.Dispose();
             shader.Dispose();
         }
+
     }
 }

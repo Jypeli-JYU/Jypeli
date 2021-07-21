@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Jypeli.Rendering;
 
 using Matrix = System.Numerics.Matrix4x4;
+using Jypeli.Rendering.OpenGl;
+using Silk.NET.OpenGL;
 
 #if !DISABLE_EFFECTS
 using Jypeli.Effects;
@@ -68,14 +70,14 @@ namespace Jypeli
             new Vector3(0.5f, 0.5f, 0),
         };
 
-        static readonly int VerticesPerTexture = Vertices.Length;
+        static readonly uint VerticesPerTexture = (uint)Vertices.Length;
 
         Matrix matrix;
         Texture2D texture;
         Effect effect;
-        VertexPositionTexture[] vertexBuffer;
+        VertexPositionColorTexture[] vertexBuffer;
         int BufferSize;
-        int iTexture = 0;
+        uint iTexture = 0;
         bool beginHasBeenCalled = false;
 
         public bool LightingEnabled = true;
@@ -91,7 +93,7 @@ namespace Jypeli
             // Capabilities no longer supported in XNA 4.0
             // GraphicsProfile.Reach maximum primitive count = 65535
             this.BufferSize = Math.Min( DefaultBufferSize, 65535 / 2 );
-            vertexBuffer = new VertexPositionTexture[BufferSize * VerticesPerTexture];
+            vertexBuffer = new VertexPositionColorTexture[BufferSize * VerticesPerTexture];
         }
 
         public void Begin( ref Matrix matrix, Texture2D texture )
@@ -110,7 +112,7 @@ namespace Jypeli
 
             Flush();
 
-            int textureCount = iTexture;
+            uint textureCount = iTexture;
             beginHasBeenCalled = false;
         }
 
@@ -127,12 +129,11 @@ namespace Jypeli
 
                 for ( int i = 0; i < effect.CurrentTechnique.Passes.Count; i++ )
                     effect.CurrentTechnique.Passes[i].Apply();
-
-                device.DrawUserPrimitives<VertexPositionTexture>(
-                    PrimitiveType.TriangleList,
-                    vertexBuffer, 0,
-                    iTexture * 2 );
                 */
+                GraphicsDevice.DrawUserPrimitives(
+                    PrimitiveType.Triangles,
+                    vertexBuffer, iTexture);
+                
                 Graphics.ResetSamplerState();
             }
 
@@ -154,14 +155,14 @@ namespace Jypeli
             Vector3[] transformedPoints = new Vector3[VerticesPerTexture];
             Vector3.Transform( Vertices, ref matrix, transformedPoints );
 
-            int startIndex = ( iTexture * VerticesPerTexture );
+            uint startIndex = ( iTexture * VerticesPerTexture );
 
             for ( int i = 0; i < VerticesPerTexture; i++ )
             {
-                int bi = ( iTexture * VerticesPerTexture ) + i;
+                uint bi = (uint)((iTexture * VerticesPerTexture) + i);
                 vertexBuffer[bi].Position = transformedPoints[i];
             }
-
+            /*
             // Triangle 1
             vertexBuffer[startIndex + 0].TextureCoordinate = c.TopLeft;
             vertexBuffer[startIndex + 1].TextureCoordinate = c.BottomLeft;
@@ -171,7 +172,7 @@ namespace Jypeli
             vertexBuffer[startIndex + 3].TextureCoordinate = c.BottomLeft;
             vertexBuffer[startIndex + 4].TextureCoordinate = c.BottomRight;
             vertexBuffer[startIndex + 5].TextureCoordinate = c.TopRight;
-
+            */
             iTexture++;
         }
     }

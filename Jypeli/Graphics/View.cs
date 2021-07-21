@@ -33,6 +33,7 @@ using Silk.NET.Maths;
 using Jypeli.Rendering.OpenGl;
 
 using Matrix = System.Numerics.Matrix4x4;
+using Jypeli.Rendering;
 
 namespace Jypeli
 {
@@ -66,7 +67,7 @@ namespace Jypeli
             {
                 if ( _renderTarget == null )
                 {
-                    _renderTarget = new RenderTarget((int)_size.X, (int)_size.Y);
+                    _renderTarget = new RenderTarget((uint)_size.X, (uint)_size.Y);
                     Graphics.ResetScreenSize();
                 }
 
@@ -437,9 +438,23 @@ namespace Jypeli
         {
             float angle = _flipAndMirror ? _angle + MathHelper.Pi : _angle;
 
-            /*device.SetRenderTarget( null );
-            device.Clear( _bgcolor );
-            
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(Game.Instance.Level.BackgroundColor);
+
+            VertexPositionColorTexture[] textureVertices = new VertexPositionColorTexture[]
+            {
+                new VertexPositionColorTexture(new Vector3(-1f, 1f, 0), Color.Transparent, new Vector(0f, 1f)),
+                new VertexPositionColorTexture(new Vector3(-1f, -1f, 0), Color.Transparent, new Vector(0f, 0f)),
+                new VertexPositionColorTexture(new Vector3(1f, -1f, 0), Color.Transparent, new Vector(1f, 0f)),
+
+                new VertexPositionColorTexture(new Vector3(-1f, 1f, 0), Color.Transparent, new Vector(0f, 1f)),
+                new VertexPositionColorTexture(new Vector3(1f, -1f, 0), Color.Transparent, new Vector(1f, 0f)),
+                new VertexPositionColorTexture(new Vector3(1f, 1f, 0), Color.Transparent, new Vector(1f, 1f))
+            };
+            RenderTarget.BindTexture();
+            GraphicsDevice.DrawUserPrimitives(Silk.NET.OpenGL.PrimitiveType.Triangles, textureVertices, 6);
+            RenderTarget.UnBindTexture();
+            /*
             Matrix rotate = Matrix.CreateRotationZ(angle);
             Vector devorigin = new Vector( device.Viewport.Width, device.Viewport.Height ) / 2;
             Vector rtorigin = new Vector( RenderTarget.Width * _scale.X, RenderTarget.Height * _scale.Y ) / 2;

@@ -50,12 +50,12 @@ namespace Jypeli
         /// <summary>
         /// Vertices that form a rectangle on which to draw textures.
         /// </summary>
-        static readonly VertexPositionTexture[] textureVertices = new VertexPositionTexture[]
+        static readonly VertexPositionColorTexture[] textureVertices = new VertexPositionColorTexture[]
         {
-            new VertexPositionTexture( new Vector3(-0.5f, 0.5f, 0), new Vector(0.0f, 0.0f) ),
-            new VertexPositionTexture( new Vector3(-0.5f, -0.5f, 0), new Vector(0.0f, 1.0f) ),
-            new VertexPositionTexture( new Vector3(0.5f, 0.5f, 0), new Vector(1.0f, 0.0f) ),
-            new VertexPositionTexture( new Vector3(0.5f, -0.5f, 0), new Vector(1.0f, 1.0f) )
+            new VertexPositionColorTexture(new Vector3(-0.5f, 0.5f, 0), Color.Transparent, new Vector(0.0f, 0.0f)),
+            new VertexPositionColorTexture(new Vector3(-0.5f, -0.5f, 0), Color.Transparent, new Vector(0.0f, 1.0f)),
+            new VertexPositionColorTexture(new Vector3(0.5f, 0.5f, 0), Color.Transparent,new Vector(1.0f, 0.0f)),
+            new VertexPositionColorTexture(new Vector3(0.5f, -0.5f, 0), Color.Transparent, new Vector(1.0f, 1.0f))
         };
 
         /// <summary>
@@ -96,9 +96,9 @@ namespace Jypeli
         private static bool isDrawingInsideShape = false;
         //private static DepthStencilState currentStencilState = DepthStencilState.None;
 
-        private static VertexPositionTexture[] MakeTextureVertices( Vector wrapSize )
+        private static VertexPositionColorTexture[] MakeTextureVertices( Vector wrapSize )
         {
-            VertexPositionTexture[] tempVertices = new VertexPositionTexture[textureVertices.Length];
+            VertexPositionColorTexture[] tempVertices = new VertexPositionColorTexture[textureVertices.Length];
             for ( int i = 0; i < textureVertices.Length; i++ )
             {
                 tempVertices[i].Position = textureVertices[i].Position;
@@ -115,10 +115,10 @@ namespace Jypeli
             float top = -(float)Math.Sign( wrapSize.Y ) / 2 + 0.5f;
             float bottom = top + py;
                        
-            tempVertices[0].TextureCoordinate = new Vector(left, top);
+            /*tempVertices[0].TextureCoordinate = new Vector(left, top);
             tempVertices[1].TextureCoordinate = new Vector(left, bottom);
             tempVertices[2].TextureCoordinate = new Vector(right, top);
-            tempVertices[3].TextureCoordinate = new Vector(right, bottom);
+            tempVertices[3].TextureCoordinate = new Vector(right, bottom);*/
 
             return tempVertices;
         }
@@ -377,9 +377,9 @@ namespace Jypeli
 
             Vector endPoint = segment.Origin + segment.Direction * segment.Length;
 
-            VertexPositionColor[] colorVertices = new VertexPositionColor[2];
-            colorVertices[0] = new VertexPositionColor(new Vector3( (float)segment.Origin.X, (float)segment.Origin.Y, 0 ), color);
-            colorVertices[1] = new VertexPositionColor(new Vector3( (float)endPoint.X, (float)endPoint.Y, 0 ), color);
+            VertexPositionColorTexture[] colorVertices = new VertexPositionColorTexture[2];
+            colorVertices[0] = new VertexPositionColorTexture(new Vector3( (float)segment.Origin.X, (float)segment.Origin.Y, 0 ), color, Vector.Zero);
+            colorVertices[1] = new VertexPositionColorTexture(new Vector3( (float)endPoint.X, (float)endPoint.Y, 0 ), color, Vector.Zero);
             /*
             BasicEffect effect = Graphics.BasicColorEffect;
             effect.World = matrix;
@@ -411,11 +411,11 @@ namespace Jypeli
         {
             //var device = Game.GraphicsDevice;
 
-            VertexPositionColor[] vertices = new VertexPositionColor[cache.Vertices.Length];
+            VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[cache.Vertices.Length];
             for ( int i = 0; i < vertices.Length; i++ )
             {
                 Vector v = cache.Vertices[i];
-                vertices[i] = new VertexPositionColor( new Vector3( (float)v.X, (float)v.Y, 0 ), color );
+                vertices[i] = new VertexPositionColorTexture(new Vector3((float)v.X, (float)v.Y, 0), color, Vector.Zero);
             }
 
             Int16[] indices = new Int16[cache.Triangles.Length * 3];

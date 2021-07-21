@@ -344,17 +344,17 @@ namespace Jypeli.Effects
         static readonly Vector3 topRight = new Vector3(0.5f, 0.5f, 0);
         static readonly Vector3 bottomRight = new Vector3(0.5f, -0.5f, 0);
 
-        static readonly VertexPositionTexture[] vertices =
+        static readonly VertexPositionColorTexture[] vertices =
         {
             // Triangle 1
-            new VertexPositionTexture(topLeft, textureTopLeft),
-            new VertexPositionTexture(bottomLeft, textureBottomLeft),
-            new VertexPositionTexture(topRight, textureTopRight),
+            new VertexPositionColorTexture(topLeft, Color.Transparent, textureTopLeft),
+            new VertexPositionColorTexture(bottomLeft, Color.Transparent, textureBottomLeft),
+            new VertexPositionColorTexture(topRight, Color.Transparent, textureTopRight),
 
             // Triangle 2
-            new VertexPositionTexture(bottomLeft, textureBottomLeft),
-            new VertexPositionTexture(bottomRight, textureBottomRight),
-            new VertexPositionTexture(topRight, textureTopRight),
+            new VertexPositionColorTexture(bottomLeft, Color.Transparent, textureBottomLeft),
+            new VertexPositionColorTexture(bottomRight, Color.Transparent, textureBottomRight),
+            new VertexPositionColorTexture(topRight, Color.Transparent, textureTopRight),
         };
         /*
         private static BlendState ToXnaBlendState(BlendMode mode)

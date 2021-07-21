@@ -8,7 +8,7 @@ namespace Jypeli
 {
     internal class LineBatch
     {
-        VertexPositionColor[] vertexBuffer = new VertexPositionColor[512];
+        VertexPositionColorTexture[] vertexBuffer = new VertexPositionColorTexture[512];
         //Effect effect;
         Matrix matrix;
         int iVertexBuffer = 0;

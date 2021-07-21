@@ -21,7 +21,7 @@ namespace Jypeli
     /// </remarks>
     internal class ShapeBatch
     {
-        VertexPositionColor[] vertexBuffer;
+        VertexPositionColorTexture[] vertexBuffer;
 
         /// <summary>
         /// Buffer for index values to the vertex buffer.
@@ -59,7 +59,7 @@ namespace Jypeli
 
             int vertexBufferSize = GraphicsDevice.bufferSize;
             
-            vertexBuffer = new VertexPositionColor[vertexBufferSize];
+            vertexBuffer = new VertexPositionColorTexture[vertexBufferSize];
             indexBuffer = new uint[vertexBufferSize * 2];
         }
 
@@ -118,7 +118,7 @@ namespace Jypeli
             for (int i = 0; i < cache.Vertices.Length; i++)
             {
                 Vector v = cache.Vertices[i];
-                vertexBuffer[iVertexBuffer++] = new VertexPositionColor(Vector3.Transform(new Vector3((float)v.X, (float)v.Y, 0), matrix), color);
+                vertexBuffer[iVertexBuffer++] = new VertexPositionColorTexture(Vector3.Transform(new Vector3((float)v.X, (float)v.Y, 0), matrix), color, Vector.Zero);
             }
 
             for (int i = 0; i < cache.Triangles.Length; i++)

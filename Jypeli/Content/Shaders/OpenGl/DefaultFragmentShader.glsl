@@ -1,10 +1,20 @@
 #version 330 core
 
-
+in vec2 texCoords;
 in vec4 fCol;
+in vec2 fTex;
+
 out vec4 FragColor;
+
+uniform sampler2D screenTexture;
+uniform int type;
+
 
 void main()
 {
-    FragColor = fCol;
+    if(type == 0){ // color
+        FragColor = fCol;
+    } else if(type == 1){ // texture
+        FragColor = texture(screenTexture, texCoords);
+    }
 }

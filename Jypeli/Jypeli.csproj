@@ -57,6 +57,8 @@
     <None Remove="Content\Images\Smoke.png" />
     <None Remove="Content\Images\Tank.png" />
     <None Remove="Content\Images\UpArrow.png" />
+    <None Remove="Content\Shaders\OpenGl\DefaultFragmentShader.glsl" />
+    <None Remove="Content\Shaders\OpenGl\DefaultVertexShader.glsl" />
     <None Remove="Content\Sounds\CannonFire.wav" />
     <None Remove="Content\Sounds\ExplosionSound.wav" />
     <None Remove="Content\Sounds\ImplosionSound.wav" />
@@ -85,6 +87,8 @@
     <EmbeddedResource Include="Content\Images\Smoke.png" />
     <EmbeddedResource Include="Content\Images\Tank.png" />
     <EmbeddedResource Include="Content\Images\UpArrow.png" />
+    <EmbeddedResource Include="Content\Shaders\OpenGl\DefaultFragmentShader.glsl" />
+    <EmbeddedResource Include="Content\Shaders\OpenGl\DefaultVertexShader.glsl" />
     <EmbeddedResource Include="Content\Sounds\CannonFire.wav" />
     <EmbeddedResource Include="Content\Sounds\ExplosionSound.wav" />
     <EmbeddedResource Include="Content\Sounds\ImplosionSound.wav" />

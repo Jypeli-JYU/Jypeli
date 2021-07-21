@@ -18,11 +18,15 @@ namespace Jypeli.Rendering.OpenGl
         private static BufferObject<uint> Ebo;
         private static VertexArrayObject<VertexPositionColor, uint> Vao;
 
-        private static int bufferSize = 16384;
+        public static int bufferSize = 16384;
         private static uint[] Indices = new uint[bufferSize * 2];
         private static VertexPositionColor[] Vertices = new VertexPositionColor[bufferSize];
 
         private static Shader shader;
+
+        public static Matrix4x4 World { get; internal set; }
+        public static Matrix4x4 View { get; internal set; }
+        public static Matrix4x4 Projection { get; internal set; }
 
         /// <summary>
         /// Alustaa näyttökortin käyttöön
@@ -53,7 +57,14 @@ namespace Jypeli.Rendering.OpenGl
             Vao.Bind();
             shader.Use();
 
+            shader.SetUniform("world", World * View * Projection);
+
             Gl.DrawElements(primitives, numIndices, DrawElementsType.UnsignedInt, null);
+        }
+
+        internal static void SetUniformMat4(string uName, Matrix4x4 value)
+        {
+            shader.SetUniform(uName, value);
         }
 
         public static readonly string VertexShaderSource = @"
@@ -62,14 +73,14 @@ namespace Jypeli.Rendering.OpenGl
 layout (location = 0) in vec4 vPos;
 layout (location = 1) in vec4 vUv;
 
-uniform mat4 uModel;
+uniform mat4 world;
 
 out vec4 fCol;
 
 void main()
 {
     //Multiplying our uniform with the vertex position, the multiplication order here does matter.
-    gl_Position =  vPos;
+    gl_Position =  world * vPos;
     fCol = vUv;
 }
         ";
@@ -92,6 +103,19 @@ void main()
         {
             Gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
             Gl.ClearColor(bgColor.RedComponent/255f, bgColor.GreenComponent / 255f, bgColor.BlueComponent / 255f, bgColor.AlphaComponent / 255f);
+        }
+
+        internal static void SetRenderTarget(RenderTarget renderTarget)
+        {
+            renderTarget.Bind();
+        }
+
+        public static void Dispose()
+        {
+            Vbo.Dispose();
+            Ebo.Dispose();
+            Vao.Dispose();
+            shader.Dispose();
         }
     }
 }

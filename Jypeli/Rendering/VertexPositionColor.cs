@@ -9,7 +9,7 @@ namespace Jypeli.Rendering
 {
     public struct VertexPositionColor
     {
-        public Vector3 Position;
+        public Vector3 Position; // Tämähän voisi oikeasti olla myös 2d-vektori, mutta pidetään kolmiulotteisena jos joskus halutaan tuoda mahdollisuus 3d-grafiikkaan.
 
         public float colorR;
         public float colorG;

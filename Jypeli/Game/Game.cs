@@ -218,7 +218,7 @@ namespace Jypeli
             window.Load += LoadContent;
             window.Update += Update;
             window.Render += (a) => Draw(Time);
-            //window.Closing += OnClose;
+            window.Closing += OnExit;
 
 #if ANDROID
             GraphicsDeviceManager.PreferredBackBufferWidth = 800;
@@ -341,7 +341,7 @@ namespace Jypeli
         {
             //Console.WriteLine(gameTime.ElapsedGameTime.Milliseconds);
             UpdateFps(gameTime);
-            //GraphicsDevice.SetRenderTarget( Screen.RenderTarget );
+            GraphicsDevice.SetRenderTarget(Screen.RenderTarget);
             GraphicsDevice.Clear(Level.BackgroundColor);
             /*
             if ( Level.Background.Image != null && !Level.Background.MovesWithCamera )
@@ -442,6 +442,11 @@ namespace Jypeli
         {
         }
 
+        public void OnExit()
+        {
+            Dispose();
+        }
+
         /// <summary>
         /// Sulkee pelin
         /// </summary>
@@ -452,7 +457,7 @@ namespace Jypeli
 
         public void Dispose()
         {
-            //throw new NotImplementedException();
+            GraphicsDevice.Dispose();
         }
     }
 }

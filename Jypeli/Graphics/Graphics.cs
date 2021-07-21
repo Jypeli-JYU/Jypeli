@@ -24,6 +24,7 @@
 #endregion
 
 using System;
+using Jypeli.Rendering.OpenGl;
 using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
@@ -219,18 +220,17 @@ namespace Jypeli
                 Vector3.Up
                 );
             ProjectionMatrix = Matrix.CreateOrthographic(
-                (float)Game.Screen.Width,
-                (float)Game.Screen.Height,
+                (float)Game.Screen.ViewportWidth,
+                (float)Game.Screen.ViewportHeight,
                 1.0f, 2.0f
                 );
 
             viewProjectionMatrix = ViewMatrix * ProjectionMatrix;
-            /*
-            BasicColorEffect.View = ViewMatrix;
-            BasicColorEffect.Projection = ProjectionMatrix;
-            BasicTextureEffect.View = ViewMatrix;
-            BasicTextureEffect.Projection = ProjectionMatrix;
-            */
+            
+            GraphicsDevice.View = ViewMatrix;
+            GraphicsDevice.Projection = ProjectionMatrix;
+            //BasicTextureEffect.View = ViewMatrix;
+            //BasicTextureEffect.Projection = ProjectionMatrix;
         }
     }
 }

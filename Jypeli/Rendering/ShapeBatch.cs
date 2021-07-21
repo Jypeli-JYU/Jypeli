@@ -21,8 +21,6 @@ namespace Jypeli
     /// </remarks>
     internal class ShapeBatch
     {
-        const int DefaultBufferSize = 512;
-
         VertexPositionColor[] vertexBuffer;
 
         /// <summary>
@@ -58,10 +56,8 @@ namespace Jypeli
                 AddressV = TextureAddressMode.Clamp,
             };
             */
-            //var capabilities = Game.GraphicsDevice.GraphicsDeviceCapabilities;
-            // Capabilities no longer supported in XNA 4.0
-            // GraphicsProfile.Reach maximum primitive count = 65535
-            int vertexBufferSize = Math.Min( DefaultBufferSize, 65535 * 3 );
+
+            int vertexBufferSize = GraphicsDevice.bufferSize;
             
             vertexBuffer = new VertexPositionColor[vertexBufferSize];
             indexBuffer = new uint[vertexBufferSize * 2];
@@ -94,7 +90,7 @@ namespace Jypeli
                 effect = Graphics.GetColorEffect(ref matrix, LightingEnabled);
                 for ( int i = 0; i < effect.CurrentTechnique.Passes.Count; i++ )
                     effect.CurrentTechnique.Passes[i].Apply();*/
-
+                GraphicsDevice.World = matrix;
                 GraphicsDevice.DrawUserIndexedPrimitives(
                     PrimitiveType.Triangles,
                     vertexBuffer, iIndexBuffer,
@@ -107,8 +103,7 @@ namespace Jypeli
 
         public void Draw(ShapeCache cache, Color color, Vector position, Vector size, float angle)
         {
-            if ( ( iVertexBuffer + cache.Vertices.Length ) > vertexBuffer.Length ||
-                ( iIndexBuffer + cache.Triangles.Length ) > indexBuffer.Length )
+            if ((iVertexBuffer + cache.Vertices.Length) > vertexBuffer.Length || (iIndexBuffer + cache.Triangles.Length) > indexBuffer.Length)
             {
                 Flush();
             }
@@ -116,8 +111,7 @@ namespace Jypeli
             Matrix matrix =
                 Matrix.CreateScale((float)size.X, (float)size.Y, 1f)
                 * Matrix.CreateRotationZ(angle)
-                * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0)
-                * Matrix.CreateOrthographic(1024, 768, 1, -1); // TODO: Jos tähän laittaa Game.Screen.ViewportWidth... Ei käyttäydy oikein ikkunan kokoa muutettaessa
+                * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0);
 
             uint startIndex = iVertexBuffer;
 

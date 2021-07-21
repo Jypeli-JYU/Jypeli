@@ -43,7 +43,7 @@ namespace Jypeli.Rendering.OpenGl
             Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, 1, 0);
             Vao.VertexAttributePointer(1, 4, VertexAttribPointerType.Float, 1, 12);
 
-            shader = new Shader(Gl, VertexShaderSource, FragmentShaderSource);
+            shader = new Shader(Gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultFragmentShader.glsl"));
         }
 
         internal static void DrawUserIndexedPrimitives(PrimitiveType primitives, VertexPositionColor[] vertexBuffer, uint numIndices, uint[] indexBuffer)
@@ -66,38 +66,6 @@ namespace Jypeli.Rendering.OpenGl
         {
             shader.SetUniform(uName, value);
         }
-
-        public static readonly string VertexShaderSource = @"
-  
-#version 330 core
-layout (location = 0) in vec4 vPos;
-layout (location = 1) in vec4 vUv;
-
-uniform mat4 world;
-
-out vec4 fCol;
-
-void main()
-{
-    //Multiplying our uniform with the vertex position, the multiplication order here does matter.
-    gl_Position =  world * vPos;
-    fCol = vUv;
-}
-        ";
-
-        //Fragment shaders are run on each fragment/pixel of the geometry.
-        public static readonly string FragmentShaderSource = @"
-#version 330 core
-
-
-in vec4 fCol;
-out vec4 FragColor;
-
-void main()
-{
-    FragColor = fCol;
-}
-        ";
 
         public static void Clear(Color bgColor)
         {

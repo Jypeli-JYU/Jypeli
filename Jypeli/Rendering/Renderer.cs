@@ -31,8 +31,6 @@ using System;
 using System.Linq;
 using FontStashSharp;
 using Jypeli.Rendering;
-using Jypeli.Rendering.OpenGl;
-using Silk.NET.OpenGL;
 
 using Matrix = System.Numerics.Matrix4x4;
 

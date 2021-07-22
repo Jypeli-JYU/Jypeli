@@ -24,7 +24,6 @@
 #endregion
 
 using System;
-using Jypeli.Rendering.OpenGl;
 using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
@@ -227,8 +226,8 @@ namespace Jypeli
 
             viewProjectionMatrix = ViewMatrix * ProjectionMatrix;
             
-            GraphicsDevice.View = ViewMatrix;
-            GraphicsDevice.Projection = ProjectionMatrix;
+            Game.GraphicsDevice.View = ViewMatrix;
+            Game.GraphicsDevice.Projection = ProjectionMatrix;
             //BasicTextureEffect.View = ViewMatrix;
             //BasicTextureEffect.Projection = ProjectionMatrix;
         }

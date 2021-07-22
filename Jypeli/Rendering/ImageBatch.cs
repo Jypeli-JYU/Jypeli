@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using Jypeli.Rendering;
 
 using Matrix = System.Numerics.Matrix4x4;
-using Jypeli.Rendering.OpenGl;
-using Silk.NET.OpenGL;
 
 #if !DISABLE_EFFECTS
 using Jypeli.Effects;
@@ -130,8 +128,8 @@ namespace Jypeli
                 for ( int i = 0; i < effect.CurrentTechnique.Passes.Count; i++ )
                     effect.CurrentTechnique.Passes[i].Apply();
                 */
-                GraphicsDevice.DrawUserPrimitives(
-                    PrimitiveType.Triangles,
+                Game.GraphicsDevice.DrawUserPrimitives(
+                    PrimitiveType.OpenGlTriangles,
                     vertexBuffer, iTexture);
                 
                 Graphics.ResetSamplerState();

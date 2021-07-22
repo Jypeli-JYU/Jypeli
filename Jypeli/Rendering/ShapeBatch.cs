@@ -2,8 +2,6 @@
 using System;
 using System.Diagnostics;
 using Jypeli.Rendering;
-using Jypeli.Rendering.OpenGl;
-using Silk.NET.OpenGL;
 
 using Matrix = System.Numerics.Matrix4x4;
 
@@ -57,7 +55,7 @@ namespace Jypeli
             };
             */
 
-            int vertexBufferSize = GraphicsDevice.bufferSize;
+            int vertexBufferSize = Game.GraphicsDevice.BufferSize;
             
             vertexBuffer = new VertexPositionColorTexture[vertexBufferSize];
             indexBuffer = new uint[vertexBufferSize * 2];
@@ -90,9 +88,9 @@ namespace Jypeli
                 effect = Graphics.GetColorEffect(ref matrix, LightingEnabled);
                 for ( int i = 0; i < effect.CurrentTechnique.Passes.Count; i++ )
                     effect.CurrentTechnique.Passes[i].Apply();*/
-                GraphicsDevice.World = matrix;
-                GraphicsDevice.DrawUserIndexedPrimitives(
-                    PrimitiveType.Triangles,
+                Game.GraphicsDevice.World = matrix;
+                Game.GraphicsDevice.DrawUserIndexedPrimitives(
+                    PrimitiveType.OpenGlTriangles,
                     vertexBuffer, iIndexBuffer,
                     indexBuffer);
             }

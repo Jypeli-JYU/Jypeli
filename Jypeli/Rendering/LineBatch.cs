@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Jypeli.Rendering;
-using Jypeli.Rendering.OpenGl;
 
 using Matrix = System.Numerics.Matrix4x4;
 

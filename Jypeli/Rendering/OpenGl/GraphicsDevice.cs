@@ -10,29 +10,39 @@ using Silk.NET.Windowing;
 namespace Jypeli.Rendering.OpenGl
 {
 
-    public static unsafe class GraphicsDevice
+    public unsafe class GraphicsDevice : IGraphicsDevice
     {
-        public static GL Gl;
+        public GL Gl;
 
-        private static BufferObject<VertexPositionColorTexture> Vbo;
-        private static BufferObject<uint> Ebo;
-        private static VertexArrayObject<VertexPositionColorTexture, uint> Vao;
+        private BufferObject<VertexPositionColorTexture> Vbo;
+        private BufferObject<uint> Ebo;
+        private VertexArrayObject<VertexPositionColorTexture, uint> Vao;
 
-        public static int bufferSize = 16384;
-        private static uint[] Indices = new uint[bufferSize * 2];
-        private static VertexPositionColorTexture[] Vertices = new VertexPositionColorTexture[bufferSize];
+        public int BufferSize { get; } = 16384;
+        private uint[] Indices;
+        private VertexPositionColorTexture[] Vertices;
 
-        private static Shader shader;
+        private Shader shader;
 
-        public static Matrix4x4 World { get; internal set; }
-        public static Matrix4x4 View { get; internal set; }
-        public static Matrix4x4 Projection { get; internal set; }
+        public Matrix4x4 World { get; set; }
+        public Matrix4x4 View { get; set; }
+        public Matrix4x4 Projection { get; set; }
+        public string Name { get => throw new NotImplementedException(); }
+        public string Version { get => throw new NotImplementedException(); }
+
+        public GraphicsDevice(IWindow window)
+        {
+            Indices = new uint[BufferSize * 2];
+            Vertices = new VertexPositionColorTexture[BufferSize];
+
+            Create(window);
+        }
 
         /// <summary>
         /// Alustaa näyttökortin käyttöön
         /// </summary>
         /// <param name="window">Pelin ikkuna</param>
-        public static void Create(IWindow window)
+        public void Create(IWindow window)
         {
             Gl = GL.GetApi(window);
 
@@ -47,7 +57,7 @@ namespace Jypeli.Rendering.OpenGl
             shader = new Shader(Gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultFragmentShader.glsl"));
         }
 
-        internal static void DrawUserIndexedPrimitives(PrimitiveType primitives, VertexPositionColorTexture[] vertexBuffer, uint numIndices, uint[] indexBuffer)
+        public void DrawUserIndexedPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] vertexBuffer, uint numIndices, uint[] indexBuffer)
         {
             Gl.Enable(GLEnum.Blend);
             Gl.BlendFunc(GLEnum.SrcAlpha, GLEnum.OneMinusSrcAlpha);
@@ -61,10 +71,10 @@ namespace Jypeli.Rendering.OpenGl
             shader.SetUniform("world", World * View * Projection);
             shader.SetUniform("type", 0);
 
-            Gl.DrawElements(primitives, numIndices, DrawElementsType.UnsignedInt, null);
+            Gl.DrawElements((GLEnum)primitivetype, numIndices, DrawElementsType.UnsignedInt, null);
         }
 
-        internal static void DrawUserPrimitives(PrimitiveType primitives, VertexPositionColorTexture[] vertexBuffer, uint numIndices)
+        public void DrawUserPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] vertexBuffer, uint numIndices)
         {
             Gl.Disable(GLEnum.DepthTest);
 
@@ -76,16 +86,16 @@ namespace Jypeli.Rendering.OpenGl
             shader.SetUniform("world", Matrix4x4.Identity);
             shader.SetUniform("type", 1);
 
-            Gl.DrawArrays(primitives, 0, numIndices);
+            Gl.DrawArrays((GLEnum)primitivetype, 0, numIndices);
         }
 
-        public static void Clear(Color bgColor)
+        public void Clear(Color bgColor)
         {
             Gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
             Gl.ClearColor(bgColor.RedComponent/255f, bgColor.GreenComponent / 255f, bgColor.BlueComponent / 255f, bgColor.AlphaComponent / 255f);
         }
 
-        internal static void SetRenderTarget(RenderTarget renderTarget)
+        public void SetRenderTarget(IRenderTarget renderTarget)
         {
             if(renderTarget is null)
                 Gl.BindFramebuffer(GLEnum.Framebuffer, 0);
@@ -93,7 +103,7 @@ namespace Jypeli.Rendering.OpenGl
                 renderTarget.Bind();
         }
 
-        public static void Dispose()
+        public void Dispose()
         {
             Vbo.Dispose();
             Ebo.Dispose();
@@ -101,5 +111,9 @@ namespace Jypeli.Rendering.OpenGl
             shader.Dispose();
         }
 
+        public IRenderTarget CreateRenderTarget(uint width, uint height)
+        {
+            return new RenderTarget(width, height);
+        }
     }
 }

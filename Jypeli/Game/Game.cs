@@ -35,7 +35,6 @@ using System.ComponentModel;
 using Jypeli.Devices;
 
 using Silk.NET.Windowing;
-using Jypeli.Rendering.OpenGl;
 
 using Matrix = System.Numerics.Matrix4x4;
 
@@ -315,7 +314,7 @@ namespace Jypeli
         /// </summary>
         protected void LoadContent()
         {
-            GraphicsDevice.Create(window);
+            graphicsDevice = new Jypeli.Rendering.OpenGl.GraphicsDevice(window); // TODO: GraphicsDeviceManager, jolle annetaan ikkuna ja asetukset tms. joka hoitaa oikean laitteen luomisen.
             // Graphics initialization is best done here when window size is set for certain
             InitGraphics();
             Device.ResetScreen();

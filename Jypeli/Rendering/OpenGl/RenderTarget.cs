@@ -8,7 +8,7 @@ using Silk.NET.OpenGL;
 
 namespace Jypeli.Rendering.OpenGl
 {
-    public unsafe class RenderTarget
+    public unsafe class RenderTarget : IRenderTarget
     {
         private GL gl;
 
@@ -20,7 +20,7 @@ namespace Jypeli.Rendering.OpenGl
 
         public RenderTarget(uint width, uint height)
         {
-            gl = GraphicsDevice.Gl;
+            gl = ((GraphicsDevice)Game.GraphicsDevice).Gl;
             framebufferHandle = gl.GenFramebuffer();
             gl.BindFramebuffer(GLEnum.Framebuffer, framebufferHandle);
 

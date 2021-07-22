@@ -29,6 +29,7 @@
 
 using System;
 using System.ComponentModel;
+using Jypeli.Rendering;
 using Silk.NET.Windowing;
 
 namespace Jypeli
@@ -41,6 +42,20 @@ namespace Jypeli
         private bool windowPositionSet = false;
 
         internal IWindow window;
+        private static IGraphicsDevice graphicsDevice;
+
+        /// <summary>
+        /// Grafiikkalaite joka hoitaa kuvan piirtämisen ruudulle.
+        /// </summary>
+        public static IGraphicsDevice GraphicsDevice
+        {
+            get
+            {
+                if (Instance == null)
+                    return null;
+                return graphicsDevice;
+            }
+        }
 
         /// <summary>
         /// Onko peli kokoruututilassa.

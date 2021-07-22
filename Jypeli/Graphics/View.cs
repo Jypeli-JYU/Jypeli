@@ -30,7 +30,6 @@
  */
 
 using Silk.NET.Maths;
-using Jypeli.Rendering.OpenGl;
 
 using Matrix = System.Numerics.Matrix4x4;
 using Jypeli.Rendering;
@@ -44,7 +43,7 @@ namespace Jypeli
     /// </summary>
     public class ScreenView : Dimensional
     {
-        private RenderTarget _renderTarget = null;
+        private IRenderTarget _renderTarget = null;
         //private SpriteBatch renderBatch;
         private Vector2D<float> _center = Vector2D<float>.Zero;
         private Vector3 _scale = Vector3.One;
@@ -61,13 +60,13 @@ namespace Jypeli
         /// <summary>
         /// Tekstuuri johon näkymä piirretään.
         /// </summary>
-        internal RenderTarget RenderTarget
+        internal IRenderTarget RenderTarget
         {
             get
             {
                 if ( _renderTarget == null )
                 {
-                    _renderTarget = new RenderTarget((uint)_size.X, (uint)_size.Y);
+                    _renderTarget = Game.GraphicsDevice.CreateRenderTarget((uint)_size.X, (uint)_size.Y);
                     Graphics.ResetScreenSize();
                 }
 
@@ -438,8 +437,8 @@ namespace Jypeli
         {
             float angle = _flipAndMirror ? _angle + MathHelper.Pi : _angle;
 
-            GraphicsDevice.SetRenderTarget(null);
-            GraphicsDevice.Clear(Game.Instance.Level.BackgroundColor);
+            Game.GraphicsDevice.SetRenderTarget(null);
+            Game.GraphicsDevice.Clear(Game.Instance.Level.BackgroundColor);
 
             VertexPositionColorTexture[] textureVertices = new VertexPositionColorTexture[]
             {
@@ -452,7 +451,7 @@ namespace Jypeli
                 new VertexPositionColorTexture(new Vector3(1f, 1f, 0), Color.Transparent, new Vector(1f, 1f))
             };
             RenderTarget.BindTexture();
-            GraphicsDevice.DrawUserPrimitives(Silk.NET.OpenGL.PrimitiveType.Triangles, textureVertices, 6);
+            Game.GraphicsDevice.DrawUserPrimitives(PrimitiveType.OpenGlTriangles, textureVertices, 6);
             RenderTarget.UnBindTexture();
             /*
             Matrix rotate = Matrix.CreateRotationZ(angle);

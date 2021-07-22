@@ -400,7 +400,7 @@ namespace Jypeli
                         // so let's start a new batch with the new image. The objects
                         // should be sorted at this point.
                         Graphics.ImageBatch.End();
-                        Graphics.ImageBatch.Begin( ref worldMatrix, o.Image.XNATexture );
+                        Graphics.ImageBatch.Begin( ref worldMatrix, o.Image );
                         previousImage = o.Image;
                     }
                     DrawTexture( o, ref worldMatrix );

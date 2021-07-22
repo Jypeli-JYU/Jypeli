@@ -169,7 +169,7 @@ namespace Jypeli
             {
                 // Start a new batch with different image
                 Graphics.ImageBatch.End();
-                Graphics.ImageBatch.Begin( ref worldMatrix, image.XNATexture );
+                //Graphics.ImageBatch.Begin( ref worldMatrix, image.XNATexture );
                 previousImage = image;
             }
 

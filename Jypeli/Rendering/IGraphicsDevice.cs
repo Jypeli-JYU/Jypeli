@@ -58,7 +58,8 @@ namespace Jypeli.Rendering
         /// <param name="primitivetype">Verteksien tyyppi</param>
         /// <param name="textureVertices">Luettelo vertekseistä</param>
         /// <param name="count">Määrä</param>
-        public void DrawUserPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] textureVertices, uint count);
+        /// <param name="normalized">Onko verteksit normalisoitu ruutukoordinaatteihin</param>
+        public void DrawUserPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] textureVertices, uint count, bool normalized = false);
 
         /// <summary>
         /// Asettaa rendertargetin.
@@ -79,5 +80,17 @@ namespace Jypeli.Rendering
         /// </summary>
         /// <param name="color">Väri jolla ruutu täytetään</param>
         public void Clear(Color color);
+
+        /// <summary>
+        /// Lataa kuvan datan näytönohjaimen muistiin.
+        /// </summary>
+        /// <param name="texture"></param>
+        public void LoadImage(Image texture);
+
+        /// <summary>
+        /// Kiinnittää tekstuurin valmiiksi käyttöä varten.
+        /// </summary>
+        /// <param name="handle">Tekstuurin kahva</param>
+        public void BindTexture(uint handle);
     }
 }

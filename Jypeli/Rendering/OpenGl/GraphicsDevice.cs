@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Silk.NET.OpenGL;
@@ -9,15 +10,19 @@ using Silk.NET.Windowing;
 
 namespace Jypeli.Rendering.OpenGl
 {
-
+    /// <summary>
+    /// OpenGL renderöintilaite
+    /// </summary>
     public unsafe class GraphicsDevice : IGraphicsDevice
     {
+        /// <inheritdoc/>
         public GL Gl;
 
         private BufferObject<VertexPositionColorTexture> Vbo;
         private BufferObject<uint> Ebo;
         private VertexArrayObject<VertexPositionColorTexture, uint> Vao;
 
+        /// <inheritdoc/>
         public int BufferSize { get; } = 16384;
         private uint[] Indices;
         private VertexPositionColorTexture[] Vertices;
@@ -25,11 +30,16 @@ namespace Jypeli.Rendering.OpenGl
         private Shader shader;
 
         public Matrix4x4 World { get; set; }
+        /// <inheritdoc/>
         public Matrix4x4 View { get; set; }
+        /// <inheritdoc/>
         public Matrix4x4 Projection { get; set; }
+        /// <inheritdoc/>
         public string Name { get => throw new NotImplementedException(); }
+        /// <inheritdoc/>
         public string Version { get => throw new NotImplementedException(); }
 
+        /// <inheritdoc/>
         public GraphicsDevice(IWindow window)
         {
             Indices = new uint[BufferSize * 2];
@@ -57,6 +67,7 @@ namespace Jypeli.Rendering.OpenGl
             shader = new Shader(Gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultFragmentShader.glsl"));
         }
 
+        /// <inheritdoc/>
         public void DrawUserIndexedPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] vertexBuffer, uint numIndices, uint[] indexBuffer)
         {
             Gl.Enable(GLEnum.Blend);
@@ -74,27 +85,31 @@ namespace Jypeli.Rendering.OpenGl
             Gl.DrawElements((GLEnum)primitivetype, numIndices, DrawElementsType.UnsignedInt, null);
         }
 
-        public void DrawUserPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] vertexBuffer, uint numIndices)
+        /// <inheritdoc/>
+        public void DrawUserPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] vertexBuffer, uint numIndices, bool normalized = false)
         {
-            Gl.Disable(GLEnum.DepthTest);
+            Gl.Enable(GLEnum.Blend);
+            Gl.BlendFunc(GLEnum.SrcAlpha, GLEnum.OneMinusSrcAlpha);
 
             Vbo.UpdateBuffer(0, vertexBuffer);
 
             Vao.Bind();
             shader.Use();
 
-            shader.SetUniform("world", Matrix4x4.Identity);
+            shader.SetUniform("world", normalized ? Matrix4x4.Identity : World * View * Projection);
             shader.SetUniform("type", 1);
 
             Gl.DrawArrays((GLEnum)primitivetype, 0, numIndices);
         }
 
+        /// <inheritdoc/>
         public void Clear(Color bgColor)
         {
             Gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
             Gl.ClearColor(bgColor.RedComponent/255f, bgColor.GreenComponent / 255f, bgColor.BlueComponent / 255f, bgColor.AlphaComponent / 255f);
         }
 
+        /// <inheritdoc/>
         public void SetRenderTarget(IRenderTarget renderTarget)
         {
             if(renderTarget is null)
@@ -103,6 +118,7 @@ namespace Jypeli.Rendering.OpenGl
                 renderTarget.Bind();
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             Vbo.Dispose();
@@ -111,9 +127,32 @@ namespace Jypeli.Rendering.OpenGl
             shader.Dispose();
         }
 
+        /// <inheritdoc/>
         public IRenderTarget CreateRenderTarget(uint width, uint height)
         {
             return new RenderTarget(width, height);
+        }
+
+        /// <inheritdoc/>
+        public void LoadImage(Image image)
+        {
+            fixed (void* data = &MemoryMarshal.GetReference(image.image.GetPixelRowSpan(0)))
+            {
+                image.handle = Gl.GenTexture();
+                BindTexture(image.handle);
+
+                Gl.TexImage2D(TextureTarget.Texture2D, 0, (int)InternalFormat.Rgba, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
+
+                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)GLEnum.Nearest); // TODO: Kuvalle itselleen asetus miten sitä skaalataan.
+                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)GLEnum.Nearest);
+            }
+        }
+
+        /// <inheritdoc/>
+        public void BindTexture(uint handle)
+        {
+            Gl.ActiveTexture(TextureUnit.Texture0);
+            Gl.BindTexture(TextureTarget.Texture2D, handle);
         }
     }
 }

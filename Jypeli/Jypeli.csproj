@@ -109,7 +109,8 @@
     <PackageReference Include="Silk.NET.OpenAL.Soft.Native" Version="1.21.1.1" />
     <PackageReference Include="Silk.NET.OpenGL" Version="2.6.0" />
     <PackageReference Include="Silk.NET.Windowing" Version="2.6.0" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.1" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>
 
   <!-- MonoGamen, ja sen DLL:ien ymppääminen paketoituun nugettiin ei onnistu niin yksinkertaisesti kuin voisi kuvitella... -->

@@ -71,7 +71,7 @@ namespace Jypeli
         static readonly uint VerticesPerTexture = (uint)Vertices.Length;
 
         Matrix matrix;
-        Texture2D texture;
+        Image texture;
         Effect effect;
         VertexPositionColorTexture[] vertexBuffer;
         int BufferSize;
@@ -94,7 +94,7 @@ namespace Jypeli
             vertexBuffer = new VertexPositionColorTexture[BufferSize * VerticesPerTexture];
         }
 
-        public void Begin( ref Matrix matrix, Texture2D texture )
+        public void Begin(ref Matrix matrix, Image texture)
         {
             Debug.Assert( !beginHasBeenCalled );
             beginHasBeenCalled = true;
@@ -117,20 +117,17 @@ namespace Jypeli
         private void Flush()
         {
             if ( iTexture > 0 )
-            {/*
-                var device = Game.GraphicsDevice;
-                device.RasterizerState = RasterizerState.CullClockwise;
-                device.BlendState = BlendState.AlphaBlend;
+            {
+                if (texture.handle == 0) // Viedään tekstuuri näytönohjaimelle kun sitä ensimmäisen kerran käytetään.
+                {
+                    Game.GraphicsDevice.LoadImage(texture);
+                }
+                Game.GraphicsDevice.World = matrix;
+                Game.GraphicsDevice.BindTexture(texture.handle);
 
-                effect = Graphics.GetTextureEffect(ref matrix, texture, LightingEnabled);
-                Graphics.SetSamplerState();
-
-                for ( int i = 0; i < effect.CurrentTechnique.Passes.Count; i++ )
-                    effect.CurrentTechnique.Passes[i].Apply();
-                */
                 Game.GraphicsDevice.DrawUserPrimitives(
                     PrimitiveType.OpenGlTriangles,
-                    vertexBuffer, iTexture);
+                    vertexBuffer, iTexture*6);
                 
                 Graphics.ResetSamplerState();
             }
@@ -160,17 +157,23 @@ namespace Jypeli
                 uint bi = (uint)((iTexture * VerticesPerTexture) + i);
                 vertexBuffer[bi].Position = transformedPoints[i];
             }
-            /*
+            
             // Triangle 1
-            vertexBuffer[startIndex + 0].TextureCoordinate = c.TopLeft;
-            vertexBuffer[startIndex + 1].TextureCoordinate = c.BottomLeft;
-            vertexBuffer[startIndex + 2].TextureCoordinate = c.TopRight;
+            vertexBuffer[startIndex + 0].TexCoordsX = (float)c.TopLeft.X;
+            vertexBuffer[startIndex + 0].TexCoordsY = (float)c.TopLeft.Y;
+            vertexBuffer[startIndex + 1].TexCoordsX = (float)c.BottomLeft.X;
+            vertexBuffer[startIndex + 1].TexCoordsY = (float)c.BottomLeft.Y;
+            vertexBuffer[startIndex + 2].TexCoordsX = (float)c.TopRight.X;
+            vertexBuffer[startIndex + 2].TexCoordsY = (float)c.TopRight.Y;
 
             // Triangle 2
-            vertexBuffer[startIndex + 3].TextureCoordinate = c.BottomLeft;
-            vertexBuffer[startIndex + 4].TextureCoordinate = c.BottomRight;
-            vertexBuffer[startIndex + 5].TextureCoordinate = c.TopRight;
-            */
+            vertexBuffer[startIndex + 3].TexCoordsX = (float)c.BottomLeft.X;
+            vertexBuffer[startIndex + 3].TexCoordsY = (float)c.BottomLeft.Y;
+            vertexBuffer[startIndex + 4].TexCoordsX = (float)c.BottomRight.X;
+            vertexBuffer[startIndex + 4].TexCoordsY = (float)c.BottomRight.Y;
+            vertexBuffer[startIndex + 5].TexCoordsX = (float)c.TopRight.X;
+            vertexBuffer[startIndex + 5].TexCoordsY = (float)c.TopRight.Y;
+
             iTexture++;
         }
     }

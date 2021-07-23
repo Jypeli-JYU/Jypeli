@@ -141,9 +141,23 @@ namespace Jypeli.Rendering.OpenGl
                 image.handle = Gl.GenTexture();
                 BindTexture(image.handle);
 
-                Gl.TexImage2D(TextureTarget.Texture2D, 0, (int)InternalFormat.Rgba, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
+                Gl.TexImage2D(TextureTarget.Texture2D, 0, InternalFormat.Rgba, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
 
                 Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)GLEnum.Nearest); // TODO: Kuvalle itselleen asetus miten sitä skaalataan.
+                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)GLEnum.Nearest);
+            }
+        }
+
+        /// <inheritdoc/>
+        public void UpdateTextureData(Image image)
+        {
+            fixed (void* data = &MemoryMarshal.GetReference(image.image.GetPixelRowSpan(0)))
+            {
+                BindTexture(image.handle);
+
+                Gl.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (uint)image.Width, (uint)image.Height, PixelFormat.Rgba, PixelType.UnsignedByte, data);
+
+                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)GLEnum.Nearest); // TODO: Entä jos halutaan vain muuttaa skaalausta, ilman kuvan datan muuttamista?
                 Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)GLEnum.Nearest);
             }
         }

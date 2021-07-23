@@ -30,10 +30,7 @@
 using System;
 using System.IO;
 using Jypeli.Content;
-#if NETFX_CORE
-using Windows.ApplicationModel.Resources;
-#else
-#endif
+
 
 
 namespace Jypeli

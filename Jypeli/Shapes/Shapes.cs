@@ -700,7 +700,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="texture">Tekstuuri.</param>
         /// <param name="isOpaque">Predikaatti, joka määrää, onko annettu väri läpinäkyvä.</param>
-        public TextureBitmap( Texture2D texture, Predicate<Color> isOpaque )
+        public TextureBitmap( Image texture, Predicate<Color> isOpaque )
         {
             /*Color[] scanline = new Color[texture.Width];
             XnaRectangle srcRect = new XnaRectangle( 0, 0, texture.Width, 1 );
@@ -727,7 +727,7 @@ namespace Jypeli
         /// Ks. <see cref="IsOpaqueColor"/>
         /// </summary>
         /// <param name="texture">Tekstuuri.</param>
-        public TextureBitmap( Texture2D texture )
+        public TextureBitmap( Image texture )
             : this( texture, IsOpaqueColor )
         {
         }

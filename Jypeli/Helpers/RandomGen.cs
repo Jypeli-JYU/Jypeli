@@ -153,7 +153,7 @@ namespace Jypeli
         /// <returns>Väri.</returns>
         public static Color NextColor()
         {
-            return new Color(50,50,50);// (float)rand.NextDouble(), (float)rand.NextDouble(), (float)rand.NextDouble(), 1 );
+            return new Color((float)rand.NextDouble(), (float)rand.NextDouble(), (float)rand.NextDouble(), 1);
         }
 
         /// <summary>
@@ -190,10 +190,10 @@ namespace Jypeli
         /// Palauttaa satunnaisen värin.
         /// </summary>
         /// <returns>Väri.</returns>
-       /* public static Color NextColor( Color first, Color second )
+        public static Color NextColor(Color first, Color second)
         {
-            return Color.Lerp( first, second, (float)rand.NextDouble());
-        }*/
+            return Color.Lerp(first, second, (float)rand.NextDouble());
+        }
 
         /// <summary>
         /// Palauttaa satunnaisen kulman.

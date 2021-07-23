@@ -88,6 +88,12 @@ namespace Jypeli.Rendering
         public void LoadImage(Image texture);
 
         /// <summary>
+        /// Päivittää kuvan datan näytönohjaimelle.
+        /// </summary>
+        /// <param name="texture"></param>
+        public void UpdateTextureData(Image texture);
+
+        /// <summary>
         /// Kiinnittää tekstuurin valmiiksi käyttöä varten.
         /// </summary>
         /// <param name="handle">Tekstuurin kahva</param>

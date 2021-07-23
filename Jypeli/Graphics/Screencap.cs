@@ -122,10 +122,7 @@ namespace Jypeli
 		/// <param name="img">Tallennettava kuva</param>
 		public static void SaveJPG(string fname, Image img)
         {
-			using (var image = System.Drawing.Image.FromStream(img.AsJpeg()))
-			{
-				image.Save(fname);
-			}
+            img.SaveAsJpeg(fname);
 		}
 
 	    private static ImageCodecInfo GetCodecByDescription( string desc )

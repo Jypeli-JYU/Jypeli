@@ -45,7 +45,7 @@ namespace Jypeli.Controls.Keyboard
         private int Width;
         private int Height;
 
-        private Texture2D whitePixelTexture;
+        private Image whitePixelTexture;
 
         public bool Visible { get; private set; }
         public bool Enabled { get; private set; }

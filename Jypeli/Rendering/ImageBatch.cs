@@ -22,17 +22,6 @@ namespace Jypeli
     /// <summary>
     /// DUMMY
     /// </summary>
-    internal class Texture2D
-    {
-        public Texture2D()
-        {
-
-        }
-    }
-
-    /// <summary>
-    /// DUMMY
-    /// </summary>
     internal class Effect
     {
         public Effect()
@@ -118,10 +107,17 @@ namespace Jypeli
         {
             if ( iTexture > 0 )
             {
-                if (texture.handle == 0) // Viedään tekstuuri näytönohjaimelle kun sitä ensimmäisen kerran käytetään.
+                if (texture.handle == 0)
                 {
+                    // Viedään tekstuuri näytönohjaimelle kun sitä ensimmäisen kerran käytetään.
                     Game.GraphicsDevice.LoadImage(texture);
+                } else if (texture.dirty)
+                {
+                    // Jos kuvan data on muuttunut, pitää se viedä uudestaan.
+                    Game.GraphicsDevice.UpdateTextureData(texture);
+                    texture.dirty = false;
                 }
+
                 Game.GraphicsDevice.World = matrix;
                 Game.GraphicsDevice.BindTexture(texture.handle);
 

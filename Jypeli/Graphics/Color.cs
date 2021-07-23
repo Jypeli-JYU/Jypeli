@@ -93,7 +93,7 @@ namespace Jypeli
             : this( rgb.RedComponent, rgb.GreenComponent, rgb.BlueComponent, alpha )
         {
         }
-        /*
+
         /// <summary>
         /// Uusi väri
         /// </summary>
@@ -104,7 +104,7 @@ namespace Jypeli
             : this( red, green, blue, 1.0 )
         {
         }
-        // TODO: SILK colors
+
         /// <summary>
         /// Uusi väri
         /// </summary>
@@ -112,19 +112,11 @@ namespace Jypeli
         /// <param name="green">Vihreä värikomponentti välillä 0-1.0</param>
         /// <param name="blue">Sininen värikomponentti välillä 0-1.0</param>
         /// <param name="alpha">Läpinäkymättömyys välillä 0-1.0</param>
-        public Color( double red, double green, double blue, double alpha )
+        public Color(double red, double green, double blue, double alpha)
+            : this((int)(red * 255), (int)(green * 255), (int)(blue * 255), (int)(alpha * 255))
         {
-            var xnaColor = new XnaColor(
-                (float)red,
-                (float)green,
-                (float)blue,
-                (float)alpha );
-            RedComponent = xnaColor.R;
-            GreenComponent = xnaColor.G;
-            BlueComponent = xnaColor.B;
-            AlphaComponent = xnaColor.A;
         }
-        */
+
         /// <summary>
         /// Pakkaa kolme kokonaislukua väriä vastaavaksi kokonaisluvuksi
         /// </summary>
@@ -406,8 +398,7 @@ namespace Jypeli
             return !( c1 == c2 );
         }
 
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        /*
+
         /// <summary>
         /// Lineaarinen interpolaatio värien välillä
         /// </summary>
@@ -415,14 +406,16 @@ namespace Jypeli
         /// <param name="value2"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public static Color Lerp( Color value1, Color value2, double amount )
+        public static Color Lerp(Color value1, Color value2, double amount)
         {
-            return new Color( XnaColor.Lerp(
-                value1.AsXnaColor(),
-                value2.AsXnaColor(),
-                (float)amount ) );
+            float x = MathHelper.Clamp((float)amount, 0, 1);
+            return new Color(
+                (byte)MathHelper.Lerp(value1.RedComponent, value2.RedComponent, x),
+                (byte)MathHelper.Lerp(value1.GreenComponent, value2.GreenComponent, x),
+                (byte)MathHelper.Lerp(value1.BlueComponent, value2.BlueComponent, x),
+                (byte)MathHelper.Lerp(value1.AlphaComponent, value2.AlphaComponent, x));
         }
-        */
+        
         /// <summary>
         /// Antaa tummemman värin. Vähentaa jokaista kolmea osaväriä arvon <c>howMuch</c>
         /// verran.

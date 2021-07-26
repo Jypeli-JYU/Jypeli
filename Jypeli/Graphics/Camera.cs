@@ -166,7 +166,7 @@ namespace Jypeli
         /// </summary>
         public Vector ScreenToWorld(Vector point)
         {
-            return Position + (1 / ZoomFactor) * point;
+            return Position + (1 / ZoomFactor) * new Vector(point.X, -point.Y) - new Vector(Game.Screen.Width/2, -Game.Screen.Height/2);
         }
 
         /// <summary>

@@ -24,44 +24,57 @@
 #endregion
 
 /*
- * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen, Mikko Röyskö.
  */
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Numerics;
 using Jypeli.Controls;
+using Silk.NET.Input;
 
 namespace Jypeli
 {
     /// <summary>
     /// Hiiri.
     /// </summary>
-    /*public class Mouse : Controller<MouseState, MouseButton>
+    public class Mouse : Controller<MouseState, MouseButton>
     {
-        private static readonly Dictionary<MouseButton, Func<MouseState, bool>> GetButtonDown = new Dictionary<MouseButton, Func<MouseState, bool>>( 5 )
+        private static readonly Dictionary<MouseButton, Func<MouseState, bool>> GetButtonDown = new Dictionary<MouseButton, Func<MouseState, bool>>(5)
         {
-            { MouseButton.Left, delegate( MouseState state ) { return state.LeftButton == XnaButtonState.Pressed; } },
-            { MouseButton.Right, delegate( MouseState state ) { return state.RightButton == XnaButtonState.Pressed; } },
-            { MouseButton.Middle, delegate( MouseState state ) { return state.MiddleButton == XnaButtonState.Pressed; } },
-            { MouseButton.XButton1, delegate( MouseState state ) { return state.XButton1 == XnaButtonState.Pressed; } },
-            { MouseButton.XButton2, delegate( MouseState state ) { return state.XButton2 == XnaButtonState.Pressed; } }
+            { MouseButton.Left, delegate(MouseState state) { return state.LeftButton; } },
+            { MouseButton.Right, delegate(MouseState state) { return state.RightButton; } },
+            { MouseButton.Middle, delegate(MouseState state) { return state.MiddleButton; } },
+            { MouseButton.XButton1, delegate(MouseState state) { return state.XButton4; } }, // Tässä numerointi menee oudosti. Pidetään kulissien takana käytettävän hiiren tilan numerointi ja Jypelin näyttämä numerointi erillään
+            { MouseButton.XButton2, delegate(MouseState state) { return state.XButton5; } },
+            { MouseButton.XButton3, delegate(MouseState state) { return state.XButton6; } },
+            { MouseButton.XButton4, delegate(MouseState state) { return state.XButton7; } },
+            { MouseButton.XButton5, delegate(MouseState state) { return state.XButton8; } },
+            { MouseButton.XButton6, delegate(MouseState state) { return state.XButton9; } },
+            { MouseButton.XButton7, delegate(MouseState state) { return state.XButton10; } },
+            { MouseButton.XButton8, delegate(MouseState state) { return state.XButton11; } },
+            { MouseButton.XButton9, delegate(MouseState state) { return state.XButton12; } },
         };
 
-        private ScreenView screen;        
+        private ScreenView screen;
+        private IMouse mouse;
+        private MouseState internalState;
 
         /// <summary>
-        /// Käytetäänkö hiiren kursoria.
-        /// Jos käytetään, hiiren paikka ruudulla on mitattavissa, mutta hiiri ei
-        /// voi liikkua ruudun ulkopuolelle.
-        /// Jos ei käytetä, hiirtä voidaan liikuttaa rajatta, mutta sen paikkaa
-        /// ruudulla ei voida määrittää.
+        /// Onko hiiren kursori näkyvissä
         /// </summary>
-        /*public bool IsCursorVisible
+        public bool IsCursorVisible
         {
-            get { return Game.Instance.IsMouseVisible; }
-            set { Game.Instance.IsMouseVisible = value; }
-        }*/
-    /*
+            get { return mouse.Cursor.CursorMode == CursorMode.Normal; }
+            set { 
+                if (value)
+                    mouse.Cursor.CursorMode = CursorMode.Normal;
+                else
+                    mouse.Cursor.CursorMode = CursorMode.Hidden;
+            }
+        }
+
         /// <summary>
         /// Kursorin paikka ruutukoordinaateissa.
         /// </summary>
@@ -69,22 +82,11 @@ namespace Jypeli
         {
             get
             {
-                return GetPositionOnScreen( screen, CurrentState );
+                return mouse.Position;
             }
             set
             {
-#if !WINRT && !WINDOWS_PHONE && !ANDROID
-                // Not supported on WinRT... only sets xna coords
-                Vector pos = value.Transform( screen.GetScreenInverse() );
-                Vector xnapos = ScreenView.ToXnaCoords( pos, screen.ViewportSize, Vector.Zero );
-
-                //CurrentState = new MouseState( CurrentState, xnapos );
-                CurrentState = new MouseState(
-                    (int)xnapos.X, (int)xnapos.Y, CurrentState.ScrollWheelValue,
-                    CurrentState.LeftButton, CurrentState.MiddleButton, CurrentState.RightButton,
-                    CurrentState.XButton1, CurrentState.XButton2 );
-                XnaMouse.SetPosition( (int)xnapos.X, (int)xnapos.Y );
-#endif
+                mouse.Position = value;
             }
         }
 
@@ -95,11 +97,11 @@ namespace Jypeli
         {
             get
             {
-                return GetPositionOnWorld( screen, CurrentState );
+                return GetPositionOnWorld(mouse.Position);
             }
             set
             {
-                PositionOnScreen = Game.Instance.Camera.WorldToScreen( value );
+                PositionOnScreen = Game.Instance.Camera.WorldToScreen(value);
             }
         }
 
@@ -110,14 +112,14 @@ namespace Jypeli
         {
             get
             {
-                Matrix screenTransform = screen.GetScreenTransform();
+                Matrix4x4 screenTransform = screen.GetScreenTransform();
 
-                Vector curXna = new Vector( CurrentState.X, CurrentState.Y );
-                Vector prevXna = new Vector( PrevState.X, PrevState.Y );
-                Vector curScr = ScreenView.FromXnaCoords( curXna, screen.ViewportSize, Vector.Zero );
-                Vector prevScr = ScreenView.FromXnaCoords( prevXna, screen.ViewportSize, Vector.Zero );
-                Vector curr = curScr.Transform( screenTransform );
-                Vector prev = prevScr.Transform( screenTransform );
+                Vector curXna = new Vector(CurrentState.PosX, CurrentState.PosY);
+                Vector prevXna = new Vector(PrevState.PosX, PrevState.PosY);
+                Vector curScr = ScreenView.FromXnaCoords(curXna, screen.ViewportSize, Vector.Zero);
+                Vector prevScr = ScreenView.FromXnaCoords(prevXna, screen.ViewportSize, Vector.Zero);
+                Vector curr = curScr.Transform(screenTransform);
+                Vector prev = prevScr.Transform(screenTransform);
 
                 return curr - prev;
             }
@@ -130,16 +132,16 @@ namespace Jypeli
         {
             get
             {
-                Matrix screenTransform = screen.GetScreenTransform();
+                Matrix4x4 screenTransform = screen.GetScreenTransform();
 
-                XnaV2 curXna = new XnaV2( CurrentState.X, CurrentState.Y );
-                XnaV2 prevXna = new XnaV2( PrevState.X, PrevState.Y );
-                Vector curScr = ScreenView.FromXnaCoords( curXna, screen.ViewportSize, Vector.Zero );
-                Vector prevScr = ScreenView.FromXnaCoords( prevXna, screen.ViewportSize, Vector.Zero );
-                Vector curr = curScr.Transform( screenTransform );
-                Vector prev = prevScr.Transform( screenTransform );
+                Vector curXna = new Vector(CurrentState.PosX, CurrentState.PosY);
+                Vector prevXna = new Vector(PrevState.PosX, PrevState.PosY);
+                Vector curScr = ScreenView.FromXnaCoords(curXna, screen.ViewportSize, Vector.Zero);
+                Vector prevScr = ScreenView.FromXnaCoords(prevXna, screen.ViewportSize, Vector.Zero);
+                Vector curr = curScr.Transform(screenTransform);
+                Vector prev = prevScr.Transform(screenTransform);
 
-                return Game.Instance.Camera.ScreenToWorld( curr ) - Game.Instance.Camera.ScreenToWorld( prev );
+                return Game.Instance.Camera.ScreenToWorld(curr) - Game.Instance.Camera.ScreenToWorld(prev);
             }
         }
 
@@ -150,7 +152,18 @@ namespace Jypeli
         {
             get
             {
-                return CurrentState.ScrollWheelValue / 120;
+                return CurrentState.ScrollY;
+            }
+        }
+
+        /// <summary>
+        /// Rullan sivusuuntainen asento. Vähenee vasemmalle ja kasvaa oikealle rullattaessa.
+        /// </summary>
+        public int WheelStateHorizontal
+        {
+            get
+            {
+                return CurrentState.ScrollX;
             }
         }
 
@@ -162,81 +175,101 @@ namespace Jypeli
         {
             get
             {
-                return ( CurrentState.ScrollWheelValue - PrevState.ScrollWheelValue ) / 120;
+                return (CurrentState.ScrollY - PrevState.ScrollY);
             }
         }
 
-        internal Mouse( ScreenView screen )
+        /// <summary>
+        /// Rullan asennon muutos viime tarkistuksesta. Vähenee alaspäin ja kasvaa ylöspäin rullattaessa.
+        /// Nolla jos rullaa ei ole käytetty.
+        /// </summary>
+        public int WheelChangeHorizontal
+        {
+            get
+            {
+                return (CurrentState.ScrollX - PrevState.ScrollX);
+            }
+        }
+
+        internal Mouse(ScreenView screen, IInputContext input)
         {
             this.screen = screen;
-            this.CurrentState = XnaMouse.GetState();
+            this.CurrentState = default;
+            this.internalState = default;
+            this.mouse = input.Mice[0]; // TODO: Mitä tapahtuu jos koneessa on useampi hiiri kiinni?
+            mouse.Scroll += MouseScroll;
+            mouse.MouseDown += MouseDown;
+            mouse.MouseUp += MouseUp;
+            mouse.MouseMove += MouseMove;
         }
 
-        private static Vector GetPositionOnScreen( ScreenView screen, MouseState state )
+        private void MouseMove(IMouse arg1, Vector2 arg2)
         {
-            XnaV2 xnaPos = new XnaV2( state.X, state.Y );
-            Vector pos = ScreenView.FromXnaCoords( xnaPos, screen.ViewportSize, Vector.Zero );
-            return pos.Transform( screen.GetScreenTransform() );
+            internalState.PosX = (int)arg2.X;
+            internalState.PosY = (int)arg2.Y;
         }
 
-        private static Vector GetPositionOnWorld( ScreenView screen, MouseState state )
+        private void MouseDown(IMouse arg1, Silk.NET.Input.MouseButton arg2)
         {
-            return Game.Instance.Camera.ScreenToWorld( GetPositionOnScreen( screen, state ) );
+            internalState.SetButtonDown(arg2);
         }
 
-        private void SetPosition( Vector pos )
+        private void MouseUp(IMouse arg1, Silk.NET.Input.MouseButton arg2)
         {
-#if !WINRT && !WINDOWS_PHONE
-            // Not supported on WinRT... only sets xna coords
-            Vector screenpos = pos.Transform( screen.GetScreenInverse() );
-            XnaV2 center = ScreenView.ToXnaCoords( screenpos, screen.ViewportSize, Vector.Zero );
-            XnaMouse.SetPosition( (int)center.X, (int)center.Y );
-#endif
+            internalState.SetButtonUp(arg2);
+        }
+
+        private void MouseScroll(IMouse arg1, ScrollWheel arg2)
+        {
+            internalState.ScrollX += (int)arg2.X;
+            internalState.ScrollY += (int)arg2.Y;
+        }
+
+        private static Vector GetPositionOnScreen(ScreenView screen, MouseState state)
+        {
+            Vector xnaPos = new Vector(state.PosX, state.PosY);
+            Vector pos = ScreenView.FromXnaCoords(xnaPos, screen.ViewportSize, Vector.Zero);
+            return pos.Transform(screen.GetScreenTransform());
+        }
+
+        private static Vector GetPositionOnWorld(Vector pos)
+        {
+            return Game.Instance.Camera.ScreenToWorld(pos);
         }
 
         internal override MouseState GetState()
         {
-#if WINDOWS_PHONE || ANDROID
-            return new MouseState();
-#elif WINRT
-            return XnaMouse.GetState();
-#else
-            if ( !IsCursorVisible )
-            {
-                // Reset the mouse to the center of the screen
-                SetPosition( Vector.Zero );
-            }
-
-            return XnaMouse.GetState();
-#endif
+            return internalState;
         }
 
-        private static ButtonState GetButtonState( MouseState oldState, MouseState newState, MouseButton button )
+        private static ButtonState GetButtonState(MouseState oldState, MouseState newState, MouseButton button)
         {
-#if WINDOWS_PHONE
-            return ButtonState.Up;
-#endif
+            bool prevDown = GetButtonDown[button](oldState);
+            bool currDown = GetButtonDown[button](newState);
 
-            bool prevDown = GetButtonDown[button]( oldState );
-            bool currDown = GetButtonDown[button]( newState );
-
-            if ( prevDown && currDown ) return ButtonState.Down;
-            if ( !prevDown && !currDown ) return ButtonState.Up;
-            if ( !prevDown && currDown ) return ButtonState.Pressed;
+            if (prevDown && currDown)
+                return ButtonState.Down;
+            if (!prevDown && !currDown)
+                return ButtonState.Up;
+            if (!prevDown && currDown)
+                return ButtonState.Pressed;
             return ButtonState.Released;
         }
 
-        private static HoverState GetHoverState( MouseState oldState, MouseState newState, GameObject obj )
+        private static HoverState GetHoverState(MouseState oldState, MouseState newState, GameObject obj)
         {
 #if WINDOWS_PHONE || ANDROID
             return HoverState.Off;
 #else
-            bool prevOn = IsCursorOn( Game.Screen, oldState, obj );
-            bool currOn = IsCursorOn( Game.Screen, newState, obj );
+            bool prevOn = IsCursorOn(Game.Screen, oldState, obj);
+            bool currOn = IsCursorOn(Game.Screen, newState, obj);
 
-            if ( prevOn && currOn ) return HoverState.On;
-            if ( !prevOn && !currOn ) return HoverState.Off;
-            if ( !prevOn && currOn ) return HoverState.Enter;
+            if (prevOn && currOn)
+                return HoverState.On;
+            if (!prevOn && !currOn)
+                return HoverState.Off;
+            if (!prevOn && currOn)
+                return HoverState.Enter;
             return HoverState.Exit;
 #endif
         }
@@ -246,91 +279,101 @@ namespace Jypeli
         /// </summary>
         /// <param name="button">Nappi</param>
         /// <returns></returns>
-        public ButtonState GetButtonState( MouseButton button )
+        public ButtonState GetButtonState(MouseButton button)
         {
-            return GetButtonState( PrevState, CurrentState, button );
+            return GetButtonState(PrevState, CurrentState, button);
         }
 
-        private ChangePredicate<MouseState> MakeTriggerRule( MouseButton button, ButtonState state )
+        private ChangePredicate<MouseState> MakeTriggerRule(MouseButton button, ButtonState state)
         {
-            if ( button == MouseButton.None || state == ButtonState.Irrelevant )
+            if (button == MouseButton.None || state == ButtonState.Irrelevant)
                 return AlwaysTrigger;
 
-            return delegate( MouseState prev, MouseState curr ) { return GetButtonState( prev, curr, button ) == state; };
+            return delegate (MouseState prev, MouseState curr)
+            {
+                return GetButtonState(prev, curr, button) == state;
+            };
         }
 
-        private ChangePredicate<MouseState> MakeTriggerRule( GameObject obj, HoverState hover, MouseButton button, ButtonState state )
+        private ChangePredicate<MouseState> MakeTriggerRule(GameObject obj, HoverState hover, MouseButton button, ButtonState state)
         {
-            if ( button == MouseButton.None || state == ButtonState.Irrelevant )
+            if (button == MouseButton.None || state == ButtonState.Irrelevant)
             {
-                return delegate( MouseState prev, MouseState curr )
+                return delegate (MouseState prev, MouseState curr)
                 {
-                    if ( obj == null || obj.IsDestroyed || obj.Layer == null ) return false;
-                    return GetHoverState( prev, curr, obj ) == hover;
+                    if (obj == null || obj.IsDestroyed || obj.Layer == null)
+                        return false;
+                    return GetHoverState(prev, curr, obj) == hover;
                 };
             }
 
-            return delegate( MouseState prev, MouseState curr )
+            return delegate (MouseState prev, MouseState curr)
             {
-                if ( obj == null || obj.IsDestroyed || obj.Layer == null ) return false;
-                return GetButtonState( prev, curr, button ) == state && GetHoverState( prev, curr, obj ) == hover;
+                if (obj == null || obj.IsDestroyed || obj.Layer == null)
+                    return false;
+                return GetButtonState(prev, curr, button) == state && GetHoverState(prev, curr, obj) == hover;
             };
         }
 
-        private ChangePredicate<MouseState> MakeTriggerRule( double moveTrigger )
+        private ChangePredicate<MouseState> MakeTriggerRule(double moveTrigger)
         {
-            return delegate( MouseState prev, MouseState curr )
+            return delegate (MouseState prev, MouseState curr)
             {
-                double xdist = prev.X - curr.X;
-                double ydist = prev.Y - curr.Y;
+                double xdist = prev.PosX - curr.PosX;
+                double ydist = prev.PosY - curr.PosY;
                 return xdist * xdist + ydist * ydist > moveTrigger * moveTrigger;
             };
         }
+
+        //TODO: Sivusuuntaisen skrollauksen kuuntelu, miten olisi paras toteuttaa?
+        // Tämä katsoo molemmat suunnat, vai oma kuuntelija sitä varten?
 
         private ChangePredicate<MouseState> MakeWheelTriggerRule()
         {
             return delegate (MouseState prev, MouseState curr)
             {
-                return prev.ScrollWheelValue != curr.ScrollWheelValue;
+                return prev.ScrollY != curr.ScrollY;
             };
         }
 
-        private string GetButtonName( MouseButton b )
+        private string GetButtonName(MouseButton b)
         {
             return "Mouse " + b.ToString();
         }
 
-        private string GetButtonName( MouseButton b, GameObject obj )
+        private string GetButtonName(MouseButton b, GameObject obj)
         {
-            if ( obj != null && obj.Tag != null )
-                return string.Format( "{0} on {1}", GetButtonName( b ), obj.Tag );
+            if (obj != null && obj.Tag != null)
+                return string.Format("{0} on {1}", GetButtonName(b), obj.Tag);
 
-            return GetButtonName( b );
+            return GetButtonName(b);
         }
 
         /// <summary>
         /// Onko hiiren kursori annetun olion päällä.
         /// </summary>
-        private static bool IsCursorOn( ScreenView screen, MouseState state, GameObject obj )
+        private static bool IsCursorOn(ScreenView screen, MouseState state, GameObject obj)
         {
 #if WINDOWS_PHONE
             return false;
 #else
-            if ( obj == null || obj.Layer == null || obj.IsDestroyed ) return false;
-            return obj.IsInside( Game.Instance.Camera.ScreenToWorld( GetPositionOnScreen( screen, state ), obj.Layer ) );
+            if (obj == null || obj.Layer == null || obj.IsDestroyed)
+                return false;
+            return obj.IsInside(Game.Instance.Camera.ScreenToWorld(GetPositionOnScreen(screen, state), obj.Layer));
 #endif
         }
 
         /// <summary>
         /// Onko hiiren kursori annetun olion päällä.
         /// </summary>
-        public bool IsCursorOn( GameObject obj )
+        public bool IsCursorOn(GameObject obj)
         {
 #if WINDOWS_PHONE || ANDROID
             return false;
 #else
-            if ( obj == null || obj.Layer == null || obj.IsDestroyed ) return false;
-            return obj.IsInside( Game.Instance.Camera.ScreenToWorld( this.PositionOnScreen, obj.Layer ) );
+            if (obj == null || obj.Layer == null || obj.IsDestroyed)
+                return false;
+            return obj.IsInside(Game.Instance.Camera.ScreenToWorld(this.PositionOnScreen, obj.Layer));
 #endif
         }
 
@@ -341,10 +384,10 @@ namespace Jypeli
         /// <param name="state">Napin tila</param>
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public Listener Listen( MouseButton button, ButtonState state, Action handler, string helpText )
+        public Listener Listen(MouseButton button, ButtonState state, Action handler, string helpText)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, button, GetButtonName( button ), helpText, handler );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(button, state);
+            return AddListener(rule, button, GetButtonName(button), helpText, handler);
         }
 
         /// <summary>
@@ -356,10 +399,10 @@ namespace Jypeli
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri kuuntelija-aliohjelmalle</param>
-        public Listener Listen<T>( MouseButton button, ButtonState state, Action<T> handler, string helpText, T p )
+        public Listener Listen<T>(MouseButton button, ButtonState state, Action<T> handler, string helpText, T p)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, button, GetButtonName( button ), helpText, handler, p );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(button, state);
+            return AddListener(rule, button, GetButtonName(button), helpText, handler, p);
         }
 
         /// <summary>
@@ -373,10 +416,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
-        public Listener Listen<T1, T2>( MouseButton button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener Listen<T1, T2>(MouseButton button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, button, GetButtonName( button ), helpText, handler, p1, p2 );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(button, state);
+            return AddListener(rule, button, GetButtonName(button), helpText, handler, p1, p2);
         }
 
         /// <summary>
@@ -392,10 +435,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p3">3. parametri kuuntelija-aliohjelmalle</param>
-        public Listener Listen<T1, T2, T3>( MouseButton button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener Listen<T1, T2, T3>(MouseButton button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, button, GetButtonName( button ), helpText, handler, p1, p2, p3 );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(button, state);
+            return AddListener(rule, button, GetButtonName(button), helpText, handler, p1, p2, p3);
         }
 
         /// <summary>
@@ -404,10 +447,10 @@ namespace Jypeli
         /// <param name="trigger">Raja jonka liikkeen tulee ylittää</param>
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public Listener ListenMovement( double trigger, Action handler, string helpText )
+        public Listener ListenMovement(double trigger, Action handler, string helpText)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            return AddListener( rule, MouseButton.None, "Mouse movement", helpText, handler );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(trigger);
+            return AddListener(rule, MouseButton.None, "Mouse movement", helpText, handler);
         }
 
         /// <summary>
@@ -418,10 +461,10 @@ namespace Jypeli
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri kuuntelija-aliohjelmalle</param>
-        public Listener ListenMovement<T>( double trigger, Action<T> handler, string helpText, T p )
+        public Listener ListenMovement<T>(double trigger, Action<T> handler, string helpText, T p)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            return AddListener( rule, MouseButton.None, "Mouse movement", helpText, handler, p );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(trigger);
+            return AddListener(rule, MouseButton.None, "Mouse movement", helpText, handler, p);
         }
 
         /// <summary>
@@ -434,10 +477,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
-        public Listener ListenMovement<T1, T2>( double trigger, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener ListenMovement<T1, T2>(double trigger, Action<T1, T2> handler, string helpText, T1 p1, T2 p2)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            return AddListener( rule, MouseButton.None, "Mouse movement", helpText, handler, p1, p2 );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(trigger);
+            return AddListener(rule, MouseButton.None, "Mouse movement", helpText, handler, p1, p2);
         }
 
         /// <summary>
@@ -452,10 +495,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p3">3. parametri kuuntelija-aliohjelmalle</param>
-        public Listener ListenMovement<T1, T2, T3>( double trigger, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener ListenMovement<T1, T2, T3>(double trigger, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( trigger );
-            return AddListener( rule, MouseButton.None, "Mouse movement", helpText, handler, p1, p2, p3 );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(trigger);
+            return AddListener(rule, MouseButton.None, "Mouse movement", helpText, handler, p1, p2, p3);
         }
 
         /// <summary>
@@ -467,10 +510,10 @@ namespace Jypeli
         /// <param name="state">Nappulan tila.</param>
         /// <param name="handler">Tapahtuman käsittelijä.</param>
         /// <param name="helpText">Ohjeteksti.</param>
-        public Listener ListenOn( GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action handler, string helpText )
+        public Listener ListenOn(GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action handler, string helpText)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( obj, hoverstate, button, state );
-            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(obj, hoverstate, button, state);
+            return AddListener(rule, button, GetButtonName(button, obj), helpText, handler);
         }
 
         /// <summary>
@@ -485,10 +528,10 @@ namespace Jypeli
         /// <param name="handler">Tapahtuman käsittelijä.</param>
         /// <param name="helpText">Ohjeteksti.</param>
         /// <param name="p">Tapahtuman käsittelijän parametri.</param>
-        public Listener ListenOn<T>( GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action<T> handler, string helpText, T p )
+        public Listener ListenOn<T>(GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action<T> handler, string helpText, T p)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( obj, hoverstate, button, state );
-            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(obj, hoverstate, button, state);
+            return AddListener(rule, button, GetButtonName(button, obj), helpText, handler, p);
         }
 
         /// <summary>
@@ -505,10 +548,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti.</param>
         /// <param name="p1">Tapahtuman käsittelijän ensimmäinen parametri.</param>
         /// <param name="p2">Tapahtuman käsittelijän toinen parametri.</param>
-        public Listener ListenOn<T1, T2>( GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener ListenOn<T1, T2>(GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( obj, hoverstate, button, state );
-            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p1, p2 );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(obj, hoverstate, button, state);
+            return AddListener(rule, button, GetButtonName(button, obj), helpText, handler, p1, p2);
         }
 
         /// <summary>
@@ -527,10 +570,10 @@ namespace Jypeli
         /// <param name="p1">Tapahtuman käsittelijän ensimmäinen parametri.</param>
         /// <param name="p2">Tapahtuman käsittelijän toinen parametri.</param>
         /// <param name="p3">Tapahtuman käsittelijän kolmas parametri.</param>
-        public Listener ListenOn<T1, T2, T3>( GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener ListenOn<T1, T2, T3>(GameObject obj, HoverState hoverstate, MouseButton button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( obj, hoverstate, button, state );
-            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p1, p2, p3 );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(obj, hoverstate, button, state);
+            return AddListener(rule, button, GetButtonName(button, obj), helpText, handler, p1, p2, p3);
         }
 
         /// <summary>
@@ -605,10 +648,10 @@ namespace Jypeli
         /// <param name="state">Nappulan tila.</param>
         /// <param name="handler">Tapahtuman käsittelijä.</param>
         /// <param name="helpText">Ohjeteksti.</param>
-        public Listener ListenOn( GameObject obj, MouseButton button, ButtonState state, Action handler, string helpText )
+        public Listener ListenOn(GameObject obj, MouseButton button, ButtonState state, Action handler, string helpText)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( obj, HoverState.On, button, state );
-            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(obj, HoverState.On, button, state);
+            return AddListener(rule, button, GetButtonName(button, obj), helpText, handler);
         }
 
         /// <summary>
@@ -621,10 +664,10 @@ namespace Jypeli
         /// <param name="handler">Tapahtuman käsittelijä.</param>
         /// <param name="helpText">Ohjeteksti.</param>
         /// <param name="p"></param>
-        public Listener ListenOn<T>( GameObject obj, MouseButton button, ButtonState state, Action<T> handler, string helpText, T p )
+        public Listener ListenOn<T>(GameObject obj, MouseButton button, ButtonState state, Action<T> handler, string helpText, T p)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( obj, HoverState.On, button, state );
-            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(obj, HoverState.On, button, state);
+            return AddListener(rule, button, GetButtonName(button, obj), helpText, handler, p);
         }
 
         /// <summary>
@@ -639,10 +682,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti.</param>
         /// <param name="p1"></param>
         /// <param name="p2"></param>
-        public Listener ListenOn<T1, T2>( GameObject obj, MouseButton button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener ListenOn<T1, T2>(GameObject obj, MouseButton button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( obj, HoverState.On, button, state );
-            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p1, p2 );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(obj, HoverState.On, button, state);
+            return AddListener(rule, button, GetButtonName(button, obj), helpText, handler, p1, p2);
         }
 
         /// <summary>
@@ -659,10 +702,10 @@ namespace Jypeli
         /// <param name="p1"></param>
         /// <param name="p2"></param>
         /// <param name="p3"></param>
-        public Listener ListenOn<T1, T2, T3>( GameObject obj, MouseButton button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener ListenOn<T1, T2, T3>(GameObject obj, MouseButton button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            ChangePredicate<MouseState> rule = MakeTriggerRule( obj, HoverState.On, button, state );
-            return AddListener( rule, button, GetButtonName( button, obj ), helpText, handler, p1, p2, p3 );
+            ChangePredicate<MouseState> rule = MakeTriggerRule(obj, HoverState.On, button, state);
+            return AddListener(rule, button, GetButtonName(button, obj), helpText, handler, p1, p2, p3);
         }
-    }*/
+    }
 }

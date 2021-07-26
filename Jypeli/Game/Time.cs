@@ -75,8 +75,9 @@ namespace Jypeli
         /// Ajetaan kun pelin tilannetta päivitetään. Päivittämisen voi toteuttaa perityssä luokassa
         /// toteuttamalla tämän metodin. Perityn luokan metodissa tulee kutsua kantaluokan metodia.
         /// </summary>
-        protected virtual void Update( Time time )
+        protected virtual void Update(Time time)
         {
+            UpdateControls(time);
             this.Camera.Update( time );
             Layers.Update( time );
             Timer.UpdateAll( time );

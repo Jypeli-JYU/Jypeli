@@ -29,6 +29,7 @@
 
 using System.Collections.Generic;
 using Jypeli.Controls;
+using Silk.NET.Input;
 
 namespace Jypeli
 {
@@ -90,6 +91,8 @@ namespace Jypeli
         /// </summary>
         //public GamePad ControllerFour { get { return GameControllers[3]; } }
 
+        internal IInputContext input;
+
         /// <summary>
         /// Pelin pääohjainkonteksti.
         /// </summary>
@@ -116,12 +119,13 @@ namespace Jypeli
 
         private void InitControls()
         {
+            input = window.CreateInput();
             _context = new ListenContext() { Active = true };
 
             //Keyboard = new Keyboard();
-            //Mouse = new Mouse( Screen );
+            Mouse = new Mouse(Screen, input);
             //PhoneBackButton = new BackButton();
-            TouchPanel = new TouchPanel( Screen );
+            TouchPanel = new TouchPanel(Screen);
 
             //GameControllers = new List<GamePad>( 4 );
             //GameControllers.Add( new GamePad( PlayerIndex.One ) );
@@ -132,10 +136,10 @@ namespace Jypeli
             _controllers = new List<Controller>();
             //_controllers.Add( Keyboard );
 #if !WINDOWS_PHONE && !ANDROID
-            //_controllers.Add( Mouse );
+            _controllers.Add(Mouse);
 #endif
             _controllers.Add( Accelerometer );
-            _controllers.Add( TouchPanel );
+            //_controllers.Add( TouchPanel );
 #if WINDOWS_PHONE || ANDROID
             _controllers.Add( PhoneBackButton );
 #endif
@@ -221,12 +225,5 @@ namespace Jypeli
                 }
             }
         }
-    }
-
-    /// <summary>
-    /// DUMMY!
-    /// </summary>
-    public class Mouse
-    {
     }
 }

@@ -8,6 +8,9 @@ using Silk.NET.OpenGL;
 
 namespace Jypeli.Rendering.OpenGl
 {
+    /// <summary>
+    /// Tekstuuri johon piirretään kuva ennen sen piirtämistä ruudulle
+    /// </summary>
     public unsafe class RenderTarget : IRenderTarget
     {
         private GL gl;
@@ -15,11 +18,20 @@ namespace Jypeli.Rendering.OpenGl
         private uint framebufferHandle;
         private uint texturebufferHandle;
 
+        /// <inheritdoc/>
         public double Width { get; set; }
+        /// <inheritdoc/>
         public double Height { get; set; }
 
+        /// <summary>
+        /// Tekstuuri johon voidaan piirtää kuva.
+        /// </summary>
+        /// <param name="width">Leveys</param>
+        /// <param name="height">Korkeus</param>
         public RenderTarget(uint width, uint height)
         {
+            Width = width;
+            Height = height;
             gl = ((GraphicsDevice)Game.GraphicsDevice).Gl;
             framebufferHandle = gl.GenFramebuffer();
             gl.BindFramebuffer(GLEnum.Framebuffer, framebufferHandle);
@@ -53,21 +65,25 @@ namespace Jypeli.Rendering.OpenGl
             gl.BindFramebuffer(GLEnum.Framebuffer, 0);
         }
 
+        /// <inheritdoc/>
         public void Bind()
         {
             gl.BindFramebuffer(GLEnum.Framebuffer, framebufferHandle);
         }
 
+        /// <inheritdoc/>
         public void UnBind()
         {
             gl.BindFramebuffer(GLEnum.Framebuffer, 0);
         }
 
+        /// <inheritdoc/>
         public void BindTexture()
         {
             gl.BindTexture(GLEnum.Texture2D, texturebufferHandle);
         }
 
+        /// <inheritdoc/>
         public void UnBindTexture()
         {
             gl.BindTexture(GLEnum.Texture2D, 0);

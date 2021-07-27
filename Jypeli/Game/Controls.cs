@@ -41,7 +41,7 @@ namespace Jypeli
         /// <summary>
         /// Näppäimistö.
         /// </summary>
-        //public Keyboard Keyboard { get; private set; }
+        public Keyboard Keyboard { get; private set; }
 
         /// <summary>
         /// Hiiri.
@@ -122,7 +122,7 @@ namespace Jypeli
             input = window.CreateInput();
             _context = new ListenContext() { Active = true };
 
-            //Keyboard = new Keyboard();
+            Keyboard = new Keyboard(input);
             Mouse = new Mouse(Screen, input);
             //PhoneBackButton = new BackButton();
             TouchPanel = new TouchPanel(Screen);
@@ -134,7 +134,7 @@ namespace Jypeli
             //GameControllers.Add( new GamePad( PlayerIndex.Four ) );
 
             _controllers = new List<Controller>();
-            //_controllers.Add( Keyboard );
+            _controllers.Add(Keyboard);
 #if !WINDOWS_PHONE && !ANDROID
             _controllers.Add(Mouse);
 #endif

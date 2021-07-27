@@ -27,7 +27,7 @@
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
-using Silk.NET.GLFW;
+using Keys = Silk.NET.Input.Key;
 
 namespace Jypeli
 {
@@ -92,6 +92,9 @@ namespace Jypeli
         X = Keys.X,
         Y = Keys.Y,
         Z = Keys.Z,
+        Å = Keys.LeftBracket,
+        Ä = Keys.Apostrophe,
+        Ö = Keys.Semicolon,
         NumPad0 = Keys.Keypad0,
         NumPad1 = Keys.Keypad1,
         NumPad2 = Keys.Keypad2,
@@ -102,12 +105,12 @@ namespace Jypeli
         NumPad7 = Keys.Keypad7,
         NumPad8 = Keys.Keypad8,
         NumPad9 = Keys.Keypad9,
-        /*Multiply = Keys.Multiply,
-        Add = Keys.Add,
-        Separator = Keys.Separator,
-        Subtract = Keys.Subtract,
-        Decimal = Keys.Decimal,
-        Divide = Keys.Divide,*/
+        Multiply = Keys.KeypadMultiply,
+        Add = Keys.KeypadAdd,
+        //Separator = Keys.Separator, TODO: Mikä tää on?
+        Subtract = Keys.KeypadSubtract,
+        Decimal = Keys.KeypadDecimal,
+        Divide = Keys.KeypadDivide,
         F1 = Keys.F1,
         F2 = Keys.F2,
         F3 = Keys.F3,
@@ -133,21 +136,17 @@ namespace Jypeli
         F23 = Keys.F23,
         F24 = Keys.F24,
         NumLock = Keys.NumLock,
-        /*Scroll = Keys.Scroll,
-        LeftShift = Keys.LeftShift,
-        RightShift = Keys.RightShift,
-        LeftControl = Keys.LeftControl,
-        RightControl = Keys.RightControl,
-        LeftAlt = Keys.LeftAlt,
-        RightAlt = Keys.RightAlt,
-        OemTilde = Keys.OemTilde,
-        OemQuotes = Keys.OemQuotes,
-        Aring = Keys.OemCloseBrackets,
-        Ouml = Keys.OemTilde,
-        Auml = Keys.OemQuotes,
-        OemPlus = Keys.OemPlus,
-        LessOrGreater = Keys.OemBackslash,
-        Period = Keys.OemPeriod,
-        Comma = Keys.OemComma,*/
+        Scroll = Keys.ScrollLock,
+        LeftShift = Keys.ShiftLeft,
+        RightShift = Keys.ShiftRight,
+        LeftControl = Keys.ControlLeft,
+        RightControl = Keys.ControlRight,
+        LeftAlt = Keys.AltLeft,
+        RightAlt = Keys.AltRight,
+        //Ouml = Keys.OemTilde,
+        //Auml = Keys.OemQuotes, //TODO: Entä nää?
+        LessOrGreater = Keys.World2,
+        Period = Keys.Period,
+        Comma = Keys.Comma,
     }
 }

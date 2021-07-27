@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace Jypeli
 {
@@ -166,7 +167,12 @@ namespace Jypeli
         /// </summary>
         public Vector ScreenToWorld(Vector point)
         {
-            return Position + (1 / ZoomFactor) * new Vector(point.X, -point.Y) - new Vector(Game.Screen.Width/2, -Game.Screen.Height/2);
+            Matrix4x4 transform =
+                Matrix4x4.CreateTranslation(-new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2)) *
+                Matrix4x4.CreateScale(new Vector(1 / ZoomFactor, 1 / ZoomFactor)) *
+                Matrix4x4.CreateTranslation(new Vector(Position.X, -Position.Y)) *
+                Matrix4x4.CreateScale(new Vector(1, -1)); // Y-akseli menee ruutukoordinaateissa väärään suuntaan.
+            return point.Transform(transform);
         }
 
         /// <summary>
@@ -174,18 +180,25 @@ namespace Jypeli
         /// </summary>
         public Vector WorldToScreen(Vector point)
         {
-            return (point - Position) * ZoomFactor;
+            Matrix4x4 transform =
+                Matrix4x4.CreateScale(new Vector(1, -1)) * 
+                Matrix4x4.CreateTranslation(new Vector(-Position.X, Position.Y)) *
+                Matrix4x4.CreateScale(new Vector(ZoomFactor, ZoomFactor)) *
+                Matrix4x4.CreateTranslation(new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2));
+            return point.Transform(transform);
         }
 
         /// <summary>
         /// Muuntaa annetun pisteen ruutukoordinaateista maailmankoordinaatteihin
         /// ottaen huomioon oliokerroksen suhteellisen siirtymän.
         /// </summary>
-        public Vector ScreenToWorld( Vector point, Layer layer )
+        public Vector ScreenToWorld(Vector point, Layer layer)
         {
-            if ( layer == null )
-                return ScreenToWorld( point );
-            if ( layer.IgnoresZoom )
+            // TODO: Nää ei toimi vielä oikein, mutta tätä käyttävä Mouse.ListenOn silti toimii.
+            // Sekä mitkä koordinaatit tämän oikeastaan pitäisi palauttaa? 
+            if (layer == null)
+                return ScreenToWorld(point);
+            if (layer.IgnoresZoom)
                 return Vector.ComponentProduct( Position, layer.RelativeTransition ) + point;
 
             return Vector.ComponentProduct( Position, layer.RelativeTransition ) + ( 1 / ZoomFactor ) * point;
@@ -195,7 +208,7 @@ namespace Jypeli
         /// Muuntaa annetun pisteen maailmankoordinaateista ruutukoordinaatteihin
         /// ottaen huomioon oliokerroksen suhteellisen siirtymän.
         /// </summary>
-        public Vector WorldToScreen( Vector point, Layer layer )
+        public Vector WorldToScreen(Vector point, Layer layer)
         {
             if ( layer == null )
                 return WorldToScreen( point );

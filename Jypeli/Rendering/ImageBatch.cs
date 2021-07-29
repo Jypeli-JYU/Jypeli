@@ -31,7 +31,7 @@ namespace Jypeli
     }
 
     /// <summary>
-    /// Draws images efficiently.
+    /// Draws images efficiently. // TODO: Kaikkea muuta kuin tehokas.
     /// Draw() calls should be made only between Begin() and End() calls.
     /// Other drawing operations can be done between Begin() and
     /// End().

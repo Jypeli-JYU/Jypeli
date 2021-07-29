@@ -320,13 +320,13 @@ namespace Jypeli
             Device.ResetScreen();
             InitControls();
             InitLayers();
-            //InitDebugScreen();
+            InitDebugScreen();
 
             if ( InstanceInitialized != null )
                 InstanceInitialized();
 
             loadContentHasBeenCalled = true;
-            //addMessageDisplay()
+            addMessageDisplay();
             Initialize();
             CallBegin();
         }

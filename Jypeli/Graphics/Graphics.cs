@@ -38,8 +38,6 @@ namespace Jypeli
 
         //public static SpriteBatch SpriteBatch;
 
-        public static FontStashSharp.Renderer FontRenderer;
-
         // Having global batch objects saves memory.
         // The same batch object must not be used from more
         // than one place at a time, though.
@@ -53,7 +51,7 @@ namespace Jypeli
         {
             TopLeft = new Vector(0.0, 0.0),
             TopRight = new Vector(1.0, 0.0),
-            BottomLeft = new Vector(0.1, 1.0),
+            BottomLeft = new Vector(0.0, 1.0),
             BottomRight = new Vector(1.0, 1.0),
         };
 
@@ -97,7 +95,7 @@ namespace Jypeli
 #endif
 
             SpriteBatch = new SpriteBatch( device );
-            FontRenderer = new FontStashSharp.Renderer(SpriteBatch);*/
+            */
             ImageBatch.Initialize();
             ShapeBatch.Initialize();
 

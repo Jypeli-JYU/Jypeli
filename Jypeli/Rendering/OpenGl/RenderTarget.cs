@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Silk.NET.OpenGL;
+using Silk.NET.SDL;
 
 namespace Jypeli.Rendering.OpenGl
 {
@@ -87,6 +88,18 @@ namespace Jypeli.Rendering.OpenGl
         public void UnBindTexture()
         {
             gl.BindTexture(GLEnum.Texture2D, 0);
+        }
+
+        /// <inheritdoc/>
+        public void SetData(byte[] data, int startX, int startY, uint width, uint height)
+        {
+            if (data.Length < width * height)
+                throw new ArgumentException("Not enough pixel data", nameof(data));
+
+            BindTexture();
+            fixed (void* ptr = data)
+                gl.TexSubImage2D(GLEnum.Texture2D, 0, startX, startY, width, height, GLEnum.Rgb, GLEnum.UnsignedByte, ptr);
+            UnBindTexture();
         }
     }
 }

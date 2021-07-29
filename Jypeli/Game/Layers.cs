@@ -270,20 +270,6 @@ namespace Jypeli
             Layers.Clear();
         }
 
-        /// <summary>
-        /// Kertoo onko objekti ruudulla näkyvällä alueella.
-        /// </summary>
-        /// <param name="g">Objekti</param>
-        /// <returns>Onko objekti ruudun alueella.</returns>
-        public bool IsObjectOnScreen(IGameObject g)
-        {
-            Vector transformed = Camera.WorldToScreen(g.Position, g.Layer);
-            return transformed.X - g.Width * Camera.ZoomFactor < Screen.Size.X / 2 &&
-                   transformed.X + g.Width * Camera.ZoomFactor > -Screen.Size.X / 2 &&
-                   transformed.Y - g.Height * Camera.ZoomFactor < Screen.Size.Y / 2 &&
-                   transformed.Y + g.Height * Camera.ZoomFactor > -Screen.Size.Y / 2;
-        }
-
         #region GetObject methods
         /// <summary>
         /// Palauttaa listan kaikista peliolioista jotka toteuttavat ehdon.

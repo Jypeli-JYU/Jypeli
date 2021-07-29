@@ -28,8 +28,10 @@
  */
 
 using System;
+using System.Drawing.Drawing2D;
 using System.Linq;
-using FontStashSharp;
+using AdvanceMath;
+using Jypeli.Devices;
 using Jypeli.Rendering;
 
 using Matrix = System.Numerics.Matrix4x4;
@@ -274,65 +276,6 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Piirtää tekstiä ruudulle
-        /// </summary>
-        /// <param name="text">Teksti</param>
-        /// <param name="position">Paikka</param>
-        /// <param name="font">Fontti</param>
-        /// <param name="color">Tekstin väri</param>
-        public static void DrawText( string text, Vector position, Font font, Color color )
-        {
-            /*
-            Vector2 textSize = font.XnaFont.MeasureString(text);
-            Vector2 xnaPos = ScreenView.ToXnaCoords( position, Game.Screen.Size, (Vector)textSize );
-
-            SpriteBatch spriteBatch = Graphics.SpriteBatch;
-            spriteBatch.Begin();
-            font.XnaFont.DrawText(Graphics.FontRenderer, text, xnaPos.ToSystemNumerics(), color.AsXnaColor().ToSystemDrawing());
-            spriteBatch.End();*/
-        }
-
-        /// <summary>
-        /// Piirtää tekstiä ruudulle
-        /// </summary>
-        /// <param name="text">Teksti</param>
-        /// <param name="transformation">Transformaatio</param>
-        /// <param name="font">Fontti</param>
-        /// <param name="color">Tekstin väri</param>
-        public static void DrawText( string text, ref Matrix transformation, Font font, Color color )
-        {
-            /*
-            Vector textSize = (Vector)font.XnaFont.MeasureString( text );
-            Matrix m = ScreenView.ToXnaCoords(ref transformation, Game.Screen.Size, textSize );
-
-            SpriteBatch spriteBatch = Graphics.SpriteBatch;
-            spriteBatch.Begin( SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, m );
-            font.XnaFont.DrawText(Graphics.FontRenderer, text, Vector2.Zero.ToSystemNumerics(), color.AsXnaColor().ToSystemDrawing());
-            spriteBatch.End();
-            */
-        }
-
-        /// <summary>
-        /// Piirtää tekstiä ruudulle
-        /// </summary>
-        /// <param name="text">Teksti</param>
-        /// <param name="transformation">Transformaatio</param>
-        /// <param name="font">Fontti</param>
-        /// <param name="colors">Tekstin kirjainten väri</param>
-        public static void DrawText(string text, ref Matrix transformation, Font font, Color[] colors)
-        {
-            /*
-            Vector textSize = (Vector)font.XnaFont.MeasureString(text);
-            Matrix m = ScreenView.ToXnaCoords(ref transformation, Game.Screen.Size, textSize);
-
-            SpriteBatch spriteBatch = Graphics.SpriteBatch;
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.LinearClamp, currentStencilState, RasterizerState.CullCounterClockwise, null, m);
-            font.XnaFont.DrawText(Graphics.FontRenderer, text, Vector2.Zero.ToSystemNumerics(), colors.ConvertAll(v => v.AsXnaColor().ToSystemDrawing()).ToArray());
-            spriteBatch.End();
-            */
-        }
-
-        /// <summary>
         /// Piirtää kuvion niin, että tekstuuri täyttää sen.
         /// </summary>
         public static void DrawShape( Shape shape, ref Matrix transformation, ref Matrix textureTransformation, Image texture, Vector textureWrapSize, Color color )
@@ -416,7 +359,7 @@ namespace Jypeli
                 vertices[i] = new VertexPositionColorTexture(new Vector3((float)v.X, (float)v.Y, 0), color, Vector.Zero);
             }
 
-            Int16[] indices = new Int16[cache.Triangles.Length * 3];
+            uint[] indices = new uint[cache.Triangles.Length * 3];
             for ( int i = 0; i < cache.Triangles.Length; i++ )
             {
                 indices[3 * i] = cache.Triangles[i].i1;
@@ -424,25 +367,10 @@ namespace Jypeli
                 indices[3 * i + 2] = cache.Triangles[i].i3;
             }
 
-            //device.RasterizerState = RasterizerState.CullCounterClockwise;
-            //device.BlendState = blendState;
-#if WINDOWS_PHONE
-            // The WP7 emulator interprets cullmodes incorectly sometimes.
-            device.RasterizerState = RasterizerState.CullNone;
-#endif
-            /*
-            Effect effect = Graphics.GetColorEffect( ref matrix, LightingEnabled );
-            Graphics.SetSamplerState();
-            foreach ( EffectPass pass in effect.CurrentTechnique.Passes )
-            {
-                pass.Apply();
-                device.DrawUserIndexedPrimitives<VertexPositionColor>(
-                    PrimitiveType.TriangleList,
-                    vertices, 0, vertices.Length,
-                    indices, 0, indices.Length / 3
-                    );
-            }*/
-            Graphics.ResetSamplerState();
+            Graphics.ShapeBatch.Begin(ref matrix);
+
+            Graphics.ShapeBatch.Draw(cache, color, Vector.Zero, Vector.One, 0);
+            Graphics.ShapeBatch.End();
         }
 
         /// <summary>

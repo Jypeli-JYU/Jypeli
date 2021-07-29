@@ -243,7 +243,7 @@ namespace Jypeli
                            * parentTransformation;
 
                 int ci = AdvMod( this.SelectedIndex + indexDeltaInt + i, this.Charset.Length );
-                Renderer.DrawText( Charset[ci].ToString(), ref m, Font, TextColor );
+                //Renderer.DrawText( Charset[ci].ToString(), ref m, Font, TextColor );
             }
         }
     }

@@ -315,7 +315,7 @@ namespace Jypeli
             {
                 string newText = Text[i] + shownText;
 
-                if (Font.XnaFont.MeasureString(newText).X >= Width - XMargin * 2)
+                if (Font.MeasureSize(newText).X >= Width - XMargin * 2)
                 {
                     firstVisibleChar = i + 1;
                     break;

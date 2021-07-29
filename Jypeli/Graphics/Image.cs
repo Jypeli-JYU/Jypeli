@@ -4,19 +4,21 @@ using System.IO;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
-using FontStashSharp;
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Runtime.InteropServices;
 using SixLabors.ImageSharp.Processing;
 
+
 using JyColor = Jypeli.Color;
 using ColorConverter = System.Converter<Jypeli.Color, Jypeli.Color>;
 // Ehkä vähän tyhmät viritelmät samannimisten luokkien ympärille...
 using SImage = SixLabors.ImageSharp.Image;
 using SXImage = SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>;
-
+using SixLabors.Fonts;
+using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.Drawing;
 
 namespace Jypeli
 {
@@ -69,6 +71,8 @@ namespace Jypeli
         {
             get { return ""; }// xnaTexture.Name; }
         }
+
+        public Vector Size { get => new Vector(Width, Height); }
 
         internal Image(int width, int height)
         {
@@ -615,6 +619,23 @@ namespace Jypeli
         public static Image DrawTextOnImage( Image img, string text, Font font, Color textColor )
         {
             return DrawTextOnImage( img, text, Vector.Zero, font, textColor, Jypeli.Color.Transparent );
+        }
+
+        /// <summary>
+        /// Lisää tekstin tähän kuvaan.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="font"></param>
+        /// <param name="textColor"></param>
+        public void DrawTextOnImage(string text, Font font, Color textColor)
+        {
+            var glyphs = TextBuilder.GenerateGlyphs(text, new RendererOptions(font.FontSystem));
+            
+            IBrush brush = Brushes.Solid(SixLabors.ImageSharp.Color.FromRgb(textColor.RedComponent, textColor.GreenComponent, textColor.BlueComponent));
+            
+            image.Mutate(x => x.Fill(brush, glyphs));
+
+            UpdateTexture();
         }
 
         //TODO: Ehkä mielummin CreateGradient...

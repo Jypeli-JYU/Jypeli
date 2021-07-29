@@ -35,5 +35,15 @@ namespace Jypeli.Rendering
         /// Irroittaa tämän sisältävän tekstuurin näytönohjaimelle
         /// </summary>
         void UnBindTexture();
+
+        /// <summary>
+        /// Asettaa tekstuurin tietyn alueen datan
+        /// </summary>
+        /// <param name="data">Pikselien data</param>
+        /// <param name="startX">Alkupisteen X</param>
+        /// <param name="startY">Alkupisteen Y</param>
+        /// <param name="width">Alueen leveys</param>
+        /// <param name="height">Alueen korkeus</param>
+        void SetData(byte[] data, int startX, int startY, uint width, uint height);
     }
 }

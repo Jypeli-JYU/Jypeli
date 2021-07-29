@@ -596,12 +596,12 @@ namespace Jypeli
         /// <summary>
         /// Kulmapisteet.
         /// </summary>
-        public Int16 i1, i2, i3;
+        public uint i1, i2, i3;
 
         /// <summary>
         /// Luo uuden kolmion. Parametreina kulmapisteiden indeksit lueteltuna myötäpäivään.
         /// </summary>
-        public IndexTriangle( Int16 i1, Int16 i2, Int16 i3 )
+        public IndexTriangle(uint i1, uint i2, uint i3 )
         {
             this.i1 = i1;
             this.i2 = i2;
@@ -612,7 +612,7 @@ namespace Jypeli
         /// Luo uuden kolmion. Parametreina kulmapisteiden indeksit lueteltuna myötäpäivään.
         /// </summary>
         public IndexTriangle( int i1, int i2, int i3 )
-            : this( (Int16)i1, (Int16)i2, (Int16)i3 )
+            : this( (uint)i1, (uint)i2, (uint)i3 )
         {
         }
     }

@@ -29,7 +29,6 @@
 
 using System;
 using System.Text;
-using FontStashSharp;
 
 namespace Jypeli
 {
@@ -105,8 +104,7 @@ namespace Jypeli
                 if ( Width == 0 )
                     throw new InvalidOperationException( "You must set the list width before assigning text!" );
 
-                DynamicSpriteFont xnaFont = this.Font.XnaFont;
-                Vector textDims = xnaFont.MeasureString( value );
+                Vector textDims = Font.MeasureSize( value );
                 double softWidth = 4 * Font.CharacterWidth < Width ? Width - 4 * Font.CharacterWidth : Width;
                 string wrapped = Font.WrapText( value, softWidth, Width );
 

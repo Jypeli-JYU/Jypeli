@@ -54,12 +54,18 @@ namespace Jypeli
 
             keyboard.KeyDown += KeyboardKeyDown;
             keyboard.KeyUp += KeyboardKeyUp;
+            keyboard.KeyChar += KeyboardKeyChar;
 #if DESKTOP
-            //Game.Instance.Window.TextInput += delegate( object sender, TextInputEventArgs args )
-            //{
-            //    if ( TextInput != null ) TextInput( args.Character );
-            //};
+            Game.Instance.TextInput += delegate(object sender, char key)
+            {
+                TextInput?.Invoke(key);
+            };
 #endif
+        }
+
+        private void KeyboardKeyChar(IKeyboard arg1, char arg2)
+        {
+            Game.Instance.CallTextInput(this, arg2);
         }
 
         private void KeyboardKeyDown(IKeyboard arg1, Silk.NET.Input.Key arg2, int arg3)

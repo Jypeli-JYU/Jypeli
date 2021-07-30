@@ -483,14 +483,17 @@ namespace Jypeli
         private Image textTexture;
         private Vector textSize;
         // TODO: Tähän voisi keksiä hieman paremman ja helpommin laajennettavan ratkaisun.
-        // Näyttäisi kuitenkin toimivan ihan kohtuu hyvin.
+        // Näyttäisi kuitenkin toimivan.
+        // Renderöisikö kaikki kirjaimet yhteen tekstuuriin, josta voitaisiin palasia piirrellä ruudulle, 
+        // vai generoisiko verteksejä, jotka piirretään?
+        // Tämä on kuitenkin hyvin hidas.
         private void UpdateTextImage(string text)
         {
             if (text != textcache)
             {
                 textSize = font.MeasureSize(text) * 1.5;
 
-                textTexture = new Image(textSize.X, textSize.Y, Color);
+                textTexture = new Image(Math.Max(textSize.X, 1), Math.Max(textSize.Y, 1), Color);
                 textTexture.DrawTextOnImage(text, font, TextColor);
                 textcache = text;
             }

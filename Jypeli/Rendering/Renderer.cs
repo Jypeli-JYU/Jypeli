@@ -30,7 +30,6 @@
 using System;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using AdvanceMath;
 using Jypeli.Devices;
 using Jypeli.Rendering;
 

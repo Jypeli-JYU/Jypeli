@@ -169,10 +169,10 @@ namespace Jypeli
             ShowVirtualKeyboard();
 #endif
 
-            //Game.Instance.Window.TextInput += InputText;
-            //associatedListeners.Add(Game.Instance.Keyboard.Listen(Key.Back, ButtonState.Pressed, EraseText, null).InContext(this));
-            //associatedListeners.Add(Game.Instance.Keyboard.Listen(Key.Left, ButtonState.Pressed, MoveCursor, null, -1).InContext(this));
-            //associatedListeners.Add(Game.Instance.Keyboard.Listen(Key.Right, ButtonState.Pressed, MoveCursor, null, 1).InContext(this));
+            Game.Instance.TextInput += InputText;
+            associatedListeners.Add(Game.Instance.Keyboard.Listen(Key.Back, ButtonState.Pressed, EraseText, null).InContext(this));
+            associatedListeners.Add(Game.Instance.Keyboard.Listen(Key.Left, ButtonState.Pressed, MoveCursor, null, -1).InContext(this));
+            associatedListeners.Add(Game.Instance.Keyboard.Listen(Key.Right, ButtonState.Pressed, MoveCursor, null, 1).InContext(this));
             // TODO: Jos nuolta pitää hetken pohjassa, alkaa kursori liikkua nopeasti sivusuunnassa.
         }
 
@@ -230,7 +230,7 @@ namespace Jypeli
 #if ANDROID
             HideVirtualKeyboard();
 #endif
-            //Game.Instance.Window.TextInput -= InputText;
+            Game.Instance.TextInput -= InputText;
         }
 
         private void BlinkCursor()
@@ -271,24 +271,22 @@ namespace Jypeli
 
             UpdateCursorPosition();
         }
-        /*
-        private void InputText( object sender, TextInputEventArgs e )
+        
+        private void InputText( object sender, char input )
         {
             if ( !this.ControlContext.Active ) return;
-            char input = e.Character;
             if ( input == 0x7F || input == 0x08 || input == 0x1B ) return; // delete, backspace, esc
 
             // TODO: Ei välttämättä tarvi välittää
-            /*
-			if ( !this.Font.XnaFont.Characters.Contains( e.Character ) )
+            /*if ( !this.Font.Characters.Contains( e.Character ) )
             {
                 // Unsupported character
                 return;
-            }
+            }*/
             
             AddText(input.ToString());
         }
-    */
+    
 
         private void AddText(string text)
         {

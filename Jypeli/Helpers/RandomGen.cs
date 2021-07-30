@@ -140,8 +140,8 @@ namespace Jypeli
             {
                 array[i] = NextDouble( curmin, curmax );
 
-                curmin = AdvanceMath.MathHelper.Max((float)min, (float)(array[i] - maxchange));
-                curmax = AdvanceMath.MathHelper.Min((float)max, (float)(array[i] + maxchange));
+                curmin = MathHelper.Max((float)min, (float)(array[i] - maxchange));
+                curmax = MathHelper.Min((float)max, (float)(array[i] + maxchange));
             }
 
             return array;

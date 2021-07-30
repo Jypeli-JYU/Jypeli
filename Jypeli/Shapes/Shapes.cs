@@ -32,7 +32,6 @@ using System.ComponentModel;
 using System.Linq;
 
 using System.Reflection;
-using Jypeli.Physics2d;
 using System.Collections.Generic;
 
 namespace Jypeli
@@ -681,94 +680,6 @@ namespace Jypeli
             {
                 OutlineVertices[i] = vertices[outlineIndices[i]];
             }
-        }
-    }
-
-    /// <summary>
-    /// Tekstuuribittikartta muotojen luomiseen tekstuureista.
-    /// Sisältää tekstuurin tiedot väritaulukkona.
-    /// </summary>
-    internal class TextureBitmap : IBitmap
-    {
-        /// <summary>
-        /// Bittikarttadata.
-        /// </summary>
-        protected bool[,] bitmap;
-
-        /// <summary>
-        /// Luo uuden bittikartan tekstuurin pohjalta.
-        /// </summary>
-        /// <param name="texture">Tekstuuri.</param>
-        /// <param name="isOpaque">Predikaatti, joka määrää, onko annettu väri läpinäkyvä.</param>
-        public TextureBitmap( Image texture, Predicate<Color> isOpaque )
-        {
-            /*Color[] scanline = new Color[texture.Width];
-            XnaRectangle srcRect = new XnaRectangle( 0, 0, texture.Width, 1 );
-
-            bitmap = new bool[texture.Width, texture.Height];
-
-            for ( int i = 0; i < texture.Height; i++ )
-            {
-                // Scan a line from the texture
-                srcRect.Y = i;
-                texture.GetData<Color>( 0, srcRect, scanline, 0, texture.Width );
-
-                for ( int j = 0; j < texture.Width; j++ )
-                {
-                    // Flip the y-coordinates because the y-coordinates of the texture
-                    // increase downwards.
-                    bitmap[j, texture.Height - i - 1] = isOpaque( scanline[j] );
-                }
-            }*/
-        }
-
-        /// <summary>
-        /// Luo uuden bittikartan tekstuurin pohjalta oletusläpinäkyvyysehdoilla.
-        /// Ks. <see cref="IsOpaqueColor"/>
-        /// </summary>
-        /// <param name="texture">Tekstuuri.</param>
-        public TextureBitmap( Image texture )
-            : this( texture, IsOpaqueColor )
-        {
-        }
-
-        /// <summary>
-        /// Bittikartan leveys pikseleinä.
-        /// </summary>
-        public int Width
-        {
-            get { return bitmap.GetLength( 0 ); }
-        }
-
-        /// <summary>
-        /// Bittikartan korkeus pikseleinä.
-        /// </summary>
-        public int Height
-        {
-            get { return bitmap.GetLength( 1 ); }
-        }
-
-        /// <summary>
-        /// Palauttaa yksittäisen pikselin värin annetusta koordinaattipisteestä (ensin x, sitten y).
-        /// </summary>
-        public bool this[int x, int y]
-        {
-            get
-            {
-                if ( x < 0 || y < 0 || x >= Width || y >= Height ) { return false; }
-                return bitmap[x, y];
-            }
-        }
-
-        /// <summary>
-        /// Päättelee pikselin läpinäkyvyyden sen värin perusteella.
-        /// Tässä tapauksessa alfa-arvon tulee olla suurempi tai yhtäsuuri kuin 127.
-        /// </summary>
-        /// <param name="c">Pikselin väri.</param>        
-        /// <returns>Läpinäkyvyys.</returns>
-        public static bool IsOpaqueColor( Color c )
-        {
-            return c.AlphaComponent >= 127;
         }
     }
 }

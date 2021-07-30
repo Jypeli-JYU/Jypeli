@@ -86,7 +86,7 @@ namespace Jypeli
             get { return radian; }
             set
             {
-                radian = AdvanceMath.MathHelper.ClampAngle( (float)value );
+                radian = MathHelper.ClampAngle((float)value);
             }
         }
 
@@ -131,7 +131,7 @@ namespace Jypeli
 
         private Angle( double radians )
         {
-            this.radian = AdvanceMath.MathHelper.ClampAngle( (float)radians );
+            this.radian = MathHelper.ClampAngle( (float)radians );
         }
 
         #region Operators
@@ -333,7 +333,7 @@ namespace Jypeli
         /// <returns></returns>
         public static double DegreeToRadian( double degree )
         {
-            return AdvanceMath.MathHelper.ClampAngle( (float)(degree * ( System.Math.PI / 180 )) );
+            return MathHelper.ClampAngle((float)(degree * (System.Math.PI / 180)));
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace Jypeli
         /// <returns></returns>
         public static double RadianToDegree( double radian )
         {
-            double a = AdvanceMath.MathHelper.ClampAngle( (float)radian );
+            double a = MathHelper.ClampAngle((float)radian);
             return a * ( 180 / System.Math.PI );
         }
 

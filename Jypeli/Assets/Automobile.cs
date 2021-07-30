@@ -156,7 +156,7 @@ namespace Jypeli.Assets
             if ( pendingDeceleration > 0 )
             {
                 // Brake
-                double decel = AdvanceMath.MathHelper.Min((float)pendingDeceleration, (float)(BrakeDeceleration * dt), (float)Velocity.Magnitude);
+                double decel = Math.Min(Math.Min((float)pendingDeceleration, (float)(BrakeDeceleration * dt)), (float)Velocity.Magnitude);
                 pendingDeceleration -= decel;
 
                 Velocity += Vector.FromLengthAndAngle( -decel, Velocity.Angle );

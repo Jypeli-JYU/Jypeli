@@ -28,7 +28,6 @@
  */
 
 using System;
-using AdvanceMath;
 using System.Globalization;
 using System.Collections.Generic;
 
@@ -563,30 +562,6 @@ namespace Jypeli
         {
             return !( left == right );
         }
-
-        #region AdvMath conversions
-
-        /// <summary>
-        /// Muuttaa dvancedMath.Vector2D -> Jypeli.Vector
-        /// </summary>
-        /// <param name="v"></param>
-        public static implicit operator Vector(Vector2D v)
-        {
-            return new Vector(v.X, v.Y);
-        }
-
-        /// <summary>
-        /// Muuttaa Jypeli.Vector -> AdvancedMath.Vector2D
-        /// </summary>
-        /// <param name="v"></param>
-        public static implicit operator Vector2D(Vector v)
-        {
-            return new Vector2D(v.X, v.Y);
-        }
-
-        #endregion
-
-
 
         #region Silk.NET conversions
 

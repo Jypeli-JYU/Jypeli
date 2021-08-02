@@ -77,6 +77,7 @@ namespace Jypeli
         /// <summary>
         /// Tekstuurien (kuvien) reunanpehmennys skaalattaessa (oletus päällä).
         /// </summary>
+        [Obsolete("Käytä kuva-olion Scaling ominaisuutta")]
         public static bool SmoothTextures { get; set; }
 
         private void SetDefaultResolution()
@@ -218,7 +219,6 @@ namespace Jypeli
             Jypeli.Graphics.Initialize();
 
             Camera = new Camera();
-            SmoothTextures = true;
         }
     }
 }

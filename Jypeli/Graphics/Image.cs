@@ -19,6 +19,11 @@ using SXImage = SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgb
 
 namespace Jypeli
 {
+    public enum ImageScaling
+    {
+        Linear,
+        Nearest
+    }
     /// <summary>
     /// Kuva.
     /// </summary>
@@ -44,6 +49,21 @@ namespace Jypeli
         /// Onko kuvan dataa muutettu ja se pitää viedä uudestaan näytönohjaimelle
         /// </summary>
         internal bool dirty;
+
+        private ImageScaling scaling;
+
+        /// <summary>
+        /// Kuinka kuvan kokoa skaalataan ruudulle piirrettäessä.
+        /// </summary>
+        public ImageScaling Scaling
+        {
+            get => scaling; 
+            set 
+            {
+                scaling = value;
+                Game.GraphicsDevice.UpdateTextureScaling(this); // TODO: Pitäisikö tämä tehdä samoin kuin datan muokkaus, eli vasta piirtovaiheessa?
+            }
+        }
 
         /// <summary>
         /// Leveys pikseleinä.

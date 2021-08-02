@@ -94,6 +94,12 @@ namespace Jypeli.Rendering
         public void UpdateTextureData(Image texture);
 
         /// <summary>
+        /// Päivittää kuvan skaalausasetuksen näytönohjaimelle
+        /// </summary>
+        /// <param name="texture"></param>
+        public void UpdateTextureScaling(Image texture);
+
+        /// <summary>
         /// Kiinnittää tekstuurin valmiiksi käyttöä varten.
         /// </summary>
         /// <param name="handle">Tekstuurin kahva</param>

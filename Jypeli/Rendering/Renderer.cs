@@ -285,6 +285,37 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Piirtää tekstiä ruudulle
+        /// </summary>
+        /// <param name="text">Teksti</param>
+        /// <param name="position">Paikka</param>
+        /// <param name="font">Fontti</param>
+        /// <param name="color">Tekstin väri</param>
+        public static void DrawText(string text, Vector position, Font font, Color color)
+        {
+            // TODO: Jokainen tekstielementti on nyt oma piirtokutsu näytönohjaimelle.
+            Vector textSize = font.SpriteFont.MeasureString(text);
+            Graphics.FontRenderer.Begin();
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X/2, 0), color.ToSystemDrawing());
+            Graphics.FontRenderer.End();
+        }
+
+        /// <summary>
+        /// Piirtää tekstiä ruudulle
+        /// </summary>
+        /// <param name="text">Teksti</param>
+        /// <param name="position">Paikka</param>
+        /// <param name="font">Fontti</param>
+        /// <param name="color">Tekstin väri</param>
+        public static void DrawText(string text, Vector position, Font font, Color[] colors)
+        {
+            Vector textSize = font.SpriteFont.MeasureString(text);
+            Graphics.FontRenderer.Begin();
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), colors.ConvertAll((c) => c.ToSystemDrawing()).ToArray());
+            Graphics.FontRenderer.End();
+        }
+
+        /// <summary>
         /// Piirtää muodon ruudulle
         /// </summary>
         /// <param name="shape"></param>

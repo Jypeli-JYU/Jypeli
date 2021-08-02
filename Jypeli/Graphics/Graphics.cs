@@ -24,6 +24,7 @@
 #endregion
 
 using System;
+using Jypeli.Rendering;
 using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
@@ -37,6 +38,7 @@ namespace Jypeli
         //public static BasicEffect BasicColorEffect;
 
         //public static SpriteBatch SpriteBatch;
+        public static FontRenderer FontRenderer;
 
         // Having global batch objects saves memory.
         // The same batch object must not be used from more
@@ -98,6 +100,7 @@ namespace Jypeli
             */
             ImageBatch.Initialize();
             ShapeBatch.Initialize();
+            FontRenderer = new FontRenderer(Game.GraphicsDevice);
 
             ResetScreenSize();
 #if !LINUX

@@ -31,6 +31,14 @@ namespace Jypeli.Rendering
             TexCoordsY = (float)textureUV.Y;
         }
 
+        public void SetColor(System.Drawing.Color color)
+        {
+            ColorR = color.R / 255f;
+            ColorG = color.G / 255f;
+            ColorB = color.B / 255f;
+            ColorA = color.A / 255f;
+        }
+
         public override string ToString()
         {
             return $"Position: {Position}, Color: {ColorR}, {ColorG}, {ColorB}, {ColorA}, Texture: {TexCoordsX}, {TexCoordsY}";

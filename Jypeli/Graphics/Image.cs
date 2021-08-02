@@ -16,9 +16,6 @@ using ColorConverter = System.Converter<Jypeli.Color, Jypeli.Color>;
 // Ehkä vähän tyhmät viritelmät samannimisten luokkien ympärille...
 using SImage = SixLabors.ImageSharp.Image;
 using SXImage = SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>;
-using SixLabors.Fonts;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.Drawing;
 
 namespace Jypeli
 {
@@ -629,11 +626,11 @@ namespace Jypeli
         /// <param name="textColor"></param>
         public void DrawTextOnImage(string text, Font font, Color textColor)
         {
-            var glyphs = TextBuilder.GenerateGlyphs(text, new RendererOptions(font.FontSystem));
+            /*var glyphs = TextBuilder.GenerateGlyphs(text, new RendererOptions(font.FontSystem));
             
             IBrush brush = Brushes.Solid(SixLabors.ImageSharp.Color.FromRgb(textColor.RedComponent, textColor.GreenComponent, textColor.BlueComponent));
             
-            image.Mutate(x => x.Fill(brush, glyphs));
+            image.Mutate(x => x.Fill(brush, glyphs));*/ //TODO: 
 
             UpdateTexture();
         }

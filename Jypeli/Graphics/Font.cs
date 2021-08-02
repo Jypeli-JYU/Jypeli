@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Text;
-using SixLabors.Fonts;
 using System.IO;
-using System.ComponentModel;
-using System.Collections.Generic;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.Drawing;
-using static System.Net.Mime.MediaTypeNames;
-
-using SFont = SixLabors.Fonts.Font;
+using FontStashSharp;
 
 namespace Jypeli
 {
@@ -37,8 +30,8 @@ namespace Jypeli
         /// </summary>
         public static readonly Font DefaultBold = new Font(defaultFontBold, ContentSource.ResourceContent, 25);
 
-        private static FontCollection fontCollection;
-        private SFont font;
+        private FontSystem fontsystem;
+        private DynamicSpriteFont font;
         private string name;
         private int size;
         private ContentSource source;
@@ -46,12 +39,12 @@ namespace Jypeli
         private int blurAmount = 0;
         private int strokeAmount = 0;
 
-        internal FontCollection FontCollection
+        internal FontSystem FontSystem
         {
-            get { DoLoad(); return fontCollection; }
+            get { DoLoad(); return fontsystem; }
         }
 
-        internal SFont FontSystem
+        internal DynamicSpriteFont SpriteFont
         {
             get { DoLoad(); return font; }
         }
@@ -125,8 +118,7 @@ namespace Jypeli
         {
             get 
             {
-                var test = TextBuilder.GenerateGlyphs("X", new RendererOptions(font));
-                return test.Bounds.Width;
+                return SpriteFont.MeasureString("X").X;
             } // TODO: pitäisi todellisuudessa etsiä fontin suurin merkki ja katsoa sen mitat.
         }
 
@@ -135,10 +127,9 @@ namespace Jypeli
         /// </summary>
         public double CharacterHeight
         {
-            get 
+            get
             {
-                var test = TextBuilder.GenerateGlyphs("X", new RendererOptions(font)); // TODO: Cachea tämän tulos.
-                return test.Bounds.Height;
+                return SpriteFont.MeasureString("X").Y;
             }
         }
 
@@ -199,11 +190,11 @@ namespace Jypeli
 
         private void DoLoad()
         {
-            if (fontCollection == null) fontCollection = new FontCollection();
-            if(font is null)
+            if (fontsystem == null)
             {
-                FontFamily family = fontCollection.Install(Game.ResourceContent.StreamInternalFont("Roboto-Regular.ttf"));
-                font = family.CreateFont(size, FontStyle.Regular);
+                fontsystem = new FontSystem();
+                fontsystem.AddFont(Game.ResourceContent.StreamInternalFont("Roboto-Regular.ttf"));
+                font = fontsystem.GetFont(Size);
             }
         }
 
@@ -231,30 +222,7 @@ namespace Jypeli
         /// <returns>Kokovektori, nollavektori jos merkkiä ei ole määritelty</returns>
         public Vector GetCharacterSize(char c)
         {
-            var test = TextBuilder.GenerateGlyphs(c.ToString(), new RendererOptions(font)); // TODO: Cachea tämän tulos.
-            return new Vector(test.Bounds.Width, test.Bounds.Height);
-        }
-
-        /// <summary>
-        /// Katkaisee merkkijonon loppupäästä niin että se sopii annettuun
-        /// pikselileveyteen fontilla kirjoitettuna.
-        /// </summary>
-        /// <param name="str">Merkkijono</param>
-        /// <param name="maxLineWidth">Maksimipikselimäärä merkkijonolle</param>
-        /// <returns></returns>
-        public string TruncateText( string str, double maxLineWidth )
-        {
-            StringBuilder builder = new StringBuilder( str );
-            /*
-            double realWidth = FontCollection.MeasureString( str ).X;
-
-            while ( realWidth > maxLineWidth )
-            {
-                builder.Remove( builder.Length - 1, 1 );
-                realWidth = FontCollection.MeasureString( builder ).X;
-            }
-            */ // TODO: Font Truncate
-            return builder.ToString();
+            return SpriteFont.MeasureString(c.ToString());
         }
 
         /// <summary>
@@ -264,9 +232,29 @@ namespace Jypeli
         /// <returns>Vektorin, joka kertoo tekstin koon.</returns>
         public Vector MeasureSize(string str)
         {
-            DoLoad();
-            var test = TextBuilder.GenerateGlyphs(str, new RendererOptions(font));
-            return new Vector(test.Bounds.Width, test.Bounds.Height);
+            return SpriteFont.MeasureString(str);
+        }
+
+        /// <summary>
+        /// Katkaisee merkkijonon loppupäästä niin että se sopii annettuun
+        /// pikselileveyteen fontilla kirjoitettuna.
+        /// </summary>
+        /// <param name="str">Merkkijono</param>
+        /// <param name="maxLineWidth">Maksimipikselimäärä merkkijonolle</param>
+        /// <returns></returns>
+        public string TruncateText(string str, double maxLineWidth)
+        {
+            StringBuilder builder = new StringBuilder(str);
+
+            double realWidth = SpriteFont.MeasureString(str).X;
+
+            while (realWidth > maxLineWidth)
+            {
+                builder.Remove(builder.Length - 1, 1);
+                realWidth = SpriteFont.MeasureString(builder).X;
+            }
+
+            return builder.ToString();
         }
 
         private static void appendLine(StringBuilder dest, StringBuilder line)

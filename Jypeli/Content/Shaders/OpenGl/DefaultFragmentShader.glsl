@@ -16,5 +16,7 @@ void main()
         FragColor = fCol;
     } else if(type == 1){ // texture
         FragColor = texture(screenTexture, texCoords);
+    }else if(type == 2){ // Colored texture
+        FragColor = texture(screenTexture, texCoords) * fCol;
     }
 }

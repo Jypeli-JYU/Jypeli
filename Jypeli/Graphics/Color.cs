@@ -350,6 +350,15 @@ namespace Jypeli
             return ToIntRGB().ToString( "X6" );
         }
 
+        /// <summary>
+        /// Väri System.Drawing.Color tyyppinä
+        /// </summary>
+        /// <returns></returns>
+        public System.Drawing.Color ToSystemDrawing()
+        {
+            return System.Drawing.Color.FromArgb(AlphaComponent, RedComponent, GreenComponent, BlueComponent);
+        }
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static bool operator ==( Color c1, Color c2 )
         {

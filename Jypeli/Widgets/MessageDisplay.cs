@@ -45,7 +45,6 @@ namespace Jypeli
             public String Text;
             public Color Color;
             public TimeSpan Expires;
-            public Label label;
 
             public bool Expired
             {
@@ -60,7 +59,6 @@ namespace Jypeli
             public Message(string text, Color color, TimeSpan lifetime)
             {
                 Text = text;
-                label = new Label(text);
                 Color = color;
                 Expires = Game.Time.SinceStartOfGame + lifetime;
             }
@@ -162,24 +160,16 @@ namespace Jypeli
 
             UpdateSizeAndPosition();
         }
-        
+
         /// <inheritdoc/>
         public override void Draw(Matrix parentTransformation, Matrix transformation)
         {
-            if (messages.Count == 0)
-                return;
-
-            Matrix m =
-                Matrix.CreateTranslation((float)Position.X, (float)Position.Y, 0)
-                * parentTransformation;
-
-            for ( int i = 0; i < Math.Min(messages.Count, MaxMessageCount); i++ )
+            Graphics.FontRenderer.Begin();
+            for (int i = 0; i < Math.Min(messages.Count, MaxMessageCount); i++)
             {
-                messages[i].label.Top = Game.Screen.Height / 4 - i * fontHeight;
-                messages[i].label.Left = Left/2 - 10; // TODO: Miksi?
-                messages[i].label.Draw(parentTransformation, m);
+                Font.SpriteFont.DrawText(Graphics.FontRenderer, messages[i].Text, Position - new Vector(Width/2, (i + 0.5) * fontHeight - Height/2), messages[i].Color.ToSystemDrawing());
             }
-
+            Graphics.FontRenderer.End();
             base.Draw(parentTransformation, transformation);
         }
 
@@ -192,12 +182,13 @@ namespace Jypeli
 
             for (int i = 0; i < Math.Min(messages.Count, MaxMessageCount); i++)
             {
-                maxW = Math.Max(messages[i].label.Width, maxW);
-                heigth += messages[i].label.Height;
+                Vector dims = Font.SpriteFont.MeasureString(messages[i].Text);
+                maxW = Math.Max(maxW, dims.X);
+                heigth = Math.Max(heigth, dims.Y);
             }
 
             if (maxW > 0)
-                Size = new Vector(maxW, fontHeight * Math.Min(messages.Count, MaxMessageCount) * 2);
+                Size = new Vector(maxW, fontHeight * Math.Min(messages.Count, MaxMessageCount));
 
             Position = new Vector(-Game.Screen.Width / 2 + Width/2, Game.Screen.Height / 2 - Height/2); // TODO: Tää on huono
         }

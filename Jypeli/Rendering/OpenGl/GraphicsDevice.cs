@@ -97,7 +97,7 @@ namespace Jypeli.Rendering.OpenGl
             shader.Use();
 
             shader.SetUniform("world", normalized ? Matrix4x4.Identity : World * View * Projection);
-            shader.SetUniform("type", 1);
+            shader.SetUniform("type", normalized ? 1 : 2); // TODO: Pitäisikö tehdä omat shaderit tekstiä tms. varten, eikä yhtä ja samaa käyttää kaikkialla?
 
             Gl.DrawArrays((GLEnum)primitivetype, 0, numIndices);
         }
@@ -143,8 +143,8 @@ namespace Jypeli.Rendering.OpenGl
 
                 Gl.TexImage2D(TextureTarget.Texture2D, 0, InternalFormat.Rgba, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
 
-                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)GLEnum.Nearest); // TODO: Kuvalle itselleen asetus miten sitä skaalataan.
-                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)GLEnum.Nearest);
+                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)GLEnum.Linear); // TODO: Kuvalle itselleen asetus miten sitä skaalataan.
+                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)GLEnum.Linear);
             }
         }
 
@@ -157,8 +157,8 @@ namespace Jypeli.Rendering.OpenGl
 
                 Gl.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (uint)image.Width, (uint)image.Height, PixelFormat.Rgba, PixelType.UnsignedByte, data);
 
-                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)GLEnum.Nearest); // TODO: Entä jos halutaan vain muuttaa skaalausta, ilman kuvan datan muuttamista?
-                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)GLEnum.Nearest);
+                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)GLEnum.Linear); // TODO: Entä jos halutaan vain muuttaa skaalausta, ilman kuvan datan muuttamista?
+                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)GLEnum.Linear);
             }
         }
 

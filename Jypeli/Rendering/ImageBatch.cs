@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Jypeli.Rendering;
 
 using Matrix = System.Numerics.Matrix4x4;
+using System.Reflection.Metadata;
 
 #if !DISABLE_EFFECTS
 using Jypeli.Effects;
@@ -81,6 +82,12 @@ namespace Jypeli
             // GraphicsProfile.Reach maximum primitive count = 65535
             this.BufferSize = Math.Min( DefaultBufferSize, 65535 / 2 );
             vertexBuffer = new VertexPositionColorTexture[BufferSize * VerticesPerTexture];
+        }
+
+        public void Begin()
+        {
+            Matrix mat = Matrix.Identity;
+            Begin(ref mat, null);
         }
 
         public void Begin(ref Matrix matrix, Image texture)
@@ -169,6 +176,60 @@ namespace Jypeli
             vertexBuffer[startIndex + 4].TexCoordsY = (float)c.BottomRight.Y;
             vertexBuffer[startIndex + 5].TexCoordsX = (float)c.TopRight.X;
             vertexBuffer[startIndex + 5].TexCoordsY = (float)c.TopRight.Y;
+
+            iTexture++;
+        }
+
+        public void Draw(Image img, System.Numerics.Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, System.Numerics.Vector2 scale, float angle, System.Numerics.Vector2 origin, float depth)
+        {
+            Debug.Assert(beginHasBeenCalled);
+
+            if (iTexture >= BufferSize)
+                Flush();
+
+            texture = img;
+            float iw = img.Width;
+            float ih = img.Height;
+
+            System.Drawing.Rectangle rect = sourceRectangle.Value;
+
+            Matrix matrix =
+                Matrix.CreateScale(scale.X * rect.Width, scale.Y * rect.Height, 1f)
+                * Matrix.CreateRotationZ(angle)
+                * Matrix.CreateTranslation(position.X + rect.Width / 2 - origin.X, position.Y + origin.Y/2, 0);
+
+            Vector3[] transformedPoints = new Vector3[VerticesPerTexture];
+            Vector3.Transform(Vertices, ref matrix, transformedPoints);
+
+            uint startIndex = (iTexture * VerticesPerTexture);
+
+            for (int i = 0; i < VerticesPerTexture; i++)
+            {
+                uint bi = (uint)((iTexture * VerticesPerTexture) + i);
+                vertexBuffer[bi].Position = transformedPoints[i];
+            }
+
+            // Triangle 1
+            vertexBuffer[startIndex + 0].TexCoordsX = rect.X / iw;
+            vertexBuffer[startIndex + 0].TexCoordsY = rect.Y / ih;
+            vertexBuffer[startIndex + 0].SetColor(color);
+            vertexBuffer[startIndex + 1].TexCoordsX = rect.X / iw;
+            vertexBuffer[startIndex + 1].TexCoordsY = (rect.Y + rect.Height) / ih;
+            vertexBuffer[startIndex + 1].SetColor(color);
+            vertexBuffer[startIndex + 2].TexCoordsX = (rect.X + rect.Width) / iw;
+            vertexBuffer[startIndex + 2].TexCoordsY = rect.Y / ih;
+            vertexBuffer[startIndex + 2].SetColor(color);
+
+            // Triangle 2
+            vertexBuffer[startIndex + 3].TexCoordsX = rect.X / iw;
+            vertexBuffer[startIndex + 3].TexCoordsY = (rect.Y + rect.Height) / ih;
+            vertexBuffer[startIndex + 3].SetColor(color);
+            vertexBuffer[startIndex + 4].TexCoordsX = (rect.X + rect.Width) / iw;
+            vertexBuffer[startIndex + 4].TexCoordsY = (rect.Y + rect.Height) / ih;
+            vertexBuffer[startIndex + 4].SetColor(color);
+            vertexBuffer[startIndex + 5].TexCoordsX = (rect.X + rect.Width) / iw;
+            vertexBuffer[startIndex + 5].TexCoordsY = rect.Y / ih;
+            vertexBuffer[startIndex + 5].SetColor(color);
 
             iTexture++;
         }

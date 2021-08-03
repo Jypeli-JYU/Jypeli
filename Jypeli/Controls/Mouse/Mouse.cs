@@ -225,13 +225,6 @@ namespace Jypeli
             internalState.ScrollY += (int)arg2.Y;
         }
 
-        private static Vector GetPositionOnScreen(ScreenView screen, MouseState state)
-        {
-            Vector xnaPos = new Vector(state.PosX, state.PosY);
-            Vector pos = ScreenView.FromXnaCoords(xnaPos, screen.ViewportSize, Vector.Zero);
-            return pos.Transform(screen.GetScreenTransform());
-        }
-
         private static Vector GetPositionOnWorld(Vector pos)
         {
             return Game.Instance.Camera.ScreenToWorld(pos);
@@ -359,7 +352,7 @@ namespace Jypeli
 #else
             if (obj == null || obj.Layer == null || obj.IsDestroyed)
                 return false;
-            return obj.IsInside(Game.Instance.Camera.ScreenToWorld(GetPositionOnScreen(screen, state), obj.Layer));
+            return obj.IsInside(Game.Instance.Camera.ScreenToWorld(new Vector(state.PosX, state.PosY), obj.Layer));
 #endif
         }
 

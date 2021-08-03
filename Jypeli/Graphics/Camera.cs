@@ -194,14 +194,21 @@ namespace Jypeli
         /// </summary>
         public Vector ScreenToWorld(Vector point, Layer layer)
         {
-            // TODO: Nää ei toimi vielä oikein, mutta tätä käyttävä Mouse.ListenOn silti toimii.
-            // Sekä mitkä koordinaatit tämän oikeastaan pitäisi palauttaa? 
             if (layer == null)
                 return ScreenToWorld(point);
             if (layer.IgnoresZoom)
-                return Vector.ComponentProduct( Position, layer.RelativeTransition ) + point;
+            {
+                return point.Transform(Matrix4x4.CreateTranslation(-new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2)) *
+                                        Matrix4x4.CreateTranslation(new Vector(Position.X * layer.RelativeTransition.X, -Position.Y * layer.RelativeTransition.Y)) *
+                                        Matrix4x4.CreateScale(new Vector(1, -1)));
+            }
 
-            return Vector.ComponentProduct( Position, layer.RelativeTransition ) + ( 1 / ZoomFactor ) * point;
+            Matrix4x4 transform =
+                Matrix4x4.CreateTranslation(-new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2)) *
+                Matrix4x4.CreateScale(new Vector(1 / ZoomFactor, 1 / ZoomFactor)) *
+                Matrix4x4.CreateTranslation(new Vector(Position.X * layer.RelativeTransition.X, -Position.Y * layer.RelativeTransition.Y)) *
+                Matrix4x4.CreateScale(new Vector(1, -1));
+            return point.Transform(transform);
         }
 
         /// <summary>
@@ -210,6 +217,7 @@ namespace Jypeli
         /// </summary>
         public Vector WorldToScreen(Vector point, Layer layer)
         {
+            // TODO: Nää ei vielä toimi
             if ( layer == null )
                 return WorldToScreen( point );
             if ( layer.IgnoresZoom )

@@ -132,7 +132,7 @@ namespace Jypeli
         {
             //double widthInChars = Width / Font.Default.CharacterWidth;
             //return new InputBox( (int)widthInChars - 1 );
-            return new InputBox( 40 );
+            return new InputBox(40);
         }
 
         static void InputWindow_Closed( Window sender )

@@ -98,7 +98,10 @@ namespace Jypeli
         // TODO: Muut Farseerin tukemat törmäystapahtumat
         private bool OnCollided(Fixture fixtureA, Fixture fixtureB, Contact contact, CollisionHandler<IPhysicsBody, IPhysicsBody> func)
         {
-            func.Invoke(fixtureA.Body.owner, fixtureB.Body.owner);
+            // Jos törmäystapahtuman käsittelijässä kutsutaan jotain fysiikkamoottoriin vaikuttavaa funktiota, 
+            // Kuten esimerkiksi ClearAll, tuottaa tämän suorittaminen välittömästi ongelmia.
+            // Siksi suoritetaan kaikki törmäyskäsittelijät vasta aivan viimeisenä, jolloin moottori ei ole keskellä päivitystä.
+            Game.DoNextUpdate(() => func.Invoke(fixtureA.Body.owner, fixtureB.Body.owner));
 
             return true; // Huomioidaanko törmäyksessä fysiikka, eli jos palautetaan false, mennään toisen läpi.
                          // TODO: Kuinka toteuttaa käyttäjän tapahtumakäsittelijälle, ilman että kaikki vanha koodi hajoaa.

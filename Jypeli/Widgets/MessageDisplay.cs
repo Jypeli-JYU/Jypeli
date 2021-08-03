@@ -164,6 +164,8 @@ namespace Jypeli
         /// <inheritdoc/>
         public override void Draw(Matrix parentTransformation, Matrix transformation)
         {
+            if (messages.Count == 0)
+                return;
             Graphics.FontRenderer.Begin();
             for (int i = 0; i < Math.Min(messages.Count, MaxMessageCount); i++)
             {
@@ -175,16 +177,19 @@ namespace Jypeli
 
         private void UpdateSizeAndPosition()
         {
-            Color = Color.Gray;
+            if (messages.Count == 0)
+                Color = Color.Transparent;
+            else
+                Color = bgColor;
 
             double maxW = 0;
-            double heigth = 0;
+            double height = 0;
 
             for (int i = 0; i < Math.Min(messages.Count, MaxMessageCount); i++)
             {
                 Vector dims = Font.SpriteFont.MeasureString(messages[i].Text);
                 maxW = Math.Max(maxW, dims.X);
-                heigth = Math.Max(heigth, dims.Y);
+                height = Math.Max(height, dims.Y);
             }
 
             if (maxW > 0)

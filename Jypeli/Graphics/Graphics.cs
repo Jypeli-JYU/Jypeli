@@ -102,7 +102,6 @@ namespace Jypeli
             ShapeBatch.Initialize();
             FontRenderer = new FontRenderer(Game.GraphicsDevice);
 
-            ResetScreenSize();
 #if !LINUX
             //Game.GraphicsDevice.DeviceReset += GraphicsDevice_DeviceReset;
 #endif
@@ -138,10 +137,6 @@ namespace Jypeli
             //Game.GraphicsDevice.SamplerStates[0] = storedSamplerState;
         }
 
-        private static void GraphicsDevice_DeviceReset( object sender, EventArgs e )
-        {
-            ResetScreenSize();
-        }
     /*
         public static Effect GetTextureEffect( ref Matrix worldMatrix, Texture2D texture, bool lightingEnabled )
         {

@@ -210,7 +210,7 @@ namespace Jypeli
         {
             var options = WindowOptions.Default;
             options.Size = new Silk.NET.Maths.Vector2D<int>(1024, 768);
-            options.Title = "Jypeli!";
+            options.Title = Name;
 
             window = Silk.NET.Windowing.Window.Create(options);
 
@@ -218,6 +218,7 @@ namespace Jypeli
             window.Update += Update;
             window.Render += (a) => Draw(Time);
             window.Closing += OnExit;
+            window.Resize += (v) => OnResize(new Vector(v.X, v.Y));
 
 #if ANDROID
             GraphicsDeviceManager.PreferredBackBufferWidth = 800;
@@ -229,6 +230,11 @@ namespace Jypeli
         {
             if(!Headless)
                 AudioEnabled = true;
+        }
+
+        internal void OnResize(Vector size)
+        {
+            Screen.Resize(size);
         }
 
 		internal void OnNoAudioHardwareException()
@@ -290,9 +296,6 @@ namespace Jypeli
         [EditorBrowsable( EditorBrowsableState.Never )]
         protected void Initialize()
         {
-            if ( !windowSizeSet )
-                SetDefaultResolution();
-
             if ( !windowPositionSet )
                 CenterWindow();
 
@@ -336,9 +339,8 @@ namespace Jypeli
         /// </summary>
         /// <param name="gameTime"></param>
         [EditorBrowsable( EditorBrowsableState.Never )]
-        protected void Draw( Time gameTime )
+        protected void Draw(Time gameTime)
         {
-            //Console.WriteLine(gameTime.ElapsedGameTime.Milliseconds);
             UpdateFps(gameTime);
             GraphicsDevice.SetRenderTarget(Screen.RenderTarget);
             GraphicsDevice.Clear(Level.BackgroundColor);

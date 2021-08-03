@@ -104,5 +104,11 @@ namespace Jypeli.Rendering
         /// </summary>
         /// <param name="handle">Tekstuurin kahva</param>
         public void BindTexture(uint handle);
+
+        /// <summary>
+        /// Kutsuttava kun ikkunan kokoa muutetaan
+        /// </summary>
+        /// <param name="newSize"></param>
+        public void ResizeWindow(Vector newSize);
     }
 }

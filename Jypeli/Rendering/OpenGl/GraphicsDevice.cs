@@ -29,6 +29,7 @@ namespace Jypeli.Rendering.OpenGl
 
         private Shader shader;
 
+        /// <inheritdoc/>
         public Matrix4x4 World { get; set; }
         /// <inheritdoc/>
         public Matrix4x4 View { get; set; }
@@ -180,6 +181,12 @@ namespace Jypeli.Rendering.OpenGl
         {
             Gl.ActiveTexture(TextureUnit.Texture0);
             Gl.BindTexture(TextureTarget.Texture2D, handle);
+        }
+
+        /// <inheritdoc/>
+        public void ResizeWindow(Vector newSize)
+        {
+            Gl.Viewport(new System.Drawing.Size((int)newSize.X, (int)newSize.Y));
         }
     }
 }

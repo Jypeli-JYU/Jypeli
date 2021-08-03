@@ -27,6 +27,11 @@ namespace Jypeli.Rendering
         public void Bind();
 
         /// <summary>
+        /// Irroittaa tämän rendertargetin
+        /// </summary>
+        public void UnBind();
+
+        /// <summary>
         /// Kiinnittää tämän sisältävän tekstuurin näytönohjaimelle
         /// </summary>
         void BindTexture();

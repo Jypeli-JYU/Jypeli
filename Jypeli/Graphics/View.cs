@@ -33,7 +33,7 @@ using Silk.NET.Maths;
 
 using Matrix = System.Numerics.Matrix4x4;
 using Jypeli.Rendering;
-
+using System;
 namespace Jypeli
 {
     /// <summary>
@@ -84,7 +84,7 @@ namespace Jypeli
             //this._bgTex = new Texture2D( device, 1, 1 );
             //
             //PresentationParameters pp = device.PresentationParameters;
-            this._size = new Vector(1280, 720);
+            this._size = new Vector(Game.Instance.window.Size.X, Game.Instance.window.Size.Y);
         }
 
         /// <summary>
@@ -269,6 +269,13 @@ namespace Jypeli
             {
                 return Game.Instance.window.Size.Y;
             }
+        }
+
+        internal void Resize(Vector newSize)
+        {
+            _renderTarget = null;
+            _size = newSize;
+            Game.GraphicsDevice.ResizeWindow(newSize);
         }
 
         /// <summary>

@@ -58,7 +58,7 @@ namespace Jypeli.Rendering.OpenGl
 
             gl.GetError();
 
-            if(gl.CheckFramebufferStatus(GLEnum.Framebuffer) == GLEnum.FramebufferComplete)
+            if(gl.CheckFramebufferStatus(GLEnum.Framebuffer) != GLEnum.FramebufferComplete)
             {
                 Debug.WriteLine("Framebuffer is not complete");
             }

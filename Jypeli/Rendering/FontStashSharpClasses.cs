@@ -89,6 +89,11 @@ namespace Jypeli.Rendering
             _batch.Begin();
         }
 
+        public void Begin(ref Matrix4x4 transformation)
+        {
+            _batch.Begin(ref transformation, null);
+        }
+
         public void End()
         {
             _batch.End();

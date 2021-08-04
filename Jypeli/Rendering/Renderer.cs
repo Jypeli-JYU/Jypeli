@@ -306,12 +306,41 @@ namespace Jypeli
         /// <param name="text">Teksti</param>
         /// <param name="position">Paikka</param>
         /// <param name="font">Fontti</param>
-        /// <param name="color">Tekstin väri</param>
+        /// <param name="colors">Tekstin kirjainten väri</param>
         public static void DrawText(string text, Vector position, Font font, Color[] colors)
         {
             Vector textSize = font.SpriteFont.MeasureString(text);
             Graphics.FontRenderer.Begin();
             font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), colors.ConvertAll((c) => c.ToSystemDrawing()).ToArray());
+            Graphics.FontRenderer.End();
+        }
+
+        /// <summary>
+        /// Piirtää tekstiä ruudulle
+        /// </summary>
+        /// <param name="text">Teksti</param>
+        /// <param name="transformation">Transformaatiomatriisi</param>
+        /// <param name="font">Fontti</param>
+        /// <param name="color">Tekstin väri</param>
+        public static void DrawText(string text, ref Matrix transformation, Font font, Color color)
+        {
+            Vector textSize = font.SpriteFont.MeasureString(text);
+            Graphics.FontRenderer.Begin(ref transformation);
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, Vector.Zero, color.ToSystemDrawing());
+            Graphics.FontRenderer.End();
+        }
+
+        /// <summary>
+        /// Piirtää tekstiä ruudulle
+        /// </summary>
+        /// <param name="text">Teksti</param>
+        /// <param name="transformation">Transformaatiomatriisi</param>
+        /// <param name="font">Fontti</param>
+        /// <param name="colors">Tekstin kirjainten väri</param>
+        public static void DrawText(string text, ref Matrix transformation, Font font, Color[] colors)
+        {
+            Graphics.FontRenderer.Begin(ref transformation);
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, Vector.Zero, colors.ConvertAll((c) => c.ToSystemDrawing()).ToArray());
             Graphics.FontRenderer.End();
         }
 

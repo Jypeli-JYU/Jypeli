@@ -163,7 +163,6 @@ namespace Jypeli
         private void OnAdded()
         {
             cursorBlinkTimer.Start();
-
             // TODO: Should also work on android
 #if ANDROID
             ShowVirtualKeyboard();
@@ -245,7 +244,7 @@ namespace Jypeli
             int endPos = CursorPos - firstVisibleChar;
             double strLen = Font.MeasureSize(shownText.Substring(0, endPos < 0 ? 0 : endPos > shownText.Length ? shownText.Length : endPos)).X;
             Cursor.Left = Left + strLen + Cursor.Width*2;
-            
+            Cursor.Y = Y; // TODO: Isäntäelementin Y muuttuu kun ensimmäinen merkki syötetään.
         }
 
         private void MoveCursor(int dir)

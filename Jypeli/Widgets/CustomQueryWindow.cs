@@ -100,7 +100,7 @@ namespace Jypeli
 
 //#if ANDROID
             int maxWidth = (int)Game.Screen.Width - 30;
-            Message = new Label(Math.Min(maxWidth, Font.Default.MeasureSize(message).X), 100, message)
+            Message = new Label(Math.Min(maxWidth, Font.Default.MeasureSize(message).X), 50, message)
                 { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
 //#else
 // Wrapped text and layouts don't work that well together... :/

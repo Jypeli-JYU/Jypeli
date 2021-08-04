@@ -64,7 +64,7 @@ namespace Jypeli
         /// <summary>
         /// Puhelimen takaisin-näppäin.
         /// </summary>
-       // public BackButton PhoneBackButton { get; private set; }
+        public BackButton PhoneBackButton { get; private set; }
 
         /// <summary>
         /// Lista kaikista peliohjaimista järjestyksessä.
@@ -124,7 +124,7 @@ namespace Jypeli
 
             Keyboard = new Keyboard(input);
             Mouse = new Mouse(Screen, input);
-            //PhoneBackButton = new BackButton();
+            PhoneBackButton = new BackButton();
             TouchPanel = new TouchPanel(Screen);
 
             //GameControllers = new List<GamePad>( 4 );
@@ -138,7 +138,7 @@ namespace Jypeli
 #if !WINDOWS_PHONE && !ANDROID
             _controllers.Add(Mouse);
 #endif
-            _controllers.Add( Accelerometer );
+            _controllers.Add(Accelerometer);
             //_controllers.Add( TouchPanel );
 #if WINDOWS_PHONE || ANDROID
             _controllers.Add( PhoneBackButton );
@@ -146,8 +146,6 @@ namespace Jypeli
 #if NETCOREAPP
             //_controllers.AddRange( GameControllers );
 #endif
-
-            //IsMouseVisible = true;
         }
 
         private void UpdateControls( Time gameTime )

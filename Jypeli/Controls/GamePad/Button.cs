@@ -26,14 +26,14 @@
 /*
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
-
+using Buttons = Silk.NET.Input.ButtonName;
 
 namespace Jypeli
 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public enum Button
     {
-       /* DPadUp = Buttons.DPadUp,
+        DPadUp = Buttons.DPadUp,
         DPadDown = Buttons.DPadDown,
         DPadLeft = Buttons.DPadLeft,
         DPadRight = Buttons.DPadRight,
@@ -61,27 +61,28 @@ namespace Jypeli
         /// <summary>
         /// Vasen olkanappi.
         /// </summary>
-        LeftShoulder = Buttons.LeftShoulder,
+        LeftShoulder = Buttons.LeftBumper,
 
         /// <summary>
         /// Oikea olkanappi.
         /// </summary>
-        RightShoulder = Buttons.RightShoulder,
+        RightShoulder = Buttons.RightBumper,
 
-        BigButton = Buttons.BigButton,
+        BigButton = Buttons.Home,
         A = Buttons.A,
         B = Buttons.B,
         X = Buttons.X,
         Y = Buttons.Y,
 
+        //TODO: Loput nappulat
         /// <summary>
         /// Oikea liipasin.
         /// </summary>
-        RightTrigger = Buttons.RightTrigger,
+        //RightTrigger = Buttons.RightTrigger,
 
         /// <summary>
         /// Vasen liipasin.
         /// </summary>
-        LeftTrigger = Buttons.LeftTrigger*/
+        //LeftTrigger = Buttons.LeftTrigger
     }
 }

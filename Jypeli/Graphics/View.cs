@@ -243,6 +243,7 @@ namespace Jypeli
             get { return new Vector( RenderTarget.Width, RenderTarget.Height ); }
             set
             {
+                Game.Instance.window.Size = new Vector2D<int>((int)value.X, (int)value.Y);
                 _size.X = (int)value.X;
                 _size.Y = (int)value.Y;
                 _renderTarget = null;

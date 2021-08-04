@@ -37,8 +37,6 @@ namespace Jypeli
     public partial class Game
     {
         // fullscreen isn't used as default, because debug mode doesn't work well with it
-        private bool isFullScreenRequested = false;
-        private bool windowSizeSet = false;
         private bool windowPositionSet = false;
 
         internal IWindow window;
@@ -80,15 +78,6 @@ namespace Jypeli
         [Obsolete("Käytä kuva-olion Scaling ominaisuutta")]
         public static bool SmoothTextures { get; set; }
 
-        private void SetDefaultResolution()
-        {
-#if WINDOWS_STOREAPP || ANDROID
-            isFullScreenRequested = true;
-#else
-            SetWindowSize( 1024, 768, isFullScreenRequested );
-#endif
-        }
-
         /// <summary>
         /// Asettaa ikkunan paikan. Huomaa että origo on vasemmassa yläreunassa.
         /// </summary>
@@ -105,21 +94,16 @@ namespace Jypeli
         /// </summary>
         public void CenterWindow()
         {
-            // TODO: SILK: CenterWindow
-            //int W = (int)GraphicsDevice.DisplayMode.Width;
-            //int H = (int)GraphicsDevice.DisplayMode.Height;
-            //int w = (int)GraphicsDeviceManager.PreferredBackBufferWidth;
-			//int h = (int)GraphicsDeviceManager.PreferredBackBufferHeight;
+            // Onko mahdollista että arvoa ei ole?
+            if (!window.VideoMode.Resolution.HasValue)
+                return;
 
-            //TODO: How to do this now?
-#if WINDOWS
-            //int borderwidth = GetSystemMetrics( 32 ); // SM_CXFRAME
-            //int titleheight = GetSystemMetrics( 30 ); // SM_CXSIZE
-            //w += 2 * borderwidth;
-            //h += titleheight + 2 * borderwidth;
-#endif
+            int W = window.VideoMode.Resolution.Value.X;
+            int H = window.VideoMode.Resolution.Value.Y;
+            int w = window.Size.X;
+            int h = window.Size.Y;
 
-            //SetWindowPosition( ( W - w ) / 2, ( H - h ) / 2 );
+            SetWindowPosition((W - w) / 2, (H - h) / 2);
 
         }
 
@@ -128,14 +112,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
-        public void SetWindowSize( int width, int height )
+        public void SetWindowSize(int width, int height)
         {
-            // WP have a limited set of supported resolutions
-            // Use Phone.DisplayResolution instead
-            // For RT, use Screen.Size to scale down from native
-#if !WINDOWS_PHONE && !WINRT
-            DoSetWindowSize( width, height, IsFullScreen );
-#endif
+            SetWindowSize(width, height, IsFullScreen);
         }
 
         /// <summary>
@@ -145,68 +124,17 @@ namespace Jypeli
         /// <param name="height">Korkeus.</param>
         /// <param name="fullscreen">Koko ruutu jos <c>true</c>, muuten ikkuna.</param>
         /// <returns></returns>
-        public void SetWindowSize( int width, int height, bool fullscreen )
+        public void SetWindowSize(int width, int height, bool fullscreen)
         {
-            // WP has a limited set of supported resolutions
-            // Use Phone.DisplayResolution instead
-            // For RT, use Screen.Size to scale down from native
-#if !WINDOWS_PHONE && !WINRT
-            DoSetWindowSize( width, height, fullscreen );
-#endif
-        }
+            IsFullScreen = fullscreen;
 
-        /// <summary>
-        /// Asettaa ikkunan koon ja alustaa pelin käyttämään joko ikkunaa tai koko ruutua.
-        /// </summary>
-        /// <param name="width">Leveys.</param>
-        /// <param name="height">Korkeus.</param>
-        /// <param name="fullscreen">Koko ruutu jos <c>true</c>, muuten ikkuna.</param>
-        /// <returns></returns>
-        internal void DoSetWindowSize (int width, int height, bool fullscreen)
-		{
-            //TODO: DO this without previously imported dll, or is this no longer needed?
-
-            // For high-DPI support
-            //System.Drawing.Graphics graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
-            //IntPtr hdc = graphics.GetHdc();
-            //int logicalScreenHeight = GetDeviceCaps(hdc, (int)DeviceCap.VERTRES);
-            //int physicalScreenHeight = GetDeviceCaps(hdc, (int)DeviceCap.DESKTOPVERTRES);
-            //graphics.ReleaseHdc(hdc);
-            //graphics.Dispose();
-            
-            //float scaleFactor = (float)logicalScreenHeight / (float)physicalScreenHeight;
-            
-            //width = (int)(width * scaleFactor);
-            //height = (int)(height * scaleFactor);
-
-
-            //GraphicsDeviceManager.PreferredBackBufferWidth = width;
-			//GraphicsDeviceManager.PreferredBackBufferHeight = height;
-            //GraphicsDeviceManager.IsFullScreen = fullscreen; // TODO: SILK DoSetWindowSize
-
-            //TODO: is this needed?
-#if LINUX
-			//if (fullscreen) {
-			//	GraphicsDeviceManager.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-			//	GraphicsDeviceManager.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-			//}
-#endif
-
-            //GraphicsDeviceManager.ApplyChanges ();
-			isFullScreenRequested = fullscreen;
-
-			if (Screen != null) {
-				Screen.Size = new Vector (width, height);
-                //TODO: What about this?
-#if LINUX
-				Screen.ScaleToFit ();
-#endif
+            if (Screen != null) // Ei pitäisi ikinä olla null.
+            {
+                Screen.Size = new Vector(width, height);
             }
 
-            windowSizeSet = true;
+            OnResize(new Vector(width, height));
 
-            //if ( GraphicsDevice != null )
-            //    CenterWindow();
         }
 
         /// <summary>

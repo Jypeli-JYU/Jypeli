@@ -217,13 +217,18 @@ namespace Jypeli
         /// </summary>
         public Vector WorldToScreen(Vector point, Layer layer)
         {
-            // TODO: Nää ei vielä toimi
-            if ( layer == null )
-                return WorldToScreen( point );
-            if ( layer.IgnoresZoom )
-                return point - Vector.ComponentProduct( Position, layer.RelativeTransition );
-
-            return ( point - Vector.ComponentProduct( Position, layer.RelativeTransition ) ) * ZoomFactor;
+            if (layer == null)
+                return WorldToScreen(point);
+            if (layer.IgnoresZoom)
+                return point.Transform(Matrix4x4.CreateScale(new Vector(1, -1)) *
+                                        Matrix4x4.CreateTranslation(new Vector(-Position.X * layer.RelativeTransition.X, Position.Y * layer.RelativeTransition.Y)) *
+                                        Matrix4x4.CreateTranslation(new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2)));
+            Matrix4x4 transform =
+                           Matrix4x4.CreateScale(new Vector(1, -1)) *
+                           Matrix4x4.CreateTranslation(new Vector(-Position.X * layer.RelativeTransition.X, Position.Y * layer.RelativeTransition.Y)) *
+                           Matrix4x4.CreateScale(new Vector(ZoomFactor, ZoomFactor)) *
+                           Matrix4x4.CreateTranslation(new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2));
+            return point.Transform(transform);
         }
 
         /// <summary>

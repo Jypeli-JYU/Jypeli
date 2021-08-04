@@ -77,10 +77,7 @@ namespace Jypeli
 
         public void Initialize()
         {
-            //var capabilities = Game.GraphicsDevice.GraphicsDeviceCapabilities;
-            // Capabilities no longer supported in XNA 4.0
-            // GraphicsProfile.Reach maximum primitive count = 65535
-            this.BufferSize = Math.Min( DefaultBufferSize, 65535 / 2 );
+            this.BufferSize = Game.GraphicsDevice.BufferSize/6;
             vertexBuffer = new VertexPositionColorTexture[BufferSize * VerticesPerTexture];
         }
 
@@ -92,7 +89,7 @@ namespace Jypeli
 
         public void Begin(ref Matrix matrix, Image texture)
         {
-            Debug.Assert( !beginHasBeenCalled );
+            Debug.Assert(!beginHasBeenCalled);
             beginHasBeenCalled = true;
 
             this.matrix = matrix;
@@ -102,23 +99,23 @@ namespace Jypeli
 
         public void End()
         {
-            Debug.Assert( beginHasBeenCalled );
+            Debug.Assert(beginHasBeenCalled);
 
             Flush();
 
-            uint textureCount = iTexture;
             beginHasBeenCalled = false;
         }
 
         private void Flush()
         {
-            if ( iTexture > 0 )
+            if (iTexture > 0)
             {
                 if (texture.handle == 0)
                 {
                     // Viedään tekstuuri näytönohjaimelle kun sitä ensimmäisen kerran käytetään.
                     Game.GraphicsDevice.LoadImage(texture);
-                } else if (texture.dirty)
+                }
+                else if (texture.dirty)
                 {
                     // Jos kuvan data on muuttunut, pitää se viedä uudestaan.
                     Game.GraphicsDevice.UpdateTextureData(texture);
@@ -130,37 +127,37 @@ namespace Jypeli
 
                 Game.GraphicsDevice.DrawUserPrimitives(
                     PrimitiveType.OpenGlTriangles,
-                    vertexBuffer, iTexture*6);
-                
+                    vertexBuffer, iTexture * 6);
+
                 Graphics.ResetSamplerState();
             }
 
             iTexture = 0;
         }
 
-        public void Draw( TextureCoordinates c, Vector position, Vector size, float angle )
+        public void Draw(TextureCoordinates c, Vector position, Vector size, float angle)
         {
-            Debug.Assert( beginHasBeenCalled );
+            Debug.Assert(beginHasBeenCalled);
 
-            if ( iTexture >= BufferSize )
+            if (iTexture >= BufferSize)
                 Flush();
 
             Matrix matrix =
-                Matrix.CreateScale((float)size.X, (float)size.Y, 1f )
-                * Matrix.CreateRotationZ( angle )
-                * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0 )
-                ;
+                Matrix.CreateScale((float)size.X, (float)size.Y, 1f)
+                * Matrix.CreateRotationZ(angle)
+                * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0);
+
             Vector3[] transformedPoints = new Vector3[VerticesPerTexture];
-            Vector3.Transform( Vertices, ref matrix, transformedPoints );
+            Vector3.Transform(Vertices, ref matrix, transformedPoints);
 
-            uint startIndex = ( iTexture * VerticesPerTexture );
+            uint startIndex = (iTexture * VerticesPerTexture);
 
-            for ( int i = 0; i < VerticesPerTexture; i++ )
+            for (int i = 0; i < VerticesPerTexture; i++)
             {
                 uint bi = (uint)((iTexture * VerticesPerTexture) + i);
                 vertexBuffer[bi].Position = transformedPoints[i];
             }
-            
+
             // Triangle 1
             vertexBuffer[startIndex + 0].TexCoordsX = (float)c.TopLeft.X;
             vertexBuffer[startIndex + 0].TexCoordsY = (float)c.TopLeft.Y;
@@ -196,7 +193,7 @@ namespace Jypeli
             Matrix matrix =
                 Matrix.CreateScale(scale.X * rect.Width, scale.Y * rect.Height, 1f)
                 * Matrix.CreateRotationZ(angle)
-                * Matrix.CreateTranslation(position.X + rect.Width / 2 - origin.X, position.Y + origin.Y/2, 0);
+                * Matrix.CreateTranslation(position.X + rect.Width / 2 - origin.X, position.Y + origin.Y / 2, 0);
 
             Vector3[] transformedPoints = new Vector3[VerticesPerTexture];
             Vector3.Transform(Vertices, ref matrix, transformedPoints);

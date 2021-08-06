@@ -50,7 +50,7 @@ namespace Jypeli.Rendering
         /// <param name="vertexBuffer">Luettelo vertekseistä</param>
         /// <param name="numIndices">Indeksien määrä</param>
         /// <param name="indexBuffer">indeksit</param>
-        public void DrawUserIndexedPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] vertexBuffer, uint numIndices, uint[] indexBuffer);
+        public void DrawIndexedPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] vertexBuffer, uint numIndices, uint[] indexBuffer);
 
         /// <summary>
         /// Piirtää indeksoimattomat verteksit.
@@ -59,7 +59,16 @@ namespace Jypeli.Rendering
         /// <param name="textureVertices">Luettelo vertekseistä</param>
         /// <param name="count">Määrä</param>
         /// <param name="normalized">Onko verteksit normalisoitu ruutukoordinaatteihin</param>
-        public void DrawUserPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] textureVertices, uint count, bool normalized = false);
+        public void DrawPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] textureVertices, uint count, bool normalized = false);
+
+        /// <summary>
+        /// Piirtää indeksoimattomat verteksit.
+        /// </summary>
+        /// <param name="primitivetype">Verteksien tyyppi</param>
+        /// <param name="textureVertices">Luettelo vertekseistä</param>
+        /// <param name="count">Määrä</param>
+        /// <param name="normalized">Onko verteksit normalisoitu ruutukoordinaatteihin</param>
+        public void DrawPrimitivesInstanced(PrimitiveType primitivetype, VertexPositionColorTexture[] textureVertices, uint count, bool normalized = false);
 
         /// <summary>
         /// Asettaa rendertargetin.

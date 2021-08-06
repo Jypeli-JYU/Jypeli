@@ -89,7 +89,7 @@ namespace Jypeli
                 for ( int i = 0; i < effect.CurrentTechnique.Passes.Count; i++ )
                     effect.CurrentTechnique.Passes[i].Apply();*/
                 Game.GraphicsDevice.World = matrix;
-                Game.GraphicsDevice.DrawUserIndexedPrimitives(
+                Game.GraphicsDevice.DrawIndexedPrimitives(
                     PrimitiveType.OpenGlTriangles,
                     vertexBuffer, iIndexBuffer,
                     indexBuffer);

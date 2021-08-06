@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
+using System.Runtime.InteropServices;
 using Jypeli.Rendering;
-
 using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli.Effects
@@ -21,7 +22,7 @@ namespace Jypeli.Effects
     /// <summary>
     /// Järjestelmä partikkelien käsittelyyn
     /// </summary>
-    public class ParticleSystem : GameObject
+    public unsafe class ParticleSystem : GameObject
     {
         private Random random = new Random();
 
@@ -128,11 +129,11 @@ namespace Jypeli.Effects
         /// <summary>
         /// Vaikuttaako efektiin tuuli
         /// </summary>
-        public Boolean IgnoreWind { get; set; }
+        public bool IgnoreWind { get; set; }
 
-        private Boolean visible = true;
-        private Boolean fadeIn = false;
-        private Boolean fadeOut = false;
+        private bool visible = true;
+        private bool fadeIn = false;
+        private bool fadeOut = false;
         private double originalAlpha = 1.0;
         private double fadeTime = 0.0;
         private double fadeTimePassed = 0.0;
@@ -187,7 +188,36 @@ namespace Jypeli.Effects
             {
                 freeParticles.Enqueue(new Particle());
             }
+
+            gl = ((Rendering.OpenGl.GraphicsDevice)Game.GraphicsDevice).Gl;
+
+            shader = new Rendering.OpenGl.Shader(gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGl.ParticleVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.ParticleFragmentShader.glsl"));
+
+            Vector4[] positions = new Vector4[maxAmountOfParticles]; // Varataan näytönohjaimelta muistia jokaiselle partikkelille.
+
+            vertexbuffer = new Rendering.OpenGl.BufferObject<VertexPositionColorTexture>(gl, vertices, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer);
+            Vao = new Rendering.OpenGl.VertexArrayObject<VertexPositionColorTexture, Vector4>(gl, vertexbuffer, null);
+
+            // TODO: Tämä on hieman ruma ja kaipaisi jonkinlaista abstraktiota.
+            Vao.VertexAttributePointer(0, 3, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 0);
+            Vao.VertexAttributePointer(1, 4, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 12);
+            Vao.VertexAttributePointer(2, 2, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 28);
+
+            positionBuffer = new Rendering.OpenGl.BufferObject<Vector4>(gl, positions, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer); // x, y, kulma, koko
+
+            positionBuffer.Bind();
+            gl.EnableVertexAttribArray(3);
+            gl.VertexAttribPointer(3, 4, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(Vector4), (void*)0);
+            gl.VertexAttribDivisor(3, 1);
+
+            gl.BindBuffer(Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer, 0);
         }
+        Rendering.OpenGl.VertexArrayObject<VertexPositionColorTexture, Vector4> Vao;
+        Rendering.OpenGl.BufferObject<VertexPositionColorTexture> vertexbuffer;
+        Rendering.OpenGl.BufferObject<Vector4> positionBuffer;
+
+        Silk.NET.OpenGL.GL gl;
+        IShader shader;
 
         /// <summary>
         /// Metodi joka asettaa partikkeleille attribuutit
@@ -268,6 +298,12 @@ namespace Jypeli.Effects
             p.Initialize(position, scale, rotation, rotationSpeed, velocity * direction, acceleration * direction, lifetime);
         }
 
+        /// <summary>
+        /// Alustaa yhden partikkelin
+        /// </summary>
+        /// <param name="p">Partikkeli joka alustetaan</param>
+        /// <param name="position">Sijainti johon alustetaan</param>
+        /// <param name="angle">Partikkelin alkukulma</param>
         protected virtual void InitializeParticle(Particle p, Vector position, Angle angle)
         {
             Vector direction = GiveRandomDirection();
@@ -334,113 +370,73 @@ namespace Jypeli.Effects
         }
 
 
-        static readonly Vector textureTopLeft = new Vector(0.0f, 0.0f);
-        static readonly Vector textureBottomLeft = new Vector(0.0f, 1.0f);
-        static readonly Vector textureTopRight = new Vector(1.0f, 0.0f);
-        static readonly Vector textureBottomRight = new Vector(1.0f, 1.0f);
+        private static readonly Vector textureTopLeft = new Vector(0.0f, 0.0f);
+        private static readonly Vector textureBottomLeft = new Vector(0.0f, 1.0f);
+        private static readonly Vector textureTopRight = new Vector(1.0f, 0.0f);
+        private static readonly Vector textureBottomRight = new Vector(1.0f, 1.0f);
 
-        static readonly Vector3 topLeft = new Vector3(-0.5f, 0.5f, 0);
-        static readonly Vector3 bottomLeft = new Vector3(-0.5f, -0.5f, 0);
-        static readonly Vector3 topRight = new Vector3(0.5f, 0.5f, 0);
-        static readonly Vector3 bottomRight = new Vector3(0.5f, -0.5f, 0);
+        private static readonly Vector3 topLeft = new Vector3(-0.5f, 0.5f, 0);
+        private static readonly Vector3 bottomLeft = new Vector3(-0.5f, -0.5f, 0);
+        private static readonly Vector3 topRight = new Vector3(0.5f, 0.5f, 0);
+        private static readonly Vector3 bottomRight = new Vector3(0.5f, -0.5f, 0);
 
-        static readonly VertexPositionColorTexture[] vertices =
+        private static readonly VertexPositionColorTexture[] vertices =
         {
             // Triangle 1
-            new VertexPositionColorTexture(topLeft, Color.Transparent, textureTopLeft),
             new VertexPositionColorTexture(bottomLeft, Color.Transparent, textureBottomLeft),
-            new VertexPositionColorTexture(topRight, Color.Transparent, textureTopRight),
+            new VertexPositionColorTexture(topLeft, Color.Transparent, textureTopLeft),
+            new VertexPositionColorTexture(bottomRight, Color.Transparent, textureBottomRight),
 
             // Triangle 2
-            new VertexPositionColorTexture(bottomLeft, Color.Transparent, textureBottomLeft),
             new VertexPositionColorTexture(bottomRight, Color.Transparent, textureBottomRight),
+            new VertexPositionColorTexture(topLeft, Color.Transparent, textureTopLeft),
             new VertexPositionColorTexture(topRight, Color.Transparent, textureTopRight),
         };
-        /*
-        private static BlendState ToXnaBlendState(BlendMode mode)
-        {
-            switch (mode)
-            {
-                case BlendMode.Alpha:
-                    return BlendState.AlphaBlend;
-                case BlendMode.Additive:
-                    return BlendState.Additive;
-                default:
-                    return BlendState.AlphaBlend;
-            }
-        }*/
 
-        internal void Draw(Matrix worldMatrix)
+        private List<Vector4> particledata = new List<Vector4>(); // 
+
+        internal unsafe void Draw(Matrix worldMatrix)
         {
-            /*
+            if (particles.Count == 0)
+                return;
+
+            foreach (Particle p in particles)
+            {
+                particledata.Add(new Vector4(p.Position, (float)p.Rotation, (float)p.Scale));
+            }
+
+            positionBuffer.UpdateBuffer(0, CollectionsMarshal.AsSpan(particledata));
+
             var device = Game.GraphicsDevice;
-            var effect = Graphics.BasicTextureEffect;
 
-            Texture2D texture = ParticleImage.XNATexture;
+            // TODO: Läpinäkyvyys
 
-            device.RasterizerState = RasterizerState.CullClockwise;
-            device.SamplerStates[0] = SamplerState.LinearClamp;
-            device.BlendState = ToXnaBlendState(BlendMode);
-            
-            effect.Texture = texture;
-            effect.CurrentTechnique.Passes[0].Apply();
+            shader.Use();
+            shader.SetUniform("world", worldMatrix * device.View * device.Projection); 
 
-            if (OuterParticleImage == null)
+            if (OuterParticleImage is not null)
             {
-                foreach (Particle p in particles)
-                {
-                    double nTime = p.Lifetime.TotalMilliseconds / p.MaxLifetime.TotalMilliseconds;
-                    double alpha = 4 * nTime * (1 - nTime) * AlphaAmount;
-                    float scale = (float)(p.Scale * (.75f + .25f * nTime * ScaleAmount));
+                if (OuterParticleImage.handle == 0)
+                    device.LoadImage(OuterParticleImage);
 
-                    Matrix matrix =
-                        Matrix.CreateScale(scale * texture.Width / texture.Height, scale, 1f)
-                        * Matrix.CreateRotationZ((float)p.Rotation)
-                        * Matrix.CreateTranslation((float)p.Position.X, (float)p.Position.Y, 0f)
-                        * worldMatrix
-                        ;
+                device.BindTexture(OuterParticleImage.handle);
 
-                    effect.Alpha = (float)alpha;
-                    effect.World = matrix;
-                    effect.CurrentTechnique.Passes[0].Apply();
+                shader.SetUniform("scale", 1f);
 
-                    device.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                }
+                Vao.Bind();
+
+                gl.DrawArraysInstanced(Silk.NET.OpenGL.GLEnum.Triangles, 0, 6, (uint)particles.Count);
             }
-            else
-            {
-                Texture2D outerTexture = OuterParticleImage.XNATexture;
 
-                foreach (Particle p in particles)
-                {
-                    double nTime = p.Lifetime.TotalMilliseconds / p.MaxLifetime.TotalMilliseconds;
-                    double alpha = 4 * nTime * (1 - nTime) * AlphaAmount;
-                    float scale = (float)(p.Scale * (.75f + .25f * nTime * ScaleAmount));
+            if (ParticleImage.handle == 0)
+                device.LoadImage(ParticleImage);
 
-                    Matrix matrix =
-                        Matrix.CreateScale(scale, scale, 1f)
-                        * Matrix.CreateRotationZ((float)p.Rotation)
-                        * Matrix.CreateTranslation((float)p.Position.X, (float)p.Position.Y, 0f)
-                        * worldMatrix
-                        ;
-                    Matrix matrix2 =
-                        Matrix.CreateScale(0.65f, 0.65f, 1f)
-                        * matrix;
+            device.BindTexture(ParticleImage.handle);
+            shader.SetUniform("scale", 0.75f);
+            Vao.Bind();
 
-                    effect.Texture = texture;
-                    effect.Alpha = (float)alpha;
-                    effect.World = matrix;
-                    effect.CurrentTechnique.Passes[0].Apply();
-
-                    device.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-
-                    effect.Texture = outerTexture;
-                    effect.World = matrix2;
-                    effect.CurrentTechnique.Passes[0].Apply();
-
-                    device.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                }
-            }*/
+            gl.DrawArraysInstanced(Silk.NET.OpenGL.GLEnum.Triangles, 0, 6, (uint)particles.Count);
+            particledata.Clear();
         }
     }
 }

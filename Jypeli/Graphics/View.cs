@@ -459,7 +459,7 @@ namespace Jypeli
                 new VertexPositionColorTexture(new Vector3(1f, 1f, 0), Color.Transparent, new Vector(1f, 1f))
             };
             RenderTarget.BindTexture();
-            Game.GraphicsDevice.DrawUserPrimitives(PrimitiveType.OpenGlTriangles, textureVertices, 6, true);
+            Game.GraphicsDevice.DrawPrimitives(PrimitiveType.OpenGlTriangles, textureVertices, 6, true);
             RenderTarget.UnBindTexture();
             /*
             Matrix rotate = Matrix.CreateRotationZ(angle);

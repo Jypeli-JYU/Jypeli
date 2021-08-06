@@ -61,15 +61,15 @@ namespace Jypeli.Rendering.OpenGl
             Vbo = new BufferObject<VertexPositionColorTexture>(Gl, Vertices, BufferTargetARB.ArrayBuffer);
             Vao = new VertexArrayObject<VertexPositionColorTexture, uint>(Gl, Vbo, Ebo);
 
-            Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, 1, 0);
-            Vao.VertexAttributePointer(1, 4, VertexAttribPointerType.Float, 1, 12);
-            Vao.VertexAttributePointer(2, 2, VertexAttribPointerType.Float, 1, 28);
+            Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 0);
+            Vao.VertexAttributePointer(1, 4, VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 12);
+            Vao.VertexAttributePointer(2, 2, VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 28);
 
             shader = new Shader(Gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultFragmentShader.glsl"));
         }
 
         /// <inheritdoc/>
-        public void DrawUserIndexedPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] vertexBuffer, uint numIndices, uint[] indexBuffer)
+        public void DrawIndexedPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] vertexBuffer, uint numIndices, uint[] indexBuffer)
         {
             Gl.Enable(GLEnum.Blend);
             Gl.BlendFunc(GLEnum.SrcAlpha, GLEnum.OneMinusSrcAlpha);
@@ -87,7 +87,7 @@ namespace Jypeli.Rendering.OpenGl
         }
 
         /// <inheritdoc/>
-        public void DrawUserPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] vertexBuffer, uint numIndices, bool normalized = false)
+        public void DrawPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] vertexBuffer, uint numIndices, bool normalized = false)
         {
             Gl.Enable(GLEnum.Blend);
             Gl.BlendFunc(GLEnum.SrcAlpha, GLEnum.OneMinusSrcAlpha);
@@ -101,6 +101,13 @@ namespace Jypeli.Rendering.OpenGl
             shader.SetUniform("type", normalized ? 1 : 2); // TODO: Pitäisikö tehdä omat shaderit tekstiä tms. varten, eikä yhtä ja samaa käyttää kaikkialla?
 
             Gl.DrawArrays((GLEnum)primitivetype, 0, numIndices);
+        }
+
+        /// <inheritdoc/>
+        public void DrawPrimitivesInstanced(PrimitiveType primitivetype, VertexPositionColorTexture[] textureVertices, uint count, bool normalized = false)
+        {
+            
+            Gl.DrawArraysInstanced((GLEnum)primitivetype, 0, 4, count);
         }
 
         /// <inheritdoc/>

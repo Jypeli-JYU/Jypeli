@@ -34,8 +34,8 @@ namespace Jypeli
     /// </summary>
     internal static class Graphics
     {
-        //public static BasicEffect BasicTextureEffect;
-        //public static BasicEffect BasicColorEffect;
+        public static IShader BasicTextureEffect;
+        public static IShader BasicColorEffect;
 
         //public static SpriteBatch SpriteBatch;
         public static FontRenderer FontRenderer;

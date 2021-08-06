@@ -41,6 +41,7 @@ namespace Jypeli.Effects
             MinRotationSpeed = -MathHelper.PiOver4;
             MaxRotationSpeed = MathHelper.PiOver4;
 
+            base.InitializeParticles();
         }
 
         /// <summary>

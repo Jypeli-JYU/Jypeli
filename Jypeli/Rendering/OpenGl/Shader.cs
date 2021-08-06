@@ -9,7 +9,7 @@ using Silk.NET.OpenGL;
 
 namespace Jypeli.Rendering.OpenGl
 {
-    public class Shader : IDisposable
+    public class Shader : IShader, IDisposable
     {
         //Our handle and the GL instance this class will use, these are private because they have no reason to be public.
         //Most of the time you would want to abstract items to make things like this invisible.
@@ -42,13 +42,14 @@ namespace Jypeli.Rendering.OpenGl
             _gl.DeleteShader(fragment);
         }
 
+        /// <inheritdoc/>
         public void Use()
         {
             //Using the program
             _gl.UseProgram(_handle);
         }
 
-        //Uniforms are properties that applies to the entire geometry
+        /// <inheritdoc/>
         public void SetUniform(string name, int value)
         {
             //Setting a uniform on a shader using a name.
@@ -61,6 +62,7 @@ namespace Jypeli.Rendering.OpenGl
             _gl.Uniform1(location, value);
         }
 
+        /// <inheritdoc/>
         public void SetUniform(string name, float value)
         {
             int location = _gl.GetUniformLocation(_handle, name);
@@ -72,6 +74,7 @@ namespace Jypeli.Rendering.OpenGl
             _gl.Uniform1(location, value);
         }
 
+        /// <inheritdoc/>
         public void SetUniform(string name, Vector4 value)
         {
             int location = _gl.GetUniformLocation(_handle, name);
@@ -83,6 +86,7 @@ namespace Jypeli.Rendering.OpenGl
             _gl.Uniform4(location, value);
         }
 
+        /// <inheritdoc/>
         public unsafe void SetUniform(string name, Vector3[] value)
         {
             int location = _gl.GetUniformLocation(_handle, name);
@@ -95,6 +99,7 @@ namespace Jypeli.Rendering.OpenGl
             _gl.Uniform3(location, (uint)value.Length, Unsafe.AsRef<float>(Unsafe.AsPointer(ref value)));
         }
 
+        /// <inheritdoc/>
         public void SetUniform(string name, Vector2 value)
         {
             int location = _gl.GetUniformLocation(_handle, name);
@@ -106,6 +111,7 @@ namespace Jypeli.Rendering.OpenGl
             _gl.Uniform2(location, value);
         }
 
+        /// <inheritdoc/>
         public unsafe void SetUniform(string name, Matrix4x4 value)
         {
             //A new overload has been created for setting a uniform so we can use the transform in our shader.
@@ -118,6 +124,7 @@ namespace Jypeli.Rendering.OpenGl
             _gl.UniformMatrix4(location, 1, false, (float*)&value);
         }
 
+        /// <inheritdoc/>
         public unsafe void SetUniform(string name, float[] value)
         {
             //A new overload has been created for setting a uniform so we can use the transform in our shader.
@@ -130,6 +137,7 @@ namespace Jypeli.Rendering.OpenGl
             _gl.Uniform1(location, 10, value);
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             //Remember to delete the program when we are done.

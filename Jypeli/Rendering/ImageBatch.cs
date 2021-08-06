@@ -125,7 +125,7 @@ namespace Jypeli
                 Game.GraphicsDevice.World = matrix;
                 Game.GraphicsDevice.BindTexture(texture.handle);
 
-                Game.GraphicsDevice.DrawUserPrimitives(
+                Game.GraphicsDevice.DrawPrimitives(
                     PrimitiveType.OpenGlTriangles,
                     vertexBuffer, iTexture * 6);
 

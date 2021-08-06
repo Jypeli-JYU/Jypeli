@@ -28,8 +28,13 @@ namespace Jypeli.Rendering.OpenGl
         {
             //Setting up a vertex attribute pointer
             _gl.EnableVertexAttribArray(index);
-            _gl.VertexAttribPointer(index, count, type, false, vertexSize * (uint)sizeof(TVertexType), (void*)(offSetBytes));
+            _gl.VertexAttribPointer(index, count, type, false, vertexSize, (void*)(offSetBytes));
 
+        }
+
+        internal void vertexAttribDivisor(uint index, uint divisor)
+        {
+            _gl.VertexAttribDivisor(index, divisor);
         }
 
         public void Bind()
@@ -44,5 +49,6 @@ namespace Jypeli.Rendering.OpenGl
             //We dont delete the VBO and EBO here, as you can have one VBO stored under multiple VAO's.
             _gl.DeleteVertexArray(_handle);
         }
+
     }
 }

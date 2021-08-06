@@ -13,7 +13,7 @@ namespace Jypeli.Effects
     public enum BlendMode
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        Alpha,
+        Alpha, // TODO: Näiden käyttö.
         Additive
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
@@ -24,6 +24,14 @@ namespace Jypeli.Effects
     /// </summary>
     public unsafe class ParticleSystem : GameObject
     {
+        private struct Particledata
+        {
+            public Vector2 Position; // Vector2 koska float
+            public float Rotation;
+            public float Scale;
+            public float Alpha;
+        }
+
         private Random random = new Random();
 
         // Lista efektin partikkeleille
@@ -193,7 +201,7 @@ namespace Jypeli.Effects
 
             shader = new Rendering.OpenGl.Shader(gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGl.ParticleVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.ParticleFragmentShader.glsl"));
 
-            Vector4[] positions = new Vector4[maxAmountOfParticles]; // Varataan näytönohjaimelta muistia jokaiselle partikkelille.
+            Particledata[] positions = new Particledata[maxAmountOfParticles]; // Varataan näytönohjaimelta muistia jokaiselle partikkelille.
 
             vertexbuffer = new Rendering.OpenGl.BufferObject<VertexPositionColorTexture>(gl, vertices, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer);
             Vao = new Rendering.OpenGl.VertexArrayObject<VertexPositionColorTexture, Vector4>(gl, vertexbuffer, null);
@@ -203,18 +211,30 @@ namespace Jypeli.Effects
             Vao.VertexAttributePointer(1, 4, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 12);
             Vao.VertexAttributePointer(2, 2, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 28);
 
-            positionBuffer = new Rendering.OpenGl.BufferObject<Vector4>(gl, positions, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer); // x, y, kulma, koko
+            databuffer = new Rendering.OpenGl.BufferObject<Particledata>(gl, positions, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer); // x, y, kulma, koko, läpinäkyvyys
 
-            positionBuffer.Bind();
+            databuffer.Bind();
             gl.EnableVertexAttribArray(3);
-            gl.VertexAttribPointer(3, 4, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(Vector4), (void*)0);
+            gl.VertexAttribPointer(3, 2, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(Particledata), (void*)0);
             gl.VertexAttribDivisor(3, 1);
+
+            gl.EnableVertexAttribArray(4);
+            gl.VertexAttribPointer(4, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(Particledata), (void*)8); // Vika parametri on offsetin määrä tavuissa.
+            gl.VertexAttribDivisor(4, 1);
+
+            gl.EnableVertexAttribArray(5);
+            gl.VertexAttribPointer(5, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(Particledata), (void*)12);
+            gl.VertexAttribDivisor(5, 1);
+
+            gl.EnableVertexAttribArray(6);
+            gl.VertexAttribPointer(6, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(Particledata), (void*)16);
+            gl.VertexAttribDivisor(6, 1);
 
             gl.BindBuffer(Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer, 0);
         }
         Rendering.OpenGl.VertexArrayObject<VertexPositionColorTexture, Vector4> Vao;
         Rendering.OpenGl.BufferObject<VertexPositionColorTexture> vertexbuffer;
-        Rendering.OpenGl.BufferObject<Vector4> positionBuffer;
+        Rendering.OpenGl.BufferObject<Particledata> databuffer;
 
         Silk.NET.OpenGL.GL gl;
         IShader shader;
@@ -393,19 +413,27 @@ namespace Jypeli.Effects
             new VertexPositionColorTexture(topRight, Color.Transparent, textureTopRight),
         };
 
-        private List<Vector4> particledata = new List<Vector4>(); // 
+        private List<Particledata> particledata = new List<Particledata>(); // x, y, rot, scale, alpha
 
         internal unsafe void Draw(Matrix worldMatrix)
         {
             if (particles.Count == 0)
                 return;
-
+            // TODO: Pitäisikö particleilla muuttaa kaikki floateiksi, ei ole mitään syytä miksi niiden pitäisi olla doubleja.
+            // Tai eikö particlen voisi suoraan muuttaa structiksi jolloin koko tätä kopiointia ei tarvitsisi tehdä?
             foreach (Particle p in particles)
             {
-                particledata.Add(new Vector4(p.Position, (float)p.Rotation, (float)p.Scale));
+                double nTime = p.Lifetime.TotalMilliseconds / p.MaxLifetime.TotalMilliseconds;
+                particledata.Add(new Particledata
+                {
+                    Position = p.Position,
+                    Rotation = (float)p.Rotation,
+                    Scale = (float)p.Scale,
+                    Alpha = (float)(4 * nTime * (1 - nTime) * AlphaAmount)
+                });
             }
 
-            positionBuffer.UpdateBuffer(0, CollectionsMarshal.AsSpan(particledata));
+            databuffer.UpdateBuffer(0, CollectionsMarshal.AsSpan(particledata));
 
             var device = Game.GraphicsDevice;
 

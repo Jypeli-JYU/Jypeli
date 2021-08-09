@@ -1,5 +1,4 @@
 ﻿using Jypeli;
-using Microsoft.Xna.Framework.Graphics;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace Jypeli.Tests.Game
 {
-    public class MockGame : Jypeli.PhysicsGame
+    public class MockGame : PhysicsGame
     {
         public Action TestFunction { get; set; }
         public int MinUpdateCount { get; set; }

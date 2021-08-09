@@ -425,6 +425,7 @@ namespace Jypeli
 
         private void DrawChildObjects( Matrix worldMatrix )
         {
+            Graphics.ShapeBatch.Begin(ref worldMatrix);
             Vector drawScale = new Vector( 1, 1 );
 
             for ( int i = 0; i < Objects.Count; i++ )
@@ -449,6 +450,8 @@ namespace Jypeli
                     }
                 }
             }
+
+            Graphics.ShapeBatch.End();
         }
 
         private void DrawTexture( IGameObject o, ref Matrix parentTransformation )
@@ -550,7 +553,7 @@ namespace Jypeli
                 }
                 else
                 {
-                    Renderer.DrawShape( o.Shape, ref transformation, o.Color );
+                    DrawShape(o, ref parentTransformation);
                 }
             }
         }

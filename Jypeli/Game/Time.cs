@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Jypeli
 {
@@ -9,6 +10,12 @@ namespace Jypeli
 
         // Game time passed
         private static Time currentTime = new Time();
+
+        /// <summary>
+        /// Ajetaanko peliä kiinteällä aika-askeleella.
+        /// Eli pelin aika "hidastuu" jos tietokoneen tehot eivät riitä reaaliaikaiseen päivitykseen.
+        /// </summary>
+        public static bool FixedTimeStep { get; set; }
 
         /// <summary>
         /// Onko peli pysähdyksissä.
@@ -67,8 +74,19 @@ namespace Jypeli
         }
 
         protected void Update(double dt){
-            currentTime.Advance(dt);
+            Debug.Write(dt);
+            Debug.Write("     ");
+            if(FixedTimeStep)
+                currentTime.Advance(1 / 60.0);
+            else
+                currentTime.Advance(dt);
             this.Update(currentTime);
+        }
+
+        protected void OnDraw(double dt)
+        {
+            Debug.WriteLine(dt);
+            Draw(Time);
         }
 
         /// <summary>

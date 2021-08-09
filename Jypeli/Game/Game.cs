@@ -216,7 +216,7 @@ namespace Jypeli
 
             window.Load += LoadContent;
             window.Update += Update;
-            window.Render += (a) => Draw(Time);
+            window.Render += OnDraw;
             window.Closing += OnExit;
             window.Resize += (v) => OnResize(new Vector(v.X, v.Y));
 

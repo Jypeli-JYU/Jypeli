@@ -17,6 +17,8 @@ namespace Jypeli.Tests.Game
         {
             MaxUpdateCount = 600;
             MinUpdateCount = int.MaxValue;
+            FixedTimeStep = true; // Aikaan liittyvät testit toimivat epävarmasti vaihtelevalla aika-askeleella.
+                                  // TODO: Vai kuinka isoa virhemarginaalia niissä pitäisi käyttää?
         }
 
         public override void Begin()

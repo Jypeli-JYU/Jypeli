@@ -9,6 +9,7 @@ using NUnit.Framework;
 namespace Jypeli.Tests.Game
 {
     [TestFixture]
+    [Ignore("Silk.NETin bugi estää näiden ajamisen ilman ikkunan aukaisua.")]
     public class DataStorageTest : TestClass
     {
         FileManager DataStorage;

@@ -458,7 +458,7 @@ namespace Jypeli
 
         public void Dispose()
         {
-            GraphicsDevice.Dispose();
+            GraphicsDevice?.Dispose();
         }
     }
 }

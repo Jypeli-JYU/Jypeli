@@ -68,10 +68,10 @@ namespace Jypeli
 
         static readonly TextureCoordinates defaultCoords = new TextureCoordinates()
         {
-            TopLeft = new Vector( 0.0f, 0.0f ),
-            TopRight = new Vector( 1.0f, 0.0f ),
-            BottomLeft = new Vector( 0.0f, 1.0f ),
-            BottomRight = new Vector( 1.0f, 1.0f ),
+            TopLeft = new Vector(0.0f, 0.0f),
+            TopRight = new Vector(1.0f, 0.0f),
+            BottomLeft = new Vector(0.0f, 1.0f),
+            BottomRight = new Vector(1.0f, 1.0f),
         };
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Jypeli
         private List<IGameObject> objectsWithoutImage = new List<IGameObject>();
         private List<IGameObject> objectsWithDrawMethod = new List<IGameObject>();
 
-        private Vector _relativeTransition = new Vector( 1, 1 );
+        private Vector _relativeTransition = new Vector(1, 1);
 
         /// <summary>
         /// Ajetaanko kerrokselle päivitystä
@@ -144,7 +144,7 @@ namespace Jypeli
             return new Layer() { RelativeTransition = Vector.Zero, IgnoresZoom = true };
         }
 
-        private void ObjectAdded( IGameObject obj )
+        private void ObjectAdded(IGameObject obj)
         {
             if (obj is ParticleSystem)
             {
@@ -164,10 +164,10 @@ namespace Jypeli
                 objectsWithoutImage.Add(obj);
             }
 
-            ( (IGameObjectInternal)obj ).Layer = this;
+            ((IGameObjectInternal)obj).Layer = this;
         }
 
-        private void ObjectRemoved( IGameObject obj )
+        private void ObjectRemoved(IGameObject obj)
         {
             if (obj is ParticleSystem)
             {
@@ -183,14 +183,14 @@ namespace Jypeli
             ((IGameObjectInternal)obj).Layer = null;
         }
 
-        internal void Add( IGameObject o )
+        internal void Add(IGameObject o)
         {
-            Objects.Add( o );
+            Objects.Add(o);
         }
 
-        internal void Remove( IGameObject o )
+        internal void Remove(IGameObject o)
         {
-            Objects.Remove( o );
+            Objects.Remove(o);
         }
 
         /// <summary>
@@ -218,90 +218,123 @@ namespace Jypeli
         /// Ajaa päivityksen kerroksen olioille ja efekteille
         /// </summary>
         /// <param name="time"></param>
-        public void Update( Time time )
+        public void Update(Time time)
         {
-            Objects.Update( time );
+            Objects.Update(time);
             Effects.Update(time);
         }
 
-        internal void Draw( Camera camera )
+        internal void Draw(Camera camera)
         {
-            var zoomMatrix = IgnoresZoom ? Matrix.Identity : Matrix.CreateScale( (float)( camera.ZoomFactor ), (float)( camera.ZoomFactor ), 1f );
+            var zoomMatrix = IgnoresZoom ? Matrix.Identity : Matrix.CreateScale((float)(camera.ZoomFactor), (float)(camera.ZoomFactor), 1f);
             var worldMatrix =
-                Matrix.CreateTranslation( (float)( -camera.Position.X * RelativeTransition.X ), (float)( -camera.Position.Y * RelativeTransition.Y ), 0 )
+                Matrix.CreateTranslation((float)(-camera.Position.X * RelativeTransition.X), (float)(-camera.Position.Y * RelativeTransition.Y), 0)
                 * zoomMatrix;
 
-            switch ( DrawOrder )
+            SortObjects();
+
+            switch (DrawOrder)
             {
                 case DrawOrder.Irrelevant:
-                    DrawEfficientlyInNoParticularOrder( ref worldMatrix );
+                    DrawEfficientlyInNoParticularOrder(ref worldMatrix);
                     break;
                 case DrawOrder.FirstToLast:
-                    DrawInOrderFromFirstToLast( ref worldMatrix );
+                    DrawInOrderFromFirstToLast(ref worldMatrix); // TODO: Halutaanko tätä vaihtoehtoa enää säilyttää, jos piirtojärjestykseen halutaan vaikuttaa, olisi layerit oikea vaihtoehto.
                     break;
                 default:
                     break;
             }
 
-            Effects.ForEach( e => e.Draw(worldMatrix) );
+            Effects.ForEach(e => e.Draw(worldMatrix));
 
-            if ( Grid != null )
+            if (Grid != null)
             {
-                DrawGrid( ref worldMatrix );
+                DrawGrid(ref worldMatrix);
+            }
+        }
+        
+        /// <summary>
+        /// Järjestelee kappaleet uudestaan oikeisiin listoihin, jos niille on lisätty tai poistettu kuva.
+        /// TODO: Tätä ei oikeasti tarvitsisi ajaa kuin kuvaa muutettaessa.
+        /// </summary>
+        private void SortObjects()
+        {
+            for(int i = 0; i < objectsWithImage.Count; i++)
+            {
+                var obj = objectsWithImage[i];
+                if (obj.Image is null)
+                {
+                    objectsWithoutImage.Add(obj);
+                    objectsWithImage.Remove(obj);
+                    i--;
+                }
+            }
+
+            for (int i = 0; i < objectsWithoutImage.Count; i++)
+            {
+                var obj = objectsWithoutImage[i];
+                if (obj.Image is not null)
+                {
+                    objectsWithImage.Add(obj);
+                    objectsWithoutImage.Remove(obj);
+                    i--;
+                }
             }
         }
 
-        private void DrawGrid( ref Matrix matrix )
+        private void DrawGrid(ref Matrix matrix)
         {
-            Graphics.LineBatch.Begin( ref matrix );
+            Graphics.LineBatch.Begin(ref matrix);
 
             var camera = Game.Instance.Camera;
             var screen = Game.Screen;
-            Vector topLeft = camera.ScreenToWorld( new Vector( screen.Left, screen.Top ) );
-            Vector topRight = camera.ScreenToWorld( new Vector( screen.Right, screen.Top ) );
-            Vector bottomLeft = camera.ScreenToWorld( new Vector( screen.Left, screen.Bottom ) );
-            Vector bottomRight = camera.ScreenToWorld( new Vector( screen.Right, screen.Bottom ) );
+            Vector topLeft = camera.ScreenToWorld(new Vector(screen.Left, screen.Top));
+            Vector topRight = camera.ScreenToWorld(new Vector(screen.Right, screen.Top));
+            Vector bottomLeft = camera.ScreenToWorld(new Vector(screen.Left, screen.Bottom));
+            Vector bottomRight = camera.ScreenToWorld(new Vector(screen.Right, screen.Bottom));
 
-            int horizontalCount = (int)Math.Ceiling( ( topRight.X - topLeft.X ) / Grid.CellSize.X );
-            int leftmostLine = (int)Math.Ceiling( topLeft.X / Grid.CellSize.X );
+            int horizontalCount = (int)Math.Ceiling((topRight.X - topLeft.X) / Grid.CellSize.X);
+            int leftmostLine = (int)Math.Ceiling(topLeft.X / Grid.CellSize.X);
             double leftmostX = leftmostLine * Grid.CellSize.X;
 
-            for ( int i = 0; i < horizontalCount; i++ )
+            for (int i = 0; i < horizontalCount; i++)
             {
                 double x = leftmostX + i * Grid.CellSize.X;
-                Vector startPoint = new Vector( x, topLeft.Y );
-                Vector endPoint = new Vector( x, bottomLeft.Y );
-                Graphics.LineBatch.Draw( startPoint, endPoint, Grid.Color );
+                Vector startPoint = new Vector(x, topLeft.Y);
+                Vector endPoint = new Vector(x, bottomLeft.Y);
+                Graphics.LineBatch.Draw(startPoint, endPoint, Grid.Color);
             }
 
-            int verticalCount = (int)Math.Ceiling( ( topRight.Y - bottomRight.Y ) / Grid.CellSize.Y );
-            int bottommostLine = (int)Math.Ceiling( bottomRight.Y / Grid.CellSize.Y );
+            int verticalCount = (int)Math.Ceiling((topRight.Y - bottomRight.Y) / Grid.CellSize.Y);
+            int bottommostLine = (int)Math.Ceiling(bottomRight.Y / Grid.CellSize.Y);
             double bottommostY = bottommostLine * Grid.CellSize.Y;
 
-            for ( int i = 0; i < verticalCount; i++ )
+            for (int i = 0; i < verticalCount; i++)
             {
                 double y = bottommostY + i * Grid.CellSize.Y;
 
                 // Doesn't draw the line when y is 0! Wonder why...
-                if ( y == 0.0 ) y += 0.1;
+                if (y == 0.0)
+                    y += 0.1;
 
-                Vector startPoint = new Vector( bottomLeft.X, y );
-                Vector endPoint = new Vector( bottomRight.X, y );
-                Graphics.LineBatch.Draw( startPoint, endPoint, Grid.Color );
+                Vector startPoint = new Vector(bottomLeft.X, y);
+                Vector endPoint = new Vector(bottomRight.X, y);
+                Graphics.LineBatch.Draw(startPoint, endPoint, Grid.Color);
             }
 
             Graphics.LineBatch.End();
         }
 
-        private void DrawInOrderFromFirstToLast( ref Matrix worldMatrix )
+        private void DrawInOrderFromFirstToLast(ref Matrix worldMatrix)
         {
             Renderer.LightingEnabled = true;
 
-            foreach ( var o in Objects )
+            foreach (var o in Objects)
             {
                 if (o is CustomDrawable)
                 {
-                    if (o.IsVisible) ((CustomDrawable)o).Draw(worldMatrix);
+                    if (o.IsVisible)
+                        ((CustomDrawable)o).Draw(worldMatrix);
                 }
                 else
                 {
@@ -310,143 +343,136 @@ namespace Jypeli
                 }
             }
 
-            DrawChildObjects( worldMatrix );
+            DrawChildObjects(worldMatrix);
 
             Renderer.LightingEnabled = false;
         }
 
-        int CompareByImageReference( IGameObject o1, IGameObject o2 )
+        int CompareByImageReference(IGameObject o1, IGameObject o2)
         {
-            if ( o1.Image == null || o2.Image == null ) return 0;
+            if (o1.Image == null || o2.Image == null)
+                return 0;
 
-            int hash1 = RuntimeHelpers.GetHashCode( o1.Image );
-            int hash2 = RuntimeHelpers.GetHashCode( o2.Image );
+            int hash1 = RuntimeHelpers.GetHashCode(o1.Image);
+            int hash2 = RuntimeHelpers.GetHashCode(o2.Image);
 
-            if ( hash1 == hash2 )
+            if (hash1 == hash2)
             {
                 // Because the sorting algorithm of the List class is not stable,
                 // objects with similar images on top of each other flicker rather
                 // annoyingly. Therefore, compare object references in order to keep
                 // the sorting stable.
-                return RuntimeHelpers.GetHashCode( o1 ) - RuntimeHelpers.GetHashCode( o2 );
+                return RuntimeHelpers.GetHashCode(o1) - RuntimeHelpers.GetHashCode(o2);
             }
             return hash1 - hash2;
         }
 
-        private void DrawEfficientlyInNoParticularOrder( ref Matrix worldMatrix )
+        private void DrawEfficientlyInNoParticularOrder(ref Matrix worldMatrix)
         {
             Renderer.LightingEnabled = true;
-            DrawObjectsWithoutImages( worldMatrix );
-            DrawObjectsWithImages( worldMatrix );
-            DrawCustomDrawables( worldMatrix );
-            DrawChildObjects( worldMatrix );
+            DrawSimpleObjectsWithoutImages(worldMatrix);
+            DrawObjectsWithImages(worldMatrix);
+            DrawCustomDrawables(worldMatrix);
+            DrawChildObjects(worldMatrix);
             Renderer.LightingEnabled = false;
         }
 
-        private void DrawObjectsWithoutImages( Matrix worldMatrix )
+        private void DrawSimpleObjectsWithoutImages(Matrix worldMatrix)
         {
-            Graphics.ShapeBatch.Begin( ref worldMatrix );
-            foreach ( var o in objectsWithoutImage )
+            Graphics.ShapeBatch.Begin(ref worldMatrix);
+            foreach (var o in objectsWithoutImage)
             {
                 if (!o.IsVisible)
                     continue;
 
-                bool hasChildObjects = o.ObjectCount > 0;
-                bool isSimple = !hasChildObjects && !o.TextureFillsShape;
-
                 Renderer.LightingEnabled = !o.IgnoresLighting;
 
-                if ( isSimple && ( o.Image == null ))
-                {
-                    DrawShape( o, ref worldMatrix );
-                }
-                else
-                {
-                    Draw( o, ref worldMatrix );
-                }
+                DrawShape(o, ref worldMatrix);
+
             }
             Graphics.ShapeBatch.End();
         }
 
-        private void DrawObjectsWithImages( Matrix worldMatrix )
+        private void DrawObjectsWithImages(Matrix worldMatrix)
         {
             // By sorting the images first, we get objects with same
             // images in succession. This allows us to use the ImageBatch
             // class more efficiently.
-            objectsWithImage.Sort( CompareByImageReference );
+            objectsWithImage.Sort(CompareByImageReference);
 
             // Passing null for image here does not hurt, because the first
             // ReferenceEquals-comparison calls End() without drawing a single
             // image.
-            Graphics.ImageBatch.Begin( ref worldMatrix, null );
+            Graphics.ImageBatch.Begin(ref worldMatrix, null);
 
             Image previousImage = null;
 
-            foreach ( var o in objectsWithImage )
+            foreach (var o in objectsWithImage)
             {
                 if (!o.IsVisible)
                     continue;
 
-                bool hasChildObjects = o.ObjectCount > 0;
-                bool isSimple = !hasChildObjects && !o.TextureFillsShape;
-
                 Renderer.LightingEnabled = !o.IgnoresLighting;
 
-                if ( isSimple && ( o.Image != null ) )
+                if (!ReferenceEquals(o.Image, previousImage))
                 {
-                    if ( !Object.ReferenceEquals( o.Image, previousImage ) )
-                    {
-                        // Object o has different image than the previous one,
-                        // so let's start a new batch with the new image. The objects
-                        // should be sorted at this point.
-                        Graphics.ImageBatch.End();
-                        Graphics.ImageBatch.Begin( ref worldMatrix, o.Image );
-                        previousImage = o.Image;
-                    }
-                    DrawTexture( o, ref worldMatrix );
+                    // Object o has different image than the previous one,
+                    // so let's start a new batch with the new image. The objects
+                    // should be sorted at this point.
+                    Graphics.ImageBatch.End();
+                    Graphics.ImageBatch.Begin(ref worldMatrix, o.Image);
+                    previousImage = o.Image;
                 }
-                else
-                {
-                    Draw( o, ref worldMatrix );
-                }
+                DrawTexture(o, ref worldMatrix);
             }
 
             Graphics.ImageBatch.End();
         }
 
-        private void DrawCustomDrawables( Matrix worldMatrix )
+        private void DrawCustomDrawables(Matrix worldMatrix)
         {
-            foreach ( CustomDrawable o in objectsWithDrawMethod )
+            foreach (CustomDrawable o in objectsWithDrawMethod)
             {
-                if ( o.IsVisible )
-                    o.Draw( worldMatrix );
+                if (o.IsVisible)
+                    o.Draw(worldMatrix);
             }
         }
 
-        private void DrawChildObjects( Matrix worldMatrix )
+        private void DrawChildObjects(Matrix worldMatrix)
         {
             Graphics.ShapeBatch.Begin(ref worldMatrix);
-            Vector drawScale = new Vector( 1, 1 );
+            Vector drawScale = new Vector(1, 1);
 
-            for ( int i = 0; i < Objects.Count; i++ )
+            for (int i = 0; i < Objects.Count; i++)
             {
                 var go = Objects[i] as GameObject;
-                if ( go == null || go._childObjects == null || go is Window )
+                if (go == null || go._childObjects == null || go is Window)
                     continue;
 
-                if ( go.Shape.IsUnitSize )
+                if (go.Shape.IsUnitSize)
                     drawScale = go.Size;
 
                 // recursively draw children, their children and so on.
                 drawChildren(go._childObjects);
 
-                void drawChildren(SynchronousList<GameObject> children){
+                void drawChildren(SynchronousList<GameObject> children)
+                {
                     for (int j = 0; j < children.Count; j++)
                     {
                         GameObject go = children[j];
-                        Draw(go, ref worldMatrix);
-                        if (go._childObjects != null) drawChildren(go._childObjects);
-                        
+                        if(go.Image != null) // Tämä ei nyt ole erityisen tehokas ratkaisu, mutta harvemmin kappaleella on useita lapsiolioita, etenkään monella eri kuvalla.
+                        {
+                            Graphics.ImageBatch.Begin(ref worldMatrix, go.Image);
+                            DrawTexture(go, ref worldMatrix);
+                            Graphics.ImageBatch.End();
+
+                        }
+                        else
+                        {
+                            DrawShape(go, ref worldMatrix);
+                        }
+                        if (go._childObjects != null)
+                            drawChildren(go._childObjects);
                     }
                 }
             }
@@ -454,102 +480,102 @@ namespace Jypeli
             Graphics.ShapeBatch.End();
         }
 
-        private void DrawTexture( IGameObject o, ref Matrix parentTransformation )
+        private void DrawTexture(IGameObject o, ref Matrix parentTransformation)
         {
-            Vector position = new Vector( (float)o.Position.X, (float)o.Position.Y );
-            Vector scale = new Vector( (float)o.Size.X, (float)o.Size.Y );
+            Vector position = new Vector((float)o.Position.X, (float)o.Position.Y);
+            Vector scale = new Vector((float)o.Size.X, (float)o.Size.Y);
             float rotation = o.RotateImage ? (float)o.Angle.Radians : 0;
 
-            if ( o.IsVisible )
+            if (o.IsVisible)
             {
-                if ( o.TextureWrapSize == Vector.Diagonal )
+                if (o.TextureWrapSize == Vector.Diagonal)
                 {
-                    Graphics.ImageBatch.Draw( defaultCoords, position, scale, rotation );
+                    Graphics.ImageBatch.Draw(defaultCoords, position, scale, rotation);
                 }
                 else
                 {
-                    float wx = (float)( Math.Sign( o.TextureWrapSize.X ) );
-                    float wy = (float)( Math.Sign( o.TextureWrapSize.Y ) );
-                    float left = (float)( -wx / 2 + 0.5 );
-                    float right = (float)( wx / 2 + 0.5 );
-                    float top = (float)( -wy / 2 + 0.5 );
-                    float bottom = (float)( wy / 2 + 0.5 );
+                    float wx = (float)(Math.Sign(o.TextureWrapSize.X));
+                    float wy = (float)(Math.Sign(o.TextureWrapSize.Y));
+                    float left = (float)(-wx / 2 + 0.5);
+                    float right = (float)(wx / 2 + 0.5);
+                    float top = (float)(-wy / 2 + 0.5);
+                    float bottom = (float)(wy / 2 + 0.5);
 
                     TextureCoordinates customCoords = new TextureCoordinates()
                     {
-                        TopLeft = new Vector( left, top ),
-                        TopRight = new Vector( right, top ),
-                        BottomLeft = new Vector( left, bottom ),
-                        BottomRight = new Vector( right, bottom ),
+                        TopLeft = new Vector(left, top),
+                        TopRight = new Vector(right, top),
+                        BottomLeft = new Vector(left, bottom),
+                        BottomRight = new Vector(right, bottom),
                     };
 
-                    if ( o.TextureWrapSize.X == wx && o.TextureWrapSize.Y == wy )
+                    if (o.TextureWrapSize.X == wx && o.TextureWrapSize.Y == wy)
                     {
                         // Draw only once
-                        Graphics.ImageBatch.Draw( customCoords, position, scale, rotation );
+                        Graphics.ImageBatch.Draw(customCoords, position, scale, rotation);
                         return;
                     }
 
-                    float topLeftX = -(float)( o.TextureWrapSize.X - 1 ) / 2;
-                    float topLeftY = -(float)( o.TextureWrapSize.Y - 1 ) / 2;
+                    float topLeftX = -(float)(o.TextureWrapSize.X - 1) / 2;
+                    float topLeftY = -(float)(o.TextureWrapSize.Y - 1) / 2;
 
                     Vector newScale = new Vector(
-                        scale.X / ( wx * (float)o.TextureWrapSize.X ),
-                        scale.Y / ( wy * (float)o.TextureWrapSize.Y ) );
+                        scale.X / (wx * (float)o.TextureWrapSize.X),
+                        scale.Y / (wy * (float)o.TextureWrapSize.Y));
 
-                    for ( int y = 0; y < o.TextureWrapSize.Y; y++ )
+                    for (int y = 0; y < o.TextureWrapSize.Y; y++)
                     {
-                        for ( int x = 0; x < o.TextureWrapSize.X; x++ )
+                        for (int x = 0; x < o.TextureWrapSize.X; x++)
                         {
-                            Vector newPosition = position + new Vector( ( topLeftX + x ) * newScale.X, ( topLeftY + y ) * newScale.Y );
-                            Graphics.ImageBatch.Draw( customCoords, newPosition, newScale, rotation );
+                            Vector newPosition = position + new Vector((topLeftX + x) * newScale.X, (topLeftY + y) * newScale.Y);
+                            Graphics.ImageBatch.Draw(customCoords, newPosition, newScale, rotation);
                         }
                     }
                 }
             }
         }
 
-        private void DrawShape( IGameObject o, ref Matrix parentTransformation )
+        private void DrawShape(IGameObject o, ref Matrix parentTransformation)
         {
-            Vector position = new Vector( (float)o.Position.X, (float)o.Position.Y );
-            Vector scale = new Vector( (float)o.Size.X, (float)o.Size.Y );
+            Vector position = new Vector((float)o.Position.X, (float)o.Position.Y);
+            Vector scale = new Vector((float)o.Size.X, (float)o.Size.Y);
             float rotation = (float)o.Angle.Radians;
 
-            if ( o.IsVisible )
+            if (o.IsVisible)
             {
-                Graphics.ShapeBatch.Draw( o.Shape.Cache, o.Color, position, scale, rotation );
+                Graphics.ShapeBatch.Draw(o.Shape.Cache, o.Color, position, scale, rotation);
             }
         }
 
-        private void Draw( IGameObject o, ref Matrix parentTransformation )
+        private void Draw(IGameObject o, ref Matrix parentTransformation)
         {
-            Vector drawScale = new Vector( 1, 1 );
-            if ( o.Shape.IsUnitSize )
+            Vector drawScale = new Vector(1, 1);
+            if (o.Shape.IsUnitSize)
                 drawScale = o.Size;
 
-            Vector position = new Vector( (float)o.Position.X, (float)o.Position.Y );
-            Vector scale = new Vector( (float)drawScale.X, (float)drawScale.Y );
+            Vector position = new Vector((float)o.Position.X, (float)o.Position.Y);
+            Vector scale = new Vector((float)drawScale.X, (float)drawScale.Y);
             float rotation = o.RotateImage ? (float)o.Angle.Radians : 0;
 
-            if ( o.IsVisible )
+            if (o.IsVisible)
             {
                 Matrix transformation =
-                    Matrix.CreateScale( (float)scale.X, (float)scale.Y, 1f )
-                    * Matrix.CreateRotationZ( rotation )
-                    * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0f )
+                    Matrix.CreateScale((float)scale.X, (float)scale.Y, 1f)
+                    * Matrix.CreateRotationZ(rotation)
+                    * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0f)
                     * parentTransformation;
 
-                if ( o is CustomDrawable )
+                if (o is CustomDrawable)
                 {
-                    ( (CustomDrawable)o ).Draw( parentTransformation );
+                    ((CustomDrawable)o).Draw(parentTransformation);
                 }
-                else if ( o.Image != null && ( !o.TextureFillsShape ) )
+                else if (o.Image != null && (!o.TextureFillsShape))
                 {
-                    Renderer.DrawImage( o.Image, ref transformation, o.TextureWrapSize );
+                    Renderer.DrawImage(o.Image, ref transformation, o.TextureWrapSize);
                 }
-                else if ( o.Image != null )
+                else if (o.Image != null)
                 {
-                    Renderer.DrawShape( o.Shape, ref transformation, ref transformation, o.Image, o.TextureWrapSize, o.Color );
+                    Renderer.DrawShape(o.Shape, ref transformation, ref transformation, o.Image, o.TextureWrapSize, o.Color);
                 }
                 else
                 {
@@ -558,9 +584,9 @@ namespace Jypeli
             }
         }
 
-        internal void GetObjectsAboutToBeAdded( List<IGameObject> result )
+        internal void GetObjectsAboutToBeAdded(List<IGameObject> result)
         {
-            result.AddRange( Objects.GetObjectsAboutToBeAdded() );
+            result.AddRange(Objects.GetObjectsAboutToBeAdded());
         }
     }
 }

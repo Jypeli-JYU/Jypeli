@@ -109,11 +109,11 @@
   </ItemGroup>
     
   <ItemGroup>
-    <PackageReference Include="FontStashSharp" Version="0.9.5" />
-    <PackageReference Include="Silk.NET.Input" Version="2.6.0" />
+    <PackageReference Include="FontStashSharp" Version="1.0.0" />
+    <PackageReference Include="Silk.NET.Input" Version="2.7.0" />
     <PackageReference Include="Silk.NET.OpenAL.Soft.Native" Version="1.21.1.1" />
-    <PackageReference Include="Silk.NET.OpenGL" Version="2.6.0" />
-    <PackageReference Include="Silk.NET.Windowing" Version="2.6.0" />
+    <PackageReference Include="Silk.NET.OpenGL" Version="2.7.0" />
+    <PackageReference Include="Silk.NET.Windowing" Version="2.7.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>

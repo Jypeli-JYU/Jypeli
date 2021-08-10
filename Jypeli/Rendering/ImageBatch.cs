@@ -158,21 +158,29 @@ namespace Jypeli
                 vertexBuffer[bi].Position = transformedPoints[i];
             }
 
+            var color = System.Drawing.Color.FromArgb(255, 255, 255, 255);
+
             // Triangle 1
             vertexBuffer[startIndex + 0].TexCoordsX = (float)c.TopLeft.X;
             vertexBuffer[startIndex + 0].TexCoordsY = (float)c.TopLeft.Y;
+            vertexBuffer[startIndex + 0].SetColor(color);
             vertexBuffer[startIndex + 1].TexCoordsX = (float)c.BottomLeft.X;
             vertexBuffer[startIndex + 1].TexCoordsY = (float)c.BottomLeft.Y;
+            vertexBuffer[startIndex + 1].SetColor(color);
             vertexBuffer[startIndex + 2].TexCoordsX = (float)c.TopRight.X;
             vertexBuffer[startIndex + 2].TexCoordsY = (float)c.TopRight.Y;
+            vertexBuffer[startIndex + 2].SetColor(color);
 
             // Triangle 2
             vertexBuffer[startIndex + 3].TexCoordsX = (float)c.BottomLeft.X;
             vertexBuffer[startIndex + 3].TexCoordsY = (float)c.BottomLeft.Y;
+            vertexBuffer[startIndex + 3].SetColor(color);
             vertexBuffer[startIndex + 4].TexCoordsX = (float)c.BottomRight.X;
             vertexBuffer[startIndex + 4].TexCoordsY = (float)c.BottomRight.Y;
+            vertexBuffer[startIndex + 4].SetColor(color);
             vertexBuffer[startIndex + 5].TexCoordsX = (float)c.TopRight.X;
             vertexBuffer[startIndex + 5].TexCoordsY = (float)c.TopRight.Y;
+            vertexBuffer[startIndex + 5].SetColor(color);
 
             iTexture++;
         }

@@ -195,7 +195,22 @@ namespace Jypeli
                 fontsystem = new FontSystem();
                 fontsystem.AddFont(Game.ResourceContent.StreamInternalFont("Roboto-Regular.ttf"));
                 font = fontsystem.GetFont(Size);
+                GenerateCommonGlyphs();
             }
+        }
+
+        /// <summary>
+        /// Luodaan yleisimmät merkit valmiiksi, jotta niitä ei tarvitse luoda sitä mukaa kuin niitä käytetään.
+        /// Tämä samalla vie fonttitekstuurin näytönohjaimelle.
+        /// </summary>
+        private void GenerateCommonGlyphs()
+        {
+            StringBuilder s = new StringBuilder();
+            for (char i =(char)32; i < 255; i++)
+            {
+                s.Append(i);
+            }
+            Renderer.DrawText(s.ToString(), Vector.Zero, this, Color.Transparent);
         }
 
         /// <summary>

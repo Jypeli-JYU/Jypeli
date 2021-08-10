@@ -9,7 +9,7 @@ namespace Jypeli.Rendering
     /// <summary>
     /// Renderöintitekstuuri, johon kuva piirretään
     /// </summary>
-    public interface IRenderTarget
+    public interface IRenderTarget : IDisposable
     {
         /// <summary>
         /// Leveys

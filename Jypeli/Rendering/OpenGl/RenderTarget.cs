@@ -18,6 +18,7 @@ namespace Jypeli.Rendering.OpenGl
 
         private uint framebufferHandle;
         private uint texturebufferHandle;
+        private uint rbo;
 
         /// <inheritdoc/>
         public double Width { get; set; }
@@ -49,7 +50,7 @@ namespace Jypeli.Rendering.OpenGl
 
             gl.FramebufferTexture2D(GLEnum.Framebuffer, GLEnum.ColorAttachment0, GLEnum.Texture2D, texturebufferHandle, 0);
 
-            uint rbo = gl.GenRenderbuffer();
+            rbo = gl.GenRenderbuffer();
             gl.BindRenderbuffer(GLEnum.Renderbuffer, rbo);
             gl.RenderbufferStorage(GLEnum.Renderbuffer, GLEnum.Depth24Stencil8, width, height);
             gl.FramebufferRenderbuffer(GLEnum.Framebuffer, GLEnum.DepthStencilAttachment, GLEnum.Renderbuffer, rbo);
@@ -100,6 +101,16 @@ namespace Jypeli.Rendering.OpenGl
             fixed (void* ptr = data)
                 gl.TexSubImage2D(GLEnum.Texture2D, 0, startX, startY, width, height, GLEnum.Rgb, GLEnum.UnsignedByte, ptr);
             UnBindTexture();
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            gl.DeleteTexture(texturebufferHandle);
+            gl.DeleteFramebuffer(framebufferHandle);
+            gl.DeleteRenderbuffer(rbo);
+
+            GC.SuppressFinalize(this);
         }
     }
 }

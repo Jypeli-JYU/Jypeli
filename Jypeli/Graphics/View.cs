@@ -218,6 +218,7 @@ namespace Jypeli
             set
             {
                 _size.X = (int)value;
+                _renderTarget?.Dispose();
                 _renderTarget = null;
             }
         }
@@ -231,6 +232,7 @@ namespace Jypeli
             set
             {
                 _size.Y = (int)value;
+                _renderTarget?.Dispose();
                 _renderTarget = null;
             }
         }
@@ -246,6 +248,7 @@ namespace Jypeli
                 Game.Instance.window.Size = new Vector2D<int>((int)value.X, (int)value.Y);
                 _size.X = (int)value.X;
                 _size.Y = (int)value.Y;
+                _renderTarget?.Dispose();
                 _renderTarget = null;
             }
         }
@@ -274,6 +277,7 @@ namespace Jypeli
 
         internal void Resize(Vector newSize)
         {
+            _renderTarget?.Dispose();
             _renderTarget = null;
             _size = newSize;
             Game.GraphicsDevice.ResizeWindow(newSize);

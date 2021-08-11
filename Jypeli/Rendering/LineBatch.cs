@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Jypeli.Rendering;
 
 using Matrix = System.Numerics.Matrix4x4;
@@ -7,13 +8,20 @@ namespace Jypeli
 {
     internal class LineBatch
     {
-        VertexPositionColorTexture[] vertexBuffer = new VertexPositionColorTexture[512];
-        //Effect effect;
+        VertexPositionColorTexture[] vertexBuffer;
+        IShader shader;
         Matrix matrix;
         int iVertexBuffer = 0;
         bool beginHasBeenCalled = false;
         public bool LightingEnabled = true;
 
+        internal void Initialize()
+        {
+            int vertexBufferSize = Game.GraphicsDevice.BufferSize;
+            vertexBuffer = new VertexPositionColorTexture[vertexBufferSize];
+           
+            shader = Graphics.BasicTextureEffect;
+        }
 
         public void Begin( ref Matrix matrix )
         {
@@ -34,13 +42,13 @@ namespace Jypeli
         private void Flush()
         {
             if ( iVertexBuffer > 0 )
-            {/*
-                effect = Graphics.GetColorEffect(ref matrix, LightingEnabled);
-                for ( int i = 0; i < effect.CurrentTechnique.Passes.Count; i++ )
-                    effect.CurrentTechnique.Passes[i].Apply();
+            {
+                shader.Use();
 
-                GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
-                    PrimitiveType.LineList, vertexBuffer, 0, iVertexBuffer / 2);*/
+                shader.SetUniform("world", matrix * Game.GraphicsDevice.View * Game.GraphicsDevice.Projection);
+                shader.SetUniform("type", 0);
+
+                Game.GraphicsDevice.DrawPrimitives(PrimitiveType.OpenGlLines, vertexBuffer, (uint)iVertexBuffer);
             }
 
             iVertexBuffer = 0;
@@ -52,13 +60,8 @@ namespace Jypeli
             {
                 Flush();
             }
-            /*
-            vertexBuffer[iVertexBuffer++] = new VertexPositionColor(
-                new Vector3((float)startPoint.X, (float)startPoint.Y, 0f),
-                color.AsXnaColor());
-            vertexBuffer[iVertexBuffer++] = new VertexPositionColor(
-                new Vector3((float)endPoint.X, (float)endPoint.Y, 0f),
-                color.AsXnaColor());*/
+            vertexBuffer[iVertexBuffer++] = new VertexPositionColorTexture(new Vector3((float)startPoint.X, (float)startPoint.Y, 0f),color, Vector.Zero);
+            vertexBuffer[iVertexBuffer++] = new VertexPositionColorTexture(new Vector3((float)endPoint.X, (float)endPoint.Y, 0f), color, Vector.Zero);
         }
     }
 }

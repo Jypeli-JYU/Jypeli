@@ -103,6 +103,7 @@ namespace Jypeli
             
             ImageBatch.Initialize();
             ShapeBatch.Initialize();
+            LineBatch.Initialize();
             FontRenderer = new FontRenderer(Game.GraphicsDevice);
 
 

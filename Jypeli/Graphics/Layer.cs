@@ -255,7 +255,7 @@ namespace Jypeli
         
         /// <summary>
         /// Järjestelee kappaleet uudestaan oikeisiin listoihin, jos niille on lisätty tai poistettu kuva.
-        /// TODO: Tätä ei oikeasti tarvitsisi ajaa kuin kuvaa muutettaessa.
+        /// TODO: Tätä ei oikeasti tarvitsisi ajaa kuin olion kuvaa muutettaessa.
         /// </summary>
         private void SortObjects()
         {
@@ -312,10 +312,6 @@ namespace Jypeli
             for (int i = 0; i < verticalCount; i++)
             {
                 double y = bottommostY + i * Grid.CellSize.Y;
-
-                // Doesn't draw the line when y is 0! Wonder why...
-                if (y == 0.0)
-                    y += 0.1;
 
                 Vector startPoint = new Vector(bottomLeft.X, y);
                 Vector endPoint = new Vector(bottomRight.X, y);

@@ -74,7 +74,7 @@ namespace Jypeli
         X = Buttons.X,
         Y = Buttons.Y,
 
-        //TODO: Loput nappulat
+        //TODO: Nämä ovat analogisia nappuloita. Pitäisikö toteuttaa nämäkin, esim. vaatimalla että nappula on pohjassa asti jolloin tämä tapahtuu?
         /// <summary>
         /// Oikea liipasin.
         /// </summary>

@@ -1,4 +1,4 @@
-﻿namespace Jypeli
+﻿namespace Jypeli.Controls
 {
     /// <summary>
     /// Hiiren sijainti, näppäinten tila sekä rullan asento. 

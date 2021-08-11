@@ -1,75 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
+using Silk.NET.Input;
 
 namespace Jypeli.Controls.GamePad
 {
     internal class Vibration : Destroyable, Updatable
     {
         public double LifetimeLeft { get; private set; }
-        public double leftMotor { get; private set; }
-        public double rightMotor { get; private set; }
-        public double leftAccel { get; set; }
-        public double rightAccel { get; set; }
-
+        public double LeftMotor { get; private set; }
+        public double RightMotor { get; private set; }
+        public double LeftAccel { get; set; }
+        public double RightAccel { get; set; }
+        public IGamepad Gamepad { get; set; }
         public bool IsUpdated { get { return true; } }
 
-        public Vibration( double lmotor, double rmotor, double laccel, double raccel, double life )
+        public Vibration(IGamepad gamepad, double lmotor, double rmotor, double laccel, double raccel, double life)
         {
-            leftMotor = lmotor;
-            rightMotor = rmotor;
-            leftAccel = laccel;
-            rightAccel = raccel;
+            LeftMotor = lmotor;
+            RightMotor = rmotor;
+            LeftAccel = laccel;
+            RightAccel = raccel;
             LifetimeLeft = life;
+            Gamepad = gamepad;
         }
 
-        public void Update( Time time )
+        public void Update(Time time)
         {
-            if ( LifetimeLeft <= 0 )
+            if (LifetimeLeft <= 0)
             {
                 Destroy();
                 return;
             }
 
             // Acceleration
-            leftMotor += time.SinceLastUpdate.TotalSeconds * leftAccel;
-            rightMotor += time.SinceLastUpdate.TotalSeconds * rightAccel;
+            LeftMotor += time.SinceLastUpdate.TotalSeconds * LeftAccel;
+            RightMotor += time.SinceLastUpdate.TotalSeconds * RightAccel;
 
             // Lifetime progression
             LifetimeLeft -= time.SinceLastUpdate.TotalSeconds;
+
+            Execute();
         }
-        /*
-        public static void Execute( PlayerIndex p, IEnumerable<Vibration> vibrations )
+
+        public void Execute()
         {
-            // Total vibrations
-            double lmotort = 0;
-            double rmotort = 0;
-
-            foreach ( var v in vibrations )
+            // TODO: Jostain syystä ei havaitse PS3 ohjaimen moottoreita
+            if(Gamepad.VibrationMotors.Count == 2)
             {
-                lmotort += v.leftMotor;
-                rmotort += v.rightMotor;
+                Gamepad.VibrationMotors[0].Speed = (float)LeftMotor;
+                Gamepad.VibrationMotors[1].Speed = (float)RightMotor;
             }
-
-            // Clamp the results between 0 and 1
-            lmotort = AdvanceMath.MathHelper.Clamp( (float)lmotort, 0, 1 );
-            rmotort = AdvanceMath.MathHelper.Clamp( (float)rmotort, 0, 1 );
-
-            // Set the vibration
-            //XnaGamePad.SetVibration( p, (float)lmotort, (float)rmotort );
-            // MonoGame: no support yet
         }
-        */
+
         #region Destroyable Members
 
         public bool IsDestroyed { get; private set; }
 
         public event Action Destroyed;
-        
+
         public void Destroy()
         {
-            if ( IsDestroyed ) return;
+            if (IsDestroyed)
+                return;
             IsDestroyed = true;
-            if ( Destroyed != null )
+            if (Destroyed != null)
                 Destroyed();
         }
 

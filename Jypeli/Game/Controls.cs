@@ -69,27 +69,27 @@ namespace Jypeli
         /// <summary>
         /// Lista kaikista peliohjaimista järjestyksessä.
         /// </summary>
-        //public List<GamePad> GameControllers { get; private set; } 
+        public List<GamePad> GameControllers { get; private set; } 
 
         /// <summary>
         /// Ensimmäinen peliohjain.
         /// </summary>
-        //public GamePad ControllerOne { get { return GameControllers[0]; } }
+        public GamePad ControllerOne { get { return GameControllers[0]; } }
 
         /// <summary>
         /// Toinen peliohjain.
         /// </summary>
-        //public GamePad ControllerTwo { get { return GameControllers[1]; } }
+        public GamePad ControllerTwo { get { return GameControllers[1]; } }
 
         /// <summary>
         /// Kolmas peliohjain.
         /// </summary>
-        //public GamePad ControllerThree { get { return GameControllers[2]; } }
+        public GamePad ControllerThree { get { return GameControllers[2]; } }
 
         /// <summary>
         /// Neljäs peliohjain.
         /// </summary>
-        //public GamePad ControllerFour { get { return GameControllers[3]; } }
+        public GamePad ControllerFour { get { return GameControllers[3]; } }
 
         internal IInputContext input;
 
@@ -127,11 +127,11 @@ namespace Jypeli
             PhoneBackButton = new BackButton();
             TouchPanel = new TouchPanel(Screen);
 
-            //GameControllers = new List<GamePad>( 4 );
-            //GameControllers.Add( new GamePad( PlayerIndex.One ) );
-            //GameControllers.Add( new GamePad( PlayerIndex.Two ) );
-            //GameControllers.Add( new GamePad( PlayerIndex.Three ) );
-            //GameControllers.Add( new GamePad( PlayerIndex.Four ) );
+            GameControllers = new List<GamePad>(4);
+            GameControllers.Add(new GamePad(input, 0));
+            GameControllers.Add(new GamePad(input, 1));
+            GameControllers.Add(new GamePad(input, 2));
+            GameControllers.Add(new GamePad(input, 3));
 
             _controllers = new List<Controller>();
             _controllers.Add(Keyboard);
@@ -143,15 +143,13 @@ namespace Jypeli
 #if WINDOWS_PHONE || ANDROID
             _controllers.Add( PhoneBackButton );
 #endif
-#if NETCOREAPP
-            //_controllers.AddRange( GameControllers );
-#endif
+            _controllers.AddRange(GameControllers);
         }
 
         private void UpdateControls( Time gameTime )
         {
-            _controllers.ForEach( c => c.Update() );
-            //_gamePads.ForEach( g => g.UpdateVibrations( gameTime ) );
+            _controllers.ForEach(c => c.Update());
+            GameControllers.ForEach(g => g.UpdateVibrations(gameTime));
         }
 
         /// <summary>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Keys = Silk.NET.Input.Key;
 
-namespace Jypeli
+namespace Jypeli.Controls
 {
     /// <summary>
     /// Näppäimistön tilan ylläpito

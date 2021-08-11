@@ -74,8 +74,8 @@ namespace Jypeli
         }
 
         protected void Update(double dt){
-            Debug.Write(dt);
-            Debug.Write("     ");
+            //Debug.Write(dt);
+            //Debug.Write("     ");
             if(FixedTimeStep)
                 currentTime.Advance(1 / 60.0);
             else
@@ -85,7 +85,7 @@ namespace Jypeli
 
         protected void OnDraw(double dt)
         {
-            Debug.WriteLine(dt);
+            //Debug.WriteLine(dt);
             Draw(Time);
         }
 

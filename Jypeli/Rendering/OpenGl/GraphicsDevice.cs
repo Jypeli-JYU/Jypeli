@@ -27,8 +27,6 @@ namespace Jypeli.Rendering.OpenGl
         private uint[] Indices;
         private VertexPositionColorTexture[] Vertices;
 
-        private Shader shader;
-
         /// <inheritdoc/>
         public Matrix4x4 World { get; set; }
         /// <inheritdoc/>
@@ -64,8 +62,13 @@ namespace Jypeli.Rendering.OpenGl
             Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 0);
             Vao.VertexAttributePointer(1, 4, VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 12);
             Vao.VertexAttributePointer(2, 2, VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 28);
+        }
 
-            shader = new Shader(Gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultFragmentShader.glsl"));
+        /// <inheritdoc/>
+        public IShader CreateShader(string vert, string frag)
+        {
+            return new Shader(Gl, vert, frag);
+
         }
 
         /// <inheritdoc/>
@@ -78,10 +81,6 @@ namespace Jypeli.Rendering.OpenGl
             Vbo.UpdateBuffer(0, vertexBuffer);
 
             Vao.Bind();
-            shader.Use();
-
-            shader.SetUniform("world", World * View * Projection);
-            shader.SetUniform("type", 0);
 
             Gl.DrawElements((GLEnum)primitivetype, numIndices, DrawElementsType.UnsignedInt, null);
         }
@@ -95,10 +94,6 @@ namespace Jypeli.Rendering.OpenGl
             Vbo.UpdateBuffer(0, vertexBuffer);
 
             Vao.Bind();
-            shader.Use();
-
-            shader.SetUniform("world", normalized ? Matrix4x4.Identity : World * View * Projection);
-            shader.SetUniform("type", normalized ? 1 : 2); // TODO: Pitäisikö tehdä omat shaderit tekstiä tms. varten, eikä yhtä ja samaa käyttää kaikkialla?
 
             Gl.DrawArrays((GLEnum)primitivetype, 0, numIndices);
         }
@@ -106,7 +101,7 @@ namespace Jypeli.Rendering.OpenGl
         /// <inheritdoc/>
         public void DrawPrimitivesInstanced(PrimitiveType primitivetype, VertexPositionColorTexture[] textureVertices, uint count, bool normalized = false)
         {
-            
+
             Gl.DrawArraysInstanced((GLEnum)primitivetype, 0, 4, count);
         }
 
@@ -114,13 +109,13 @@ namespace Jypeli.Rendering.OpenGl
         public void Clear(Color bgColor)
         {
             Gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
-            Gl.ClearColor(bgColor.RedComponent/255f, bgColor.GreenComponent / 255f, bgColor.BlueComponent / 255f, bgColor.AlphaComponent / 255f);
+            Gl.ClearColor(bgColor.RedComponent / 255f, bgColor.GreenComponent / 255f, bgColor.BlueComponent / 255f, bgColor.AlphaComponent / 255f);
         }
 
         /// <inheritdoc/>
         public void SetRenderTarget(IRenderTarget renderTarget)
         {
-            if(renderTarget is null)
+            if (renderTarget is null)
                 Gl.BindFramebuffer(GLEnum.Framebuffer, 0);
             else
                 renderTarget.Bind();
@@ -132,7 +127,6 @@ namespace Jypeli.Rendering.OpenGl
             Vbo.Dispose();
             Ebo.Dispose();
             Vao.Dispose();
-            shader.Dispose();
         }
 
         /// <inheritdoc/>

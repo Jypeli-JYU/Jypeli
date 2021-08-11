@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Diagnostics;
+using Jypeli.Assets;
 using Jypeli.Rendering;
 
 using Matrix = System.Numerics.Matrix4x4;
@@ -32,7 +33,7 @@ namespace Jypeli
         /// </remarks>
         uint[] indexBuffer;
 
-        //Effect effect;
+        IShader shader;
         Matrix matrix;
 
         //SamplerState samplerState;
@@ -46,14 +47,7 @@ namespace Jypeli
 
         public void Initialize()
         {
-            /*
-            samplerState = new SamplerState
-            {
-                AddressU = TextureAddressMode.Clamp,
-                AddressW = TextureAddressMode.Clamp,
-                AddressV = TextureAddressMode.Clamp,
-            };
-            */
+            shader = Graphics.BasicTextureEffect;
 
             int vertexBufferSize = Game.GraphicsDevice.BufferSize;
             
@@ -81,14 +75,11 @@ namespace Jypeli
         private void Flush()
         {
             if ( iIndexBuffer != 0 )
-            {
-                /*Game.GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
-                Game.GraphicsDevice.SamplerStates[0] = samplerState;
+{
+                shader.Use();
+                shader.SetUniform("world", matrix * Game.GraphicsDevice.View * Game.GraphicsDevice.Projection);
+                shader.SetUniform("type", 0);
 
-                effect = Graphics.GetColorEffect(ref matrix, LightingEnabled);
-                for ( int i = 0; i < effect.CurrentTechnique.Passes.Count; i++ )
-                    effect.CurrentTechnique.Passes[i].Apply();*/
-                Game.GraphicsDevice.World = matrix;
                 Game.GraphicsDevice.DrawIndexedPrimitives(
                     PrimitiveType.OpenGlTriangles,
                     vertexBuffer, iIndexBuffer,

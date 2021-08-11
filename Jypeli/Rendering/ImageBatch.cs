@@ -5,6 +5,7 @@ using Jypeli.Rendering;
 
 using Matrix = System.Numerics.Matrix4x4;
 using System.Reflection.Metadata;
+using Jypeli.Assets;
 
 #if !DISABLE_EFFECTS
 using Jypeli.Effects;
@@ -62,7 +63,7 @@ namespace Jypeli
 
         Matrix matrix;
         Image texture;
-        Effect effect;
+        IShader shader;
         VertexPositionColorTexture[] vertexBuffer;
         int BufferSize;
         uint iTexture = 0;
@@ -79,6 +80,7 @@ namespace Jypeli
         {
             this.BufferSize = Game.GraphicsDevice.BufferSize/6;
             vertexBuffer = new VertexPositionColorTexture[BufferSize * VerticesPerTexture];
+            shader = Graphics.BasicTextureEffect;
         }
 
         public void Begin()
@@ -121,6 +123,11 @@ namespace Jypeli
                     Game.GraphicsDevice.UpdateTextureData(texture);
                     texture.dirty = false;
                 }
+
+                shader.Use();
+
+                shader.SetUniform("world", matrix * Game.GraphicsDevice.View * Game.GraphicsDevice.Projection);
+                shader.SetUniform("type", 2);
 
                 Game.GraphicsDevice.World = matrix;
                 Game.GraphicsDevice.BindTexture(texture.handle);

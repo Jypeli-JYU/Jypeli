@@ -98,9 +98,13 @@ namespace Jypeli
 
             SpriteBatch = new SpriteBatch( device );
             */
+
+            BasicTextureEffect = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultFragmentShader.glsl"));
+            
             ImageBatch.Initialize();
             ShapeBatch.Initialize();
             FontRenderer = new FontRenderer(Game.GraphicsDevice);
+
 
 #if !LINUX
             //Game.GraphicsDevice.DeviceReset += GraphicsDevice_DeviceReset;

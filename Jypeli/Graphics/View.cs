@@ -34,6 +34,8 @@ using Silk.NET.Maths;
 using Matrix = System.Numerics.Matrix4x4;
 using Jypeli.Rendering;
 using System;
+using System.Drawing.Drawing2D;
+
 namespace Jypeli
 {
     /// <summary>
@@ -463,6 +465,11 @@ namespace Jypeli
                 new VertexPositionColorTexture(new Vector3(1f, 1f, 0), Color.Transparent, new Vector(1f, 1f))
             };
             RenderTarget.BindTexture();
+
+            Graphics.BasicTextureEffect.Use();
+            Graphics.BasicTextureEffect.SetUniform("world", Matrix.Identity);
+            Graphics.BasicTextureEffect.SetUniform("type", 1);
+
             Game.GraphicsDevice.DrawPrimitives(PrimitiveType.OpenGlTriangles, textureVertices, 6, true);
             RenderTarget.UnBindTexture();
             /*

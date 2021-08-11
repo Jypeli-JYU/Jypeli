@@ -76,6 +76,7 @@ namespace Jypeli.Rendering
         /// </summary>
         /// <param name="rendertarget"></param>
         public void SetRenderTarget(IRenderTarget rendertarget);
+
         /// <summary>
         /// Luo grafiikkalaitteelle soveltuvan rendertargetin
         /// </summary>
@@ -83,6 +84,14 @@ namespace Jypeli.Rendering
         /// <param name="height"></param>
         /// <returns></returns>
         IRenderTarget CreateRenderTarget(uint width, uint height);
+
+        /// <summary>
+        /// Luo uuden shaderin.
+        /// </summary>
+        /// <param name="vert">Verteksishaderin koodi</param>
+        /// <param name="frag">Fragmentshaderin koodi</param>
+        /// <returns></returns>
+        IShader CreateShader(string vert, string frag);
 
         /// <summary>
         /// Tyhjentää ruudun kuvan

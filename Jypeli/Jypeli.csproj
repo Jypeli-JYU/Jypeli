@@ -57,9 +57,9 @@
     <None Remove="Content\Images\Smoke.png" />
     <None Remove="Content\Images\Tank.png" />
     <None Remove="Content\Images\UpArrow.png" />
-    <None Remove="Content\Shaders\OpenGl\DefaultFragmentShader.glsl" />
+    <None Remove="Content\Shaders\OpenGl\DefaultColorShader.glsl" />
+    <None Remove="Content\Shaders\OpenGl\DefaultTextureShader.glsl" />
     <None Remove="Content\Shaders\OpenGl\DefaultVertexShader.glsl" />
-    <None Remove="Content\Shaders\OpenGl\ParticleFragmentShader.glsl" />
     <None Remove="Content\Shaders\OpenGl\ParticleVertexShader.glsl" />
     <None Remove="Content\Sounds\CannonFire.wav" />
     <None Remove="Content\Sounds\ExplosionSound.wav" />
@@ -67,6 +67,7 @@
     <None Remove="Content\Sounds\Laser.wav" />
     <None Remove="Content\Sounds\MGAttack.wav" />
     <None Remove="Content\Sounds\PlasmaAttack.wav" />
+    <EmbeddedResource Include="Content\Shaders\OpenGl\DefaultColorShader.glsl" />
     <None Include="..\Documentation\jypeli_logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -89,9 +90,8 @@
     <EmbeddedResource Include="Content\Images\Smoke.png" />
     <EmbeddedResource Include="Content\Images\Tank.png" />
     <EmbeddedResource Include="Content\Images\UpArrow.png" />
-    <EmbeddedResource Include="Content\Shaders\OpenGl\DefaultFragmentShader.glsl" />
+    <EmbeddedResource Include="Content\Shaders\OpenGl\DefaultTextureShader.glsl" />
     <EmbeddedResource Include="Content\Shaders\OpenGl\DefaultVertexShader.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGl\ParticleFragmentShader.glsl" />
     <EmbeddedResource Include="Content\Shaders\OpenGl\ParticleVertexShader.glsl" />
     <EmbeddedResource Include="Content\Sounds\CannonFire.wav" />
     <EmbeddedResource Include="Content\Sounds\ExplosionSound.wav" />

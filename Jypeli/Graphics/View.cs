@@ -456,19 +456,18 @@ namespace Jypeli
 
             VertexPositionColorTexture[] textureVertices = new VertexPositionColorTexture[]
             {
-                new VertexPositionColorTexture(new Vector3(-1f, 1f, 0), Color.Transparent, new Vector(0f, 1f)),
-                new VertexPositionColorTexture(new Vector3(-1f, -1f, 0), Color.Transparent, new Vector(0f, 0f)),
-                new VertexPositionColorTexture(new Vector3(1f, -1f, 0), Color.Transparent, new Vector(1f, 0f)),
+                new VertexPositionColorTexture(new Vector3(-1f, 1f, 0), Color.White, new Vector(0f, 1f)),
+                new VertexPositionColorTexture(new Vector3(-1f, -1f, 0), Color.White, new Vector(0f, 0f)),
+                new VertexPositionColorTexture(new Vector3(1f, -1f, 0), Color.White, new Vector(1f, 0f)),
 
-                new VertexPositionColorTexture(new Vector3(-1f, 1f, 0), Color.Transparent, new Vector(0f, 1f)),
-                new VertexPositionColorTexture(new Vector3(1f, -1f, 0), Color.Transparent, new Vector(1f, 0f)),
-                new VertexPositionColorTexture(new Vector3(1f, 1f, 0), Color.Transparent, new Vector(1f, 1f))
+                new VertexPositionColorTexture(new Vector3(-1f, 1f, 0), Color.White, new Vector(0f, 1f)),
+                new VertexPositionColorTexture(new Vector3(1f, -1f, 0), Color.White, new Vector(1f, 0f)),
+                new VertexPositionColorTexture(new Vector3(1f, 1f, 0), Color.White, new Vector(1f, 1f))
             };
             RenderTarget.BindTexture();
 
-            Graphics.BasicTextureEffect.Use();
-            Graphics.BasicTextureEffect.SetUniform("world", Matrix.Identity);
-            Graphics.BasicTextureEffect.SetUniform("type", 1);
+            Graphics.BasicTextureShader.Use();
+            Graphics.BasicTextureShader.SetUniform("world", Matrix.Identity);
 
             Game.GraphicsDevice.DrawPrimitives(PrimitiveType.OpenGlTriangles, textureVertices, 6, true);
             RenderTarget.UnBindTexture();

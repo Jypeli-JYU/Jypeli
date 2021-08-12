@@ -2,12 +2,15 @@
 
 in vec2 texCoords;
 in vec4 fCol;
-in float falpha;
+in vec2 fTex;
+in vec4 vertpos;
 
-uniform sampler2D tex;
 out vec4 FragColor;
+
+uniform sampler2D screenTexture;
+
 
 void main()
 {
-   FragColor = texture(tex, texCoords) * falpha;
-};
+    FragColor = fCol;
+}

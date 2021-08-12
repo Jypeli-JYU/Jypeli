@@ -47,7 +47,7 @@ namespace Jypeli
 
         public void Initialize()
         {
-            shader = Graphics.BasicTextureEffect;
+            shader = Graphics.BasicColorShader;
 
             int vertexBufferSize = Game.GraphicsDevice.BufferSize;
             
@@ -78,7 +78,6 @@ namespace Jypeli
 {
                 shader.Use();
                 shader.SetUniform("world", matrix * Game.GraphicsDevice.View * Game.GraphicsDevice.Projection);
-                shader.SetUniform("type", 0);
 
                 Game.GraphicsDevice.DrawIndexedPrimitives(
                     PrimitiveType.OpenGlTriangles,

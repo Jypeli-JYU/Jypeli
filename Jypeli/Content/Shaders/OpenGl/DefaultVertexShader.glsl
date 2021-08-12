@@ -8,10 +8,12 @@ uniform mat4 world;
 out vec4 fCol;
 out vec2 fTex;
 out vec2 texCoords;
+out vec4 vertpos;
 
 void main()
 {
     gl_Position =  world * vPos;
     fCol = vCol;
     texCoords = vTex;
+    vertpos = gl_Position;
 }

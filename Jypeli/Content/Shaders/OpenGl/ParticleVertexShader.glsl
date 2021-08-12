@@ -6,14 +6,13 @@ layout (location = 2) in vec2 vTex;
 layout (location = 3) in vec2 pos;
 layout (location = 4) in float rot;
 layout (location = 5) in float pscale;
-layout (location = 6) in float alpha;
+layout (location = 6) in vec4 col;
 
 uniform mat4 world;
 uniform float scale;
 
 out vec4 fCol;
 out vec2 texCoords;
-out float falpha;
 
 void main()
 {
@@ -22,7 +21,6 @@ void main()
 
     gl_Position =  world * vec4((x * cos(rot) - y * sin(rot) + pos.x / pscale) * pscale, (x * sin(rot) + y * cos(rot) + pos.y / pscale) * pscale, 0, 1);
 
-    fCol = vCol;
+    fCol = col;
     texCoords = vTex;
-    falpha = alpha;
 };

@@ -20,7 +20,7 @@ namespace Jypeli
             int vertexBufferSize = Game.GraphicsDevice.BufferSize;
             vertexBuffer = new VertexPositionColorTexture[vertexBufferSize];
            
-            shader = Graphics.BasicTextureEffect;
+            shader = Graphics.BasicTextureShader;
         }
 
         public void Begin( ref Matrix matrix )

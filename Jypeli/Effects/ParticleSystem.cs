@@ -24,12 +24,12 @@ namespace Jypeli.Effects
     /// </summary>
     public unsafe class ParticleSystem : GameObject
     {
-        private struct Particledata
+        private unsafe struct Particledata
         {
             public Vector2 Position; // Vector2 koska float
             public float Rotation;
             public float Scale;
-            public float Alpha;
+            public fixed float Color[4];
         }
 
         private Random random = new Random();
@@ -81,7 +81,7 @@ namespace Jypeli.Effects
         /// Efektin partikkelin lyhin mahdollinen elinaika
         /// </summary>
         public double MinLifetime { get; set; }
-        
+
         /// <summary>
         /// Efektin partikkelin pisin mahdollinen elinaika
         /// </summary>
@@ -199,7 +199,7 @@ namespace Jypeli.Effects
 
             gl = ((Rendering.OpenGl.GraphicsDevice)Game.GraphicsDevice).Gl;
 
-            shader = new Rendering.OpenGl.Shader(gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGl.ParticleVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.ParticleFragmentShader.glsl"));
+            shader = new Rendering.OpenGl.Shader(gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGl.ParticleVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultTextureShader.glsl"));
 
             Particledata[] positions = new Particledata[maxAmountOfParticles]; // Varataan näytönohjaimelta muistia jokaiselle partikkelille.
 
@@ -227,7 +227,7 @@ namespace Jypeli.Effects
             gl.VertexAttribDivisor(5, 1);
 
             gl.EnableVertexAttribArray(6);
-            gl.VertexAttribPointer(6, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(Particledata), (void*)16);
+            gl.VertexAttribPointer(6, 4, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(Particledata), (void*)16);
             gl.VertexAttribDivisor(6, 1);
 
             gl.BindBuffer(Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer, 0);
@@ -424,23 +424,24 @@ namespace Jypeli.Effects
             foreach (Particle p in particles)
             {
                 double nTime = p.Lifetime.TotalMilliseconds / p.MaxLifetime.TotalMilliseconds;
-                particledata.Add(new Particledata
-                {
-                    Position = p.Position,
-                    Rotation = (float)p.Rotation,
-                    Scale = (float)p.Scale,
-                    Alpha = (float)(4 * nTime * (1 - nTime) * AlphaAmount)
-                });
+
+                Particledata pdata = new Particledata();
+                pdata.Position = p.Position;
+                pdata.Rotation = (float)p.Rotation;
+                pdata.Scale = (float)p.Scale;
+                pdata.Color[0] = 1;
+                pdata.Color[1] = 1;
+                pdata.Color[2] = 1;
+                pdata.Color[3] = (float)(4 * nTime * (1 - nTime) * AlphaAmount);
+                particledata.Add(pdata);
             }
 
             databuffer.UpdateBuffer(0, CollectionsMarshal.AsSpan(particledata));
 
             var device = Game.GraphicsDevice;
 
-            // TODO: Läpinäkyvyys
-
             shader.Use();
-            shader.SetUniform("world", worldMatrix * device.View * device.Projection); 
+            shader.SetUniform("world", worldMatrix * device.View * device.Projection);
 
             if (OuterParticleImage is not null)
             {

@@ -34,8 +34,8 @@ namespace Jypeli
     /// </summary>
     internal static class Graphics
     {
-        public static IShader BasicTextureEffect;
-        public static IShader BasicColorEffect;
+        public static IShader BasicTextureShader;
+        public static IShader BasicColorShader;
 
         //public static SpriteBatch SpriteBatch;
         public static FontRenderer FontRenderer;
@@ -99,8 +99,9 @@ namespace Jypeli
             SpriteBatch = new SpriteBatch( device );
             */
 
-            BasicTextureEffect = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultFragmentShader.glsl"));
-            
+            BasicTextureShader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultTextureShader.glsl"));
+            BasicColorShader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultColorShader.glsl"));
+
             ImageBatch.Initialize();
             ShapeBatch.Initialize();
             LineBatch.Initialize();

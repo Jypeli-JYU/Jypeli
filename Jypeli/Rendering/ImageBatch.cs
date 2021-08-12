@@ -80,7 +80,7 @@ namespace Jypeli
         {
             this.BufferSize = Game.GraphicsDevice.BufferSize/6;
             vertexBuffer = new VertexPositionColorTexture[BufferSize * VerticesPerTexture];
-            shader = Graphics.BasicTextureEffect;
+            shader = Graphics.BasicTextureShader;
         }
 
         public void Begin()
@@ -127,7 +127,6 @@ namespace Jypeli
                 shader.Use();
 
                 shader.SetUniform("world", matrix * Game.GraphicsDevice.View * Game.GraphicsDevice.Projection);
-                shader.SetUniform("type", 2);
 
                 Game.GraphicsDevice.World = matrix;
                 Game.GraphicsDevice.BindTexture(texture.handle);

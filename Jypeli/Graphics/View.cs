@@ -298,7 +298,7 @@ namespace Jypeli
         /// </summary>
         public double Left
         {
-            get { return 0; }
+            get { return -Width / 2; }
         }
 
         /// <summary>
@@ -306,7 +306,7 @@ namespace Jypeli
         /// </summary>
         public double Right
         {
-            get { return Width; }
+            get { return Width / 2; }
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace Jypeli
         /// </summary>
         public double Top
         {
-            get { return 0; }
+            get { return Height / 2; }
         }
 
         /// <summary>
@@ -322,7 +322,7 @@ namespace Jypeli
         /// </summary>
         public double Bottom
         {
-            get { return Height; }
+            get { return -Height / 2; }
         }
 
         /// <summary>

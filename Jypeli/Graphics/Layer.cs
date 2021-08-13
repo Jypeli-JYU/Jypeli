@@ -267,7 +267,6 @@ namespace Jypeli
                 Graphics.ShapeBatch.DrawOutlines(o.Shape.Cache, outlineColor, o.Position, o.Size, (float)o.Angle.Radians);
             }
             Graphics.ShapeBatch.End();
-            
         }
         
         /// <summary>

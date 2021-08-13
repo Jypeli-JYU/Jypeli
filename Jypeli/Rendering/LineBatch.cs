@@ -20,7 +20,7 @@ namespace Jypeli
             int vertexBufferSize = Game.GraphicsDevice.BufferSize;
             vertexBuffer = new VertexPositionColorTexture[vertexBufferSize];
            
-            shader = Graphics.BasicTextureShader;
+            shader = Graphics.BasicColorShader;
         }
 
         public void Begin( ref Matrix matrix )
@@ -46,7 +46,6 @@ namespace Jypeli
                 shader.Use();
 
                 shader.SetUniform("world", matrix * Game.GraphicsDevice.View * Game.GraphicsDevice.Projection);
-                shader.SetUniform("type", 0);
 
                 Game.GraphicsDevice.DrawPrimitives(PrimitiveType.OpenGlLines, vertexBuffer, (uint)iVertexBuffer);
             }

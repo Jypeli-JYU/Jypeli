@@ -127,7 +127,6 @@ namespace Jypeli
             LayerWindow.Add(LayerDisplay);
             LayerWindow.Size = LayerDisplay.Size;
 
-
             DebugKeyEnabled = true;
             DebugScreenVisible = false;
         }
@@ -197,11 +196,9 @@ namespace Jypeli
         {
             if (!DebugScreenVisible)
                 return;
-
-            debugCanvas.Begin(ref canvasTransform, Screen);
+            
             if (DebugViewSettings.DrawOutlines)
-                PaintDebugScreen(debugCanvas);
-            debugCanvas.End();
+                PaintDebugScreen();
 
             DebugLayer.Draw(Camera);
         }
@@ -307,7 +304,7 @@ namespace Jypeli
             }
         }
 
-        private void PaintDebugScreen(Canvas canvas)
+        private void PaintDebugScreen()
         {
             Layers.ForEach(l => l.DrawOutlines(Camera, DebugViewSettings.GameObjectColor));
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Jypeli.Effects;
 using Jypeli.Rendering;
@@ -253,7 +254,7 @@ namespace Jypeli
             }
         }
 
-        internal void DrawOutlines(Camera camera, Color outlineColor)
+        internal void DrawOutlines(Camera camera, Color outlineColor, Type type)
         {
             var zoomMatrix = IgnoresZoom ? Matrix.Identity : Matrix.CreateScale((float)(camera.ZoomFactor), (float)(camera.ZoomFactor), 1f);
             var worldMatrix =
@@ -262,7 +263,8 @@ namespace Jypeli
             
             Graphics.ShapeBatch.Begin(ref worldMatrix, PrimitiveType.OpenGLLines);
             
-            foreach (var o in Objects)
+            // TODO: Millainen tämä ratkaisu tyyppien suhteen on suorituskyvyn kannalta?
+            foreach (var o in Objects.Where(type.IsInstanceOfType))
             {
                 Graphics.ShapeBatch.DrawOutlines(o.Shape.Cache, outlineColor, o.Position, o.Size, (float)o.Angle.Radians);
             }

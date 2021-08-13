@@ -1,5 +1,5 @@
 ﻿using System.Text;
-
+using Jypeli.Rendering;
 using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
@@ -204,59 +204,6 @@ namespace Jypeli
         }
 
         // TODO: Mikä olisi järkevin tapa toteuttaa näiden piirto?
-        private void PaintShapeOutlines(Canvas canvas, IGameObject obj, Color color)
-        {
-            var vertexes = obj.Shape.Cache.OutlineVertices;
-            double wmul = obj.Shape.IsUnitSize ? obj.Width : 1;
-            double hmul = obj.Shape.IsUnitSize ? obj.Height : 1;
-
-            canvas.BrushColor = color;
-
-            Matrix transform =
-                     Matrix.CreateRotationZ((float)obj.Angle.Radians)
-                    * Matrix.CreateTranslation((float)obj.Position.X, (float)obj.Position.Y, 0f)
-                    * Matrix.CreateTranslation(-(float)camera.Position.X, -(float)camera.Position.Y, 0f)
-                    * Matrix.CreateScale((float)(camera.ZoomFactor), (float)(camera.ZoomFactor), 1f);
-
-            for (int j = 0; j < vertexes.Length - 1; j++)
-            {
-                double x1 = wmul * vertexes[j].X;
-                double y1 = hmul * vertexes[j].Y;
-                double x2 = wmul * vertexes[j + 1].X;
-                double y2 = hmul * vertexes[j + 1].Y;
-/*
-                var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
-                var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
-
-                canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);*/
-            }
-
-            if (vertexes.Length > 2)
-            {
-                double x1 = wmul * vertexes[vertexes.Length - 1].X;
-                double y1 = hmul * vertexes[vertexes.Length - 1].Y;
-                double x2 = wmul * vertexes[0].X;
-                double y2 = hmul * vertexes[0].Y;
-                /*
-                var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
-                var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
-
-                canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);*/
-            }
-            if (obj.Shape == Shape.Circle && DebugViewSettings.DrawCircleRotation)
-            {
-                double x1 = 0;
-                double y1 = 0;
-                double x2 = obj.Width / 2;
-                double y2 = 0;
-                /*
-                var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
-                var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
-
-                canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);*/
-            }
-        }
-
         private void PaintPhysicsOutlines(Canvas canvas, PhysicsObject obj, Color color)
         {
             if (obj.Body == null || obj.Body.Shape == null || obj.Body.Shape.Cache == null)
@@ -306,7 +253,30 @@ namespace Jypeli
 
         private void PaintDebugScreen()
         {
-            Layers.ForEach(l => l.DrawOutlines(Camera, DebugViewSettings.GameObjectColor));
+            Layers.ForEach(l => l.DrawOutlines(Camera, DebugViewSettings.GameObjectColor, typeof(GameObject)));
+            Layers.ForEach(l => l.DrawOutlines(Camera, DebugViewSettings.PhysicsObjectColor, typeof(PhysicsObject)));
+
+            var mouseOverObjects = GetObjects(Mouse.IsCursorOn);
+            
+            var zoomMatrix = Matrix.CreateScale((float)(camera.ZoomFactor), (float)(camera.ZoomFactor), 1f);
+            var worldMatrix =
+                Matrix.CreateTranslation((float)(-camera.Position.X), (float)(-camera.Position.Y), 0)
+                * zoomMatrix;
+            
+            Graphics.ShapeBatch.Begin(ref worldMatrix, PrimitiveType.OpenGLLines);
+            
+            foreach (GameObject obj in mouseOverObjects)
+            {
+                if (obj is PhysicsObject)
+                {
+                    Graphics.ShapeBatch.DrawOutlines(obj.Shape.Cache, DebugViewSettings.PhysicsObjectHoverColor, obj.Position, obj.Size, (float)obj.Angle.Radians);
+                }else if (obj is GameObject)
+                {
+                    Graphics.ShapeBatch.DrawOutlines(obj.Shape.Cache, DebugViewSettings.GameObjectHoverColor, obj.Position, obj.Size, (float)obj.Angle.Radians);
+                }
+            }
+            
+            Graphics.ShapeBatch.End();
         }
     }
 }

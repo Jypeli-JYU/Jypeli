@@ -44,6 +44,8 @@ namespace Jypeli
 
         public bool LightingEnabled = true;
 
+        private PrimitiveType primitivetype;
+
 
         public void Initialize()
         {
@@ -55,11 +57,12 @@ namespace Jypeli
             indexBuffer = new uint[vertexBufferSize * 2];
         }
 
-        public void Begin( ref Matrix matrix )
+        public void Begin( ref Matrix matrix, PrimitiveType p = PrimitiveType.OpenGlTriangles )
         {
             Debug.Assert( !beginHasBeenCalled );
             beginHasBeenCalled = true;
 
+            primitivetype = p;
             this.matrix = matrix;
             iVertexBuffer = 0;
             iIndexBuffer = 0;
@@ -80,7 +83,7 @@ namespace Jypeli
                 shader.SetUniform("world", matrix * Game.GraphicsDevice.View * Game.GraphicsDevice.Projection);
 
                 Game.GraphicsDevice.DrawIndexedPrimitives(
-                    PrimitiveType.OpenGlTriangles,
+                    primitivetype,
                     vertexBuffer, iIndexBuffer,
                     indexBuffer);
             }
@@ -108,14 +111,43 @@ namespace Jypeli
                 Vector v = cache.Vertices[i];
                 vertexBuffer[iVertexBuffer++] = new VertexPositionColorTexture(Vector3.Transform(new Vector3((float)v.X, (float)v.Y, 0), matrix), color, Vector.Zero);
             }
-
+            
             for (int i = 0; i < cache.Triangles.Length; i++)
             {
                 indexBuffer[iIndexBuffer++] = (uint)cache.Triangles[i].i1 + startIndex;
                 indexBuffer[iIndexBuffer++] = (uint)cache.Triangles[i].i2 + startIndex;
                 indexBuffer[iIndexBuffer++] = (uint)cache.Triangles[i].i3 + startIndex;
             }
+        }
+        
+        public void DrawOutlines(ShapeCache cache, Color color, Vector position, Vector size, float angle)
+        {
+            if ((iVertexBuffer + cache.Vertices.Length) > vertexBuffer.Length || (iIndexBuffer + cache.Triangles.Length) > indexBuffer.Length)
+            {
+                Flush();
+            }
 
+            Matrix matrix =
+                Matrix.CreateScale((float)size.X, (float)size.Y, 1f)
+                * Matrix.CreateRotationZ(angle)
+                * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0);
+
+            uint startIndex = iVertexBuffer;
+
+            for (int i = 0; i < cache.Vertices.Length; i++)
+            {
+                Vector v = cache.Vertices[i];
+                vertexBuffer[iVertexBuffer++] = new VertexPositionColorTexture(Vector3.Transform(new Vector3((float)v.X, (float)v.Y, 0), matrix), color, Vector.Zero);
+            }
+
+            for (int i = 0; i < cache.OutlineIndices.Length - 1; i++)
+            {
+                indexBuffer[iIndexBuffer++] = (uint)cache.OutlineIndices[i] + startIndex;
+                indexBuffer[iIndexBuffer++] = (uint)cache.OutlineIndices[i + 1] + startIndex;
+            }
+            
+            indexBuffer[iIndexBuffer++] = (uint)cache.OutlineIndices[^1] + startIndex;
+            indexBuffer[iIndexBuffer++] = (uint)cache.OutlineIndices[0] + startIndex;
         }
     }
 }

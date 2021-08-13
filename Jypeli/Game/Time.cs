@@ -96,10 +96,11 @@ namespace Jypeli
         protected virtual void Update(Time time)
         {
             UpdateControls(time);
-            this.Camera.Update( time );
-            Layers.Update( time );
-            Timer.UpdateAll( time );
-            UpdateHandlers( time );
+            this.Camera.Update(time);
+            Layers.Update(time);
+            Timer.UpdateAll(time);
+            UpdateDebugScreen(currentRealTime);
+            UpdateHandlers(time);
             ExecutePendingActions();
         }
         /*

@@ -630,6 +630,11 @@ namespace Jypeli
         /// Ulkoreunan verteksit, lueteltuna vastapäivään.
         /// </summary>
         public readonly Vector[] OutlineVertices;
+        
+        /// <summary>
+        /// Ulkoreunan verteksien indeksit.
+        /// </summary>
+        public readonly Int16[] OutlineIndices;
 
         /// <summary>
         /// Kaikki verteksit, ml. kolmioiden kulmapisteet.
@@ -674,6 +679,7 @@ namespace Jypeli
         {
             Vertices = vertices;
             Triangles = triangles;
+            OutlineIndices = outlineIndices;
 
             OutlineVertices = new Vector[outlineIndices.Length];
             for ( int i = 0; i < outlineIndices.Length; i++ )

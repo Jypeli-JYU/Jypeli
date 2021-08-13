@@ -10,5 +10,6 @@ namespace Jypeli.Rendering
     {
         OpenGlTriangles = Silk.NET.OpenGL.PrimitiveType.Triangles,
         OpenGlLines = Silk.NET.OpenGL.PrimitiveType.Lines,
+        OpenGLLines = Silk.NET.OpenGL.PrimitiveType.Lines
     }
 }

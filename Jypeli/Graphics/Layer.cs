@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Jypeli.Effects;
-
+using Jypeli.Rendering;
 using Matrix = System.Numerics.Matrix4x4;
 
 
@@ -252,6 +252,23 @@ namespace Jypeli
                 DrawGrid(ref worldMatrix);
             }
         }
+
+        internal void DrawOutlines(Camera camera, Color outlineColor)
+        {
+            var zoomMatrix = IgnoresZoom ? Matrix.Identity : Matrix.CreateScale((float)(camera.ZoomFactor), (float)(camera.ZoomFactor), 1f);
+            var worldMatrix =
+                Matrix.CreateTranslation((float)(-camera.Position.X * RelativeTransition.X), (float)(-camera.Position.Y * RelativeTransition.Y), 0)
+                * zoomMatrix;
+            
+            Graphics.ShapeBatch.Begin(ref worldMatrix, PrimitiveType.OpenGLLines);
+            
+            foreach (var o in Objects)
+            {
+                Graphics.ShapeBatch.DrawOutlines(o.Shape.Cache, outlineColor, o.Position, o.Size, (float)o.Angle.Radians);
+            }
+            Graphics.ShapeBatch.End();
+            
+        }
         
         /// <summary>
         /// Järjestelee kappaleet uudestaan oikeisiin listoihin, jos niille on lisätty tai poistettu kuva.
@@ -384,7 +401,6 @@ namespace Jypeli
                 Renderer.LightingEnabled = !o.IgnoresLighting;
 
                 DrawShape(o, ref worldMatrix);
-
             }
             Graphics.ShapeBatch.End();
         }
@@ -533,13 +549,11 @@ namespace Jypeli
 
         private void DrawShape(IGameObject o, ref Matrix parentTransformation)
         {
-            Vector position = new Vector((float)o.Position.X, (float)o.Position.Y);
-            Vector scale = new Vector((float)o.Size.X, (float)o.Size.Y);
             float rotation = (float)o.Angle.Radians;
 
             if (o.IsVisible)
             {
-                Graphics.ShapeBatch.Draw(o.Shape.Cache, o.Color, position, scale, rotation);
+                Graphics.ShapeBatch.Draw(o.Shape.Cache, o.Color, o.Position, o.Size, rotation);
             }
         }
 

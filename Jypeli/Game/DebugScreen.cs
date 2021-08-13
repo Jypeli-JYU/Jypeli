@@ -151,7 +151,7 @@ namespace Jypeli
 
         private void UpdateDebugScreen(Time time)
         {
-            //if (DebugKeyEnabled && Keyboard.GetKeyState(Key.F12) == ButtonState.Pressed)
+            if (DebugKeyEnabled && Keyboard.GetKeyState(Key.F12) == ButtonState.Pressed)
             {
                 DebugScreenVisible = !DebugScreenVisible;
 
@@ -206,6 +206,7 @@ namespace Jypeli
             DebugLayer.Draw(Camera);
         }
 
+        // TODO: Mikä olisi järkevin tapa toteuttaa näiden piirto?
         private void PaintShapeOutlines(Canvas canvas, IGameObject obj, Color color)
         {
             var vertexes = obj.Shape.Cache.OutlineVertices;
@@ -308,34 +309,7 @@ namespace Jypeli
 
         private void PaintDebugScreen(Canvas canvas)
         {
-            for (int i = Layers.FirstIndex; i <= Layers.LastIndex; i++)
-            {
-                foreach (var obj in Layers[i].Objects)
-                {
-                    if (obj == null || obj.Shape == null || obj.Shape.Cache == null || obj.Layer == null || obj is Widget) // Toistaiseksi ei piirretä widgettien ääriviivoja (halutaanko edes?)
-                        continue;
-
-                    if (obj is PhysicsObject)
-                    {
-                        //PaintShapeOutlines(canvas, obj, Mouse.IsCursorOn((GameObject)obj) ? DebugViewSettings.PhysicsObjectHoverColor : DebugViewSettings.PhysicsObjectColor);
-                        if (DebugViewSettings.DrawPhysicsOutlines)
-                            PaintPhysicsOutlines(canvas, (PhysicsObject)obj, DebugViewSettings.PhysicsObjectVertexColor);
-                    }
-                    else
-                    {
-                        if (obj is PhysicsStructure)
-                        {
-                            PhysicsStructure ps = obj as PhysicsStructure;
-                            foreach (var o in ps.Objects)
-                            {
-                                //PaintShapeOutlines(canvas, o, Mouse.IsCursorOn(o) ? DebugViewSettings.GameObjectHoverColor : DebugViewSettings.GameObjectColor);
-                            }
-                        }
-                        //else
-                            //PaintShapeOutlines(canvas, obj, Mouse.IsCursorOn((GameObject)obj) ? DebugViewSettings.GameObjectHoverColor : DebugViewSettings.GameObjectColor);
-                    }
-                }
-            }
+            Layers.ForEach(l => l.DrawOutlines(Camera, DebugViewSettings.GameObjectColor));
         }
     }
 }

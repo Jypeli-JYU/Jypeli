@@ -39,7 +39,7 @@ namespace Jypeli.Rendering.OpenGl
         public string Version { get => throw new NotImplementedException(); }
 
         /// <inheritdoc/>
-        public GraphicsDevice(IWindow window)
+        public GraphicsDevice(IView window)
         {
             Indices = new uint[BufferSize * 2];
             Vertices = new VertexPositionColorTexture[BufferSize];
@@ -51,7 +51,7 @@ namespace Jypeli.Rendering.OpenGl
         /// Alustaa näyttökortin käyttöön
         /// </summary>
         /// <param name="window">Pelin ikkuna</param>
-        public void Create(IWindow window)
+        public void Create(IView window)
         {
             Gl = GL.GetApi(window);
 

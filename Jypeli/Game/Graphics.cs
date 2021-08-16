@@ -39,7 +39,7 @@ namespace Jypeli
         // fullscreen isn't used as default, because debug mode doesn't work well with it
         private bool windowPositionSet = false;
 
-        internal IWindow window;
+        internal IView window;
         private static IGraphicsDevice graphicsDevice;
 
         /// <summary>
@@ -60,11 +60,13 @@ namespace Jypeli
         /// </summary>
         public bool IsFullScreen
         {
-            get { return window.WindowState == WindowState.Fullscreen; }
-            set
-            {
-                window.WindowState = value ? WindowState.Fullscreen : WindowState.Normal;
-            }
+#if DESKTOP
+            get { return ((IWindow)window).WindowState == WindowState.Fullscreen; }
+            set { ((IWindow)window).WindowState = value ? WindowState.Fullscreen : WindowState.Normal; }
+#elif ANDROID
+            get { return true; }
+            set { }
+#endif
         }
 
         /// <summary>
@@ -85,8 +87,10 @@ namespace Jypeli
         /// <param name="y">Ikkunan yläreunan y-koordinaatti (kasvaa alaspäin)</param>
         public void SetWindowPosition( int x, int y )
         {
-            window.Position = new Silk.NET.Maths.Vector2D<int>(x, y);
+#if DESKTOP
+            ((IWindow)window).Position = new Silk.NET.Maths.Vector2D<int>(x, y);
             windowPositionSet = true;
+#endif
         }
 
         /// <summary>

@@ -98,10 +98,13 @@ namespace Jypeli
 
             SpriteBatch = new SpriteBatch( device );
             */
-
-            BasicTextureShader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultTextureShader.glsl"));
-            BasicColorShader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultColorShader.glsl"));
-
+#if DESKTOP
+            BasicTextureShader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGL.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGL.DefaultTextureShader.glsl"));
+            BasicColorShader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGL.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGL.DefaultColorShader.glsl"));
+#elif ANDROID
+            BasicTextureShader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGLES.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGLES.DefaultTextureShader.glsl"));
+            BasicColorShader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGLES.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGLES.DefaultColorShader.glsl"));
+#endif
             ImageBatch.Initialize();
             ShapeBatch.Initialize();
             LineBatch.Initialize();

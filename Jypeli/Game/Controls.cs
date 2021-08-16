@@ -127,23 +127,24 @@ namespace Jypeli
             PhoneBackButton = new BackButton();
             TouchPanel = new TouchPanel(Screen);
 
+            _controllers = new List<Controller>();
             GameControllers = new List<GamePad>(4);
+#if DESKTOP
             GameControllers.Add(new GamePad(input, 0));
             GameControllers.Add(new GamePad(input, 1));
             GameControllers.Add(new GamePad(input, 2));
             GameControllers.Add(new GamePad(input, 3));
+            _controllers.AddRange(GameControllers);
 
-            _controllers = new List<Controller>();
-            _controllers.Add(Keyboard);
-#if !WINDOWS_PHONE && !ANDROID
             _controllers.Add(Mouse);
 #endif
+            _controllers.Add(Keyboard);
+
             _controllers.Add(Accelerometer);
             //_controllers.Add( TouchPanel );
-#if WINDOWS_PHONE || ANDROID
+#if ANDROID
             _controllers.Add( PhoneBackButton );
 #endif
-            _controllers.AddRange(GameControllers);
         }
 
         private void UpdateControls( Time gameTime )

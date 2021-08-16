@@ -39,6 +39,7 @@ using Silk.NET.Windowing;
 using Matrix = System.Numerics.Matrix4x4;
 
 #if ANDROID
+using Android.Content.Res;
 using Jypeli.Controls.Keyboard;
 #endif
 
@@ -107,16 +108,6 @@ namespace Jypeli
         public bool FarseerGame { get; set; }
 
         /// <summary>
-        /// Phone-olio esim. puhelimen tärisyttämiseen.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete( "Käytä Device-oliota" )]
-        public Device Phone
-        {
-            get { return Device; }
-        }
-
-        /// <summary>
         /// Kamera, joka näyttää ruudulla näkyvän osan kentästä.
         /// Kameraa voidaan siirtää, zoomata tai asettaa seuraamaan tiettyä oliota.
         /// </summary>
@@ -143,11 +134,12 @@ namespace Jypeli
         /// Virtuaalinen näppäimistö.
         /// </summary>
         internal VirtualKeyboard VirtualKeyboard { get; private set; }
+        internal AssetManager AssetManager { get; private set; }
 #endif
 
-		/// <summary>
-		/// Alustaa pelin.
-		/// </summary>
+        /// <summary>
+        /// Alustaa pelin.
+        /// </summary>
         public Game()
         {
 			InitGlobals();
@@ -178,6 +170,13 @@ namespace Jypeli
             window.Run();
         }
 
+#if ANDROID
+        public void Run(AssetManager assets)
+        {
+            AssetManager = assets;
+            Run();
+        }
+#endif
         internal static void DisableAudio()
         {
             AudioEnabled = false;
@@ -208,22 +207,22 @@ namespace Jypeli
 
         private void InitWindow()
         {
+#if ANDROID
+            var options = ViewOptions.Default;
+            options.API = new GraphicsAPI(ContextAPI.OpenGLES, ContextProfile.Core, ContextFlags.Default, new APIVersion(3, 0));
+            window = Silk.NET.Windowing.Window.GetView(options);
+#else
             var options = WindowOptions.Default;
             options.Size = new Silk.NET.Maths.Vector2D<int>(1024, 768);
             options.Title = Name;
 
             window = Silk.NET.Windowing.Window.Create(options);
-
+#endif
             window.Load += LoadContent;
             window.Update += Update;
             window.Render += OnDraw;
             window.Closing += OnExit;
             window.Resize += (v) => OnResize(new Vector(v.X, v.Y));
-
-#if ANDROID
-            GraphicsDeviceManager.PreferredBackBufferWidth = 800;
-            GraphicsDeviceManager.PreferredBackBufferHeight = 480;
-#endif
         }
 
         private void InitAudio()
@@ -303,7 +302,7 @@ namespace Jypeli
 
 #if ANDROID
             VirtualKeyboard = new VirtualKeyboard(this);
-            Components.Add(VirtualKeyboard);
+            //Components.Add(VirtualKeyboard);
             VirtualKeyboard.Initialize();
             VirtualKeyboard.Hide();
 #endif

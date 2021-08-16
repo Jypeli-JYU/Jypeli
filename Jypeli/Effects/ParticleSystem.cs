@@ -40,6 +40,10 @@ namespace Jypeli.Effects
         // Jono efektin vapaille partikkeleille
         private Queue<Particle> freeParticles;
 
+        private int maxParticles = 20;
+
+        private Particledata[] particledata;// x, y, rot, scale, alpha
+
         /// <summary>
         /// Yksittäisen partikkelin kuva.
         /// </summary>
@@ -201,7 +205,7 @@ namespace Jypeli.Effects
 
             shader = new Rendering.OpenGl.Shader(gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGl.ParticleVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultTextureShader.glsl"));
 
-            Particledata[] positions = new Particledata[maxAmountOfParticles]; // Varataan näytönohjaimelta muistia jokaiselle partikkelille.
+            particledata = new Particledata[maxAmountOfParticles]; // Varataan näytönohjaimelta muistia jokaiselle partikkelille.
 
             vertexbuffer = new Rendering.OpenGl.BufferObject<VertexPositionColorTexture>(gl, vertices, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer);
             Vao = new Rendering.OpenGl.VertexArrayObject<VertexPositionColorTexture, Vector4>(gl, vertexbuffer, null);
@@ -211,7 +215,7 @@ namespace Jypeli.Effects
             Vao.VertexAttributePointer(1, 4, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 12);
             Vao.VertexAttributePointer(2, 2, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 28);
 
-            databuffer = new Rendering.OpenGl.BufferObject<Particledata>(gl, positions, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer); // x, y, kulma, koko, läpinäkyvyys
+            databuffer = new Rendering.OpenGl.BufferObject<Particledata>(gl, particledata, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer); // x, y, kulma, koko, läpinäkyvyys
 
             databuffer.Bind();
             gl.EnableVertexAttribArray(3);
@@ -413,14 +417,13 @@ namespace Jypeli.Effects
             new VertexPositionColorTexture(topRight, Color.Transparent, textureTopRight),
         };
 
-        private List<Particledata> particledata = new List<Particledata>(); // x, y, rot, scale, alpha
-
         internal unsafe void Draw(Matrix worldMatrix)
         {
             if (particles.Count == 0)
                 return;
             // TODO: Pitäisikö particleilla muuttaa kaikki floateiksi, ei ole mitään syytä miksi niiden pitäisi olla doubleja.
             // Tai eikö particlen voisi suoraan muuttaa structiksi jolloin koko tätä kopiointia ei tarvitsisi tehdä?
+            int i = 0;
             foreach (Particle p in particles)
             {
                 double nTime = p.Lifetime.TotalMilliseconds / p.MaxLifetime.TotalMilliseconds;
@@ -433,10 +436,10 @@ namespace Jypeli.Effects
                 pdata.Color[1] = 1;
                 pdata.Color[2] = 1;
                 pdata.Color[3] = (float)(4 * nTime * (1 - nTime) * AlphaAmount);
-                particledata.Add(pdata);
+                particledata[i++] = pdata;
             }
 
-            databuffer.UpdateBuffer(0, CollectionsMarshal.AsSpan(particledata));
+            databuffer.UpdateBuffer(0, particledata);
 
             var device = Game.GraphicsDevice;
 
@@ -465,7 +468,6 @@ namespace Jypeli.Effects
             Vao.Bind();
 
             gl.DrawArraysInstanced(Silk.NET.OpenGL.GLEnum.Triangles, 0, 6, (uint)particles.Count);
-            particledata.Clear();
         }
     }
 }

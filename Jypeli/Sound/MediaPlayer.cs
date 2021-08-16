@@ -20,12 +20,7 @@ namespace Jypeli
         {
             get
             {
-#if WINDOWS_PHONE || ANDROID
-                //Microsoft.Xna.Framework.FrameworkDispatcher.Update();
-                return Game.AudioEnabled && Microsoft.Xna.Framework.Media.MediaPlayer.GameHasControl;
-#else
                 return Game.AudioEnabled;
-#endif
             }
         }
 

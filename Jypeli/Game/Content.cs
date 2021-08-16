@@ -71,7 +71,13 @@ namespace Jypeli
         /// <returns>Kuva</returns>
         public static Image LoadImage(string name)
         {
+#if ANDROID
+            // TODO: Oikean päätteen etsintä.
+            // TODO: Varmaan Device-oliolle voisi tehdä "StreamContent" tms. metodin latailuja varten.
+            return Image.FromStream(Instance.AssetManager.Open(name));
+#elif DESKTOP
             return new Image(FileExtensionCheck(Path.Combine(Device.ContentPath, name), Image.ImageExtensions));
+#endif
         }
 
         /// <summary>

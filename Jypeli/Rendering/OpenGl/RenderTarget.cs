@@ -45,8 +45,8 @@ namespace Jypeli.Rendering.OpenGl
             // Tässä pitää jostain syystä käyttää InternalFormat-enumia, mutta muualla voi käyttää GLEnumia...
             gl.TexImage2D(GLEnum.Texture2D, 0, InternalFormat.Rgb, width, height, 0, GLEnum.Rgb, GLEnum.UnsignedByte, null);
 
-            gl.TexParameterI(GLEnum.Texture2D, GLEnum.TextureMagFilter, (int)GLEnum.Linear);
-            gl.TexParameterI(GLEnum.Texture2D, GLEnum.TextureMinFilter, (int)GLEnum.Linear);
+            gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureMagFilter, (int)GLEnum.Linear);
+            gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureMinFilter, (int)GLEnum.Linear);
 
             gl.FramebufferTexture2D(GLEnum.Framebuffer, GLEnum.ColorAttachment0, GLEnum.Texture2D, texturebufferHandle, 0);
 

@@ -157,12 +157,7 @@ namespace Jypeli.Widgets
             TextBody.Width = DefaultTextWidth;
             TextBody.TextColor = Color.Black;
             TextBody.Color = new Color(0, 0, 255, 4);
-#if WINDOWS_PHONE || ANDROID
-            if ( DefaultTextWidth < 500 )
-                TextBody.Font = Font.DefaultSmall;
-            else 
-                TextBody.Font = Font.DefaultLarge;
-#endif
+
             TextBody.Text = textBody;
 
             StartLabel.SizeMode = TextSizeMode.Wrapped;

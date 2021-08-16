@@ -27,12 +27,6 @@
  * Authors: Tomi Karppinen, Tero Jäntti
  */
 
-
-
-#if WINDOWS_PHONE || ANDROID
-using Microsoft.Xna.Framework;
-#endif
-
 namespace Jypeli
 {
     /// <summary>

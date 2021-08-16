@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31512.422
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jypeli", "Jypeli\Jypeli.csproj", "{0CE0EBFA-81E9-4B0A-AEAC-3558BF95C0E0}"
 EndProject
@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jypeli.Tests", "Tests\Jypeli.Tests\Jypeli.Tests.csproj", "{2478A834-FED1-4125-A732-DEA49BAAA536}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidPhysics", "Tests\AndroidPhysics\AndroidPhysics.csproj", "{CBF4D129-A10F-479B-BFEC-61B88598E849}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,18 @@ Global
 		{2478A834-FED1-4125-A732-DEA49BAAA536}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2478A834-FED1-4125-A732-DEA49BAAA536}.Release|x86.ActiveCfg = Release|Any CPU
 		{2478A834-FED1-4125-A732-DEA49BAAA536}.Release|x86.Build.0 = Release|Any CPU
+		{CBF4D129-A10F-479B-BFEC-61B88598E849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBF4D129-A10F-479B-BFEC-61B88598E849}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBF4D129-A10F-479B-BFEC-61B88598E849}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CBF4D129-A10F-479B-BFEC-61B88598E849}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CBF4D129-A10F-479B-BFEC-61B88598E849}.Debug|x86.Build.0 = Debug|Any CPU
+		{CBF4D129-A10F-479B-BFEC-61B88598E849}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{CBF4D129-A10F-479B-BFEC-61B88598E849}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBF4D129-A10F-479B-BFEC-61B88598E849}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBF4D129-A10F-479B-BFEC-61B88598E849}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{CBF4D129-A10F-479B-BFEC-61B88598E849}.Release|x86.ActiveCfg = Release|Any CPU
+		{CBF4D129-A10F-479B-BFEC-61B88598E849}.Release|x86.Build.0 = Release|Any CPU
+		{CBF4D129-A10F-479B-BFEC-61B88598E849}.Release|x86.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +91,7 @@ Global
 		{3F27080E-F6C6-4BC9-A8C4-886412F141BB} = {DC335282-9CEC-461A-934F-68E4E9962460}
 		{ED552C6C-5B2B-4FF8-871B-4A4977A1C3E8} = {DC335282-9CEC-461A-934F-68E4E9962460}
 		{2478A834-FED1-4125-A732-DEA49BAAA536} = {DC335282-9CEC-461A-934F-68E4E9962460}
+		{CBF4D129-A10F-479B-BFEC-61B88598E849} = {DC335282-9CEC-461A-934F-68E4E9962460}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E893DBE-1BA1-4FEC-B40D-37995FB065B9}

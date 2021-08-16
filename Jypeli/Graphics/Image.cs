@@ -29,11 +29,9 @@ namespace Jypeli
     /// </summary>
     public class Image
     {
-        private Image parentImage;
-
         private string assetName;
 
-        private static string[] imageExtensions = { ".png", ".jpg", ".xnb"};
+        internal static string[] ImageExtensions { get; } = { ".png", ".jpg"}; // TODO: Kaikki päätteet joita ImageSharp tukee
 
         /// <summary>
         /// ImageSharpin raakakuva
@@ -411,7 +409,7 @@ namespace Jypeli
 
         private SImage LoadFile(string path)
         {
-            assetName = Game.FileExtensionCheck(path, imageExtensions);
+            assetName = Game.FileExtensionCheck(path, ImageExtensions);
             return SImage.Load(assetName);
         }
 

@@ -39,6 +39,8 @@ namespace Jypeli
         private int blurAmount = 0;
         private int strokeAmount = 0;
 
+        internal static string[] FontExtensions { get; } = { ".ttf" };
+
         internal FontSystem FontSystem
         {
             get { DoLoad(); return fontsystem; }

@@ -174,3 +174,5 @@ csharp_preserve_single_line_statements = false
 dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
+[*.{cs,vb}]
+dotnet_style_object_initializer=false:suggestion

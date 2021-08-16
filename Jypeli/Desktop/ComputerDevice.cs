@@ -26,7 +26,8 @@
         /// </summary>
         public ComputerDevice()
         {
-            this.Storage = new FileManager(FileLocation.DataPath, FileLocation.MyDocuments);
+            Storage = new FileManager(FileLocation.DataPath, FileLocation.MyDocuments);
+            ContentPath = FileLocation.ContentPath;
         }
     }
 }

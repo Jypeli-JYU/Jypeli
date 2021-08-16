@@ -49,6 +49,11 @@ namespace Jypeli.Devices
         public FileManager Storage { get; protected set; }
 
         /// <summary>
+        /// Content-kansion polku, riippuu käytetystä alustasta.
+        /// </summary>
+        public string ContentPath { get; protected set; }
+
+        /// <summary>
         /// Onko laite mobiililaite.
         /// </summary>
         public virtual bool IsMobileDevice

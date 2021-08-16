@@ -67,11 +67,11 @@ namespace Jypeli
         /// <summary>
         /// Lataa kuvan contentista.
         /// </summary>
-        /// <param name="name">Kuvan nimi päätteineen (esim. "norsu.png")</param>
+        /// <param name="name">Kuvan nimi, jos tiedostopäätettä ei anneta, etsitään tiedostoa yleisimmillä päätteillä.</param>
         /// <returns>Kuva</returns>
         public static Image LoadImage(string name)
         {
-            return new Image("Content/" + name);
+            return new Image(FileExtensionCheck(Path.Combine(Device.ContentPath, name), Image.ImageExtensions));
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Jypeli
         /// <param name="name">Fontin tiedoston nimi ilman päätettä.</param>
         public static Font LoadFont(string name)
         {
-            return Font.FromContent(name);
+            return new Font(FileExtensionCheck(Path.Combine(Device.ContentPath, name), Font.FontExtensions));
         }
 
         /// <summary>

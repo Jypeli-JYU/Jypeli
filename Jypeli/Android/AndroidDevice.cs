@@ -7,11 +7,6 @@ namespace Jypeli.Android
     {
         private double _directionalSign = 1;
 
-        public override bool IsMobileDevice
-        {
-            get { return true; }
-        }
-
         public override bool IsPhone
         {
             get
@@ -30,12 +25,12 @@ namespace Jypeli.Android
 
         public override void Vibrate( int milliSeconds )
         {
-            // todo
+            Xamarin.Essentials.Vibration.Vibrate(milliSeconds);
         }
 
         public override void StopVibrating()
         {
-            // todo
+            Xamarin.Essentials.Vibration.Cancel();
         }
 
         protected override void UpdateScreen()

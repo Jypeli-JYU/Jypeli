@@ -54,14 +54,6 @@ namespace Jypeli.Devices
         public string ContentPath { get; protected set; }
 
         /// <summary>
-        /// Onko laite mobiililaite.
-        /// </summary>
-        public virtual bool IsMobileDevice
-        {
-            get { return false; }
-        }
-
-        /// <summary>
         /// Onko laite puhelin.
         /// </summary>
         public virtual bool IsPhone
@@ -118,12 +110,6 @@ namespace Jypeli.Devices
             return new ComputerDevice();
 #elif ANDROID
             return new Jypeli.Android.AndroidDevice();
-#elif WINDOWS_PHONE81
-            return new WindowsPhone81Device();
-#elif WINDOWS_UAP
-            return new WindowsUniversalDevice();
-#elif WINRT
-            return new Windows8Device();
 #else
             return new Device();
 #endif

@@ -1,12 +1,19 @@
 ﻿using System;
+using System.IO;
 using Jypeli.Devices;
+
+#if ANDROID
+using Android.Content.Res;
+#endif
 
 namespace Jypeli.Android
 {
     public class AndroidDevice : Device
     {
         private double _directionalSign = 1;
-
+#if ANDROID
+        private AssetManager AssetManager;
+#endif
         public override bool IsPhone
         {
             get
@@ -21,8 +28,37 @@ namespace Jypeli.Android
             this.Accelerometer = new AndroidAccelerometer();
             this.Storage = new FileManager(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
             ContentPath = Environment.GetFolderPath(Environment.SpecialFolder.Resources);
+#if ANDROID
+            AssetManager = Game.AssetManager;
+#endif
         }
 
+        internal override Stream StreamContent(string name, string[] extensions)
+        {
+#if ANDROID
+            Stream s = AssetManager.Open(name);
+            if(s == null)
+            {
+                s = FindContentFile(name, extensions);
+            }
+            return s;
+#else
+            throw new InvalidOperationException("Ohjelma ei ole käännetty ANDROID-vakiolla. Tämän poikkeuksen ei pitäisi ikinä tapahtua.");
+#endif
+        }
+#if ANDROID
+        private Stream FindContentFile(string name, string[] extensions)
+        {
+            foreach (var ext in extensions)
+            {
+                string withExt = Path.ChangeExtension(name, ext);
+                Stream s = AssetManager.Open(withExt);
+                if (s != null)
+                    return s;
+            }
+            return null;
+        }
+#endif
         public override void Vibrate( int milliSeconds )
         {
             Xamarin.Essentials.Vibration.Vibrate(milliSeconds);

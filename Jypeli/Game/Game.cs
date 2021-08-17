@@ -134,7 +134,7 @@ namespace Jypeli
         /// Virtuaalinen näppäimistö.
         /// </summary>
         internal VirtualKeyboard VirtualKeyboard { get; private set; }
-        internal AssetManager AssetManager { get; private set; }
+        public static AssetManager AssetManager { get; set; }
 #endif
 
         /// <summary>
@@ -170,13 +170,6 @@ namespace Jypeli
             window.Run();
         }
 
-#if ANDROID
-        public void Run(AssetManager assets)
-        {
-            AssetManager = assets;
-            Run();
-        }
-#endif
         internal static void DisableAudio()
         {
             AudioEnabled = false;

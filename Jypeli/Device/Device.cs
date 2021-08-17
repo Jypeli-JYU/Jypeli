@@ -28,6 +28,9 @@
  */
 
 
+using System;
+using System.IO;
+
 namespace Jypeli.Devices
 {
     /// <summary>
@@ -75,6 +78,11 @@ namespace Jypeli.Devices
                 _displayResolution = value;
                 if ( Game.Instance != null && Game.Screen != null ) ResetScreen();
             }
+        }
+
+        internal virtual Stream StreamContent(string name, string[] extensions)
+        {
+            return File.OpenRead(name);
         }
 
         /// <summary>

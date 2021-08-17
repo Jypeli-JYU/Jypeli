@@ -10,8 +10,9 @@ namespace Program
     {
         protected override void OnRun()
         {
+            Jypeli.Game.AssetManager = Assets;
             using (var game = new Tasohyppelypeli())
-                game.Run(Assets);
+                game.Run();
         }
     }
 }

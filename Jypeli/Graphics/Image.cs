@@ -95,6 +95,11 @@ namespace Jypeli
             CreateNewTexture(width, height, JyColor.Black);
         }
 
+        internal Image(Stream s)
+        {
+            image = (SXImage)SImage.Load(s);
+        }
+
         internal Image(string assetName)
         {
             image = (SXImage)SImage.Load(assetName);

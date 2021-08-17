@@ -57,11 +57,12 @@ namespace Jypeli
         /// </summary>
         public Vector PositionOnScreen
         {
-            get
+            get { return _position; }
+            set 
             {
-                return _position;
+                _previousPosition = _position;
+                _position = value;
             }
-            set { _position = value; }
 
         }
 
@@ -83,7 +84,7 @@ namespace Jypeli
         {
             get
             {
-                return ScreenView.FromXnaCoords( _previousPosition, screen.ViewportSize, Vector.Zero ).Transform( screen.GetScreenTransform() );
+                return _previousPosition;
             }
         }
 

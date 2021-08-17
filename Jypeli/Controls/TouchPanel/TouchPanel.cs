@@ -60,7 +60,7 @@ namespace Jypeli
         /// </summary>
         public int NumTouches
         {
-            get { return touches.Count; }
+            get { return 1; }// touches.Count; }
         }
 
         /// <summary>

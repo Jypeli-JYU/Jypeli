@@ -6,14 +6,6 @@
     public class ComputerDevice : Device
     {
         /// <summary>
-        /// Onko kyseessä mobiililaite (ei)
-        /// </summary>
-        public override bool IsMobileDevice
-        {
-            get { return false; }
-        }
-
-        /// <summary>
         /// Onko kyseessä puhelin (ei)
         /// </summary>
         public override bool IsPhone

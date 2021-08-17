@@ -20,5 +20,10 @@ namespace Jypeli
         /// Puhelin on pystysuorassa.
         /// </summary>
         RightAngle,
+
+        /// <summary>
+        /// Vaihtaa X ja Y akselit toisinpäin.
+        /// </summary>
+        InvertXY
     }
 }

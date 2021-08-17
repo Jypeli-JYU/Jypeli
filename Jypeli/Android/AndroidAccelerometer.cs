@@ -46,6 +46,8 @@ namespace Jypeli.Android
             {
                 case AccelerometerCalibration.ZeroAngle:
                     return new Vector(spaceVector.X, spaceVector.Y);
+                case AccelerometerCalibration.InvertXY:
+                    return new Vector(spaceVector.Y, spaceVector.X);
                 case AccelerometerCalibration.HalfRightAngle:
                     return new Vector(spaceVector.X, spaceVector.Y - spaceVector.Z);
                 case AccelerometerCalibration.RightAngle:

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Xamarin.Essentials;
 
 namespace Jypeli.Android
@@ -18,7 +19,14 @@ namespace Jypeli.Android
         public override void Start()
         {
             Xamarin.Essentials.Accelerometer.Start(SensorSpeed.Default);
+            Xamarin.Essentials.Accelerometer.ReadingChanged += AccelerometerReadingChanged;
             base.Start();
+        }
+
+        private void AccelerometerReadingChanged(object sender, AccelerometerChangedEventArgs e)
+        {
+            var v = e.Reading.Acceleration;
+            CurrentState = new Vector3(v.X, v.Y, v.Z);
         }
 
         /// <summary>
@@ -67,13 +75,7 @@ namespace Jypeli.Android
 
         internal override Vector3 GetState()
         {
-            // TODO: Kiihtyvyysanturin tilan ylläpito
-            /*
-            var e = _accelerometer.CurrentValue.Acceleration;
-            UpdateDisplayOrientation(e);
-
-            return new Vector3(e.X, e.Y, e.Z);*/
-            return new Vector3(1,1,1);
+            return CurrentState;
         }
 
         private Vector3 Transform3d(Vector3 e)

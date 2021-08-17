@@ -89,7 +89,7 @@ namespace Jypeli
 
         public Accelerometer()
         {
-            Calibration = AccelerometerCalibration.HalfRightAngle;
+            Calibration = AccelerometerCalibration.ZeroAngle;
             DefaultSensitivity = 0.2;
             DefaultAnalogSensitivity = 0.01;
             GesturesEnabled = true;

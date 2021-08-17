@@ -1,4 +1,5 @@
 #version 300 es
+
 layout (location = 0) in mediump vec4 vPos;
 layout (location = 1) in mediump vec4 vCol;
 layout (location = 2) in mediump vec2 vTex;

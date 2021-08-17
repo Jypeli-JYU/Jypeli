@@ -59,8 +59,10 @@ namespace Jypeli
         {
             get
             {
-                return ScreenView.FromXnaCoords( _position, screen.ViewportSize, Vector.Zero ).Transform( screen.GetScreenTransform() );
+                return _position;
             }
+            set { _position = value; }
+
         }
 
         /// <summary>

@@ -202,9 +202,11 @@ namespace Jypeli.Effects
             }
 
             gl = ((Rendering.OpenGl.GraphicsDevice)Game.GraphicsDevice).Gl;
-
-            shader = new Rendering.OpenGl.Shader(gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGl.ParticleVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGl.DefaultTextureShader.glsl"));
-
+#if ANDROID
+            shader = new Rendering.OpenGl.Shader(gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGLES.ParticleVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGLES.DefaultTextureShader.glsl"));
+#elif DESKTOP
+            shader = new Rendering.OpenGl.Shader(gl, Game.ResourceContent.LoadInternalText("Shaders.OpenGL.ParticleVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGL.DefaultTextureShader.glsl"));
+#endif
             particledata = new Particledata[maxAmountOfParticles]; // Varataan näytönohjaimelta muistia jokaiselle partikkelille.
 
             vertexbuffer = new Rendering.OpenGl.BufferObject<VertexPositionColorTexture>(gl, vertices, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer);

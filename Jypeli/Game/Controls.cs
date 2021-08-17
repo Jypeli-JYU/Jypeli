@@ -125,7 +125,7 @@ namespace Jypeli
             Keyboard = new Keyboard(input);
             Mouse = new Mouse(Screen, input);
             PhoneBackButton = new BackButton();
-            TouchPanel = new TouchPanel(Screen);
+            TouchPanel = new TouchPanel(Screen, input);
 
             _controllers = new List<Controller>();
             GameControllers = new List<GamePad>(4);
@@ -141,7 +141,7 @@ namespace Jypeli
             _controllers.Add(Keyboard);
 
             _controllers.Add(Accelerometer);
-            //_controllers.Add( TouchPanel );
+            _controllers.Add( TouchPanel );
 #if ANDROID
             _controllers.Add( PhoneBackButton );
 #endif

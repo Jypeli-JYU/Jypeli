@@ -141,7 +141,7 @@ namespace Jypeli.Rendering.OpenGl
             fixed (void* data = &MemoryMarshal.GetReference(image.image.GetPixelRowSpan(0)))
             {
                 image.handle = Gl.GenTexture();
-                BindTexture(image.handle);
+                BindTexture(image);
 
                 Gl.TexImage2D(TextureTarget.Texture2D, 0, InternalFormat.Rgba, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
 
@@ -157,7 +157,7 @@ namespace Jypeli.Rendering.OpenGl
         {
             fixed (void* data = &MemoryMarshal.GetReference(image.image.GetPixelRowSpan(0)))
             {
-                BindTexture(image.handle);
+                BindTexture(image);
 
                 Gl.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (uint)image.Width, (uint)image.Height, PixelFormat.Rgba, PixelType.UnsignedByte, data);
 
@@ -165,6 +165,7 @@ namespace Jypeli.Rendering.OpenGl
 
                 Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)scaling);
                 Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)scaling);
+                Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapS, (int)GLEnum.Repeat);
             }
         }
 
@@ -172,16 +173,19 @@ namespace Jypeli.Rendering.OpenGl
         public void UpdateTextureScaling(Image image)
         {
             GLEnum scaling = image.Scaling == ImageScaling.Linear ? GLEnum.Linear : GLEnum.Nearest;
-            BindTexture(image.handle);
+            BindTexture(image);
             Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)scaling); // TODO: Entä jos halutaan vain muuttaa skaalausta, ilman kuvan datan muuttamista?
             Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)scaling);
         }
 
         /// <inheritdoc/>
-        public void BindTexture(uint handle)
+        public void BindTexture(Image image)
         {
+            // Jos kuvaa ei ole vielä viety näytönohjaimelle.
+            if (image.handle == 0)
+                LoadImage(image);
             Gl.ActiveTexture(TextureUnit.Texture0);
-            Gl.BindTexture(TextureTarget.Texture2D, handle);
+            Gl.BindTexture(TextureTarget.Texture2D, image.handle);
         }
 
         /// <inheritdoc/>

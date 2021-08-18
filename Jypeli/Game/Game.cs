@@ -336,15 +336,17 @@ namespace Jypeli
             UpdateFps(gameTime);
             GraphicsDevice.SetRenderTarget(Screen.RenderTarget);
             GraphicsDevice.Clear(Level.BackgroundColor);
-            /*
+            
             if ( Level.Background.Image != null && !Level.Background.MovesWithCamera )
             {
-                SpriteBatch spriteBatch = Jypeli.Graphics.SpriteBatch;
-                spriteBatch.Begin( SpriteSortMode.Deferred, BlendState.AlphaBlend );
-                spriteBatch.Draw( Level.Background.Image.XNATexture, new XnaRectangle( 0, 0, (int)Screen.Width, (int)Screen.Height ), XnaColor.White );
-                spriteBatch.End();
+                GraphicsDevice.BindTexture(Level.Background.Image);
+
+                Graphics.BasicTextureShader.Use();
+                Graphics.BasicTextureShader.SetUniform("world", Matrix.Identity);
+
+                GraphicsDevice.DrawPrimitives(Jypeli.Rendering.PrimitiveType.OpenGlTriangles, Graphics.TextureVertices, 6, true);
             }
-            */
+            
             // The world matrix adjusts the position and size of objects according to the camera angle.
             var worldMatrix =
                 Matrix.CreateTranslation( (float)-Camera.Position.X, (float)-Camera.Position.Y, 0 )

@@ -456,34 +456,13 @@ namespace Jypeli
             Game.GraphicsDevice.SetRenderTarget(null);
             Game.GraphicsDevice.Clear(Game.Instance.Level.BackgroundColor);
 
-            VertexPositionColorTexture[] textureVertices = new VertexPositionColorTexture[]
-            {
-                new VertexPositionColorTexture(new Vector3(-1f, 1f, 0), Color.White, new Vector(0f, 1f)),
-                new VertexPositionColorTexture(new Vector3(-1f, -1f, 0), Color.White, new Vector(0f, 0f)),
-                new VertexPositionColorTexture(new Vector3(1f, -1f, 0), Color.White, new Vector(1f, 0f)),
-
-                new VertexPositionColorTexture(new Vector3(-1f, 1f, 0), Color.White, new Vector(0f, 1f)),
-                new VertexPositionColorTexture(new Vector3(1f, -1f, 0), Color.White, new Vector(1f, 0f)),
-                new VertexPositionColorTexture(new Vector3(1f, 1f, 0), Color.White, new Vector(1f, 1f))
-            };
             RenderTarget.BindTexture();
 
             Graphics.BasicTextureShader.Use();
             Graphics.BasicTextureShader.SetUniform("world", Matrix.Identity);
 
-            Game.GraphicsDevice.DrawPrimitives(PrimitiveType.OpenGlTriangles, textureVertices, 6, true);
+            Game.GraphicsDevice.DrawPrimitives(PrimitiveType.OpenGlTriangles, Graphics.TextureVertices, 6, true);
             RenderTarget.UnBindTexture();
-            /*
-            Matrix rotate = Matrix.CreateRotationZ(angle);
-            Vector devorigin = new Vector( device.Viewport.Width, device.Viewport.Height ) / 2;
-            Vector rtorigin = new Vector( RenderTarget.Width * _scale.X, RenderTarget.Height * _scale.Y ) / 2;
-            Vector diff = Vector.Transform( -rtorigin, rotate );
-            var rectangle = new Rectangle<float>(new Vector2D<float>(0, 0), new Vector2D<float>(device.Viewport.Width, device.Viewport.Height));
-            
-            renderBatch.Begin( SpriteSortMode.Immediate, BlendState.AlphaBlend, Graphics.GetDefaultSamplerState(), DepthStencilState.None, RasterizerState.CullCounterClockwise, null );
-            renderBatch.Draw( _bgTex, rectangle, Color.White );
-            renderBatch.Draw( RenderTarget, devorigin + diff + _center, null, _color, angle, Vector.Zero, _scale2, _effect, 1 );
-            renderBatch.End();*/
         }
     }
 

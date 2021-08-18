@@ -112,12 +112,7 @@ namespace Jypeli
         {
             if (iTexture > 0)
             {
-                if (texture.handle == 0)
-                {
-                    // Viedään tekstuuri näytönohjaimelle kun sitä ensimmäisen kerran käytetään.
-                    Game.GraphicsDevice.LoadImage(texture);
-                }
-                else if (texture.dirty)
+                if (texture.dirty)
                 {
                     // Jos kuvan data on muuttunut, pitää se viedä uudestaan.
                     Game.GraphicsDevice.UpdateTextureData(texture);
@@ -129,7 +124,7 @@ namespace Jypeli
                 shader.SetUniform("world", matrix * Game.GraphicsDevice.View * Game.GraphicsDevice.Projection);
 
                 Game.GraphicsDevice.World = matrix;
-                Game.GraphicsDevice.BindTexture(texture.handle);
+                Game.GraphicsDevice.BindTexture(texture);
 
                 Game.GraphicsDevice.DrawPrimitives(
                     PrimitiveType.OpenGlTriangles,

@@ -450,10 +450,7 @@ namespace Jypeli.Effects
 
             if (OuterParticleImage is not null)
             {
-                if (OuterParticleImage.handle == 0)
-                    device.LoadImage(OuterParticleImage);
-
-                device.BindTexture(OuterParticleImage.handle);
+                device.BindTexture(OuterParticleImage);
 
                 shader.SetUniform("scale", 1f);
 
@@ -462,10 +459,7 @@ namespace Jypeli.Effects
                 gl.DrawArraysInstanced(Silk.NET.OpenGL.GLEnum.Triangles, 0, 6, (uint)particles.Count);
             }
 
-            if (ParticleImage.handle == 0)
-                device.LoadImage(ParticleImage);
-
-            device.BindTexture(ParticleImage.handle);
+            device.BindTexture(ParticleImage);
             shader.SetUniform("scale", 0.75f);
             Vao.Bind();
 

@@ -103,25 +103,25 @@ namespace Jypeli.Rendering
         /// Lataa kuvan datan näytönohjaimen muistiin.
         /// </summary>
         /// <param name="texture"></param>
-        public void LoadImage(Image texture);
+        public void LoadImage(Image image);
 
         /// <summary>
         /// Päivittää kuvan datan näytönohjaimelle.
         /// </summary>
         /// <param name="texture"></param>
-        public void UpdateTextureData(Image texture);
+        public void UpdateTextureData(Image image);
 
         /// <summary>
         /// Päivittää kuvan skaalausasetuksen näytönohjaimelle
         /// </summary>
         /// <param name="texture"></param>
-        public void UpdateTextureScaling(Image texture);
+        public void UpdateTextureScaling(Image image);
 
         /// <summary>
         /// Kiinnittää tekstuurin valmiiksi käyttöä varten.
         /// </summary>
         /// <param name="handle">Tekstuurin kahva</param>
-        public void BindTexture(uint handle);
+        public void BindTexture(Image image);
 
         /// <summary>
         /// Kutsuttava kun ikkunan kokoa muutetaan

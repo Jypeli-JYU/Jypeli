@@ -57,6 +57,17 @@ namespace Jypeli
             BottomRight = new Vector(1.0, 1.0),
         };
 
+        internal static VertexPositionColorTexture[] TextureVertices = new VertexPositionColorTexture[]
+        {
+                new VertexPositionColorTexture(new Vector3(-1f, 1f, 0), Color.White, new Vector(0f, 1f)),
+                new VertexPositionColorTexture(new Vector3(-1f, -1f, 0), Color.White, new Vector(0f, 0f)),
+                new VertexPositionColorTexture(new Vector3(1f, -1f, 0), Color.White, new Vector(1f, 0f)),
+
+                new VertexPositionColorTexture(new Vector3(-1f, 1f, 0), Color.White, new Vector(0f, 1f)),
+                new VertexPositionColorTexture(new Vector3(1f, -1f, 0), Color.White, new Vector(1f, 0f)),
+                new VertexPositionColorTexture(new Vector3(1f, 1f, 0), Color.White, new Vector(1f, 1f))
+        };
+
 #if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
         static Effect LightingEffect;
 #endif

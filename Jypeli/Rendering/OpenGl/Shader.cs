@@ -16,6 +16,8 @@ namespace Jypeli.Rendering.OpenGl
         private uint _handle;
         private GL _gl;
 
+        private static Shader ActiveShader;
+
         public Shader(GL gl, string vrt, string frag)
         {
             _gl = gl;
@@ -45,8 +47,12 @@ namespace Jypeli.Rendering.OpenGl
         /// <inheritdoc/>
         public void Use()
         {
-            //Using the program
+            // Shaderin vaihto on melko raskas operaatio, erityisesti mobiililaitteilla
+            if (ActiveShader == this)
+                return;
+
             _gl.UseProgram(_handle);
+            ActiveShader = this;
         }
 
         /// <inheritdoc/>

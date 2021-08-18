@@ -193,5 +193,13 @@ namespace Jypeli.Rendering.OpenGl
         {
             Gl.Viewport(new System.Drawing.Size((int)newSize.X, (int)newSize.Y));
         }
+
+        public void SetTextureToRepeat(Image image)
+        {
+            BindTexture(image);
+
+            Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapS, (int)GLEnum.Repeat);
+            Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapT, (int)GLEnum.Repeat);
+        }
     }
 }

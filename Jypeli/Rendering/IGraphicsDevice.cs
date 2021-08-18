@@ -118,6 +118,12 @@ namespace Jypeli.Rendering
         public void UpdateTextureScaling(Image image);
 
         /// <summary>
+        /// Asettaa kuvan toistamaan itseään
+        /// </summary>
+        /// <param name="image"></param>
+        public void SetTextureToRepeat(Image image);
+
+        /// <summary>
         /// Kiinnittää tekstuurin valmiiksi käyttöä varten.
         /// </summary>
         /// <param name="handle">Tekstuurin kahva</param>

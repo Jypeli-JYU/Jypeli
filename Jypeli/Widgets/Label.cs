@@ -488,17 +488,15 @@ namespace Jypeli
         /// <inheritdoc/>
         protected void Draw(Matrix parentTransformation, Matrix transformation, string text)
         {
-            Vector textSize = font.SpriteFont.MeasureString(text);
-            Matrix m = Matrix.CreateScale(_textScale)
-                    * Matrix.CreateTranslation((float)(GetHorizontalAlignment() - textSize.X/2), (float)(GetVerticalAlignment()), 0)
+            Matrix m = Matrix.CreateTranslation((float)(GetHorizontalAlignment() - font.SpriteFont.MeasureString(text).X * TextScale.X / 2), (float)GetVerticalAlignment(), 0)
                     * Matrix.CreateRotationZ((float)Angle.Radians)
                     * Matrix.CreateTranslation((float)Position.X, (float)Position.Y, 0)
                     * parentTransformation;
 
             if(characterColors is null)
-                Renderer.DrawText(text, ref m, Font, TextColor);
+                Renderer.DrawText(text, ref m, Font, TextColor, TextScale);
             else
-                Renderer.DrawText(text, ref m, Font, characterColors);
+                Renderer.DrawText(text, ref m, Font, characterColors, TextScale);
 
             base.Draw(parentTransformation, transformation);
         }

@@ -136,10 +136,6 @@ namespace Jypeli
             var tempVertices = MakeTextureVertices( wrapSize );
 
             //device.RasterizerState = RasterizerState.CullClockwise;
-#if WINDOWS_PHONE
-            // The WP7 emulator interprets cullmodes incorectly sometimes.
-            device.RasterizerState = RasterizerState.CullNone;
-#endif
 
             //device.BlendState = BlendState.AlphaBlend;
 
@@ -291,12 +287,12 @@ namespace Jypeli
         /// <param name="position">Paikka</param>
         /// <param name="font">Fontti</param>
         /// <param name="color">Tekstin väri</param>
-        public static void DrawText(string text, Vector position, Font font, Color color)
+        public static void DrawText(string text, Vector position, Font font, Color color, Vector scale)
         {
             // TODO: Jokainen tekstielementti on nyt oma piirtokutsu näytönohjaimelle.
             Vector textSize = font.SpriteFont.MeasureString(text);
             Graphics.FontRenderer.Begin();
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X/2, 0), color.ToSystemDrawing());
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X/2, 0), color.ToSystemDrawing(), scale);
             Graphics.FontRenderer.End();
         }
 
@@ -307,11 +303,11 @@ namespace Jypeli
         /// <param name="position">Paikka</param>
         /// <param name="font">Fontti</param>
         /// <param name="colors">Tekstin kirjainten väri</param>
-        public static void DrawText(string text, Vector position, Font font, Color[] colors)
+        public static void DrawText(string text, Vector position, Font font, Color[] colors, Vector scale)
         {
             Vector textSize = font.SpriteFont.MeasureString(text);
             Graphics.FontRenderer.Begin();
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), colors.ConvertAll((c) => c.ToSystemDrawing()).ToArray());
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), colors.ConvertAll((c) => c.ToSystemDrawing()).ToArray(), scale);
             Graphics.FontRenderer.End();
         }
 
@@ -322,11 +318,11 @@ namespace Jypeli
         /// <param name="transformation">Transformaatiomatriisi</param>
         /// <param name="font">Fontti</param>
         /// <param name="color">Tekstin väri</param>
-        public static void DrawText(string text, ref Matrix transformation, Font font, Color color)
+        public static void DrawText(string text, ref Matrix transformation, Font font, Color color, Vector scale)
         {
             Vector textSize = font.SpriteFont.MeasureString(text);
             Graphics.FontRenderer.Begin(ref transformation);
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, Vector.Zero, color.ToSystemDrawing());
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, new Vector(0, textSize.Y/2), color.ToSystemDrawing(), scale);
             Graphics.FontRenderer.End();
         }
 
@@ -337,10 +333,10 @@ namespace Jypeli
         /// <param name="transformation">Transformaatiomatriisi</param>
         /// <param name="font">Fontti</param>
         /// <param name="colors">Tekstin kirjainten väri</param>
-        public static void DrawText(string text, ref Matrix transformation, Font font, Color[] colors)
+        public static void DrawText(string text, ref Matrix transformation, Font font, Color[] colors, Vector scale)
         {
             Graphics.FontRenderer.Begin(ref transformation);
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, Vector.Zero, colors.ConvertAll((c) => c.ToSystemDrawing()).ToArray());
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, Vector.Zero, colors.ConvertAll((c) => c.ToSystemDrawing()).ToArray(), scale);
             Graphics.FontRenderer.End();
         }
 

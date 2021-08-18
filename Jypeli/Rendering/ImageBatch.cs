@@ -199,10 +199,13 @@ namespace Jypeli
 
             System.Drawing.Rectangle rect = sourceRectangle.Value;
 
+            // 
+            Vector transf = new Vector(position.X - origin.X + (float)rect.Width / 2, position.Y + origin.Y - (float)rect.Height / 2);
+
             Matrix matrix =
                 Matrix.CreateScale(scale.X * rect.Width, scale.Y * rect.Height, 1f)
                 * Matrix.CreateRotationZ(angle)
-                * Matrix.CreateTranslation(position.X + rect.Width / 2 - origin.X, position.Y + origin.Y / 2, 0);
+                * Matrix.CreateTranslation((float)transf.X * scale.X, (float)transf.Y * scale.Y, 0);
 
             Vector3[] transformedPoints = new Vector3[VerticesPerTexture];
             Vector3.Transform(Vertices, ref matrix, transformedPoints);
@@ -216,25 +219,25 @@ namespace Jypeli
             }
 
             // Triangle 1
-            vertexBuffer[startIndex + 0].TexCoordsX = rect.X / iw;
-            vertexBuffer[startIndex + 0].TexCoordsY = rect.Y / ih;
+            vertexBuffer[startIndex + 0].TexCoordsX = rect.Left / iw;
+            vertexBuffer[startIndex + 0].TexCoordsY = rect.Top / ih;
             vertexBuffer[startIndex + 0].SetColor(color);
-            vertexBuffer[startIndex + 1].TexCoordsX = rect.X / iw;
-            vertexBuffer[startIndex + 1].TexCoordsY = (rect.Y + rect.Height) / ih;
+            vertexBuffer[startIndex + 1].TexCoordsX = rect.Left / iw;
+            vertexBuffer[startIndex + 1].TexCoordsY = rect.Bottom / ih;
             vertexBuffer[startIndex + 1].SetColor(color);
-            vertexBuffer[startIndex + 2].TexCoordsX = (rect.X + rect.Width) / iw;
-            vertexBuffer[startIndex + 2].TexCoordsY = rect.Y / ih;
+            vertexBuffer[startIndex + 2].TexCoordsX = rect.Right / iw;
+            vertexBuffer[startIndex + 2].TexCoordsY = rect.Top / ih;
             vertexBuffer[startIndex + 2].SetColor(color);
 
             // Triangle 2
-            vertexBuffer[startIndex + 3].TexCoordsX = rect.X / iw;
-            vertexBuffer[startIndex + 3].TexCoordsY = (rect.Y + rect.Height) / ih;
+            vertexBuffer[startIndex + 3].TexCoordsX = rect.Left / iw;
+            vertexBuffer[startIndex + 3].TexCoordsY = rect.Bottom / ih;
             vertexBuffer[startIndex + 3].SetColor(color);
-            vertexBuffer[startIndex + 4].TexCoordsX = (rect.X + rect.Width) / iw;
-            vertexBuffer[startIndex + 4].TexCoordsY = (rect.Y + rect.Height) / ih;
+            vertexBuffer[startIndex + 4].TexCoordsX = rect.Right / iw;
+            vertexBuffer[startIndex + 4].TexCoordsY = rect.Bottom / ih;
             vertexBuffer[startIndex + 4].SetColor(color);
-            vertexBuffer[startIndex + 5].TexCoordsX = (rect.X + rect.Width) / iw;
-            vertexBuffer[startIndex + 5].TexCoordsY = rect.Y / ih;
+            vertexBuffer[startIndex + 5].TexCoordsX = rect.Right / iw;
+            vertexBuffer[startIndex + 5].TexCoordsY = rect.Top / ih;
             vertexBuffer[startIndex + 5].SetColor(color);
 
             iTexture++;

@@ -153,7 +153,7 @@ namespace Jypeli.Widgets
                 * Matrix.CreateTranslation((float)Position.X, (float)Position.Y, 0.0f)
                 * parentTransformation;
 
-            Renderer.DrawFilledShape(shapeCache, ref m, BarColor);
+            Renderer.DrawFilledShape(shapeCache, ref m, Position, Size, (float)Angle.Radians, BarColor);
 
             Vector[] borderVertices = new Vector[]
             {

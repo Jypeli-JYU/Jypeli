@@ -186,7 +186,7 @@ namespace Jypeli
             iTexture++;
         }
 
-        public void Draw(Image img, System.Numerics.Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, System.Numerics.Vector2 scale, float angle, System.Numerics.Vector2 origin, float depth)
+        public void Draw(Image img, System.Numerics.Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, System.Numerics.Vector2 scale, float angle, System.Numerics.Vector2 origin)
         {
             Debug.Assert(beginHasBeenCalled);
 

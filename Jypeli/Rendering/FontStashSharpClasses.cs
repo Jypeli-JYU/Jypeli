@@ -11,16 +11,8 @@ namespace Jypeli.Rendering
 {
     internal class Texture2DManager : ITexture2DManager
     {
-        private readonly IGraphicsDevice _device;
-
-        public Texture2DManager(IGraphicsDevice device)
+        public Texture2DManager()
         {
-            if (device == null)
-            {
-                throw new ArgumentNullException(nameof(device));
-            }
-
-            _device = device;
         }
 
         public object CreateTexture(int width, int height)
@@ -67,50 +59,37 @@ namespace Jypeli.Rendering
 
     internal class FontRenderer : IFontStashRenderer
     {
-        private readonly IGraphicsDevice _device;
-        private readonly ImageBatch _batch;
+        private readonly CustomBatcher _batch;
         private readonly Texture2DManager _textureManager;
         public ITexture2DManager TextureManager { get => _textureManager; }
-
-        public FontRenderer(IGraphicsDevice graphicsDevice)
+        private Matrix4x4 transform;
+        public FontRenderer()
         {
-            if (graphicsDevice == null)
-            {
-                throw new ArgumentNullException(nameof(graphicsDevice));
-            }
-
-            _device = graphicsDevice;
-            _textureManager = new Texture2DManager(graphicsDevice);
-            _batch = Graphics.ImageBatch;
+            _textureManager = new Texture2DManager();
+            _batch = Graphics.CustomBatch;
         }
 
         public void Begin()
         {
-            _batch.Begin();
+            transform = Matrix4x4.Identity;
         }
 
         public void Begin(ref Matrix4x4 transformation)
         {
-            _batch.Begin(ref transformation, null);
-        }
-
-        public void End()
-        {
-            _batch.End();
+            transform = transformation;
         }
 
         public void Draw(object texture, Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, float rotation, Vector2 origin, Vector2 scale, float depth)
         {
             Image img = texture as Image;
 
-            _batch.Draw(img,
+            _batch.AddText(transform, img,
                 position,
                 sourceRectangle,
                 color,
                 scale,
                 rotation,
-                origin,
-                depth);
+                origin);
         }
     }
 }

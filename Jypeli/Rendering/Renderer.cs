@@ -289,11 +289,9 @@ namespace Jypeli
         /// <param name="color">Tekstin väri</param>
         public static void DrawText(string text, Vector position, Font font, Color color, Vector scale)
         {
-            // TODO: Jokainen tekstielementti on nyt oma piirtokutsu näytönohjaimelle.
             Vector textSize = font.SpriteFont.MeasureString(text);
             Graphics.FontRenderer.Begin();
             font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X/2, 0), color.ToSystemDrawing(), scale);
-            Graphics.FontRenderer.End();
         }
 
         /// <summary>
@@ -308,7 +306,6 @@ namespace Jypeli
             Vector textSize = font.SpriteFont.MeasureString(text);
             Graphics.FontRenderer.Begin();
             font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), colors.ConvertAll((c) => c.ToSystemDrawing()).ToArray(), scale);
-            Graphics.FontRenderer.End();
         }
 
         /// <summary>
@@ -322,7 +319,6 @@ namespace Jypeli
         {
             Graphics.FontRenderer.Begin(ref transformation);
             font.SpriteFont.DrawText(Graphics.FontRenderer, text, position, color.ToSystemDrawing(), scale);
-            Graphics.FontRenderer.End();
         }
 
         /// <summary>
@@ -336,29 +332,6 @@ namespace Jypeli
         {
             Graphics.FontRenderer.Begin(ref transformation);
             font.SpriteFont.DrawText(Graphics.FontRenderer, text, position, colors.ConvertAll((c) => c.ToSystemDrawing()).ToArray(), scale);
-            Graphics.FontRenderer.End();
-        }
-
-        /// <summary>
-        /// Piirtää muodon ruudulle
-        /// </summary>
-        /// <param name="shape"></param>
-        /// <param name="matrix"></param>
-        /// <param name="color"></param>
-        public static void DrawShape( Shape shape, ref Matrix matrix, Color color )
-        {
-            if ( shape is RaySegment )
-            {
-                DrawRaySegment( (RaySegment)shape, ref matrix, color );
-            }
-            else if ( shape.Cache.Triangles != null )
-            {
-                DrawFilledShape( shape.Cache, ref matrix, color );
-            }
-            else
-            {
-                DrawPolygon( shape.Cache.OutlineVertices, ref matrix, color );
-            }
         }
 
         /// <summary>
@@ -402,29 +375,9 @@ namespace Jypeli
             Renderer.DrawPolygon( vertices, ref matrix, color );
         }
 
-        internal static void DrawFilledShape( ShapeCache cache, ref Matrix matrix, Color color )
+        internal static void DrawFilledShape( ShapeCache cache, ref Matrix matrix, Vector position, Vector size, float rotation, Color color )
         {
-            //var device = Game.GraphicsDevice;
-
-            VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[cache.Vertices.Length];
-            for ( int i = 0; i < vertices.Length; i++ )
-            {
-                Vector v = cache.Vertices[i];
-                vertices[i] = new VertexPositionColorTexture(new Vector3((float)v.X, (float)v.Y, 0), color, Vector.Zero);
-            }
-
-            uint[] indices = new uint[cache.Triangles.Length * 3];
-            for ( int i = 0; i < cache.Triangles.Length; i++ )
-            {
-                indices[3 * i] = cache.Triangles[i].i1;
-                indices[3 * i + 1] = cache.Triangles[i].i2;
-                indices[3 * i + 2] = cache.Triangles[i].i3;
-            }
-
-            Graphics.ShapeBatch.Begin(ref matrix);
-
-            Graphics.ShapeBatch.Draw(cache, color, Vector.Zero, Vector.One, 0);
-            Graphics.ShapeBatch.End();
+            Graphics.CustomBatch.AddShape(matrix, cache, color, position, size, rotation);
         }
 
         /// <summary>

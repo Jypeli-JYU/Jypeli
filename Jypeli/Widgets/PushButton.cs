@@ -514,10 +514,10 @@ namespace Jypeli
                     bottom = BottomSidePressedShape;
                 }
 
-                Renderer.DrawFilledShape( left, ref transformation, color1 );
-                Renderer.DrawFilledShape( top, ref transformation, color1 );
-                Renderer.DrawFilledShape( right, ref transformation, color2 );
-                Renderer.DrawFilledShape( bottom, ref transformation, color2 );
+                Renderer.DrawFilledShape(left, ref transformation, Position, Size, (float)Angle.Radians, color1);
+                Renderer.DrawFilledShape(top, ref transformation, Position, Size, (float)Angle.Radians, color1);
+                Renderer.DrawFilledShape(right, ref transformation, Position, Size, (float)Angle.Radians, color2);
+                Renderer.DrawFilledShape(bottom, ref transformation, Position, Size, (float)Angle.Radians, color2);
             }
         }
     }

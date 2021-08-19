@@ -388,6 +388,7 @@ namespace Jypeli
             DrawObjectsWithImages(worldMatrix);
             DrawCustomDrawables(worldMatrix);
             DrawChildObjects(worldMatrix);
+            Graphics.CustomBatch.Flush();
             Renderer.LightingEnabled = false;
         }
 

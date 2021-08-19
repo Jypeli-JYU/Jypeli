@@ -46,6 +46,7 @@ namespace Jypeli
         internal static ImageBatch ImageBatch = new ImageBatch();
         internal static ShapeBatch ShapeBatch = new ShapeBatch();
         internal static LineBatch LineBatch = new LineBatch();
+        internal static CustomBatcher CustomBatch = new CustomBatcher();
 
         public static Canvas Canvas = new Canvas();
 
@@ -119,7 +120,7 @@ namespace Jypeli
             ImageBatch.Initialize();
             ShapeBatch.Initialize();
             LineBatch.Initialize();
-            FontRenderer = new FontRenderer(Game.GraphicsDevice);
+            FontRenderer = new FontRenderer();
 
 
 #if !LINUX

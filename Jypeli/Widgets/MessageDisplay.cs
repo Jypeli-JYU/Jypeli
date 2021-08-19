@@ -171,7 +171,6 @@ namespace Jypeli
             {
                 Font.SpriteFont.DrawText(Graphics.FontRenderer, messages[i].Text, Position - new Vector(Width/2, (i + 0.5) * fontHeight - Height/2), messages[i].Color.ToSystemDrawing());
             }
-            Graphics.FontRenderer.End();
             base.Draw(parentTransformation, transformation);
         }
 

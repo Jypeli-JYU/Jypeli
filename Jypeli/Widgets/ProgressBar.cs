@@ -119,7 +119,7 @@ namespace Jypeli.Widgets
             else
             {
                 Matrix m = colorPart * parentTransformation;
-                Renderer.DrawFilledShape(shapeCache, ref m, BarColor);
+                Renderer.DrawFilledShape(shapeCache, ref m, Position, Size, (float)Angle.Radians, BarColor);
             }
 
             // The border that is drawn by base class gets obscured by the bar.

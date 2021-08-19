@@ -55,6 +55,8 @@ namespace Jypeli.Rendering
             }
         }
 
+        // Järjestetään piirrettävät esineet niiden transformaatiomatriisin mukaan.
+        // Matriisin vaihto tarkoittaa aina uutta piirtokomentoa, joten tämä lienee paras, tai ainakin helpoin, tapa.
         private Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>> ImageBatches = new Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>>();
         private Dictionary<Matrix4x4, List<BatchItem>> ShapeBatches = new Dictionary<Matrix4x4, List<BatchItem>>();
 
@@ -151,7 +153,6 @@ namespace Jypeli.Rendering
                     Graphics.ImageBatch.End();
                     ImageBatches[img][batch.Key].Clear();
                 }
-                
             }
         }
     }

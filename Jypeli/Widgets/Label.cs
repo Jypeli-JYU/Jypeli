@@ -451,14 +451,14 @@ namespace Jypeli
 
         private double GetHorizontalAlignment()
         {
-            switch ( HorizontalAlignment )
+            switch (HorizontalAlignment)
             {
                 case HorizontalAlignment.Center:
                     return 0;
                 case HorizontalAlignment.Left:
-                    return ( -Width + TextSize.X ) / 2 + XMargin;
+                    return (Width - TextSize.X) / 2 - XMargin;
                 case HorizontalAlignment.Right:
-                    return ( Width - TextSize.X ) / 2 - XMargin;
+                    return (-Width + TextSize.X) / 2 + XMargin;
                 default:
                     return XMargin;
             }

@@ -199,13 +199,12 @@ namespace Jypeli
 
             System.Drawing.Rectangle rect = sourceRectangle.Value;
 
-            // 
-            Vector transf = new Vector(position.X - origin.X + (float)rect.Width / 2, position.Y + origin.Y - (float)rect.Height / 2);
+            Vector transf = new Vector(position.X - origin.X * scale.X + (float)rect.Width / 2 * scale.X, position.Y + origin.Y * scale.Y - (float)rect.Height / 2 * scale.Y);
 
             Matrix matrix =
                 Matrix.CreateScale(scale.X * rect.Width, scale.Y * rect.Height, 1f)
                 * Matrix.CreateRotationZ(angle)
-                * Matrix.CreateTranslation((float)transf.X * scale.X, (float)transf.Y * scale.Y, 0);
+                * Matrix.CreateTranslation((float)transf.X, (float)transf.Y, 0);
 
             Vector3[] transformedPoints = new Vector3[VerticesPerTexture];
             Vector3.Transform(Vertices, ref matrix, transformedPoints);

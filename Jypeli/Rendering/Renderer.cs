@@ -318,11 +318,10 @@ namespace Jypeli
         /// <param name="transformation">Transformaatiomatriisi</param>
         /// <param name="font">Fontti</param>
         /// <param name="color">Tekstin väri</param>
-        public static void DrawText(string text, ref Matrix transformation, Font font, Color color, Vector scale)
+        public static void DrawText(string text, ref Matrix transformation, Vector position, Font font, Color color, Vector scale)
         {
-            Vector textSize = font.SpriteFont.MeasureString(text);
             Graphics.FontRenderer.Begin(ref transformation);
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, new Vector(0, textSize.Y/2), color.ToSystemDrawing(), scale);
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position, color.ToSystemDrawing(), scale);
             Graphics.FontRenderer.End();
         }
 
@@ -333,10 +332,10 @@ namespace Jypeli
         /// <param name="transformation">Transformaatiomatriisi</param>
         /// <param name="font">Fontti</param>
         /// <param name="colors">Tekstin kirjainten väri</param>
-        public static void DrawText(string text, ref Matrix transformation, Font font, Color[] colors, Vector scale)
+        public static void DrawText(string text, ref Matrix transformation, Vector position, Font font, Color[] colors, Vector scale)
         {
             Graphics.FontRenderer.Begin(ref transformation);
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, Vector.Zero, colors.ConvertAll((c) => c.ToSystemDrawing()).ToArray(), scale);
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position, colors.ConvertAll((c) => c.ToSystemDrawing()).ToArray(), scale);
             Graphics.FontRenderer.End();
         }
 

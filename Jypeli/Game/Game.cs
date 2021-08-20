@@ -48,9 +48,6 @@ namespace Jypeli
     [Save]
     public partial class Game : GameObjectContainer, IDisposable
     {
-        private bool loadContentHasBeenCalled = false;
-        private bool beginHasBeenCalled = false;
-
         /// <summary>
         /// Kuinka monen pelinpäivityksen jälkeen peli suljetaan automaattisesti.
         /// Jos 0, peli pyörii ikuisesti
@@ -72,7 +69,7 @@ namespace Jypeli
         /// </summary>
         public int FramesToSkip { get; private set; }
 
-        private int skipcounter = 0;
+        private int skipcounter;
 
         /// <summary>
         /// Tallennetaanko pelin kuvaa.
@@ -143,7 +140,7 @@ namespace Jypeli
         public Game()
         {
 			InitGlobals();
-            InitXnaContent();
+            InitContent();
             InitWindow();
             InitAudio();
         }
@@ -167,7 +164,7 @@ namespace Jypeli
                 Directory.CreateDirectory("Output");
             }
 
-            window.Run();
+            Window.Run();
         }
 
         internal static void DisableAudio()
@@ -203,19 +200,19 @@ namespace Jypeli
 #if ANDROID
             var options = ViewOptions.Default;
             options.API = new GraphicsAPI(ContextAPI.OpenGLES, ContextProfile.Core, ContextFlags.Default, new APIVersion(3, 0));
-            window = Silk.NET.Windowing.Window.GetView(options);
+            Window = Silk.NET.Windowing.Window.GetView(options);
 #else
             var options = WindowOptions.Default;
             options.Size = new Silk.NET.Maths.Vector2D<int>(1024, 768);
             options.Title = Name;
 
-            window = Silk.NET.Windowing.Window.Create(options);
+            Window = Silk.NET.Windowing.Window.Create(options);
 #endif
-            window.Load += LoadContent;
-            window.Update += Update;
-            window.Render += OnDraw;
-            window.Closing += OnExit;
-            window.Resize += (v) => OnResize(new Vector(v.X, v.Y));
+            Window.Load += LoadContent;
+            Window.Update += OnUpdate;
+            Window.Render += OnDraw;
+            Window.Closing += OnExit;
+            Window.Resize += (v) => OnResize(new Vector(v.X, v.Y));
         }
 
         private void InitAudio()
@@ -309,7 +306,7 @@ namespace Jypeli
         /// </summary>
         protected void LoadContent()
         {
-            graphicsDevice = new Jypeli.Rendering.OpenGl.GraphicsDevice(window); // TODO: GraphicsDeviceManager, jolle annetaan ikkuna ja asetukset tms. joka hoitaa oikean laitteen luomisen.
+            graphicsDevice = new Rendering.OpenGl.GraphicsDevice(Window); // TODO: GraphicsDeviceManager, jolle annetaan ikkuna ja asetukset tms. joka hoitaa oikean laitteen luomisen.
             // Graphics initialization is best done here when window size is set for certain
             InitGraphics();
             Device.ResetScreen();
@@ -320,8 +317,7 @@ namespace Jypeli
             if ( InstanceInitialized != null )
                 InstanceInitialized();
 
-            loadContentHasBeenCalled = true;
-            addMessageDisplay();
+            AddMessageDisplay();
             Initialize();
             CallBegin();
         }
@@ -344,7 +340,7 @@ namespace Jypeli
                 Graphics.BasicTextureShader.Use();
                 Graphics.BasicTextureShader.SetUniform("world", Matrix.Identity);
 
-                GraphicsDevice.DrawPrimitives(Jypeli.Rendering.PrimitiveType.OpenGlTriangles, Graphics.TextureVertices, 6, true);
+                GraphicsDevice.DrawPrimitives(Rendering.PrimitiveType.OpenGlTriangles, Graphics.TextureVertices, 6, true);
             }
             
             // The world matrix adjusts the position and size of objects according to the camera angle.
@@ -407,7 +403,7 @@ namespace Jypeli
             ClearControls();
             GC.Collect();
             ControlContext.Enable();
-            addMessageDisplay();
+            AddMessageDisplay();
             Camera.Reset();
             IsPaused = false;
         }
@@ -419,7 +415,6 @@ namespace Jypeli
         internal void CallBegin()
         {
             Begin();
-            beginHasBeenCalled = true;
         }
 
         /// <summary>
@@ -447,7 +442,7 @@ namespace Jypeli
         /// </summary>
         public void Exit()
         {
-            window.Close();
+            Window.Close();
         }
 
         public void Dispose()

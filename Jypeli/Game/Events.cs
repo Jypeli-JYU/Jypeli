@@ -69,7 +69,7 @@ namespace Jypeli
             TextInput(sender, key);
         }
 
-        private SynchronousList<CustomEventHandler> handlers = null;
+        private SynchronousList<CustomEventHandler> handlers;
 
         /// <summary>
         /// Lisää vapaamuotoisen tapahtumankäsittelijän.

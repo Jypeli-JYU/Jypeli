@@ -2,9 +2,9 @@
 
 namespace Jypeli
 {
-    public partial class PhysicsObject : GameObject, IPhysicsObjectInternal
+    public partial class PhysicsObject
     {
-        private BoundingRectangle _bRect = new BoundingRectangle();
+        private BoundingRectangle bRect = new BoundingRectangle();
 
         /// <summary>
         /// Fysiikkamoottorin käsittelemä fysiikkakappale.
@@ -19,9 +19,9 @@ namespace Jypeli
         {
             get
             {
-                _bRect.Position = this.Position;
-                _bRect.Size = this.Size;
-                return _bRect;
+                bRect.Position = Position;
+                bRect.Size = Size;
+                return bRect;
             }
         }
 
@@ -48,7 +48,7 @@ namespace Jypeli
         /// <inheritdoc/>
         public override Vector Size
         {
-            get { return (Vector)Body.Size; }
+            get { return Body.Size; }
             set 
             { 
                 Body.Size = value;

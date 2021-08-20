@@ -38,7 +38,6 @@ namespace Jypeli
         public static IShader BasicTextureShader;
         public static IShader BasicColorShader;
 
-        //public static SpriteBatch SpriteBatch;
         public static FontRenderer FontRenderer;
 
         // Having global batch objects saves memory.
@@ -78,39 +77,8 @@ namespace Jypeli
         private static Matrix ProjectionMatrix;
         private static Matrix viewProjectionMatrix;
 
-#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
-        // XNA 4.0 requires PS 2.0
-        private static bool is_PS_2_0_supported = true;
-#elif !DISABLE_LIGHTING_EFFECT
-        // ...except on windows phone.
-        private static bool is_PS_2_0_supported = false;
-#endif
-        /*
-        public static SamplerState GetDefaultSamplerState()
-        {
-            return Game.SmoothTextures ? SamplerState.LinearClamp : SamplerState.PointClamp;
-        }
-        */
         public static void Initialize()
         {
-            /*GraphicsDevice device = Game.GraphicsDevice;
-
-            BasicTextureEffect = new BasicEffect( device );
-            // This must be set to false for textures to work with BasicEffect.
-            BasicTextureEffect.VertexColorEnabled = false;
-            BasicTextureEffect.TextureEnabled = true;
-
-            BasicColorEffect = new BasicEffect( device );
-            BasicColorEffect.VertexColorEnabled = true;
-            BasicColorEffect.TextureEnabled = false;
-
-#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
-            // A hack until we can use Game.ResourceContent.Load<Effect>( "Lighting" )
-            LightingEffect = new Effect(Game.GraphicsDevice, Jypeli.Content.Lighting.rawData);
-#endif
-
-            SpriteBatch = new SpriteBatch( device );
-            */
 #if DESKTOP
             BasicTextureShader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGL.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGL.DefaultTextureShader.glsl"));
             BasicColorShader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGL.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGL.DefaultColorShader.glsl"));
@@ -122,83 +90,8 @@ namespace Jypeli
             ShapeBatch.Initialize();
             LineBatch.Initialize();
             FontRenderer = new FontRenderer();
-
-
-#if !LINUX
-            //Game.GraphicsDevice.DeviceReset += GraphicsDevice_DeviceReset;
-#endif
-        }
-        /*
-        public static DepthFormat SelectStencilMode()
-        {
-            GraphicsAdapter adapter = GraphicsAdapter.DefaultAdapter;
-            SurfaceFormat format = adapter.CurrentDisplayMode.Format;
-            return DepthFormat.Depth24Stencil8;
-            if ( adapter.CheckDepthStencilMatch( DeviceType.Hardware, format, format, DepthFormat.Depth24Stencil8 ) )
-                return DepthFormat.Depth24Stencil8;
-            else if ( adapter.CheckDepthStencilMatch( DeviceType.Hardware, format, format, DepthFormat.Depth24Stencil8Single ) )
-                return DepthFormat.Depth24Stencil8Single;
-            else if ( adapter.CheckDepthStencilMatch( DeviceType.Hardware, format, format, DepthFormat.Depth24Stencil4 ) )
-                return DepthFormat.Depth24Stencil4;
-            else if ( adapter.CheckDepthStencilMatch( DeviceType.Hardware, format, format, DepthFormat.Depth15Stencil1 ) )
-                return DepthFormat.Depth15Stencil1;
-            else
-                throw new ApplicationException( "Could Not Find Stencil Buffer for Default Adapter" );
-    }
-        */
-        //private static SamplerState storedSamplerState;
-
-        public static void SetSamplerState()
-        {
-            //storedSamplerState = Game.GraphicsDevice.SamplerStates[0];
-            //Game.GraphicsDevice.SamplerStates[0] = GetDefaultSamplerState();
         }
 
-        public static void ResetSamplerState()
-        {
-            //Game.GraphicsDevice.SamplerStates[0] = storedSamplerState;
-        }
-
-    /*
-        public static Effect GetTextureEffect( ref Matrix worldMatrix, Texture2D texture, bool lightingEnabled )
-        {
-#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
-            if ( lightingEnabled && is_PS_2_0_supported )
-            {
-                Effect effect = GetLightingEffect( ref worldMatrix );
-                effect.CurrentTechnique = effect.Techniques["TextureLighting"];
-                effect.Parameters["xTexture"].SetValue( texture );
-                return effect;
-            }
-            else
-#endif
-            {
-                BasicEffect effect = BasicTextureEffect;
-                effect.Alpha = 1.0f;
-                effect.World = worldMatrix;
-                effect.Texture = texture;
-                return effect;
-            }
-        }
-
-        public static Effect GetColorEffect( ref Matrix worldMatrix, bool lightingEnabled )
-        {
-#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
-            if ( lightingEnabled && is_PS_2_0_supported )
-            {
-                Effect effect = GetLightingEffect( ref worldMatrix );
-                effect.CurrentTechnique = effect.Techniques["ColorLighting"];
-                return effect;
-            }
-            else
-#endif
-            {
-                BasicEffect effect = BasicColorEffect;
-                effect.World = worldMatrix;
-                return effect;
-            }
-        }
-    */
 #if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
         private static Effect GetLightingEffect( ref Matrix worldMatrix )
         {
@@ -229,8 +122,6 @@ namespace Jypeli
 
         public static void ResetScreenSize()
         {
-            //GraphicsDevice device = Game.GraphicsDevice;
-
             ViewMatrix = Matrix.CreateLookAt(
                 new Vector3( 0.0f, 0.0f, 1.0f ),
                 Vector3.Zero,

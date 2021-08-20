@@ -41,8 +41,6 @@ namespace Jypeli.Effects
         // Jono efektin vapaille partikkeleille
         private Queue<Particle> freeParticles;
 
-        private int maxParticles = 20;
-
         private Particledata[] particledata;// x, y, rot, scale, alpha
 
         /// <summary>

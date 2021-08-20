@@ -2,9 +2,6 @@
 {
     public partial class PhysicsObject
     {
-        [Save]
-        private double _storedMomentOfInertia = 1;
-
         /// <summary>
         /// Olion massa (paino).
         /// Mitä enemmän massaa, sitä enemmän voimaa tarvitaan saamaan olio liikkeelle / pysähtymään.
@@ -16,7 +13,6 @@
             set
             {
                 Body.Mass = value;
-                _storedMomentOfInertia = Body.MomentOfInertia;
             }
         }
 
@@ -32,7 +28,6 @@
             set
             {
                 Body.MomentOfInertia = value;
-                _storedMomentOfInertia = Body.MomentOfInertia;
             }
         }
 
@@ -69,6 +64,5 @@
             get { return Body.AngularDamping; }
             set { Body.AngularDamping = value; }
         }
-
     }
 }

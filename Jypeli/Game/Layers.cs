@@ -6,7 +6,7 @@ using Jypeli.Controls;
 
 namespace Jypeli
 {
-    public partial class Game : GameObjectContainer
+    public partial class Game
     {
         /// <summary>
         /// Kerrokset, joilla pelioliot viihtyvät.
@@ -71,7 +71,7 @@ namespace Jypeli
         {
             get
             {
-                return Layers.Sum<Layer>( l => l.Objects.Count );
+                return Layers.Sum( l => l.Objects.Count );
             }
         }
 
@@ -239,7 +239,7 @@ namespace Jypeli
 
             // Layer.Clear on synkronoitu operaatio, joten viestinäyttöä ei ole vielä poistettu.
             // Siksi viestinäytön palauttaminen on lisättävä operaatiojonoon pakotetusti.
-            addMessageDisplay(force: true);
+            AddMessageDisplay(force: true);
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace Jypeli
         /// <returns>Lista olioista</returns>
         public List<GameObject> GetObjectsWithTag( params string[] tags )
         {
-            return GetObjects( o => tags.Contains<string>( o.Tag as string ) );
+            return GetObjects( o => tags.Contains( o.Tag as string ) );
         }
 
         /// <summary>
@@ -361,7 +361,7 @@ namespace Jypeli
         {
             Predicate<GameObject> isInsideRadius = delegate( GameObject obj )
             {
-                if ( IsJypeliWidget<GameObject>( obj ) ) return false;
+                if (IsJypeliWidget(obj)) return false;
 
                 Vector positionUp = new Vector( position.X, position.Y + radius );
                 Vector positionDown = new Vector( position.X, position.Y - radius );
@@ -389,7 +389,7 @@ namespace Jypeli
         /// <returns>Mahdollinen olio</returns>
         public GameObject GetObjectAt( Vector position )
         {
-            return GetFirstObject( obj => obj.IsInside( position ) && !IsJypeliWidget<GameObject>( obj ) );
+            return GetFirstObject( obj => obj.IsInside( position ) && !IsJypeliWidget( obj ) );
         }
 
         /// <summary>

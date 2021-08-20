@@ -58,7 +58,7 @@ namespace Jypeli
         /// </summary>
         public static JypeliContentManager ResourceContent { get; private set; }
 
-        private void InitXnaContent()
+        private void InitContent()
         {
             ResourceContent = new JypeliContentManager();
             MediaPlayer = new MediaPlayer();

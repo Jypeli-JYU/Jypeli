@@ -349,16 +349,6 @@ namespace Jypeli
             VertexPositionColorTexture[] colorVertices = new VertexPositionColorTexture[2];
             colorVertices[0] = new VertexPositionColorTexture(new Vector3( (float)segment.Origin.X, (float)segment.Origin.Y, 0 ), color, Vector.Zero);
             colorVertices[1] = new VertexPositionColorTexture(new Vector3( (float)endPoint.X, (float)endPoint.Y, 0 ), color, Vector.Zero);
-            /*
-            BasicEffect effect = Graphics.BasicColorEffect;
-            effect.World = matrix;
-            Graphics.SetSamplerState();
-            foreach ( EffectPass pass in effect.CurrentTechnique.Passes )
-            {
-                pass.Apply();
-                device.DrawUserPrimitives<VertexPositionColor>( PrimitiveType.LineStrip, colorVertices, 0, 1 );
-            }*/
-            Graphics.ResetSamplerState();
         }
 
         /// <summary>
@@ -427,7 +417,6 @@ namespace Jypeli
 
             }
             */
-            Graphics.ResetSamplerState();
         }
 
         /*

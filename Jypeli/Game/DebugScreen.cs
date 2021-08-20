@@ -268,12 +268,9 @@ namespace Jypeli
             foreach (GameObject obj in mouseOverObjects)
             {
                 if (obj is PhysicsObject)
-                {
                     Graphics.ShapeBatch.DrawOutlines(obj.Shape.Cache, DebugViewSettings.PhysicsObjectHoverColor, obj.Position, obj.Size, (float)obj.Angle.Radians);
-                }else if (obj is GameObject)
-                {
+                else
                     Graphics.ShapeBatch.DrawOutlines(obj.Shape.Cache, DebugViewSettings.GameObjectHoverColor, obj.Position, obj.Size, (float)obj.Angle.Radians);
-                }
             }
             
             Graphics.ShapeBatch.End();

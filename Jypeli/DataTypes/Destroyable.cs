@@ -26,16 +26,11 @@ namespace Jypeli
     /// <summary>
     /// Rajapinta olioille, joiden tuhoaminen kestää seuraavaan päivitykseen.
     /// </summary>
-    public interface DelayedDestroyable : Destroyable
+    public interface DelayedDestroyable : Destroyable // TODO: Tästä rajapinnasta voitaneen hankkiutua eroon?
     {
         /// <summary>
         /// Onko kappale tällä hetkellä tuhoutumassa
         /// </summary>
         bool IsDestroying { get; }
-
-        /// <summary>
-        /// Tapahtuu kun kappale on tuhoutumassa
-        /// </summary>
-        event Action Destroying;
     }
 }

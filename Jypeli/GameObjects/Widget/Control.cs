@@ -5,7 +5,7 @@ namespace Jypeli
 {
     public partial class Widget
     {
-        private ListenContext _context = new ListenContext();
+        private ListenContext context = new ListenContext();
 
         /// <summary>
         /// Tähän listaan lisätyt kuuntelijat tuhotaan automaattisesti
@@ -16,7 +16,7 @@ namespace Jypeli
         /// <summary>
         /// Tämän Widgetin ohjainkuuntelijoiden konteksti
         /// </summary>
-        public ListenContext ControlContext { get { return _context; } }
+        public ListenContext ControlContext { get { return context; } }
 
         /// <summary>
         /// Jos <c>true</c>, pelin sekä ikkunan alla olevien widgettien
@@ -58,7 +58,7 @@ namespace Jypeli
         public void InitControl()
         {
             if ( ControlContext == null || ControlContext.IsDestroyed )
-                _context = new Controls.ListenContext();
+                context = new ListenContext();
 
             Objects.ItemAdded += InitChildContext;
             Objects.ItemRemoved += ResetChildContext;

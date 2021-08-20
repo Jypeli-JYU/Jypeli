@@ -63,16 +63,16 @@ namespace Jypeli
 
         //public event Action AddedToGame;
 
-        bool _isVisible = true;
-        bool _ignoresLighting = false;
-        PhysicsObject centerObject;
+        private bool isVisible = true;
+        private bool ignoresLighting = false;
+        private PhysicsObject centerObject;
 
         /// <summary>
         /// Onko olio näkyvissä.
         /// </summary>
         public bool IsVisible
         {
-            get { return _isVisible; }
+            get { return isVisible; }
             set
             {
                 foreach (var obj in objects)
@@ -80,7 +80,7 @@ namespace Jypeli
                     obj.IsVisible = value;
                 }
 
-                _isVisible = value;
+                isVisible = value;
             }
         }
 
@@ -89,11 +89,11 @@ namespace Jypeli
         /// </summary>
         public bool IgnoresLighting
         {
-            get { return _ignoresLighting; }
+            get { return ignoresLighting; }
             set
             {
                 objects.ForEach(o => o.IgnoresLighting = value);
-                _ignoresLighting = value;
+                ignoresLighting = value;
             }
         }
 

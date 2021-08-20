@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 
 namespace Jypeli
 {
@@ -64,28 +63,33 @@ namespace Jypeli
         /// </summary>
         protected virtual void PausedUpdate( Time time )
         {
-            foreach ( var layer in Layers )
+            foreach (var layer in Layers)
             {
                 // Update the UI components only
-                layer.Objects.Update( time, o => o is Widget );
+                layer.Objects.Update(time, o => o is Widget);
             }
 
-            Timer.UpdateAll( time, t => t.IgnorePause );
+            Timer.UpdateAll(time, t => t.IgnorePause);
         }
 
-        protected void Update(double dt){
-            //Debug.Write(dt);
-            //Debug.Write("     ");
-            if(FixedTimeStep)
-                currentTime.Advance(1 / 60.0);
+        protected void OnUpdate(double dt)
+        {
+            if (!IsPaused)
+            {
+                if(FixedTimeStep)
+                    currentTime.Advance(1 / 60.0);
+                else
+                    currentTime.Advance(dt);
+                Update(currentTime);
+            }
             else
-                currentTime.Advance(dt);
-            this.Update(currentTime);
+            {
+                PausedUpdate(currentRealTime);
+            }
         }
 
         protected void OnDraw(double dt)
         {
-            //Debug.WriteLine(dt);
             Draw(Time);
         }
 
@@ -93,57 +97,18 @@ namespace Jypeli
         /// Ajetaan kun pelin tilannetta päivitetään. Päivittämisen voi toteuttaa perityssä luokassa
         /// toteuttamalla tämän metodin. Perityn luokan metodissa tulee kutsua kantaluokan metodia.
         /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         protected virtual void Update(Time time)
         {
             UpdateControls(time);
-            this.Camera.Update(time);
+            if (DataStorage.IsUpdated)
+                DataStorage.Update(currentRealTime);
+            Camera.Update(time);
             Layers.Update(time);
             Timer.UpdateAll(time);
             UpdateDebugScreen(currentRealTime);
             UpdateHandlers(time);
             ExecutePendingActions();
         }
-        /*
-        /// <summary>
-        /// Ajetaan kun pelin tilannetta päivitetään.
-        /// </summary>
-        /// <param name="gameTime"></param>
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        protected override void Update( Time time )
-        {
-            if ( !loadContentHasBeenCalled || !beginHasBeenCalled )
-            {
-                // No updates until both LoadContent and Begin have been called
-                return;
-            }
-
-            currentRealTime.Advance( gameTime );
-
-#if ANDROID
-            if (IsActive && !VirtualKeyboard.Visible)
-#else
-            if (IsActive)
-#endif
-                UpdateControls( currentTime );
-
-            /*if ( DataStorage.IsUpdated )
-                DataStorage.Update( currentRealTime );*/
-
-            // The update in derived classes.
-            /*
-            if ( !IsPaused )
-            {
-                currentTime.Advance( gameTime );
-                this.Update( currentTime );
-            }
-            else
-            {
-                this.PausedUpdate( currentRealTime );
-            }
-
-            UpdateDebugScreen( currentRealTime );
-
-            base.Update( gameTime );
-        }*/
     }
 }

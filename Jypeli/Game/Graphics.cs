@@ -28,7 +28,6 @@
  */
 
 using System;
-using System.ComponentModel;
 using Jypeli.Rendering;
 using Silk.NET.Windowing;
 
@@ -37,9 +36,9 @@ namespace Jypeli
     public partial class Game
     {
         // fullscreen isn't used as default, because debug mode doesn't work well with it
-        private bool windowPositionSet = false;
+        private bool windowPositionSet;
 
-        internal IView window;
+        internal IView Window;
         private static IGraphicsDevice graphicsDevice;
 
         /// <summary>
@@ -61,8 +60,8 @@ namespace Jypeli
         public bool IsFullScreen
         {
 #if DESKTOP
-            get { return ((IWindow)window).WindowState == WindowState.Fullscreen; }
-            set { ((IWindow)window).WindowState = value ? WindowState.Fullscreen : WindowState.Normal; }
+            get { return ((IWindow)Window).WindowState == WindowState.Fullscreen; }
+            set { ((IWindow)Window).WindowState = value ? WindowState.Fullscreen : WindowState.Normal; }
 #elif ANDROID
             get { return true; }
             set { }
@@ -88,7 +87,7 @@ namespace Jypeli
         public void SetWindowPosition( int x, int y )
         {
 #if DESKTOP
-            ((IWindow)window).Position = new Silk.NET.Maths.Vector2D<int>(x, y);
+            ((IWindow)Window).Position = new Silk.NET.Maths.Vector2D<int>(x, y);
             windowPositionSet = true;
 #endif
         }
@@ -99,13 +98,13 @@ namespace Jypeli
         public void CenterWindow()
         {
             // Onko mahdollista että arvoa ei ole?
-            if (!window.VideoMode.Resolution.HasValue)
+            if (!Window.VideoMode.Resolution.HasValue)
                 return;
 
-            int W = window.VideoMode.Resolution.Value.X;
-            int H = window.VideoMode.Resolution.Value.Y;
-            int w = window.Size.X;
-            int h = window.Size.Y;
+            int W = Window.VideoMode.Resolution.Value.X;
+            int H = Window.VideoMode.Resolution.Value.Y;
+            int w = Window.Size.X;
+            int h = Window.Size.Y;
 
             SetWindowPosition((W - w) / 2, (H - h) / 2);
 
@@ -148,7 +147,7 @@ namespace Jypeli
         {
             //Viewport viewPort = GraphicsDevice.Viewport;
             Screen = new ScreenView();
-            Jypeli.Graphics.Initialize();
+            Graphics.Initialize();
 
             Camera = new Camera();
         }

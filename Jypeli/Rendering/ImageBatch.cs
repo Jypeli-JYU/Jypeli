@@ -130,8 +130,6 @@ namespace Jypeli
                 Game.GraphicsDevice.DrawPrimitives(
                     PrimitiveType.OpenGlTriangles,
                     vertexBuffer, iTexture * 6);
-
-                Graphics.ResetSamplerState();
             }
 
             iTexture = 0;

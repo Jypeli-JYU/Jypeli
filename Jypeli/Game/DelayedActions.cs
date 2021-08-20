@@ -44,7 +44,7 @@ namespace Jypeli
         /// <summary>
         /// Tapahtuu kun peli lopetetaan.
         /// </summary>
-        public static new event Action Exiting;
+        public static event Action Exiting;
 
         /// <summary>
         /// Suorittaa aliohjelman kun peli on varmasti alustettu.

@@ -36,9 +36,9 @@ namespace Jypeli
         public virtual StorageFile Open( string fileName, bool write )
         {
             Initialize();
-            MakeAbsolute( ref fileName );
-            Stream stream = FMAssert<string, bool, Stream?>( openFileStream, write, null, fileName, write );
-            return new StorageFile( fileName, stream );
+            MakeAbsolute(ref fileName);
+            Stream stream = FMAssert(openFileStream, write, null, fileName, write);
+            return new StorageFile(fileName, stream);
         }
         
         private Stream openFileStream(string fileName, bool write)

@@ -15,43 +15,42 @@ namespace Jypeli.Rendering
     {
         private class BatchItem
         {
-            public ShapeCache cache;
-            public Color color;
-            public Image image;
-            public Vector position;
-            public Vector size;
-            public float rotation;
-            public TextureCoordinates texcoords;
+            public ShapeCache Cache { get; set; }
+            public Color Color { get; set; }
+            public Vector Position { get; set; }
+            public Vector Size { get; set; }
+            public float Rotation { get; set; }
+            public TextureCoordinates Texcoords { get; set; }
 
-            public System.Drawing.Rectangle? sourceRectangle;
-            public System.Drawing.Color dcolor;
-            public Vector2 origin;
+            public System.Drawing.Rectangle? SourceRectangle { get; set; }
+            public System.Drawing.Color Dcolor { get; set; }
+            public Vector2 Origin { get; set; }
 
             public BatchItem(ShapeCache cache, Color color, Vector position, Vector size, float rotation)
             {
-                this.cache = cache;
-                this.color = color;
-                this.position = position;
-                this.size = size;
-                this.rotation = rotation;
+                Cache = cache;
+                Color = color;
+                Position = position;
+                Size = size;
+                Rotation = rotation;
             }
 
             public BatchItem(TextureCoordinates texcoords, Vector position, Vector size, float rotation)
             {
-                this.texcoords = texcoords;
-                this.position = position;
-                this.size = size;
-                this.rotation = rotation;
+                Texcoords = texcoords;
+                Position = position;
+                Size = size;
+                Rotation = rotation;
             }
 
             public BatchItem(Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, Vector2 size, float rotation, Vector2 origin)
             {
-                this.position = position;
-                this.sourceRectangle = sourceRectangle;
-                this.dcolor = color;
-                this.size = size;
-                this.rotation = rotation;
-                this.origin = origin;
+                Position = position;
+                SourceRectangle = sourceRectangle;
+                Dcolor = color;
+                Size = size;
+                Rotation = rotation;
+                Origin = origin;
             }
         }
 
@@ -132,7 +131,7 @@ namespace Jypeli.Rendering
                 Graphics.ShapeBatch.Begin(ref matrix);
                 foreach (var item in ShapeBatches[m])
                 {
-                    Graphics.ShapeBatch.Draw(item.cache, item.color, item.position, item.size, item.rotation);
+                    Graphics.ShapeBatch.Draw(item.Cache, item.Color, item.Position, item.Size, item.Rotation);
                 }
                 Graphics.ShapeBatch.End();
                 ShapeBatches[m].Clear();
@@ -148,7 +147,7 @@ namespace Jypeli.Rendering
                     Graphics.ImageBatch.Begin(ref matrix, img);
                     foreach (var item in ImageBatches[img][batch.Key])
                     {
-                        Graphics.ImageBatch.Draw(img, item.position, item.sourceRectangle, item.dcolor, item.size, item.rotation, item.origin);
+                        Graphics.ImageBatch.Draw(img, item.Position, item.SourceRectangle, item.Dcolor, item.Size, item.Rotation, item.Origin);
                     }
                     Graphics.ImageBatch.End();
                     ImageBatches[img][batch.Key].Clear();

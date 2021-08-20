@@ -35,8 +35,8 @@ namespace Jypeli
 {
     public partial class Game : ControlContexted
     {
-        private ListenContext _context;
-        private List<Controller> _controllers;
+        private ListenContext context;
+        private List<Controller> controllers;
 
         /// <summary>
         /// Näppäimistö.
@@ -91,14 +91,14 @@ namespace Jypeli
         /// </summary>
         public GamePad ControllerFour { get { return GameControllers[3]; } }
 
-        internal IInputContext input;
+        private IInputContext inputContext;
 
         /// <summary>
         /// Pelin pääohjainkonteksti.
         /// </summary>
         public ListenContext ControlContext
         {
-            get { return Instance._context; }
+            get { return Instance.context; }
         }
 
         /// <summary>
@@ -109,47 +109,39 @@ namespace Jypeli
             get { return false; }
         }
 
-#if WINDOWS_PHONE || ANDROID
-        public new bool IsMouseVisible
-        {
-            get { return false; }
-            set { }
-        }
-#endif
-
         private void InitControls()
         {
-            input = window.CreateInput();
-            _context = new ListenContext() { Active = true };
+            inputContext = Window.CreateInput();
+            context = new ListenContext() { Active = true };
 
-            Keyboard = new Keyboard(input);
-            Mouse = new Mouse(Screen, input);
+            Keyboard = new Keyboard(inputContext);
+            Mouse = new Mouse(Screen, inputContext);
             PhoneBackButton = new BackButton();
-            TouchPanel = new TouchPanel(Screen, input);
+            TouchPanel = new TouchPanel(Screen, inputContext);
 
-            _controllers = new List<Controller>();
+            controllers = new List<Controller>();
             GameControllers = new List<GamePad>(4);
 #if DESKTOP
-            GameControllers.Add(new GamePad(input, 0));
-            GameControllers.Add(new GamePad(input, 1));
-            GameControllers.Add(new GamePad(input, 2));
-            GameControllers.Add(new GamePad(input, 3));
-            _controllers.AddRange(GameControllers);
+            GameControllers.Add(new GamePad(inputContext, 0));
+            GameControllers.Add(new GamePad(inputContext, 1));
+            GameControllers.Add(new GamePad(inputContext, 2));
+            GameControllers.Add(new GamePad(inputContext, 3));
+            controllers.AddRange(GameControllers);
 
-            _controllers.Add(Mouse);
+            controllers.Add(Mouse);
 #endif
-            _controllers.Add(Keyboard);
+            controllers.Add(Keyboard);
 
-            _controllers.Add(Accelerometer);
-            _controllers.Add( TouchPanel );
+            controllers.Add(Accelerometer);
+            controllers.Add( TouchPanel );
 #if ANDROID
-            _controllers.Add( PhoneBackButton );
+            controllers.Add( PhoneBackButton );
 #endif
         }
 
         private void UpdateControls( Time gameTime )
         {
-            _controllers.ForEach(c => c.Update());
+            controllers.ForEach(c => c.Update());
             GameControllers.ForEach(g => g.UpdateVibrations(gameTime));
         }
 
@@ -158,7 +150,7 @@ namespace Jypeli
         /// </summary>
         public void ClearControls()
         {
-            _controllers.ForEach( c => c.Clear() );
+            controllers.ForEach( c => c.Clear() );
         }
 
         /// <summary>
@@ -166,7 +158,7 @@ namespace Jypeli
         /// </summary>
         public void ShowControlHelp()
         {
-            _controllers.ForEach( c => MessageDisplay.Add( c.GetHelpTexts() ) );
+            controllers.ForEach( c => MessageDisplay.Add( c.GetHelpTexts() ) );
         }
 
         /// <summary>

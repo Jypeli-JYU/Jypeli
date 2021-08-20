@@ -1,5 +1,6 @@
 using System;
 using Jypeli.Controls;
+using Vector3 = System.Numerics.Vector3;
 
 namespace Jypeli
 {
@@ -7,7 +8,7 @@ namespace Jypeli
     {
     }
 
-    public abstract class Accelerometer : Controller<Vector3, AccelerometerDirection>
+    public abstract class Accelerometer : Controller<System.Numerics.Vector3, AccelerometerDirection>
     {
         protected bool started = false;
 
@@ -106,7 +107,7 @@ namespace Jypeli
 #endif
         }
 
-        internal virtual Vector Project2d( Vector3 spaceVector )
+        internal virtual Vector Project2d(Vector3 spaceVector)
         {
             switch ( Calibration )
             {

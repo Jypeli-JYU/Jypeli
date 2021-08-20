@@ -2,6 +2,8 @@ using System;
 using System.Diagnostics;
 using Xamarin.Essentials;
 
+using Vector3 = System.Numerics.Vector3;
+
 namespace Jypeli.Android
 {
     public class AndroidAccelerometer : Accelerometer

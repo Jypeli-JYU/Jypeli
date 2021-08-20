@@ -30,11 +30,10 @@
  */
 
 using Silk.NET.Maths;
+using Jypeli.Rendering;
 
 using Matrix = System.Numerics.Matrix4x4;
-using Jypeli.Rendering;
-using System;
-using System.Drawing.Drawing2D;
+using Vector3 = System.Numerics.Vector3;
 
 namespace Jypeli
 {

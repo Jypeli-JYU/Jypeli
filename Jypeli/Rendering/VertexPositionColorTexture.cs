@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
+﻿using Vector3 = System.Numerics.Vector3;
 
 namespace Jypeli.Rendering
 {// TODO: Halutaanko käyttää tätä yhtä structia kaikkeen?

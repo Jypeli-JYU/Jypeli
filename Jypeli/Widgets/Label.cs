@@ -31,6 +31,7 @@ using System;
 using Jypeli.Widgets;
 
 using Matrix = System.Numerics.Matrix4x4;
+using Vector3 = System.Numerics.Vector3;
 
 namespace Jypeli
 {

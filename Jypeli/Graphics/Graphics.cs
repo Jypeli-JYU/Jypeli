@@ -26,6 +26,7 @@
 using System;
 using Jypeli.Rendering;
 using Matrix = System.Numerics.Matrix4x4;
+using Vector3 = System.Numerics.Vector3;
 
 namespace Jypeli
 {
@@ -233,7 +234,7 @@ namespace Jypeli
             ViewMatrix = Matrix.CreateLookAt(
                 new Vector3( 0.0f, 0.0f, 1.0f ),
                 Vector3.Zero,
-                Vector3.Up
+                Vector3.UnitY
                 );
             ProjectionMatrix = Matrix.CreateOrthographic(
                 (float)Game.Screen.ViewportWidth,

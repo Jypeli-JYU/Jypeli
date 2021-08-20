@@ -10,6 +10,7 @@ using Jypeli.Assets;
 #if !DISABLE_EFFECTS
 using Jypeli.Effects;
 #endif
+using Vector3 = System.Numerics.Vector3;
 
 namespace Jypeli
 {
@@ -149,7 +150,10 @@ namespace Jypeli
                 * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0);
 
             Vector3[] transformedPoints = new Vector3[VerticesPerTexture];
-            Vector3.Transform(Vertices, ref matrix, transformedPoints);
+            for (int i = 0; i < transformedPoints.Length; i++)
+            {
+                transformedPoints[i] = Vector3.Transform(Vertices[i], matrix);
+            }
 
             uint startIndex = (iTexture * VerticesPerTexture);
 
@@ -207,7 +211,10 @@ namespace Jypeli
                 * Matrix.CreateTranslation((float)transf.X, (float)transf.Y, 0);
 
             Vector3[] transformedPoints = new Vector3[VerticesPerTexture];
-            Vector3.Transform(Vertices, ref matrix, transformedPoints);
+            for (int i = 0; i < transformedPoints.Length; i++)
+            {
+                transformedPoints[i] = Vector3.Transform(Vertices[i], matrix);
+            }
 
             uint startIndex = (iTexture * VerticesPerTexture);
 

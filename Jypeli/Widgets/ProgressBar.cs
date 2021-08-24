@@ -2,14 +2,12 @@
 
 namespace Jypeli.Widgets
 {
+    //TODO: Mitä eroa on ProgressBarilla ja BarGaugella?
     /// <summary>
     /// Palkki, jolla voidaan ilmaista mittarin arvoa graafisesti.
     /// </summary>
     public class ProgressBar : BindableWidget
     {
-        // private double h = -1;
-        // private double w = -1;
-
         private static readonly Vector[] barVertices = new Vector[]
         {
             new Vector(-0.5, 0),
@@ -106,7 +104,9 @@ namespace Jypeli.Widgets
         {
             // TODO: Optimization?
             UpdateValue();
+            double barLength = Size.X * Meter.RelativeValue;
 
+            // TODO: Kuvan piirto
             if (BarImage != null)
             {
                 Matrix imp = imgPart * parentTransformation;
@@ -118,13 +118,12 @@ namespace Jypeli.Widgets
             }
             else
             {
-                Matrix m = colorPart * parentTransformation;
-                Renderer.DrawFilledShape(shapeCache, ref m, Position, Size, (float)Angle.Radians, BarColor);
+                Renderer.DrawFilledShape(shapeCache, ref parentTransformation, Position + new Vector(barLength / 2 - Size.X / 2, -Size.Y / 2), new Vector(barLength, Size.Y), (float)Angle.Radians, BarColor);
             }
 
             // The border that is drawn by base class gets obscured by the bar.
             // Let's draw it again.
-            Renderer.DrawPolygon(borderVertices, ref transformation, BorderColor);
+            //Renderer.DrawPolygon(borderVertices, ref transformation, BorderColor);
 
             base.Draw(parentTransformation, transformation);
         }

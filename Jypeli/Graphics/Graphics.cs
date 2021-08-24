@@ -69,7 +69,7 @@ namespace Jypeli
                 new VertexPositionColorTexture(new Vector3(1f, 1f, 0), Color.White, new Vector(1f, 1f))
         };
 
-#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
+#if !DISABLE_LIGHTING_EFFECT
         static Effect LightingEffect;
 #endif
 
@@ -92,7 +92,7 @@ namespace Jypeli
             FontRenderer = new FontRenderer();
         }
 
-#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
+#if !DISABLE_LIGHTING_EFFECT
         private static Effect GetLightingEffect( ref Matrix worldMatrix )
         {
             Effect effect = LightingEffect;

@@ -74,11 +74,7 @@ namespace Jypeli.Widgets
         {
             get
             {
-#if WINDOWS_PHONE || ANDROID
                 return Game.Screen.Width;
-#else
-                return 600;
-#endif
             }
         }
 
@@ -86,8 +82,8 @@ namespace Jypeli.Widgets
         {
             get
             {
-#if WINDOWS_PHONE
-                return Game.Instance.Phone.DisplayResolution == DisplayResolution.Small ? 300 : 500;
+#if ANDROID
+                return Game.Device.DisplayResolution == DisplayResolution.Small ? 300 : 500;
 #else
                 return 500;
 #endif
@@ -98,11 +94,7 @@ namespace Jypeli.Widgets
         {
             get
             {
-#if WINDOWS_PHONE || ANDROID
                 return Game.Screen.Height;
-#else
-                return 600;
-#endif
             }
         }
 
@@ -110,11 +102,7 @@ namespace Jypeli.Widgets
         {
             get
             {
-#if WINDOWS_PHONE
-                return Game.Instance.Phone.DisplayResolution == WP7.DisplayResolution.Small ? 0 : 20;
-#else
                 return 50;
-#endif
             }
         }
 
@@ -122,10 +110,8 @@ namespace Jypeli.Widgets
         {
             get
             {
-#if WINDOWS_PHONE || ANDROID
+#if ANDROID
                 return "Start the game by tapping here";
-#elif XBOX
-                return "Start the game by pressing A";
 #else
                 return "Start the game by pressing Enter";
 #endif

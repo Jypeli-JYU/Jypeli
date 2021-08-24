@@ -251,7 +251,7 @@ namespace Jypeli
 
         private static HoverState GetHoverState(MouseState oldState, MouseState newState, GameObject obj)
         {
-#if WINDOWS_PHONE || ANDROID
+#if ANDROID
             return HoverState.Off;
 #else
             bool prevOn = IsCursorOn(Game.Screen, oldState, obj);
@@ -347,13 +347,9 @@ namespace Jypeli
         /// </summary>
         private static bool IsCursorOn(ScreenView screen, MouseState state, GameObject obj)
         {
-#if WINDOWS_PHONE
-            return false;
-#else
             if (obj == null || obj.Layer == null || obj.IsDestroyed)
                 return false;
             return obj.IsInside(Game.Instance.Camera.ScreenToWorld(new Vector(state.PosX, state.PosY), obj.Layer));
-#endif
         }
 
         /// <summary>
@@ -361,7 +357,7 @@ namespace Jypeli
         /// </summary>
         public bool IsCursorOn(GameObject obj)
         {
-#if WINDOWS_PHONE || ANDROID
+#if ANDROID
             return false;
 #else
             if (obj == null || obj.Layer == null || obj.IsDestroyed)

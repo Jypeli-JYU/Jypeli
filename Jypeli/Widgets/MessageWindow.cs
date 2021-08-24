@@ -76,7 +76,7 @@ namespace Jypeli
                 { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
             Add( Message );
 
-#if !WINDOWS_PHONE && !ANDROID
+#if !ANDROID
             OKButton = new PushButton( "OK" );
             OKButton.Clicked += new Action( Close );
             Add( OKButton );

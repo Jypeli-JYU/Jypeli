@@ -150,10 +150,10 @@ namespace Jypeli
                 PushButton button = new PushButton( buttonTexts[i] );
                 button.Tag = i;
                 button.Clicked += new Action( delegate { ButtonClicked( (int)button.Tag ); } );
-#if WINDOWS_PHONE
-                if ( Game.Instance.Phone.DisplayResolution == DisplayResolution.Large )
+#if ANDROID
+                if ( Game.Device.DisplayResolution == DisplayResolution.Large )
                     button.TextScale = new Vector(2, 2);
-                else if ( Game.Instance.Phone.DisplayResolution == DisplayResolution.HD720 )
+                else if ( Game.Device.DisplayResolution == DisplayResolution.HD720 )
                     button.TextScale = new Vector( 3, 3 );
 #endif
                 Add( button );
@@ -168,7 +168,7 @@ namespace Jypeli
         {
             AddControls();
             AddDefaultControls();
-#if !WINDOWS_PHONE && !ANDROID
+#if !ANDROID
             SelectButton( ( RememberSelection && _selectedIndex >= 0 ) ? _selectedIndex : 0 );
 #endif
         }

@@ -148,7 +148,7 @@ namespace Jypeli
             associatedListeners.AddItems(l1, l2, l3);
         }
 
-#if WINDOWS_PHONE && TESTING
+#if TESTING
         void TouchTextEntered( IAsyncResult result )
         {
             string typedText = Guide.EndShowKeyboardInput( result );

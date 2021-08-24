@@ -82,7 +82,6 @@ namespace Jypeli.Widgets
         {
             double barLength = Size.X * Meter.RelativeValue;
 
-            // TODO: Kuvan piirto
             if (BarImage != null)
             {
                 TextureCoordinates tex = new TextureCoordinates();

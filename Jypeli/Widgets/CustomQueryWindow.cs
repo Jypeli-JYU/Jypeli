@@ -63,7 +63,7 @@ namespace Jypeli
             {
                 QueryWidget.Color = value;
 
-#if WINDOWS_PHONE || ANDROID
+#if ANDROID
                 if ( OkButtonOnPhone )
 #endif
                 {
@@ -115,7 +115,7 @@ namespace Jypeli
             QueryWidget = CreateQueryWidget();
             Add( QueryWidget );
 
-#if WINDOWS_PHONE || ANDROID
+#if ANDROID
             if ( OkButtonOnPhone )
 #endif
             {
@@ -135,10 +135,10 @@ namespace Jypeli
             buttonRow.Add( new HorizontalSpacer() );
 
             OKButton = new PushButton( "OK" );
-#if WINDOWS_PHONE
-            if ( Game.Instance.Phone.DisplayResolution == DisplayResolution.Large )
+#if ANDROID
+            if ( Game.Device.DisplayResolution == DisplayResolution.Large )
                 OKButton.TextScale = new Vector(2, 2);
-            else if ( Game.Instance.Phone.DisplayResolution == DisplayResolution.HD720 )
+            else if ( Game.Device.DisplayResolution == DisplayResolution.HD720 )
                 OKButton.TextScale = new Vector( 3, 3 );
 #endif
             OKButton.Clicked += new Action(Close);
@@ -156,7 +156,7 @@ namespace Jypeli
         private void AddListeners()
         {
             Listener l;
-#if WINDOWS_PHONE || ANDROID
+#if ANDROID
             l = Game.Instance.TouchPanel.Listen(ButtonState.Pressed, delegate{ Close(); }, null).InContext(this);
 #else
             l = Game.Instance.Keyboard.Listen(Key.Enter, ButtonState.Pressed, OKButton.Click, null).InContext(this);

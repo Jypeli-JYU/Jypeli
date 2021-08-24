@@ -11,6 +11,7 @@ using Jypeli.Assets;
 using Jypeli.Effects;
 #endif
 using Vector3 = System.Numerics.Vector3;
+using Vector2 = System.Numerics.Vector2;
 
 namespace Jypeli.Rendering
 {
@@ -153,31 +154,25 @@ namespace Jypeli.Rendering
             var color = System.Drawing.Color.FromArgb(255, 255, 255, 255);
 
             // Triangle 1
-            vertexBuffer[startIndex + 0].TexCoordsX = (float)c.TopLeft.X;
-            vertexBuffer[startIndex + 0].TexCoordsY = (float)c.TopLeft.Y;
+            vertexBuffer[startIndex + 0].TexCoords = new Vector2((float)c.TopLeft.X, (float)c.TopLeft.Y);
             vertexBuffer[startIndex + 0].SetColor(color);
-            vertexBuffer[startIndex + 1].TexCoordsX = (float)c.BottomLeft.X;
-            vertexBuffer[startIndex + 1].TexCoordsY = (float)c.BottomLeft.Y;
+            vertexBuffer[startIndex + 1].TexCoords = new Vector2((float)c.BottomLeft.X, (float)c.BottomLeft.Y);
             vertexBuffer[startIndex + 1].SetColor(color);
-            vertexBuffer[startIndex + 2].TexCoordsX = (float)c.TopRight.X;
-            vertexBuffer[startIndex + 2].TexCoordsY = (float)c.TopRight.Y;
+            vertexBuffer[startIndex + 2].TexCoords = new Vector2((float)c.TopRight.X, (float)c.TopRight.Y);
             vertexBuffer[startIndex + 2].SetColor(color);
 
             // Triangle 2
-            vertexBuffer[startIndex + 3].TexCoordsX = (float)c.BottomLeft.X;
-            vertexBuffer[startIndex + 3].TexCoordsY = (float)c.BottomLeft.Y;
+            vertexBuffer[startIndex + 3].TexCoords = new Vector2((float)c.BottomLeft.X, (float)c.BottomLeft.Y);
             vertexBuffer[startIndex + 3].SetColor(color);
-            vertexBuffer[startIndex + 4].TexCoordsX = (float)c.BottomRight.X;
-            vertexBuffer[startIndex + 4].TexCoordsY = (float)c.BottomRight.Y;
+            vertexBuffer[startIndex + 4].TexCoords = new Vector2((float)c.BottomRight.X, (float)c.BottomRight.Y);
             vertexBuffer[startIndex + 4].SetColor(color);
-            vertexBuffer[startIndex + 5].TexCoordsX = (float)c.TopRight.X;
-            vertexBuffer[startIndex + 5].TexCoordsY = (float)c.TopRight.Y;
+            vertexBuffer[startIndex + 5].TexCoords = new Vector2((float)c.TopRight.X, (float)c.TopRight.Y);
             vertexBuffer[startIndex + 5].SetColor(color);
 
             iTexture++;
         }
 
-        public void Draw(Image img, System.Numerics.Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, System.Numerics.Vector2 scale, float angle, System.Numerics.Vector2 origin)
+        public void Draw(Image img, Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, Vector2 scale, float angle, Vector2 origin)
         {
             Debug.Assert(beginHasBeenCalled);
 
@@ -212,25 +207,19 @@ namespace Jypeli.Rendering
             }
 
             // Triangle 1
-            vertexBuffer[startIndex + 0].TexCoordsX = rect.Left / iw;
-            vertexBuffer[startIndex + 0].TexCoordsY = rect.Top / ih;
+            vertexBuffer[startIndex + 0].TexCoords = new Vector2(rect.Left / iw, rect.Top / ih);
             vertexBuffer[startIndex + 0].SetColor(color);
-            vertexBuffer[startIndex + 1].TexCoordsX = rect.Left / iw;
-            vertexBuffer[startIndex + 1].TexCoordsY = rect.Bottom / ih;
+            vertexBuffer[startIndex + 1].TexCoords = new Vector2(rect.Left / iw, rect.Bottom / ih);
             vertexBuffer[startIndex + 1].SetColor(color);
-            vertexBuffer[startIndex + 2].TexCoordsX = rect.Right / iw;
-            vertexBuffer[startIndex + 2].TexCoordsY = rect.Top / ih;
+            vertexBuffer[startIndex + 2].TexCoords = new Vector2(rect.Right / iw, rect.Top / ih);
             vertexBuffer[startIndex + 2].SetColor(color);
 
             // Triangle 2
-            vertexBuffer[startIndex + 3].TexCoordsX = rect.Left / iw;
-            vertexBuffer[startIndex + 3].TexCoordsY = rect.Bottom / ih;
+            vertexBuffer[startIndex + 3].TexCoords = new Vector2(rect.Left / iw, rect.Bottom / ih);
             vertexBuffer[startIndex + 3].SetColor(color);
-            vertexBuffer[startIndex + 4].TexCoordsX = rect.Right / iw;
-            vertexBuffer[startIndex + 4].TexCoordsY = rect.Bottom / ih;
+            vertexBuffer[startIndex + 4].TexCoords = new Vector2(rect.Right / iw, rect.Bottom / ih);
             vertexBuffer[startIndex + 4].SetColor(color);
-            vertexBuffer[startIndex + 5].TexCoordsX = rect.Right / iw;
-            vertexBuffer[startIndex + 5].TexCoordsY = rect.Top / ih;
+            vertexBuffer[startIndex + 5].TexCoords = new Vector2(rect.Right / iw, rect.Top / ih);
             vertexBuffer[startIndex + 5].SetColor(color);
 
             iTexture++;

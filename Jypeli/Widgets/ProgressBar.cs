@@ -68,62 +68,34 @@ namespace Jypeli.Widgets
             BindTo(meter);
         }
 
-        Matrix imgFull;
-        Matrix imgPart;
-        Matrix colorPart;
-
         /// <summary>
-        /// Päivittää mittarin näkymän vastaamaan sen arvoa
+        /// Päivittää mittarin näkymän vastaamaan sen arvoa.
         /// </summary>
         protected override void UpdateValue()
         {
-            double barLength = Size.X * Meter.RelativeValue;
-
-            imgPart =
-                    Matrix.CreateScale((float)barLength, (float)Size.Y, 1f)
-                    * Matrix.CreateTranslation((float)(barLength / 2), 0, 0)
-                    * Matrix.CreateTranslation((float)(-Width / 2), 0, 0)
-                    * Matrix.CreateRotationZ((float)(Angle).Radians)
-                    * Matrix.CreateTranslation((float)Position.X, (float)Position.Y, 0.0f);
-
-            imgFull =
-                Matrix.CreateScale((float)Size.X, (float)Size.Y, 1f)
-                * Matrix.CreateRotationZ((float)(Angle).Radians)
-                * Matrix.CreateTranslation((float)Position.X, (float)Position.Y, 0.0f);
-
-            colorPart =
-                Matrix.CreateScale((float)barLength, (float)Size.Y, 1f)
-                * Matrix.CreateTranslation((float)(barLength / 2), 0, 0)
-                * Matrix.CreateTranslation((float)(-Width / 2), (float)(-Height / 2), 0)
-                * Matrix.CreateRotationZ((float)(Angle).Radians)
-                * Matrix.CreateTranslation((float)Position.X, (float)Position.Y, 0.0f);
+            // TODO: Luokkien toteutuksia voisi vähän pohtia paremmin. Tyhjän aliohjelman pitäminen on hieman turhaa ja hämäävää.
         }
 
         /// <inheritdoc/>
         public override void Draw(Matrix parentTransformation, Matrix transformation)
         {
-            // TODO: Optimization?
-            UpdateValue();
             double barLength = Size.X * Meter.RelativeValue;
 
             // TODO: Kuvan piirto
             if (BarImage != null)
             {
-                Matrix imp = imgPart * parentTransformation;
-                Matrix imf = imgFull * parentTransformation;
+                TextureCoordinates tex = new TextureCoordinates();
+                tex.TopLeft = new Vector(0, 0);
+                tex.TopRight = new Vector(Meter.RelativeValue, 0);
+                tex.BottomLeft = new Vector(0, TextureWrapSize.Y);
+                tex.BottomRight = new Vector(Meter.RelativeValue, TextureWrapSize.Y);
 
-                Renderer.BeginDrawingInsideShape(Shape.Rectangle, ref imp);
-                Renderer.DrawImage(BarImage, ref imf, TextureWrapSize);
-                Renderer.EndDrawingInsideShape();
+                Graphics.CustomBatch.AddImage(parentTransformation, BarImage, tex, Position + new Vector(barLength / 2 - Size.X / 2, 0), new Vector(barLength, Size.Y), (float)Angle.Radians);
             }
             else
             {
                 Renderer.DrawFilledShape(shapeCache, ref parentTransformation, Position + new Vector(barLength / 2 - Size.X / 2, -Size.Y / 2), new Vector(barLength, Size.Y), (float)Angle.Radians, BarColor);
             }
-
-            // The border that is drawn by base class gets obscured by the bar.
-            // Let's draw it again.
-            //Renderer.DrawPolygon(borderVertices, ref transformation, BorderColor);
 
             base.Draw(parentTransformation, transformation);
         }

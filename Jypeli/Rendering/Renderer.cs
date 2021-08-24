@@ -48,80 +48,9 @@ namespace Jypeli
     public static class Renderer
     {
         /// <summary>
-        /// Vertices that form a rectangle on which to draw textures.
-        /// </summary>
-        static readonly VertexPositionColorTexture[] textureVertices = new VertexPositionColorTexture[]
-        {
-            new VertexPositionColorTexture(new Vector3(-0.5f, 0.5f, 0), Color.Transparent, new Vector(0.0f, 0.0f)),
-            new VertexPositionColorTexture(new Vector3(-0.5f, -0.5f, 0), Color.Transparent, new Vector(0.0f, 1.0f)),
-            new VertexPositionColorTexture(new Vector3(0.5f, 0.5f, 0), Color.Transparent,new Vector(1.0f, 0.0f)),
-            new VertexPositionColorTexture(new Vector3(0.5f, -0.5f, 0), Color.Transparent, new Vector(1.0f, 1.0f))
-        };
-
-        /// <summary>
-        /// Indices that form two triangles from the vertex array.
-        /// </summary>
-        static readonly Int16[] textureTriangleIndices = new short[]
-        {
-            0, 1, 2,
-            1, 3, 2
-        };
-
-        /// <summary>
         /// Onko valaistus käytössä
         /// </summary>
         public static bool LightingEnabled { get; set; }
-        /*
-        static readonly BlendState NoDrawingToScreenBufferBlendState = new BlendState
-        {
-            ColorWriteChannels = ColorWriteChannels.None,
-        };
-
-        static readonly DepthStencilState drawShapeToStencilBufferState = new DepthStencilState
-        {
-            StencilEnable = true,
-            ReferenceStencil = 0,
-            StencilFunction = CompareFunction.Equal,
-            StencilPass = StencilOperation.IncrementSaturation,
-        };
-
-        static readonly DepthStencilState drawAccordingToStencilBufferState = new DepthStencilState
-        {
-            StencilEnable = true,
-            ReferenceStencil = 1,
-            StencilFunction = CompareFunction.LessEqual,
-            StencilPass = StencilOperation.Keep,
-        };
-        */
-        private static bool isDrawingInsideShape = false;
-        //private static DepthStencilState currentStencilState = DepthStencilState.None;
-
-        private static VertexPositionColorTexture[] MakeTextureVertices( Vector wrapSize )
-        {
-            VertexPositionColorTexture[] tempVertices = new VertexPositionColorTexture[textureVertices.Length];
-            for ( int i = 0; i < textureVertices.Length; i++ )
-            {
-                tempVertices[i].Position = textureVertices[i].Position;
-            }
-
-            float px = MathHelper.Clamp( (float)wrapSize.X, -1, 1 );
-            float py = MathHelper.Clamp( (float)wrapSize.Y, -1, 1 );
-
-            // Since the origin in texture coordinates is at upper left corner,
-            // but at center in an object's coordinates, we need to make some
-            // adjustments here. Also, this makes partial textures possible.
-            float left = -(float)Math.Sign( wrapSize.X ) / 2 + 0.5f;
-            float right = left + px;
-            float top = -(float)Math.Sign( wrapSize.Y ) / 2 + 0.5f;
-            float bottom = top + py;
-                       
-            /*tempVertices[0].TextureCoordinate = new Vector(left, top);
-            tempVertices[1].TextureCoordinate = new Vector(left, bottom);
-            tempVertices[2].TextureCoordinate = new Vector(right, top);
-            tempVertices[3].TextureCoordinate = new Vector(right, bottom);*/
-
-            return tempVertices;
-        }
 
         /// <summary>
         /// Piirtää kuvan
@@ -131,87 +60,7 @@ namespace Jypeli
         /// <param name="wrapSize"></param>
         public static void DrawImage( Image texture, ref Matrix matrix, Vector wrapSize )
         {
-            if ( wrapSize.X == 0 || wrapSize.Y == 0 ) return;
-
-            //var device = Game.GraphicsDevice;
-            var tempVertices = MakeTextureVertices( wrapSize );
-
-            //device.RasterizerState = RasterizerState.CullClockwise;
-
-            //device.BlendState = BlendState.AlphaBlend;
-
-            float wrapX = (float)Math.Abs( wrapSize.X );
-            float wrapY = (float)Math.Abs( wrapSize.Y );
-
-            if ( wrapX <= 1 && wrapY <= 1 )
-            {
-                // Draw only once
-                //DrawImageTexture( texture, matrix, device, tempVertices );
-                return;
-            }
-
-            float wx = (float)( Math.Sign( wrapSize.X ) );
-            float wy = (float)( Math.Sign( wrapSize.Y ) );
-            float tileW = 1 / wrapX;
-            float tileH = 1 / wrapY;
-            float topLeftX = -0.5f + 0.5f * tileW;
-            float topLeftY = 0.5f - 0.5f * tileH;
-            float partX = wrapX - (int)wrapX;
-            float partY = wrapY - (int)wrapY;
-            
-            for ( int y = 0; y < (int)wrapY; y++ )
-            {
-                for ( int x = 0; x < (int)wrapX; x++ )
-                {
-                    Matrix m =
-                        Matrix.CreateScale( 1 / wrapX, 1 / wrapY, 1 ) *
-                        Matrix.CreateTranslation( topLeftX + x * tileW, topLeftY - y * tileH, 0 ) *
-                        matrix;
-                    //DrawImageTexture( texture, m, device, tempVertices );
-                }
-
-                if ( partX > 0 )
-                {
-                    // Draw a partial horizontal tile
-                    Matrix m =
-                        Matrix.CreateScale( partX, 1, 1 ) *
-                        Matrix.CreateScale( 1 / wrapX, 1 / wrapY, 1 ) *
-                        Matrix.CreateTranslation( -tileW / 2 + tileW * partX / 2, 0, 0 ) *
-                        Matrix.CreateTranslation( topLeftX + (int)wrapX * tileW, topLeftY - y * tileH, 0 ) *
-                        matrix;
-
-                    DrawImage( texture, ref m, new Vector( wx * partX, wy ) );
-                }
-            }
-
-            if ( partY > 0 )
-            {
-                for ( int x = 0; x < (int)wrapX; x++ )
-                {
-                    // Draw a partial vertical tile
-                    Matrix m =
-                        Matrix.CreateScale( 1, partY, 1 ) *
-                        Matrix.CreateScale( 1 / wrapX, 1 / wrapY, 1 ) *
-                        Matrix.CreateTranslation( 0, tileH / 2 - tileH * partY / 2, 0 ) *
-                        Matrix.CreateTranslation( topLeftX + x * tileW, topLeftY - (int)wrapY * tileH, 0 ) *
-                        matrix;
-
-                    DrawImage( texture, ref m, new Vector( wx, wy * partY ) );
-                }
-
-                if ( partX > 0 )
-                {
-                    // Draw a partial diagonal tile
-                    Matrix m =
-                        Matrix.CreateScale( partX, partY, 1 ) *
-                        Matrix.CreateScale( 1 / wrapX, 1 / wrapY, 1 ) *
-                        Matrix.CreateTranslation( -tileW / 2 + tileW * partX / 2, tileH / 2 - tileH * partY / 2, 0 ) *
-                        Matrix.CreateTranslation( topLeftX + (int)wrapX * tileW, topLeftY - (int)wrapY * tileH, 0 ) *
-                        matrix;
-
-                    DrawImage( texture, ref m, new Vector( wx * partX, wy * partY ) );
-                }
-            }
+            // TODO: Tämä kuntoon
         }
         /*
         private static void DrawImageTexture( Image texture, Matrix matrix, GraphicsDevice device, VertexPositionTexture[] tempVertices )
@@ -232,53 +81,15 @@ namespace Jypeli
             Graphics.ResetSamplerState();
         }
         */
-        /// <summary>
-        /// Makes all the subsequent draw calls until <c>EndDrawingInsideShape</c> limit the
-        /// drawing inside <c>shape</c> (transformed by the matrix).
-        /// </summary>
-        /// <remarks>
-        /// The draw calls between Begin and End must not change the DepthStencilState of the graphics device.
-        /// If drawing is done with a sprite batch, the <c>spritebatch.Begin</c> call must be given the
-        /// DepthStencilState that can be obtained from <c>currentStencilState</c> variable.
-        /// </remarks>
-        public static void BeginDrawingInsideShape( Shape shape, ref Matrix transformation )
-        {
-            if ( shape.Cache.Triangles == null )
-                throw new ArgumentException( "The shape must have triangles" );
-            if ( isDrawingInsideShape )
-                throw new Exception( "EndDrawingInsideShape must be called before calling this function again" );
 
-            isDrawingInsideShape = true;
-            /*var device = Game.GraphicsDevice;
 
-            device.Clear( ClearOptions.Stencil, Color.Black.AsXnaColor(), 0, 0 );
-            device.DepthStencilState = currentStencilState = drawShapeToStencilBufferState;
-
-            DrawFilledShape( shape.Cache, ref transformation, Color.White, NoDrawingToScreenBufferBlendState );
-
-            device.DepthStencilState = currentStencilState = drawAccordingToStencilBufferState;*/
-        }
-
-        /// <summary>
-        /// Lopettaa muodon sisälle piirtämisen
-        /// </summary>
-        public static void EndDrawingInsideShape()
-        {
-            if ( !isDrawingInsideShape )
-                throw new Exception( "BeginDrawingInsideShape must be called first" );
-
-            //Game.GraphicsDevice.DepthStencilState = currentStencilState = DepthStencilState.None;
-            isDrawingInsideShape = false;
-        }
 
         /// <summary>
         /// Piirtää kuvion niin, että tekstuuri täyttää sen.
         /// </summary>
         public static void DrawShape( Shape shape, ref Matrix transformation, ref Matrix textureTransformation, Image texture, Vector textureWrapSize, Color color )
         {
-            BeginDrawingInsideShape( shape, ref transformation );
             DrawImage( texture, ref textureTransformation, textureWrapSize );
-            EndDrawingInsideShape();
         }
 
         /// <summary>

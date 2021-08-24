@@ -16,10 +16,10 @@ namespace Jypeli
 {
     internal class TextureCoordinates
     {
-        public Vector TopLeft;
-        public Vector TopRight;
-        public Vector BottomLeft;
-        public Vector BottomRight;
+        public Vector TopLeft = new Vector(0, 0);
+        public Vector TopRight = new Vector(1, 0);
+        public Vector BottomLeft = new Vector(0, 1);
+        public Vector BottomRight = new Vector(1, 1);
     }
 
     /// <summary>

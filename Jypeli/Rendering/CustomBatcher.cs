@@ -56,7 +56,9 @@ namespace Jypeli.Rendering
 
         // Järjestetään piirrettävät esineet niiden transformaatiomatriisin mukaan.
         // Matriisin vaihto tarkoittaa aina uutta piirtokomentoa, joten tämä lienee paras, tai ainakin helpoin, tapa.
+        // Ihan vain yksinkertaisuuden takia jaetaan teksti omaan dictionaryyn, vaikka sekin on vain kuva, jonka palasia piirretään.
         private Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>> ImageBatches = new Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>>();
+        private Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>> TextBatches = new Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>>();
         private Dictionary<Matrix4x4, List<BatchItem>> ShapeBatches = new Dictionary<Matrix4x4, List<BatchItem>>();
 
         public void AddShape(Matrix4x4 matrix, ShapeCache cache, Color color, Vector position, Vector size, float rotation)
@@ -79,6 +81,10 @@ namespace Jypeli.Rendering
 
         public void AddImage(Matrix4x4 matrix, Image image, TextureCoordinates texcoords, Vector position, Vector size, float rotation)
         {
+            if (!ImageBatches.ContainsKey(image))
+            {
+                ImageBatches.Add(image, new Dictionary<Matrix4x4, List<BatchItem>>());
+            }
             Dictionary<Matrix4x4, List<BatchItem>> batch = ImageBatches[image];
 
             if (batch.TryGetValue(matrix, out List<BatchItem> list))
@@ -99,11 +105,11 @@ namespace Jypeli.Rendering
 
         public void AddText(Matrix4x4 matrix, Image image, Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, Vector2 size, float rotation, Vector2 origin)
         {
-            if (!ImageBatches.ContainsKey(image))
+            if (!TextBatches.ContainsKey(image))
             {
-                ImageBatches.Add(image, new Dictionary<Matrix4x4, List<BatchItem>>());
+                TextBatches.Add(image, new Dictionary<Matrix4x4, List<BatchItem>>());
             }
-            Dictionary<Matrix4x4, List<BatchItem>> batch = ImageBatches[image];
+            Dictionary<Matrix4x4, List<BatchItem>> batch = TextBatches[image];
 
             if (batch.TryGetValue(matrix, out List<BatchItem> list))
             {
@@ -147,10 +153,27 @@ namespace Jypeli.Rendering
                     Graphics.ImageBatch.Begin(ref matrix, img);
                     foreach (var item in ImageBatches[img][batch.Key])
                     {
-                        Graphics.ImageBatch.Draw(img, item.Position, item.SourceRectangle, item.Dcolor, item.Size, item.Rotation, item.Origin);
+                        Graphics.ImageBatch.Draw(item.Texcoords, item.Position, item.Size, item.Rotation);
                     }
                     Graphics.ImageBatch.End();
                     ImageBatches[img][batch.Key].Clear();
+                }
+            }
+
+            var textImages = TextBatches.Keys;
+
+            foreach (var img in textImages)
+            {
+                foreach (var batch in TextBatches[img])
+                {
+                    Matrix4x4 matrix = batch.Key;
+                    Graphics.ImageBatch.Begin(ref matrix, img);
+                    foreach (var item in TextBatches[img][batch.Key])
+                    {
+                        Graphics.ImageBatch.Draw(img, item.Position, item.SourceRectangle, item.Dcolor, item.Size, item.Rotation, item.Origin);
+                    }
+                    Graphics.ImageBatch.End();
+                    TextBatches[img][batch.Key].Clear();
                 }
             }
         }

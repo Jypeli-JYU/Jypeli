@@ -1,4 +1,5 @@
-﻿using Matrix = System.Numerics.Matrix4x4;
+﻿using Jypeli.Rendering;
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli.Widgets
 {
@@ -90,7 +91,7 @@ namespace Jypeli.Widgets
                 tex.BottomLeft = new Vector(0, TextureWrapSize.Y);
                 tex.BottomRight = new Vector(Meter.RelativeValue, TextureWrapSize.Y);
 
-                Graphics.CustomBatch.AddImage(parentTransformation, BarImage, tex, Position + new Vector(barLength / 2 - Size.X / 2, 0), new Vector(barLength, Size.Y), (float)Angle.Radians);
+                Renderer.DrawImage(parentTransformation, BarImage, tex, Position + new Vector(barLength / 2 - Size.X / 2, 0), new Vector(barLength, Size.Y), (float)Angle.Radians);
             }
             else
             {

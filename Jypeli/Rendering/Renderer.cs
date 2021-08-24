@@ -58,9 +58,9 @@ namespace Jypeli
         /// <param name="texture"></param>
         /// <param name="matrix"></param>
         /// <param name="wrapSize"></param>
-        public static void DrawImage( Image texture, ref Matrix matrix, Vector wrapSize )
+        public static void DrawImage(Matrix parentTransformation, Image texture, TextureCoordinates tex, Vector position, Vector size, float angle)
         {
-            // TODO: Tämä kuntoon
+            Graphics.CustomBatch.AddImage(parentTransformation, texture, tex, position, size, angle);
         }
         /*
         private static void DrawImageTexture( Image texture, Matrix matrix, GraphicsDevice device, VertexPositionTexture[] tempVertices )
@@ -89,7 +89,8 @@ namespace Jypeli
         /// </summary>
         public static void DrawShape( Shape shape, ref Matrix transformation, ref Matrix textureTransformation, Image texture, Vector textureWrapSize, Color color )
         {
-            DrawImage( texture, ref textureTransformation, textureWrapSize );
+            throw new System.Exception("TODO");
+            //DrawImage( texture, ref textureTransformation, textureWrapSize );
         }
 
         /// <summary>

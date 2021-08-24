@@ -583,7 +583,8 @@ namespace Jypeli
                 }
                 else if (o.Image != null && (!o.TextureFillsShape))
                 {
-                    Renderer.DrawImage(o.Image, ref transformation, o.TextureWrapSize);
+                    // TODO: TextureFillsShape kuntoon
+                    Renderer.DrawImage(parentTransformation, o.Image, new TextureCoordinates(), o.Position, o.Size, (float)o.Angle.Radians);
                 }
                 else if (o.Image != null)
                 {

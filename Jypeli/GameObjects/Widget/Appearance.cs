@@ -39,12 +39,12 @@ namespace Jypeli
 
             if (Image != null && (!TextureFillsShape))
             {
-                Renderer.DrawImage(Image, ref parentTransformation, TextureWrapSize);
+                Renderer.DrawImage(parentTransformation, Image, new Rendering.TextureCoordinates(), Position, Size, (float)Angle.Radians);
             }
             else if (Image != null)
             {
-                // TODO: Mille tämä tapahtuu, ja mille ylempi?
-                //Renderer.DrawShape(Shape, ref parentTransformation, Image, TextureWrapSize, Color);
+                // TODO: TextureFillsShape kuntoon
+                Renderer.DrawImage(parentTransformation, Image, new Rendering.TextureCoordinates(), Position, Size, (float)Angle.Radians);
             }
             else
             {

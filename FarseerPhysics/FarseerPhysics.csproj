@@ -5,7 +5,7 @@
     <LangVersion>9</LangVersion>
     
     <AssemblyName>Jypeli.FarseerPhysics</AssemblyName>
-    <PackageId>Jypeli.FarseerPhysics.NET</PackageId>
+    <PackageId>Jypeli.FarseerPhysics.NET.BETA</PackageId>
     <Description>FarseerPhysics implementation for Jypeli</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>University of Jyväskylä</Authors>
@@ -13,8 +13,8 @@
     <Copyright>University of Jyväskylä</Copyright>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
-    <Version>1.0.8</Version>
-    <AssemblyVersion>1.0.8.0</AssemblyVersion>
+    <Version>1.1.0.0825</Version>
+    <AssemblyVersion>1.1.0.825</AssemblyVersion>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

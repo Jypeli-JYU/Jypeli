@@ -8,12 +8,12 @@
     <StartupObject />
     <AssemblyName>Jypeli</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
-    <PackageId>Jypeli.NET</PackageId>
-    <Version>10.1.0</Version>
+    <PackageId>Jypeli.NET.BETA</PackageId>
+    <Version>11.0.0.0825</Version>
     <Authors>University of Jyväskylä</Authors>
     <Company />
     <Product />
-    <Description>Jypeli is a simple C# game programming library built on top of MonoGame and .NET. It is used as a tool for teaching programming in the University of Jyväskylä.</Description>
+    <Description>Experimental</Description>
     <Copyright>University of Jyväskylä</Copyright>
     <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
@@ -135,8 +135,9 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <AssemblyVersion>10.1.0.0</AssemblyVersion>
-    <FileVersion>10.1.0.0</FileVersion>
+    <AssemblyVersion>11.0.0.0825</AssemblyVersion>
+    <FileVersion>11.0.0.0825</FileVersion>
     <PackageIcon>jypeli_logo.png</PackageIcon>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 </Project>

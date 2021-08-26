@@ -34,6 +34,7 @@ using Jypeli.Rendering;
 
 using Matrix = System.Numerics.Matrix4x4;
 using Vector3 = System.Numerics.Vector3;
+using System.Numerics;
 
 namespace Jypeli
 {
@@ -79,7 +80,10 @@ namespace Jypeli
         public ScreenView()
         {
             size = new Vector(Game.Instance.Window.Size.X, Game.Instance.Window.Size.Y);
+            LightPassTextureShader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGL.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGL.DefaultTextureShaderLightPass.glsl"));
         }
+
+        IShader LightPassTextureShader;
 
         /// <summary>
         /// Ruudulla näkyvä kuva.
@@ -443,15 +447,28 @@ namespace Jypeli
             float angle = flipAndMirror ? this.angle + MathHelper.Pi : this.angle;
 
             Game.GraphicsDevice.SetRenderTarget(null);
-            Game.GraphicsDevice.Clear(Game.Instance.Level.BackgroundColor);
+            Game.GraphicsDevice.Clear(Color.Black);
 
+            LightPassTextureShader.Use();
+            LightPassTextureShader.SetUniform("world", Matrix.Identity);
+
+            LightPassTextureShader.SetUniform("texture0", 0);
+            LightPassTextureShader.SetUniform("texture1", 1);
+
+            LightPassTextureShader.SetUniform("ambientLight", Game.Instance.Level.AmbientLight.ToNumerics());
+
+            RenderTarget.TextureSlot(0);
             RenderTarget.BindTexture();
 
-            Graphics.BasicTextureShader.Use();
-            Graphics.BasicTextureShader.SetUniform("world", Matrix.Identity);
+            // TODO: Tätä ei tarvitsisi tehdä, jos valoja ei käytetä.
+            // TODO: Menee myös käyttöliittymäelementtien päälle.
+            Effects.BasicLights.RenderTarget.TextureSlot(1);
+            Effects.BasicLights.RenderTarget.BindTexture();
 
             Game.GraphicsDevice.DrawPrimitives(PrimitiveType.OpenGlTriangles, Graphics.TextureVertices, 6, true);
+
             RenderTarget.UnBindTexture();
+            RenderTarget.TextureSlot(0);
         }
     }
 

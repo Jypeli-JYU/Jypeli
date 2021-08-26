@@ -79,6 +79,12 @@ namespace Jypeli.Rendering.OpenGl
             gl.BindFramebuffer(GLEnum.Framebuffer, 0);
         }
 
+        /// <inheritdoc/>>
+        public void TextureSlot(int slot)
+        {
+            gl.ActiveTexture(GLEnum.Texture0 + slot);
+        }
+
         /// <inheritdoc/>
         public void BindTexture()
         {

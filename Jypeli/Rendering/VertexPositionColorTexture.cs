@@ -26,6 +26,14 @@ namespace Jypeli.Rendering
             Color.W = color.A / 255f;
         }
 
+        public void SetColor(Color color)
+        {
+            Color.X = color.RedComponent / 255f;
+            Color.Y = color.GreenComponent / 255f;
+            Color.Z = color.BlueComponent / 255f;
+            Color.W = color.AlphaComponent / 255f;
+        }
+
         public void SetTexCoords(Vector coords)
         {
             TexCoords.X = (float)coords.X;

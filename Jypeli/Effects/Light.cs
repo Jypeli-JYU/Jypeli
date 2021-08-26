@@ -25,6 +25,9 @@
 
 
 using System;
+using System.Collections.Generic;
+using System.Numerics;
+using Jypeli.Rendering;
 
 namespace Jypeli.Effects
 {
@@ -39,15 +42,19 @@ namespace Jypeli.Effects
         public Vector Position { get; set; }
 
         /// <summary>
-        /// Etäisyys kohtisuoraan 2D-tasosta. Mitä kauempana valo on,
-        /// sitä laajemman alueen se valaisee.
+        /// Kuinka suuren ympyränmuotoisen alueen valo valaisee
         /// </summary>
-        public double Distance { get; set; }
+        public double Radius { get; set; } // TODO: Tämä säde on nyt hieman hämäävä.
 
         /// <summary>
         /// Voimakkuus väliltä [0.0, 1.0].
         /// </summary>
         public double Intensity { get; set; }
+
+        /// <summary>
+        /// Väri
+        /// </summary>
+        public Color Color { get; set; }
 
         /// <summary>
         /// Paikan X-koordinaatti.
@@ -81,13 +88,12 @@ namespace Jypeli.Effects
 
         /// <summary>
         /// Valo.
-        /// Ei käytössä!
         /// </summary>
-        [Obsolete("Ei käytössä")]
         public Light()
         {
-            Distance = 10.0;
-            Intensity = 0.5;
+            Radius = 1.0;
+            Intensity = 1;
+            Color = Color.Red;
         }
     }
 }

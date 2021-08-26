@@ -19,15 +19,11 @@ namespace Jypeli
         public static Vector Wind { get; set; }
 
         /// <summary>
-        /// Lisää valon peliin. Nykyisellään valoja voi olla ainoastaan
-        /// yksi kappale. Toistaiseksi ei tuettu Windows Phonella.
+        /// Lisää valon peliin.
         /// </summary>
         public void Add(Light light)
         {
             if (light == null) throw new NullReferenceException("Tried to add a null light to game");
-
-            if (lights.Count >= 1)
-                throw new NotSupportedException("Only one light is supported");
 
             lights.Add(light);
         }
@@ -38,7 +34,6 @@ namespace Jypeli
         public void ClearLights()
         {
             lights.Clear();
-
         }
     }
 }

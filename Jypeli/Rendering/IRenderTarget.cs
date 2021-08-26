@@ -32,14 +32,20 @@ namespace Jypeli.Rendering
         public void UnBind();
 
         /// <summary>
+        /// Mihin tekstuuripaikkaan seuraavaksi kiinnitettävä tekstuuri menee.
+        /// </summary>
+        /// <param name="slot"></param>
+        public void TextureSlot(int slot);
+
+        /// <summary>
         /// Kiinnittää tämän sisältävän tekstuurin näytönohjaimelle
         /// </summary>
-        void BindTexture();
+        public void BindTexture();
 
         /// <summary>
         /// Irroittaa tämän sisältävän tekstuurin näytönohjaimelle
         /// </summary>
-        void UnBindTexture();
+        public void UnBindTexture();
 
         /// <summary>
         /// Asettaa tekstuurin tietyn alueen datan
@@ -49,6 +55,6 @@ namespace Jypeli.Rendering
         /// <param name="startY">Alkupisteen Y</param>
         /// <param name="width">Alueen leveys</param>
         /// <param name="height">Alueen korkeus</param>
-        void SetData(byte[] data, int startX, int startY, uint width, uint height);
+        public void SetData(byte[] data, int startX, int startY, uint width, uint height);
     }
 }

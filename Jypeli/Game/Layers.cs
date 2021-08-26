@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Jypeli.Controls;
+using Jypeli.Effects;
 
 namespace Jypeli
 {
@@ -225,6 +226,15 @@ namespace Jypeli
         {
             Layers.Remove( l );
             Layers.UpdateChanges();
+        }
+
+        /// <summary>
+        /// Poistaa valon pelistä
+        /// </summary>
+        /// <param name="l">valo</param>
+        public void Remove(Light l)
+        {
+            lights.Remove(l);
         }
 
         /// <summary>

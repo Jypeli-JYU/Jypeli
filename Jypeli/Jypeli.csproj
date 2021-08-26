@@ -64,8 +64,11 @@
     <None Remove="Content\Shaders\OpenGLES\ParticleVertexShader.glsl" />
     <None Remove="Content\Shaders\OpenGL\DefaultColorShader.glsl" />
     <None Remove="Content\Shaders\OpenGL\DefaultTextureShader.glsl" />
+    <None Remove="Content\Shaders\OpenGL\DefaultTextureShaderLightPass.glsl" />
     <None Remove="Content\Shaders\OpenGL\DefaultVertexShader.glsl" />
     <None Remove="Content\Shaders\OpenGL\ParticleVertexShader.glsl" />
+    <None Remove="Content\Shaders\OpenGL\SimpleFloodLightFragment.glsl" />
+    <None Remove="Content\Shaders\OpenGL\SimpleFloodLightVertex.glsl" />
     <None Remove="Content\Sounds\CannonFire.wav" />
     <None Remove="Content\Sounds\ExplosionSound.wav" />
     <None Remove="Content\Sounds\ImplosionSound.wav" />
@@ -76,6 +79,9 @@
     <EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultTextureShader.glsl" />
     <EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultVertexShader.glsl" />
     <EmbeddedResource Include="Content\Shaders\OpenGLES\ParticleVertexShader.glsl" />
+    <EmbeddedResource Include="Content\Shaders\OpenGL\DefaultTextureShaderLightPass.glsl" />
+    <EmbeddedResource Include="Content\Shaders\OpenGL\ParticleVertexShader.glsl" />
+    <EmbeddedResource Include="Content\Shaders\OpenGL\SimpleFloodLightFragment.glsl" />
     <EmbeddedResource Include="Content\Shaders\OpenGL\DefaultColorShader.glsl" />
     <None Include="..\Documentation\jypeli_logo.png">
       <Pack>True</Pack>
@@ -101,7 +107,7 @@
     <EmbeddedResource Include="Content\Images\UpArrow.png" />
     <EmbeddedResource Include="Content\Shaders\OpenGL\DefaultTextureShader.glsl" />
     <EmbeddedResource Include="Content\Shaders\OpenGL\DefaultVertexShader.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGL\ParticleVertexShader.glsl" />
+    <EmbeddedResource Include="Content\Shaders\OpenGL\SimpleFloodLightVertex.glsl" />
     <EmbeddedResource Include="Content\Sounds\CannonFire.wav" />
     <EmbeddedResource Include="Content\Sounds\ExplosionSound.wav" />
     <EmbeddedResource Include="Content\Sounds\ImplosionSound.wav" />

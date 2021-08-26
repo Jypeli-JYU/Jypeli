@@ -37,6 +37,7 @@ using Jypeli.Devices;
 using Silk.NET.Windowing;
 
 using Matrix = System.Numerics.Matrix4x4;
+using Jypeli.Effects;
 
 #if ANDROID
 using Android.Content.Res;
@@ -319,8 +320,12 @@ namespace Jypeli
 
             AddMessageDisplay();
             Initialize();
+            bl = new BasicLights();
             CallBegin();
         }
+
+        // TODO: Tätä voisi hieman siistiä
+        internal BasicLights bl;
 
         /// <summary>
         /// XNA:n piirtorutiinit.
@@ -354,6 +359,8 @@ namespace Jypeli
             // Draw the layers containing the GameObjects
             Layers.ForEach( l => l.Draw( Camera ) );
 
+            bl.Draw(worldMatrix);
+
             // Draw on the canvas
             Graphics.Canvas.Begin( ref worldMatrix, Level );
             Paint( Graphics.Canvas );
@@ -361,7 +368,7 @@ namespace Jypeli
 
             // Draw the debug information screen
             DrawDebugScreen();
-
+            
             // Render the scene on screen
             Screen.Render();
 

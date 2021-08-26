@@ -108,8 +108,8 @@ namespace Jypeli.Rendering.OpenGl
         /// <inheritdoc/>
         public void Clear(Color bgColor)
         {
-            Gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
             Gl.ClearColor(bgColor.RedComponent / 255f, bgColor.GreenComponent / 255f, bgColor.BlueComponent / 255f, bgColor.AlphaComponent / 255f);
+            Gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
         }
 
         /// <inheritdoc/>

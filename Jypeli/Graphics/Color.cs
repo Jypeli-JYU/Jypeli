@@ -424,7 +424,12 @@ namespace Jypeli
                 (byte)MathHelper.Lerp(value1.BlueComponent, value2.BlueComponent, x),
                 (byte)MathHelper.Lerp(value1.AlphaComponent, value2.AlphaComponent, x));
         }
-        
+
+        internal System.Numerics.Vector4 ToNumerics()
+        {
+            return new System.Numerics.Vector4(RedComponent / 255f, GreenComponent / 255f, BlueComponent / 255f, AlphaComponent / 255f);
+        }
+
         /// <summary>
         /// Antaa tummemman värin. Vähentaa jokaista kolmea osaväriä arvon <c>howMuch</c>
         /// verran.

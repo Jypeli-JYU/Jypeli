@@ -7,9 +7,6 @@ using Matrix = System.Numerics.Matrix4x4;
 using System.Reflection.Metadata;
 using Jypeli.Assets;
 
-#if !DISABLE_EFFECTS
-using Jypeli.Effects;
-#endif
 using Vector3 = System.Numerics.Vector3;
 using Vector2 = System.Numerics.Vector2;
 

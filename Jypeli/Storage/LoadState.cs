@@ -30,31 +30,19 @@ namespace Jypeli
 
         public void EndLoad()
         {
-#if WINDOWS_STOREAPP
-            reader.Dispose();
-#else
             reader.Close();
-#endif
             File.Close();
         }
 
         public void Dispose()
         {
-#if WINDOWS_STOREAPP
-            reader.Dispose();
-#else
             reader.Close();
-#endif
             File.Close();
         }
 
         private void ResetFile()
         {
-#if WINDOWS_STOREAPP
-            reader.Dispose();
-#else
             reader.Close();
-#endif
             reader = null;
             objectsRead.Clear();
 

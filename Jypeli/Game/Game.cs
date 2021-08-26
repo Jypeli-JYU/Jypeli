@@ -230,53 +230,7 @@ namespace Jypeli
 		internal void OnNoAudioHardwareException()
 		{
 			MessageDisplay.Add( "No audio hardware was detected. All sound is disabled." );
-            //TODO: Can this still happen?
-#if WINDOWS
-			MessageDisplay.Add( "You might need to install OpenAL drivers." );
-			MessageDisplay.Add( "Press Ctrl+Alt+I to try downloading and installing them now." );
-
-			Keyboard.Listen( Key.I, ButtonState.Pressed, TryInstallOpenAL, null );
-#endif
 		}
-
-#if WINDOWS
-        private void TryInstallOpenAL()
-        {
-            if ( !Keyboard.IsCtrlDown() || !Keyboard.IsAltDown() )
-                return;
-
-            MessageDisplay.Add( "Starting download of OpenAL installer..." );
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create( "https://github.com/Mono-Game/MonoGame.Dependencies/raw/master/oalinst.exe" );
-            request.BeginGetResponse( OpenALDownloaded, request );
-        }
-
-        private void OpenALDownloaded(IAsyncResult result)
-        {
-            HttpWebResponse response = ( result.AsyncState as HttpWebRequest ).EndGetResponse( result ) as HttpWebResponse;
-
-            if ( response == null )
-            {
-                MessageDisplay.Add( "Download failed." );
-                return;
-            }
-
-            MessageDisplay.Add( "Download completed. Launching installer..." );
-            Stream resStream = response.GetResponseStream();
-
-            string fileName = Path.Combine( Path.GetTempPath(), "oalinst.exe" );
-            FileStream fs = new FileStream( fileName, FileMode.Create, FileAccess.Write );
-            resStream.CopyTo( fs );
-            fs.Close();
-
-            var startInfo = new System.Diagnostics.ProcessStartInfo( fileName );
-            startInfo.Verb = "runas";
-            var process = System.Diagnostics.Process.Start( startInfo );
-            process.WaitForExit();
-
-            MessageDisplay.Add( "Installation complete. Trying to enable sound..." );
-            InitAudio();
-        }
-#endif
 
         /// <summary>
         /// This gets called after the GraphicsDevice has been created. So, this is

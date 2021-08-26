@@ -69,10 +69,6 @@ namespace Jypeli
                 new VertexPositionColorTexture(new Vector3(1f, 1f, 0), Color.White, new Vector(1f, 1f))
         };
 
-#if !DISABLE_LIGHTING_EFFECT
-        static Effect LightingEffect;
-#endif
-
         private static Matrix ViewMatrix;
         private static Matrix ProjectionMatrix;
         private static Matrix viewProjectionMatrix;
@@ -91,34 +87,6 @@ namespace Jypeli
             LineBatch.Initialize();
             FontRenderer = new FontRenderer();
         }
-
-#if !DISABLE_LIGHTING_EFFECT
-        private static Effect GetLightingEffect( ref Matrix worldMatrix )
-        {
-            Effect effect = LightingEffect;
-
-            Vector3 lightPos = new Vector3( 0, 0, 40 );
-            float lightPower = 0.0f;
-
-            if ( Game.Lights.Count > 0 )
-            {
-                Light light = Game.Lights[0];
-                lightPos = new Vector3( (float)light.Position.X, (float)light.Position.Y, (float)light.Distance );
-                lightPower = (float)light.Intensity;
-            }
-
-            Vector3 transformedLightPos;
-            Vector3.Transform( ref lightPos, ref worldMatrix, out transformedLightPos );
-
-            effect.Parameters["xWorldViewProjection"].SetValue( worldMatrix * viewProjectionMatrix );
-            effect.Parameters["xWorld"].SetValue( worldMatrix );
-            effect.Parameters["xLightPos"].SetValue( transformedLightPos );
-            effect.Parameters["xLightPower"].SetValue( lightPower );
-            effect.Parameters["xAmbient"].SetValue( (float)Game.Instance.Level.AmbientLight );
-
-            return effect;
-        }
-#endif
 
         public static void ResetScreenSize()
         {

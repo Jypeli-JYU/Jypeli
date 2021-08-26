@@ -43,14 +43,10 @@ namespace Jypeli
             _start = fromStart;
         }
 
-#if JYPELI
-
         internal void Advance(double dt)
         {
             _upd = TimeSpan.FromSeconds(dt);
             _start += _upd;
         }
-#endif
-
     }
 }

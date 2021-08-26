@@ -9,7 +9,6 @@ namespace Jypeli.Rendering
     public enum PrimitiveType
     {
         OpenGlTriangles = Silk.NET.OpenGL.PrimitiveType.Triangles,
-        OpenGlLines = Silk.NET.OpenGL.PrimitiveType.Lines,
         OpenGLLines = Silk.NET.OpenGL.PrimitiveType.Lines
     }
 }

@@ -100,7 +100,6 @@ namespace Jypeli
             InitAppearance();
         }
 
-#if !DISABLE_STORAGE
         /// <summary>
         /// Lataa kuvan tiedostosta ja asettaa sen oliolle.
         /// </summary>
@@ -109,7 +108,6 @@ namespace Jypeli
         {
             this.Image = Image.FromStream( file.Stream );
         }
-#endif
 
         /// <summary>
         /// Kääntää olion kuvan vaakasuunnassa.

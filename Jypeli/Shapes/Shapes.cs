@@ -138,14 +138,10 @@ namespace Jypeli
         /// <returns></returns>
         public static Shape FromString( string shapeStr )
         {
-#if WINDOWS_STOREAPP
-            return typeof( Shape ).GetTypeInfo().GetDeclaredField( shapeStr ).GetValue( null ) as Shape;
-#else
             Type shapeClass = typeof( Shape );
             BindingFlags flags = BindingFlags.GetField | BindingFlags.Public | BindingFlags.Static;
             FieldInfo selectedShape = shapeClass.GetField( shapeStr, flags );
             return (Shape)selectedShape.GetValue( null );
-#endif
         }
 
         /// <summary>

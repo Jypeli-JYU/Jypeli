@@ -82,13 +82,11 @@ namespace Jypeli
             {
                 effectInstance.Play();
             }
-#if !WINDOWS_STOREAPP
             catch ( NullReferenceException )
             {
                 Console.Error.WriteLine( "Null reference exception trying to play a sound, disabling audio" );
                 Game.DisableAudio();
             }
-#endif
             catch ( InvalidOperationException )
             {
                 // Workaround: Sometimes on Android an InvalidOperationException is thrown when playing a sound

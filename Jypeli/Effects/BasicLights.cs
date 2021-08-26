@@ -36,7 +36,7 @@ namespace Jypeli.Effects
             Game.Instance.Window.Resize += (v) => ResizeRenderTarget();
 
             shader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGL.SimpleFloodLightVertex.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGL.SimpleFloodLightFragment.glsl"));
-            int maxAmountOfLights = 100; // TODO: Mikä olisi hyvä rajoitus?
+            int maxAmountOfLights = 1000; // TODO: Mikä olisi hyvä rajoitus?
             lightData = new LightData[maxAmountOfLights];
             gl = ((Rendering.OpenGl.GraphicsDevice)Game.GraphicsDevice).Gl;
             vertexbuffer = new Rendering.OpenGl.BufferObject<VertexPositionColorTexture>(gl, Graphics.TextureVertices, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer);
@@ -93,9 +93,9 @@ namespace Jypeli.Effects
             foreach (Light l in Game.Lights)
             {
                 LightData ldata = new LightData();
-                ldata.Position = l.Position.Transform(mat);
+                ldata.Position = l.Position.Transform(matrix);
                 ldata.Intensity = (float)l.Intensity;
-                ldata.Radius = (float)l.Radius;
+                ldata.Radius = (float)(l.Radius * Game.Instance.Camera.ZoomFactor);
                 ldata.Color[0] = l.Color.RedComponent / 255f;
                 ldata.Color[1] = l.Color.GreenComponent / 255f;
                 ldata.Color[2] = l.Color.BlueComponent / 255f;

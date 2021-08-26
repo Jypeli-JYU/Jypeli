@@ -14,12 +14,13 @@ uniform sampler2D screenTexture;
 void main()
 {
     float alpha = 1.0;
+    ivec2 texSize = textureSize(screenTexture, 0);
 
-    float distance = distance(vec2(vertpos.x,vertpos.y), fPos);
+    float distance = distance(vec2(vertpos.x * texSize.x / 2, vertpos.y * texSize.y / 2), fPos); // TODO: Miksi kahdella jako?
 
     if (distance < fRadius)
     {
         alpha = mix(fIntensity, 0.0, distance/fRadius);
-        FragColor += vec4(fCol.x, fCol.y, fCol.z, 1) * alpha;// + texture(screenTexture, fPos);
+        FragColor += vec4(fCol.x, fCol.y, fCol.z, 1) * alpha;
     }
 }

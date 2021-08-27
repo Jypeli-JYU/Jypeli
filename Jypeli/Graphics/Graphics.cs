@@ -37,6 +37,9 @@ namespace Jypeli
     {
         public static IShader BasicTextureShader;
         public static IShader BasicColorShader;
+        public static IShader SimpleFloodLightShader;
+        public static IShader ParticleShader;
+        public static IShader LightPassTextureShader;
 
         public static FontRenderer FontRenderer;
 
@@ -77,6 +80,9 @@ namespace Jypeli
         {
             BasicTextureShader = Game.GraphicsDevice.CreateShaderFromInternal("DefaultVertexShader.glsl", "DefaultTextureShader.glsl");
             BasicColorShader = Game.GraphicsDevice.CreateShaderFromInternal("DefaultVertexShader.glsl", "DefaultColorShader.glsl");
+            SimpleFloodLightShader = Game.GraphicsDevice.CreateShaderFromInternal("SimpleFloodLightVertex.glsl", "SimpleFloodLightFragment.glsl");
+            ParticleShader = Game.GraphicsDevice.CreateShaderFromInternal("ParticleVertexShader.glsl", "DefaultTextureShader.glsl");
+            LightPassTextureShader = Game.GraphicsDevice.CreateShaderFromInternal("DefaultVertexShader.glsl", "DefaultTextureShaderLightPass.glsl");
 
             ImageBatch.Initialize();
             ShapeBatch.Initialize();

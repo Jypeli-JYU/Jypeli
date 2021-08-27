@@ -202,7 +202,7 @@ namespace Jypeli.Effects
 
             gl = ((Rendering.OpenGl.GraphicsDevice)Game.GraphicsDevice).Gl;
 
-            shader = Game.GraphicsDevice.CreateShaderFromInternal("ParticleVertexShader.glsl", "DefaultTextureShader.glsl");
+            shader = Graphics.ParticleShader;
 
             particledata = new Particledata[maxAmountOfParticles]; // Varataan näytönohjaimelta muistia jokaiselle partikkelille.
 

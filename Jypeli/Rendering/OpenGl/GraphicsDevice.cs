@@ -70,7 +70,7 @@ namespace Jypeli.Rendering.OpenGl
             return new Shader(Gl, vert, frag);
         }
 
-
+        /// <inheritdoc/>
         public IShader CreateShaderFromInternal(string vertPath, string fragPath)
         {
             return CreateShader(Game.ResourceContent.LoadInternalText($"Shaders.{Name}.{vertPath}"), Game.ResourceContent.LoadInternalText($"Shaders.{Name}.{fragPath}"));

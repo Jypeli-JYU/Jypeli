@@ -80,10 +80,7 @@ namespace Jypeli
         public ScreenView()
         {
             size = new Vector(Game.Instance.Window.Size.X, Game.Instance.Window.Size.Y);
-            LightPassTextureShader = Game.GraphicsDevice.CreateShaderFromInternal("DefaultVertexShader.glsl", "DefaultTextureShaderLightPass.glsl");
         }
-
-        IShader LightPassTextureShader;
 
         /// <summary>
         /// Ruudulla näkyvä kuva.
@@ -449,13 +446,13 @@ namespace Jypeli
             Game.GraphicsDevice.SetRenderTarget(null);
             Game.GraphicsDevice.Clear(Color.Black);
 
-            LightPassTextureShader.Use();
-            LightPassTextureShader.SetUniform("world", Matrix.Identity);
+            Graphics.LightPassTextureShader.Use();
+            Graphics.LightPassTextureShader.SetUniform("world", Matrix.Identity);
 
-            LightPassTextureShader.SetUniform("texture0", 0);
-            LightPassTextureShader.SetUniform("texture1", 1);
+            Graphics.LightPassTextureShader.SetUniform("texture0", 0);
+            Graphics.LightPassTextureShader.SetUniform("texture1", 1);
 
-            LightPassTextureShader.SetUniform("ambientLight", Game.Instance.Level.AmbientLight.ToNumerics());
+            Graphics.LightPassTextureShader.SetUniform("ambientLight", Game.Instance.Level.AmbientLight.ToNumerics());
 
             RenderTarget.TextureSlot(0);
             RenderTarget.BindTexture();

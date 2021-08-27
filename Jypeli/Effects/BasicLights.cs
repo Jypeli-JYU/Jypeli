@@ -35,7 +35,7 @@ namespace Jypeli.Effects
 
             Game.Instance.Window.Resize += (v) => ResizeRenderTarget();
 
-            shader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGL.SimpleFloodLightVertex.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGL.SimpleFloodLightFragment.glsl"));
+            shader = Game.GraphicsDevice.CreateShaderFromInternal("SimpleFloodLightVertex.glsl", "SimpleFloodLightFragment.glsl");
             int maxAmountOfLights = 1000; // TODO: Mikä olisi hyvä rajoitus?
             lightData = new LightData[maxAmountOfLights];
             gl = ((Rendering.OpenGl.GraphicsDevice)Game.GraphicsDevice).Gl;

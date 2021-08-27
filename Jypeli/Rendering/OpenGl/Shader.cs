@@ -22,7 +22,9 @@ namespace Jypeli.Rendering.OpenGl
         {
             _gl = gl;
 
-            //Load the individual shaders.
+            // TODO: Nyt OpenGL ja OpenGLES shaderit ovat lähestulkoon identtiset. eroavaisuudet ovat oikeastaan kahdella ensimmäisellä rivillä.
+            // Suorittaisiko vain etsi-korvaa latauksen yhteydessä, jos käytössä on ES? Helpottaisi ainakin uusien shaderien tekoa.
+
             uint vertex = LoadShader(ShaderType.VertexShader, vrt);
             uint fragment = LoadShader(ShaderType.FragmentShader, frag);
             //Create the shader program.

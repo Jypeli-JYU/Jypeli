@@ -34,7 +34,7 @@ namespace Jypeli.Rendering.OpenGl
         /// <inheritdoc/>
         public Matrix4x4 Projection { get; set; }
         /// <inheritdoc/>
-        public string Name { get => throw new NotImplementedException(); }
+        public string Name { get; internal set; }
         /// <inheritdoc/>
         public string Version { get => throw new NotImplementedException(); }
 
@@ -54,7 +54,7 @@ namespace Jypeli.Rendering.OpenGl
         public void Create(IView window)
         {
             Gl = GL.GetApi(window);
-
+            Name = window.API.API.ToString();
             Ebo = new BufferObject<uint>(Gl, Indices, BufferTargetARB.ElementArrayBuffer);
             Vbo = new BufferObject<VertexPositionColorTexture>(Gl, Vertices, BufferTargetARB.ArrayBuffer);
             Vao = new VertexArrayObject<VertexPositionColorTexture, uint>(Gl, Vbo, Ebo);
@@ -68,7 +68,12 @@ namespace Jypeli.Rendering.OpenGl
         public IShader CreateShader(string vert, string frag)
         {
             return new Shader(Gl, vert, frag);
+        }
 
+
+        public IShader CreateShaderFromInternal(string vertPath, string fragPath)
+        {
+            return CreateShader(Game.ResourceContent.LoadInternalText($"Shaders.{Name}.{vertPath}"), Game.ResourceContent.LoadInternalText($"Shaders.{Name}.{fragPath}"));
         }
 
         /// <inheritdoc/>

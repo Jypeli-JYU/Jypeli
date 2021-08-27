@@ -1,4 +1,6 @@
-﻿#version 330 core
+﻿#version 300 es
+
+precision mediump float;
 
 layout (location = 0) in vec4 vPos;
 layout (location = 1) in vec4 vCol;

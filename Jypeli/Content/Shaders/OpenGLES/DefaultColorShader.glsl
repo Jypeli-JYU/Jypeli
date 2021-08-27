@@ -1,14 +1,15 @@
 ﻿#version 300 es
 
-in mediump vec2 texCoords;
-in mediump vec4 fCol;
-in mediump vec2 fTex;
-in mediump vec4 vertpos;
+precision mediump float;
 
-out mediump vec4 FragColor;
+in vec2 texCoords;
+in vec4 fCol;
+in vec2 fTex;
+in vec4 vertpos;
+
+out vec4 FragColor;
 
 uniform sampler2D screenTexture;
-
 
 void main()
 {

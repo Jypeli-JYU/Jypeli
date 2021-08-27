@@ -80,7 +80,7 @@ namespace Jypeli
         public ScreenView()
         {
             size = new Vector(Game.Instance.Window.Size.X, Game.Instance.Window.Size.Y);
-            LightPassTextureShader = Game.GraphicsDevice.CreateShader(Game.ResourceContent.LoadInternalText("Shaders.OpenGL.DefaultVertexShader.glsl"), Game.ResourceContent.LoadInternalText("Shaders.OpenGL.DefaultTextureShaderLightPass.glsl"));
+            LightPassTextureShader = Game.GraphicsDevice.CreateShaderFromInternal("DefaultVertexShader.glsl", "DefaultTextureShaderLightPass.glsl");
         }
 
         IShader LightPassTextureShader;

@@ -60,8 +60,11 @@
     <None Remove="Content\Images\UpArrow.png" />
     <None Remove="Content\Shaders\OpenGLES\DefaultColorShader.glsl" />
     <None Remove="Content\Shaders\OpenGLES\DefaultTextureShader.glsl" />
+    <None Remove="Content\Shaders\OpenGLES\DefaultTextureShaderLightPass.glsl" />
     <None Remove="Content\Shaders\OpenGLES\DefaultVertexShader.glsl" />
     <None Remove="Content\Shaders\OpenGLES\ParticleVertexShader.glsl" />
+    <None Remove="Content\Shaders\OpenGLES\SimpleFloodLightFragment.glsl" />
+    <None Remove="Content\Shaders\OpenGLES\SimpleFloodLightVertex.glsl" />
     <None Remove="Content\Shaders\OpenGL\DefaultColorShader.glsl" />
     <None Remove="Content\Shaders\OpenGL\DefaultTextureShader.glsl" />
     <None Remove="Content\Shaders\OpenGL\DefaultTextureShaderLightPass.glsl" />
@@ -77,8 +80,11 @@
     <None Remove="Content\Sounds\PlasmaAttack.wav" />
     <EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultColorShader.glsl" />
     <EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultTextureShader.glsl" />
+    <EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultTextureShaderLightPass.glsl" />
     <EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultVertexShader.glsl" />
     <EmbeddedResource Include="Content\Shaders\OpenGLES\ParticleVertexShader.glsl" />
+    <EmbeddedResource Include="Content\Shaders\OpenGLES\SimpleFloodLightFragment.glsl" />
+    <EmbeddedResource Include="Content\Shaders\OpenGLES\SimpleFloodLightVertex.glsl" />
     <EmbeddedResource Include="Content\Shaders\OpenGL\DefaultTextureShaderLightPass.glsl" />
     <EmbeddedResource Include="Content\Shaders\OpenGL\ParticleVertexShader.glsl" />
     <EmbeddedResource Include="Content\Shaders\OpenGL\SimpleFloodLightFragment.glsl" />

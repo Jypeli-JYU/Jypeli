@@ -1,9 +1,11 @@
 #version 300 es
 
-in mediump vec2 texCoords;
-in mediump vec4 fCol;
+precision mediump float;
 
-out mediump vec4 FragColor;
+in vec2 texCoords;
+in vec4 fCol;
+
+out vec4 FragColor;
 
 uniform sampler2D tex;
 

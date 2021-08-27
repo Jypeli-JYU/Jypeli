@@ -1,18 +1,20 @@
 ﻿#version 300 es
 
-layout (location = 0) in mediump vec4 vPos;
-layout (location = 1) in mediump vec4 vCol;
-layout (location = 2) in mediump vec2 vTex;
-layout (location = 3) in mediump vec2 pos;
-layout (location = 4) in mediump float rot;
-layout (location = 5) in mediump float pscale;
-layout (location = 6) in mediump vec4 col;
+precision mediump float;
 
-uniform mediump mat4 world;
-uniform mediump float scale;
+layout (location = 0) in vec4 vPos;
+layout (location = 1) in vec4 vCol;
+layout (location = 2) in vec2 vTex;
+layout (location = 3) in vec2 pos;
+layout (location = 4) in float rot;
+layout (location = 5) in float pscale;
+layout (location = 6) in vec4 col;
 
-out mediump vec4 fCol;
-out mediump vec2 texCoords;
+uniform mat4 world;
+uniform float scale;
+
+out vec4 fCol;
+out vec2 texCoords;
 
 void main()
 {

@@ -94,6 +94,14 @@ namespace Jypeli.Rendering
         IShader CreateShader(string vert, string frag);
 
         /// <summary>
+        /// Luo uuden shaderin Jypelin sisäisistä resursseista.
+        /// </summary>
+        /// <param name="vert">Verteksishaderin polku</param>
+        /// <param name="frag">Fragmentshaderin polku</param>
+        /// <returns></returns>
+        IShader CreateShaderFromInternal(string vertPath, string fragPath);
+
+        /// <summary>
         /// Tyhjentää ruudun kuvan
         /// </summary>
         /// <param name="color">Väri jolla ruutu täytetään</param>

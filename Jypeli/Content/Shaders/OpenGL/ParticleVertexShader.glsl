@@ -23,4 +23,4 @@ void main()
 
     fCol = col;
     texCoords = vTex;
-};
+}

@@ -70,6 +70,7 @@ namespace Jypeli
             }
 
             Timer.UpdateAll(time, t => t.IgnorePause);
+            UpdateControls(time);
         }
 
         protected void OnUpdate(double dt)
@@ -90,7 +91,8 @@ namespace Jypeli
 
         protected void OnDraw(double dt)
         {
-            Draw(Time);
+            if(!Closing) // Jos peli ollaan sulkemassa, ei yritetä piirtää.
+                Draw(Time);
         }
 
         /// <summary>

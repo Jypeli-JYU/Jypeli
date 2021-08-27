@@ -127,6 +127,11 @@ namespace Jypeli
         /// </summary>
         public Level Level { get; private set; }
 
+        /// <summary>
+        /// Onko peli sulkeutumassa tämän päivityksen jölkeen.
+        /// </summary>
+        public bool Closing { get; private set; }
+
 #if ANDROID
         /// <summary>
         /// Virtuaalinen näppäimistö.
@@ -403,6 +408,7 @@ namespace Jypeli
         /// </summary>
         public void Exit()
         {
+            Closing = true;
             Window.Close();
         }
 

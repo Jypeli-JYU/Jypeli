@@ -206,5 +206,11 @@ namespace Jypeli.Rendering.OpenGl
             Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapS, (int)GLEnum.Repeat);
             Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapT, (int)GLEnum.Repeat);
         }
+
+        public void GetScreenContents(void* ptr)
+        {
+            SetRenderTarget(null); // Varmistetaan että mitään rendertargettia ei ole valittuna, jotta luetaan koko ruudun kuva
+            Gl.ReadPixels(0, 0, (uint)Game.Screen.Width, (uint)Game.Screen.Height, GLEnum.Rgba, GLEnum.UnsignedByte, ptr);
+        }
     }
 }

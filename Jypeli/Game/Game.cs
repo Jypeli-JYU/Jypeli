@@ -185,12 +185,10 @@ namespace Jypeli
 		public void RunOneFrame( string bmpOutName )
         {
             //base.RunOneFrame();
-            FileStream screenFile = new FileStream( bmpOutName, FileMode.Create );
-            Screencap.WriteBmp( screenFile, Screen.Image );
-            screenFile.Close();
-			OnExiting(this, EventArgs.Empty);
-			//UnloadContent();
-			Exit();
+            Screencap.SaveBmp(bmpOutName);
+            OnExiting(this, EventArgs.Empty);
+            //UnloadContent();
+            Exit();
         }
 
 
@@ -336,7 +334,7 @@ namespace Jypeli
                 if (FrameCounter != 0) // Ekaa framea ei voi tallentaa?
                     if(skipcounter == 0)
                     {
-                        Screencap.WriteBmp(new FileStream("Output/" + SavedFrameCounter + ".bmp", FileMode.Create), Screen.Image);
+                        Screencap.SaveBmp("Output/" + SavedFrameCounter + ".bmp");
                         skipcounter = FramesToSkip;
                         SavedFrameCounter++;
                     }

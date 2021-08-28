@@ -87,7 +87,7 @@ namespace Jypeli
         /// </summary>
         public Image Image
         {
-            get { return new Image(20,20 /*RenderTarget*/ ); }
+            get { return Screencap.Capture(); }
         }
 
         /// <summary>

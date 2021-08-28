@@ -142,5 +142,11 @@ namespace Jypeli.Rendering
         /// </summary>
         /// <param name="newSize"></param>
         public void ResizeWindow(Vector newSize);
+
+        /// <summary>
+        /// Lukee ruudulla näkyvät pikselit annettuun osoittimeen
+        /// </summary>
+        /// <param name="data">Osoitin johon data kirjoitetaan</param>
+        public unsafe void GetScreenContents(void* data);
     }
 }

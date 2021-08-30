@@ -198,7 +198,8 @@ namespace Jypeli
                 Span<Rgba32> row = image.GetPixelRowSpan(i);
                 for (int j = ox; j < ox + nx; j++)
                 {
-                    bmp[i, j] = JyColor.UIntToColor(row[rowIndex++].PackedValue);
+                    bmp[i, j] = new JyColor(row[rowIndex].R, row[rowIndex].G, row[rowIndex].B, row[rowIndex].A);
+                    rowIndex++;
                 }
             }
 

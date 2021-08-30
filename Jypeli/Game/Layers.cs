@@ -17,20 +17,17 @@ namespace Jypeli
         /// <summary>
         /// Kerrokset, joilla olevat pelioliot eivät liiku kameran mukana.
         /// </summary>
-        public IList<Layer> StaticLayers
+        public List<Layer> StaticLayers
         {
-            get
-            {
-                return Layers.FindAll( l => l.IgnoresZoom && l.RelativeTransition == Vector.Zero ).AsReadOnly();
-            }
+            get { return Layers.FindAll(l => l.IgnoresZoom && l.RelativeTransition == Vector.Zero); }
         }
 
         /// <summary>
         /// Kerrokset, joilla olevat pelioliot liikkuvat kameran mukana.
         /// </summary>
-        public IList<Layer> DynamicLayers
+        public List<Layer> DynamicLayers
         {
-            get { return Layers.FindAll( l => !l.IgnoresZoom || l.RelativeTransition != Vector.Zero ).AsReadOnly(); }
+            get { return Layers.FindAll(l => !l.IgnoresZoom || l.RelativeTransition != Vector.Zero); }
         }
 
         /// <summary>

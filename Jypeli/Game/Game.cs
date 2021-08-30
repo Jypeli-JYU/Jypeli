@@ -314,9 +314,14 @@ namespace Jypeli
             Level.Background.Draw( worldMatrix, Matrix.Identity );
 
             // Draw the layers containing the GameObjects
-            Layers.ForEach( l => l.Draw( Camera ) );
+            DynamicLayers.ForEach( l => l.Draw( Camera ) );
 
-            bl.Draw(worldMatrix);
+            // TODO: Tätä ei tarvitsisi tehdä, jos valoja ei käytetä.
+            // Yhdistetään valotekstuuri ja objektien tekstuuri.
+            DrawLights(worldMatrix);
+
+            // Piirretään käyttöliittymäkomponentit valojen päälle
+            StaticLayers.ForEach(l => l.Draw(Camera));
 
             // Draw on the canvas
             Graphics.Canvas.Begin( ref worldMatrix, Level );
@@ -353,6 +358,29 @@ namespace Jypeli
                 //UnloadContent();
                 Exit();
             }
+        }
+
+        private void DrawLights(Matrix worldMatrix)
+        {
+            bl.Draw(worldMatrix);
+
+            GraphicsDevice.SetRenderTarget(Screen.RenderTarget);
+
+            Graphics.LightPassTextureShader.Use();
+            Graphics.LightPassTextureShader.SetUniform("world", Matrix.Identity);
+
+            Graphics.LightPassTextureShader.SetUniform("texture0", 0);
+            Graphics.LightPassTextureShader.SetUniform("texture1", 1);
+
+            Graphics.LightPassTextureShader.SetUniform("ambientLight", Instance.Level.AmbientLight.ToNumerics());
+
+            Screen.RenderTarget.TextureSlot(0);
+            Screen.RenderTarget.BindTexture();
+
+            BasicLights.RenderTarget.TextureSlot(1);
+            BasicLights.RenderTarget.BindTexture();
+
+            GraphicsDevice.DrawPrimitives(Rendering.PrimitiveType.OpenGlTriangles, Graphics.TextureVertices, 6, true);
         }
 
         /// <summary>

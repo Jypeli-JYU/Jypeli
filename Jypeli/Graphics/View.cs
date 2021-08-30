@@ -76,7 +76,6 @@ namespace Jypeli
         /// <summary>
         /// Alustaa uuden näyttönäkymän.
         /// </summary>
-        /// <param name="device">XNA:n grafiikkalaite.</param>
         public ScreenView()
         {
             size = new Vector(Game.Instance.Window.Size.X, Game.Instance.Window.Size.Y);
@@ -444,28 +443,14 @@ namespace Jypeli
             float angle = flipAndMirror ? this.angle + MathHelper.Pi : this.angle;
 
             Game.GraphicsDevice.SetRenderTarget(null);
-            Game.GraphicsDevice.Clear(Color.Black);
-
-            Graphics.LightPassTextureShader.Use();
-            Graphics.LightPassTextureShader.SetUniform("world", Matrix.Identity);
-
-            Graphics.LightPassTextureShader.SetUniform("texture0", 0);
-            Graphics.LightPassTextureShader.SetUniform("texture1", 1);
-
-            Graphics.LightPassTextureShader.SetUniform("ambientLight", Game.Instance.Level.AmbientLight.ToNumerics());
-
-            RenderTarget.TextureSlot(0);
+            Game.GraphicsDevice.Clear(Game.Instance.Level.BackgroundColor);
             RenderTarget.BindTexture();
 
-            // TODO: Tätä ei tarvitsisi tehdä, jos valoja ei käytetä.
-            // TODO: Menee myös käyttöliittymäelementtien päälle.
-            Effects.BasicLights.RenderTarget.TextureSlot(1);
-            Effects.BasicLights.RenderTarget.BindTexture();
+            Graphics.BasicTextureShader.Use();
+            Graphics.BasicTextureShader.SetUniform("world", Matrix.Identity);
 
             Game.GraphicsDevice.DrawPrimitives(PrimitiveType.OpenGlTriangles, Graphics.TextureVertices, 6, true);
-
             RenderTarget.UnBindTexture();
-            RenderTarget.TextureSlot(0);
         }
     }
 

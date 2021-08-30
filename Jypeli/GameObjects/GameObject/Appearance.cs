@@ -87,6 +87,7 @@ namespace Jypeli
         /// Jättääkö olio kentän valaistuksen huomiotta.
         /// Asetettu oletuksena käyttöliittymäkomponenteilla (widget).
         /// </summary>
+        [System.Obsolete("Ei käytössä")]
         public bool IgnoresLighting { get; set; }
 
         private void InitAppearance()

@@ -21,6 +21,9 @@ void main()
     if (distance < fRadius)
     {
         alpha = mix(fIntensity, 0.0, distance/fRadius);
-        FragColor += vec4(fCol.x, fCol.y, fCol.z, 1) * alpha;
+        FragColor = vec4(fCol.x, fCol.y, fCol.z, 1) * alpha;
+    }else
+    {
+        FragColor = vec4(0, 0, 0, 0);
     }
 }

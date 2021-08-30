@@ -154,6 +154,9 @@ namespace Jypeli.Rendering.OpenGl
 
                 Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)scaling);
                 Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)scaling);
+
+                Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapS, (int)GLEnum.ClampToEdge);
+                Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapT, (int)GLEnum.ClampToEdge);
             }
         }
 

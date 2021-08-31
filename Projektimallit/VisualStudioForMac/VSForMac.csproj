@@ -26,7 +26,7 @@
   </ItemGroup>
   <Target Name="_GenerateAddinInfo" BeforeTargets="CoreCompile">
      <PropertyGroup>
-         <BuildVersion>1.4.0</BuildVersion>
+         <BuildVersion>1.4.1</BuildVersion>
      </PropertyGroup>
      <ItemGroup>
        <AddinInfo Include="using System%3B" />

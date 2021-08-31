@@ -31,7 +31,7 @@
             _overrideDescription="Peli jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää FarseerPhysics-fysiikkamoottoria."
             category="jypeli/app/general"/>
         <Template
-            id="Jypeli.Beta"
+            id="Jypeli.Fysiikkapeli.Beta"
             path="Jypeli.Templates.nupkg"
             _overrideDescription="Hyvin kokeellinen versio Jypelistä. Kaikki ominaisuudet eivät välttämättä toimi, tai voivat olla puutteellisia."
             category="jypeli/app/general"/>

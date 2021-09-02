@@ -10,12 +10,11 @@ using SixLabors.ImageSharp.PixelFormats;
 using System.Runtime.InteropServices;
 using SixLabors.ImageSharp.Processing;
 
-
-using JyColor = Jypeli.Color;
 using ColorConverter = System.Converter<Jypeli.Color, Jypeli.Color>;
 // Ehkä vähän tyhmät viritelmät samannimisten luokkien ympärille...
 using SImage = SixLabors.ImageSharp.Image;
 using SXImage = SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>;
+using System.Numerics;
 
 namespace Jypeli
 {
@@ -84,7 +83,7 @@ namespace Jypeli
         /// </summary>
         public string Name
         {
-            get { return ""; }// xnaTexture.Name; }
+            get { return assetName; }
         }
 
         public Vector Size { get => new Vector(Width, Height); }
@@ -92,7 +91,7 @@ namespace Jypeli
         internal Image(int width, int height)
         {
             AssertDimensions(width, height);
-            CreateNewTexture(width, height, JyColor.Black);
+            CreateNewTexture(width, height, Color.Black);
         }
 
         internal Image(Stream s)
@@ -104,6 +103,11 @@ namespace Jypeli
         {
             image = (SXImage)SImage.Load(assetName);
             this.assetName = assetName;
+        }
+
+        internal Image()
+        {
+
         }
 
         internal Image(SImage img)
@@ -157,7 +161,7 @@ namespace Jypeli
             get
             {
                 Rgba32 color = image[col, row];
-                return new JyColor(color.R, color.G, color.B, color.A);
+                return new Color(color.R, color.G, color.B, color.A);
             }
             set
             {
@@ -194,12 +198,10 @@ namespace Jypeli
             
             for (int i = oy; i < oy + ny; i++)
             {
-                int rowIndex = 0;
                 Span<Rgba32> row = image.GetPixelRowSpan(i);
                 for (int j = ox; j < ox + nx; j++)
                 {
-                    bmp[i, j] = new JyColor(row[rowIndex].R, row[rowIndex].G, row[rowIndex].B, row[rowIndex].A);
-                    rowIndex++;
+                    bmp[i - oy, j - ox] = new Color(row[j].R, row[j].G, row[j].B, row[j].A);
                 }
             }
 
@@ -300,11 +302,10 @@ namespace Jypeli
 
             for (int i = oy; i < oy + ny; i++)
             {
-                int rowIndex = 0;
                 Span<Rgba32> row = image.GetPixelRowSpan(i);
                 for (int j = ox; j < ox + nx; j++)
                 {
-                    bmp[i, j] = row[rowIndex++].PackedValue;
+                    bmp[i - oy, j - ox] = row[j].PackedValue;
                 }
             }
 
@@ -328,18 +329,17 @@ namespace Jypeli
             int nx = Width;
             if ( w < nx ) nx = w;
             if ( Width < nx + ox ) nx = Width - ox;
-            if ( nx <= 0 || ny <= 0 ) return new uint[0][];
+            if ( nx <= 0 || ny <= 0 ) return Array.Empty<uint[]>();
 
             uint[][] bmp = new uint[ny][];
 
             for (int i = oy; i < oy + ny; i++)
             {
                 bmp[i - oy] = new uint[nx];
-                int rowIndex = 0;
                 Span<Rgba32> row = image.GetPixelRowSpan(i);
                 for (int j = ox; j < ox + nx; j++)
                 {
-                    bmp[i - oy][j - ox] = row[rowIndex++].PackedValue;
+                    bmp[i - oy][j - ox] = row[j].PackedValue;
                 }
             }
 
@@ -372,7 +372,7 @@ namespace Jypeli
             {
                 for (int ix = ox; ix < nx; ix++)
                 {
-                    this[iy, ix] = JyColor.UIntToColor(bmp[iy - oy, ix - ox]);
+                    this[iy, ix] = Color.UIntToColor(bmp[iy - oy, ix - ox]);
                 }
             }
             UpdateTexture();
@@ -401,7 +401,7 @@ namespace Jypeli
             {
                 for (int ix = ox; ix < nx; ix++)
                 {
-                    this[iy, ix] = JyColor.UIntToColor(bmp[iy - oy][ix - ox]);
+                    this[iy, ix] = Color.UIntToColor(bmp[iy - oy][ix - ox]);
                 }
             }
             UpdateTexture();
@@ -413,19 +413,13 @@ namespace Jypeli
                 throw new ArgumentException( String.Format( "Image dimensions must be at least 1 x 1! (given: {0} x {1}", width, height ) );
         }
 
-        private SImage LoadFile(string path)
-        {
-            assetName = Game.FileExtensionCheck(path, ImageExtensions);
-            return SImage.Load(assetName);
-        }
-
         /// <summary>
         /// Luo kopion kuvasta
         /// </summary>
         /// <returns></returns>
         public Image Clone()
         {
-            Image copy = new Image(assetName);
+            Image copy = new Image();
             copy.image = image.Clone();
 
             return copy;
@@ -468,17 +462,6 @@ namespace Jypeli
             return img;
         }
 
-
-        ///// <summary>
-        ///// Lataa kuvan tiedostosta. Kuvan ei tarvitse olla lisättynä
-        ///// Content-projektiin.
-        ///// </summary>
-        ///// <param name="path">Tiedosto.</param>
-        //public static Image FromFile( StorageFile file )
-        //{
-        //    return FromStream( file.Stream );
-        //}
-
         /// <summary>
         /// Lataa kuvan tiedostovirrasta.
         /// </summary>
@@ -517,7 +500,7 @@ namespace Jypeli
         /// <returns>Tekstuuri.</returns>
         public static Image CreateStarSky(int width, int height, int stars, bool transparent = false)
         {
-            Image img = new Image(width, height, transparent ? JyColor.Transparent : JyColor.Black);
+            Image img = new Image(width, height, transparent ? Color.Transparent : Color.Black);
 
             // Random stars
             for (int j = 0; j < stars; j++)
@@ -527,7 +510,7 @@ namespace Jypeli
                 int py = RandomGen.NextInt(0, height);
 
                 int radius = RandomGen.NextInt(2, 10) / 2;
-                JyColor starcolor = RandomGen.NextColor(JyColor.White, new JyColor(192, 192, 192, 255));
+                Color starcolor = RandomGen.NextColor(Color.White, new Color(192, 192, 192, 255));
 
                 for (int y = -radius; y <= radius; y++)
                 {
@@ -552,35 +535,47 @@ namespace Jypeli
         /// <param name="textColor">Tekstin väri</param>
         /// <param name="backgroundColor">Tekstin taustaväri</param>
         /// <returns>Teksti kuvana</returns>
-        public static Image FromText( string text, Font font, Color textColor, Color backgroundColor )
+        public static unsafe Image FromText( string text, Font font, Color textColor, Color backgroundColor )
         {
-            // TODO: Silk
             if ( text == null )
                 text = "";
-            /*
-            var spriteBatch = new SpriteBatch( Game.GraphicsDevice );
-            var device = spriteBatch.GraphicsDevice;
-
-            XnaV2 textDims = font.XnaFont.MeasureString( text );
-            int textw = ( textDims.X > 1 ) ? Convert.ToInt32( textDims.X ) : 1;
-            int texth = ( textDims.Y > 1 ) ? Convert.ToInt32( textDims.Y ) : 1;
-
-            //RenderTarget2D rt = new RenderTarget2D( device, textw, texth, 1, device.DisplayMode.Format );
-            RenderTarget2D rt = new RenderTarget2D( device, textw, texth, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8 );
-
-            //device.SetRenderTarget( 0, rt );
-            device.SetRenderTarget( rt );
-            device.Clear( ClearOptions.Target | ClearOptions.DepthBuffer, backgroundColor.AsXnaColor(), 1.0f, 0 );
-
-            spriteBatch.Begin();
-            font.XnaFont.DrawText(Graphics.FontRenderer, text, XnaV2.Zero.ToSystemNumerics(), textColor.AsXnaColor().ToSystemDrawing());
-            spriteBatch.End();
             
-            //device.SetRenderTarget( 0, null );
-            device.SetRenderTarget( null );
-            */
-            //return new Image( rt.GetTexture() );
-            return new Image( 20,20 );
+            var device = Game.GraphicsDevice;
+
+            Vector textDims = font.MeasureSize(text);
+            int textw = (textDims.X > 1) ? Convert.ToInt32(textDims.X) : 1;
+            int texth = (textDims.Y > 1) ? Convert.ToInt32(textDims.Y) : 1;
+
+            Rendering.OpenGl.RenderTarget rt = new Rendering.OpenGl.RenderTarget((uint)textw, (uint)texth);
+
+            device.SetRenderTarget(rt);
+            device.Clear(backgroundColor);
+
+            Matrix4x4 ProjectionMatrix = Matrix4x4.CreateOrthographic(
+                textw,
+                texth,
+                1, 2
+            );
+
+            Matrix4x4 temp = device.Projection;
+            device.Projection = ProjectionMatrix;
+
+            Renderer.DrawText(text, Vector.Zero + new Vector(0, texth/2), font, textColor, Vector.One);
+            Graphics.CustomBatch.Flush(); // TODO: Joku DrawTextImmediately tms. Voiko tämä mennä jossain tilanteissa nyt pieleen?
+
+            device.Projection = temp;
+
+            Image img = new Image(textw, texth);
+            
+            // TODO: Miten tämä olisi järkevintä toteuttaa, että tämän metodin ei tarvitsisi olla unsafe?
+            img.image.TryGetSinglePixelSpan(out Span<Rgba32> ptr);
+            
+            fixed (void* p = ptr)
+                device.GetScreenContents(p);
+
+            device.SetRenderTarget(null);
+
+            return Flip(img);
         }
 
         /// <summary>
@@ -642,23 +637,6 @@ namespace Jypeli
             return DrawTextOnImage( img, text, Vector.Zero, font, textColor, Jypeli.Color.Transparent );
         }
 
-        /// <summary>
-        /// Lisää tekstin tähän kuvaan.
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="font"></param>
-        /// <param name="textColor"></param>
-        public void DrawTextOnImage(string text, Font font, Color textColor)
-        {
-            /*var glyphs = TextBuilder.GenerateGlyphs(text, new RendererOptions(font.FontSystem));
-            
-            IBrush brush = Brushes.Solid(SixLabors.ImageSharp.Color.FromRgb(textColor.RedComponent, textColor.GreenComponent, textColor.BlueComponent));
-            
-            image.Mutate(x => x.Fill(brush, glyphs));*/ //TODO: 
-
-            UpdateTexture();
-        }
-
         //TODO: Ehkä mielummin CreateGradient...
         /// <summary>
         /// Luo pystysuuntaisen liukuväritetyn kuvan.
@@ -676,7 +654,7 @@ namespace Jypeli
             {
                 for (int hor = 0; hor < imageWidth; hor++)
                 {
-                    img[ver, hor] = JyColor.Lerp(lowerColor, upperColor, (float)ver / (float)imageHeight);
+                    img[ver, hor] = Color.Lerp(lowerColor, upperColor, (float)ver / (float)imageHeight);
                 }
             }
 
@@ -703,7 +681,7 @@ namespace Jypeli
         public static Image Mirror(Image image)
         {
             Image img = image.Clone();
-            img.image.Mutate(x => x.Flip(FlipMode.Vertical));
+            img.image.Mutate(x => x.Flip(FlipMode.Horizontal));
             return img;
         }
 
@@ -729,7 +707,7 @@ namespace Jypeli
         public static Image Flip(Image image)
         {
             Image img = image.Clone();
-            img.image.Mutate(x => x.Flip(FlipMode.Horizontal));
+            img.image.Mutate(x => x.Flip(FlipMode.Vertical));
             return img;
         }
 
@@ -744,88 +722,6 @@ namespace Jypeli
             for (int i = 0; i < images.Length; i++)
                 result[i] = Flip(images[i]);
             return result;
-        }
-
-        // TODO: Tää nimi on hyvin tyhmä toiminnallisuutta ajatellen.
-        /// <summary>
-        /// Värittää kuvan.
-        /// </summary>
-        /// <param name="image">Väritettävä kuva.</param>
-        /// <param name="color">Väri, jolla väritetään.</param>
-        /// <returns>Väritetty kuva.</returns>
-        public static Image Color(Image image, Color color)
-        {
-            /*
-            Texture2D newTex = new Texture2D( image.XNATexture.GraphicsDevice, image.Width, image.Height, false, image.XNATexture.Format );
-            XnaColor[] scanline = new XnaColor[image.Width];
-            var scanRect = new XnaRectangle( 0, 0, image.Width, 1 );
-            XnaColor xnaColor = color.AsXnaColor();
-
-            for ( scanRect.Y = 0; scanRect.Y < image.Height; scanRect.Y++ )
-            {
-                image.XNATexture.GetData<XnaColor>( 0, scanRect, scanline, 0, image.Width );
-
-                for ( int i = 0; i < image.Width; i++ )
-                {
-                    if ( scanline[i].A < 255 )
-                    {
-                        scanline[i].R = (byte)( ( 255 - scanline[i].A ) * xnaColor.R + scanline[i].A * scanline[i].R );
-                        scanline[i].G = (byte)( ( 255 - scanline[i].A ) * xnaColor.G + scanline[i].A * scanline[i].G );
-                        scanline[i].B = (byte)( ( 255 - scanline[i].A ) * xnaColor.B + scanline[i].A * scanline[i].B );
-
-                        if ( scanline[i].A > 10 )
-                        {
-                            scanline[i].A = color.AlphaComponent;
-                        }
-                    }
-                }
-
-                newTex.SetData<XnaColor>( 0, scanRect, scanline, 0, image.Width );
-            }
-
-            return new Image( newTex );*/
-            return new Image(20, 20);
-        }
-
-        /// <summary>
-        /// Värittää kuvat.
-        /// </summary>
-        /// <param name="images">Väritettävät kuvat.</param>
-        /// <param name="color">Väri, jolla väritetään.</param>
-        /// <returns>Väritetyt kuvat.</returns>
-        public static Image[] Color( Image[] images, Color color )
-        {
-            Image[] result = new Image[images.Length];
-            for ( int i = 0; i < images.Length; i++ )
-                result[i] = Color( images[i], color );
-            return result;
-        }
-
-        // TODO: On hyvin hämäävä nimi...
-        /// <summary>
-        /// Muuttaa kuvan jokaisen pikselin <c>alpha</c>-arvon vastaamaan annettua.
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="alpha"></param>
-        /// <returns></returns>
-        public static Image Color( Image image, byte alpha )
-        {
-            /*
-            Texture2D newTex = new Texture2D( image.XNATexture.GraphicsDevice, image.Width, image.Height, false, image.XNATexture.Format );
-            XnaColor[] scanline = new XnaColor[image.Width];
-            var scanRect = new XnaRectangle( 0, 0, image.Width, 1 );
-
-            for ( scanRect.Y = 0; scanRect.Y < image.Height; scanRect.Y++ )
-            {
-                image.XNATexture.GetData<XnaColor>( 0, scanRect, scanline, 0, image.Width );
-                for ( int i = 0; i < image.Width; i++ )
-                {
-                    scanline[i].A = alpha;
-                }
-                newTex.SetData<XnaColor>( 0, scanRect, scanline, 0, image.Width );
-            }
-            return new Image( newTex );*/
-            return new Image(20, 20);
         }
 
         /// <summary>
@@ -922,20 +818,21 @@ namespace Jypeli
         /// <param name="exactAlpha">Vaaditaanko täsmälleen sama läpinäkyvyys ennen kuin korvataan</param>
         public void ReplaceColor(Color src, Color dest, double tolerance, bool blend, bool exactAlpha = false)
         {
-            ColorConverter op = delegate(Color c)
+            Color op(Color c)
             {
                 if (exactAlpha && c.AlphaComponent != src.AlphaComponent)
                     return c;
 
-                if (JyColor.Distance(c, src) <= tolerance)
+                if (Color.Distance(c, src) <= tolerance)
                 {
-                    if (!blend) return dest;
-                    return JyColor.Mix(c, dest);
+                    if (!blend)
+                        return dest;
+                    return Color.Mix(c, dest);
                 }
 
                 return c;
-            };
-            
+            }
+
             ApplyPixelOperation(op);
         }
 
@@ -946,10 +843,10 @@ namespace Jypeli
         /// <param name="dest">Väri jolla korvataan</param>
         public void ReplaceColor(Color src, Color dest)
         {
-            ColorConverter op = delegate(JyColor c)
+            Color op(Color c)
             {
                 return c == src ? dest : c;
-            };
+            }
 
             ApplyPixelOperation(op);
         }

@@ -38,6 +38,8 @@ namespace Jypeli.Rendering.OpenGl
         /// <inheritdoc/>
         public string Version { get => throw new NotImplementedException(); }
 
+        private IRenderTarget SelectedRendertarget;
+
         /// <inheritdoc/>
         public GraphicsDevice(IView window)
         {
@@ -124,6 +126,7 @@ namespace Jypeli.Rendering.OpenGl
                 Gl.BindFramebuffer(GLEnum.Framebuffer, 0);
             else
                 renderTarget.Bind();
+            SelectedRendertarget = renderTarget;
         }
 
         /// <inheritdoc/>
@@ -212,8 +215,10 @@ namespace Jypeli.Rendering.OpenGl
 
         public void GetScreenContents(void* ptr)
         {
-            SetRenderTarget(null); // Varmistetaan että mitään rendertargettia ei ole valittuna, jotta luetaan koko ruudun kuva
-            Gl.ReadPixels(0, 0, (uint)Game.Screen.Width, (uint)Game.Screen.Height, GLEnum.Rgba, GLEnum.UnsignedByte, ptr);
+            if(SelectedRendertarget == null)
+                Gl.ReadPixels(0, 0, (uint)Game.Screen.Width, (uint)Game.Screen.Height, GLEnum.Rgba, GLEnum.UnsignedByte, ptr);
+            else
+                Gl.ReadPixels(0, 0, (uint)SelectedRendertarget.Width, (uint)SelectedRendertarget.Height, GLEnum.Rgba, GLEnum.UnsignedByte, ptr);
         }
     }
 }

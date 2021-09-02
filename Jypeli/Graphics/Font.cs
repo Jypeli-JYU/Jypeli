@@ -213,6 +213,7 @@ namespace Jypeli
                 s.Append(i);
             }
             Renderer.DrawText(s.ToString(), Vector.Zero, this, Color.Transparent, Vector.One);
+            Graphics.CustomBatch.Flush();
         }
 
         /// <summary>

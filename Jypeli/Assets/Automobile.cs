@@ -75,7 +75,7 @@ namespace Jypeli.Assets
             Maneuverability = Angle.FromDegrees( 20 );
             if ( commonImage == null )
                 commonImage = Game.LoadImageFromResources( "Auto.png" );
-            Image = Image.Color( commonImage, Color );
+            Image = commonImage;// Image.Color( commonImage, Color ); // TODO: Image coloring.
             IsUpdated = true;
         }
 

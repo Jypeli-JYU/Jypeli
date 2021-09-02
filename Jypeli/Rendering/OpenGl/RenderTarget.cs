@@ -71,6 +71,7 @@ namespace Jypeli.Rendering.OpenGl
         public void Bind()
         {
             gl.BindFramebuffer(GLEnum.Framebuffer, framebufferHandle);
+            gl.Viewport(0, 0, (uint)Width, (uint)Height);
         }
 
         /// <inheritdoc/>

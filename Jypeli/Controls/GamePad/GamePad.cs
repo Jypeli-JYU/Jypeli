@@ -129,7 +129,6 @@ namespace Jypeli
         internal GamePad(IInputContext input, int index)
         {
             gamepad = input.Gamepads[index];
-            Debug.WriteLine(input.Gamepads.Count);
 
             vibrations = new SynchronousList<Vibration>();
 

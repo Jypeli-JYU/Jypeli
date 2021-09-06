@@ -42,7 +42,7 @@ namespace Jypeli.Effects
         public Vector Position { get; set; }
 
         /// <summary>
-        /// Kuinka suuren ympyränmuotoisen alueen valo valaisee
+        /// Valaistun alueen säde
         /// </summary>
         public double Radius { get; set; } // TODO: Tämä säde on nyt hieman hämäävä.
 
@@ -67,7 +67,7 @@ namespace Jypeli.Effects
             }
             set
             {
-                Position = new Vector( value, Position.Y );
+                Position = new Vector(value, Position.Y);
             }
         }
 
@@ -82,18 +82,37 @@ namespace Jypeli.Effects
             }
             set
             {
-                Position = new Vector( Position.X, value );
+                Position = new Vector(Position.X, value);
             }
         }
 
         /// <summary>
         /// Valo.
         /// </summary>
-        public Light()
+        public Light() : this(10, 1, Color.White)
         {
-            Radius = 1.0;
-            Intensity = 1;
-            Color = Color.Red;
+        }
+
+        /// <summary>
+        /// Valo
+        /// </summary>
+        /// <param name="radius">Valon säde</param>
+        /// <param name="intensity">Voimakkuus välillä 0 - 1</param>
+        public Light(double radius, double intensity) : this(radius, intensity, Color.White)
+        {
+        }
+
+        /// <summary>
+        /// Valo
+        /// </summary>
+        /// <param name="radius">Valon säde</param>
+        /// <param name="intensity">Voimakkuus välillä 0 - 1</param>
+        /// <param name="color">Väri</param>
+        public Light(double radius, double intensity, Color color)
+        {
+            Radius = radius;
+            Intensity = intensity;
+            Color = color;
         }
     }
 }

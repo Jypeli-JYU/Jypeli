@@ -82,7 +82,7 @@ namespace Jypeli
         {
             get
             {
-                return mouse.Position;
+                return new Vector(mouse.Position.X, -mouse.Position.Y);
             }
             set
             {

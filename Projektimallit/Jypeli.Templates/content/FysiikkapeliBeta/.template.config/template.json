@@ -6,7 +6,7 @@
     "name": "Jypeli Betaversio",
     "identity": "Jypeli.Fysiikkapeli.Beta",
     "groupIdentity": "Jypeli.Fysiikkapeli.Beta",
-    "shortName": "Fysiikkapeli",
+    "shortName": "FysiikkapeliBeta",
     "tags": {
         "language": "C#",
         "type": "project"

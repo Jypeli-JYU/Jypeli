@@ -28,12 +28,6 @@ namespace Jypeli.Rendering.OpenGl
         private VertexPositionColorTexture[] Vertices;
 
         /// <inheritdoc/>
-        public Matrix4x4 World { get; set; }
-        /// <inheritdoc/>
-        public Matrix4x4 View { get; set; }
-        /// <inheritdoc/>
-        public Matrix4x4 Projection { get; set; }
-        /// <inheritdoc/>
         public string Name { get; internal set; }
         /// <inheritdoc/>
         public string Version { get => throw new NotImplementedException(); }
@@ -135,6 +129,7 @@ namespace Jypeli.Rendering.OpenGl
             Vbo.Dispose();
             Ebo.Dispose();
             Vao.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         /// <inheritdoc/>

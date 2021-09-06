@@ -312,8 +312,8 @@ public class PlatformCharacter : PhysicsObject
 
     private void AddCollisionHelpers()
     {
-        PhysicsGameBase physicsGame = Game.Instance as PhysicsGameBase;
-        if ( physicsGame == null ) throw new InvalidOperationException( "Cannot have a platform character in non-physics game" );
+        if (Game.Instance is not PhysicsGameBase physicsGame)
+            throw new InvalidOperationException("Cannot have a platform character in non-physics game");
 
         for (int i = 0; i < collisionHelpers.Length; i++)
         {
@@ -330,8 +330,8 @@ public class PlatformCharacter : PhysicsObject
 
     private void RemoveCollisionHelpers()
     {
-        PhysicsGameBase physicsGame = Game.Instance as PhysicsGameBase;
-        if (physicsGame == null) throw new InvalidOperationException("Cannot have a platform character in non-physics game");
+        if (Game.Instance is not PhysicsGameBase physicsGame)
+            throw new InvalidOperationException("Cannot have a platform character in non-physics game");
 
         for (int i = 0; i < collisionHelpers.Length; i++)
         {
@@ -387,8 +387,7 @@ public class PlatformCharacter : PhysicsObject
         Animation.Played -= AnimationPlayed;
         customAnimPlaying = false;
 
-        if ( customAnimAction != null )
-            customAnimAction();
+        customAnimAction?.Invoke();
     }
 
     private static bool IsPlatform(PhysicsObject o)
@@ -439,10 +438,7 @@ public class PlatformCharacter : PhysicsObject
 
         _facingDirection = direction;
 
-        if ( DirectionChanged != null )
-        {
-            DirectionChanged( direction );
-        }
+        DirectionChanged?.Invoke(direction);
     }
 
     private bool IsWeaponFacingRight()
@@ -475,7 +471,6 @@ public class PlatformCharacter : PhysicsObject
     /// <returns><code>true</code> jos on menossa tyhjän päälle.</returns>
     public bool IsAboutToFall()
     {
-
  /* TODO:
  * E = elephant, # = platform
  * 
@@ -506,8 +501,8 @@ public class PlatformCharacter : PhysicsObject
         GameObject platform = this.Game.GetObjectAt(new Vector(this.X + speedDirection * (this.Width/ 2), lowestPoint - 1));
         if (platform == null) return true;
 
-        PhysicsObject p = platform as PhysicsObject;
-        if (p == null) return true;
+        if (platform is not PhysicsObject p)
+            return true;
         if (p.IgnoresCollisionResponse) return true;
         if (p.CollisionIgnoreGroup == this.CollisionIgnoreGroup && p.CollisionIgnoreGroup != 0) return true;
 
@@ -688,14 +683,14 @@ public class PlatformCharacter : PhysicsObject
         }
     }
 
-    private Color GetStateColor( PlatformCharacterState state )
+    private static Color GetStateColor( PlatformCharacterState state )
     {
-        switch ( state )
+        return state switch
         {
-            case PlatformCharacterState.Falling: return Color.Red;
-            case PlatformCharacterState.Jumping: return Color.Yellow;
-            default: return Color.White;
-        }
+            PlatformCharacterState.Falling => Color.Red,
+            PlatformCharacterState.Jumping => Color.Yellow,
+            _ => Color.White,
+        };
     }
 
     private PhysicsObject FindPlatform()
@@ -755,8 +750,7 @@ public class PlatformCharacter : PhysicsObject
             moveTimer.Stop();
             moveTarget = null;
 
-            if ( arrivedAction != null )
-                arrivedAction();
+            arrivedAction?.Invoke();
         }
         else
         {

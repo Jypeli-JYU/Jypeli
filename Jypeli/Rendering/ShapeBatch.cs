@@ -81,7 +81,7 @@ namespace Jypeli
             if ( iIndexBuffer != 0 )
 {
                 shader.Use();
-                shader.SetUniform("world", matrix * Game.GraphicsDevice.View * Game.GraphicsDevice.Projection);
+                shader.SetUniform("world", matrix * Graphics.ViewProjectionMatrix);
 
                 Game.GraphicsDevice.DrawIndexedPrimitives(
                     primitivetype,

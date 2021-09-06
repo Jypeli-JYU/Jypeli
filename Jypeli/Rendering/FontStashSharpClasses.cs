@@ -40,18 +40,13 @@ namespace Jypeli.Rendering
             int w = bounds.Width;
             int h = bounds.Height;
 
-            int nx = 0;
-            int ny = 0;
-
             for (int i = 0; i < h; i++)
             {
                 for (int j = 0; j < w; j++)
                 {
                     Color c = new Color(data[4 * i * w + 4 * j], data[4 * i * w + 4 * j + 1], data[4 * i * w + 4 * j + 2], data[4 * i * w + 4 * j + 3]);
                     img[y + i, x + j] = c;
-                    ny++;
                 }
-                nx = i;
             }
             img.dirty = true;
         }

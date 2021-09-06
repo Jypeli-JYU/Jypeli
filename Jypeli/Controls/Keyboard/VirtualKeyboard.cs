@@ -90,7 +90,7 @@ namespace Jypeli.Controls.Keyboard
             //whitePixelTexture = XnaRenderer.CreateTexture(GraphicsDevice, Color.White, 1, 1);
         }
 
-        private int GetKeyCountOnSingleLine()
+        private static int GetKeyCountOnSingleLine()
         {
             int highestKeyCount = int.MinValue;
 

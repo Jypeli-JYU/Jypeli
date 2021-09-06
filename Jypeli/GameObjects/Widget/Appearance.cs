@@ -34,9 +34,6 @@ namespace Jypeli
             if (!IsVisible)
                 return;
 
-            var lightingEnabled = Renderer.LightingEnabled;
-            Renderer.LightingEnabled &= !IgnoresLighting;
-
             if (Image != null && (!TextureFillsShape))
             {
                 Renderer.DrawImage(parentTransformation, Image, new Rendering.TextureCoordinates(), Position, Size, (float)Angle.Radians);
@@ -79,8 +76,6 @@ namespace Jypeli
                     }
                 }
             }
-
-            Renderer.LightingEnabled = lightingEnabled;
         }
     }
 }

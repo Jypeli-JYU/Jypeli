@@ -13,10 +13,8 @@ namespace Jypeli.Effects
     /// </summary>
     public enum BlendMode
     {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         Alpha, // TODO: Näiden käyttö.
         Additive
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 
 
@@ -443,7 +441,7 @@ namespace Jypeli.Effects
             var device = Game.GraphicsDevice;
 
             shader.Use();
-            shader.SetUniform("world", worldMatrix * device.View * device.Projection);
+            shader.SetUniform("world", worldMatrix * Graphics.ViewProjectionMatrix);
 
             if (OuterParticleImage is not null)
             {

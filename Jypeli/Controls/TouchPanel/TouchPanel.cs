@@ -16,7 +16,7 @@ namespace Jypeli
     /// <summary>
     /// Kosketusnäyttö.
     /// </summary>
-    public class TouchPanel : Controller
+    public class TouchPanel : IController
     {
         protected static readonly Predicate<Touch> AlwaysTrigger = delegate { return true; };
 

@@ -24,21 +24,6 @@ namespace Jypeli.Rendering
         public string Version { get;}
 
         /// <summary>
-        /// Transformaatiomatriisi kameran sijaintia ja kerroksen suhteellista siirtymää varten
-        /// </summary>
-        public Matrix4x4 World { get; set; }
-
-        /// <summary>
-        /// Transformaatiomatriisi kameran suuntaa varten
-        /// </summary>
-        public Matrix4x4 View { get; set; }
-
-        /// <summary>
-        /// Transformaatiomatriisi paikkakoordinaattien muuttamiseksi ruutukoordinaatteihin
-        /// </summary>
-        public Matrix4x4 Projection { get; set; }
-
-        /// <summary>
         /// Verteksipuskurin koko. 
         /// </summary>
         public int BufferSize { get; }

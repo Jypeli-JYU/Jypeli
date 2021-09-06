@@ -70,10 +70,10 @@ namespace Jypeli.Effects
         }
 
 
-        private void ResizeRenderTarget()
+        private static void ResizeRenderTarget()
         {
             RenderTarget.Dispose();
-            Game.GraphicsDevice.CreateRenderTarget((uint)Game.Screen.Width, (uint)Game.Screen.Height);
+            RenderTarget = Game.GraphicsDevice.CreateRenderTarget((uint)Game.Screen.Width, (uint)Game.Screen.Height);
         }
 
 
@@ -87,7 +87,7 @@ namespace Jypeli.Effects
             RenderTarget.TextureSlot(0);
             RenderTarget.BindTexture();
 
-            Matrix4x4 mat = matrix * Game.GraphicsDevice.View * Game.GraphicsDevice.Projection;
+            Matrix4x4 mat = matrix * Graphics.ViewProjectionMatrix;
 
             int i = 0;
             foreach (Light l in Game.Lights)

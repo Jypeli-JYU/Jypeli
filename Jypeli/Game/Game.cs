@@ -225,7 +225,7 @@ namespace Jypeli
                 AudioEnabled = true;
         }
 
-        internal void OnResize(Vector size)
+        internal static void OnResize(Vector size)
         {
             Screen.Resize(size);
         }
@@ -243,8 +243,7 @@ namespace Jypeli
         [EditorBrowsable( EditorBrowsableState.Never )]
         protected void Initialize()
         {
-            if ( !windowPositionSet )
-                CenterWindow();
+            CenterWindow();
 
             Level = new Level( this );
 
@@ -264,6 +263,7 @@ namespace Jypeli
         /// </summary>
         protected void LoadContent()
         {
+            ((IWindow)Window).Center();
             graphicsDevice = new Rendering.OpenGl.GraphicsDevice(Window); // TODO: GraphicsDeviceManager, jolle annetaan ikkuna ja asetukset tms. joka hoitaa oikean laitteen luomisen.
             // Graphics initialization is best done here when window size is set for certain
             InitGraphics();
@@ -272,8 +272,7 @@ namespace Jypeli
             InitLayers();
             InitDebugScreen();
 
-            if ( InstanceInitialized != null )
-                InstanceInitialized();
+            InstanceInitialized?.Invoke();
 
             AddMessageDisplay();
             Initialize();
@@ -441,6 +440,7 @@ namespace Jypeli
         public void Dispose()
         {
             GraphicsDevice?.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

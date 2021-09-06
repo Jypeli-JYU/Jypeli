@@ -407,7 +407,7 @@ namespace Jypeli
             UpdateTexture();
         }
 
-        private void AssertDimensions(int width, int height)
+        private static void AssertDimensions(int width, int height)
         {
             if ( width < 1 || height < 1 )
                 throw new ArgumentException( String.Format( "Image dimensions must be at least 1 x 1! (given: {0} x {1}", width, height ) );
@@ -557,13 +557,13 @@ namespace Jypeli
                 1, 2
             );
 
-            Matrix4x4 temp = device.Projection;
-            device.Projection = ProjectionMatrix;
+            Matrix4x4 temp = Graphics.ViewProjectionMatrix;
+            Graphics.ViewProjectionMatrix = ProjectionMatrix;
 
             Renderer.DrawText(text, Vector.Zero + new Vector(0, texth/2), font, textColor, Vector.One);
             Graphics.CustomBatch.Flush(); // TODO: Joku DrawTextImmediately tms. Voiko tämä mennä jossain tilanteissa nyt pieleen?
 
-            device.Projection = temp;
+            Graphics.ViewProjectionMatrix = temp;
 
             Image img = new Image(textw, texth);
             

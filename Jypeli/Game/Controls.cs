@@ -36,7 +36,7 @@ namespace Jypeli
     public partial class Game : ControlContexted
     {
         private ListenContext context;
-        private List<Controller> controllers;
+        private List<IController> controllers;
 
         /// <summary>
         /// Näppäimistö.
@@ -119,7 +119,7 @@ namespace Jypeli
             PhoneBackButton = new BackButton();
             TouchPanel = new TouchPanel(Screen, inputContext);
 
-            controllers = new List<Controller>();
+            controllers = new List<IController>();
             GameControllers = new List<GamePad>(4);
 #if DESKTOP
             GameControllers.Add(new GamePad(inputContext, 0));
@@ -164,7 +164,7 @@ namespace Jypeli
         /// <summary>
         /// Näyttää kontrollien ohjetekstit tietylle ohjaimelle.
         /// </summary>
-        public void ShowControlHelp( Controller controller )
+        public void ShowControlHelp( IController controller )
         {
             MessageDisplay.Add( controller.GetHelpTexts() );
         }

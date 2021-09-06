@@ -35,7 +35,7 @@ namespace Jypeli.Controls
     /// <summary>
     /// Ohjainlaite.
     /// </summary>
-    public interface Controller
+    public interface IController
     {
         /// <summary>
         /// Poistaa kaikki kuuntelijat.
@@ -60,7 +60,7 @@ namespace Jypeli.Controls
     /// </summary>
     /// <typeparam name="ControllerState">Ohjauslaitteen tilaolio</typeparam>
     /// <typeparam name="Control">Ohjauslaitteen ohjain (näppäin tms)</typeparam>
-    public abstract class Controller<ControllerState, Control> : Controller where Control : IComparable
+    public abstract class Controller<ControllerState, Control> : IController where Control : IComparable
     {
         protected static readonly ChangePredicate<ControllerState> AlwaysTrigger
             = delegate { return true; };

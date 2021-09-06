@@ -440,8 +440,7 @@ namespace Jypeli
         /// </summary>
         internal void OnCollided(IPhysicsObject part, IPhysicsObject target)
         {
-            if (Collided != null)
-                Collided(this, target);
+            Collided?.Invoke(this, target);
         }
 
         /// <summary>
@@ -453,8 +452,8 @@ namespace Jypeli
         {
             foreach (IGameObject o in Objects)
             {
-                if (o is T)
-                    yield return (T)o;
+                if (o is T t)
+                    yield return t;
             }
         }
 
@@ -467,8 +466,8 @@ namespace Jypeli
         {
             foreach (IGameObject o in Objects)
             {
-                if (o is T && predicate((T)o))
-                    yield return (T)o;
+                if (o is T t && predicate(t))
+                    yield return t;
             }
         }
 
@@ -679,8 +678,7 @@ namespace Jypeli
         /// </summary>
         protected void OnDestroying()
         {
-            if (Destroying != null)
-                Destroying();
+            Destroying?.Invoke();
         }
 
         /// <summary>

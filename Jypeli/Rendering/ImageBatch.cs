@@ -32,8 +32,6 @@ namespace Jypeli.Rendering
     /// </remarks>
     internal class ImageBatch
     {
-        private const int DefaultBufferSize = 512;
-
         static readonly Vector3[] Vertices = new Vector3[]
         {
             // Triangle 1
@@ -109,9 +107,8 @@ namespace Jypeli.Rendering
 
                 shader.Use();
 
-                shader.SetUniform("world", matrix * Game.GraphicsDevice.View * Game.GraphicsDevice.Projection);
+                shader.SetUniform("world", matrix * Graphics.ViewProjectionMatrix);
 
-                Game.GraphicsDevice.World = matrix;
                 Game.GraphicsDevice.BindTexture(texture);
 
                 Game.GraphicsDevice.DrawPrimitives(

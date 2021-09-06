@@ -163,72 +163,72 @@ namespace Jypeli
             return internalState;
         }
 
-        private ChangePredicate<GamePadState> MakeTriggerRule(Button button, ButtonState state)
+        private static ChangePredicate<GamePadState> MakeTriggerRule(Button button, ButtonState state)
         {
-            switch (state)
+            return state switch
             {
-                case ButtonState.Up:
-                    return delegate (GamePadState prev, GamePadState curr)
-                    { return (curr.IsButtonUp(button)); };
+                ButtonState.Up => delegate (GamePadState prev, GamePadState curr)
+                {
+                    return (curr.IsButtonUp(button));
+                },
 
-                case ButtonState.Down:
-                    return delegate (GamePadState prev, GamePadState curr)
-                    { return (curr.IsButtonDown(button)); };
+                ButtonState.Down => delegate (GamePadState prev, GamePadState curr)
+                {
+                    return (curr.IsButtonDown(button));
+                },
 
-                case ButtonState.Pressed:
-                    return delegate (GamePadState prev, GamePadState curr)
-                    { return (prev.IsButtonUp(button) && curr.IsButtonDown(button)); };
+                ButtonState.Pressed => delegate (GamePadState prev, GamePadState curr)
+                {
+                    return (prev.IsButtonUp(button) && curr.IsButtonDown(button));
+                },
 
-                case ButtonState.Released:
-                    return delegate (GamePadState prev, GamePadState curr)
-                    { return (prev.IsButtonDown(button) && curr.IsButtonUp(button)); };
-            }
+                ButtonState.Released => delegate (GamePadState prev, GamePadState curr)
+                {
+                    return (prev.IsButtonDown(button) && curr.IsButtonUp(button));
+                },
 
-            return AlwaysTrigger;
+                _ => AlwaysTrigger
+            };
         }
 
-        private ChangePredicate<GamePadState> MakeTriggerRule(AnalogControl control, double moveTrigger)
+        private static ChangePredicate<GamePadState> MakeTriggerRule(AnalogControl control, double moveTrigger)
         {
-            switch (control)
+            return control switch
             {
-                case AnalogControl.LeftStick:
-                    return delegate (GamePadState prev, GamePadState curr)
-                    {
-                        double xdist = curr.LeftThumbStick.X - prev.LeftThumbStick.X;
-                        double ydist = curr.LeftThumbStick.Y - prev.LeftThumbStick.Y;
-                        return xdist * xdist + ydist * ydist > moveTrigger * moveTrigger;
-                    };
+                AnalogControl.LeftStick => delegate (GamePadState prev, GamePadState curr)
+                {
+                    double xdist = curr.LeftThumbStick.X - prev.LeftThumbStick.X;
+                    double ydist = curr.LeftThumbStick.Y - prev.LeftThumbStick.Y;
+                    return xdist * xdist + ydist * ydist > moveTrigger * moveTrigger;
+                },
 
-                case AnalogControl.RightStick:
-                    return delegate (GamePadState prev, GamePadState curr)
-                    {
-                        double xdist = curr.RightThumbStick.X - prev.RightThumbStick.X;
-                        double ydist = curr.RightThumbStick.Y - prev.RightThumbStick.Y;
-                        return xdist * xdist + ydist * ydist > moveTrigger * moveTrigger;
-                    };
+                AnalogControl.RightStick => delegate (GamePadState prev, GamePadState curr)
+                {
+                    double xdist = curr.RightThumbStick.X - prev.RightThumbStick.X;
+                    double ydist = curr.RightThumbStick.Y - prev.RightThumbStick.Y;
+                    return xdist * xdist + ydist * ydist > moveTrigger * moveTrigger;
+                },
 
-                case AnalogControl.LeftTrigger:
-                    return delegate (GamePadState prev, GamePadState curr)
-                    {
-                        return Math.Abs(curr.LeftTrigger - prev.LeftTrigger) > moveTrigger;
-                    };
+                AnalogControl.LeftTrigger => delegate (GamePadState prev, GamePadState curr)
+                {
+                    return Math.Abs(curr.LeftTrigger - prev.LeftTrigger) > moveTrigger;
+                },
 
-                case AnalogControl.RightTrigger:
-                    return delegate (GamePadState prev, GamePadState curr)
-                    {
-                        return Math.Abs(curr.RightTrigger - prev.RightTrigger) > moveTrigger;
-                    };
-            }
+                AnalogControl.RightTrigger => delegate (GamePadState prev, GamePadState curr)
+                {
+                    return Math.Abs(curr.RightTrigger - prev.RightTrigger) > moveTrigger;
+                },
 
-            throw new ArgumentException(control.ToString() + " is not a valid analog control for a GamePad");
+                _ => throw new ArgumentException(control.ToString() + " is not a valid analog control for a GamePad"),
+            };
         }
 
-        private string GetButtonName(Button b)
+        private static string GetButtonName(Button b)
         {
             return b.ToString();
         }
 
-        private string GetAnalogName(AnalogControl a)
+        private static string GetAnalogName(AnalogControl a)
         {
             return a.ToString();
         }
@@ -341,19 +341,14 @@ namespace Jypeli
 
         private GamePadAnalogState GenerateAnalogState(AnalogControl control)
         {
-            switch (control)
+            return control switch
             {
-                case AnalogControl.LeftStick:
-                    return new GamePadAnalogState(LeftThumbDirection.Magnitude, LeftThumbChange.Magnitude, LeftThumbDirection, LeftThumbChange);
-                case AnalogControl.RightStick:
-                    return new GamePadAnalogState(RightThumbDirection.Magnitude, RightThumbChange.Magnitude, RightThumbDirection, RightThumbChange);
-                case AnalogControl.LeftTrigger:
-                    return new GamePadAnalogState(LeftTriggerState, LeftTriggerChange);
-                case AnalogControl.RightTrigger:
-                    return new GamePadAnalogState(RightTriggerState, RightTriggerChange);
-                default:
-                    throw new NotImplementedException("Unsupported Controller / GamePad control for ListenAnalog: " + control.ToString());
-            }
+                AnalogControl.LeftStick => new GamePadAnalogState(LeftThumbDirection.Magnitude, LeftThumbChange.Magnitude, LeftThumbDirection, LeftThumbChange),
+                AnalogControl.RightStick => new GamePadAnalogState(RightThumbDirection.Magnitude, RightThumbChange.Magnitude, RightThumbDirection, RightThumbChange),
+                AnalogControl.LeftTrigger => new GamePadAnalogState(LeftTriggerState, LeftTriggerChange),
+                AnalogControl.RightTrigger => new GamePadAnalogState(RightTriggerState, RightTriggerChange),
+                _ => throw new NotImplementedException("Unsupported Controller / GamePad control for ListenAnalog: " + control.ToString()),
+            };
         }
 
         /// <summary>

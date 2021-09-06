@@ -72,9 +72,20 @@ namespace Jypeli
                 new VertexPositionColorTexture(new Vector3(1f, 1f, 0), Color.White, new Vector(1f, 1f))
         };
 
-        private static Matrix ViewMatrix;
-        private static Matrix ProjectionMatrix;
-        private static Matrix viewProjectionMatrix;
+        /// <summary>
+        /// Transformaatiomatriisi kameran suuntaa varten
+        /// </summary>
+        public static Matrix ViewMatrix { get; internal set; }
+
+        /// <summary>
+        /// Transformaatiomatriisi paikkakoordinaattien muuttamiseksi ruutukoordinaatteihin
+        /// </summary>
+        public static Matrix ProjectionMatrix { get; internal set; }
+
+        /// <summary>
+        /// Yhdistetty transformaatio
+        /// </summary>
+        public static Matrix ViewProjectionMatrix { get; internal set; }
 
         public static void Initialize()
         {
@@ -103,10 +114,8 @@ namespace Jypeli
                 1.0f, 2.0f
                 );
 
-            viewProjectionMatrix = ViewMatrix * ProjectionMatrix;
-            
-            Game.GraphicsDevice.View = ViewMatrix;
-            Game.GraphicsDevice.Projection = ProjectionMatrix;
+            ViewProjectionMatrix = ViewMatrix * ProjectionMatrix;
+
             //BasicTextureEffect.View = ViewMatrix;
             //BasicTextureEffect.Projection = ProjectionMatrix;
         }

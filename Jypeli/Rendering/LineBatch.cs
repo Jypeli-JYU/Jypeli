@@ -46,7 +46,7 @@ namespace Jypeli
             {
                 shader.Use();
 
-                shader.SetUniform("world", matrix * Game.GraphicsDevice.View * Game.GraphicsDevice.Projection);
+                shader.SetUniform("world", matrix * Graphics.ViewProjectionMatrix);
 
                 Game.GraphicsDevice.DrawPrimitives(PrimitiveType.OpenGLLines, vertexBuffer, (uint)iVertexBuffer);
             }

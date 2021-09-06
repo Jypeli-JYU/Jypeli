@@ -35,9 +35,6 @@ namespace Jypeli
 {
     public partial class Game
     {
-        // fullscreen isn't used as default, because debug mode doesn't work well with it
-        private bool windowPositionSet;
-
         internal IView Window;
         private static IGraphicsDevice graphicsDevice;
 
@@ -88,7 +85,6 @@ namespace Jypeli
         {
 #if DESKTOP
             ((IWindow)Window).Position = new Silk.NET.Maths.Vector2D<int>(x, y);
-            windowPositionSet = true;
 #endif
         }
 

@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31515.178
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31606.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jypeli", "Jypeli\Jypeli.csproj", "{0CE0EBFA-81E9-4B0A-AEAC-3558BF95C0E0}"
 EndProject
@@ -9,8 +9,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{8BE3FD62-3AF4-4DAC-824F-972BF02E9779}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{DC335282-9CEC-461A-934F-68E4E9962460}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStorageTest", "Tests\DataStorageTest\DataStorageTest\DataStorageTest.csproj", "{3F27080E-F6C6-4BC9-A8C4-886412F141BB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tasohyppelypeli", "Tests\TasohyppelypeliFarseer\Norsupeli\Tasohyppelypeli.csproj", "{ED552C6C-5B2B-4FF8-871B-4A4977A1C3E8}"
 EndProject
@@ -47,14 +45,6 @@ Global
 		{14910AE8-DEFC-432C-AA82-4DB8F9DAC5CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{14910AE8-DEFC-432C-AA82-4DB8F9DAC5CE}.Release|x86.ActiveCfg = Release|Any CPU
 		{14910AE8-DEFC-432C-AA82-4DB8F9DAC5CE}.Release|x86.Build.0 = Release|Any CPU
-		{3F27080E-F6C6-4BC9-A8C4-886412F141BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F27080E-F6C6-4BC9-A8C4-886412F141BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F27080E-F6C6-4BC9-A8C4-886412F141BB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3F27080E-F6C6-4BC9-A8C4-886412F141BB}.Debug|x86.Build.0 = Debug|Any CPU
-		{3F27080E-F6C6-4BC9-A8C4-886412F141BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F27080E-F6C6-4BC9-A8C4-886412F141BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F27080E-F6C6-4BC9-A8C4-886412F141BB}.Release|x86.ActiveCfg = Release|Any CPU
-		{3F27080E-F6C6-4BC9-A8C4-886412F141BB}.Release|x86.Build.0 = Release|Any CPU
 		{ED552C6C-5B2B-4FF8-871B-4A4977A1C3E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ED552C6C-5B2B-4FF8-871B-4A4977A1C3E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED552C6C-5B2B-4FF8-871B-4A4977A1C3E8}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -88,7 +78,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{3F27080E-F6C6-4BC9-A8C4-886412F141BB} = {DC335282-9CEC-461A-934F-68E4E9962460}
 		{ED552C6C-5B2B-4FF8-871B-4A4977A1C3E8} = {DC335282-9CEC-461A-934F-68E4E9962460}
 		{2478A834-FED1-4125-A732-DEA49BAAA536} = {DC335282-9CEC-461A-934F-68E4E9962460}
 		{CBF4D129-A10F-479B-BFEC-61B88598E849} = {DC335282-9CEC-461A-934F-68E4E9962460}

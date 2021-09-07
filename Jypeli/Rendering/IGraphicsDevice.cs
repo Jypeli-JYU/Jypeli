@@ -135,6 +135,12 @@ namespace Jypeli.Rendering
         public unsafe void GetScreenContents(void* data);
 
         /// <summary>
+        /// Kopioi ruudulla näkyvät pikselit annettuun kuvaan
+        /// </summary>
+        /// <param name="img">valmiiksi alustettu näytön kokoinen kuva</param>
+        public unsafe void GetScreenContentsToImage(Image img);
+
+        /// <summary>
         /// Piirtää valot ruudulle
         /// </summary>
         /// <param name="matrix">Kameran transformaatiomatriisi</param>

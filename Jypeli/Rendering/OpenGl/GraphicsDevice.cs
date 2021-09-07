@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Jypeli.Rendering.OpenGl
 {
@@ -242,6 +243,13 @@ namespace Jypeli.Rendering.OpenGl
                 Gl.ReadPixels(0, 0, (uint)Game.Screen.Width, (uint)Game.Screen.Height, GLEnum.Rgba, GLEnum.UnsignedByte, ptr);
             else
                 Gl.ReadPixels(0, 0, (uint)SelectedRendertarget.Width, (uint)SelectedRendertarget.Height, GLEnum.Rgba, GLEnum.UnsignedByte, ptr);
+        }
+
+        public void GetScreenContentsToImage(Image img)
+        {
+            img.image.TryGetSinglePixelSpan(out Span<Rgba32> ptr);
+            fixed(void* p = ptr)
+                GetScreenContents(p);
         }
     }
 }

@@ -535,7 +535,7 @@ namespace Jypeli
         /// <param name="textColor">Tekstin väri</param>
         /// <param name="backgroundColor">Tekstin taustaväri</param>
         /// <returns>Teksti kuvana</returns>
-        public static unsafe Image FromText( string text, Font font, Color textColor, Color backgroundColor )
+        public static Image FromText( string text, Font font, Color textColor, Color backgroundColor )
         {
             if ( text == null )
                 text = "";
@@ -566,12 +566,7 @@ namespace Jypeli
             Graphics.ViewProjectionMatrix = temp;
 
             Image img = new Image(textw, texth);
-            
-            // TODO: Miten tämä olisi järkevintä toteuttaa, että tämän metodin ei tarvitsisi olla unsafe?
-            img.image.TryGetSinglePixelSpan(out Span<Rgba32> ptr);
-            
-            fixed (void* p = ptr)
-                device.GetScreenContents(p);
+            device.GetScreenContentsToImage(img);
 
             device.SetRenderTarget(null);
 

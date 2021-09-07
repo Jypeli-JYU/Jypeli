@@ -133,5 +133,11 @@ namespace Jypeli.Rendering
         /// </summary>
         /// <param name="data">Osoitin johon data kirjoitetaan</param>
         public unsafe void GetScreenContents(void* data);
+
+        /// <summary>
+        /// Piirtää valot ruudulle
+        /// </summary>
+        /// <param name="matrix">Kameran transformaatiomatriisi</param>
+        public void DrawLights(Matrix4x4 matrix);
     }
 }

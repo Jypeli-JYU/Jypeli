@@ -144,7 +144,6 @@ namespace Jypeli
             //Viewport viewPort = GraphicsDevice.Viewport;
             Screen = new ScreenView();
             Graphics.Initialize();
-
             Camera = new Camera();
         }
     }

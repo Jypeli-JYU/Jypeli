@@ -30,11 +30,11 @@ namespace Jypeli.Rendering.OpenGl
         /// </summary>
         /// <param name="width">Leveys</param>
         /// <param name="height">Korkeus</param>
-        public RenderTarget(uint width, uint height)
+        public RenderTarget(GraphicsDevice device, uint width, uint height)
         {
             Width = width;
             Height = height;
-            gl = ((GraphicsDevice)Game.GraphicsDevice).Gl;
+            gl = (device).Gl;
             framebufferHandle = gl.GenFramebuffer();
             gl.BindFramebuffer(GLEnum.Framebuffer, framebufferHandle);
 

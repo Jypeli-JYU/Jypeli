@@ -546,7 +546,7 @@ namespace Jypeli
             int textw = (textDims.X > 1) ? Convert.ToInt32(textDims.X) : 1;
             int texth = (textDims.Y > 1) ? Convert.ToInt32(textDims.Y) : 1;
 
-            Rendering.OpenGl.RenderTarget rt = new Rendering.OpenGl.RenderTarget((uint)textw, (uint)texth);
+            Rendering.IRenderTarget rt = Game.GraphicsDevice.CreateRenderTarget((uint)textw, (uint)texth);
 
             device.SetRenderTarget(rt);
             device.Clear(backgroundColor);

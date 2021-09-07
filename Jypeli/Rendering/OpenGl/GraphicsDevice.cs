@@ -22,6 +22,8 @@ namespace Jypeli.Rendering.OpenGl
         private BufferObject<uint> Ebo;
         private VertexArrayObject<VertexPositionColorTexture, uint> Vao;
 
+        private BasicLightRenderer bl;
+
         /// <inheritdoc/>
         public int BufferSize { get; } = 16384;
         private uint[] Indices;
@@ -58,6 +60,9 @@ namespace Jypeli.Rendering.OpenGl
             Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 0);
             Vao.VertexAttributePointer(1, 4, VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 12);
             Vao.VertexAttributePointer(2, 2, VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 28);
+
+
+            bl = new BasicLightRenderer(this);
         }
 
         /// <inheritdoc/>
@@ -106,6 +111,29 @@ namespace Jypeli.Rendering.OpenGl
             Gl.DrawArraysInstanced((GLEnum)primitivetype, 0, 4, count);
         }
 
+        public void DrawLights(Matrix4x4 matrix)
+        {
+            bl.Draw(matrix);
+
+            SetRenderTarget(Game.Screen.RenderTarget);
+
+            Graphics.LightPassTextureShader.Use();
+            Graphics.LightPassTextureShader.SetUniform("world", Matrix4x4.Identity);
+
+            Graphics.LightPassTextureShader.SetUniform("texture0", 0);
+            Graphics.LightPassTextureShader.SetUniform("texture1", 1);
+
+            Graphics.LightPassTextureShader.SetUniform("ambientLight", Game.Instance.Level.AmbientLight.ToNumerics());
+
+            Game.Screen.RenderTarget.TextureSlot(0);
+            Game.Screen.RenderTarget.BindTexture();
+
+            BasicLightRenderer.RenderTarget.TextureSlot(1);
+            BasicLightRenderer.RenderTarget.BindTexture();
+
+            DrawPrimitives(PrimitiveType.OpenGlTriangles, Graphics.TextureVertices, 6, true);
+        }
+
         /// <inheritdoc/>
         public void Clear(Color bgColor)
         {
@@ -135,7 +163,7 @@ namespace Jypeli.Rendering.OpenGl
         /// <inheritdoc/>
         public IRenderTarget CreateRenderTarget(uint width, uint height)
         {
-            return new RenderTarget(width, height);
+            return new RenderTarget(this, width, height);
         }
 
         /// <inheritdoc/>

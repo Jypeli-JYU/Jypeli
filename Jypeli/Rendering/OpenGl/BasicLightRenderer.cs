@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using Jypeli.Rendering;
+﻿using System.Numerics;
+using Jypeli.Effects;
 
-namespace Jypeli.Effects
+namespace Jypeli.Rendering.OpenGl
 {
     internal unsafe struct LightData
     {
@@ -16,38 +11,36 @@ namespace Jypeli.Effects
         public fixed float Color[4];
     }
 
-    internal unsafe class BasicLights
+    internal unsafe class BasicLightRenderer
     {
-        Rendering.OpenGl.VertexArrayObject<VertexPositionColorTexture, Vector4> Vao;
-        Rendering.OpenGl.BufferObject<VertexPositionColorTexture> vertexbuffer;
-        Rendering.OpenGl.BufferObject<LightData> databuffer;
+        VertexArrayObject<VertexPositionColorTexture, Vector4> Vao;
+        BufferObject<VertexPositionColorTexture> vertexbuffer;
+        BufferObject<LightData> databuffer;
 
         Silk.NET.OpenGL.GL gl;
-        IShader shader;
 
         private LightData[] lightData;
         public static IRenderTarget RenderTarget;
 
-        internal BasicLights()
+        internal BasicLightRenderer(GraphicsDevice device)
         {
             // Piirretään valot omaan tekstuuriin, joka sitten piirretään muiden elementtien päälle.
-            RenderTarget = Game.GraphicsDevice.CreateRenderTarget((uint)Game.Screen.Width, (uint)Game.Screen.Height);
+            RenderTarget = device.CreateRenderTarget((uint)Game.Instance.Window.Size.X, (uint)Game.Instance.Window.Size.Y);
 
             Game.Instance.Window.Resize += (v) => ResizeRenderTarget();
-            shader = Graphics.SimpleFloodLightShader;
 
             int maxAmountOfLights = 1000; // TODO: Mikä olisi hyvä rajoitus?
             lightData = new LightData[maxAmountOfLights];
-            gl = ((Rendering.OpenGl.GraphicsDevice)Game.GraphicsDevice).Gl;
-            vertexbuffer = new Rendering.OpenGl.BufferObject<VertexPositionColorTexture>(gl, Graphics.TextureVertices, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer);
-            Vao = new Rendering.OpenGl.VertexArrayObject<VertexPositionColorTexture, Vector4>(gl, vertexbuffer, null);
+            gl = ((GraphicsDevice)device).Gl;
+            vertexbuffer = new BufferObject<VertexPositionColorTexture>(gl, Graphics.TextureVertices, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer);
+            Vao = new VertexArrayObject<VertexPositionColorTexture, Vector4>(gl, vertexbuffer, null);
 
             // TODO: Tämä on hieman ruma ja kaipaisi jonkinlaista abstraktiota.
             Vao.VertexAttributePointer(0, 3, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 0);
             Vao.VertexAttributePointer(1, 4, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 12);
             Vao.VertexAttributePointer(2, 2, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 28);
 
-            databuffer = new Rendering.OpenGl.BufferObject<LightData>(gl, lightData, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer);
+            databuffer = new BufferObject<LightData>(gl, lightData, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer);
 
             databuffer.Bind();
             gl.EnableVertexAttribArray(3);
@@ -106,7 +99,7 @@ namespace Jypeli.Effects
 
             var device = Game.GraphicsDevice;
 
-            shader.Use();
+            Graphics.SimpleFloodLightShader.Use();
 
             Vao.Bind();
             gl.Enable(Silk.NET.OpenGL.GLEnum.Blend);

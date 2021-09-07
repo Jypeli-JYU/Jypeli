@@ -276,12 +276,8 @@ namespace Jypeli
 
             AddMessageDisplay();
             Initialize();
-            bl = new BasicLights();
             CallBegin();
         }
-
-        // TODO: Tätä voisi hieman siistiä
-        internal BasicLights bl;
 
         /// <summary>
         /// XNA:n piirtorutiinit.
@@ -317,7 +313,7 @@ namespace Jypeli
 
             // TODO: Tätä ei tarvitsisi tehdä, jos valoja ei käytetä.
             // Yhdistetään valotekstuuri ja objektien tekstuuri.
-            DrawLights(worldMatrix);
+            GraphicsDevice.DrawLights(worldMatrix);
 
             // Piirretään käyttöliittymäkomponentit valojen päälle
             StaticLayers.ForEach(l => l.Draw(Camera));
@@ -357,29 +353,6 @@ namespace Jypeli
                 //UnloadContent();
                 Exit();
             }
-        }
-
-        private void DrawLights(Matrix worldMatrix)
-        {
-            bl.Draw(worldMatrix);
-
-            GraphicsDevice.SetRenderTarget(Screen.RenderTarget);
-
-            Graphics.LightPassTextureShader.Use();
-            Graphics.LightPassTextureShader.SetUniform("world", Matrix.Identity);
-
-            Graphics.LightPassTextureShader.SetUniform("texture0", 0);
-            Graphics.LightPassTextureShader.SetUniform("texture1", 1);
-
-            Graphics.LightPassTextureShader.SetUniform("ambientLight", Instance.Level.AmbientLight.ToNumerics());
-
-            Screen.RenderTarget.TextureSlot(0);
-            Screen.RenderTarget.BindTexture();
-
-            BasicLights.RenderTarget.TextureSlot(1);
-            BasicLights.RenderTarget.BindTexture();
-
-            GraphicsDevice.DrawPrimitives(Rendering.PrimitiveType.OpenGlTriangles, Graphics.TextureVertices, 6, true);
         }
 
         /// <summary>

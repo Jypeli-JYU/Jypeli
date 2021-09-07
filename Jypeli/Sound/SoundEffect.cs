@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.IO;
+using Jypeli.Audio.OpenAL;
 
 namespace Jypeli
 {
@@ -12,11 +13,12 @@ namespace Jypeli
     /// </summary>
     public class SoundEffect
     {
-        List<Sound> Instances = new List<Sound>();
+        private List<Sound> Instances = new List<Sound>();
 
         private string assetName;
-        XnaSoundEffect xnaEffect;
-        Timer posTimer;
+        private Timer posTimer;
+
+        internal uint handle;
 
         /// <summary>
         /// Tapahtuu kun ääniefekti on toistettu loppuun.
@@ -26,7 +28,7 @@ namespace Jypeli
         /// <summary>
         /// Ääniefektin kesto sekunteina.
         /// </summary>
-        public TimeSpan Duration { get { DoLoad(); return xnaEffect.Duration; } }
+        public TimeSpan Duration { get { return TimeSpan.Zero; } }
 
         /// <summary>
         /// Paikka äänessä sekunteina (missä kohtaa toistoa ollaan). Ei voi asettaa.
@@ -38,41 +40,12 @@ namespace Jypeli
         /// </summary>
         public bool IsPlaying { get; private set; }
 
-        private static string[] soundExtensions = { ".wav", ".mp3", ".xnb" }; 
+        private static string[] soundExtensions = { ".wav" };
 
-        private void DoLoad()
-        {
-            if (xnaEffect == null)
-            {
-                Debug.Assert(assetName != null);
-                xnaEffect = FromContent(assetName);
-            }
-
-            //Position.MaxValue = xnaEffect.Duration.TotalSeconds;
-        }
-
-
-        private XnaSoundEffect FromContent(string assetname)
-        {
-            assetName = Game.FileExtensionCheck(assetName, soundExtensions);
-            FileStream fs = new FileStream(assetName, FileMode.Open);
-            XnaSoundEffect sound = XnaSoundEffect.FromStream(fs);
-            fs.Close();
-            return sound;
-
-        }
         internal SoundEffect(string assetName)
         {
             this.assetName = assetName;
-            this.xnaEffect = null;
-            InitPosition();
-        }
-
-        internal SoundEffect( XnaSoundEffect effect )
-        {
-            this.Position = new DoubleMeter(0, 0, 0);
-            this.assetName = null;
-            xnaEffect = effect;
+            handle = OpenAL.LoadSound(assetName);
             InitPosition();
         }
 
@@ -96,7 +69,8 @@ namespace Jypeli
             Position.Reset();
             Instances.Clear();
             IsPlaying = false;
-            if(Finished != null) Finished();
+            if (Finished != null)
+                Finished();
         }
 
         /// <summary>
@@ -106,19 +80,15 @@ namespace Jypeli
         /// <returns></returns>
         public Sound CreateSound()
         {
-            if ( !Game.AudioEnabled )
+            try
+            {
+                return new Sound(this);
+            }
+            catch
+            {
+                Game.Instance.OnNoAudioHardwareException();
                 return null;
-
-			try
-			{
-            	DoLoad();
-            	return new Sound( xnaEffect.CreateInstance() );
-			}
-			catch
-			{
-				Game.Instance.OnNoAudioHardwareException();
-				return null;
-			}
+            }
         }
 
         /// <summary>
@@ -127,11 +97,11 @@ namespace Jypeli
         /// <returns></returns>
         public bool Play()
         {
-            DoLoad();
             Sound sound = CreateSound();
-            if (sound == null) return false;
+            if (sound == null)
+                return false;
 
-            StartPlaying( sound );
+            StartPlaying(sound);
             return true;
         }
 
@@ -142,35 +112,35 @@ namespace Jypeli
         /// <param name="pitch">Äänen taajuusmuutos. -1.0 = oktaavi alaspäin, 1.0 = oktaavi ylöspäin, 0.0 = normaali.</param>
         /// <param name="pan">Balanssi eli kummasta kaiuttimesta ääni kuuluu enemmän. -1.0 = kokonaan vasemmasta, 1.0 = kokonaan oikeasta, 0.0 = yhtä paljon kummastakin </param>
         /// <returns></returns>
-        public bool Play( double volume, double pitch, double pan )
+        public bool Play(double volume, double pitch, double pan)
         {
-            DoLoad();
             Sound sound = CreateSound();
-            if (sound == null) return false;
+            if (sound == null)
+                return false;
 
             sound.Volume = volume;
             sound.Pitch = pitch;
             sound.Pan = pan;
 
-            StartPlaying( sound );
+            StartPlaying(sound);
             return true;
         }
 
-        private void StartPlaying( Sound sound )
+        private void StartPlaying(Sound sound)
         {
-			try
-			{
-	            sound.Play();
-	            Instances.Add( sound );
-	            Position.Reset();
-	            posTimer.Start();
-	            IsPlaying = true;
-			}
-			catch
-			{
-				// Too many sounds are playing at once
-				// Just ignore this for now...
-			}
+            try
+            {
+                sound.Play();
+                Instances.Add(sound);
+                Position.Reset();
+                posTimer.Start();
+                IsPlaying = true;
+            }
+            catch
+            {
+                // Too many sounds are playing at once
+                // Just ignore this for now...
+            }
         }
 
         /// <summary>
@@ -189,57 +159,10 @@ namespace Jypeli
         /// <summary>
         /// Äänenvoimakkuuden taso 0.0 - 1.0
         /// </summary>
-        public static double MasterVolume 
+        public static double MasterVolume
         {
-            set { XnaSoundEffect.MasterVolume = (float)value; }
-            get { return XnaSoundEffect.MasterVolume; }
-        }
-    }
-    /// <summary>
-    /// DUMMY
-    /// </summary>
-    internal class XnaSoundEffect
-    {
-        public static float MasterVolume { get; internal set; }
-        public TimeSpan Duration { get; internal set; }
-
-        internal static XnaSoundEffect FromStream(FileStream fs)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal SoundEffectInstance CreateInstance()
-        {
-            throw new NotImplementedException();
+            get; set;
         }
     }
 
-    internal class SoundEffectInstance
-    {
-        public bool IsLooped { get; internal set; }
-        public double Pan { get; internal set; }
-        public double Volume { get; internal set; }
-        public double Pitch { get; internal set; }
-        public SoundState State { get; internal set; }
-
-        internal void Pause()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void Play()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void Resume()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void Stop()
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

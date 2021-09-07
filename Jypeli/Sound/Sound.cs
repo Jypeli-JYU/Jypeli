@@ -1,29 +1,30 @@
 ﻿using System;
+using Jypeli.Audio.OpenAL;
 
 namespace Jypeli
 {
+    public enum SoundState
+    {
+        Playing,
+
+    }
+
     /// <summary>
     /// Yleinen äänen toistamiseen käytettävä luokka.
     /// Tällä ei ole kovin suuria eroja <c>SoundEffect</c>-luokan kanssa.
     /// </summary>
-    public class Sound
+    public class Sound // TODO: Mitä kannattaisi tehdä tämän ja SoundEffectin suhteen. Näiden molempien olemassaolo on hiemna outoa.
     {
-        SoundEffectInstance effectInstance;
-
-        static double Clamp( double value, double min, double max )
-        {
-            return ( value < min ) ? ( min ) : ( ( value > max ) ? ( max ) : ( value ) );
-        }
-
+        SoundEffect soundeffect;
         /// <summary>
         /// Jos <c>true</c>, ääntä soitetaan toistuvasti.
         /// </summary>
         public bool IsLooped
         {
-            get { return effectInstance.IsLooped; }
-            set { effectInstance.IsLooped = value; }
+            get { return false; }
+            set {  }
         }
-        
+
         /// <summary>
         /// Äänen kuuluminen vasemmasta ja oikeasta kaiuttimesta.
         /// Arvot vaihtelevat välillä -1.0 - 1.0 seuraavasti:
@@ -33,8 +34,8 @@ namespace Jypeli
         /// </summary>
         public double Pan
         {
-            get { return effectInstance.Pan; }
-            set { effectInstance.Pan = (float)Clamp( value, -1.0, 1.0 ); }
+            get { return 0; }
+            set {  }
         }
 
         /// <summary>
@@ -42,8 +43,8 @@ namespace Jypeli
         /// </summary>
         public double Volume
         {
-            get { return effectInstance.Volume; }
-            set { effectInstance.Volume = (float)Clamp( value, 0.0, 1.0 ); }
+            get { return 0; }
+            set {  }
         }
 
         /// <summary>
@@ -54,8 +55,8 @@ namespace Jypeli
         /// </remarks>
         public double Pitch
         {
-            get { return effectInstance.Pitch; }
-            set { effectInstance.Pitch = (float)Clamp( value, -1.0, 1.0 ); }
+            get { return 0; }
+            set {  }
         }
 
         /// <summary>
@@ -64,35 +65,35 @@ namespace Jypeli
         /// <returns></returns>
         public SoundState State
         {
-            get => effectInstance.State;
+            get => SoundState.Playing;
         }
 
-        internal Sound( SoundEffectInstance s )
+        internal Sound(SoundEffect s)
         {
-            effectInstance = s;
+            soundeffect = s;
         }
 
         /// <summary>
         /// Toistaa äänen
         /// </summary>
         /// <param name="retries"></param>
-        public void Play( int retries = 3 )
+        public void Play(int retries = 3)
         {
             try
             {
-                effectInstance.Play();
+                OpenAL.Play(soundeffect.handle);
             }
-            catch ( NullReferenceException )
+            catch (NullReferenceException)
             {
-                Console.Error.WriteLine( "Null reference exception trying to play a sound, disabling audio" );
+                Console.Error.WriteLine("Null reference exception trying to play a sound, disabling audio");
                 Game.DisableAudio();
             }
-            catch ( InvalidOperationException )
+            catch (InvalidOperationException)
             {
                 // Workaround: Sometimes on Android an InvalidOperationException is thrown when playing a sound
                 // Trying again seems to work; if not, no sound is better than crashing the game
-                if ( retries > 0 )
-                    Play( retries - 1 );
+                if (retries > 0)
+                    Play(retries - 1);
             }
         }
 
@@ -101,7 +102,6 @@ namespace Jypeli
         /// </summary>
         public void Resume()
         {
-            effectInstance.Resume();
         }
 
         /// <summary>
@@ -109,7 +109,6 @@ namespace Jypeli
         /// </summary>
         public void Stop()
         {
-            effectInstance.Stop();
         }
 
         /// <summary>
@@ -117,11 +116,6 @@ namespace Jypeli
         /// </summary>
         public void Pause()
         {
-            effectInstance.Pause();
         }
-    }
-
-    public class SoundState
-    {
     }
 }

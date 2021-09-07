@@ -38,6 +38,7 @@ using Silk.NET.Windowing;
 
 using Matrix = System.Numerics.Matrix4x4;
 using Jypeli.Effects;
+using System.Diagnostics;
 
 #if ANDROID
 using Android.Content.Res;
@@ -221,8 +222,15 @@ namespace Jypeli
 
         private void InitAudio()
         {
-            if(!Headless)
-                AudioEnabled = true;
+            try
+            {
+                Audio.OpenAL.OpenAL.Init();
+            }catch (Exception ex)
+            {
+                OnNoAudioHardwareException();
+                Debug.WriteLine(ex);
+            }
+
         }
 
         internal static void OnResize(Vector size)
@@ -230,10 +238,10 @@ namespace Jypeli
             Screen.Resize(size);
         }
 
-		internal void OnNoAudioHardwareException()
-		{
-			MessageDisplay.Add( "No audio hardware was detected. All sound is disabled." );
-		}
+        internal void OnNoAudioHardwareException()
+        {
+            DoNextUpdate(() => MessageDisplay.Add("No audio hardware was detected. All sound is disabled."));
+        }
 
         /// <summary>
         /// This gets called after the GraphicsDevice has been created. So, this is

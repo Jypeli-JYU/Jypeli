@@ -350,6 +350,26 @@ namespace Jypeli.GameObjects
         }
 
         /// <summary>
+        /// Olion absoluuttinen paikka maailmassa.
+        /// Tämä on sama kuin <see cref="Position"/>
+        /// </summary>
+        public Vector AbsolutePosition
+        {
+            get => Position;
+            set => Position = value;
+        }
+
+        /// <summary>
+        /// Olion absoluuttinen kulma maailmassa.
+        /// Tämä on sama kuin <see cref="Angle"/>
+        /// </summary>
+        public Angle AbsoluteAngle
+        {
+            get => Angle;
+            set => Angle = value;
+        }
+
+        /// <summary>
         /// Olion vasemman reunan x-koordinaatti.
         /// </summary>
         public double Left
@@ -428,7 +448,7 @@ namespace Jypeli.GameObjects
         {
             get
             {
-                return Position.X;
+                return Position.X; // TODO: Nämä voisi joskus muuttaa tähän nätimpään nuolisyntaksiin.
             }
             set
             {
@@ -449,6 +469,26 @@ namespace Jypeli.GameObjects
             {
                 Position = new Vector( Position.X, value );
             }
+        }
+
+        /// <summary>
+        /// Olion paikan absoluttinen X-koordinaatti.
+        /// Tämä on sama kuin <see cref="X"/>
+        /// </summary>
+        public double AbsoluteX
+        {
+            get => Position.X;
+            set => Position = new Vector(value, Position.Y);
+        }
+
+        /// <summary>
+        /// Olion paikan absoluttinen Y-koordinaatti.
+        /// Tämä on sama kuin <see cref="X"/>
+        /// </summary>
+        public double AbsoluteY
+        {
+            get => Position.Y;
+            set => Position = new Vector(Position.X, value);
         }
 
         /// <summary>

@@ -67,9 +67,7 @@ namespace Jypeli
             }
         }
 
-        /// <summary>
-        /// Paikka.
-        /// </summary>
+        /// <inheritdoc/>
         public override Vector Position 
         {
             get
@@ -86,10 +84,7 @@ namespace Jypeli
 
         private Angle _angle;
 
-        /// <summary>
-        /// Olion kulma tai rintamasuunta.
-        /// Nolla = osoittaa oikealle.
-        /// </summary>      
+        /// <inheritdoc/>
         public override Angle Angle 
         {
             get

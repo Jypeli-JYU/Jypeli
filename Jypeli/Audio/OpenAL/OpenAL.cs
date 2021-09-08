@@ -44,7 +44,6 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
     public static unsafe class OpenAL
     {
         private static AL al;
-        private static uint source;
 
         internal static void Init()
         {
@@ -58,7 +57,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
 
             var context = alc.CreateContext(device, null);
             alc.MakeContextCurrent(context);
-
+            al.DistanceModel(DistanceModel.InverseDistance);
             al.GetError();
 
         }
@@ -89,7 +88,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             short bitsPerSample = -1;
             BufferFormat format = 0;
 
-            source = al.GenSource();
+            uint source = al.GenSource();
             var buffer = al.GenBuffer();
             al.SetSourceProperty(source, SourceBoolean.Looping, false);
             al.SetSourceProperty(source, SourceFloat.Gain, 0.2f);
@@ -189,8 +188,19 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             );
 
             al.SetSourceProperty(source, SourceInteger.Buffer, buffer);
+            al.SetSourceProperty(source, SourceFloat.MaxDistance, 500);
+            al.SetSourceProperty(source, SourceFloat.ReferenceDistance, 0);
 
             return source;
+        }
+
+        public static uint Duplicate(uint from)
+        {
+            uint to = al.GenSource();
+            al.GetSourceProperty(from, GetSourceInteger.Buffer, out int buffer);
+            al.SetSourceProperty(to, SourceInteger.Buffer, buffer);
+            // TODO: Äänen muut ominaisuudet.
+            return to;
         }
 
         public static void Play(uint source)
@@ -201,6 +211,40 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
         public static void Stop(uint source)
         {
             al.SourceStop(source);
+        }
+
+        internal static double GetPan(uint handle)
+        { // TODO: Pan ei jostain syystä tunnu tekevän mitään
+            al.GetSourceProperty(handle, SourceVector3.Position, out System.Numerics.Vector3 value);
+            return value.X;
+        }
+
+        internal static void SetPan(uint handle, double value)
+        {
+            System.Numerics.Vector3 v = new System.Numerics.Vector3((float)value, 0, 0);
+            al.SetSourceProperty(handle, SourceVector3.Position, in v);
+        }
+
+        internal static double GetVolume(uint handle)
+        {
+            al.GetSourceProperty(handle, SourceFloat.Gain, out float value);
+            return value;
+        }
+
+        internal static void SetVolume(uint handle, double value)
+        {
+            al.SetSourceProperty(handle, SourceFloat.Gain, (float)value);
+        }
+
+        internal static double GetPitch(uint handle)
+        {
+            al.GetSourceProperty(handle, SourceFloat.Pitch, out float value);
+            return value;
+        }
+
+        internal static void SetPitch(uint handle, double value)
+        {
+            al.SetSourceProperty(handle, SourceFloat.Pitch, (float)value);
         }
     }
 }

@@ -49,6 +49,9 @@ namespace Jypeli
             InitPosition();
         }
 
+        internal SoundEffect()
+        { }
+
         private void InitPosition()
         {
             Position = new DoubleMeter(0, 0, 0);
@@ -82,7 +85,7 @@ namespace Jypeli
         {
             try
             {
-                return new Sound(this);
+                return new Sound(Clone());
             }
             catch
             {
@@ -154,6 +157,14 @@ namespace Jypeli
             }
 
             EffectPlayed();
+        }
+
+        internal SoundEffect Clone()
+        {
+            var s = new SoundEffect();
+            s.handle = OpenAL.Duplicate(handle);
+            s.assetName = this.assetName;
+            return s;
         }
 
         /// <summary>

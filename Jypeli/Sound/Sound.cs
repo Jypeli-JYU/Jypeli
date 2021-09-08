@@ -15,7 +15,7 @@ namespace Jypeli
     /// </summary>
     public class Sound // TODO: Mitä kannattaisi tehdä tämän ja SoundEffectin suhteen. Näiden molempien olemassaolo on hiemna outoa.
     {
-        SoundEffect soundeffect;
+        private SoundEffect soundeffect;
         /// <summary>
         /// Jos <c>true</c>, ääntä soitetaan toistuvasti.
         /// </summary>
@@ -34,8 +34,8 @@ namespace Jypeli
         /// </summary>
         public double Pan
         {
-            get { return 0; }
-            set {  }
+            get { return OpenAL.GetPan(soundeffect.handle); }
+            set { OpenAL.SetPan(soundeffect.handle, value); }
         }
 
         /// <summary>
@@ -43,8 +43,8 @@ namespace Jypeli
         /// </summary>
         public double Volume
         {
-            get { return 0; }
-            set {  }
+            get { return OpenAL.GetVolume(soundeffect.handle); }
+            set { OpenAL.SetVolume(soundeffect.handle, value); }
         }
 
         /// <summary>
@@ -55,8 +55,8 @@ namespace Jypeli
         /// </remarks>
         public double Pitch
         {
-            get { return 0; }
-            set {  }
+            get { return OpenAL.GetPitch(soundeffect.handle); }
+            set { OpenAL.SetPitch(soundeffect.handle, value); }
         }
 
         /// <summary>

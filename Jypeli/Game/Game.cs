@@ -32,6 +32,7 @@ using System.IO;
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Jypeli.Devices;
@@ -171,11 +172,47 @@ namespace Jypeli
             SaveOutput = save;
             Headless = headless;
             FramesToSkip = skip;
-            if (save && !Directory.Exists("Output"))
+
+            ApplyCMDArgs();
+
+            if (SaveOutput && !Directory.Exists("Output"))
             {
                 Directory.CreateDirectory("Output");
             }
             base.Run();
+        }
+
+        private void ApplyCMDArgs()
+        {
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Contains("--save"))
+            {
+                if (bool.TryParse(args[Array.IndexOf(args, "--save") + 1], out bool save))
+                    SaveOutput = save;
+                else
+                    throw new ArgumentException("Invalid value for --save");
+            }
+            if (args.Contains("--framesToRun"))
+            {
+                if (int.TryParse(args[Array.IndexOf(args, "--framesToRun") + 1], out int frames))
+                    TotalFramesToRun = frames;
+                else
+                    throw new ArgumentException("Invalid value for --framesToRun");
+            }
+            if (args.Contains("--headless"))
+            {
+                if (bool.TryParse(args[Array.IndexOf(args, "--headless") + 1], out bool headless))
+                    Headless = headless;
+                else
+                    throw new ArgumentException("Invalid value for --headless");
+            }
+            if (args.Contains("--skipFrames"))
+            {
+                if (int.TryParse(args[Array.IndexOf(args, "--skipFrames") + 1], out int skip))
+                    FramesToSkip = skip;
+                else
+                    throw new ArgumentException("Invalid value for --skipFrames");
+            }
         }
 
         internal static void DisableAudio()

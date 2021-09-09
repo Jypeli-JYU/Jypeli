@@ -32,6 +32,21 @@ namespace Jypeli
             set 
             {
                 Body.Position = value;
+
+                Objects?.ForEach(o => {
+                    o.RelativePositionToMainParent = o.InitialRelativePosition;
+                    o.RelativeAngleToMainParent = o.InitialRelativeAngle;
+                });
+
+                // TODO: Purkkapallokorjaus, SynchronousListin kappalaiden lisäys pitäisi saada hieman yksinkertaisemmaksi.
+                foreach (var o in Objects?.GetObjectsAboutToBeAdded())
+                {
+                    o.RelativePositionToMainParent = o.InitialRelativePosition;
+                    o.RelativeAngleToMainParent = o.InitialRelativeAngle;
+                }
+
+                if (Parent != null)
+                    InitialRelativePosition = RelativePositionToMainParent;
             }
         }
 
@@ -42,6 +57,21 @@ namespace Jypeli
             set 
             {
                 Body.Angle = value.Radians;
+
+                Objects?.ForEach(o => {
+                    o.RelativePositionToMainParent = o.InitialRelativePosition;
+                    o.RelativeAngleToMainParent = o.InitialRelativeAngle;
+                });
+
+                // TODO: Purkkapallokorjaus, SynchronousListin kappalaiden lisäys pitäisi saada hieman yksinkertaisemmaksi.
+                foreach (var o in Objects?.GetObjectsAboutToBeAdded())
+                {
+                    o.RelativePositionToMainParent = o.InitialRelativePosition;
+                    o.RelativeAngleToMainParent = o.InitialRelativeAngle;
+                }
+
+                if (Parent != null)
+                    InitialRelativeAngle = RelativeAngleToMainParent;
             }
         }
 

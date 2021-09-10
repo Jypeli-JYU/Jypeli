@@ -395,6 +395,7 @@ namespace Jypeli
         private void DrawSimpleObjectsWithoutImages(Matrix worldMatrix)
         {
             Graphics.ShapeBatch.Begin(ref worldMatrix);
+            Graphics.LineBatch.Begin(ref worldMatrix);
             foreach (var o in objectsWithoutImage)
             {
                 if (!o.IsVisible)
@@ -405,6 +406,7 @@ namespace Jypeli
                 DrawShape(o, ref worldMatrix);
             }
             Graphics.ShapeBatch.End();
+            Graphics.LineBatch.End();
         }
 
         private void DrawObjectsWithImages(Matrix worldMatrix)
@@ -551,11 +553,18 @@ namespace Jypeli
 
         private void DrawShape(IGameObject o, ref Matrix parentTransformation)
         {
-            float rotation = (float)o.Angle.Radians;
+            if (!o.IsVisible)
+                return;
 
-            if (o.IsVisible)
+            float rotation = (float)o.Angle.Radians;
+            switch (o.Shape)
             {
-                Graphics.ShapeBatch.Draw(o.Shape.Cache, o.Color, o.Position, o.Size, rotation);
+                case RaySegment r:
+                    Graphics.LineBatch.Draw(r.Origin + o.Position, (r.Direction.Angle + o.Angle).GetVector() * r.Length + o.Position, o.Color);
+                    break;
+                default:
+                    Graphics.ShapeBatch.Draw(o.Shape.Cache, o.Color, o.Position, o.Size, rotation);
+                    break;
             }
         }
 

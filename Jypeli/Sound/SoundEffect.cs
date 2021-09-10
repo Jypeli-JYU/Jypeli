@@ -49,6 +49,12 @@ namespace Jypeli
             InitPosition();
         }
 
+        internal SoundEffect(string assetName, Stream stream)
+        {
+            handle = OpenAL.LoadSound(stream);
+            InitPosition();
+        }
+
         internal SoundEffect()
         { }
 

@@ -62,9 +62,23 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
 
         }
 
+        public static uint LoadSound(Stream stream)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                return LoadWAV(memoryStream.ToArray());
+            }
+        }
+
         public static uint LoadSound(string filename)
         {
             ReadOnlySpan<byte> file = File.ReadAllBytes(filename);
+            return LoadWAV(file);
+        }
+
+        private static uint LoadWAV(ReadOnlySpan<byte> file)
+        {
             int index = 0;
             if (file[index++] != 'R' || file[index++] != 'I' || file[index++] != 'F' || file[index++] != 'F')
             {

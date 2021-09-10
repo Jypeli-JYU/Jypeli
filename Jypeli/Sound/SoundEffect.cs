@@ -28,7 +28,7 @@ namespace Jypeli
         /// <summary>
         /// Ääniefektin kesto sekunteina.
         /// </summary>
-        public TimeSpan Duration { get { return TimeSpan.Zero; } }
+        public TimeSpan Duration { get { return TimeSpan.FromSeconds(OpenAL.GetDuration(handle)); } }
 
         /// <summary>
         /// Paikka äänessä sekunteina (missä kohtaa toistoa ollaan). Ei voi asettaa.
@@ -54,7 +54,7 @@ namespace Jypeli
 
         private void InitPosition()
         {
-            Position = new DoubleMeter(0, 0, 0);
+            Position = new DoubleMeter(0, 0, OpenAL.GetDuration(handle));
             posTimer = new Timer();
             posTimer.Interval = 0.01;
             posTimer.Timeout += new Action(IncrementPosition);

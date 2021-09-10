@@ -246,5 +246,17 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
         {
             al.SetSourceProperty(handle, SourceFloat.Pitch, (float)value);
         }
+
+        internal static double GetDuration(uint handle)
+        {
+            al.GetSourceProperty(handle, GetSourceInteger.Buffer, out int buffer);
+
+            al.GetBufferProperty((uint)buffer, GetBufferInteger.Size, out int size);
+            al.GetBufferProperty((uint)buffer, GetBufferInteger.Frequency, out int frequency);
+            al.GetBufferProperty((uint)buffer, GetBufferInteger.Channels, out int channels);
+            al.GetBufferProperty((uint)buffer, GetBufferInteger.Bits, out int bits);
+
+            return size/(double)(frequency * channels * bits/8);
+        }
     }
 }

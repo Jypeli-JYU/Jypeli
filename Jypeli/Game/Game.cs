@@ -417,17 +417,16 @@ namespace Jypeli
                     {
                         skipcounter--;
                     }
-
             }
 
-            FrameCounter++;
-
-            if (FrameCounter == TotalFramesToRun)
+            if (TotalFramesToRun != 0 && FrameCounter == TotalFramesToRun)
             {
                 OnExiting(this, EventArgs.Empty);
                 UnloadContent();
                 Exit();
             }
+
+            FrameCounter++;
         }
 
         /// <summary>

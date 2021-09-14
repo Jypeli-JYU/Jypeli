@@ -81,6 +81,11 @@ namespace Jypeli
         public bool SaveOutput { get; private set; }
 
         /// <summary>
+        /// Kirjoitetaanko kuvatiedosto standarditulosteeseen jos <see cref="SaveOutput"/> on päällä.
+        /// </summary>
+        public bool SaveOutputToConsole { get; private set; }
+
+        /// <summary>
         /// Ajetaanko peli ilman ääntä (esim. TIMissä)
         /// </summary>
         public bool Headless { get; private set; }
@@ -138,6 +143,11 @@ namespace Jypeli
         /// Aktiivinen kenttä.
         /// </summary>
         public Level Level { get; private set; }
+        
+        private Stream CurrentFrameStream => !SaveOutputToConsole ? new FileStream(Path.Combine("Output", $"{SavedFrameCounter}.bmp"), FileMode.Create) : standardOutStream.Value;
+
+        private readonly Lazy<Stream> standardOutStream = new Lazy<Stream>(Console.OpenStandardOutput);
+        
 
 #if ANDROID
         /// <summary>
@@ -212,6 +222,13 @@ namespace Jypeli
                     FramesToSkip = skip;
                 else
                     throw new ArgumentException("Invalid value for --skipFrames");
+            }
+            if (args.Contains("--saveToStdout"))
+            {
+                if (bool.TryParse(args[Array.IndexOf(args, "--saveToStdout") + 1], out bool saveToStdout))
+                    SaveOutputToConsole = saveToStdout;
+                else
+                    throw new ArgumentException("Invalid value for --saveToStdout");
             }
         }
 
@@ -409,7 +426,7 @@ namespace Jypeli
                 if (FrameCounter != 0) // Ekaa framea ei voi tallentaa?
                     if(skipcounter == 0)
                     {
-                        Screencap.WriteBmp(new FileStream("Output/" + SavedFrameCounter + ".bmp", FileMode.Create), Screen.Image);
+                        Screencap.WriteBmp(CurrentFrameStream, Screen.Image);
                         skipcounter = FramesToSkip;
                         SavedFrameCounter++;
                     }

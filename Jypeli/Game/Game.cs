@@ -39,6 +39,7 @@ using Silk.NET.Windowing;
 using Matrix = System.Numerics.Matrix4x4;
 using Jypeli.Effects;
 using System.Diagnostics;
+using System.Linq;
 
 #if ANDROID
 using Android.Content.Res;
@@ -78,6 +79,11 @@ namespace Jypeli
         /// Vie oletusresoluutiolla noin 3MB/frame
         /// </summary>
         public bool SaveOutput { get; private set; }
+
+        /// <summary>
+        /// Kirjoitetaanko kuvatiedosto standarditulosteeseen jos <see cref="SaveOutput"/> on päällä.
+        /// </summary>
+        public bool SaveOutputToConsole { get; private set; }
 
         /// <summary>
         /// Ajetaanko peli ilman ääntä (esim. TIMissä)
@@ -127,6 +133,12 @@ namespace Jypeli
         /// Aktiivinen kenttä.
         /// </summary>
         public Level Level { get; private set; }
+        
+        private Stream CurrentFrameStream => !SaveOutputToConsole ? new FileStream(Path.Combine("Output", $"{SavedFrameCounter}.bmp"), FileMode.Create) : standardOutStream.Value;
+
+        private readonly Lazy<Stream> standardOutStream = new Lazy<Stream>(Console.OpenStandardOutput);
+        
+
 
         /// <summary>
         /// Onko peli sulkeutumassa tämän päivityksen jölkeen.
@@ -166,12 +178,55 @@ namespace Jypeli
             SaveOutput = save;
             Headless = headless;
             FramesToSkip = skip;
-            if (save && !Directory.Exists("Output"))
+
+            ApplyCMDArgs();
+
+            if (SaveOutput && !Directory.Exists("Output"))
             {
                 Directory.CreateDirectory("Output");
             }
 
             Window.Run();
+        }
+
+        private void ApplyCMDArgs()
+        {
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Contains("--save"))
+            {
+                if (bool.TryParse(args[Array.IndexOf(args, "--save") + 1], out bool save))
+                    SaveOutput = save;
+                else
+                    throw new ArgumentException("Invalid value for --save");
+            }
+            if (args.Contains("--framesToRun"))
+            {
+                if (int.TryParse(args[Array.IndexOf(args, "--framesToRun") + 1], out int frames))
+                    TotalFramesToRun = frames;
+                else
+                    throw new ArgumentException("Invalid value for --framesToRun");
+            }
+            if (args.Contains("--headless"))
+            {
+                if (bool.TryParse(args[Array.IndexOf(args, "--headless") + 1], out bool headless))
+                    Headless = headless;
+                else
+                    throw new ArgumentException("Invalid value for --headless");
+            }
+            if (args.Contains("--skipFrames"))
+            {
+                if (int.TryParse(args[Array.IndexOf(args, "--skipFrames") + 1], out int skip))
+                    FramesToSkip = skip;
+                else
+                    throw new ArgumentException("Invalid value for --skipFrames");
+            }
+            if (args.Contains("--saveToStdout"))
+            {
+                if (bool.TryParse(args[Array.IndexOf(args, "--saveToStdout") + 1], out bool saveToStdout))
+                    SaveOutputToConsole = saveToStdout;
+                else
+                    throw new ArgumentException("Invalid value for --saveToStdout");
+            }
         }
 
         internal static void DisableAudio()
@@ -342,7 +397,7 @@ namespace Jypeli
                 if (FrameCounter != 0) // Ekaa framea ei voi tallentaa?
                     if(skipcounter == 0)
                     {
-                        Screencap.SaveBmp("Output/" + SavedFrameCounter + ".bmp");
+                        Screencap.SaveBmp(CurrentFrameStream);
                         skipcounter = FramesToSkip;
                         SavedFrameCounter++;
                     }
@@ -350,17 +405,16 @@ namespace Jypeli
                     {
                         skipcounter--;
                     }
-
             }
 
-            FrameCounter++;
-
-            if (FrameCounter == TotalFramesToRun)
+            if (TotalFramesToRun != 0 && FrameCounter == TotalFramesToRun)
             {
                 OnExiting(this, EventArgs.Empty);
                 //UnloadContent();
                 Exit();
             }
+
+            FrameCounter++;
         }
 
         /// <summary>

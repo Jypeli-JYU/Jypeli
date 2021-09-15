@@ -1,0 +1,22 @@
+{
+    "author": "University of Jyväskylä",
+    "classifications": [
+        "Jypeli"
+    ],
+    "name": "Jypeli Betaversio",
+    "identity": "Jypeli.Fysiikkapeli.Beta",
+    "groupIdentity": "Jypeli.Fysiikkapeli.Beta",
+    "shortName": "FysiikkapeliBeta",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "primaryOutputs": [
+        {
+            "path": "FysiikkapeliBeta.csproj"
+        }
+    ],
+    "sourceName": "Fysiikkapeli",
+    "preferNameDirectory": "true",
+    "description": "Hyvin kokeellinen versio Jypelistä. Kaikki ominaisuudet eivät välttämättä toimi, tai voivat olla puutteellisia."
+}

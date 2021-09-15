@@ -96,8 +96,8 @@ namespace Jypeli
         /// </remarks>
         public void Add(IGameObject childObject)
         {
-            //if (childObject is Jypeli.Assets.Explosion)
-            //    throw new ArgumentException("Explosion as child object is not supported. Use Game.Add(explosion) instead.");
+            if (childObject == this)
+                throw new InvalidOperationException("Child cannot be same as parent");
 
             if (this is PhysicsObject && childObject is PhysicsObject && PhysicsGameBase.Instance != null && PhysicsGameBase.Instance.FarseerGame)
             {

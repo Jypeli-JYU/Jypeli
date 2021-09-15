@@ -39,5 +39,11 @@ namespace Jypeli
             using Image<Rgba32> img = CaptureRaw();
             img.SaveAsBmp(filename); // TODO: Olisiko SaveAsBmpAsync parempi?
         }
+
+        public static void SaveBmp(Stream stream)
+        {
+            using Image<Rgba32> img = CaptureRaw();
+            img.SaveAsBmp(stream);
+        }
     }
 }

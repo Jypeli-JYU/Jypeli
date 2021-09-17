@@ -325,7 +325,9 @@ namespace Jypeli
         /// </summary>
         protected void LoadContent()
         {
+#if DESKTOP
             ((IWindow)Window).Center();
+#endif
             graphicsDevice = new Rendering.OpenGl.GraphicsDevice(Window); // TODO: GraphicsDeviceManager, jolle annetaan ikkuna ja asetukset tms. joka hoitaa oikean laitteen luomisen.
             // Graphics initialization is best done here when window size is set for certain
             InitGraphics();

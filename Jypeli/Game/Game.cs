@@ -98,7 +98,7 @@ namespace Jypeli
         /// <summary>
         /// Laite jolla peliä pelataan.
         /// </summary>
-        public static Device Device { get; private set; }
+        public static Device Device { get; private set; } = Device.Create();
 
         /// <summary>
         /// Tietovarasto, johon voi tallentaa tiedostoja pidempiaikaisesti.
@@ -248,12 +248,11 @@ namespace Jypeli
         }
 
 
-		void InitGlobals ()
+        void InitGlobals ()
         {
-			Name = this.GetType().Assembly.FullName.Split( ',' )[0];
-			Instance = this;
-            Device = Device.Create();
-		}
+            Name = this.GetType().Assembly.FullName.Split(',')[0];
+            Instance = this;
+        }
 
         private void InitWindow()
         {

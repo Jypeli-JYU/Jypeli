@@ -97,8 +97,6 @@ namespace FarseerPhysics.Dynamics
     /// A fixture is used to attach a Shape to a body for collision detection. A fixture
     /// inherits its transform from its parent. Fixtures hold additional non-geometric data
     /// such as friction, collision filters, etc.
-    /// Fixtures are created via Body.CreateFixture.
-    /// Warning: You cannot reuse fixtures.
     /// </summary>
     public class Fixture
     {

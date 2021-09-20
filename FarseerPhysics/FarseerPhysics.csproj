@@ -35,7 +35,7 @@
   <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
 
   <ItemGroup>
-    <None Include="..\Licenses\Jypeli.txt">
+    <None Include="..\Licenses\Farseer.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

@@ -156,9 +156,9 @@ namespace FarseerPhysics.Dynamics
             Multithreaded = false;
             Island = new Island();
             Enabled = true;
-            ControllerList = new List<Controller>();
-            BodyList = new List<Body>(32);
-            JointList = new List<Joint>(32);
+            BodyList = new BodyCollection(this);
+            JointList = new JointCollection(this);
+            ControllerList = new ControllerCollection(this);
 
 #if USE_AWAKE_BODY_SET
             AwakeBodySet = new HashSet<Body>();
@@ -252,9 +252,9 @@ namespace FarseerPhysics.Dynamics
             foreach (var seed in AwakeBodyList)
             {
 #else
-            for (int index = BodyList.Count - 1; index >= 0; index--)
+            for (int index = BodyList._list.Count - 1; index >= 0; index--)
             {
-                Body seed = BodyList[index];
+                Body seed = BodyList._list[index];
 #endif
                 if (seed._island)
                 {
@@ -472,10 +472,10 @@ namespace FarseerPhysics.Dynamics
                     b._sweep.Alpha0 = 0.0f;
                 }
 #else
-                for (int i = 0; i < BodyList.Count; i++)
+                for (int i = 0; i < BodyList._list.Count; i++)
                 {
-                    BodyList[i]._island = false;
-                    BodyList[i]._sweep.Alpha0 = 0.0f;
+                    BodyList._list[i]._island = false;
+                    BodyList._list[i]._sweep.Alpha0 = 0.0f;
                 }
 #endif
 #if USE_ACTIVE_CONTACT_SET
@@ -824,7 +824,7 @@ namespace FarseerPhysics.Dynamics
 #endif
         }
 
-        public readonly List<Controller> ControllerList;
+        public readonly ControllerCollection ControllerList;
 
         public TimeSpan UpdateTime { get; private set; }
         public TimeSpan ContinuousPhysicsTime { get; private set; }
@@ -888,7 +888,7 @@ namespace FarseerPhysics.Dynamics
         /// Get the world body list.
         /// </summary>
         /// <value>The head of the world body list.</value>
-        public readonly List<Body> BodyList;
+        public readonly BodyCollection BodyList;
 
 #if USE_AWAKE_BODY_SET
         public HashSet<Body> AwakeBodySet { get; private set; }
@@ -905,7 +905,7 @@ namespace FarseerPhysics.Dynamics
         /// Get the world joint list. 
         /// </summary>
         /// <value>The joint list.</value>
-        public readonly List<Joint> JointList;
+        public readonly JointCollection JointList;
 
         /// <summary>
         /// Get the world contact list. 
@@ -956,7 +956,8 @@ namespace FarseerPhysics.Dynamics
 #endif
 
             body._world = this;
-            BodyList.Add(body);
+            BodyList._list.Add(body);
+            BodyList._generationStamp++;
 
 
             // Update transform
@@ -971,12 +972,14 @@ namespace FarseerPhysics.Dynamics
 
             // Fire World events:
 
-            if (BodyAdded != null)
-                BodyAdded(this, body);
-            
-            if (FixtureAdded != null)
-                for (int i = 0; i < body.FixtureList.Count; i++)
-                    FixtureAdded(this, body, body.FixtureList[i]);
+            var bodyAddedHandler = BodyAdded;
+            if (bodyAddedHandler != null)
+                bodyAddedHandler(this, body);
+
+            var fixtureAddedHandler = FixtureAdded;
+            if (fixtureAddedHandler != null)
+                for (int i = 0; i < body.FixtureList._list.Count; i++)
+                    fixtureAddedHandler(this, body, body.FixtureList._list[i]);
         }
 
         /// <summary>
@@ -1022,17 +1025,18 @@ namespace FarseerPhysics.Dynamics
 
             // Delete the attached fixtures. This destroys broad-phase proxies.
             body.DestroyProxies();
-            for (int i = 0; i < body.FixtureList.Count; i++)
-            {
-                if (FixtureRemoved != null)
-                    FixtureRemoved(this, body, body.FixtureList[i]);
-            }
+            var fixtureRemovedHandler = FixtureRemoved;
+            if (fixtureRemovedHandler != null)
+                for (int i = 0; i < body.FixtureList._list.Count; i++)
+                    fixtureRemovedHandler(this, body, body.FixtureList._list[i]);
 
             body._world = null;
-            BodyList.Remove(body);
+            BodyList._list.Remove(body);
+            BodyList._generationStamp++;
 
-            if (BodyRemoved != null)
-                BodyRemoved(this, body);
+            var bodyRemovedHandler = BodyRemoved;
+            if (bodyRemovedHandler != null)
+                bodyRemovedHandler(this, body);
         }
         
         /// <summary>
@@ -1047,11 +1051,15 @@ namespace FarseerPhysics.Dynamics
                 throw new InvalidOperationException("The World is locked.");
             if (joint == null)
                 throw new ArgumentNullException("joint");
-            if (JointList.Contains(joint))
+            if (joint._world == this)
                 throw new ArgumentException("You are adding the same joint more than once.", "joint");
+            if (joint._world != null)
+                throw new ArgumentException("joint belongs to another world.", "joint");
 
             // Connect to the world list.
-            JointList.Add(joint);
+            joint._world = this;
+            JointList._list.Add(joint);
+            JointList._generationStamp++;
 
             // Connect to the bodies' doubly linked lists.
             joint.EdgeA.Joint = joint;
@@ -1098,12 +1106,13 @@ namespace FarseerPhysics.Dynamics
                 }
             }
 
-            if (JointAdded != null)
-                JointAdded(this, joint);
+            var jointAddedHandler = JointAdded;
+            if (jointAddedHandler != null)
+                jointAddedHandler(this, joint);
 
             // Note: creating a joint doesn't wake the bodies.
         }
-        
+
         /// <summary>
         /// Destroy a joint. This may cause the connected bodies to begin colliding.
         /// Warning: This method is locked during callbacks.
@@ -1116,14 +1125,16 @@ namespace FarseerPhysics.Dynamics
                 throw new InvalidOperationException("The World is locked.");
             if (joint == null)
                 throw new ArgumentNullException("joint");
-            if (!JointList.Contains(joint))
+            if (joint.World != this)
                 return; // Liitokset poistuvat jos niihin liitetty kappale poistetaan. Jos liitosta sen jälkeen yritetään poistaa niin ei tehdä mitään.
                 
 
             bool collideConnected = joint.CollideConnected;
 
             // Remove from the world list.
-            JointList.Remove(joint);
+            joint._world = null;
+            JointList._list.Remove(joint);
+            JointList._generationStamp++;
 
             // Disconnect from island graph.
             Body bodyA = joint.BodyA;
@@ -1201,8 +1212,9 @@ namespace FarseerPhysics.Dynamics
                 }
             }
 
-            if (JointRemoved != null)
-                JointRemoved(this, joint);
+            var jointRemovedHandler = JointRemoved;
+            if (jointRemovedHandler != null)
+                jointRemovedHandler(this, joint);
         }
 
 
@@ -1427,9 +1439,9 @@ namespace FarseerPhysics.Dynamics
             try
             {
                 //Update controllers
-                for (int i = 0; i < ControllerList.Count; i++)
+                for (int i = 0; i < ControllerList._list.Count; i++)
                 {
-                    ControllerList[i].Update(dt);
+                    ControllerList._list[i].Update(dt);
                 }
                 if (Settings.EnableDiagnostics)
                     ControllersUpdateTime = TimeSpan.FromTicks(_watch.ElapsedTicks) - (AddRemoveTime + NewContactsTime);
@@ -1486,9 +1498,9 @@ namespace FarseerPhysics.Dynamics
         /// </summary>
         public void ClearForces()
         {
-            for (int i = 0; i < BodyList.Count; i++)
+            for (int i = 0; i < BodyList._list.Count; i++)
             {
-                Body body = BodyList[i];
+                Body body = BodyList._list[i];
                 body._force = Vector2.Zero;
                 body._torque = 0.0f;
             }
@@ -1590,10 +1602,12 @@ namespace FarseerPhysics.Dynamics
                 throw new ArgumentException("Controller belongs to another world.", "controller");
 
             controller.World = this;
-            ControllerList.Add(controller);
+            ControllerList._list.Add(controller);
+            ControllerList._generationStamp++;
 
-            if (ControllerAdded != null)
-                ControllerAdded(this, controller);
+            var controllerAddedHandler = ControllerAdded;
+            if (controllerAddedHandler != null)
+                controllerAddedHandler(this, controller);
         }
 
         /// <summary>
@@ -1607,13 +1621,15 @@ namespace FarseerPhysics.Dynamics
             if (controller == null)
                 throw new ArgumentNullException("controller");
             if (controller.World != this)
-                    throw new ArgumentException("You are removing a controller that is not in the simulation.", "controller");
+                throw new ArgumentException("You are removing a controller that is not in the simulation.", "controller");
 
             controller.World = null;
-            ControllerList.Remove(controller);
+            ControllerList._list.Remove(controller);
+            ControllerList._generationStamp++;
 
-            if (ControllerRemoved != null)
-                ControllerRemoved(this, controller);
+            var controllerRemovedHandler = ControllerRemoved;
+            if (controllerRemovedHandler != null)
+                controllerRemovedHandler(this, controller);
         }
 
         public Fixture TestPoint(Vector2 point)
@@ -1679,14 +1695,14 @@ namespace FarseerPhysics.Dynamics
             ProcessChanges();
 #endif
 
-            for (int i = BodyList.Count - 1; i >= 0; i--)
+            for (int i = BodyList._list.Count - 1; i >= 0; i--)
             {
-                Remove(BodyList[i]);
+                Remove(BodyList._list[i]);
             }
 
-            for (int i = ControllerList.Count - 1; i >= 0; i--)
+            for (int i = ControllerList._list.Count - 1; i >= 0; i--)
             {
-                Remove(ControllerList[i]);
+                Remove(ControllerList._list[i]);
             }
 
         }
@@ -1766,7 +1782,7 @@ namespace FarseerPhysics.Dynamics
             Body fsBody1 = ((PhysicsBody)physObj1.Body).FSBody;
             Body fsBody2 = ((PhysicsBody)physObj2.Body).FSBody;
 
-            List<Fixture> fs2 = fsBody2.FixtureList;
+            List<Fixture> fs2 = fsBody2.FixtureList._list;
 
             foreach (var f in fs2)
             {
@@ -1789,7 +1805,7 @@ namespace FarseerPhysics.Dynamics
                         break;
                 }
             }
-            fsBody2.FixtureList.Clear();
+            fsBody2.FixtureList._list.Clear();
             fsBody2.Enabled = false;
             fsBody1.ResetMassData();
         }

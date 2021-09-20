@@ -105,6 +105,7 @@ namespace FarseerPhysics.Dynamics.Joints
 
     public abstract class Joint
     {
+        internal World _world;
         private float _breakpoint;
         private double _breakpointSquared;
 
@@ -142,6 +143,11 @@ namespace FarseerPhysics.Dynamics.Joints
         {
             BodyA = body;
         }
+
+        /// <summary>
+        /// Get the parent World of this joint. This is null if the joint is not attached.
+        /// </summary>
+        public World World { get { return _world; } }
 
         /// <summary>
         /// Gets or sets the type of the joint.

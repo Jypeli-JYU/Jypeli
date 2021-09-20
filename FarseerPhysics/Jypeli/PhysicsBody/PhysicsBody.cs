@@ -207,7 +207,7 @@ namespace Jypeli
                 }
             }
             PhysicsBody physMainParent = (PhysicsBody)((PhysicsObject)physObj.GetMainParent()).Body;
-            List<Fixture> fs = physMainParent.FSBody.FixtureList;
+            List<Fixture> fs = physMainParent.FSBody.FixtureList._list;
 
             for (int i = 0; i < fs.Count; i++)
             {

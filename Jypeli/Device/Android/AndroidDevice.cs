@@ -4,6 +4,10 @@ using Jypeli.Devices;
 
 #if ANDROID
 using Android.Content.Res;
+#if !NET6_ANDROID
+using Essentials = Xamarin.Essentials;
+#else
+using Essentials = Microsoft.Maui.Essentials;
 #endif
 
 namespace Jypeli.Android
@@ -23,25 +27,21 @@ namespace Jypeli.Android
 
         public AndroidDevice()
         {
-            this.Accelerometer = new AndroidAccelerometer();
-            this.Storage = new FileManager(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+            Accelerometer = new AndroidAccelerometer();
+            Storage = new FileManager(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
             ContentPath = Environment.GetFolderPath(Environment.SpecialFolder.Resources);
         }
 
         internal override Stream StreamContent(string name, string[] extensions)
         {
-#if ANDROID
             Stream s = Game.AssetManager.Open(name);
             if(s == null)
             {
                 s = FindContentFile(name, extensions);
             }
             return s;
-#else
-            throw new InvalidOperationException("Ohjelma ei ole käännetty ANDROID-vakiolla. Tämän poikkeuksen ei pitäisi ikinä tapahtua.");
-#endif
         }
-#if ANDROID
+
         private Stream FindContentFile(string name, string[] extensions)
         {
             foreach (var ext in extensions)
@@ -53,15 +53,15 @@ namespace Jypeli.Android
             }
             return null;
         }
-#endif
+
         public override void Vibrate( int milliSeconds )
         {
-            Xamarin.Essentials.Vibration.Vibrate(milliSeconds);
+            Essentials.Vibration.Vibrate(milliSeconds);
         }
 
         public override void StopVibrating()
         {
-            Xamarin.Essentials.Vibration.Cancel();
+            Essentials.Vibration.Cancel();
         }
 
         protected override void UpdateScreen()
@@ -91,3 +91,4 @@ namespace Jypeli.Android
         }
     }
 }
+#endif

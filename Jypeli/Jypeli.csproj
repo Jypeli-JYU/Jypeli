@@ -2,7 +2,7 @@
   
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net5.0; monoandroid90</TargetFrameworks>
+    <TargetFrameworks>net5.0; monoandroid90; net6-android</TargetFrameworks>
     <LangVersion>9</LangVersion>
     <ApplicationIcon />
     <StartupObject />
@@ -40,6 +40,12 @@
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'monoandroid90'">
     <DefineConstants>$(DefineConstants);ANDROID</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6-android'">
+    <DefineConstants>$(DefineConstants);ANDROID</DefineConstants>
+    <UseMaui>true</UseMaui>
+    <UsingMauiEssentials>true</UsingMauiEssentials>
   </PropertyGroup>
 
   <ItemGroup>
@@ -138,13 +144,13 @@
     <PackageReference Include="Silk.NET.Windowing" Version="2.8.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" targetFramework="monoandroid90" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'monoandroid90' ">
     <Reference Include="System.Numerics" targetFramework="monoandroid90" />
     <Reference Include="System.Numerics.Vectors" targetFramework="monoandroid90" />
     <PackageReference Include="Silk.NET.Windowing.Sdl.Android" Version="2.8.0" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
 
   <PropertyGroup>

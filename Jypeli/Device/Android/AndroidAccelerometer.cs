@@ -1,7 +1,12 @@
 using System;
 using System.Diagnostics;
-using Xamarin.Essentials;
 
+#if ANDROID
+#if !NET6_ANDROID
+using Essentials = Xamarin.Essentials ;
+#else
+using Essentials = Microsoft.Maui.Essentials;
+#endif
 using Vector3 = System.Numerics.Vector3;
 
 namespace Jypeli.Android
@@ -20,12 +25,12 @@ namespace Jypeli.Android
         /// </summary>
         public override void Start()
         {
-            Xamarin.Essentials.Accelerometer.Start(SensorSpeed.Default);
-            Xamarin.Essentials.Accelerometer.ReadingChanged += AccelerometerReadingChanged;
+            Essentials.Accelerometer.Start(Essentials.SensorSpeed.Default);
+            Essentials.Accelerometer.ReadingChanged += AccelerometerReadingChanged;
             base.Start();
         }
 
-        private void AccelerometerReadingChanged(object sender, AccelerometerChangedEventArgs e)
+        private void AccelerometerReadingChanged(object sender, Essentials.AccelerometerChangedEventArgs e)
         {
             var v = e.Reading.Acceleration;
             CurrentState = new Vector3(v.X, v.Y, v.Z);
@@ -36,7 +41,7 @@ namespace Jypeli.Android
         /// </summary>
         public override void Stop()
         {
-            Xamarin.Essentials.Accelerometer.Stop();
+            Essentials.Accelerometer.Stop();
             base.Stop();
         }
 
@@ -104,3 +109,4 @@ namespace Jypeli.Android
         }
     }
 }
+#endif

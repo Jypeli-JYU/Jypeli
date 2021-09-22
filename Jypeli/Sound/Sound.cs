@@ -102,6 +102,7 @@ namespace Jypeli
         /// </summary>
         public void Resume()
         {
+            OpenAL.Play(soundeffect.handle);
         }
 
         /// <summary>
@@ -109,6 +110,7 @@ namespace Jypeli
         /// </summary>
         public void Stop()
         {
+            OpenAL.Stop(soundeffect.handle);
         }
 
         /// <summary>
@@ -116,6 +118,7 @@ namespace Jypeli
         /// </summary>
         public void Pause()
         {
+            OpenAL.Pause(soundeffect.handle);
         }
     }
 }

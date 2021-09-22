@@ -227,6 +227,11 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             al.SourceStop(source);
         }
 
+        public static void Pause(uint source)
+        {
+            al.SourcePause(source);
+        }
+
         internal static double GetPan(uint handle)
         { // TODO: Pan ei jostain syystä tunnu tekevän mitään
             al.GetSourceProperty(handle, SourceVector3.Position, out System.Numerics.Vector3 value);

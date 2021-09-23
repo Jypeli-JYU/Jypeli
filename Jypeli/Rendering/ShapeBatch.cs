@@ -47,6 +47,8 @@ namespace Jypeli
 
         private PrimitiveType primitivetype;
 
+        private IShader customShader;
+
 
         public void Initialize()
         {
@@ -58,7 +60,7 @@ namespace Jypeli
             indexBuffer = new uint[vertexBufferSize * 2];
         }
 
-        public void Begin( ref Matrix matrix, PrimitiveType p = PrimitiveType.OpenGlTriangles )
+        public void Begin(ref Matrix matrix, PrimitiveType p = PrimitiveType.OpenGlTriangles, IShader shader = null)
         {
             Debug.Assert( !beginHasBeenCalled );
             beginHasBeenCalled = true;
@@ -67,6 +69,7 @@ namespace Jypeli
             this.matrix = matrix;
             iVertexBuffer = 0;
             iIndexBuffer = 0;
+            customShader = shader;
         }
 
         public void End()
@@ -79,9 +82,17 @@ namespace Jypeli
         private void Flush()
         {
             if ( iIndexBuffer != 0 )
-{
-                shader.Use();
-                shader.SetUniform("world", matrix * Graphics.ViewProjectionMatrix);
+            {
+                if(customShader is null)
+                {
+                    shader.Use();
+                    shader.SetUniform("world", matrix * Graphics.ViewProjectionMatrix);
+                }
+                else
+                {
+                    customShader.Use();
+                    customShader.SetUniform("world", matrix * Graphics.ViewProjectionMatrix);
+                }
 
                 Game.GraphicsDevice.DrawIndexedPrimitives(
                     primitivetype,

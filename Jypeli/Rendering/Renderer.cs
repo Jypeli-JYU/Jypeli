@@ -163,9 +163,24 @@ namespace Jypeli
             colorVertices[1] = new VertexPositionColorTexture(new Vector3( (float)endPoint.X, (float)endPoint.Y, 0 ), color, Vector.Zero);
         }
 
-        internal static void DrawFilledShape( ShapeCache cache, ref Matrix matrix, Vector position, Vector size, float rotation, Color color )
+        public static void DrawFilledShape( ShapeCache cache, ref Matrix matrix, Vector position, Vector size, float rotation, Color color )
         {
             Graphics.CustomBatch.AddShape(matrix, cache, color, position, size, rotation);
+        }
+
+        public static void DrawFilledShape(ShapeCache cache, ref Matrix matrix, Vector position, Vector size, float rotation, Color color, IShader shader)
+        {
+            Graphics.CustomBatch.AddShader(matrix, shader, color, cache, position, size, rotation);
+        }
+
+        /// <summary>
+        /// Piirtää kuvan
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="matrix"></param>
+        public static void DrawImage(Matrix matrix, Image texture, TextureCoordinates texCoords, Vector position, Vector size, float angle, IShader shader)
+        {
+            Graphics.CustomBatch.AddShader(matrix, shader, texture, texCoords, position, size, angle);
         }
     }
 }

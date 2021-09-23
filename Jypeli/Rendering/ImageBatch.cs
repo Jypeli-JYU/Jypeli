@@ -50,6 +50,7 @@ namespace Jypeli.Rendering
         Matrix matrix;
         Image texture;
         IShader shader;
+        IShader customShader;
         VertexPositionColorTexture[] vertexBuffer;
         int BufferSize;
         uint iTexture = 0;
@@ -75,7 +76,7 @@ namespace Jypeli.Rendering
             Begin(ref mat, null);
         }
 
-        public void Begin(ref Matrix matrix, Image texture)
+        public void Begin(ref Matrix matrix, Image texture, IShader shader = null)
         {
             Debug.Assert(!beginHasBeenCalled);
             beginHasBeenCalled = true;
@@ -83,6 +84,7 @@ namespace Jypeli.Rendering
             this.matrix = matrix;
             this.texture = texture;
             iTexture = 0;
+            customShader = shader;
         }
 
         public void End()
@@ -105,9 +107,16 @@ namespace Jypeli.Rendering
                     texture.dirty = false;
                 }
 
-                shader.Use();
-
-                shader.SetUniform("world", matrix * Graphics.ViewProjectionMatrix);
+                if (customShader is null)
+                {
+                    shader.Use();
+                    shader.SetUniform("world", matrix * Graphics.ViewProjectionMatrix);
+                }
+                else
+                {
+                    customShader.Use();
+                    customShader.SetUniform("world", matrix * Graphics.ViewProjectionMatrix);
+                }
 
                 Game.GraphicsDevice.BindTexture(texture);
 

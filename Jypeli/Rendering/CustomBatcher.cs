@@ -17,6 +17,7 @@ namespace Jypeli.Rendering
         {
             public ShapeCache Cache { get; set; }
             public Color Color { get; set; }
+            public Image Image { get; set; }
             public Vector Position { get; set; }
             public Vector Size { get; set; }
             public float Rotation { get; set; }
@@ -43,6 +44,17 @@ namespace Jypeli.Rendering
                 Rotation = rotation;
             }
 
+            public BatchItem(TextureCoordinates texcoords, ShapeCache cache, Vector position, Vector size, float rotation, Image image, Color color)
+            {
+                Cache = cache;
+                Texcoords = texcoords;
+                Position = position;
+                Size = size;
+                Rotation = rotation;
+                Image = image;
+                Color = color;
+            }
+
             public BatchItem(Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, Vector2 size, float rotation, Vector2 origin)
             {
                 Position = position;
@@ -59,6 +71,9 @@ namespace Jypeli.Rendering
         // Ihan vain yksinkertaisuuden takia jaetaan teksti omaan dictionaryyn, vaikka sekin on vain kuva, jonka palasia piirretään.
         private Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>> ImageBatches = new Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>>();
         private Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>> TextBatches = new Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>>();
+        // TODO: Pitäisikö tämä tietorakenne muotoilla vielä erilailla?
+        
+        private Dictionary<IShader, Dictionary<Matrix4x4, List<BatchItem>>> ShaderBatches = new Dictionary<IShader, Dictionary<Matrix4x4, List<BatchItem>>>();
         private Dictionary<Matrix4x4, List<BatchItem>> ShapeBatches = new Dictionary<Matrix4x4, List<BatchItem>>();
 
         public void AddShape(Matrix4x4 matrix, ShapeCache cache, Color color, Vector position, Vector size, float rotation)
@@ -127,6 +142,40 @@ namespace Jypeli.Rendering
             }
         }
 
+        public void AddShader(Matrix4x4 matrix, IShader shader, Color color, ShapeCache cache, Vector position, Vector size, float rotation)
+        {
+            AddShader(matrix, shader, null, color, cache, null, position, size, rotation);
+        }
+
+        public void AddShader(Matrix4x4 matrix, IShader shader, Image image, TextureCoordinates texcoords, Vector position, Vector size, float rotation)
+        {
+            AddShader(matrix, shader, image, default, null, texcoords, position, size, rotation);
+        }
+
+        public void AddShader(Matrix4x4 matrix, IShader shader, Image image, Color color, ShapeCache cache, TextureCoordinates texcoords, Vector position, Vector size, float rotation)
+        {
+            if (!ShaderBatches.ContainsKey(shader))
+            {
+                ShaderBatches.Add(shader, new Dictionary<Matrix4x4, List<BatchItem>>());
+            }
+            Dictionary<Matrix4x4, List<BatchItem>> batch = ShaderBatches[shader];
+
+            if (batch.TryGetValue(matrix, out List<BatchItem> list))
+            {
+                if (list == null)
+                {
+                    list = new List<BatchItem>();
+                    batch[matrix] = list;
+                }
+                list.Add(new BatchItem(texcoords, cache, position, size, rotation, image, color));
+            }
+            else
+            {
+                batch.Add(matrix, new List<BatchItem>());
+                batch[matrix].Add(new BatchItem(texcoords, cache, position, size, rotation, image, color));
+            }
+        }
+
         public void Flush()
         {
             var withoutImages = ShapeBatches.Keys;
@@ -174,6 +223,43 @@ namespace Jypeli.Rendering
                     }
                     Graphics.ImageBatch.End();
                     TextBatches[img][batch.Key].Clear();
+                }
+            }
+
+            var shaders = ShaderBatches.Keys;
+            foreach (var shader in shaders)
+            {
+                foreach (var batch in ShaderBatches[shader])
+                {
+                    Matrix4x4 matrix = batch.Key;
+                    Image previmage = null;
+                    Graphics.ShapeBatch.Begin(ref matrix, shader:shader);
+                    foreach (var item in ShaderBatches[shader][batch.Key])
+                    {
+                        if(item.Image is not null)
+                        {
+                            if(item.Image != previmage)
+                            {
+                                if(previmage is not null)
+                                {
+                                    Graphics.ImageBatch.End();
+                                }
+                                Graphics.ImageBatch.Begin(ref matrix, item.Image, shader: shader);
+                                previmage = item.Image;
+                            }
+                            Graphics.ImageBatch.Draw(item.Texcoords, item.Position, item.Size, item.Rotation);
+                        }
+                        else
+                        {
+                            Graphics.ShapeBatch.Draw(item.Cache, item.Color, item.Position, item.Size, item.Rotation);
+                        }
+                        
+                    }
+                    if(previmage is not null)
+                        Graphics.ImageBatch.End();
+                    Graphics.ShapeBatch.End();
+                    
+                    ShaderBatches[shader][batch.Key].Clear();
                 }
             }
         }

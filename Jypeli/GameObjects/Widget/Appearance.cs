@@ -12,7 +12,6 @@ namespace Jypeli
         private void InitAppearance()
         {
             this.BorderColor = Color.Transparent;
-            this.IgnoresLighting = true;
         }
 
         /// <summary>
@@ -36,12 +35,12 @@ namespace Jypeli
 
             if (Image != null && (!TextureFillsShape))
             {
-                Renderer.DrawImage(parentTransformation, Image, new Rendering.TextureCoordinates(), Position, Size, (float)Angle.Radians);
+                Renderer.DrawImage(parentTransformation, Image, Graphics.DefaultTextureCoords, Position, Size, (float)Angle.Radians);
             }
             else if (Image != null)
             {
                 // TODO: TextureFillsShape kuntoon
-                Renderer.DrawImage(parentTransformation, Image, new Rendering.TextureCoordinates(), Position, Size, (float)Angle.Radians);
+                Renderer.DrawImage(parentTransformation, Image, Graphics.DefaultTextureCoords, Position, Size, (float)Angle.Radians);
             }
             else
             {

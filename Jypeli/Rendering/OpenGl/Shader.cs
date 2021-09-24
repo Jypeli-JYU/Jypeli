@@ -47,7 +47,7 @@ namespace Jypeli.Rendering.OpenGl
         }
 
         /// <inheritdoc/>
-        public void Use()
+        internal void Use()
         {
             // Shaderin vaihto on melko raskas operaatio, erityisesti mobiililaitteilla
             if (ActiveShader == this)
@@ -170,6 +170,11 @@ namespace Jypeli.Rendering.OpenGl
             }
 
             return handle;
+        }
+
+        void IShader.Use()
+        {
+            Use();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Jypeli.Rendering
         /// <summary>
         /// Asettaa shaderin käyttöön
         /// </summary>
-        public void Use();
+        internal void Use();
 
         // TODO: Mikä on tätä vastaava jollain toisella rajapinnalla, mikä olisi järkevä nimeäminen?
         /// <summary>

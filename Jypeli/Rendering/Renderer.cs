@@ -55,9 +55,12 @@ namespace Jypeli
         /// <summary>
         /// Piirtää kuvan
         /// </summary>
+        /// <param name="parentTransformation"></param>
         /// <param name="texture"></param>
-        /// <param name="matrix"></param>
-        /// <param name="wrapSize"></param>
+        /// <param name="tex"></param>
+        /// <param name="position"></param>
+        /// <param name="size"></param>
+        /// <param name="angle"></param>
         public static void DrawImage(Matrix parentTransformation, Image texture, TextureCoordinates tex, Vector position, Vector size, float angle)
         {
             Graphics.CustomBatch.AddImage(parentTransformation, texture, tex, position, size, angle);
@@ -100,6 +103,7 @@ namespace Jypeli
         /// <param name="position">Paikka</param>
         /// <param name="font">Fontti</param>
         /// <param name="color">Tekstin väri</param>
+        /// <param name="scale">Tekstin skaalaus</param>
         public static void DrawText(string text, Vector position, Font font, Color color, Vector scale)
         {
             Vector textSize = font.SpriteFont.MeasureString(text);
@@ -114,6 +118,7 @@ namespace Jypeli
         /// <param name="position">Paikka</param>
         /// <param name="font">Fontti</param>
         /// <param name="colors">Tekstin kirjainten väri</param>
+        /// <param name="scale">Tekstin skaalaus</param>
         public static void DrawText(string text, Vector position, Font font, Color[] colors, Vector scale)
         {
             Vector textSize = font.SpriteFont.MeasureString(text);
@@ -128,6 +133,7 @@ namespace Jypeli
         /// <param name="transformation">Transformaatiomatriisi</param>
         /// <param name="font">Fontti</param>
         /// <param name="color">Tekstin väri</param>
+        /// <param name="scale">Tekstin skaalaus</param>
         public static void DrawText(string text, ref Matrix transformation, Vector position, Font font, Color color, Vector scale)
         {
             Graphics.FontRenderer.Begin(ref transformation);
@@ -141,6 +147,7 @@ namespace Jypeli
         /// <param name="transformation">Transformaatiomatriisi</param>
         /// <param name="font">Fontti</param>
         /// <param name="colors">Tekstin kirjainten väri</param>
+        /// <param name="scale">Tekstin skaalaus</param>
         public static void DrawText(string text, ref Matrix transformation, Vector position, Font font, Color[] colors, Vector scale)
         {
             Graphics.FontRenderer.Begin(ref transformation);
@@ -163,11 +170,30 @@ namespace Jypeli
             colorVertices[1] = new VertexPositionColorTexture(new Vector3( (float)endPoint.X, (float)endPoint.Y, 0 ), color, Vector.Zero);
         }
 
+        /// <summary>
+        /// Piirtää täytetyn yksivärisen muodon
+        /// </summary>
+        /// <param name="cache">Shapecache</param>
+        /// <param name="matrix">Transformaatiomatriisi</param>
+        /// <param name="position">Sijainti</param>
+        /// <param name="size">Koko</param>
+        /// <param name="rotation">Kulma</param>
+        /// <param name="color">Väri</param>
         public static void DrawFilledShape( ShapeCache cache, ref Matrix matrix, Vector position, Vector size, float rotation, Color color )
         {
             Graphics.CustomBatch.AddShape(matrix, cache, color, position, size, rotation);
         }
 
+        /// <summary>
+        /// Piirtää täytetyn yksivärisen muodon
+        /// </summary>
+        /// <param name="cache">Shapecache</param>
+        /// <param name="matrix">Transformaatiomatriisi</param>
+        /// <param name="position">Sijainti</param>
+        /// <param name="size">Koko</param>
+        /// <param name="rotation">Kulma</param>
+        /// <param name="color">Väri</param>
+        /// <param name="shader">Piirtoon käytettävä shader</param>
         public static void DrawFilledShape(ShapeCache cache, ref Matrix matrix, Vector position, Vector size, float rotation, Color color, IShader shader)
         {
             Graphics.CustomBatch.AddShader(matrix, shader, color, cache, position, size, rotation);
@@ -176,8 +202,13 @@ namespace Jypeli
         /// <summary>
         /// Piirtää kuvan
         /// </summary>
-        /// <param name="texture"></param>
-        /// <param name="matrix"></param>
+        /// <param name="matrix">Transformaatiomatriisi</param>
+        /// <param name="texture">Tekstuuri</param>
+        /// <param name="texCoords">Tekstuurikoordinaatit alueesta joka piirretään. Voit käyttää suoraan <c>new TextureCoordinates()</c> jos koko kuva piirretään.</param>
+        /// <param name="position">Sijainti</param>
+        /// <param name="size">Koko</param>
+        /// <param name="angle">Kulma</param>
+        /// <param name="shader">Piirtoon käytettävä shader</param>
         public static void DrawImage(Matrix matrix, Image texture, TextureCoordinates texCoords, Vector position, Vector size, float angle, IShader shader)
         {
             Graphics.CustomBatch.AddShader(matrix, shader, texture, texCoords, position, size, angle);

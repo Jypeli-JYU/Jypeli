@@ -81,8 +81,8 @@ namespace Jypeli.Rendering
         /// <summary>
         /// Luo uuden shaderin Jypelin sisäisistä resursseista.
         /// </summary>
-        /// <param name="vert">Verteksishaderin polku</param>
-        /// <param name="frag">Fragmentshaderin polku</param>
+        /// <param name="vertPath">Verteksishaderin polku</param>
+        /// <param name="fragPath">Fragmentshaderin polku</param>
         /// <returns></returns>
         IShader CreateShaderFromInternal(string vertPath, string fragPath);
 
@@ -95,19 +95,19 @@ namespace Jypeli.Rendering
         /// <summary>
         /// Lataa kuvan datan näytönohjaimen muistiin.
         /// </summary>
-        /// <param name="texture"></param>
+        /// <param name="image"></param>
         public void LoadImage(Image image);
 
         /// <summary>
         /// Päivittää kuvan datan näytönohjaimelle.
         /// </summary>
-        /// <param name="texture"></param>
+        /// <param name="image"></param>
         public void UpdateTextureData(Image image);
 
         /// <summary>
         /// Päivittää kuvan skaalausasetuksen näytönohjaimelle
         /// </summary>
-        /// <param name="texture"></param>
+        /// <param name="image"></param>
         public void UpdateTextureScaling(Image image);
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Jypeli.Rendering
         /// <summary>
         /// Kiinnittää tekstuurin valmiiksi käyttöä varten.
         /// </summary>
-        /// <param name="handle">Tekstuurin kahva</param>
+        /// <param name="image">Tekstuuri</param>
         public void BindTexture(Image image);
 
         /// <summary>

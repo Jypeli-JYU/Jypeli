@@ -87,21 +87,21 @@ namespace Jypeli
         {
             add
             {
-                FSBody.OnCollision += (a, b, c) => OnCollided(a,b,c, value);
+                FSBody.OnCollision += (a, b, c) => OnCollided(a.Body.owner, b.Body.owner, c, value);
             }
             remove
             {
-                FSBody.OnCollision -= (a, b, c) => OnCollided(a, b, c, value);
+                FSBody.OnCollision -= (a, b, c) => OnCollided(a.Body.owner, b.Body.owner, c, value);
             }
         }
 
         // TODO: Muut Farseerin tukemat törmäystapahtumat
-        private bool OnCollided(Fixture fixtureA, Fixture fixtureB, Contact contact, CollisionHandler<IPhysicsBody, IPhysicsBody> func)
+        private bool OnCollided(PhysicsBody a, PhysicsBody b, Contact contact, CollisionHandler<IPhysicsBody, IPhysicsBody> func)
         {
             // Jos törmäystapahtuman käsittelijässä kutsutaan jotain fysiikkamoottoriin vaikuttavaa funktiota, 
             // Kuten esimerkiksi ClearAll, tuottaa tämän suorittaminen välittömästi ongelmia.
             // Siksi suoritetaan kaikki törmäyskäsittelijät vasta aivan viimeisenä, jolloin moottori ei ole keskellä päivitystä.
-            Game.DoNextUpdate(() => func.Invoke(fixtureA.Body.owner, fixtureB.Body.owner));
+            Game.DoNextUpdate(() => func.Invoke(a, b));
 
             return true; // Huomioidaanko törmäyksessä fysiikka, eli jos palautetaan false, mennään toisen läpi.
                          // TODO: Kuinka toteuttaa käyttäjän tapahtumakäsittelijälle, ilman että kaikki vanha koodi hajoaa.

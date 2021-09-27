@@ -27,7 +27,7 @@ namespace Jypeli.Content
         public string[] InternalResources { get => Assembly.GetExecutingAssembly().GetManifestResourceNames(); }
 
         /// <summary>
-        /// Avaa tietovirran Jyåelin mukana tulevaan tiedostoon.
+        /// Avaa tietovirran Jypelin mukana tulevaan tiedostoon.
         /// </summary>
         /// <param name="assetName"></param>
         /// <returns></returns>
@@ -55,7 +55,7 @@ namespace Jypeli.Content
         /// <returns></returns>
         public SoundEffect LoadInternalSoundEffect(string assetName)
         {
-            return new SoundEffect(Microsoft.Xna.Framework.Audio.SoundEffect.FromStream(StreamInternalResource("Sounds." + assetName)));
+            return new SoundEffect(StreamInternalResource("Sounds." + assetName));
         }
 
         /// <summary>

@@ -79,6 +79,22 @@ namespace Jypeli
             InitPosition();
         }
 
+        internal SoundEffect(Stream stream)
+        {
+            this.Position = new DoubleMeter(0, 0, 0);
+            this.assetName = null;
+            try
+            {
+                xnaEffect = XnaSoundEffect.FromStream(stream);
+            }
+            catch (NoAudioHardwareException)
+            {
+                Game.Instance.OnNoAudioHardwareException();
+            }
+            InitPosition();
+            
+        }
+
         private void InitPosition()
         {
             Position = new DoubleMeter(0, 0, 0);

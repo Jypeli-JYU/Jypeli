@@ -13,9 +13,9 @@
     <Copyright>University of Jyväskylä</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
     <RootNamespace>Jypeli</RootNamespace>
-    <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
-    <Version>1.0.8</Version>
-    <AssemblyVersion>1.0.8.0</AssemblyVersion>
+    <PackageLicenseFile>Farseer.txt</PackageLicenseFile>
+    <Version>1.0.9</Version>
+    <AssemblyVersion>1.0.9.0</AssemblyVersion>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

@@ -280,6 +280,7 @@ namespace Jypeli
 		internal void OnNoAudioHardwareException()
 		{
 			MessageDisplay.Add( "No audio hardware was detected. All sound is disabled." );
+            DisableAudio();
             //TODO: Can this still happen?
 #if WINDOWS
 			MessageDisplay.Add( "You might need to install OpenAL drivers." );
@@ -287,7 +288,7 @@ namespace Jypeli
 
 			Keyboard.Listen( Key.I, ButtonState.Pressed, TryInstallOpenAL, null );
 #endif
-		}
+        }
 
 #if WINDOWS
         private void TryInstallOpenAL()

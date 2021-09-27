@@ -45,6 +45,9 @@ namespace Jypeli
 
         private void DoLoad()
         {
+            if (assetName is null)
+                return;
+
             if (xnaEffect == null)
             {
                 Debug.Assert(assetName != null);

@@ -481,16 +481,16 @@ namespace Jypeli
             // Some duct tape around the fact that in XNA,
             // content can not be loaded before LoadContent().
             Debug.Assert( assetName != null );
-            xnaTexture = LoadFile(assetName);
+            xnaTexture = LoadFile();
             _width = xnaTexture.Width;
             _height = xnaTexture.Height;
             
         }
-        // TODO: Why is this path not used???
-        private Texture2D LoadFile(string path)
+
+        private Texture2D LoadFile()
         {
             assetName = Game.FileExtensionCheck(assetName, imageExtensions);
-            FileStream fileStream = new FileStream(assetName, FileMode.Open);
+            FileStream fileStream = new FileStream(assetName, FileMode.Open, FileAccess.Read);
             Texture2D texture = Texture2D.FromStream(Game.GraphicsDevice, fileStream);
             fileStream.Dispose();
 

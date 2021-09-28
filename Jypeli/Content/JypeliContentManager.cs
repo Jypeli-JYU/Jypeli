@@ -27,7 +27,7 @@ namespace Jypeli.Content
         public string[] InternalResources { get => Assembly.GetExecutingAssembly().GetManifestResourceNames(); }
 
         /// <summary>
-        /// Avaa tietovirran Jyåelin mukana tulevaan tiedostoon.
+        /// Avaa tietovirran Jypelin mukana tulevaan tiedostoon.
         /// </summary>
         /// <param name="assetName"></param>
         /// <returns></returns>

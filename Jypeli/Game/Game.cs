@@ -295,6 +295,7 @@ namespace Jypeli
         internal void OnNoAudioHardwareException()
         {
             DoNextUpdate(() => MessageDisplay.Add("No audio hardware was detected. All sound is disabled."));
+            DisableAudio();
         }
 
         /// <summary>
@@ -408,14 +409,14 @@ namespace Jypeli
                     }
             }
 
+            FrameCounter++;
+
             if (TotalFramesToRun != 0 && FrameCounter == TotalFramesToRun)
             {
                 OnExiting(this, EventArgs.Empty);
                 //UnloadContent();
                 Exit();
             }
-
-            FrameCounter++;
         }
 
         /// <summary>

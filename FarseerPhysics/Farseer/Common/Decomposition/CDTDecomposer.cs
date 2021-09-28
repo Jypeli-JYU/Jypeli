@@ -29,8 +29,6 @@ namespace FarseerPhysics.Common.Decomposition
         /// </summary>
         public static List<Vertices> ConvexPartition(Vertices vertices)
         {
-            Debug.Assert(vertices.Count > 3);
-
             Polygon poly = new Polygon();
 
             foreach (Vector2 vertex in vertices)

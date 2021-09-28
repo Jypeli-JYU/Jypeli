@@ -424,18 +424,19 @@ namespace Jypeli
 
             if (SaveOutput)
             {
-                if (FrameCounter != 0) // Ekaa framea ei voi tallentaa?
-                    if(skipcounter == 0)
-                    {
-                        Screencap.WriteBmp(CurrentFrameStream, Screen.Image);
-                        skipcounter = FramesToSkip;
-                        SavedFrameCounter++;
-                    }
-                    else
-                    {
-                        skipcounter--;
-                    }
+                if(skipcounter == 0)
+                {
+                    Screencap.WriteBmp(CurrentFrameStream, Screen.Image);
+                    skipcounter = FramesToSkip;
+                    SavedFrameCounter++;
+                }
+                else
+                {
+                    skipcounter--;
+                }
             }
+
+            FrameCounter++;
 
             if (TotalFramesToRun != 0 && FrameCounter == TotalFramesToRun)
             {
@@ -443,8 +444,6 @@ namespace Jypeli
                 UnloadContent();
                 Exit();
             }
-
-            FrameCounter++;
         }
 
         /// <summary>

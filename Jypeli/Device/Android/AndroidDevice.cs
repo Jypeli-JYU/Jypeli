@@ -4,11 +4,9 @@ using Jypeli.Devices;
 
 #if ANDROID
 using Android.Content.Res;
-#if !NET6_ANDROID
+
 using Essentials = Xamarin.Essentials;
-#else
-using Essentials = Microsoft.Maui.Essentials;
-#endif
+
 
 namespace Jypeli.Android
 {

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="norsu.png" />
+    <None Remove="Resources\values\styles.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="norsu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FarseerPhysics\FarseerPhysics.csproj" />
+    <ProjectReference Include="..\..\Jypeli\Jypeli.csproj" />
+  </ItemGroup>
+</Project>

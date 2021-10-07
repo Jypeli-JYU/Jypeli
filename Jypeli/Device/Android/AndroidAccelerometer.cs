@@ -2,11 +2,8 @@ using System;
 using System.Diagnostics;
 
 #if ANDROID
-#if !NET6_ANDROID
 using Essentials = Xamarin.Essentials ;
-#else
-using Essentials = Microsoft.Maui.Essentials;
-#endif
+
 using Vector3 = System.Numerics.Vector3;
 
 namespace Jypeli.Android

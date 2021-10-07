@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net5.0; monoandroid90</TargetFrameworks>
+    <TargetFrameworks>net5.0; monoandroid90; net6-android</TargetFrameworks>
     <LangVersion>9</LangVersion>
     
     <AssemblyName>Jypeli.FarseerPhysics</AssemblyName>
@@ -11,7 +11,7 @@
     <Authors>University of Jyväskylä</Authors>
     <Company>University of Jyväskylä</Company>
     <Copyright>University of Jyväskylä</Copyright>
-    <RootNamespace>Jypeli</RootNamespace>
+    <RootNamespace>Jypeli.FarseerPhysics</RootNamespace>
     <PackageLicenseFile>Farseer.txt</PackageLicenseFile>
     <Version>1.1.0.0825</Version>
     <AssemblyVersion>1.1.0.825</AssemblyVersion>

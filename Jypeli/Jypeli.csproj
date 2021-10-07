@@ -44,8 +44,6 @@
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net6-android'">
     <DefineConstants>$(DefineConstants);ANDROID</DefineConstants>
-    <UseMaui>true</UseMaui>
-    <UsingMauiEssentials>true</UsingMauiEssentials>
   </PropertyGroup>
 
   <ItemGroup>
@@ -137,19 +135,23 @@
     
   <ItemGroup>
     <PackageReference Include="FontStashSharp" Version="1.0.3" />
-    <PackageReference Include="Silk.NET.Input" Version="2.8.0" />
-    <PackageReference Include="Silk.NET.OpenAL" Version="2.8.0" />
+    <PackageReference Include="Silk.NET.Input" Version="2.9.0" />
+    <PackageReference Include="Silk.NET.OpenAL" Version="2.9.0" />
     <PackageReference Include="Silk.NET.OpenAL.Soft.Native" Version="1.21.1.1" />
-    <PackageReference Include="Silk.NET.OpenGL" Version="2.8.0" />
-    <PackageReference Include="Silk.NET.Windowing" Version="2.8.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
+    <PackageReference Include="Silk.NET.OpenGL" Version="2.9.0" />
+    <PackageReference Include="Silk.NET.Windowing" Version="2.9.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'monoandroid90' ">
     <Reference Include="System.Numerics" targetFramework="monoandroid90" />
     <Reference Include="System.Numerics.Vectors" targetFramework="monoandroid90" />
-    <PackageReference Include="Silk.NET.Windowing.Sdl.Android" Version="2.8.0" />
+    <PackageReference Include="Silk.NET.Windowing.Sdl.Android" Version="2.9.0" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net6-android' ">
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
 

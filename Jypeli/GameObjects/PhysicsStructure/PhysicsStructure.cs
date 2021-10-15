@@ -11,6 +11,9 @@ namespace Jypeli
     {
         private List<PhysicsObject> objects;
 
+        /// <inheritdoc/>
+        public Func<IPhysicsObject, IPhysicsObject, bool> CollisionIgnoreFunc { get; set; }
+
         /// <summary>
         /// Onko rakenne lisätty peliin.
         /// </summary>

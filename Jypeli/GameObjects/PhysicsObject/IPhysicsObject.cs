@@ -18,6 +18,16 @@ namespace Jypeli
         Ignorer CollisionIgnorer { get; set; }
         int CollisionIgnoreGroup { get; set; }
 
+        /// <summary>
+        /// Funktio, jolla voidaan välttää törmäys toisiin kappaleisiin.
+        /// Palauta <c>true</c>, jos kappaleiden pitäisi törmätä, <c>false</c> jos pitäisi mennä läpi.
+        /// </summary>
+        /// <remarks>
+        /// HUOM! Käytä tätä vain ja ainoastaan törmäyksestä päättämiseen, älä käytä tätä yleisenä
+        /// törmäystapahtuman käsittelijänä. Törmäystapahtumien käsittelyyn tulee käyttää <c>AddCollisiosionHandler</c>in kautta laitettuja funktioita.
+        /// </remarks>
+        Func<IPhysicsObject, IPhysicsObject, bool> CollisionIgnoreFunc { get; set; }
+
         double Mass { get; set; }
         double MomentOfInertia { get; set; }
         bool CanRotate { get; set; }

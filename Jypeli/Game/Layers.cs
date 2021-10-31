@@ -325,9 +325,20 @@ namespace Jypeli
         /// </summary>
         /// <param name="tags">Tagi(t)</param>
         /// <returns>Lista olioista</returns>
-        public List<GameObject> GetObjectsWithTag( params string[] tags )
+        public List<GameObject> GetObjectsWithTag(params string[] tags)
         {
-            return GetObjects( o => tags.Contains<string>( o.Tag as string ) );
+            return GetObjects(o => tags.Contains<string>(o.Tag as string));
+        }
+        
+        /// <summary>
+        /// Palauttaa listan kaikista peliolioista joilla on tietty tagi.
+        /// Lista on järjestetty päällimmäisestä alimmaiseen.
+        /// </summary>
+        /// <param name="tags">Tagi(t)</param>
+        /// <returns>Lista olioista</returns>
+        public List<GameObject> GetObjectsWithTag(params object[] tags)
+        {
+            return GetObjects(o => tags.Any(t => t.Equals(o.Tag)));
         }
 
         /// <summary>
@@ -429,9 +440,9 @@ namespace Jypeli
         /// <param name="position">Paikkakoordinaatit</param>
         /// <param name="tag">Etsittävän olion tagi.</param>
         /// <returns>Lista olioista</returns>
-        public List<GameObject> GetObjectsAt( Vector position, object tag )
+        public List<GameObject> GetObjectsAt(Vector position, object tag)
         {
-            return GetObjectsAt( position ).FindAll( obj => obj.Tag == tag );
+            return GetObjectsAt(position).FindAll(obj => obj.Tag.Equals(tag));
         }
 
         /// <summary>
@@ -443,9 +454,9 @@ namespace Jypeli
         /// <param name="position">Paikkakoordinaatit</param>
         /// <param name="tag">Etsittävän olion tagi.</param>
         /// <returns>Mahdollinen olio</returns>
-        public GameObject GetObjectAt( Vector position, object tag )
+        public GameObject GetObjectAt(Vector position, object tag)
         {
-            return GetObjectsAt( position ).Find( obj => obj.Tag == tag );
+            return GetObjectsAt(position).Find(obj => obj.Tag.Equals(tag));
         }
 
         /// <summary>
@@ -458,9 +469,9 @@ namespace Jypeli
         /// <param name="tag">Etsittävän olion tagi.</param>
         /// <param name="radius">Säde jolla etsitään</param>
         /// <returns>Lista olioista</returns>
-        public List<GameObject> GetObjectsAt( Vector position, object tag, double radius )
+        public List<GameObject> GetObjectsAt(Vector position, object tag, double radius)
         {
-            return GetObjectsAt( position, radius ).FindAll<GameObject>( obj => obj.Tag == tag );
+            return GetObjectsAt(position, radius).FindAll<GameObject>(obj => obj.Tag.Equals(tag));
         }
 
         /// <summary>
@@ -473,9 +484,9 @@ namespace Jypeli
         /// <param name="tag">Etsittävän olion tagi.</param>
         /// <param name="radius">Säde jolla etsitään</param>
         /// <returns>Mahdollinen olio</returns>
-        public GameObject GetObjectAt( Vector position, object tag, double radius )
+        public GameObject GetObjectAt(Vector position, object tag, double radius)
         {
-            return GetObjectsAt( position, radius ).Find( obj => obj.Tag == tag );
+            return GetObjectsAt(position, radius).Find(obj => obj.Tag.Equals(tag));
         }
 
         /// <summary>

@@ -28,7 +28,7 @@ namespace Jypeli
 
         public IPhysicsEngine Engine { get; private set; }
 
-        private SynchronousList<IAxleJoint> Joints = new SynchronousList<IAxleJoint>();
+        public SynchronousList<IAxleJoint> Joints = new SynchronousList<IAxleJoint>();
         protected Dictionary<CollisionRecord, CollisionHandler<IPhysicsObject, IPhysicsObject>> collisionHandlers =
             new Dictionary<CollisionRecord, CollisionHandler<IPhysicsObject, IPhysicsObject>>();
         protected Dictionary<CollisionRecord, CollisionHandler<IPhysicsObject, IPhysicsObject>> protectedCollisionHandlers =

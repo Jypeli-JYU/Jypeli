@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Microsoft.Xna.Framework;
 
 namespace Jypeli
@@ -34,6 +35,11 @@ namespace Jypeli
             public static bool DrawCircleRotation = true;
 
             /// <summary>
+            /// Piirretäänkö liitoksien kiinnityskohdat.
+            /// </summary>
+            public static bool DrawJointPoints = true;
+
+            /// <summary>
             /// Millä värillä <c>GameObject</c>ien ääriviivat piirretään
             /// </summary>
             public static Color GameObjectColor = Color.LightGray;
@@ -57,6 +63,11 @@ namespace Jypeli
             /// Millä värillä <c>PhysicsObject</c>ien fysiikkamuotojen verteksien ääriviivat piirretään
             /// </summary>
             public static Color PhysicsObjectVertexColor = Color.Gray;
+
+            /// <summary>
+            /// Millä värillä liitoksen liitoskohta piirretään
+            /// </summary>
+            public static Color JointPositionColor = Color.Red;
         }
         #endregion
 
@@ -264,7 +275,7 @@ namespace Jypeli
                 return;
 
             var vertices = obj.Body.Vertices;
-            double wmul = 100; // Farseerin SimToDisplay-kerroin. Tämä pitäiis varmaan yhdistää jotenkin siihen.
+            double wmul = 100; // Farseerin SimToDisplay-kerroin. Tämä pitäisi varmaan yhdistää jotenkin siihen.
             double hmul = 100;
 
             canvas.BrushColor = color;
@@ -305,6 +316,30 @@ namespace Jypeli
             }
         }
 
+        private void DrawJoints(Canvas canvas, IAxleJoint joint)
+        {
+            PhysicsObject obj1 = joint.Object1;
+            PhysicsObject obj2 = joint.Object2;
+            Vector ap = joint.AxlePoint;
+
+            Matrix transform =
+                     Matrix.CreateRotationZ((float)obj1.Angle.Radians)
+                    * Matrix.CreateTranslation((float)obj1.Position.X, (float)obj1.Position.Y, 0f)
+                    * Matrix.CreateTranslation(-(float)camera.Position.X, -(float)camera.Position.Y, 0f)
+                    * Matrix.CreateScale((float)(camera.ZoomFactor), (float)(camera.ZoomFactor), 1f);
+
+            ap = ap.Transform(transform);
+
+            Vector p1 = ap + Vector.Diagonal * 5;
+            Vector p2 = ap + Vector.UnitX * 5 - Vector.UnitY * 5;
+
+            canvas.BrushColor = DebugViewSettings.JointPositionColor;
+
+            canvas.DrawLine(p1, p1 - Vector.Diagonal * 10);
+            canvas.DrawLine(p2, p2 - Vector.UnitX * 10 + Vector.UnitY * 10);
+
+        }
+
         private void PaintDebugScreen(Canvas canvas)
         {
             for (int i = Layers.FirstIndex; i <= Layers.LastIndex; i++)
@@ -334,6 +369,14 @@ namespace Jypeli
                             PaintShapeOutlines(canvas, obj, Mouse.IsCursorOn((GameObject)obj) ? DebugViewSettings.GameObjectHoverColor : DebugViewSettings.GameObjectColor);
                     }
                 }
+            }
+
+            if (PhysicsGameBase.Instance is null)
+                return;
+
+            foreach (var joint in PhysicsGameBase.Instance.Joints)
+            {
+                DrawJoints(canvas, joint);
             }
         }
     }

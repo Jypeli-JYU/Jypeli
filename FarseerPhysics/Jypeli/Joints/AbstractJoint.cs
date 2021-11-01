@@ -23,7 +23,7 @@ namespace Jypeli
         /// <summary>
         /// Pyörimisakselin (tämänhetkiset) koordinaatit.
         /// </summary>
-        public abstract Vector AxlePoint { get;}
+        public abstract Vector AxlePoint { get; internal set; }
 
         /// <summary>
         /// Liitoksen pehmeys eli kuinka paljon sillä on liikkumavaraa.

@@ -45,10 +45,7 @@ namespace Jypeli
         /// </summary>
         public override Vector AxlePoint
         {
-            get
-            {
-                return (Object1.Position + Object2.Position) / 2;
-            }
+            get; internal set;
         }
 
         internal FSJoint InnerJoint

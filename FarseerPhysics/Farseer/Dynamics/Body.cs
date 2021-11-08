@@ -1197,7 +1197,12 @@ namespace FarseerPhysics.Dynamics
 
             if (this.JypeliGroupIgnorer != null && other.JypeliGroupIgnorer != null && this.JypeliGroupIgnorer.LegacyGroup == other.JypeliGroupIgnorer.LegacyGroup)
                 return false;
-            
+
+            if (!this.owner.Owner.CollisionIgnoreFunc?.Invoke(this.owner.Owner, other.owner.Owner) ?? false)
+                return false;
+            if (!other.owner.Owner.CollisionIgnoreFunc?.Invoke(other.owner.Owner, this.owner.Owner) ?? false)
+                return false;
+
             // Does a joint prevent collision?
             for (JointEdge jn = JointList; jn != null; jn = jn.Next)
             {

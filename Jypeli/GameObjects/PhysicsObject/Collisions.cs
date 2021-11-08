@@ -7,6 +7,9 @@ namespace Jypeli
     {
         private Ignorer _collisionIgnorer = null;
 
+        /// <inheritdoc/>
+        public Func<IPhysicsObject, IPhysicsObject, bool> CollisionIgnoreFunc { get; set; }
+
         /// <summary>
         /// Olio, jolla voi välttää oliota osumasta tiettyihin muihin olioihin.
         /// </summary>

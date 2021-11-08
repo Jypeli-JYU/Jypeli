@@ -41,18 +41,12 @@ namespace Jypeli
     /// </summary>
     public class AxleJoint : AbstractJoint
     {
-        Vector pivot;
-        Vector initialPosition;
-
         /// <summary>
         /// Pyörimisakselin (tämänhetkiset) koordinaatit.
         /// </summary>
         public override Vector AxlePoint
         {
-            get
-            {
-                return Object2 != null ? pivot + Object2.Position - initialPosition : pivot;
-            }
+            get; internal set;
         }
 
         internal FSJoint InnerJoint
@@ -88,6 +82,10 @@ namespace Jypeli
             set { InnerJoint.DampingRatio = (float)value; }
         }
 
+        /// <summary>
+        /// Näytetäänkö akselin kiinnityspiste
+        /// </summary>
+        public bool DrawJointPoints { set; get; }
 
         /// <summary>
         /// Luo uuden akseliliitoksen kahden olion välille.
@@ -100,10 +98,11 @@ namespace Jypeli
             World world = PhysicsGame.Instance.Engine as World;
             var first = firstObject.Body as PhysicsBody;
             var second = secondObject.Body as PhysicsBody;
-            InnerJoint = JointFactory.CreateDistanceJoint(world, first.FSBody, second.FSBody, axlePosition * FSConvert.DisplayToSim, Vector.Zero);
+            var ap2 = firstObject.Position + axlePosition - secondObject.Position;
+            AxlePoint = axlePosition;
+            InnerJoint = JointFactory.CreateDistanceJoint(world, first.FSBody, second.FSBody, axlePosition * FSConvert.DisplayToSim, ap2 * FSConvert.DisplayToSim);
             InnerJoint.DampingRatio = 0.5f;
-            InnerJoint.Frequency = 50;
-            //InnerJoint.Enabled = false;
+            InnerJoint.Frequency = 2;
             Object1 = firstObject;
             Object2 = secondObject;
         }

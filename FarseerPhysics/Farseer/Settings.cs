@@ -158,7 +158,7 @@ namespace FarseerPhysics
         /// to move by a small amount without triggering a tree adjustment.
         /// This is in meters.
         /// </summary>
-        public const float AabbExtension = 0.1f;
+        public const float AabbExtension = 0.05f;
 
         /// <summary>
         /// This is used to fatten AABBs in the dynamic tree. This is used to predict
@@ -171,20 +171,20 @@ namespace FarseerPhysics
         /// A small length used as a collision and constraint tolerance. Usually it is
         /// chosen to be numerically significant, but visually insignificant.
         /// </summary>
-        public const float LinearSlop = 0.005f;
+        public const float LinearSlop = 0.001f;
 
         /// <summary>
         /// A small angle used as a collision and constraint tolerance. Usually it is
         /// chosen to be numerically significant, but visually insignificant.
         /// </summary>
-        public const float AngularSlop = (2.0f / 180.0f * Pi);
+        public const float AngularSlop = (1.0f / 180.0f * Pi);
 
         /// <summary>
         /// The radius of the polygon/edge shape skin. This should not be modified. Making
         /// this smaller means polygons will have an insufficient buffer for continuous collision.
         /// Making it larger may create artifacts for vertex collision.
         /// </summary>
-        public const float PolygonRadius = (2.0f * LinearSlop);
+        public const float PolygonRadius = (1.0f * LinearSlop);
 
         // Dynamics
 

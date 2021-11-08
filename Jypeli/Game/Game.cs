@@ -41,9 +41,11 @@ using Jypeli.Effects;
 using System.Diagnostics;
 using System.Linq;
 
+
 #if ANDROID
 using Android.Content.Res;
 using Jypeli.Controls.Keyboard;
+using Android.App;
 #endif
 
 namespace Jypeli

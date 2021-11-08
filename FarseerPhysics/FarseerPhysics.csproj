@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net5.0; monoandroid90; net6-android</TargetFrameworks>
+    <TargetFrameworks>net5.0; net6-android</TargetFrameworks>
     <LangVersion>9</LangVersion>
     
     <AssemblyName>Jypeli.FarseerPhysics</AssemblyName>

@@ -9,7 +9,7 @@
     <None Remove="Resources\values\styles.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="norsu.png" />
+    <AndroidAsset Include="Content\norsu.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\FarseerPhysics\FarseerPhysics.csproj" />

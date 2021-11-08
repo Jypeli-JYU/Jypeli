@@ -27,12 +27,12 @@ namespace Jypeli.Android
         {
             Accelerometer = new AndroidAccelerometer();
             Storage = new FileManager(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
-            ContentPath = Environment.GetFolderPath(Environment.SpecialFolder.Resources);
+            ContentPath = "Content/";
         }
 
         internal override Stream StreamContent(string name, string[] extensions)
         {
-            Stream s = Game.AssetManager.Open(name);
+            Stream s = Game.AssetManager.Open(ContentPath + name);
             if(s == null)
             {
                 s = FindContentFile(name, extensions);
@@ -45,7 +45,7 @@ namespace Jypeli.Android
             foreach (var ext in extensions)
             {
                 string withExt = Path.ChangeExtension(name, ext);
-                Stream s = Game.AssetManager.Open(withExt);
+                Stream s = Game.AssetManager.Open(ContentPath + withExt);
                 if (s != null)
                     return s;
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
@@ -53,6 +54,8 @@ namespace Jypeli.Rendering.OpenGl
         public void Create(IView window)
         {
             Gl = GL.GetApi(window);
+            Gl.DebugMessageCallback(PrintError, null);
+
             Name = window.API.API.ToString();
             Ebo = new BufferObject<uint>(Gl, Indices, BufferTargetARB.ElementArrayBuffer);
             Vbo = new BufferObject<VertexPositionColorTexture>(Gl, Vertices, BufferTargetARB.ArrayBuffer);
@@ -62,8 +65,12 @@ namespace Jypeli.Rendering.OpenGl
             Vao.VertexAttributePointer(1, 4, VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 12);
             Vao.VertexAttributePointer(2, 2, VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 28);
 
-
             bl = new BasicLightRenderer(this);
+        }
+
+        private void PrintError(GLEnum source, GLEnum type, int id, GLEnum severity, int length, nint message, nint userParam)
+        {
+            Debug.WriteLine($"ERROR {source}: {type}, {id}, {severity}, {length}, {message}, {userParam}");
         }
 
         /// <inheritdoc/>
@@ -114,6 +121,8 @@ namespace Jypeli.Rendering.OpenGl
 
         public void DrawLights(Matrix4x4 matrix)
         {
+            if (Game.Lights.Count == 0)
+                return;
             bl.Draw(matrix);
 
             SetRenderTarget(Game.Screen.RenderTarget);

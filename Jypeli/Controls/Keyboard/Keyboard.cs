@@ -78,6 +78,19 @@ namespace Jypeli
             internalState.SetKeyUp(arg2);
         }
 
+        // Nämä begin ja end ovat vain mobiilia varten.
+        // Tuo näppäimistön esiin ja alkaa kuunnella sitä.
+        internal void BeginInput()
+        {
+            keyboard.BeginInput();
+            
+        }
+
+        internal void EndInput()
+        {
+            keyboard.EndInput();
+        }
+
         internal override KeyboardState GetState()
         {
             return internalState;

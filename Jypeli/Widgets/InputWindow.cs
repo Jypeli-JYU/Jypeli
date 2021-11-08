@@ -112,12 +112,8 @@ namespace Jypeli
             AddedToGame += AddListeners;
 
 #if ANDROID
-            // Display window at the top of the screen to make space for the virtual keyboard
-
-            // 1.5 is just a magic number that makes it show up properly on my phone,
-            // logically it should be positioned perfectly at the top with 2.0 but
-            // that doesn't seem to be the case
-            Y += Game.Screen.Top - (Height / 1.5);
+            Y += Game.Screen.Top - Height;
+            Game.Keyboard.BeginInput();
 #endif
         }
 
@@ -129,9 +125,10 @@ namespace Jypeli
             return new InputBox(40);
         }
 
-        static void InputWindow_Closed( Window sender )
+        protected void InputWindow_Closed( Window sender )
         {
             ((InputWindow)sender).OnTextEntered();
+            Game.Keyboard.EndInput();
         }
 
         private void Cancel()

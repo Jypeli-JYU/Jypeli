@@ -487,7 +487,7 @@ namespace Jypeli
                         {
                             DrawShape(go, ref worldMatrix);
                         }
-                        if (go._childObjects != null)
+                        if (go._childObjects != null && go._childObjects.Count > 0)
                             drawChildren(go._childObjects);
                     }
                 }
@@ -557,6 +557,11 @@ namespace Jypeli
                 return;
 
             float rotation = (float)o.Angle.Radians;
+            if(o is CustomDrawable c)
+            {
+                c.Draw(parentTransformation);
+                return;
+            }
             switch (o.Shape)
             {
                 case RaySegment r:

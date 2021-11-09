@@ -131,13 +131,17 @@
     </None>
   </ItemGroup>
     
+  <PropertyGroup>
+     <RestoreSources>https://pkgs.dev.azure.com/UltzOS/061abec9-b10b-4a9b-9c06-aa635c5e74a2/_packaging/7ae6c815-0dc0-4193-bf95-042c360df875/nuget/v3/index.json;$(RestoreSources)</RestoreSources>
+  </PropertyGroup>
+    
   <ItemGroup>
     <PackageReference Include="FontStashSharp" Version="1.0.4" />
-    <PackageReference Include="Silk.NET.Input" Version="2.10.0" />
-    <PackageReference Include="Silk.NET.OpenAL" Version="2.10.0" />
+    <PackageReference Include="Silk.NET.Input" Version="2.10.0-build1519.0" />
+    <PackageReference Include="Silk.NET.OpenAL" Version="2.10.0-build1519.0" />
     <PackageReference Include="Silk.NET.OpenAL.Soft.Native" Version="1.21.1.1" />
-    <PackageReference Include="Silk.NET.OpenGL" Version="2.10.0" />
-    <PackageReference Include="Silk.NET.Windowing" Version="2.10.0" />
+    <PackageReference Include="Silk.NET.OpenGL" Version="2.10.0-build1519.0" />
+    <PackageReference Include="Silk.NET.Windowing" Version="2.10.0-build1519.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>

@@ -2,7 +2,6 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFrameworks>net5.0; net6-android</TargetFrameworks>
-    <LangVersion>9</LangVersion>
     
     <AssemblyName>Jypeli.FarseerPhysics</AssemblyName>
     <PackageId>Jypeli.FarseerPhysics.NET.BETA</PackageId>

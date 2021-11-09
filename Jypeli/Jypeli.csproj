@@ -3,9 +3,7 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFrameworks>net5.0; net6-android</TargetFrameworks>
-    <LangVersion>9</LangVersion>
 
-    <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
     <ApplicationIcon />
     <StartupObject />
     <AssemblyName>Jypeli</AssemblyName>
@@ -132,7 +130,10 @@
   </ItemGroup>
     
   <PropertyGroup>
-     <RestoreSources>https://pkgs.dev.azure.com/UltzOS/061abec9-b10b-4a9b-9c06-aa635c5e74a2/_packaging/7ae6c815-0dc0-4193-bf95-042c360df875/nuget/v3/index.json;$(RestoreSources)</RestoreSources>
+    <RestoreSources>
+      https://pkgs.dev.azure.com/UltzOS/061abec9-b10b-4a9b-9c06-aa635c5e74a2/_packaging/7ae6c815-0dc0-4193-bf95-042c360df875/nuget/v3/index.json;
+      https://api.nuget.org/v3/index.json;
+    </RestoreSources>
   </PropertyGroup>
     
   <ItemGroup>

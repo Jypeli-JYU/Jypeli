@@ -54,7 +54,14 @@ namespace Jypeli.Rendering.OpenGl
         public void Create(IView window)
         {
             Gl = GL.GetApi(window);
-            Gl.DebugMessageCallback(PrintError, null);
+            try
+            {
+                Gl.DebugMessageCallback(PrintError, null);
+            }
+            catch
+            {
+                Debug.WriteLine("DebugMessageCallback not available");
+            }
 
             Name = window.API.API.ToString();
             Ebo = new BufferObject<uint>(Gl, Indices, BufferTargetARB.ElementArrayBuffer);

@@ -45,14 +45,22 @@ namespace Jypeli
         internal SoundEffect(string assetName)
         {
             this.assetName = assetName;
-            handle = OpenAL.LoadSound(assetName);
-            InitPosition();
+            try
+            {
+                handle = OpenAL.LoadSound(assetName);
+                InitPosition();
+            }
+            catch { }
         }
 
         internal SoundEffect(string assetName, Stream stream)
         {
-            handle = OpenAL.LoadSound(stream);
-            InitPosition();
+            try
+            {
+                handle = OpenAL.LoadSound(stream);
+                InitPosition();
+            }
+            catch{}
         }
 
         internal SoundEffect()

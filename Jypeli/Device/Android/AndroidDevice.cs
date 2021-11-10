@@ -32,11 +32,15 @@ namespace Jypeli.Android
 
         internal override Stream StreamContent(string name, string[] extensions)
         {
-            Stream s = Game.AssetManager.Open(ContentPath + name);
-            if(s == null)
+            Stream s;
+            try
+            {
+                 s = Game.AssetManager.Open(ContentPath + name);
+            }catch
             {
                 s = FindContentFile(name, extensions);
             }
+            
             return s;
         }
 
@@ -45,9 +49,16 @@ namespace Jypeli.Android
             foreach (var ext in extensions)
             {
                 string withExt = Path.ChangeExtension(name, ext);
-                Stream s = Game.AssetManager.Open(ContentPath + withExt);
-                if (s != null)
-                    return s;
+                Stream s;
+                try
+                {
+                    s = Game.AssetManager.Open(ContentPath + withExt);
+                }
+                catch
+                {
+                    continue;
+                }
+                return s;
             }
             return null;
         }

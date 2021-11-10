@@ -169,7 +169,7 @@ namespace Jypeli
             Graphics.FontRenderer.Begin();
             for (int i = 0; i < Math.Min(messages.Count, MaxMessageCount); i++)
             {
-                Font.SpriteFont.DrawText(Graphics.FontRenderer, messages[i].Text, Position - new Vector(Width/2, (i + 0.5) * fontHeight - Height/2), messages[i].Color.ToSystemDrawing());
+                Font.SpriteFont.DrawText(Graphics.FontRenderer, messages[i].Text, Position - new Vector(Width/2, i * fontHeight - Height/2), messages[i].Color.ToSystemDrawing());
             }
             base.Draw(parentTransformation, transformation);
         }

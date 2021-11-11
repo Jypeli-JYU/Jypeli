@@ -29,11 +29,6 @@
     <Optimize>true</Optimize>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'monoandroid90' ">
-    <Reference Include="System.Numerics" targetFramework="monoandroid90" />
-    <Reference Include="System.Numerics.Vectors" targetFramework="monoandroid90" />
-  </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\Jypeli\Jypeli.csproj" />

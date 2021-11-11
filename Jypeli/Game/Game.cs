@@ -296,8 +296,11 @@ namespace Jypeli
 
         internal void OnNoAudioHardwareException()
         {
-            DoNextUpdate(() => MessageDisplay.Add("No audio hardware was detected. All sound is disabled."));
-            DisableAudio();
+            if (AudioEnabled)
+            {
+                DoNextUpdate(() => MessageDisplay.Add("No audio hardware was detected. All sound is disabled."));
+                DisableAudio();
+            }
         }
 
         /// <summary>

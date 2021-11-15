@@ -294,6 +294,7 @@ namespace Jypeli
         {
             Text = Text.Insert(CursorPos, text);
             CursorPos++;
+            CursorPos = Math.Min(CursorPos, MaxCharacters);
             OnTextChanged();
             UpdateCursorPosition();
         }

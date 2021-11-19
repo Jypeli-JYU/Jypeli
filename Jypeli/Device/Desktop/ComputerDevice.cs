@@ -43,7 +43,7 @@ namespace Jypeli.Devices
                 if (File.Exists(withExt))
                     return withExt;
             }
-            return "";
+            throw new FileNotFoundException($"Tiedostoa {fullPath} ei löydy");
         }
     }
 }

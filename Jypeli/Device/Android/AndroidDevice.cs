@@ -60,7 +60,7 @@ namespace Jypeli.Android
                 }
                 return s;
             }
-            return null;
+            throw new FileNotFoundException($"Tiedostoa {name} ei löydy");
         }
 
         public override void Vibrate( int milliSeconds )

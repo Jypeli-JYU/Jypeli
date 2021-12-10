@@ -131,13 +131,12 @@
     
   <ItemGroup>
     <PackageReference Include="FontStashSharp" Version="1.0.4" />
-    <PackageReference Include="Silk.NET.Input" Version="2.10.1" />
-    <PackageReference Include="Silk.NET.OpenAL" Version="2.10.1" />
+    <PackageReference Include="Silk.NET.Input" Version="2.11.0" />
+    <PackageReference Include="Silk.NET.OpenAL" Version="2.11.0" />
     <PackageReference Include="Silk.NET.OpenAL.Soft.Native" Version="1.21.1.1" />
-    <PackageReference Include="Silk.NET.OpenGL" Version="2.10.1" />
-    <PackageReference Include="Silk.NET.Windowing" Version="2.10.1" />
+    <PackageReference Include="Silk.NET.OpenGL" Version="2.11.0" />
+    <PackageReference Include="Silk.NET.Windowing" Version="2.11.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net6-android' ">
@@ -145,8 +144,8 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <AssemblyVersion>11.0.0.0825</AssemblyVersion>
-    <FileVersion>11.0.0.0825</FileVersion>
+    <AssemblyVersion>11.0.0.1111</AssemblyVersion>
+    <FileVersion>11.0.0.1111</FileVersion>
     <PackageIcon>jypeli_logo.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>

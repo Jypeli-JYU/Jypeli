@@ -216,6 +216,22 @@ namespace Jypeli
             return value1 + (value2 - value1) * amount;
         }
 
+        public static Vector Lerp(Vector left, Vector right, double amount)
+        {
+            Vector result;
+            result.X = (right.X - left.X) * amount + left.X;
+            result.Y = (right.Y - left.Y) * amount + left.Y;
+            return result;
+        }
+
+        public static Vector Lerp(Vector left, Vector right, Vector amount)
+        {
+            Vector result;
+            result.X = (right.X - left.X) * amount.X + left.X;
+            result.Y = (right.Y - left.Y) * amount.Y + left.Y;
+            return result;
+        }
+
 
         /// <summary>
         /// Linearly interpolates between two values.

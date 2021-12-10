@@ -13,6 +13,7 @@ namespace Jypeli
     /// </summary>
     public class SoundEffect
     {
+        internal static string[] SoundExtensions { get; } = { ".wav" };
         private List<Sound> Instances = new List<Sound>();
 
         private string assetName;
@@ -40,8 +41,6 @@ namespace Jypeli
         /// </summary>
         public bool IsPlaying { get; private set; }
 
-        private static string[] soundExtensions = { ".wav" };
-
         internal SoundEffect(string assetName)
         {
             this.assetName = assetName;
@@ -57,6 +56,7 @@ namespace Jypeli
         {
             try
             {
+                this.assetName = assetName;
                 handle = OpenAL.LoadSound(stream);
                 InitPosition();
             }
@@ -189,5 +189,4 @@ namespace Jypeli
             get; set;
         }
     }
-
 }

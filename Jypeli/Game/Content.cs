@@ -77,7 +77,7 @@ namespace Jypeli
         /// <summary>
         /// Lataa kuvan Jypelin sisäisistä resursseista.
         /// </summary>
-        /// <param name="name">Kuvan nimi päätteineen</param>
+        /// <param name="name">Kuvan nimi</param>
         /// <returns>Kuva</returns>
         public static Image LoadImageFromResources(string name)
         {
@@ -87,7 +87,7 @@ namespace Jypeli
         /// <summary>
         /// Lataa taulukon kuvia contentista.
         /// </summary>
-        /// <param name="names">Kuvien nimet pilkuin eroiteltuna</param>
+        /// <param name="names">Kuvien nimet</param>
         /// <returns>Kuvataulukko</returns>
         public static Image[] LoadImages(params string[] names)
         {
@@ -134,7 +134,7 @@ namespace Jypeli
         /// <summary>
         /// Soittaa ääniefektin.
         /// </summary>
-        /// <param name="name">Äänen nimi päätteineen</param>
+        /// <param name="name">Äänen nimi</param>
         public static void PlaySound(string name)
         {
             LoadSoundEffect(name).Play();
@@ -143,17 +143,17 @@ namespace Jypeli
         /// <summary>
         /// Lataa ääniefektin contentista.
         /// </summary>
-        /// <param name="name">Äänen nimi päätteineen</param>
+        /// <param name="name">Äänen nimi</param>
         /// <returns>SoundEffect-olio</returns>
         public static SoundEffect LoadSoundEffect(string name)
         {
-            return new SoundEffect("Content/" + name);
+            return new SoundEffect(name, Device.StreamContent(name, SoundEffect.SoundExtensions));
         }
 
         /// <summary>
         /// Lataa ääniefektin Jypelin sisäisistä resursseista.
         /// </summary>
-        /// <param name="name">Äänen nimi päätteineen</param>
+        /// <param name="name">Äänen nimi</param>
         /// <returns>SoundEffect-olio</returns>
         public static SoundEffect LoadSoundEffectFromResources(string name)
         {
@@ -163,7 +163,7 @@ namespace Jypeli
         /// <summary>
         /// Lataa taulukon ääniefektejä contentista.
         /// </summary>
-        /// <param name="names">Äänien nimet pilkuin eroiteltuna</param>
+        /// <param name="names">Äänien nimet</param>
         /// <returns>Taulukko SoundEffect-olioita</returns>
         public static SoundEffect[] LoadSoundEffects(params string[] names)
         {
@@ -176,7 +176,7 @@ namespace Jypeli
         /// <summary>
         /// Lataa fontin. Fontin tulee olla lisätty content-hakemistoon.
         /// </summary>
-        /// <param name="name">Fontin tiedoston nimi ilman päätettä.</param>
+        /// <param name="name">Fontin tiedoston nimi.</param>
         public static Font LoadFont(string name)
         {
             return new Font(FileExtensionCheck(Path.Combine(Device.ContentPath, name), Font.FontExtensions));

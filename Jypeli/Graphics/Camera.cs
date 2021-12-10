@@ -463,10 +463,16 @@ namespace Jypeli
                 double screenHeight = (double)Game.Screen.Height;
                 Level level = Game.Instance.Level;
 
+                double zoomedWidth = level.Width * ZoomFactor;
+                double zoomedHeight = level.Height * ZoomFactor;
+
                 double viewAreaWidth = screenWidth / ZoomFactor;
                 double viewAreaHeight = screenHeight / ZoomFactor;
 
-                ZoomFactor = Math.Max( screenWidth / level.Width, screenHeight / level.Height );
+                if (zoomedWidth < screenWidth || zoomedHeight < screenHeight)
+                {
+                    ZoomFactor = Math.Max(screenWidth / level.Width, screenHeight / level.Height);
+                }
 
                 if ( ( Position.X - ( viewAreaWidth / 2 ) ) < level.Left )
                 {

@@ -75,6 +75,12 @@ namespace Jypeli
 
         protected void OnUpdate(double dt)
         {
+            // Jos jostain syystä olisi tulossa hyvin iso dt, muutetaan se pieneksi.
+            // Tämä voi tapahtua esim kun ikkunaa raahataan. Raahauksen aikana ei ajeta päivityksiä,
+            // kun raahaus päättyy tulee päivitys hyvin suurella dt-arvolla, joka taas rikkoo fysiikoita.
+            if (dt > 0.5)
+                dt = 1 / 60.0;
+
             if (!IsPaused)
             {
                 if(FixedTimeStep)

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net5.0; net6-android</TargetFrameworks>
+    <TargetFrameworks>net6.0; net6-android</TargetFrameworks>
     
     <AssemblyName>Jypeli.FarseerPhysics</AssemblyName>
     <PackageId>Jypeli.FarseerPhysics.NET.BETA</PackageId>

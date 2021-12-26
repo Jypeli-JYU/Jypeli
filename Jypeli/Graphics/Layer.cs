@@ -266,7 +266,8 @@ namespace Jypeli
             // TODO: Millainen tämä ratkaisu tyyppien suhteen on suorituskyvyn kannalta?
             foreach (var o in Objects.Where(type.IsInstanceOfType))
             {
-                Graphics.ShapeBatch.DrawOutlines(o.Shape.Cache, outlineColor, o.Position, o.Size, (float)o.Angle.Radians);
+                if(o.Shape.Cache.Triangles is not null)
+                    Graphics.ShapeBatch.DrawOutlines(o.Shape.Cache, outlineColor, o.Position, o.Size, (float)o.Angle.Radians);
             }
             Graphics.ShapeBatch.End();
         }

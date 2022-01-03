@@ -48,15 +48,32 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Äänenkorkeus välillä -1.0 - 1.0.
+        /// Äänenkorkeus, -1.0 on oktaavin alempana, 1.0 oktaavin ylempänä.
         /// </summary>
-        /// <remarks>
-        /// -1.0 on oktaavin alempana, 1.0 oktaavin ylempänä.
-        /// </remarks>
         public double Pitch
         {
-            get { return OpenAL.GetPitch(soundeffect.handle); }
-            set { OpenAL.SetPitch(soundeffect.handle, value); }
+            get { return PitchFromAL(OpenAL.GetPitch(soundeffect.handle)); }
+            set { OpenAL.SetPitch(soundeffect.handle,PitchToAL(value)); }
+        }
+
+        /*
+         * OpenAL haluaa korkeuden olevan välillä 0...inf.
+         * Vakiona korkeus on 1.
+         * Korkeuden puolittaminen tarkoittaa yhtä oktaavia alaspäin.
+         * Kertominen kahdella taas nostaa yhdellä oktaavilla.
+         * 
+         * Jypeli historiallisistä syistä (XNA) taas käyttää eri järjestelmää,
+         * ja näiden välille piti tehdä pieni muunnos.
+         */
+
+        private static double PitchToAL(double value)
+        {
+            return Math.Pow(2, value);
+        }
+
+        private static double PitchFromAL(double value)
+        {
+            return Math.Log2(value);
         }
 
         /// <summary>

@@ -27,11 +27,12 @@ namespace Jypeli
 
         /// <summary>
         /// Äänen kuuluminen vasemmasta ja oikeasta kaiuttimesta.
-        /// Arvot vaihtelevat välillä -1.0 - 1.0 seuraavasti:
-        /// -1.0 -> täysin vasemmalla
-        /// 0.0 -> keskellä
-        /// 1.0 -> täysin oikealla
+        /// 0 on keskellä, negatiivinen menee vasemmalle ja positiivinen oikealle.
         /// </summary>
+        /// <remarks>
+        /// Toistaiseksi tämän toimiminen vaatii monoäänen.
+        /// Stereoäänellä tämä ei tee mitään.
+        /// </remarks>
         public double Pan
         {
             get { return OpenAL.GetPan(soundeffect.handle); }

@@ -60,6 +60,8 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             al.DistanceModel(DistanceModel.InverseDistance);
             al.GetError();
 
+            al.SetListenerProperty(ListenerVector3.Position, 0, 0, 1);
+
         }
 
         public static uint LoadSound(Stream stream)
@@ -233,7 +235,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
         }
 
         internal static double GetPan(uint handle)
-        { // TODO: Pan ei jostain syystä tunnu tekevän mitään
+        {
             al.GetSourceProperty(handle, SourceVector3.Position, out System.Numerics.Vector3 value);
             return value.X;
         }

@@ -129,7 +129,7 @@ namespace Jypeli
         /// <summary>
         /// Voiko ääniä soittaa.
         /// </summary>
-        public static bool AudioEnabled { get; private set; }
+        public static bool AudioEnabled { get; private set; } = true;
 
         /// <summary>
         /// Aktiivinen kenttä.

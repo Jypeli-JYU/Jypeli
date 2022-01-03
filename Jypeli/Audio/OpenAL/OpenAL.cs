@@ -277,5 +277,16 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
 
             return size/(double)(frequency * channels * bits/8);
         }
+
+        internal static bool GetLooping(uint handle)
+        {
+            al.GetSourceProperty(handle, SourceBoolean.Looping, out bool value);
+            return value;
+        }
+
+        internal static void SetLooping(uint handle, bool value)
+        {
+            al.SetSourceProperty(handle, SourceBoolean.Looping, value);
+        }
     }
 }

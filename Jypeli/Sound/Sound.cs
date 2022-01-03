@@ -19,10 +19,10 @@ namespace Jypeli
         /// <summary>
         /// Jos <c>true</c>, ääntä soitetaan toistuvasti.
         /// </summary>
-        public bool IsLooped
+        public bool IsLooped 
         {
-            get { return false; }
-            set {  }
+            get { return OpenAL.GetLooping(soundeffect.handle); }
+            set { OpenAL.SetLooping(soundeffect.handle, value); }
         }
 
         /// <summary>

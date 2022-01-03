@@ -246,6 +246,18 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             al.SetSourceProperty(handle, SourceVector3.Position, in v);
         }
 
+        internal static Vector GetPosition(uint handle)
+        {
+            al.GetSourceProperty(handle, SourceVector3.Position, out System.Numerics.Vector3 value);
+            return new Vector(value.X, value.Y);
+        }
+
+        internal static void SetPosition(uint handle, Vector value)
+        {
+            System.Numerics.Vector3 v = new System.Numerics.Vector3((float)value.X, (float)value.Y, 0);
+            al.SetSourceProperty(handle, SourceVector3.Position, in v);
+        }
+
         internal static double GetVolume(uint handle)
         {
             al.GetSourceProperty(handle, SourceFloat.Gain, out float value);

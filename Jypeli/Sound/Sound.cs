@@ -40,6 +40,20 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Äänen sijainti 2D-tasossa.
+        /// Tämä ylikirjoittaa <see cref="Pan"/> asetuksen.
+        /// </summary>
+        /// <remarks>
+        /// Toistaiseksi tämän toimiminen vaatii monoäänen.
+        /// Stereoäänellä tämä ei tee mitään.
+        /// </remarks>
+        public Vector Position
+        {
+            get { return OpenAL.GetPosition(soundeffect.handle); }
+            set { OpenAL.SetPosition(soundeffect.handle, value); }
+        }
+
+        /// <summary>
         /// Äänenvoimakkuus välillä 0.0 - 1.0.
         /// </summary>
         public double Volume

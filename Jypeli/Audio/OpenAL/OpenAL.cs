@@ -79,13 +79,17 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             return LoadWAV(file);
         }
 
+        private static void ThrowIncorrectFile()
+        {
+            throw new AudioException("Annettu äänitiedosto on virheellisessä formaatissa. Toistaiseksi vain 8- ja 16-bittiset mono ja stereo wav-muotoiset tiedostot sallitaan.");
+        }
+
         private static uint LoadWAV(ReadOnlySpan<byte> file)
         {
             int index = 0;
             if (file[index++] != 'R' || file[index++] != 'I' || file[index++] != 'F' || file[index++] != 'F')
             {
-                Debug.WriteLine("Given file is not in RIFF format"); // TODO: Haluttaisiinko tämmöisissä tilanteissa heittää poikkeus?
-                return 0;
+                ThrowIncorrectFile();
             }
 
             var chunkSize = BinaryPrimitives.ReadInt32LittleEndian(file.Slice(index, 4));
@@ -93,8 +97,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
 
             if (file[index++] != 'W' || file[index++] != 'A' || file[index++] != 'V' || file[index++] != 'E')
             {
-                Debug.WriteLine("Given file is not in WAVE format");
-                return 0;
+                ThrowIncorrectFile();
             }
 
             short numChannels = -1;
@@ -118,7 +121,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
                 {
                     if (size != 16)
                     {
-                        Debug.WriteLine($"Unknown Audio Format with subchunk1 size {size}");
+                        ThrowIncorrectFile();
                     }
                     else
                     {
@@ -126,7 +129,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
                         index += 2;
                         if (audioFormat != 1)
                         {
-                            Debug.WriteLine($"Unknown Audio Format with ID {audioFormat}");
+                            ThrowIncorrectFile();
                         }
                         else
                         {
@@ -149,7 +152,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
                                     format = BufferFormat.Mono16;
                                 else
                                 {
-                                    Debug.WriteLine($"Can't Play mono {bitsPerSample} sound.");
+                                    ThrowIncorrectFile();
                                 }
                             }
                             else if (numChannels == 2)
@@ -160,12 +163,12 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
                                     format = BufferFormat.Stereo16;
                                 else
                                 {
-                                    Debug.WriteLine($"Can't Play stereo {bitsPerSample} sound.");
+                                    ThrowIncorrectFile();
                                 }
                             }
                             else
                             {
-                                Debug.WriteLine($"Can't play audio with {numChannels} sound");
+                                ThrowIncorrectFile();
                             }
                         }
                     }

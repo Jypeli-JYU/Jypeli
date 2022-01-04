@@ -44,23 +44,16 @@ namespace Jypeli
         internal SoundEffect(string assetName)
         {
             this.assetName = assetName;
-            try
-            {
-                handle = OpenAL.LoadSound(assetName);
-                InitPosition();
-            }
-            catch { }
+
+            handle = OpenAL.LoadSound(assetName);
+            InitPosition();
         }
 
         internal SoundEffect(string assetName, Stream stream)
         {
-            try
-            {
-                this.assetName = assetName;
-                handle = OpenAL.LoadSound(stream);
-                InitPosition();
-            }
-            catch{}
+            this.assetName = assetName;
+            handle = OpenAL.LoadSound(stream);
+            InitPosition();
         }
 
         internal SoundEffect()

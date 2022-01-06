@@ -4,7 +4,7 @@
     <TargetFrameworks>net6.0; net6-android</TargetFrameworks>
     
     <AssemblyName>Jypeli.FarseerPhysics</AssemblyName>
-    <PackageId>Jypeli.FarseerPhysics.NET.BETA</PackageId>
+    <PackageId>Jypeli.FarseerPhysics.NET</PackageId>
     <Description>FarseerPhysics implementation for Jypeli</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>University of Jyväskylä</Authors>
@@ -12,8 +12,8 @@
     <Copyright>University of Jyväskylä</Copyright>
     <RootNamespace>Jypeli.FarseerPhysics</RootNamespace>
     <PackageLicenseFile>Farseer.txt</PackageLicenseFile>
-    <Version>1.1.0.0825</Version>
-    <AssemblyVersion>1.1.0.825</AssemblyVersion>
+    <Version>2.0</Version>
+    <AssemblyVersion>2.0</AssemblyVersion>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

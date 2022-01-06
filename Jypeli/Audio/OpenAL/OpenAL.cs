@@ -47,6 +47,12 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
 
         internal static void Init()
         {
+            // Jos initialisointia on jo kutsuttu.
+            if (al is not null)
+            {
+                return;
+            }
+
             var alc = ALContext.GetApi(true);
             al = AL.GetApi(true);
             var device = alc.OpenDevice("");
@@ -86,6 +92,12 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
 
         private static uint LoadWAV(ReadOnlySpan<byte> file)
         {
+            // On mahdollista, että tänne tullaan ennen initialisointiin menemistä.
+            if(al is null)
+            {
+                Init();
+            }
+
             int index = 0;
             if (file[index++] != 'R' || file[index++] != 'I' || file[index++] != 'F' || file[index++] != 'F')
             {

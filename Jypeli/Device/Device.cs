@@ -28,6 +28,9 @@
  */
 
 
+using System;
+using System.IO;
+
 namespace Jypeli.Devices
 {
     /// <summary>
@@ -49,12 +52,9 @@ namespace Jypeli.Devices
         public FileManager Storage { get; protected set; }
 
         /// <summary>
-        /// Onko laite mobiililaite.
+        /// Content-kansion polku, riippuu käytetystä alustasta.
         /// </summary>
-        public virtual bool IsMobileDevice
-        {
-            get { return false; }
-        }
+        public string ContentPath { get; protected set; }
 
         /// <summary>
         /// Onko laite puhelin.
@@ -78,6 +78,11 @@ namespace Jypeli.Devices
                 _displayResolution = value;
                 if ( Game.Instance != null && Game.Screen != null ) ResetScreen();
             }
+        }
+
+        internal virtual Stream StreamContent(string name, string[] extensions)
+        {
+            return File.OpenRead(name);
         }
 
         /// <summary>
@@ -113,12 +118,6 @@ namespace Jypeli.Devices
             return new ComputerDevice();
 #elif ANDROID
             return new Jypeli.Android.AndroidDevice();
-#elif WINDOWS_PHONE81
-            return new WindowsPhone81Device();
-#elif WINDOWS_UAP
-            return new WindowsUniversalDevice();
-#elif WINRT
-            return new Windows8Device();
 #else
             return new Device();
 #endif

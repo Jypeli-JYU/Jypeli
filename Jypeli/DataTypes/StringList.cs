@@ -189,16 +189,14 @@ namespace Jypeli
             strings.AddRange( source );
         }
 
-#if JYPELI
         /// <summary>
         /// Lukee merkkijonolistan Content-projektin tekstitiedostosta.
         /// </summary>
         /// <param name="assetName">Tiedoston nimi</param>        
         public static StringList FromAsset( string assetName )
         {
-            return new StringList( Game.Instance.Content.Load<string[]>( assetName ) );
+            return new StringList(/* Game.Instance.Content.Load<string[]>( assetName )*/ );
         }
-#endif
 
         /// <summary>
         /// Lukee merkkijonolistan tietovirrasta.
@@ -219,7 +217,6 @@ namespace Jypeli
             return this;
         }
 
-#if !WINDOWS_STOREAPP
         /// <summary>
         /// Lukee merkkijonolistan tiedostosta.
         /// Huom. toimii vain PC:llä, käytä mieluummin
@@ -241,7 +238,6 @@ namespace Jypeli
 
             return result;
         }
-#endif
 
         /// <summary>
         /// Lisää yhden tai useamman rivin merkkijonolistaan.

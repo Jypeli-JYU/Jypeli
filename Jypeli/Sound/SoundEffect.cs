@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using Microsoft.Xna.Framework.Audio;
-
-using XnaSoundEffect = Microsoft.Xna.Framework.Audio.SoundEffect;
 using System.Collections.Generic;
 using System.IO;
+using Jypeli.Audio.OpenAL;
 
 namespace Jypeli
 {
@@ -15,11 +13,13 @@ namespace Jypeli
     /// </summary>
     public class SoundEffect
     {
-        List<Sound> Instances = new List<Sound>();
+        internal static string[] SoundExtensions { get; } = { ".wav" };
+        private List<Sound> Instances = new List<Sound>();
 
         private string assetName;
-        XnaSoundEffect xnaEffect;
-        Timer posTimer;
+        private Timer posTimer;
+
+        internal uint handle;
 
         /// <summary>
         /// Tapahtuu kun ääniefekti on toistettu loppuun.
@@ -29,7 +29,7 @@ namespace Jypeli
         /// <summary>
         /// Ääniefektin kesto sekunteina.
         /// </summary>
-        public TimeSpan Duration { get { DoLoad(); return xnaEffect.Duration; } }
+        public TimeSpan Duration { get { return TimeSpan.FromSeconds(OpenAL.GetDuration(handle)); } }
 
         /// <summary>
         /// Paikka äänessä sekunteina (missä kohtaa toistoa ollaan). Ei voi asettaa.
@@ -41,66 +41,27 @@ namespace Jypeli
         /// </summary>
         public bool IsPlaying { get; private set; }
 
-        private static string[] soundExtensions = { ".wav", ".mp3", ".xnb" }; 
-
-        private void DoLoad()
-        {
-            if (assetName is null)
-                return;
-
-            if (xnaEffect == null)
-            {
-                Debug.Assert(assetName != null);
-                xnaEffect = FromContent(assetName);
-            }
-
-            Position.MaxValue = xnaEffect.Duration.TotalSeconds;
-        }
-
-
-        private XnaSoundEffect FromContent(string assetname)
-        {
-            assetName = Game.FileExtensionCheck(assetName, soundExtensions);
-            FileStream fs = new FileStream(assetName, FileMode.Open);
-            XnaSoundEffect sound = XnaSoundEffect.FromStream(fs);
-            fs.Close();
-            return sound;
-
-        }
         internal SoundEffect(string assetName)
         {
             this.assetName = assetName;
-            this.xnaEffect = null;
+
+            handle = OpenAL.LoadSound(assetName);
             InitPosition();
         }
 
-        internal SoundEffect( XnaSoundEffect effect )
+        internal SoundEffect(string assetName, Stream stream)
         {
-            this.Position = new DoubleMeter(0, 0, 0);
-            this.assetName = null;
-            xnaEffect = effect;
+            this.assetName = assetName;
+            handle = OpenAL.LoadSound(stream);
             InitPosition();
         }
 
-        internal SoundEffect(Stream stream)
-        {
-            this.Position = new DoubleMeter(0, 0, 0);
-            this.assetName = null;
-            try
-            {
-                xnaEffect = XnaSoundEffect.FromStream(stream);
-            }
-            catch (NoAudioHardwareException)
-            {
-                Game.Instance.OnNoAudioHardwareException();
-            }
-            InitPosition();
-            
-        }
+        internal SoundEffect()
+        { }
 
         private void InitPosition()
         {
-            Position = new DoubleMeter(0, 0, 0);
+            Position = new DoubleMeter(0, 0, OpenAL.GetDuration(handle));
             posTimer = new Timer();
             posTimer.Interval = 0.01;
             posTimer.Timeout += new Action(IncrementPosition);
@@ -118,7 +79,8 @@ namespace Jypeli
             Position.Reset();
             Instances.Clear();
             IsPlaying = false;
-            if(Finished != null) Finished();
+            if (Finished != null)
+                Finished();
         }
 
         /// <summary>
@@ -128,19 +90,15 @@ namespace Jypeli
         /// <returns></returns>
         public Sound CreateSound()
         {
-            if ( !Game.AudioEnabled )
+            try
+            {
+                return new Sound(Clone());
+            }
+            catch
+            {
+                Game.Instance.OnNoAudioHardwareException();
                 return null;
-
-			try
-			{
-            	DoLoad();
-            	return new Sound( xnaEffect.CreateInstance() );
-			}
-			catch (NoAudioHardwareException)
-			{
-				Game.Instance.OnNoAudioHardwareException();
-				return null;
-			}
+            }
         }
 
         /// <summary>
@@ -149,11 +107,11 @@ namespace Jypeli
         /// <returns></returns>
         public bool Play()
         {
-            DoLoad();
             Sound sound = CreateSound();
-            if (sound == null) return false;
+            if (sound == null)
+                return false;
 
-            StartPlaying( sound );
+            StartPlaying(sound);
             return true;
         }
 
@@ -164,35 +122,35 @@ namespace Jypeli
         /// <param name="pitch">Äänen taajuusmuutos. -1.0 = oktaavi alaspäin, 1.0 = oktaavi ylöspäin, 0.0 = normaali.</param>
         /// <param name="pan">Balanssi eli kummasta kaiuttimesta ääni kuuluu enemmän. -1.0 = kokonaan vasemmasta, 1.0 = kokonaan oikeasta, 0.0 = yhtä paljon kummastakin </param>
         /// <returns></returns>
-        public bool Play( double volume, double pitch, double pan )
+        public bool Play(double volume, double pitch, double pan)
         {
-            DoLoad();
             Sound sound = CreateSound();
-            if (sound == null) return false;
+            if (sound == null)
+                return false;
 
             sound.Volume = volume;
             sound.Pitch = pitch;
             sound.Pan = pan;
 
-            StartPlaying( sound );
+            StartPlaying(sound);
             return true;
         }
 
-        private void StartPlaying( Sound sound )
+        private void StartPlaying(Sound sound)
         {
-			try
-			{
-	            sound.Play();
-	            Instances.Add( sound );
-	            Position.Reset();
-	            posTimer.Start();
-	            IsPlaying = true;
-			}
-			catch (InstancePlayLimitException)
-			{
-				// Too many sounds are playing at once
-				// Just ignore this for now...
-			}
+            try
+            {
+                sound.Play();
+                Instances.Add(sound);
+                Position.Reset();
+                posTimer.Start();
+                IsPlaying = true;
+            }
+            catch
+            {
+                // Too many sounds are playing at once
+                // Just ignore this for now...
+            }
         }
 
         /// <summary>
@@ -208,13 +166,20 @@ namespace Jypeli
             EffectPlayed();
         }
 
+        internal SoundEffect Clone()
+        {
+            var s = new SoundEffect();
+            s.handle = OpenAL.Duplicate(handle);
+            s.assetName = this.assetName;
+            return s;
+        }
+
         /// <summary>
         /// Äänenvoimakkuuden taso 0.0 - 1.0
         /// </summary>
-        public static double MasterVolume 
+        public static double MasterVolume
         {
-            set { XnaSoundEffect.MasterVolume = (float)value; }
-            get { return XnaSoundEffect.MasterVolume; }
+            get; set;
         }
     }
 }

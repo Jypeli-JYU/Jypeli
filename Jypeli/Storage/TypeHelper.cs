@@ -53,13 +53,8 @@ namespace Jypeli
 
             StringBuilder sb = new StringBuilder( type.AssemblyQualifiedName );
 
-#if WINDOWS_STOREAPP
-            if ( !type.IsConstructedGenericType ) return sb.ToString();
-            Type[] genargs = type.GenericTypeArguments;
-#else
             if ( !type.ContainsGenericParameters ) return sb.ToString();
             Type[] genargs = type.GetGenericArguments();
-#endif
 
             sb.Append( '<' );
 

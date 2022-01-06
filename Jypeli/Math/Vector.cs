@@ -28,11 +28,10 @@
  */
 
 using System;
-using AdvanceMath;
 using System.Globalization;
 using System.Collections.Generic;
 
-using Matrix = Microsoft.Xna.Framework.Matrix;
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -564,81 +563,15 @@ namespace Jypeli
             return !( left == right );
         }
 
-        #region AdvMath conversions
+        #region Silk.NET conversions
 
         /// <summary>
-        /// Muuttaa dvancedMath.Vector2D -> Jypeli.Vector
+        /// Muuttaa Silk.NET.Maths.Vector2D -> Jypeli.Vector
         /// </summary>
         /// <param name="v"></param>
-        public static implicit operator Vector(Vector2D v)
+        public static explicit operator Vector(Silk.NET.Maths.Vector2D<float> v)
         {
             return new Vector(v.X, v.Y);
-        }
-
-        /// <summary>
-        /// Muuttaa Jypeli.Vector -> AdvancedMath.Vector2D
-        /// </summary>
-        /// <param name="v"></param>
-        public static implicit operator Vector2D(Vector v)
-        {
-            return new Vector2D(v.X, v.Y);
-        }
-
-        #endregion
-        #region MonoGame conversions
-
-        /// <summary>
-        /// Muuttaa Microsoft.Xna.Framework.Vector2 -> Jypeli.Vector
-        /// </summary>
-        /// <param name="v"></param>
-        public static implicit operator Vector(Microsoft.Xna.Framework.Vector2 v)
-        {
-            return new Vector(v.X, v.Y);
-        }
-
-        /// <summary>
-        /// Muuttaa Jypeli.Vector -> Microsoft.Xna.Framework.Vector2
-        /// </summary>
-        /// <param name="v"></param>
-        public static implicit operator Microsoft.Xna.Framework.Vector2(Vector v)
-        {
-            return new Microsoft.Xna.Framework.Vector2((float)v.X, (float)v.Y);
-        }
-
-        /// <summary>
-        /// Muuttaa Microsoft.Xna.Framework.Vector3 -> Jypeli.Vector
-        /// </summary>
-        /// <param name="v"></param>
-        public static implicit operator Vector(Microsoft.Xna.Framework.Vector3 v)
-        {
-            return new Vector(v.X, v.Y);
-        }
-
-        /// <summary>
-        /// Muuttaa Jypeli.Vector -> Microsoft.Xna.Framework.Vector3
-        /// </summary>
-        /// <param name="v"></param>
-        public static implicit operator Microsoft.Xna.Framework.Vector3(Vector v)
-        {
-            return new Microsoft.Xna.Framework.Vector3((float)v.X, (float)v.Y, 0);
-        }
-
-        /// <summary>
-        /// Muuttaa Microsoft.Xna.Framework.Vector4 -> Jypeli.Vector
-        /// </summary>
-        /// <param name="v"></param>
-        public static implicit operator Vector(Microsoft.Xna.Framework.Vector4 v)
-        {
-            return new Vector(v.X, v.Y);
-        }
-
-        /// <summary>
-        /// Muuttaa Jypeli.Vector -> Microsoft.Xna.Framework.Vector4
-        /// </summary>
-        /// <param name="v"></param>
-        public static implicit operator Microsoft.Xna.Framework.Vector4(Vector v)
-        {
-            return new Microsoft.Xna.Framework.Vector4((float)v.X, (float)v.Y, 0, 0);
         }
 
         #endregion

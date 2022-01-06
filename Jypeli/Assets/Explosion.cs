@@ -277,7 +277,7 @@ namespace Jypeli.Assets
             // play the sound
             double pitch = RandomGen.NextDouble( -0.1, 0.1 ); // add some variation to explosion sound
             double pan = this.Position.X / ( Game.Screen.Width / 2 ); // sound comes from left or right speaker
-            pan = AdvanceMath.MathHelper.Clamp( (float)pan, (float)-1.0, (float)1.0 );
+            pan = MathHelper.Clamp( (float)pan, (float)-1.0, (float)1.0 );
             if ( !double.IsNaN( pan ) )  // sometimes pan can be Nan, that is why this check is here
             {
                 Sound.Play(Volume, pitch, pan );

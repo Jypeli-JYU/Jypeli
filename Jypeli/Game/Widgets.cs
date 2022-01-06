@@ -8,7 +8,7 @@
         /// <value>Viestinäyttö.</value>
         public MessageDisplay MessageDisplay { get; set; }
 
-        private void addMessageDisplay(bool force = false)
+        private void AddMessageDisplay(bool force = false)
         {
             if (MessageDisplay == null)
             {
@@ -24,7 +24,7 @@
 
         private bool IsJypeliWidget<T>( T obj ) where T : IGameObject
         {
-            return object.ReferenceEquals( obj, this.MessageDisplay );
+            return ReferenceEquals(obj, MessageDisplay);
         }
     }
 }

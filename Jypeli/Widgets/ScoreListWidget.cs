@@ -62,22 +62,22 @@ namespace Jypeli.Widgets
     /// </summary>
     public class ScoreListWidget : ListWidget<ScoreItem, ScoreItemWidget>
     {
-        Font _font = Font.Default;
-        Color _posColor = Color.Blue;
-        Color _nameColor = Color.Black;
-        Color _scoreColor = Color.Red;
-        string _scoreFormat = "{0}";
-        string _infMarker = "-";
+        private Font font = Font.Default;
+        private Color posColor = Color.Blue;
+        private Color nameColor = Color.Black;
+        private Color scoreColor = Color.Red;
+        private string scoreFormat = "{0}";
+        private string infMarker = "-";
 
         /// <summary>
         /// Tekstifontti.
         /// </summary>
         public Font Font
         {
-            get { return _font; }
+            get { return font; }
             set
             {
-                _font = value;
+                font = value;
                 for ( int i = 0; i < Content.ItemCount; i++ )
                 {
                     Content[i].Place.Font = value;
@@ -92,10 +92,10 @@ namespace Jypeli.Widgets
         /// </summary>
         public Color PositionColor
         {
-            get { return _posColor; }
+            get { return posColor; }
             set
             {
-                _posColor = value;
+                posColor = value;
                 for ( int i = 0; i < Content.ItemCount; i++ )
                     Content[i].Place.TextColor = value;
             }
@@ -106,10 +106,10 @@ namespace Jypeli.Widgets
         /// </summary>
         public Color NameColor
         {
-            get { return _nameColor; }
+            get { return nameColor; }
             set
             {
-                _nameColor = value;
+                nameColor = value;
                 for ( int i = 0; i < Content.ItemCount; i++ )
                     Content[i].Name.TextColor = value;
             }
@@ -120,10 +120,10 @@ namespace Jypeli.Widgets
         /// </summary>
         public Color ScoreColor
         {
-            get { return _scoreColor; }
+            get { return scoreColor; }
             set
             {
-                _scoreColor = value;
+                scoreColor = value;
                 for ( int i = 0; i < Content.ItemCount; i++ )
                     Content[i].Score.TextColor = value;
             }
@@ -134,10 +134,10 @@ namespace Jypeli.Widgets
         /// </summary>
         public string ScoreFormat
         {
-            get { return _scoreFormat; }
+            get { return scoreFormat; }
             set
             {
-                _scoreFormat = value;
+                scoreFormat = value;
                 Reset();
             }
         }
@@ -147,10 +147,10 @@ namespace Jypeli.Widgets
         /// </summary>
         public string InfinityMarker
         {
-            get { return _infMarker; }
+            get { return infMarker; }
             set
             {
-                _infMarker = value;
+                infMarker = value;
                 Reset();
             }
         }

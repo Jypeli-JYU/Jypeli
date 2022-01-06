@@ -74,11 +74,7 @@ namespace Jypeli.Widgets
         {
             get
             {
-#if WINDOWS_PHONE || ANDROID
                 return Game.Screen.Width;
-#else
-                return 600;
-#endif
             }
         }
 
@@ -86,8 +82,8 @@ namespace Jypeli.Widgets
         {
             get
             {
-#if WINDOWS_PHONE
-                return Game.Instance.Phone.DisplayResolution == DisplayResolution.Small ? 300 : 500;
+#if ANDROID
+                return Game.Device.DisplayResolution == DisplayResolution.Small ? 300 : 500;
 #else
                 return 500;
 #endif
@@ -98,11 +94,7 @@ namespace Jypeli.Widgets
         {
             get
             {
-#if WINDOWS_PHONE || ANDROID
                 return Game.Screen.Height;
-#else
-                return 600;
-#endif
             }
         }
 
@@ -110,11 +102,7 @@ namespace Jypeli.Widgets
         {
             get
             {
-#if WINDOWS_PHONE
-                return Game.Instance.Phone.DisplayResolution == WP7.DisplayResolution.Small ? 0 : 20;
-#else
                 return 50;
-#endif
             }
         }
 
@@ -122,10 +110,8 @@ namespace Jypeli.Widgets
         {
             get
             {
-#if WINDOWS_PHONE || ANDROID
+#if ANDROID
                 return "Start the game by tapping here";
-#elif XBOX
-                return "Start the game by pressing A";
 #else
                 return "Start the game by pressing Enter";
 #endif
@@ -157,12 +143,7 @@ namespace Jypeli.Widgets
             TextBody.Width = DefaultTextWidth;
             TextBody.TextColor = Color.Black;
             TextBody.Color = new Color(0, 0, 255, 4);
-#if WINDOWS_PHONE || ANDROID
-            if ( DefaultTextWidth < 500 )
-                TextBody.Font = Font.DefaultSmall;
-            else 
-                TextBody.Font = Font.DefaultLarge;
-#endif
+
             TextBody.Text = textBody;
 
             StartLabel.SizeMode = TextSizeMode.Wrapped;
@@ -178,7 +159,7 @@ namespace Jypeli.Widgets
 
         private void AddControls()
         {
-            var l1 = Game.Keyboard.Listen(Key.Enter, ButtonState.Pressed, BeginLoad, null, StartLabel).InContext(this);
+            /*var l1 = Game.Keyboard.Listen(Key.Enter, ButtonState.Pressed, BeginLoad, null, StartLabel).InContext(this);
             var l2 = Game.Keyboard.Listen(Key.Escape, ButtonState.Pressed, Game.Instance.Exit, null).InContext(this); ;
             var l3 = Game.Mouse.Listen(MouseButton.Left, ButtonState.Down, BeginLoad, null, StartLabel).InContext(this);
             associatedListeners.AddItems(l1, l2, l3);
@@ -192,7 +173,7 @@ namespace Jypeli.Widgets
 
             l1 = Game.TouchPanel.ListenOn(StartLabel, ButtonState.Pressed, delegate { BeginLoad(StartLabel); }, null).InContext(this);
             l2 = Game.PhoneBackButton.Listen(Game.Instance.Exit, null).InContext(this);
-            associatedListeners.AddItems(l1, l2);
+            associatedListeners.AddItems(l1, l2);*/
         }
 
         private void BeginLoad(Label aloitusohje)

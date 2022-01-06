@@ -32,25 +32,27 @@ using System.IO;
 
 using System;
 using System.ComponentModel;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Jypeli.Devices;
 
-using XnaColor = Microsoft.Xna.Framework.Color;
-using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
+using Silk.NET.Windowing;
+
+using Matrix = System.Numerics.Matrix4x4;
+using Jypeli.Effects;
+using System.Diagnostics;
+using System.Linq;
+
+
 #if ANDROID
+using Android.Content.Res;
 using Jypeli.Controls.Keyboard;
+using Android.App;
 #endif
 
 namespace Jypeli
 {
     [Save]
-    public partial class Game : Microsoft.Xna.Framework.Game, GameObjectContainer
+    public partial class Game : GameObjectContainer, IDisposable
     {
-        private bool loadContentHasBeenCalled = false;
-        private bool beginHasBeenCalled = false;
-
         /// <summary>
         /// Kuinka monen pelinpäivityksen jälkeen peli suljetaan automaattisesti.
         /// Jos 0, peli pyörii ikuisesti
@@ -72,7 +74,7 @@ namespace Jypeli
         /// </summary>
         public int FramesToSkip { get; private set; }
 
-        private int skipcounter = 0;
+        private int skipcounter;
 
         /// <summary>
         /// Tallennetaanko pelin kuvaa.
@@ -98,7 +100,7 @@ namespace Jypeli
         /// <summary>
         /// Laite jolla peliä pelataan.
         /// </summary>
-        public static Device Device { get; private set; }
+        public static Device Device { get; private set; } = Device.Create();
 
         /// <summary>
         /// Tietovarasto, johon voi tallentaa tiedostoja pidempiaikaisesti.
@@ -111,16 +113,6 @@ namespace Jypeli
         /// HUOM: Tämä saattaa poistua tulevaisuudessa jos/kun siitä tehdään ainut vaihtoehto.
         /// </summary>
         public bool FarseerGame { get; set; }
-
-        /// <summary>
-        /// Phone-olio esim. puhelimen tärisyttämiseen.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete( "Käytä Device-oliota" )]
-        public Device Phone
-        {
-            get { return Device; }
-        }
 
         /// <summary>
         /// Kamera, joka näyttää ruudulla näkyvän osan kentästä.
@@ -137,7 +129,7 @@ namespace Jypeli
         /// <summary>
         /// Voiko ääniä soittaa.
         /// </summary>
-        public static bool AudioEnabled { get; private set; }
+        public static bool AudioEnabled { get; private set; } = true;
 
         /// <summary>
         /// Aktiivinen kenttä.
@@ -149,22 +141,28 @@ namespace Jypeli
         private readonly Lazy<Stream> standardOutStream = new Lazy<Stream>(Console.OpenStandardOutput);
         
 
+
+        /// <summary>
+        /// Onko peli sulkeutumassa tämän päivityksen jölkeen.
+        /// </summary>
+        public bool Closing { get; private set; }
+
 #if ANDROID
         /// <summary>
         /// Virtuaalinen näppäimistö.
         /// </summary>
         internal VirtualKeyboard VirtualKeyboard { get; private set; }
+        public static AssetManager AssetManager { get; set; }
 #endif
 
-		/// <summary>
-		/// Alustaa pelin.
-		/// </summary>
+        /// <summary>
+        /// Alustaa pelin.
+        /// </summary>
         public Game()
-            : base()
         {
 			InitGlobals();
-            InitXnaContent();
-            InitXnaGraphics();
+            InitContent();
+            InitWindow();
             InitAudio();
         }
 
@@ -189,7 +187,8 @@ namespace Jypeli
             {
                 Directory.CreateDirectory("Output");
             }
-            base.Run();
+
+            Window.Run();
         }
 
         private void ApplyCMDArgs()
@@ -243,91 +242,66 @@ namespace Jypeli
 		/// <param name="bmpOutName">Bmp file to write to.</param>
 		public void RunOneFrame( string bmpOutName )
         {
-            base.RunOneFrame();
-            FileStream screenFile = new FileStream( bmpOutName, FileMode.Create );
-            Screencap.WriteBmp( screenFile, Screen.Image );
-            screenFile.Close();
-			OnExiting(this, EventArgs.Empty);
-			UnloadContent();
-			Exit();
+            //base.RunOneFrame();
+            Screencap.SaveBmp(bmpOutName);
+            OnExiting(this, EventArgs.Empty);
+            //UnloadContent();
+            Exit();
         }
 
 
-		void InitGlobals ()
+        void InitGlobals ()
         {
-			Name = this.GetType().Assembly.FullName.Split( ',' )[0];
-			Instance = this;
-            Device = Device.Create();
-		}
+            Name = this.GetType().Assembly.FullName.Split(',')[0];
+            Instance = this;
+        }
 
-        private void InitXnaGraphics()
+        private void InitWindow()
         {
-            GraphicsDeviceManager = new GraphicsDeviceManager( this );
-            GraphicsDeviceManager.PreferredDepthStencilFormat = Jypeli.Graphics.SelectStencilMode();
-
 #if ANDROID
-            GraphicsDeviceManager.PreferredBackBufferWidth = 800;
-            GraphicsDeviceManager.PreferredBackBufferHeight = 480;
+            var options = ViewOptions.Default;
+            options.API = new GraphicsAPI(ContextAPI.OpenGLES, ContextProfile.Core, ContextFlags.Default, new APIVersion(3, 0));
+            Window = Silk.NET.Windowing.Window.GetView(options);
+#else
+            var options = WindowOptions.Default;
+            options.Size = new Silk.NET.Maths.Vector2D<int>(1024, 768);
+            options.Title = Name;
+
+            Window = Silk.NET.Windowing.Window.Create(options);
 #endif
+            Window.Load += LoadContent;
+            Window.Update += OnUpdate;
+            Window.Render += OnDraw;
+            Window.Closing += OnExit;
+            Window.Resize += (v) => OnResize(new Vector(v.X, v.Y));
         }
 
         private void InitAudio()
         {
-            if(!Headless)
-                AudioEnabled = true;
-        }
-
-		internal void OnNoAudioHardwareException()
-		{
-			MessageDisplay.Add( "No audio hardware was detected. All sound is disabled." );
-            DisableAudio();
-            //TODO: Can this still happen?
-#if WINDOWS
-			MessageDisplay.Add( "You might need to install OpenAL drivers." );
-			MessageDisplay.Add( "Press Ctrl+Alt+I to try downloading and installing them now." );
-
-			Keyboard.Listen( Key.I, ButtonState.Pressed, TryInstallOpenAL, null );
-#endif
-        }
-
-#if WINDOWS
-        private void TryInstallOpenAL()
-        {
-            if ( !Keyboard.IsCtrlDown() || !Keyboard.IsAltDown() )
-                return;
-
-            MessageDisplay.Add( "Starting download of OpenAL installer..." );
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create( "https://github.com/Mono-Game/MonoGame.Dependencies/raw/master/oalinst.exe" );
-            request.BeginGetResponse( OpenALDownloaded, request );
-        }
-
-        private void OpenALDownloaded(IAsyncResult result)
-        {
-            HttpWebResponse response = ( result.AsyncState as HttpWebRequest ).EndGetResponse( result ) as HttpWebResponse;
-
-            if ( response == null )
+            try
             {
-                MessageDisplay.Add( "Download failed." );
-                return;
+                Audio.OpenAL.OpenAL.Init();
+            }catch (Exception ex)
+            {
+                OnNoAudioHardwareException();
+                Debug.WriteLine(ex);
             }
 
-            MessageDisplay.Add( "Download completed. Launching installer..." );
-            Stream resStream = response.GetResponseStream();
-
-            string fileName = Path.Combine( Path.GetTempPath(), "oalinst.exe" );
-            FileStream fs = new FileStream( fileName, FileMode.Create, FileAccess.Write );
-            resStream.CopyTo( fs );
-            fs.Close();
-
-            var startInfo = new System.Diagnostics.ProcessStartInfo( fileName );
-            startInfo.Verb = "runas";
-            var process = System.Diagnostics.Process.Start( startInfo );
-            process.WaitForExit();
-
-            MessageDisplay.Add( "Installation complete. Trying to enable sound..." );
-            InitAudio();
         }
-#endif
+
+        internal static void OnResize(Vector size)
+        {
+            Screen.Resize(size);
+        }
+
+        internal void OnNoAudioHardwareException()
+        {
+            if (AudioEnabled)
+            {
+                DoNextUpdate(() => MessageDisplay.Add("No audio hardware was detected. All sound is disabled."));
+                DisableAudio();
+            }
+        }
 
         /// <summary>
         /// This gets called after the GraphicsDevice has been created. So, this is
@@ -335,20 +309,15 @@ namespace Jypeli
         /// which should be called int LoadContent(), according to the XNA docs.
         /// </summary>
         [EditorBrowsable( EditorBrowsableState.Never )]
-        protected override void Initialize()
+        protected void Initialize()
         {
-            if ( !windowSizeSet )
-                SetDefaultResolution();
-
-            if ( !windowPositionSet )
-                CenterWindow();
+            CenterWindow();
 
             Level = new Level( this );
-            base.Initialize();
 
 #if ANDROID
             VirtualKeyboard = new VirtualKeyboard(this);
-            Components.Add(VirtualKeyboard);
+            //Components.Add(VirtualKeyboard);
             VirtualKeyboard.Initialize();
             VirtualKeyboard.Hide();
 #endif
@@ -360,8 +329,12 @@ namespace Jypeli
         /// <summary>
         /// XNA:n sisällön alustus (Initializen jälkeen)
         /// </summary>
-        protected override void LoadContent()
+        protected void LoadContent()
         {
+#if DESKTOP
+            ((IWindow)Window).Center();
+#endif
+            graphicsDevice = new Rendering.OpenGl.GraphicsDevice(Window); // TODO: GraphicsDeviceManager, jolle annetaan ikkuna ja asetukset tms. joka hoitaa oikean laitteen luomisen.
             // Graphics initialization is best done here when window size is set for certain
             InitGraphics();
             Device.ResetScreen();
@@ -369,12 +342,10 @@ namespace Jypeli
             InitLayers();
             InitDebugScreen();
 
-            if ( InstanceInitialized != null )
-                InstanceInitialized();
+            InstanceInitialized?.Invoke();
 
-            base.LoadContent();
-            loadContentHasBeenCalled = true;
-            addMessageDisplay();
+            AddMessageDisplay();
+            Initialize();
             CallBegin();
         }
 
@@ -383,21 +354,22 @@ namespace Jypeli
         /// </summary>
         /// <param name="gameTime"></param>
         [EditorBrowsable( EditorBrowsableState.Never )]
-        protected override void Draw( GameTime gameTime )
+        protected void Draw(Time gameTime)
         {
-            //Console.WriteLine(gameTime.ElapsedGameTime.Milliseconds);
             UpdateFps(gameTime);
-            GraphicsDevice.SetRenderTarget( Screen.RenderTarget );
-			GraphicsDevice.Clear( Level.BackgroundColor.AsXnaColor() );
-
+            GraphicsDevice.SetRenderTarget(Screen.RenderTarget);
+            GraphicsDevice.Clear(Level.BackgroundColor);
+            
             if ( Level.Background.Image != null && !Level.Background.MovesWithCamera )
             {
-                SpriteBatch spriteBatch = Jypeli.Graphics.SpriteBatch;
-                spriteBatch.Begin( SpriteSortMode.Deferred, BlendState.AlphaBlend );
-                spriteBatch.Draw( Level.Background.Image.XNATexture, new XnaRectangle( 0, 0, (int)Screen.Width, (int)Screen.Height ), XnaColor.White );
-                spriteBatch.End();
-            }
+                GraphicsDevice.BindTexture(Level.Background.Image);
 
+                Graphics.BasicTextureShader.Use();
+                Graphics.BasicTextureShader.SetUniform("world", Matrix.Identity);
+
+                GraphicsDevice.DrawPrimitives(Rendering.PrimitiveType.OpenGlTriangles, Graphics.TextureVertices, 6, true);
+            }
+            
             // The world matrix adjusts the position and size of objects according to the camera angle.
             var worldMatrix =
                 Matrix.CreateTranslation( (float)-Camera.Position.X, (float)-Camera.Position.Y, 0 )
@@ -407,7 +379,14 @@ namespace Jypeli
             Level.Background.Draw( worldMatrix, Matrix.Identity );
 
             // Draw the layers containing the GameObjects
-            Layers.ForEach( l => l.Draw( Camera ) );
+            DynamicLayers.ForEach( l => l.Draw( Camera ) );
+
+            // TODO: Tätä ei tarvitsisi tehdä, jos valoja ei käytetä.
+            // Yhdistetään valotekstuuri ja objektien tekstuuri.
+            GraphicsDevice.DrawLights(worldMatrix);
+
+            // Piirretään käyttöliittymäkomponentit valojen päälle
+            StaticLayers.ForEach(l => l.Draw(Camera));
 
             // Draw on the canvas
             Graphics.Canvas.Begin( ref worldMatrix, Level );
@@ -416,24 +395,23 @@ namespace Jypeli
 
             // Draw the debug information screen
             DrawDebugScreen();
-
+            
             // Render the scene on screen
             Screen.Render();
 
-            base.Draw( gameTime );
-
             if (SaveOutput)
             {
-                if(skipcounter == 0)
-                {
-                    Screencap.WriteBmp(CurrentFrameStream, Screen.Image);
-                    skipcounter = FramesToSkip;
-                    SavedFrameCounter++;
-                }
-                else
-                {
-                    skipcounter--;
-                }
+                if (FrameCounter != 0) // Ekaa framea ei voi tallentaa?
+                    if(skipcounter == 0)
+                    {
+                        Screencap.SaveBmp(CurrentFrameStream);
+                        skipcounter = FramesToSkip;
+                        SavedFrameCounter++;
+                    }
+                    else
+                    {
+                        skipcounter--;
+                    }
             }
 
             FrameCounter++;
@@ -441,7 +419,7 @@ namespace Jypeli
             if (TotalFramesToRun != 0 && FrameCounter == TotalFramesToRun)
             {
                 OnExiting(this, EventArgs.Empty);
-                UnloadContent();
+                //UnloadContent();
                 Exit();
             }
         }
@@ -458,7 +436,7 @@ namespace Jypeli
             ClearControls();
             GC.Collect();
             ControlContext.Enable();
-            addMessageDisplay();
+            AddMessageDisplay();
             Camera.Reset();
             IsPaused = false;
         }
@@ -470,7 +448,6 @@ namespace Jypeli
         internal void CallBegin()
         {
             Begin();
-            beginHasBeenCalled = true;
         }
 
         /// <summary>
@@ -486,6 +463,26 @@ namespace Jypeli
         /// <param name="canvas"></param>
         protected virtual void Paint( Canvas canvas )
         {
+        }
+
+        public void OnExit()
+        {
+            Dispose();
+        }
+
+        /// <summary>
+        /// Sulkee pelin
+        /// </summary>
+        public void Exit()
+        {
+            Closing = true;
+            Window.Close();
+        }
+
+        public void Dispose()
+        {
+            GraphicsDevice?.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

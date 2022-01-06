@@ -27,8 +27,9 @@
  * Authors: Tomi Karppinen, Tero Jäntti
  */
 
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using Microsoft.Xna.Framework;
 using Jypeli.GameObjects;
 
 namespace Jypeli
@@ -78,13 +79,13 @@ namespace Jypeli
 
         void AddListeners()
         {
-#if WINDOWS_PHONE || ANDROID
+#if ANDROID
             // TODO: gestures
             //Game.TouchPanel.ListenGestureOn( this, GestureType.VerticalDrag, Scroll, null ).InContext( this );
 #endif
         }
 
-#if WINDOWS_PHONE || ANDROID
+#if ANDROID
         const double MaxMoves = 5;
 
         double velocity = 0;
@@ -218,9 +219,9 @@ namespace Jypeli
 
         private void AddListeners()
         {
-            var l1 = Game.Instance.Keyboard.Listen( Key.Up, ButtonState.Pressed, scrollUp, null ).InContext( this );
-            var l2 = Game.Instance.Keyboard.Listen( Key.Down, ButtonState.Pressed, scrollDown, null ).InContext( this );
-            associatedListeners.AddItems(l1, l2);
+            //var l1 = Game.Instance.Keyboard.Listen( Key.Up, ButtonState.Pressed, scrollUp, null ).InContext( this );
+            //var l2 = Game.Instance.Keyboard.Listen( Key.Down, ButtonState.Pressed, scrollDown, null ).InContext( this );
+            //associatedListeners.AddItems(l1, l2);
         }
 
         private Widget CreateVerticalScrollPanel()

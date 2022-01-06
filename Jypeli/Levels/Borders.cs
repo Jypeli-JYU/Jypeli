@@ -62,10 +62,10 @@ namespace Jypeli
         public Surfaces CreateBorders( double restitution, bool isVisible, Color borderColor )
         {
             Surfaces borders = new Surfaces();
-            borders.l = CreateBorder( Direction.Left, restitution, isVisible, null, borderColor );
-            borders.r = CreateBorder( Direction.Right, restitution, isVisible, null, borderColor );
-            borders.t = CreateBorder( Direction.Up, restitution, isVisible, null, borderColor );
-            borders.b = CreateBorder( Direction.Down, restitution, isVisible, null, borderColor );
+            borders.Left = CreateBorder( Direction.Left, restitution, isVisible, null, borderColor );
+            borders.Right = CreateBorder( Direction.Right, restitution, isVisible, null, borderColor );
+            borders.Top = CreateBorder( Direction.Up, restitution, isVisible, null, borderColor );
+            borders.Bottom = CreateBorder( Direction.Down, restitution, isVisible, null, borderColor );
             return borders;
         }
 
@@ -78,10 +78,10 @@ namespace Jypeli
         public Surfaces CreateBorders( double restitution, bool isVisible, Image borderImage )
         {
             Surfaces borders = new Surfaces();
-            borders.l = CreateBorder( Direction.Left, restitution, isVisible, borderImage, Color.Gray );
-            borders.r = CreateBorder( Direction.Right, restitution, isVisible, borderImage, Color.Gray );
-            borders.t = CreateBorder( Direction.Up, restitution, isVisible, borderImage, Color.Gray );
-            borders.b = CreateBorder( Direction.Down, restitution, isVisible, borderImage, Color.Gray );
+            borders.Left = CreateBorder( Direction.Left, restitution, isVisible, borderImage, Color.Gray );
+            borders.Right = CreateBorder( Direction.Right, restitution, isVisible, borderImage, Color.Gray );
+            borders.Top = CreateBorder( Direction.Up, restitution, isVisible, borderImage, Color.Gray );
+            borders.Bottom = CreateBorder( Direction.Down, restitution, isVisible, borderImage, Color.Gray );
             return borders;
         }
 
@@ -121,8 +121,8 @@ namespace Jypeli
         public Surfaces CreateHorizontalBorders( double restitution, bool isVisible, Color borderColor )
         {
             Surfaces borders = new Surfaces();
-            borders.l = CreateBorder( Direction.Left, restitution, isVisible, null, borderColor );
-            borders.r = CreateBorder( Direction.Right, restitution, isVisible, null, borderColor );
+            borders.Left = CreateBorder( Direction.Left, restitution, isVisible, null, borderColor );
+            borders.Right = CreateBorder( Direction.Right, restitution, isVisible, null, borderColor );
             return borders;
         }
 
@@ -135,8 +135,8 @@ namespace Jypeli
         public Surfaces CreateVerticalBorders( double restitution, bool isVisible, Color borderColor )
         {
             Surfaces borders = new Surfaces();
-            borders.t = CreateBorder( Direction.Up, restitution, isVisible, null, borderColor );
-            borders.b = CreateBorder( Direction.Down, restitution, isVisible, null, borderColor );
+            borders.Top = CreateBorder( Direction.Up, restitution, isVisible, null, borderColor );
+            borders.Bottom = CreateBorder( Direction.Down, restitution, isVisible, null, borderColor );
             return borders;
         }
 
@@ -149,8 +149,8 @@ namespace Jypeli
         public Surfaces CreateHorizontalBorders( double restitution, bool isVisible, Image borderImage )
         {
             Surfaces borders = new Surfaces();
-            borders.l = CreateBorder( Direction.Left, restitution, isVisible, borderImage, Color.Gray );
-            borders.r = CreateBorder( Direction.Right, restitution, isVisible, borderImage, Color.Gray );
+            borders.Left = CreateBorder( Direction.Left, restitution, isVisible, borderImage, Color.Gray );
+            borders.Right = CreateBorder( Direction.Right, restitution, isVisible, borderImage, Color.Gray );
             return borders;
         }
 
@@ -190,8 +190,8 @@ namespace Jypeli
         public Surfaces CreateVerticalBorders( double restitution, bool isVisible, Image borderImage )
         {
             Surfaces borders = new Surfaces();
-            borders.t = CreateBorder( Direction.Up, restitution, isVisible, borderImage, Color.Gray );
-            borders.b = CreateBorder( Direction.Down, restitution, isVisible, borderImage, Color.Gray );
+            borders.Top = CreateBorder( Direction.Up, restitution, isVisible, borderImage, Color.Gray );
+            borders.Bottom = CreateBorder( Direction.Down, restitution, isVisible, borderImage, Color.Gray );
             return borders;
         }
 
@@ -206,10 +206,10 @@ namespace Jypeli
         public Surfaces CreateBorders( double min, double max, int points, double restitution, Color borderColor )
         {
             Surfaces s = new Surfaces();
-            s.l = CreateBorder( Direction.Left, min, max, points, restitution, true, null, borderColor );
-            s.r = CreateBorder( Direction.Right, min, max, points, restitution, true, null, borderColor );
-            s.t = CreateBorder( Direction.Up, min, max, points, restitution, true, null, borderColor );
-            s.b = CreateBorder( Direction.Down, min, max, points, restitution, true, null, borderColor );
+            s.Left = CreateBorder( Direction.Left, min, max, points, restitution, true, null, borderColor );
+            s.Right = CreateBorder( Direction.Right, min, max, points, restitution, true, null, borderColor );
+            s.Top = CreateBorder( Direction.Up, min, max, points, restitution, true, null, borderColor );
+            s.Bottom = CreateBorder( Direction.Down, min, max, points, restitution, true, null, borderColor );
             return s;
         }
 
@@ -224,10 +224,10 @@ namespace Jypeli
         public Surfaces CreateBorders( double min, double max, int points, double restitution, Image borderImage )
         {
             Surfaces s = new Surfaces();
-            s.l = CreateBorder( Direction.Left, min, max, points, restitution, true, borderImage, Color.Gray );
-            s.r = CreateBorder( Direction.Right, min, max, points, restitution, true, borderImage, Color.Gray );
-            s.t = CreateBorder( Direction.Up, min, max, points, restitution, true, borderImage, Color.Gray );
-            s.b = CreateBorder( Direction.Down, min, max, points, restitution, true, borderImage, Color.Gray );
+            s.Left = CreateBorder( Direction.Left, min, max, points, restitution, true, borderImage, Color.Gray );
+            s.Right = CreateBorder( Direction.Right, min, max, points, restitution, true, borderImage, Color.Gray );
+            s.Top = CreateBorder( Direction.Up, min, max, points, restitution, true, borderImage, Color.Gray );
+            s.Bottom = CreateBorder( Direction.Down, min, max, points, restitution, true, borderImage, Color.Gray );
             return s;
         }
 
@@ -277,8 +277,8 @@ namespace Jypeli
         public Surfaces CreateHorizontalBorders( double min, double max, int points, double restitution, Image borderImage )
         {
             Surfaces s = new Surfaces();
-            s.l = CreateBorder( Direction.Left, min, max, points, restitution, true, borderImage, Color.Gray );
-            s.r = CreateBorder( Direction.Right, min, max, points, restitution, true, borderImage, Color.Gray );
+            s.Left = CreateBorder( Direction.Left, min, max, points, restitution, true, borderImage, Color.Gray );
+            s.Right = CreateBorder( Direction.Right, min, max, points, restitution, true, borderImage, Color.Gray );
             return s;
         }
 
@@ -293,8 +293,8 @@ namespace Jypeli
         public Surfaces CreateHorizontalBorders( double min, double max, int points, double restitution, Color borderColor )
         {
             Surfaces s = new Surfaces();
-            s.l = CreateBorder( Direction.Left, min, max, points, restitution, true, null, borderColor );
-            s.r = CreateBorder( Direction.Right, min, max, points, restitution, true, null, borderColor );
+            s.Left = CreateBorder( Direction.Left, min, max, points, restitution, true, null, borderColor );
+            s.Right = CreateBorder( Direction.Right, min, max, points, restitution, true, null, borderColor );
             return s;
         }
 
@@ -332,8 +332,8 @@ namespace Jypeli
         public Surfaces CreateVerticalBorders( double min, double max, int points, double restitution, Image borderImage )
         {
             Surfaces s = new Surfaces();
-            s.t = CreateBorder( Direction.Up, min, max, points, restitution, true, borderImage, Color.Gray );
-            s.b = CreateBorder( Direction.Down, min, max, points, restitution, true, borderImage, Color.Gray );
+            s.Top = CreateBorder( Direction.Up, min, max, points, restitution, true, borderImage, Color.Gray );
+            s.Bottom = CreateBorder( Direction.Down, min, max, points, restitution, true, borderImage, Color.Gray );
             return s;
         }
 
@@ -348,8 +348,8 @@ namespace Jypeli
         public Surfaces CreateVerticalBorders( double min, double max, int points, double restitution, Color borderColor )
         {
             Surfaces s = new Surfaces();
-            s.t = CreateBorder( Direction.Up, min, max, points, restitution, true, null, borderColor );
-            s.b = CreateBorder( Direction.Down, min, max, points, restitution, true, null, borderColor );
+            s.Top = CreateBorder( Direction.Up, min, max, points, restitution, true, null, borderColor );
+            s.Bottom = CreateBorder( Direction.Down, min, max, points, restitution, true, null, borderColor );
             return s;
         }
 
@@ -381,7 +381,7 @@ namespace Jypeli
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
         public PhysicsObject CreateLeftBorder( double restitution, bool isVisible )
         {
-            double thickness = this.GetBorderThickness();
+            double thickness = GetBorderThickness();
             PhysicsObject b = CreateBorder( thickness, this.Height );
             b.Position = new Vector( Left - ( thickness / 2 ), Center.Y );
             b.Restitution = restitution;
@@ -397,7 +397,7 @@ namespace Jypeli
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
         public PhysicsObject CreateRightBorder( double restitution, bool isVisible )
         {
-            double thickness = this.GetBorderThickness();
+            double thickness = GetBorderThickness();
             PhysicsObject b = CreateBorder( thickness, this.Height );
             b.Position = new Vector( Right + ( thickness / 2 ), Center.Y );
             b.Restitution = restitution;
@@ -413,7 +413,7 @@ namespace Jypeli
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
         public PhysicsObject CreateTopBorder( double restitution, bool isVisible )
         {
-            double thickness = this.GetBorderThickness();
+            double thickness = GetBorderThickness();
             PhysicsObject b = CreateBorder( this.Width + ( 2 * thickness ), thickness );
             b.Angle = Angle.FromRadians( Math.PI );
             b.Position = new Vector( Center.X, Top + ( thickness / 2 ) );
@@ -505,7 +505,7 @@ namespace Jypeli
         /// <returns></returns>
         public PhysicsObject CreateGround( double[] heights, double scale, Image image )
         {
-            var ground = new Surface( this.Width, heights, scale );
+            var ground = new Surface( Width, heights, scale );
             ground.Position = new Vector( Center.X, Bottom - ( heights.Max() / 2 ) );
             ground.Image = image;
             game.Add( ground );
@@ -514,7 +514,7 @@ namespace Jypeli
 
         internal double GetBorderThickness()
         {
-            return this.Width / 10;
+            return Width / 10;
         }
     }
 }

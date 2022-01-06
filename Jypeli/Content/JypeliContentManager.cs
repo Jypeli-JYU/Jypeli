@@ -55,7 +55,7 @@ namespace Jypeli.Content
         /// <returns></returns>
         public SoundEffect LoadInternalSoundEffect(string assetName)
         {
-            return new SoundEffect(StreamInternalResource("Sounds." + assetName));
+            return new SoundEffect(assetName, StreamInternalResource("Sounds." + assetName));
         }
 
         /// <summary>
@@ -66,6 +66,16 @@ namespace Jypeli.Content
         public Stream StreamInternalFont(string assetName)
         {
             return StreamInternalResource("Fonts." + assetName);
+        }
+
+        /// <summary>
+        /// Lataa tekstitiedoston Jypelin sisäisistä resursseista
+        /// </summary>
+        /// <param name="assetName">Tiedoston nimi</param>
+        /// <returns></returns>
+        public string LoadInternalText(string assetName)
+        {
+            return new StreamReader(StreamInternalResource(assetName)).ReadToEnd();
         }
     }
 }

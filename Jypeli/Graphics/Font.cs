@@ -1,12 +1,7 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
 using System.Text;
-using XnaV2 = Microsoft.Xna.Framework.Vector2;
-using FontStashSharp;
 using System.IO;
-using Microsoft.Xna.Framework.Content;
-using System.ComponentModel;
-using System.Collections.Generic;
+using FontStashSharp;
 
 namespace Jypeli
 {
@@ -35,8 +30,8 @@ namespace Jypeli
         /// </summary>
         public static readonly Font DefaultBold = new Font(defaultFontBold, ContentSource.ResourceContent, 25);
 
-        private DynamicSpriteFont xnaFont;
-        private FontSystem fontSystem;
+        private FontSystem fontsystem;
+        private DynamicSpriteFont font;
         private string name;
         private int size;
         private ContentSource source;
@@ -44,16 +39,16 @@ namespace Jypeli
         private int blurAmount = 0;
         private int strokeAmount = 0;
 
-        private List<string> mergedFonts = new List<string>();
-
-        internal DynamicSpriteFont XnaFont
-        {
-            get { DoLoad(); return xnaFont; }
-        }
+        internal static string[] FontExtensions { get; } = { ".ttf" };
 
         internal FontSystem FontSystem
         {
-            get { DoLoad(); return fontSystem; }
+            get { DoLoad(); return fontsystem; }
+        }
+
+        internal DynamicSpriteFont SpriteFont
+        {
+            get { DoLoad(); return font; }
         }
 
         /// <summary>
@@ -72,8 +67,6 @@ namespace Jypeli
                 DoLoad();
                 if (value <= 0) throw new Exception("Fontsize must be greater than zero.");
                 size = value;
-                xnaFont = fontSystem.GetFont(size);                
-                fontSystem = null;
                 DoLoad();
             }
         }
@@ -95,7 +88,6 @@ namespace Jypeli
                 DoLoad();
                 blurAmount = value;
                 strokeAmount = 0;
-                fontSystem = null;
                 DoLoad();
             }
         }
@@ -117,7 +109,6 @@ namespace Jypeli
                 DoLoad();
                 strokeAmount = value;
                 blurAmount = 0;
-                fontSystem = null;
                 DoLoad();
             }
         }
@@ -127,7 +118,10 @@ namespace Jypeli
         /// </summary>
         public double CharacterWidth
         {
-            get { return XnaFont.MeasureString( "X" ).X; } // TODO: pitäisi todellisuudessa etsiä fontin suurin merkki ja katsoa sen mitat.
+            get 
+            {
+                return SpriteFont.MeasureString("X").X;
+            } // TODO: pitäisi todellisuudessa etsiä fontin suurin merkki ja katsoa sen mitat.
         }
 
         /// <summary>
@@ -135,7 +129,10 @@ namespace Jypeli
         /// </summary>
         public double CharacterHeight
         {
-            get { return XnaFont.MeasureString( "X" ).Y; }
+            get
+            {
+                return SpriteFont.MeasureString("X").Y;
+            }
         }
 
         /// <summary>
@@ -181,7 +178,6 @@ namespace Jypeli
 
         internal Font(string name, ContentSource source)
         {
-            this.xnaFont = null;
             this.name = name;
             this.source = source;
             this.size = 25;
@@ -189,36 +185,35 @@ namespace Jypeli
 
         internal Font( string name, ContentSource source, int fontSize)
         {
-            this.xnaFont = null;
             this.name = name;
             this.source = source;
             this.size = fontSize;
         }
 
-        internal Font( DynamicSpriteFont xnaFont )
-        {
-            this.xnaFont = xnaFont;
-            this.name = null;
-            this.source = ContentSource.ResourceContent;
-        }
-
         private void DoLoad()
         {
-            if (fontSystem == null)
+            if (fontsystem == null)
             {
-                fontSystem = new FontSystem(StbTrueTypeSharpFontLoader.Instance, new Texture2DManager(Game.GraphicsDevice), 1024, 1024, blurAmount, StrokeAmount);
-
-                Stream s;
-                if (this.source == ContentSource.ResourceContent) s = Game.ResourceContent.StreamInternalFont(name);
-                else s = File.Open(name, FileMode.Open, FileAccess.Read, FileShare.ReadWrite); // Tässä pitää jostain syystä olla ReadWrite, vaikka tiedosto ainoastaan luetaan.
-
-                fontSystem.AddFont(s);
-                xnaFont = fontSystem.GetFont(size);
-
-                mergedFonts.ForEach(name => MergeFont(name));
-                
-                s.Dispose();
+                fontsystem = new FontSystem();
+                fontsystem.AddFont(Game.ResourceContent.StreamInternalFont("Roboto-Regular.ttf"));
+                font = fontsystem.GetFont(Size);
+                GenerateCommonGlyphs();
             }
+        }
+
+        /// <summary>
+        /// Luodaan yleisimmät merkit valmiiksi, jotta niitä ei tarvitse luoda sitä mukaa kuin niitä käytetään.
+        /// Tämä samalla vie fonttitekstuurin näytönohjaimelle.
+        /// </summary>
+        private void GenerateCommonGlyphs()
+        {
+            StringBuilder s = new StringBuilder();
+            for (char i =(char)32; i < 255; i++)
+            {
+                s.Append(i);
+            }
+            Renderer.DrawText(s.ToString(), Vector.Zero, this, Color.Transparent, Vector.One);
+            Graphics.CustomBatch.Flush();
         }
 
         /// <summary>
@@ -230,14 +225,12 @@ namespace Jypeli
         {
             DoLoad();
             MergeFont(filename);
-            mergedFonts.Add(filename);
         }
 
 
         private void MergeFont(string filename)
         {
             Stream s = File.Open("Content/" + filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            fontSystem.AddFont(s);
         }
 
         /// <summary>
@@ -245,30 +238,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="c">Merkki</param>
         /// <returns>Kokovektori, nollavektori jos merkkiä ei ole määritelty</returns>
-        public Vector GetCharacterSize( char c )
+        public Vector GetCharacterSize(char c)
         {
-            return XnaFont.MeasureString(c.ToString());
-        }
-
-        /// <summary>
-        /// Katkaisee merkkijonon loppupäästä niin että se sopii annettuun
-        /// pikselileveyteen fontilla kirjoitettuna.
-        /// </summary>
-        /// <param name="str">Merkkijono</param>
-        /// <param name="maxLineWidth">Maksimipikselimäärä merkkijonolle</param>
-        /// <returns></returns>
-        public string TruncateText( string str, double maxLineWidth )
-        {
-            StringBuilder builder = new StringBuilder( str );
-            double realWidth = XnaFont.MeasureString( str ).X;
-
-            while ( realWidth > maxLineWidth )
-            {
-                builder.Remove( builder.Length - 1, 1 );
-                realWidth = XnaFont.MeasureString( builder ).X;
-            }
-
-            return builder.ToString();
+            return SpriteFont.MeasureString(c.ToString());
         }
 
         /// <summary>
@@ -278,8 +250,29 @@ namespace Jypeli
         /// <returns>Vektorin, joka kertoo tekstin koon.</returns>
         public Vector MeasureSize(string str)
         {
-            var xnaVector2 = XnaFont.MeasureString(str);
-            return new Vector(xnaVector2.X, xnaVector2.Y);
+            return SpriteFont.MeasureString(str);
+        }
+
+        /// <summary>
+        /// Katkaisee merkkijonon loppupäästä niin että se sopii annettuun
+        /// pikselileveyteen fontilla kirjoitettuna.
+        /// </summary>
+        /// <param name="str">Merkkijono</param>
+        /// <param name="maxLineWidth">Maksimipikselimäärä merkkijonolle</param>
+        /// <returns></returns>
+        public string TruncateText(string str, double maxLineWidth)
+        {
+            StringBuilder builder = new StringBuilder(str);
+
+            double realWidth = SpriteFont.MeasureString(str).X;
+
+            while (realWidth > maxLineWidth)
+            {
+                builder.Remove(builder.Length - 1, 1);
+                realWidth = SpriteFont.MeasureString(builder).X;
+            }
+
+            return builder.ToString();
         }
 
         private static void appendLine(StringBuilder dest, StringBuilder line)
@@ -313,7 +306,7 @@ namespace Jypeli
                 if (word.Length == 0)
                     src.TakeFirstWord( word );
 
-                var wordWidth = XnaFont.MeasureString( word ).X;
+                var wordWidth = MeasureSize(word.ToString()).X;
 
                 if ( lineWidth + wordWidth > softLineWidth )
                 {
@@ -351,20 +344,22 @@ namespace Jypeli
         /// <returns>Katkaisukohdan indeksi</returns>
         private int FindWrapIndex( StringBuilder text, double maxWidth, bool fromRight )
         {
-            
-            double currentWidth = -xnaFont.FontSystem.CharacterSpacing;
+            // TODO: Font char spacing
+            /*
+            double currentWidth = -fontCollection.FontSystem.CharacterSpacing;
             int i = fromRight ? text.Length - 1 : 0;
             int step = fromRight ? -1 : 1;
 
             //for ( int i = 0; i < text.Length; i++ )
             while ( ( fromRight && i >= 0 ) || ( !fromRight && i < text.Length ) )
             {
-                currentWidth += xnaFont.FontSystem.CharacterSpacing + GetCharacterSize( text[i] ).X;
+                currentWidth += fontCollection.FontSystem.CharacterSpacing + GetCharacterSize( text[i] ).X;
                 if ( currentWidth >= maxWidth ) return i;
                 i += step;
             }
 
-            return fromRight ? -1 : text.Length;
+            return fromRight ? -1 : text.Length;*/
+            return 5; 
         }
     }
 }

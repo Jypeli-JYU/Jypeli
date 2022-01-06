@@ -63,7 +63,7 @@ namespace Jypeli
             {
                 QueryWidget.Color = value;
 
-#if WINDOWS_PHONE || ANDROID
+#if ANDROID
                 if ( OkButtonOnPhone )
 #endif
                 {
@@ -100,7 +100,7 @@ namespace Jypeli
 
 //#if ANDROID
             int maxWidth = (int)Game.Screen.Width - 30;
-            Message = new Label(Math.Min(maxWidth, Font.Default.MeasureSize(message).X), 100, message)
+            Message = new Label(Math.Min(maxWidth, Font.Default.MeasureSize(message).X), 50, message)
                 { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
 //#else
 // Wrapped text and layouts don't work that well together... :/
@@ -115,7 +115,7 @@ namespace Jypeli
             QueryWidget = CreateQueryWidget();
             Add( QueryWidget );
 
-#if WINDOWS_PHONE || ANDROID
+#if ANDROID
             if ( OkButtonOnPhone )
 #endif
             {
@@ -135,10 +135,10 @@ namespace Jypeli
             buttonRow.Add( new HorizontalSpacer() );
 
             OKButton = new PushButton( "OK" );
-#if WINDOWS_PHONE
-            if ( Game.Instance.Phone.DisplayResolution == DisplayResolution.Large )
+#if ANDROID
+            if ( Game.Device.DisplayResolution == DisplayResolution.Large )
                 OKButton.TextScale = new Vector(2, 2);
-            else if ( Game.Instance.Phone.DisplayResolution == DisplayResolution.HD720 )
+            else if ( Game.Device.DisplayResolution == DisplayResolution.HD720 )
                 OKButton.TextScale = new Vector( 3, 3 );
 #endif
             OKButton.Clicked += new Action(Close);
@@ -155,11 +155,11 @@ namespace Jypeli
 
         private void AddListeners()
         {
-#if WINDOWS_PHONE || ANDROID
-            if ( !OkButtonOnPhone )
-                var l = Game.Instance.TouchPanel.Listen( ButtonState.Pressed, delegate { Close(); }, null ).InContext( this );
+            Listener l;
+#if ANDROID
+            l = Game.Instance.TouchPanel.Listen(ButtonState.Pressed, delegate{ Close(); }, null).InContext(this);
 #else
-            var l = Game.Instance.Keyboard.Listen( Key.Enter, ButtonState.Pressed, OKButton.Click, null ).InContext( this );
+            l = Game.Instance.Keyboard.Listen(Key.Enter, ButtonState.Pressed, OKButton.Click, null).InContext(this);
 #endif
             associatedListeners.Add(l);
         }

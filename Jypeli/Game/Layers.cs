@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Jypeli.Controls;
+using Jypeli.Effects;
 
 namespace Jypeli
 {
-    public partial class Game : GameObjectContainer
+    public partial class Game
     {
         /// <summary>
         /// Kerrokset, joilla pelioliot viihtyvät.
@@ -16,28 +17,17 @@ namespace Jypeli
         /// <summary>
         /// Kerrokset, joilla olevat pelioliot eivät liiku kameran mukana.
         /// </summary>
-        public IList<Layer> StaticLayers
+        public List<Layer> StaticLayers
         {
-            get
-            {
-#if WINDOWS_STOREAPP
-                return Layers.FindAll( l => l.IgnoresZoom && l.RelativeTransition == Vector.Zero );
-#else
-                return Layers.FindAll( l => l.IgnoresZoom && l.RelativeTransition == Vector.Zero ).AsReadOnly();
-#endif
-            }
+            get { return Layers.FindAll(l => l.IgnoresZoom && l.RelativeTransition == Vector.Zero); }
         }
 
         /// <summary>
         /// Kerrokset, joilla olevat pelioliot liikkuvat kameran mukana.
         /// </summary>
-        public IList<Layer> DynamicLayers
+        public List<Layer> DynamicLayers
         {
-#if WINDOWS_STOREAPP
-            get { return Layers.FindAll( l => !l.IgnoresZoom || l.RelativeTransition != Vector.Zero ); }
-#else
-            get { return Layers.FindAll( l => !l.IgnoresZoom || l.RelativeTransition != Vector.Zero ).AsReadOnly(); }
-#endif
+            get { return Layers.FindAll(l => !l.IgnoresZoom || l.RelativeTransition != Vector.Zero); }
         }
 
         /// <summary>
@@ -71,7 +61,7 @@ namespace Jypeli
         {
             get
             {
-                return Layers.Sum<Layer>( l => l.Objects.Count );
+                return Layers.Sum( l => l.Objects.Count );
             }
         }
 
@@ -228,6 +218,15 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Poistaa valon pelistä
+        /// </summary>
+        /// <param name="l">valo</param>
+        public void Remove(Light l)
+        {
+            lights.Remove(l);
+        }
+
+        /// <summary>
         /// Tuhoaa ja poistaa pelistä kaikki pelioliot (ml. fysiikkaoliot).
         /// </summary>
         public void ClearGameObjects()
@@ -239,7 +238,7 @@ namespace Jypeli
 
             // Layer.Clear on synkronoitu operaatio, joten viestinäyttöä ei ole vielä poistettu.
             // Siksi viestinäytön palauttaminen on lisättävä operaatiojonoon pakotetusti.
-            addMessageDisplay(force: true);
+            AddMessageDisplay(force: true);
         }
 
         /// <summary>
@@ -268,20 +267,6 @@ namespace Jypeli
         {
             ClearGameObjects();
             Layers.Clear();
-        }
-
-        /// <summary>
-        /// Kertoo onko objekti ruudulla näkyvällä alueella.
-        /// </summary>
-        /// <param name="g">Objekti</param>
-        /// <returns>Onko objekti ruudun alueella.</returns>
-        public bool IsObjectOnScreen(IGameObject g)
-        {
-            Vector transformed = Camera.WorldToScreen(g.Position, g.Layer);
-            return transformed.X - g.Width * Camera.ZoomFactor < Screen.Size.X / 2 &&
-                   transformed.X + g.Width * Camera.ZoomFactor > -Screen.Size.X / 2 &&
-                   transformed.Y - g.Height * Camera.ZoomFactor < Screen.Size.Y / 2 &&
-                   transformed.Y + g.Height * Camera.ZoomFactor > -Screen.Size.Y / 2;
         }
 
         #region GetObject methods
@@ -386,7 +371,7 @@ namespace Jypeli
         {
             Predicate<GameObject> isInsideRadius = delegate( GameObject obj )
             {
-                if ( IsJypeliWidget<GameObject>( obj ) ) return false;
+                if (IsJypeliWidget(obj)) return false;
 
                 Vector positionUp = new Vector( position.X, position.Y + radius );
                 Vector positionDown = new Vector( position.X, position.Y - radius );
@@ -414,7 +399,7 @@ namespace Jypeli
         /// <returns>Mahdollinen olio</returns>
         public GameObject GetObjectAt( Vector position )
         {
-            return GetFirstObject( obj => obj.IsInside( position ) && !IsJypeliWidget<GameObject>( obj ) );
+            return GetFirstObject( obj => obj.IsInside( position ) && !IsJypeliWidget( obj ) );
         }
 
         /// <summary>

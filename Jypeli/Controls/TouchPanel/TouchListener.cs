@@ -96,12 +96,7 @@ namespace Jypeli
 
         public void Invoke( Touch touch )
         {
-#if WINDOWS_STOREAPP
-            // Win8
-            MethodInfo handlerMethod = handler.GetMethodInfo();
-#else
             MethodInfo handlerMethod = handler.Method;
-#endif
             handlerParams[0] = touch;
             handlerMethod.Invoke( handler.Target, handlerParams );
         }

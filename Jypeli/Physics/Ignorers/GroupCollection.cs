@@ -21,13 +21,6 @@
  */
 #endregion
 
-
-
-#if UseDouble
-using Scalar = System.Double;
-#else
-using Scalar = System.Single;
-#endif
 using System;
 using System.Collections.Generic;
 

@@ -25,6 +25,9 @@
 
 
 using System;
+using System.Collections.Generic;
+using System.Numerics;
+using Jypeli.Rendering;
 
 namespace Jypeli.Effects
 {
@@ -39,15 +42,19 @@ namespace Jypeli.Effects
         public Vector Position { get; set; }
 
         /// <summary>
-        /// Etäisyys kohtisuoraan 2D-tasosta. Mitä kauempana valo on,
-        /// sitä laajemman alueen se valaisee.
+        /// Valaistun alueen säde
         /// </summary>
-        public double Distance { get; set; }
+        public double Radius { get; set; } // TODO: Tämä säde on nyt hieman hämäävä.
 
         /// <summary>
         /// Voimakkuus väliltä [0.0, 1.0].
         /// </summary>
         public double Intensity { get; set; }
+
+        /// <summary>
+        /// Väri
+        /// </summary>
+        public Color Color { get; set; }
 
         /// <summary>
         /// Paikan X-koordinaatti.
@@ -60,7 +67,7 @@ namespace Jypeli.Effects
             }
             set
             {
-                Position = new Vector( value, Position.Y );
+                Position = new Vector(value, Position.Y);
             }
         }
 
@@ -75,19 +82,37 @@ namespace Jypeli.Effects
             }
             set
             {
-                Position = new Vector( Position.X, value );
+                Position = new Vector(Position.X, value);
             }
         }
 
         /// <summary>
         /// Valo.
-        /// Ei käytössä!
         /// </summary>
-        [Obsolete("Ei käytössä")]
-        public Light()
+        public Light() : this(10, 1, Color.White)
         {
-            Distance = 10.0;
-            Intensity = 0.5;
+        }
+
+        /// <summary>
+        /// Valo
+        /// </summary>
+        /// <param name="radius">Valon säde</param>
+        /// <param name="intensity">Voimakkuus välillä 0 - 1</param>
+        public Light(double radius, double intensity) : this(radius, intensity, Color.White)
+        {
+        }
+
+        /// <summary>
+        /// Valo
+        /// </summary>
+        /// <param name="radius">Valon säde</param>
+        /// <param name="intensity">Voimakkuus välillä 0 - 1</param>
+        /// <param name="color">Väri</param>
+        public Light(double radius, double intensity, Color color)
+        {
+            Radius = radius;
+            Intensity = intensity;
+            Color = color;
         }
     }
 }

@@ -10,6 +10,12 @@
             MouseMovement = mouseMovement;
         }
 
+        public GamePadAnalogState(double state, double analogChange)
+        {
+            State = state;
+            AnalogChange = analogChange;
+        }
+
         public double State { get; private set; }
 
         public double AnalogChange { get; private set; }

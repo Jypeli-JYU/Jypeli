@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace Jypeli
 {
@@ -166,7 +167,12 @@ namespace Jypeli
         /// </summary>
         public Vector ScreenToWorld(Vector point)
         {
-            return Position + (1 / ZoomFactor) * point;
+            Matrix4x4 transform =
+                Matrix4x4.CreateTranslation(-new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2)) *
+                Matrix4x4.CreateScale(new Vector(1 / ZoomFactor, 1 / ZoomFactor)) *
+                Matrix4x4.CreateTranslation(new Vector(Position.X, -Position.Y)) *
+                Matrix4x4.CreateScale(new Vector(1, -1)); // Y-akseli menee ruutukoordinaateissa väärään suuntaan.
+            return point.Transform(transform);
         }
 
         /// <summary>
@@ -174,35 +180,55 @@ namespace Jypeli
         /// </summary>
         public Vector WorldToScreen(Vector point)
         {
-            return (point - Position) * ZoomFactor;
+            Matrix4x4 transform =
+                Matrix4x4.CreateScale(new Vector(1, -1)) * 
+                Matrix4x4.CreateTranslation(new Vector(-Position.X, Position.Y)) *
+                Matrix4x4.CreateScale(new Vector(ZoomFactor, ZoomFactor)) *
+                Matrix4x4.CreateTranslation(new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2));
+            return point.Transform(transform);
         }
 
         /// <summary>
         /// Muuntaa annetun pisteen ruutukoordinaateista maailmankoordinaatteihin
         /// ottaen huomioon oliokerroksen suhteellisen siirtymän.
         /// </summary>
-        public Vector ScreenToWorld( Vector point, Layer layer )
+        public Vector ScreenToWorld(Vector point, Layer layer)
         {
-            if ( layer == null )
-                return ScreenToWorld( point );
-            if ( layer.IgnoresZoom )
-                return Vector.ComponentProduct( Position, layer.RelativeTransition ) + point;
+            if (layer == null)
+                return ScreenToWorld(point);
+            if (layer.IgnoresZoom)
+            {
+                return point.Transform(Matrix4x4.CreateTranslation(-new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2)) *
+                                        Matrix4x4.CreateTranslation(new Vector(Position.X * layer.RelativeTransition.X, -Position.Y * layer.RelativeTransition.Y)) *
+                                        Matrix4x4.CreateScale(new Vector(1, -1)));
+            }
 
-            return Vector.ComponentProduct( Position, layer.RelativeTransition ) + ( 1 / ZoomFactor ) * point;
+            Matrix4x4 transform =
+                Matrix4x4.CreateTranslation(-new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2)) *
+                Matrix4x4.CreateScale(new Vector(1 / ZoomFactor, 1 / ZoomFactor)) *
+                Matrix4x4.CreateTranslation(new Vector(Position.X * layer.RelativeTransition.X, -Position.Y * layer.RelativeTransition.Y)) *
+                Matrix4x4.CreateScale(new Vector(1, -1));
+            return point.Transform(transform);
         }
 
         /// <summary>
         /// Muuntaa annetun pisteen maailmankoordinaateista ruutukoordinaatteihin
         /// ottaen huomioon oliokerroksen suhteellisen siirtymän.
         /// </summary>
-        public Vector WorldToScreen( Vector point, Layer layer )
+        public Vector WorldToScreen(Vector point, Layer layer)
         {
-            if ( layer == null )
-                return WorldToScreen( point );
-            if ( layer.IgnoresZoom )
-                return point - Vector.ComponentProduct( Position, layer.RelativeTransition );
-
-            return ( point - Vector.ComponentProduct( Position, layer.RelativeTransition ) ) * ZoomFactor;
+            if (layer == null)
+                return WorldToScreen(point);
+            if (layer.IgnoresZoom)
+                return point.Transform(Matrix4x4.CreateScale(new Vector(1, -1)) *
+                                        Matrix4x4.CreateTranslation(new Vector(-Position.X * layer.RelativeTransition.X, Position.Y * layer.RelativeTransition.Y)) *
+                                        Matrix4x4.CreateTranslation(new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2)));
+            Matrix4x4 transform =
+                           Matrix4x4.CreateScale(new Vector(1, -1)) *
+                           Matrix4x4.CreateTranslation(new Vector(-Position.X * layer.RelativeTransition.X, Position.Y * layer.RelativeTransition.Y)) *
+                           Matrix4x4.CreateScale(new Vector(ZoomFactor, ZoomFactor)) *
+                           Matrix4x4.CreateTranslation(new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2));
+            return point.Transform(transform);
         }
 
         /// <summary>
@@ -437,18 +463,15 @@ namespace Jypeli
                 double screenHeight = (double)Game.Screen.Height;
                 Level level = Game.Instance.Level;
 
-                double screenAspectRatio = screenWidth / screenHeight;
-                double levelAspectRatio = level.Width / level.Height;
-
                 double zoomedWidth = level.Width * ZoomFactor;
                 double zoomedHeight = level.Height * ZoomFactor;
 
                 double viewAreaWidth = screenWidth / ZoomFactor;
                 double viewAreaHeight = screenHeight / ZoomFactor;
 
-                if ( zoomedWidth < screenWidth || zoomedHeight < screenHeight )
+                if (zoomedWidth < screenWidth || zoomedHeight < screenHeight)
                 {
-                    ZoomFactor = Math.Max( screenWidth / level.Width, screenHeight / level.Height );
+                    ZoomFactor = Math.Max(screenWidth / level.Width, screenHeight / level.Height);
                 }
 
                 if ( ( Position.X - ( viewAreaWidth / 2 ) ) < level.Left )

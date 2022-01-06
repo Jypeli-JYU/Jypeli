@@ -59,7 +59,17 @@ namespace Jypeli
             }
         }
 
-        private SynchronousList<CustomEventHandler> handlers = null;
+        /// <summary>
+        /// Kutsutaan kun näppäimistöltä syötetään tekstiä.
+        /// </summary>
+        public event EventHandler<char> TextInput;
+
+        internal void CallTextInput(object sender, char key)
+        {
+            TextInput(sender, key);
+        }
+
+        private SynchronousList<CustomEventHandler> handlers;
 
         /// <summary>
         /// Lisää vapaamuotoisen tapahtumankäsittelijän.

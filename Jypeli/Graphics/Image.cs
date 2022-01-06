@@ -1,76 +1,153 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+﻿
 using System;
 using System.IO;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
 
-using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
-using XnaV2 = Microsoft.Xna.Framework.Vector2;
-using XnaColor = Microsoft.Xna.Framework.Color;
-using JyColor = Jypeli.Color;
-using FontStashSharp;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using System.Runtime.InteropServices;
+using SixLabors.ImageSharp.Processing;
 
-#if WINDOWS_STOREAPP
-using ColorConverter = Jypeli.ListHelpers.Converter<Jypeli.Color, Jypeli.Color>;
-using XnaColorConverter = Jypeli.ListHelpers.Converter<Microsoft.Xna.Framework.Color, Microsoft.Xna.Framework.Color>;
-#else
 using ColorConverter = System.Converter<Jypeli.Color, Jypeli.Color>;
-using XnaColorConverter = System.Converter<Microsoft.Xna.Framework.Color, Microsoft.Xna.Framework.Color>;
-#endif
-
+// Ehkä vähän tyhmät viritelmät samannimisten luokkien ympärille...
+using SImage = SixLabors.ImageSharp.Image;
+using SXImage = SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>;
+using System.Numerics;
 
 namespace Jypeli
 {
+    public enum ImageScaling
+    {
+        Linear,
+        Nearest
+    }
     /// <summary>
     /// Kuva.
     /// </summary>
     public class Image
     {
-
-        private static int MONOGETDATAMUL = 1;
-        private static int MONOGETDATAINC = 0;
-        // private static const int MONOGETDATAMUL = 1;  
-        // private static const int MONOGETDATAINC = 0; // tavallinen
-
-        private Image parentImage;
-        private XnaRectangle parentRectangle;
-
         private string assetName;
-        private Texture2D xnaTexture;
 
-        private event Action InitDimensions;
-        private event Action InitTexture;
-
-        int _width = -1;
-        int _height = -1;
-
-        private static string[] imageExtensions = { ".png", ".jpg", ".xnb"};
+        internal static string[] ImageExtensions { get; } = { ".png", ".jpg"}; // TODO: Kaikki päätteet joita ImageSharp tukee
 
         /// <summary>
-        /// Asetetaan bitmapin rivikorjaus Mono:n bugin (???) takia
+        /// ImageSharpin raakakuva
         /// </summary>
-        /// <param name="n">0 = ei korjausta, 1 = hypätään joka toinen rivi yli</param>
-        public static void SetLineCorrection(int n)
+        internal SXImage image;
+
+        /// <summary>
+        /// Kuvan kahva näytönohjaimessa
+        /// </summary>
+        internal uint handle;
+
+        /// <summary>
+        /// Onko kuvan dataa muutettu ja se pitää viedä uudestaan näytönohjaimelle
+        /// </summary>
+        internal bool dirty;
+
+        private ImageScaling scaling;
+
+        /// <summary>
+        /// Kuinka kuvan kokoa skaalataan ruudulle piirrettäessä.
+        /// </summary>
+        public ImageScaling Scaling
         {
-            if ( n == 1 ) 
+            get => scaling; 
+            set 
             {
-                MONOGETDATAMUL = 2;
-                MONOGETDATAINC = 1;
-                return;
-            }
-            if (n == 0)
-            {
-                MONOGETDATAMUL = 1;
-                MONOGETDATAINC = 0;
-                return;
+                scaling = value;
+                Game.GraphicsDevice.UpdateTextureScaling(this); // TODO: Pitäisikö tämä tehdä samoin kuin datan muokkaus, eli vasta piirtovaiheessa?
             }
         }
 
-        internal Texture2D XNATexture
+        /// <summary>
+        /// Leveys pikseleinä.
+        /// </summary>
+        public int Width
         {
-            get { DoInitTexture(); return xnaTexture; }
+            get { return image.Width; }
+        }
+
+        /// <summary>
+        /// Korkeus pikseleinä.
+        /// </summary>
+        public int Height
+        {
+            get { return image.Height; }
+        }
+
+        /// <summary>
+        /// Nimi.
+        /// </summary>
+        public string Name
+        {
+            get { return assetName; }
+        }
+
+        public Vector Size { get => new Vector(Width, Height); }
+
+        internal Image(int width, int height)
+        {
+            AssertDimensions(width, height);
+            CreateNewTexture(width, height, Color.Black);
+        }
+
+        internal Image(Stream s)
+        {
+            image = (SXImage)SImage.Load(s);
+        }
+
+        internal Image(string assetName)
+        {
+            image = (SXImage)SImage.Load(assetName);
+            this.assetName = assetName;
+        }
+
+        internal Image()
+        {
+
+        }
+
+        internal Image(SImage img)
+        {
+            image = (SXImage)img;
+        }
+
+        /// <summary>
+        /// Luo uuden kuvan.
+        /// </summary>
+        /// <param name="width">Kuvan leveys</param>
+        /// <param name="height">Kuvan korkeus</param>
+        /// <param name="backColor">Kuvan taustaväri</param>
+        public Image(double width, double height, Color backColor)
+            : this((int)Math.Round(width), (int)Math.Round(height), backColor)
+        {
+        }
+
+        /// <summary>
+        /// Luo uuden kuvan.
+        /// </summary>
+        /// <param name="width">Kuvan leveys</param>
+        /// <param name="height">Kuvan korkeus</param>
+        /// <param name="color">Kuvan väri</param>
+        public Image(int width, int height, Color color)
+        {
+            AssertDimensions(width, height);
+            assetName = null;
+            CreateNewTexture(width, height, color);
+        }
+
+        private void CreateNewTexture(int width, int height, Color color)
+        {
+            Rgba32 col = new Rgba32();
+            col.R = color.RedComponent;
+            col.G = color.GreenComponent;
+            col.B = color.BlueComponent;
+            col.A = color.AlphaComponent;
+
+            image = new SXImage(width, height, col);
         }
 
         /// <summary>
@@ -83,29 +160,21 @@ namespace Jypeli
         {
             get
             {
-                DoInitTexture();
-
-                Color[] buffer = new Color[1];
-                XnaRectangle rect = new XnaRectangle( col, row, 1, 1 );
-                xnaTexture.GetData<Color>( 0, rect, buffer, 0, 1 );
-                return buffer[0];
+                Rgba32 color = image[col, row];
+                return new Color(color.R, color.G, color.B, color.A);
             }
             set
             {
-                DoInitTexture();
-                InvalidateAsset();
+                Rgba32 color = new Rgba32();
+                color.R = value.RedComponent;
+                color.G = value.GreenComponent;
+                color.B = value.BlueComponent;
+                color.A = value.AlphaComponent;
 
-                if ( row < 0 || row >= xnaTexture.Height ) throw new IndexOutOfRangeException( "row" );
-                if ( col < 0 || col >= XNATexture.Width ) throw new IndexOutOfRangeException( "col" );
-
-                Color[] buffer = new Color[1] { value };
-                XnaRectangle rect = new XnaRectangle( col, row, 1, 1 );
-
-                xnaTexture.SetData<Color>( 0, rect, buffer, 0, 1 );
-                UpdateTexture();
+                image[col, row] = color;
+                dirty = true;
             }
         }
-
 
         /// <summary>
         /// Kuvan pikselit Color-taulukkona
@@ -115,29 +184,27 @@ namespace Jypeli
         /// <param name="w">alueen leveys joka kopioidaan</param>
         /// <param name="h">lueen korkaus joka kopioidaan</param>
         /// <returns>pikselit Color-taulukkona</returns>
-        public Color[,] GetData( int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue )
+        public Color[,] GetData(int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue)
         {
             int ny = Height;
-            if ( h < ny ) ny = h;
-            if ( Height < ny + oy ) ny = Height - oy;
+            if (h < ny) ny = h;
+            if (Height < ny + oy) ny = Height - oy;
             int nx = Width;
-            if ( w < nx ) nx = w;
-            if ( Width < nx + ox ) nx = Width - ox;
-            if ( nx <= 0 || ny <= 0 ) return new Color[0, 0];
+            if (w < nx) nx = w;
+            if (Width < nx + ox) nx = Width - ox;
+            if (nx <= 0 || ny <= 0) return new Color[0, 0];
 
-            DoInitTexture();
             Color[,] bmp = new Color[ny, nx];
-
-            XnaRectangle rect = new XnaRectangle( ox, oy, nx, ny );
-            Color[] buffer = new Color[ny * nx * MONOGETDATAMUL];
-            xnaTexture.GetData<Color>( 0, rect, buffer, 0, buffer.Length );
-            int i = 0;
-            for (int iy = 0; iy < ny; iy++)
+            
+            for (int i = oy; i < oy + ny; i++)
             {
-                for (int ix = 0; ix < nx; ix++)
-                    bmp[iy, ix] = buffer[i++];
-                i += nx * MONOGETDATAINC;
+                Span<Rgba32> row = image.GetPixelRowSpan(i);
+                for (int j = ox; j < ox + nx; j++)
+                {
+                    bmp[i - oy, j - ox] = new Color(row[j].R, row[j].G, row[j].B, row[j].A);
+                }
             }
+
             return bmp;
         }
 
@@ -151,10 +218,8 @@ namespace Jypeli
         /// <param name="w">alueen leveys johon kopioidaan</param>
         /// <param name="h">lueen korkaus johon kopioidaan</param>
         /// <returns>pikselit Color-taulukkona</returns>
-        public void SetData( Color[,] bmp, int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue )
+        public void SetData(Color[,] bmp, int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue)
         {
-            DoInitTexture();
-            InvalidateAsset();
             int ny = bmp.GetLength( 0 );
             int nx = bmp.GetLength( 1 );
             if ( ny > Height ) ny = Height;
@@ -165,14 +230,16 @@ namespace Jypeli
             if ( Width < nx + ox ) nx = Width - ox;
             if ( nx <= 0 || ny <= 0 ) return;
 
-            XnaRectangle rect = new XnaRectangle( ox, oy, nx, ny );
-            Color[] buffer = new Color[ny * nx];
-            int i = 0;
-            for ( int iy = 0; iy < ny; iy++ )
-                for ( int ix = 0; ix < nx; ix++ )
-                    buffer[i++] = bmp[iy, ix];
+            // TODO: Onko indeksointioperaatio kuinka hidas/nopea verrattuna muihin tapoihin muokata kuvaa?
+            // TODO: Testaa kaikki Set/GetData metodit...
 
-            xnaTexture.SetData<Color>( 0, rect, buffer, 0, buffer.Length );
+            for (int iy = oy; iy < ny; iy++)
+            {
+                for (int ix = ox; ix < nx; ix++)
+                {
+                    this[iy, ix] = bmp[iy - oy, ix - ox];
+                }
+            }
             UpdateTexture();
         }
 
@@ -186,20 +253,7 @@ namespace Jypeli
         /// <param name="width">Kuvan korkeus</param>
         public void SetData(byte[] byteArr, int height, int width)
         {
-            Color[,] newColor = new Color[height, width];
-
-            for (int i = 0; i < height; i++)
-            {
-                for (int j = 0; j < width; j++)
-                {
-                    int r = byteArr[4 * (i * width + j) + 0];
-                    int g = byteArr[4 * (i * width + j) + 1];
-                    int b = byteArr[4 * (i * width + j) + 2];
-                    int a = byteArr[4 * (i * width + j) + 3];
-                    newColor[i, j] = new Color(r, g, b, a);
-                }
-            }
-            this.SetData(newColor);
+            image = SImage.LoadPixelData<Rgba32>(byteArr, height, width);
         }
 
         /// <summary>
@@ -219,12 +273,12 @@ namespace Jypeli
         /// </summary>
         /// <returns>pikselit byte-taulukkona</returns>
         public byte[] GetByteArray()
-		{
-			DoInitTexture();
-			byte[] buffer = new byte[4 * Width * Height];
-			xnaTexture.GetData<byte>( buffer );
-			return buffer;
-		}
+        {
+            image.TryGetSinglePixelSpan(out var pixelSpan);
+            byte[] rgbaBytes = MemoryMarshal.AsBytes(pixelSpan).ToArray();
+
+            return rgbaBytes;
+        }
 
         /// <summary>
         /// Palalutetaan kuvan pikselit ARGB-uint[,] -taulukkona
@@ -244,19 +298,17 @@ namespace Jypeli
             if ( Width < nx + ox ) nx = Width - ox;
             if ( nx <= 0 || ny <= 0 ) return new uint[0, 0];
 
-            DoInitTexture();
             uint[,] bmp = new uint[ny, nx];
 
-            XnaRectangle rect = new XnaRectangle( ox, oy, nx, ny );
-            Color[] buffer = new Color[ny * nx * MONOGETDATAMUL];
-            xnaTexture.GetData<Color>( 0, rect, buffer, 0, buffer.Length );
-            int i = 0;
-            for (int iy = 0; iy < ny; iy++)
+            for (int i = oy; i < oy + ny; i++)
             {
-                for (int ix = 0; ix < nx; ix++)
-                    bmp[iy, ix] = buffer[i++].ToUInt();
-                i += nx * MONOGETDATAINC;
+                Span<Rgba32> row = image.GetPixelRowSpan(i);
+                for (int j = ox; j < ox + nx; j++)
+                {
+                    bmp[i - oy, j - ox] = row[j].PackedValue;
+                }
             }
+
             return bmp;
         }
 
@@ -277,23 +329,20 @@ namespace Jypeli
             int nx = Width;
             if ( w < nx ) nx = w;
             if ( Width < nx + ox ) nx = Width - ox;
-            if ( nx <= 0 || ny <= 0 ) return new uint[0][];
+            if ( nx <= 0 || ny <= 0 ) return Array.Empty<uint[]>();
 
-            DoInitTexture();
             uint[][] bmp = new uint[ny][];
 
-            XnaRectangle rect = new XnaRectangle( ox, oy, nx, ny );
-            Color[] buffer = new Color[ny * nx * MONOGETDATAMUL];
-            xnaTexture.GetData<Color>( 0, rect, buffer, 0, buffer.Length );
-            int i = 0;
-            for ( int iy = 0; iy < ny; iy++ )
+            for (int i = oy; i < oy + ny; i++)
             {
-                uint[] row = new uint[nx];
-                bmp[iy] = row;
-                for ( int ix = 0; ix < nx; ix++ )
-                    row[ix] = buffer[i++].ToUInt();
-                i += nx * MONOGETDATAINC;
+                bmp[i - oy] = new uint[nx];
+                Span<Rgba32> row = image.GetPixelRowSpan(i);
+                for (int j = ox; j < ox + nx; j++)
+                {
+                    bmp[i - oy][j - ox] = row[j].PackedValue;
+                }
             }
+
             return bmp;
         }
 
@@ -308,8 +357,6 @@ namespace Jypeli
         /// <param name="h">alueen korkeus johon kopioidaan</param>
         public void SetData( uint[,] bmp, int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue )
         {
-            DoInitTexture();
-            InvalidateAsset();
             int ny = bmp.GetLength( 0 );
             int nx = bmp.GetLength( 1 );
             if ( ny > Height ) ny = Height;
@@ -321,15 +368,13 @@ namespace Jypeli
 
             if ( nx <= 0 || ny <= 0 ) return;
 
-            XnaRectangle rect = new XnaRectangle( ox, oy, nx, ny );
-            Color[] buffer = new Color[ny * nx];
-            int i = 0;
-            for ( int iy = 0; iy < ny; iy++ )
-                for ( int ix = 0; ix < nx; ix++ )
-                    buffer[i++] = Jypeli.Color.UIntToColor( bmp[iy, ix] );
-            // foreach (int c in bmp) buffer[i++] = Jypeli.Color.IntToColor(c);
-
-            xnaTexture.SetData<Color>( 0, rect, buffer, 0, buffer.Length );
+            for (int iy = oy; iy < ny; iy++)
+            {
+                for (int ix = ox; ix < nx; ix++)
+                {
+                    this[iy, ix] = Color.UIntToColor(bmp[iy - oy, ix - ox]);
+                }
+            }
             UpdateTexture();
         }
 
@@ -344,8 +389,6 @@ namespace Jypeli
         /// <param name="h">alueen korkeus johon kopioidaan</param>
         public void SetData( uint[][] bmp, int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue )
         {
-            DoInitTexture();
-            InvalidateAsset();
             int ny = bmp.Length;
             int nx = bmp[0].Length;
             if ( ny > Height ) ny = Height;
@@ -354,152 +397,20 @@ namespace Jypeli
             if ( nx > w ) nx = w;
             if ( nx <= 0 || ny <= 0 ) return;
 
-            XnaRectangle rect = new XnaRectangle( ox, oy, nx, ny );
-            Color[] buffer = new Color[ny * nx];
-            int i = 0;
-            for ( int iy = 0; iy < ny; iy++ )
-                for ( int ix = 0; ix < nx; ix++ )
-                    buffer[i++] = Jypeli.Color.UIntToColor( bmp[iy][ix] );
-            // foreach (int c in bmp) buffer[i++] = Jypeli.Color.IntToColor(c);
-
-            xnaTexture.SetData<Color>( 0, rect, buffer, 0, buffer.Length );
+            for (int iy = oy; iy < ny; iy++)
+            {
+                for (int ix = ox; ix < nx; ix++)
+                {
+                    this[iy, ix] = Color.UIntToColor(bmp[iy - oy][ix - ox]);
+                }
+            }
             UpdateTexture();
         }
 
-
-        /// <summary>
-        /// Leveys pikseleinä.
-        /// </summary>
-        public int Width
-        {
-            get { DoInitDimensions(); return _width; }
-        }
-
-        /// <summary>
-        /// Korkeus pikseleinä.
-        /// </summary>
-        public int Height
-        {
-            get { DoInitDimensions(); return _height; }
-        }
-
-        /// <summary>
-        /// Nimi.
-        /// </summary>
-        public string Name
-        {
-            get { DoInitTexture(); return xnaTexture.Name; }
-        }
-
-        internal Image( int width, int height )
-        {
-            AssertDimensions( width, height );
-            this._width = width;
-            this._height = height;
-            this.InitTexture += CreateNewTexture;
-        }
-
-        internal Image( string assetName )
-        {
-            this.assetName = assetName;
-            this.InitDimensions += LoadContentTexture;
-        }
-
-        /// <summary>
-        /// Kuva MonoGamen Texture2D oliosta
-        /// </summary>
-        /// <param name="texture"></param>
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        public Image( Microsoft.Xna.Framework.Graphics.Texture2D texture )
-        {
-            AssertDimensions( texture.Width, texture.Height );
-            this.xnaTexture = texture;
-            this._width = texture.Width;
-            this._height = texture.Height;
-        }
-
-        /// <summary>
-        /// Luo uuden kuvan.
-        /// </summary>
-        /// <param name="width">Kuvan leveys</param>
-        /// <param name="height">Kuvan korkeus</param>
-        /// <param name="backColor">Kuvan taustaväri</param>
-        public Image( int width, int height, Color backColor )
-        {
-            AssertDimensions( width, height );
-            assetName = null;
-            this._width = width;
-            this._height = height;
-            this.InitTexture += CreateNewTexture;
-            this.InitTexture += delegate { this.Fill( backColor ); };
-        }
-
-        /// <summary>
-        /// Luo uuden kuvan.
-        /// </summary>
-        /// <param name="width">Kuvan leveys</param>
-        /// <param name="height">Kuvan korkeus</param>
-        /// <param name="backColor">Kuvan taustaväri</param>
-        public Image( double width, double height, Color backColor )
-            : this( (int)Math.Round( width ), (int)Math.Round( height ), backColor )
-        {
-        }
-
-        private void AssertDimensions(int width, int height)
+        private static void AssertDimensions(int width, int height)
         {
             if ( width < 1 || height < 1 )
                 throw new ArgumentException( String.Format( "Image dimensions must be at least 1 x 1! (given: {0} x {1}", width, height ) );
-        }
-
-        private void DoInitDimensions()
-        {
-            if ( _width > 0 && _height > 0 )
-                return;
-
-            if ( InitDimensions != null )
-                InitDimensions();
-            else
-                throw new InvalidOperationException( "Cannot initialize dimensions for image!" );
-        }
-
-        private void DoInitTexture()
-        {
-            DoInitDimensions();
-            AssertDimensions( this.Width, this.Height );
-
-            if ( xnaTexture != null )
-                return;
-
-            if ( InitTexture != null )
-                InitTexture();
-            else
-                throw new InvalidOperationException( "Cannot initialize texture for image!" );
-        }
-
-        private void LoadContentTexture()
-        {
-            // Some duct tape around the fact that in XNA,
-            // content can not be loaded before LoadContent().
-            Debug.Assert( assetName != null );
-            xnaTexture = LoadFile();
-            _width = xnaTexture.Width;
-            _height = xnaTexture.Height;
-            
-        }
-
-        private Texture2D LoadFile()
-        {
-            assetName = Game.FileExtensionCheck(assetName, imageExtensions);
-            FileStream fileStream = new FileStream(assetName, FileMode.Open, FileAccess.Read);
-            Texture2D texture = Texture2D.FromStream(Game.GraphicsDevice, fileStream);
-            fileStream.Dispose();
-
-            return texture;
-        }
-
-        private void CreateNewTexture()
-        {
-            this.xnaTexture = new Texture2D( Game.GraphicsDevice, Width, Height );
         }
 
         /// <summary>
@@ -508,185 +419,65 @@ namespace Jypeli
         /// <returns></returns>
         public Image Clone()
         {
-            Image copy;
-
-            if ( assetName != null )
-            {
-                copy = new Image( assetName );
-            }
-            else
-            {
-                copy = new Image( this.Width, this.Height );
-                copy.InitTexture += delegate { CopyData( copy, this ); };
-            }
+            Image copy = new Image();
+            copy.image = image.Clone();
 
             return copy;
         }
 
-        private static void CopyData( Image dest, Image src )
-        {
-            src.DoInitTexture();
-
-            int w = src.Width;
-            int h = src.Height;
-            XnaRectangle rect = new XnaRectangle( 0, 0, w, 1 );
-            Color[] scanline = new Color[w];
-
-            for ( rect.Y = 0; rect.Y < h; rect.Y++ )
-            {
-                src.xnaTexture.GetData<Color>( 0, rect, scanline, 0, w );
-                dest.xnaTexture.SetData<Color>( 0, rect, scanline, 0, w );
-            }
-        }
-
-        private static void CopyData( Texture2D dest, Texture2D src )
-        {
-            int w = src.Width;
-            int h = src.Height;
-            XnaRectangle rect = new XnaRectangle( 0, 0, w, 1 );
-            Color[] scanline = new Color[w];
-
-            for ( rect.Y = 0; rect.Y < h; rect.Y++ )
-            {
-                src.GetData<Color>( 0, rect, scanline, 0, w );
-                dest.SetData<Color>( 0, rect, scanline, 0, w );
-            }
-        }
-
-        private static void CopyData( Image dest, Image src, XnaRectangle destRect, XnaRectangle srcRect )
-        {
-            src.DoInitTexture();
-
-            int w = srcRect.Width;
-            int h = srcRect.Height;
-			XnaRectangle srcScan = new XnaRectangle( srcRect.X, srcRect.Y, w, 1 );
-			XnaRectangle destScan = new XnaRectangle( destRect.X, destRect.Y, w, 1 );
-			Color[] scanline = new Color[w];
-
-			for ( int i = 0; i < h; i++ )
-            {
-				src.xnaTexture.GetData<Color>( 0, srcScan, scanline, 0, w );
-				dest.xnaTexture.SetData<Color>( 0, destScan, scanline, 0, w );
-				srcScan.Y += MONOGETDATAINC;
-				destScan.Y += MONOGETDATAINC;
-            }
-        }
-
         /// <summary>
         /// Suorittaa annetun pikselioperaation koko kuvalle.
         /// </summary>
         /// <param name="operation">Aliohjelma, joka ottaa värin ja palauttaa värin</param>
-        public void ApplyPixelOperation( ColorConverter operation )
+        public void ApplyPixelOperation(ColorConverter operation)
         {
-            XnaColorConverter newOp = delegate( XnaColor c )
+            Color[,] data = GetData();
+
+            for (int i = 0; i < data.GetLength(0); i++)
             {
-                return operation( new Color( c ) ).AsXnaColor();
-            };
-
-            ApplyPixelOperation( newOp );
-        }
-
-        /// <summary>
-        /// Suorittaa annetun pikselioperaation koko kuvalle.
-        /// </summary>
-        /// <param name="operation">Aliohjelma, joka ottaa värin ja palauttaa värin</param>
-        internal void ApplyPixelOperation( XnaColorConverter operation )
-        {
-            DoInitTexture();
-            InvalidateAsset();
-
-            XnaRectangle scanRect = new XnaRectangle( 0, 0, xnaTexture.Width, 1 );
-            XnaColor[] scanline = new XnaColor[xnaTexture.Width];
-
-            for ( scanRect.Y = 0; scanRect.Y < xnaTexture.Height; scanRect.Y++ )
-            {
-                xnaTexture.GetData<XnaColor>( 0, scanRect, scanline, 0, xnaTexture.Width );
-
-                for ( int j = 0; j < xnaTexture.Width; j++ )
+                for (int j = 0; j < data.GetLength(1); j++)
                 {
-                    scanline[j] = operation( scanline[j] );
+                    data[i,j] = operation(data[i,j]);
                 }
-
-                xnaTexture.SetData<XnaColor>( 0, scanRect, scanline, 0, xnaTexture.Width );
             }
-
+            SetData(data);
             UpdateTexture();
-        }
-
-        /// <summary>
-        /// Tekee uuden lokaalin instanssin kuvan tekstuurista ja poistaa
-        /// viitteen assettiin josta kuva on luotu.
-        /// Kutsu tätä metodia aina kun kuvan dataa muutetaan.
-        /// </summary>
-        private void InvalidateAsset()
-        {
-            if ( assetName == null )
-                return;
-
-            Texture2D oldTex = xnaTexture;
-            CreateNewTexture();
-            CopyData( xnaTexture, oldTex );
-            assetName = null;
         }
 
         private void UpdateTexture()
         {
-            Game.DoNextUpdate( DoUpdateTexture );
-        }
-
-        private void DoUpdateTexture()
-        {
-            if ( parentImage != null )
-            {
-                XnaRectangle srcRect = new XnaRectangle( 0, 0, Width, Height );
-                CopyData( parentImage, this, parentRectangle, srcRect );
-                parentImage.UpdateTexture();
-            }
+            dirty = true;
         }
 
         #region static methods
 
-#if !WINDOWS_STOREAPP
+
         /// <summary>
-        /// Lataa kuvan tiedostosta. Kuvan ei tarvitse olla lisättynä
-        /// Content-projektiin.
+        /// Lataa kuvan tiedostosta.
         /// </summary>
-        /// <param name="path">Tiedoston polku.</param>
-        public static Image FromFile( string path )
+        /// <param name="path">Tiedoston polku päätteineen.</param>
+        public static Image FromFile(string path)
         {
-            StreamReader sr = new StreamReader( path );
-            Image img = new Image( Texture2D.FromStream( Game.GraphicsDevice, sr.BaseStream ) );
+            Image img = new Image(path);
             return img;
         }
-#endif
-
-        ///// <summary>
-        ///// Lataa kuvan tiedostosta. Kuvan ei tarvitse olla lisättynä
-        ///// Content-projektiin.
-        ///// </summary>
-        ///// <param name="path">Tiedosto.</param>
-        //public static Image FromFile( StorageFile file )
-        //{
-        //    return FromStream( file.Stream );
-        //}
 
         /// <summary>
         /// Lataa kuvan tiedostovirrasta.
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
-        public static Image FromStream( Stream stream )
+        public static Image FromStream(Stream stream)
         {
-            return new Image( Texture2D.FromStream( Game.GraphicsDevice, stream ) );
+            return new Image(SImage.Load(stream));
         }
 
-#if WINDOWS
         /// <summary> 
         /// Lataa kuvan Internetistä. 
         /// </summary> 
         /// <param name="url">Kuvan URL-osoite</param> 
         /// <returns>Kuva</returns> 
-        public static Image FromURL( string url )
+        public static Image FromURL(string url)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create( url );
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
@@ -695,10 +486,9 @@ namespace Jypeli
             MemoryStream memStream = new MemoryStream();
             resStream.CopyTo( memStream );
 
-            Image img = new Image( Texture2D.FromStream( Game.GraphicsDevice, memStream ) );
+            Image img = new Image(SImage.Load(memStream));
             return img;
         }
-#endif
 
         /// <summary>
         /// Luo tähtitaivaskuvan.
@@ -708,51 +498,33 @@ namespace Jypeli
         /// <param name="stars">Tähtien määrä.</param>
         /// <param name="transparent">Onko tausta läpinäkyvä vai ei (jolloin siitä tulee täysin musta)</param>
         /// <returns>Tekstuuri.</returns>
-        public static Image CreateStarSky( int width, int height, int stars, bool transparent = false)
+        public static Image CreateStarSky(int width, int height, int stars, bool transparent = false)
         {
-            XnaColor[] textureColors = new XnaColor[width * height];
-
-            // Background, black or transparent
-            int i = 0;
-            for ( int ver = 0; ver < height; ver++ )
-            {
-                for ( int hor = 0; hor < width; hor++ )
-                {
-                    if (transparent) textureColors[i++] = XnaColor.Transparent;
-                    else textureColors[i++] = XnaColor.Black;
-                }
-            }
+            Image img = new Image(width, height, transparent ? Color.Transparent : Color.Black);
 
             // Random stars
-            for ( int j = 0; j < stars; j++ )
+            for (int j = 0; j < stars; j++)
             {
-                int star = RandomGen.NextInt( 0, width * height );
-                int size = RandomGen.NextInt( 1, 5 );
 
-                for ( int k = 0; k < size / 2; k++ )
+                int px = RandomGen.NextInt(0, width);
+                int py = RandomGen.NextInt(0, height);
+
+                int radius = RandomGen.NextInt(2, 10) / 2;
+                Color starcolor = RandomGen.NextColor(Color.White, new Color(192, 192, 192, 255));
+
+                for (int y = -radius; y <= radius; y++)
                 {
-                    XnaColor starcolor = RandomGen.NextColor( Jypeli.Color.White, new Color( 192, 192, 192, 255 ) ).AsXnaColor();
-
-                    if ( star + k < textureColors.Length )
-                        textureColors[star + k] = starcolor;
-
-                    if ( size % 2 != 0 || size == 2 )
-                        continue;
-
-                    int nextStar = star + k + width;
-
-                    if ( nextStar < ( width * height ) )
+                    for (int x = -radius; x <= radius; x++)
                     {
-                        textureColors[nextStar] = starcolor;
+                        if (x * x + y * y <= radius * radius && px + x > 0 && px + x < width && py + y > 0 && py + y < height)
+                        {
+                            img[px + x, py + y] = starcolor;
+                        }
+
                     }
                 }
             }
-
-            //Texture2D newTexture = new Texture2D( Game.GraphicsDevice, width, height, 1, TextureUsage.None, SurfaceFormat.Color );
-            Texture2D newTexture = new Texture2D( Game.GraphicsDevice, width, height, false, SurfaceFormat.Color );
-            newTexture.SetData<XnaColor>( textureColors );
-
-            return new Image( newTexture );
+            return img;
         }
 
         /// <summary>
@@ -767,30 +539,38 @@ namespace Jypeli
         {
             if ( text == null )
                 text = "";
+            
+            var device = Game.GraphicsDevice;
 
-            var spriteBatch = new SpriteBatch( Game.GraphicsDevice );
-            var device = spriteBatch.GraphicsDevice;
+            Vector textDims = font.MeasureSize(text);
+            int textw = (textDims.X > 1) ? Convert.ToInt32(textDims.X) : 1;
+            int texth = (textDims.Y > 1) ? Convert.ToInt32(textDims.Y) : 1;
 
-            XnaV2 textDims = font.XnaFont.MeasureString( text );
-            int textw = ( textDims.X > 1 ) ? Convert.ToInt32( textDims.X ) : 1;
-            int texth = ( textDims.Y > 1 ) ? Convert.ToInt32( textDims.Y ) : 1;
+            Rendering.IRenderTarget rt = Game.GraphicsDevice.CreateRenderTarget((uint)textw, (uint)texth);
 
-            //RenderTarget2D rt = new RenderTarget2D( device, textw, texth, 1, device.DisplayMode.Format );
-            RenderTarget2D rt = new RenderTarget2D( device, textw, texth, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8 );
+            device.SetRenderTarget(rt);
+            device.Clear(backgroundColor);
 
-            //device.SetRenderTarget( 0, rt );
-            device.SetRenderTarget( rt );
-            device.Clear( ClearOptions.Target | ClearOptions.DepthBuffer, backgroundColor.AsXnaColor(), 1.0f, 0 );
+            Matrix4x4 ProjectionMatrix = Matrix4x4.CreateOrthographic(
+                textw,
+                texth,
+                1, 2
+            );
 
-            spriteBatch.Begin();
-            font.XnaFont.DrawText(Graphics.FontRenderer, text, XnaV2.Zero.ToSystemNumerics(), textColor.AsXnaColor().ToSystemDrawing());
-            spriteBatch.End();
+            Matrix4x4 temp = Graphics.ViewProjectionMatrix;
+            Graphics.ViewProjectionMatrix = ProjectionMatrix;
 
-            //device.SetRenderTarget( 0, null );
-            device.SetRenderTarget( null );
+            Renderer.DrawText(text, Vector.Zero + new Vector(0, texth/2), font, textColor, Vector.One);
+            Graphics.CustomBatch.Flush(); // TODO: Joku DrawTextImmediately tms. Voiko tämä mennä jossain tilanteissa nyt pieleen?
 
-            //return new Image( rt.GetTexture() );
-            return new Image( rt );
+            Graphics.ViewProjectionMatrix = temp;
+
+            Image img = new Image(textw, texth);
+            device.GetScreenContentsToImage(img);
+
+            device.SetRenderTarget(null);
+
+            return Flip(img);
         }
 
         /// <summary>
@@ -808,7 +588,7 @@ namespace Jypeli
             if ( text == null )
                 text = "";
 
-            var spriteBatch = new SpriteBatch( Game.GraphicsDevice );
+            /*var spriteBatch = new SpriteBatch( Game.GraphicsDevice );
             var device = spriteBatch.GraphicsDevice;
 
             XnaV2 textDims = font.XnaFont.MeasureString( text );
@@ -835,7 +615,8 @@ namespace Jypeli
 
 
             //return new Image( rt.GetTexture() );
-            return new Image( rt );
+            return new Image( rt );*/
+            return new Image(20,20);
         }
 
         /// <summary>
@@ -851,6 +632,7 @@ namespace Jypeli
             return DrawTextOnImage( img, text, Vector.Zero, font, textColor, Jypeli.Color.Transparent );
         }
 
+        //TODO: Ehkä mielummin CreateGradient...
         /// <summary>
         /// Luo pystysuuntaisen liukuväritetyn kuvan.
         /// </summary>
@@ -859,58 +641,31 @@ namespace Jypeli
         /// <param name="lowerColor">Alareunassa käytettävä väri.</param>
         /// <param name="upperColor">Yläreunassa käytettävä väri.</param>
         /// <returns>Väritetty kuva.</returns>
-        public static Image FromGradient( int imageWidth, int imageHeight, Color lowerColor, Color upperColor )
+        public static Image FromGradient(int imageWidth, int imageHeight, Color lowerColor, Color upperColor)
         {
-            XnaColor lower = lowerColor.AsXnaColor();
-            XnaColor upper = upperColor.AsXnaColor();
-            XnaColor[] textureColors = new XnaColor[imageWidth * imageHeight];
-            int i = 0;
+            Image img = new Image(imageWidth, imageHeight);
 
-            for ( int ver = 0; ver < imageHeight; ver++ )
+            for (int ver = 0; ver < imageHeight; ver++)
             {
-                for ( int hor = 0; hor < imageWidth; hor++ )
+                for (int hor = 0; hor < imageWidth; hor++)
                 {
-                    textureColors[i++] = XnaColor.Lerp( upper, lower, ( (float)ver / (float)imageHeight ) );
+                    img[ver, hor] = Color.Lerp(lowerColor, upperColor, (float)ver / (float)imageHeight);
                 }
             }
 
-            Texture2D newTexture = new Texture2D( Game.GraphicsDevice, imageWidth, imageHeight, false, SurfaceFormat.Color );
-            newTexture.SetData<XnaColor>( textureColors );
-            return new Image( newTexture );
+            return img;
         }
 
         /// <summary>
         /// Luo yksivärisen kuvan.
         /// </summary>
-        /// <param name="imageWidth">Kuvan leveys.</param>
-        /// <param name="imageHeight">Kuvan korkeus.</param>
+        /// <param name="width">Kuvan leveys.</param>
+        /// <param name="height">Kuvan korkeus.</param>
         /// <param name="color">Kuvan väri.</param>
         /// <returns>Väritetty kuva.</returns>
-        public static Image FromColor( int imageWidth, int imageHeight, Color color )
+        public static Image FromColor(int width, int height, Color color)
         {
-            return Image.FromGradient( imageWidth, imageHeight, color, color );
-        }
-
-        private static XnaColor[] MirrorLine( XnaColor[] scanline, int width )
-        {
-            XnaColor[] res = new XnaColor[width];
-            int l = 0;
-            int r = width - 1;
-
-            while ( l < r )
-            {
-                res[l] = scanline[r];
-                res[r] = scanline[l];
-                l++; r--;
-            }
-
-            if ( l == r )
-            {
-                // Center pixel
-                res[l] = scanline[l];
-            }
-
-            return res;
+            return new Image(width, height, color);
         }
 
         /// <summary>
@@ -918,20 +673,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="image">Peilattava kuva.</param>
         /// <returns>Peilattu kuva.</returns>
-        public static Image Mirror( Image image )
+        public static Image Mirror(Image image)
         {
-            Texture2D newTex = new Texture2D( image.XNATexture.GraphicsDevice, image.Width, image.Height, false, image.XNATexture.Format );
-            XnaColor[] scanline = new XnaColor[image.Width];
-            var scanRect = new XnaRectangle( 0, 0, image.Width, 1 );
-
-            for ( scanRect.Y = 0; scanRect.Y < image.Height; scanRect.Y++ )
-            {
-                image.XNATexture.GetData<XnaColor>( 0, scanRect, scanline, 0, image.Width );
-                scanline = MirrorLine( scanline, image.Width );
-                newTex.SetData<XnaColor>( 0, scanRect, scanline, 0, image.Width );
-            }
-
-            return new Image( newTex );
+            Image img = image.Clone();
+            img.image.Mutate(x => x.Flip(FlipMode.Horizontal));
+            return img;
         }
 
         /// <summary>
@@ -939,48 +685,25 @@ namespace Jypeli
         /// </summary>
         /// <param name="images">Peilattavat kuvat.</param>
         /// <returns>Peilatut kuvat.</returns>
-        public static Image[] Mirror( Image[] images )
+        public static Image[] Mirror(Image[] images)
         {
             Image[] result = new Image[images.Length];
-            for ( int i = 0; i < images.Length; i++ )
-                result[i] = Mirror( images[i] );
+            for (int i = 0; i < images.Length; i++)
+                result[i] = Mirror(images[i]);
             return result;
         }
 
+        // TODO: Näissä on tyhmä nimi
         /// <summary>
         /// Peilaa kuvan Y-suunnassa.
         /// </summary>
         /// <param name="image">Peilattava kuva.</param>
         /// <returns>Peilattu kuva.</returns>
-        public static Image Flip( Image image )
+        public static Image Flip(Image image)
         {
-            Texture2D newTex = new Texture2D( image.XNATexture.GraphicsDevice, image.Width, image.Height, false, image.XNATexture.Format );
-            XnaColor[] scanlineUpper = new XnaColor[image.Width];
-            XnaColor[] scanlineLower = new XnaColor[image.Width];
-            var scanRectUpper = new XnaRectangle( 0, 0, image.Width, 1 );
-            var scanRectLower = new XnaRectangle( 0, 0, image.Width, 1 );
-
-            for ( int i = 0; i < image.Height / 2; i++ )
-            {
-                scanRectUpper.Y = i;
-                scanRectLower.Y = image.Height - 1 - i;
-
-                image.XNATexture.GetData<XnaColor>( 0, scanRectUpper, scanlineUpper, 0, image.Width );
-                image.XNATexture.GetData<XnaColor>( 0, scanRectLower, scanlineLower, 0, image.Width );
-
-                newTex.SetData<XnaColor>( 0, scanRectUpper, scanlineLower, 0, image.Width );
-                newTex.SetData<XnaColor>( 0, scanRectLower, scanlineUpper, 0, image.Width );
-            }
-
-            if ( image.Height % 2 == 1 )
-            {
-                // Center line
-                scanRectUpper.Y = image.Height / 2;
-                image.XNATexture.GetData<XnaColor>( 0, scanRectUpper, scanlineUpper, 0, image.Width );
-                newTex.SetData<XnaColor>( 0, scanRectUpper, scanlineUpper, 0, image.Width );
-            }
-
-            return new Image( newTex );
+            Image img = image.Clone();
+            img.image.Mutate(x => x.Flip(FlipMode.Vertical));
+            return img;
         }
 
         /// <summary>
@@ -988,89 +711,12 @@ namespace Jypeli
         /// </summary>
         /// <param name="images">Peilattavat kuvat.</param>
         /// <returns>Peilatut kuvat.</returns>
-        public static Image[] Flip( Image[] images )
+        public static Image[] Flip(Image[] images)
         {
             Image[] result = new Image[images.Length];
-            for ( int i = 0; i < images.Length; i++ )
-                result[i] = Flip( images[i] );
+            for (int i = 0; i < images.Length; i++)
+                result[i] = Flip(images[i]);
             return result;
-        }
-
-        /// <summary>
-        /// Värittää kuvan.
-        /// </summary>
-        /// <param name="image">Väritettävä kuva.</param>
-        /// <param name="color">Väri, jolla väritetään.</param>
-        /// <returns>Väritetty kuva.</returns>
-        public static Image Color( Image image, Color color )
-        {
-            Texture2D newTex = new Texture2D( image.XNATexture.GraphicsDevice, image.Width, image.Height, false, image.XNATexture.Format );
-            XnaColor[] scanline = new XnaColor[image.Width];
-            var scanRect = new XnaRectangle( 0, 0, image.Width, 1 );
-            XnaColor xnaColor = color.AsXnaColor();
-
-            for ( scanRect.Y = 0; scanRect.Y < image.Height; scanRect.Y++ )
-            {
-                image.XNATexture.GetData<XnaColor>( 0, scanRect, scanline, 0, image.Width );
-
-                for ( int i = 0; i < image.Width; i++ )
-                {
-                    if ( scanline[i].A < 255 )
-                    {
-                        scanline[i].R = (byte)( ( 255 - scanline[i].A ) * xnaColor.R + scanline[i].A * scanline[i].R );
-                        scanline[i].G = (byte)( ( 255 - scanline[i].A ) * xnaColor.G + scanline[i].A * scanline[i].G );
-                        scanline[i].B = (byte)( ( 255 - scanline[i].A ) * xnaColor.B + scanline[i].A * scanline[i].B );
-
-                        if ( scanline[i].A > 10 )
-                        {
-                            scanline[i].A = color.AlphaComponent;
-                        }
-                    }
-                }
-
-                newTex.SetData<XnaColor>( 0, scanRect, scanline, 0, image.Width );
-            }
-
-            return new Image( newTex );
-        }
-
-        /// <summary>
-        /// Värittää kuvat.
-        /// </summary>
-        /// <param name="images">Väritettävät kuvat.</param>
-        /// <param name="color">Väri, jolla väritetään.</param>
-        /// <returns>Väritetyt kuvat.</returns>
-        public static Image[] Color( Image[] images, Color color )
-        {
-            Image[] result = new Image[images.Length];
-            for ( int i = 0; i < images.Length; i++ )
-                result[i] = Color( images[i], color );
-            return result;
-        }
-
-        // TODO: On hyvin hämäävä nimi...
-        /// <summary>
-        /// Muuttaa kuvan jokaisen pikselin <c>alpha</c>-arvon vastaamaan annettua.
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="alpha"></param>
-        /// <returns></returns>
-        public static Image Color( Image image, byte alpha )
-        {
-            Texture2D newTex = new Texture2D( image.XNATexture.GraphicsDevice, image.Width, image.Height, false, image.XNATexture.Format );
-            XnaColor[] scanline = new XnaColor[image.Width];
-            var scanRect = new XnaRectangle( 0, 0, image.Width, 1 );
-
-            for ( scanRect.Y = 0; scanRect.Y < image.Height; scanRect.Y++ )
-            {
-                image.XNATexture.GetData<XnaColor>( 0, scanRect, scanline, 0, image.Width );
-                for ( int i = 0; i < image.Width; i++ )
-                {
-                    scanline[i].A = alpha;
-                }
-                newTex.SetData<XnaColor>( 0, scanRect, scanline, 0, image.Width );
-            }
-            return new Image( newTex );
         }
 
         /// <summary>
@@ -1079,22 +725,18 @@ namespace Jypeli
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Image TileHorizontal( Image left, Image right )
+        public static Image TileHorizontal(Image left, Image right)
         {
-            if ( left.Height != right.Height ) throw new InvalidOperationException( "Cannot tile two images with different height" );
+            int width = left.Width + right.Width;
+            int height = Math.Max(left.Height, right.Height);
 
-            left.DoInitTexture();
-            right.DoInitTexture();
+            SImage img = new SXImage(width, height);
+            img.Mutate(o => o
+                        .DrawImage(left.image, new Point(0, 0), 1f)
+                        .DrawImage(right.image, new Point(left.Width, 0), 1f)
+            );
+            return new Image(img);
 
-            XnaRectangle leftRect = new XnaRectangle( 0, 0, left.Width, left.Height );
-            XnaRectangle rightSrc = new XnaRectangle( 0, 0, right.Width, right.Height );
-            XnaRectangle rightDest = new XnaRectangle( left.Width, 0, right.Width, right.Height );
-
-            Image tiled = new Image( left.Width + right.Width, left.Height );
-            tiled.InitTexture += delegate { CopyData( tiled, left, leftRect, leftRect ); };
-            tiled.InitTexture += delegate { CopyData( tiled, right, rightDest, rightSrc ); };
-
-            return tiled;
         }
 
         /// <summary>
@@ -1103,22 +745,17 @@ namespace Jypeli
         /// <param name="top"></param>
         /// <param name="bottom"></param>
         /// <returns></returns>
-        public static Image TileVertical( Image top, Image bottom )
+        public static Image TileVertical(Image top, Image bottom)
         {
-            if ( top.Width != bottom.Width ) throw new InvalidOperationException( "Cannot tile two images with different width" );
+            int width = Math.Max(top.Width, bottom.Width);
+            int height = top.Height + bottom.Height;
 
-            top.DoInitTexture();
-            bottom.DoInitTexture();
-
-            XnaRectangle topRect = new XnaRectangle( 0, 0, top.Width, top.Height );
-            XnaRectangle botSrc = new XnaRectangle( 0, 0, bottom.Width, bottom.Height );
-            XnaRectangle botDest = new XnaRectangle( 0, top.Height, bottom.Width, bottom.Height );
-
-            Image tiled = new Image( top.Width, top.Height + bottom.Height );
-            tiled.InitTexture += delegate { CopyData( tiled, top, topRect, topRect ); };
-            tiled.InitTexture += delegate { CopyData( tiled, bottom, botDest, botSrc ); };
-
-            return tiled;
+            SImage img = new SXImage(width, height);
+            img.Mutate(o => o
+                        .DrawImage(top.image, new Point(0, 0), 1f)
+                        .DrawImage(bottom.image, new Point(0, top.Height), 1f)
+            );
+            return new Image(img);
         }
 
         #endregion
@@ -1131,41 +768,37 @@ namespace Jypeli
         /// <param name="right"></param>
         /// <param name="bottom"></param>
         /// <returns></returns>
-        public Image Area( int left, int top, int right, int bottom )
+        public Image Area(int left, int top, int right, int bottom)
         {
             int width = right - left;
             int height = bottom - top;
 
             if ( width <= 0 ) throw new ArgumentException( "Left coordinate must be less than right coordinate" );
             if ( height <= 0 ) throw new ArgumentException( "Top coordinate must be less than bottom coordinate" );
+            
+            Color[,] data = new Color[height, width];
 
-            XnaRectangle srcRect = new XnaRectangle( left, top, width, height );
-            XnaRectangle destRect = new XnaRectangle( 0, 0, width, height );
+            for ( int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    data[j, i] = this[top + j, left + i];
+                }
+            }
 
-            Image areaImage = new Image( width, height );
-            areaImage.parentImage = this;
-            areaImage.parentRectangle = srcRect;
-            areaImage.InitTexture += delegate { CopyData( areaImage, this, destRect, srcRect ); };
-            return areaImage;
+            Image img = new Image(width, height);
+            img.SetData(data);
+
+            return img;
         }
 
         /// <summary>
         /// Täyttää kuvan värillä
         /// </summary>
         /// <param name="backColor"></param>
-        public void Fill( Color backColor )
+        public void Fill(Color backColor)
         {
-            DoInitTexture();
-            InvalidateAsset();
-
-            XnaRectangle rect = new XnaRectangle( 0, 0, xnaTexture.Width, 1 );
-            Color[] scanline = new Color[xnaTexture.Width];
-
-            for ( int i = 0; i < xnaTexture.Width; i++ )
-                scanline[i] = backColor;
-
-            for ( rect.Y = 0; rect.Y < xnaTexture.Height; rect.Y++ )
-                xnaTexture.SetData<Color>( 0, rect, scanline, 0, xnaTexture.Width );
+            image = new SXImage(Width, Height, new Rgba32(backColor.ToUInt()));
 
             UpdateTexture();
         }
@@ -1178,26 +811,24 @@ namespace Jypeli
         /// <param name="tolerance">Kuinka paljon korvattava väri voi poiketa annetusta.</param>
         /// <param name="blend">Sävytetäänkö korvattavaa väriä sen mukaan kuinka kaukana se on alkuperäisestä väristä</param>
         /// <param name="exactAlpha">Vaaditaanko täsmälleen sama läpinäkyvyys ennen kuin korvataan</param>
-        public void ReplaceColor( Color src, Color dest, double tolerance, bool blend, bool exactAlpha = false )
+        public void ReplaceColor(Color src, Color dest, double tolerance, bool blend, bool exactAlpha = false)
         {
-            XnaColor srcColor = src.AsXnaColor();
-            XnaColor destColor = dest.AsXnaColor();
-            XnaColorConverter op = delegate( XnaColor c )
+            Color op(Color c)
             {
-                if ( exactAlpha && c.A != srcColor.A )
+                if (exactAlpha && c.AlphaComponent != src.AlphaComponent)
                     return c;
 
-                if ( JyColor.Distance( c, srcColor ) <= tolerance )
+                if (Color.Distance(c, src) <= tolerance)
                 {
-                    if ( !blend ) return destColor;
-                    Vector3 srcDist = new Vector3( c.R - srcColor.R, c.G - srcColor.G, c.B - srcColor.B );
-                    return new XnaColor( destColor.ToVector3() + srcDist );
+                    if (!blend)
+                        return dest;
+                    return Color.Mix(c, dest);
                 }
 
                 return c;
-            };
+            }
 
-            ApplyPixelOperation( op );
+            ApplyPixelOperation(op);
         }
 
         /// <summary>
@@ -1205,44 +836,33 @@ namespace Jypeli
         /// </summary>
         /// <param name="src">Korvattava väri</param>
         /// <param name="dest">Väri jolla korvataan</param>
-        public void ReplaceColor( Color src, Color dest )
+        public void ReplaceColor(Color src, Color dest)
         {
-            XnaColor srcColor = src.AsXnaColor();
-            XnaColor destColor = dest.AsXnaColor();
-            XnaColorConverter op = delegate( XnaColor c )
+            Color op(Color c)
             {
-                return c == srcColor ? destColor : c;
-            };
+                return c == src ? dest : c;
+            }
 
-            ApplyPixelOperation( op );
+            ApplyPixelOperation(op);
         }
 
         /// <summary>
-        /// Palauttaa kuvan jpeg-muodossa, jossa se voidaan esimerkiksi tallentaa
-        /// DataStorage.Export -metodilla.
+        /// Tallentaa kuvan jpg-muodossa
         /// </summary>
-        /// <returns></returns>
-        public Stream AsJpeg()
+        /// <param name="path">Tiedoston nimi</param>
+        public void SaveAsJpeg(string path)
         {
-            DoInitTexture();
-            MemoryStream jpegStream = new MemoryStream();
-            XNATexture.SaveAsJpeg( jpegStream, Width, Height );
-            jpegStream.Seek( 0, SeekOrigin.Begin );
-            return jpegStream;
+            image.SaveAsJpeg(path);
         }
 
+
         /// <summary>
-        /// Palauttaa kuvan png-muodossa, jossa se voidaan esimerkiksi tallentaa
-        /// DataStorage.Export -metodilla.
+        /// Tallentaa kuvan png-muodossa
         /// </summary>
-        /// <returns></returns>
-        public Stream AsPng()
+        /// <param name="path">Tiedoston nimi</param>
+        public void SaveAsPng(string path)
         {
-            DoInitTexture();
-            MemoryStream pngStream = new MemoryStream();
-            XNATexture.SaveAsPng( pngStream, Width, Height );
-            pngStream.Seek( 0, SeekOrigin.Begin );
-            return pngStream;
+            image.SaveAsPng(path);
         }
     }
 }

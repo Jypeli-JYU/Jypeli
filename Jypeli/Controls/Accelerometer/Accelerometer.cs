@@ -1,6 +1,6 @@
 using System;
 using Jypeli.Controls;
-using Microsoft.Xna.Framework;
+using Vector3 = System.Numerics.Vector3;
 
 namespace Jypeli
 {
@@ -8,7 +8,7 @@ namespace Jypeli
     {
     }
 
-    public abstract class Accelerometer : Controller<Vector3, AccelerometerDirection>
+    public abstract class Accelerometer : Controller<System.Numerics.Vector3, AccelerometerDirection>
     {
         protected bool started = false;
 
@@ -90,7 +90,7 @@ namespace Jypeli
 
         public Accelerometer()
         {
-            Calibration = AccelerometerCalibration.HalfRightAngle;
+            Calibration = AccelerometerCalibration.ZeroAngle;
             DefaultSensitivity = 0.2;
             DefaultAnalogSensitivity = 0.01;
             GesturesEnabled = true;
@@ -107,12 +107,14 @@ namespace Jypeli
 #endif
         }
 
-        internal virtual Vector Project2d( Vector3 spaceVector )
+        internal virtual Vector Project2d(Vector3 spaceVector)
         {
             switch ( Calibration )
             {
                 case AccelerometerCalibration.ZeroAngle:
                     return new Vector( spaceVector.X, spaceVector.Y );
+                case AccelerometerCalibration.InvertXY:
+                    return new Vector(spaceVector.Y, spaceVector.X);
                 case AccelerometerCalibration.HalfRightAngle:
                     return new Vector( spaceVector.X, spaceVector.Y - spaceVector.Z );
                 case AccelerometerCalibration.RightAngle:

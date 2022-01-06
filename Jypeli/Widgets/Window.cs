@@ -35,10 +35,8 @@ namespace Jypeli
     /// </summary>
     public class Window : Widget
     {
-        private Color _actColor = new Color( 255, 255, 255, 200 );
-        private Color _inactColor = new Color( 50, 50, 50, 50 );
-        private Color _actTitle = new Color( 255, 255, 255, 100 );
-        private Color _inactTitle = new Color( 128, 128, 128, 50 );
+        private Color actColor = new Color(255, 255, 255, 200);
+        private Color inactColor = new Color(50, 50, 50, 50);
 
         private bool moving = false;
         private Vector movementCenter = Vector.Zero;
@@ -56,7 +54,7 @@ namespace Jypeli
             set
             {
                 ActiveColor = value;
-                InactiveColor = Color.Darker( value, 75 );
+                InactiveColor = Color.Darker(value, 75);
                 base.Color = value;
             }
         }
@@ -66,8 +64,8 @@ namespace Jypeli
         /// </summary>
         public Color ActiveColor
         {
-            get { return _actColor; }
-            set { _actColor = value; }
+            get { return actColor; }
+            set { actColor = value; }
         }
 
         /// <summary>
@@ -75,14 +73,14 @@ namespace Jypeli
         /// </summary>
         public Color InactiveColor
         {
-            get { return _inactColor; }
-            set { _inactColor = value; }
+            get { return inactColor; }
+            set { inactColor = value; }
         }
 
         /// <summary>
         /// Ikkunatapahtumien käsittelijä.
         /// </summary>
-        public delegate void WindowHandler( Window sender );
+        public delegate void WindowHandler(Window sender);
 
         /// <summary>
         /// Tapahtuu kun ikkuna suljetaan.
@@ -93,17 +91,16 @@ namespace Jypeli
 
         private void OnClosed()
         {
-            if ( Closed != null )
-                Closed( this );
+            Closed?.Invoke(this);
         }
 
         /// <summary>
         /// Alustaa uuden ikkunan.
         /// </summary>
         public Window()
-            : base( new VerticalLayout() )
+            : base(new VerticalLayout())
         {
-            initialize();
+            Initialize();
         }
 
         /// <summary>
@@ -111,12 +108,12 @@ namespace Jypeli
         /// </summary>
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
-        public Window( double width, double height )
-            : base( width, height )
+        public Window(double width, double height)
+            : base(width, height)
         {
             SizingByLayout = false;
             Layout = new VerticalLayout();
-            initialize();
+            Initialize();
         }
 
         /// <summary>
@@ -125,10 +122,10 @@ namespace Jypeli
         protected override Vector GetMaximumSize()
         {
             var screen = Game.Screen;
-            return new Vector( screen.Width * ( 7.0 / 8.0 ), screen.Height * ( 7.0 / 8.0 ) );
+            return new Vector(screen.Width * (7.0 / 8.0), screen.Height * (7.0 / 8.0));
         }
 
-        private void initialize()
+        private void Initialize()
         {
             AddedToGame += ShowMouse;
             Removed += RestoreMouse;
@@ -142,7 +139,7 @@ namespace Jypeli
             CapturesMouse = true;
             this.IsModal = true;
 
-            Game.AssertInitialized( RefreshLayout );
+            Game.AssertInitialized(RefreshLayout);
         }
 
         private void ShowMouse()
@@ -150,10 +147,10 @@ namespace Jypeli
             if (!IsModal)
                 return;
 
-            if ( Game.Instance != null )
+            if (Game.Instance != null)
             {
-                prevMouseVisible = Game.Instance.IsMouseVisible;
-                Game.Instance.IsMouseVisible = true;
+                prevMouseVisible = Game.Instance.Mouse.IsCursorVisible;
+                Game.Instance.Mouse.IsCursorVisible = true;
             }
         }
 
@@ -162,36 +159,39 @@ namespace Jypeli
             if (!IsModal)
                 return;
 
-            if ( Game.Instance != null )
-                Game.Instance.IsMouseVisible = prevMouseVisible;
+            if (Game.Instance != null)
+                Game.Instance.Mouse.IsCursorVisible = prevMouseVisible;
         }
 
         void AddControls()
         {
-            var l1 = Game.Mouse.ListenOn( this, MouseButton.Left, ButtonState.Pressed, StartMoveWindow, null ).InContext( this );
-            var l2 = Game.Mouse.Listen( MouseButton.Left, ButtonState.Down, MoveWindow, null ).InContext( this );
-            var l3 = Game.Mouse.ListenOn( this, MouseButton.Left, ButtonState.Released, EndMoveWindow, null ).InContext( this );
+            var l1 = Game.Mouse.ListenOn(this, MouseButton.Left, ButtonState.Pressed, StartMoveWindow, null).InContext(this);
+            var l2 = Game.Mouse.Listen(MouseButton.Left, ButtonState.Down, MoveWindow, null).InContext(this);
+            var l3 = Game.Mouse.ListenOn(this, MouseButton.Left, ButtonState.Released, EndMoveWindow, null).InContext(this);
             associatedListeners.AddItems(l1, l2, l3);
         }
 
         void StartMoveWindow()
         {
-            if ( Game == null ) return;
-            if (!CapturesMouse) return;
+            if (Game == null)
+                return;
+            if (!CapturesMouse)
+                return;
             foreach (var obj in Objects)
             {
                 if (obj is Widget w && w.IsCapturingMouse)
                     return;
             }
 
-            movementCenter = this.Position - Game.Mouse.PositionOnScreen;
+            movementCenter = Position - Game.Mouse.PositionOnScreen;
             moving = true;
         }
 
         void MoveWindow()
         {
-            if ( !moving ) return;
-            this.Position = movementCenter + Game.Mouse.PositionOnScreen;
+            if (!moving)
+                return;
+            Position = movementCenter + Game.Mouse.PositionOnScreen;
         }
 
         void EndMoveWindow()
@@ -214,10 +214,10 @@ namespace Jypeli
         /// </summary>
         public void Close()
         {
-            if ( Parent != null )
-                Parent.Remove( this );
+            if (Parent != null)
+                Parent.Remove(this);
             else
-                Game.Remove( this );
+                Game.Remove(this);
         }
     }
 }

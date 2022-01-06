@@ -26,8 +26,7 @@
 /*
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
-
-using Microsoft.Xna.Framework.Input;
+using Buttons = Silk.NET.Input.ButtonName;
 
 namespace Jypeli
 {
@@ -62,27 +61,28 @@ namespace Jypeli
         /// <summary>
         /// Vasen olkanappi.
         /// </summary>
-        LeftShoulder = Buttons.LeftShoulder,
+        LeftShoulder = Buttons.LeftBumper,
 
         /// <summary>
         /// Oikea olkanappi.
         /// </summary>
-        RightShoulder = Buttons.RightShoulder,
+        RightShoulder = Buttons.RightBumper,
 
-        BigButton = Buttons.BigButton,
+        BigButton = Buttons.Home,
         A = Buttons.A,
         B = Buttons.B,
         X = Buttons.X,
         Y = Buttons.Y,
 
+        //TODO: Nämä ovat analogisia nappuloita. Pitäisikö toteuttaa nämäkin, esim. vaatimalla että nappula on pohjassa asti jolloin tämä tapahtuu?
         /// <summary>
         /// Oikea liipasin.
         /// </summary>
-        RightTrigger = Buttons.RightTrigger,
+        //RightTrigger = Buttons.RightTrigger,
 
         /// <summary>
         /// Vasen liipasin.
         /// </summary>
-        LeftTrigger = Buttons.LeftTrigger
+        //LeftTrigger = Buttons.LeftTrigger
     }
 }

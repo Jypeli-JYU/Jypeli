@@ -1,38 +1,38 @@
-﻿<Project>
-  <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>Jypeli.FarseerPhysics</AssemblyName>
-    <PackageId>Jypeli.FarseerPhysics.NET</PackageId>
     <OutputType>Library</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <TargetFrameworks>net6.0; net6-android</TargetFrameworks>
+    
+    <AssemblyName>Jypeli.FarseerPhysics</AssemblyName>
+    <PackageId>Jypeli.FarseerPhysics.NET.BETA</PackageId>
     <Description>FarseerPhysics implementation for Jypeli</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>University of Jyväskylä</Authors>
     <Company>University of Jyväskylä</Company>
     <Copyright>University of Jyväskylä</Copyright>
-    <PackageReleaseNotes></PackageReleaseNotes>
-    <RootNamespace>Jypeli</RootNamespace>
+    <RootNamespace>Jypeli.FarseerPhysics</RootNamespace>
     <PackageLicenseFile>Farseer.txt</PackageLicenseFile>
-    <Version>1.0.11</Version>
-    <AssemblyVersion>1.0.11.0</AssemblyVersion>
+    <Version>1.1.0.0825</Version>
+    <AssemblyVersion>1.1.0.825</AssemblyVersion>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DefineConstants>NETSTANDARD2_0;USE_AWAKE_BODY_SET;USE_ACTIVE_CONTACT_SET</DefineConstants>
+    <Optimize>false</Optimize>
     <OutputPath>../Compiled</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DefineConstants>NETSTANDARD2_0;USE_AWAKE_BODY_SET;USE_ACTIVE_CONTACT_SET</DefineConstants>
     <OutputPath>../Compiled</OutputPath>
+    <Optimize>true</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\Jypeli\Jypeli.csproj" />
-    <ProjectReference Include="..\MonoGame\MonoGame.Framework\MonoGame.Framework.DesktopGL.csproj" PrivateAssets="All" />
   </ItemGroup>
-  <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
 
   <ItemGroup>
     <None Include="..\Licenses\Farseer.txt">

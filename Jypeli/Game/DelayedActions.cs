@@ -44,7 +44,7 @@ namespace Jypeli
         /// <summary>
         /// Tapahtuu kun peli lopetetaan.
         /// </summary>
-        public static new event Action Exiting;
+        public static event Action Exiting;
 
         /// <summary>
         /// Suorittaa aliohjelman kun peli on varmasti alustettu.
@@ -137,12 +137,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        protected override void OnExiting( object sender, EventArgs args )
+        protected void OnExiting( object sender, EventArgs args )
         {
             if ( Exiting != null )
                 Exiting();
 
-            base.OnExiting( sender, args );
         }
 
         private void ExecutePendingActions()

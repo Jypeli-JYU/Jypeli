@@ -24,8 +24,9 @@
 #endregion
 
 using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Jypeli.Rendering;
+using Matrix = System.Numerics.Matrix4x4;
+using Vector3 = System.Numerics.Vector3;
 
 namespace Jypeli
 {
@@ -34,12 +35,13 @@ namespace Jypeli
     /// </summary>
     internal static class Graphics
     {
-        public static BasicEffect BasicTextureEffect;
-        public static BasicEffect BasicColorEffect;
+        public static IShader BasicTextureShader;
+        public static IShader BasicColorShader;
+        public static IShader SimpleFloodLightShader;
+        public static IShader ParticleShader;
+        public static IShader LightPassTextureShader;
 
-        public static SpriteBatch SpriteBatch;
-
-        public static FontStashSharp.Renderer FontRenderer;
+        public static FontRenderer FontRenderer;
 
         // Having global batch objects saves memory.
         // The same batch object must not be used from more
@@ -47,190 +49,75 @@ namespace Jypeli
         internal static ImageBatch ImageBatch = new ImageBatch();
         internal static ShapeBatch ShapeBatch = new ShapeBatch();
         internal static LineBatch LineBatch = new LineBatch();
+        internal static CustomBatcher CustomBatch = new CustomBatcher();
 
         public static Canvas Canvas = new Canvas();
 
         internal static readonly TextureCoordinates DefaultTextureCoords = new TextureCoordinates()
         {
-            TopLeft = new Vector2( 0.0f, 0.0f ),
-            TopRight = new Vector2( 1.0f, 0.0f ),
-            BottomLeft = new Vector2( 0.0f, 1.0f ),
-            BottomRight = new Vector2( 1.0f, 1.0f ),
+            TopLeft = new Vector(0.0, 0.0),
+            TopRight = new Vector(1.0, 0.0),
+            BottomLeft = new Vector(0.0, 1.0),
+            BottomRight = new Vector(1.0, 1.0),
         };
 
-#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
-        static Effect LightingEffect;
-#endif
-
-        private static Matrix ViewMatrix;
-        private static Matrix ProjectionMatrix;
-        private static Matrix viewProjectionMatrix;
-
-#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
-        // XNA 4.0 requires PS 2.0
-        private static bool is_PS_2_0_supported = true;
-#elif !DISABLE_LIGHTING_EFFECT
-        // ...except on windows phone.
-        private static bool is_PS_2_0_supported = false;
-#endif
-
-        public static SamplerState GetDefaultSamplerState()
+        internal static VertexPositionColorTexture[] TextureVertices = new VertexPositionColorTexture[]
         {
-            return Game.SmoothTextures ? SamplerState.LinearClamp : SamplerState.PointClamp;
-        }
+                new VertexPositionColorTexture(new Vector3(-1f, 1f, 0), Color.White, new Vector(0f, 1f)),
+                new VertexPositionColorTexture(new Vector3(-1f, -1f, 0), Color.White, new Vector(0f, 0f)),
+                new VertexPositionColorTexture(new Vector3(1f, -1f, 0), Color.White, new Vector(1f, 0f)),
+
+                new VertexPositionColorTexture(new Vector3(-1f, 1f, 0), Color.White, new Vector(0f, 1f)),
+                new VertexPositionColorTexture(new Vector3(1f, -1f, 0), Color.White, new Vector(1f, 0f)),
+                new VertexPositionColorTexture(new Vector3(1f, 1f, 0), Color.White, new Vector(1f, 1f))
+        };
+
+        /// <summary>
+        /// Transformaatiomatriisi kameran suuntaa varten
+        /// </summary>
+        public static Matrix ViewMatrix { get; internal set; }
+
+        /// <summary>
+        /// Transformaatiomatriisi paikkakoordinaattien muuttamiseksi ruutukoordinaatteihin
+        /// </summary>
+        public static Matrix ProjectionMatrix { get; internal set; }
+
+        /// <summary>
+        /// Yhdistetty transformaatio
+        /// </summary>
+        public static Matrix ViewProjectionMatrix { get; internal set; }
 
         public static void Initialize()
         {
-            GraphicsDevice device = Game.GraphicsDevice;
+            BasicTextureShader = Game.GraphicsDevice.CreateShaderFromInternal("DefaultVertexShader.glsl", "DefaultTextureShader.glsl");
+            BasicColorShader = Game.GraphicsDevice.CreateShaderFromInternal("DefaultVertexShader.glsl", "DefaultColorShader.glsl");
+            SimpleFloodLightShader = Game.GraphicsDevice.CreateShaderFromInternal("SimpleFloodLightVertex.glsl", "SimpleFloodLightFragment.glsl");
+            ParticleShader = Game.GraphicsDevice.CreateShaderFromInternal("ParticleVertexShader.glsl", "DefaultTextureShader.glsl");
+            LightPassTextureShader = Game.GraphicsDevice.CreateShaderFromInternal("DefaultVertexShader.glsl", "DefaultTextureShaderLightPass.glsl");
 
-            BasicTextureEffect = new BasicEffect( device );
-            // This must be set to false for textures to work with BasicEffect.
-            BasicTextureEffect.VertexColorEnabled = false;
-            BasicTextureEffect.TextureEnabled = true;
-
-            BasicColorEffect = new BasicEffect( device );
-            BasicColorEffect.VertexColorEnabled = true;
-            BasicColorEffect.TextureEnabled = false;
-
-#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
-            // A hack until we can use Game.ResourceContent.Load<Effect>( "Lighting" )
-            LightingEffect = new Effect(Game.GraphicsDevice, Jypeli.Content.Lighting.rawData);
-#endif
-
-            SpriteBatch = new SpriteBatch( device );
-            FontRenderer = new FontStashSharp.Renderer(SpriteBatch);
             ImageBatch.Initialize();
             ShapeBatch.Initialize();
-
-            ResetScreenSize();
-#if !LINUX
-            Game.GraphicsDevice.DeviceReset += GraphicsDevice_DeviceReset;
-#endif
+            LineBatch.Initialize();
+            FontRenderer = new FontRenderer();
         }
-
-        public static DepthFormat SelectStencilMode()
-        {
-            GraphicsAdapter adapter = GraphicsAdapter.DefaultAdapter;
-            SurfaceFormat format = adapter.CurrentDisplayMode.Format;
-            return DepthFormat.Depth24Stencil8;
-            /*if ( adapter.CheckDepthStencilMatch( DeviceType.Hardware, format, format, DepthFormat.Depth24Stencil8 ) )
-                return DepthFormat.Depth24Stencil8;
-            else if ( adapter.CheckDepthStencilMatch( DeviceType.Hardware, format, format, DepthFormat.Depth24Stencil8Single ) )
-                return DepthFormat.Depth24Stencil8Single;
-            else if ( adapter.CheckDepthStencilMatch( DeviceType.Hardware, format, format, DepthFormat.Depth24Stencil4 ) )
-                return DepthFormat.Depth24Stencil4;
-            else if ( adapter.CheckDepthStencilMatch( DeviceType.Hardware, format, format, DepthFormat.Depth15Stencil1 ) )
-                return DepthFormat.Depth15Stencil1;
-            else
-                throw new ApplicationException( "Could Not Find Stencil Buffer for Default Adapter" );*/
-        }
-
-        private static SamplerState storedSamplerState;
-
-        public static void SetSamplerState()
-        {
-            storedSamplerState = Game.GraphicsDevice.SamplerStates[0];
-            Game.GraphicsDevice.SamplerStates[0] = GetDefaultSamplerState();
-        }
-
-        public static void ResetSamplerState()
-        {
-            Game.GraphicsDevice.SamplerStates[0] = storedSamplerState;
-        }
-
-        private static void GraphicsDevice_DeviceReset( object sender, EventArgs e )
-        {
-            ResetScreenSize();
-        }
-
-        public static Effect GetTextureEffect( ref Matrix worldMatrix, Texture2D texture, bool lightingEnabled )
-        {
-#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
-            if ( lightingEnabled && is_PS_2_0_supported )
-            {
-                Effect effect = GetLightingEffect( ref worldMatrix );
-                effect.CurrentTechnique = effect.Techniques["TextureLighting"];
-                effect.Parameters["xTexture"].SetValue( texture );
-                return effect;
-            }
-            else
-#endif
-            {
-                BasicEffect effect = BasicTextureEffect;
-                effect.Alpha = 1.0f;
-                effect.World = worldMatrix;
-                effect.Texture = texture;
-                return effect;
-            }
-        }
-
-        public static Effect GetColorEffect( ref Matrix worldMatrix, bool lightingEnabled )
-        {
-#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
-            if ( lightingEnabled && is_PS_2_0_supported )
-            {
-                Effect effect = GetLightingEffect( ref worldMatrix );
-                effect.CurrentTechnique = effect.Techniques["ColorLighting"];
-                return effect;
-            }
-            else
-#endif
-            {
-                BasicEffect effect = BasicColorEffect;
-                effect.World = worldMatrix;
-                return effect;
-            }
-        }
-
-#if !WINDOWS_PHONE && !DISABLE_LIGHTING_EFFECT
-        private static Effect GetLightingEffect( ref Matrix worldMatrix )
-        {
-            Effect effect = LightingEffect;
-
-            Vector3 lightPos = new Vector3( 0, 0, 40 );
-            float lightPower = 0.0f;
-
-            if ( Game.Lights.Count > 0 )
-            {
-                Light light = Game.Lights[0];
-                lightPos = new Vector3( (float)light.Position.X, (float)light.Position.Y, (float)light.Distance );
-                lightPower = (float)light.Intensity;
-            }
-
-            Vector3 transformedLightPos;
-            Vector3.Transform( ref lightPos, ref worldMatrix, out transformedLightPos );
-
-            effect.Parameters["xWorldViewProjection"].SetValue( worldMatrix * viewProjectionMatrix );
-            effect.Parameters["xWorld"].SetValue( worldMatrix );
-            effect.Parameters["xLightPos"].SetValue( transformedLightPos );
-            effect.Parameters["xLightPower"].SetValue( lightPower );
-            effect.Parameters["xAmbient"].SetValue( (float)Game.Instance.Level.AmbientLight );
-
-            return effect;
-        }
-#endif
 
         public static void ResetScreenSize()
         {
-            GraphicsDevice device = Game.GraphicsDevice;
-
             ViewMatrix = Matrix.CreateLookAt(
                 new Vector3( 0.0f, 0.0f, 1.0f ),
                 Vector3.Zero,
-                Vector3.Up
+                Vector3.UnitY
                 );
             ProjectionMatrix = Matrix.CreateOrthographic(
-                (float)Game.Screen.Width,
-                (float)Game.Screen.Height,
+                (float)Game.Screen.ViewportWidth,
+                (float)Game.Screen.ViewportHeight,
                 1.0f, 2.0f
                 );
 
-            viewProjectionMatrix = ViewMatrix * ProjectionMatrix;
+            ViewProjectionMatrix = ViewMatrix * ProjectionMatrix;
 
-            BasicColorEffect.View = ViewMatrix;
-            BasicColorEffect.Projection = ProjectionMatrix;
-            BasicTextureEffect.View = ViewMatrix;
-            BasicTextureEffect.Projection = ProjectionMatrix;
+            //BasicTextureEffect.View = ViewMatrix;
+            //BasicTextureEffect.Projection = ProjectionMatrix;
         }
     }
 }

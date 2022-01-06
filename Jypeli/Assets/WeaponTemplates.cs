@@ -152,6 +152,8 @@ namespace Jypeli.Assets
             //return new Projectile( 10, 1, 5, Color.Red );
             PhysicsObject beam = new PhysicsObject(new RaySegment(Vector.Zero, Vector.UnitX, 10));
             beam.Color = Color.Red;
+            beam.Mass = 0.3;
+            beam.IgnoresGravity = true;
             return beam;
         }
     }

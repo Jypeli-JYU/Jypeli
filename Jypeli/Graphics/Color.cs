@@ -1,7 +1,7 @@
 ﻿using System;
 
-using XnaColor = Microsoft.Xna.Framework.Color;
 using System.Globalization;
+using System.Runtime.InteropServices;
 
 namespace Jypeli
 {
@@ -34,20 +34,6 @@ namespace Jypeli
         /// </summary>
         [Save]
         public byte AlphaComponent;
-
-        internal Color( XnaColor c )
-        {
-            RedComponent = c.R;
-            GreenComponent = c.G;
-            BlueComponent = c.B;
-            AlphaComponent = c.A;
-        }
-
-        internal XnaColor AsXnaColor()
-        {
-            return new XnaColor(
-                (int)RedComponent, (int)GreenComponent, (int)BlueComponent, (int)AlphaComponent );
-        }
 
         /// <summary>
         /// Uusi väri
@@ -126,17 +112,9 @@ namespace Jypeli
         /// <param name="green">Vihreä värikomponentti välillä 0-1.0</param>
         /// <param name="blue">Sininen värikomponentti välillä 0-1.0</param>
         /// <param name="alpha">Läpinäkymättömyys välillä 0-1.0</param>
-        public Color( double red, double green, double blue, double alpha )
+        public Color(double red, double green, double blue, double alpha)
+            : this((int)(red * 255), (int)(green * 255), (int)(blue * 255), (int)(alpha * 255))
         {
-            var xnaColor = new XnaColor(
-                (float)red,
-                (float)green,
-                (float)blue,
-                (float)alpha );
-            RedComponent = xnaColor.R;
-            GreenComponent = xnaColor.G;
-            BlueComponent = xnaColor.B;
-            AlphaComponent = xnaColor.A;
         }
 
         /// <summary>
@@ -324,20 +302,6 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Laskee kahden värin (euklidisen) etäisyyden RGB-väriavaruudessa.
-        /// Värikomponentit ovat välillä 0-255 joten suurin mahdollinen etäisyys
-        /// (musta ja valkoinen) on noin 441,68.
-        /// </summary>
-        /// <returns>Etäisyys</returns>
-        internal static double Distance( XnaColor a, XnaColor b )
-        {
-            double rd = Math.Pow( a.R - b.R, 2 );
-            double gd = Math.Pow( a.G - b.G, 2 );
-            double bd = Math.Pow( a.B - b.B, 2 );
-            return Math.Sqrt( rd + gd + bd );
-        }
-
-        /// <summary>
         /// Muuttaa värin ARGB-kokonaisluvuksi
         /// </summary>
         /// <returns></returns>
@@ -384,6 +348,15 @@ namespace Jypeli
                 return ToInt().ToString( "X8" );
 
             return ToIntRGB().ToString( "X6" );
+        }
+
+        /// <summary>
+        /// Väri System.Drawing.Color tyyppinä
+        /// </summary>
+        /// <returns></returns>
+        public System.Drawing.Color ToSystemDrawing()
+        {
+            return System.Drawing.Color.FromArgb(AlphaComponent, RedComponent, GreenComponent, BlueComponent);
         }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -434,16 +407,6 @@ namespace Jypeli
             return !( c1 == c2 );
         }
 
-        public static explicit operator XnaColor( Color color )
-        {
-            return color.AsXnaColor();
-        }
-
-        public static explicit operator Color( XnaColor color )
-        {
-            return new Color( color );
-        }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Lineaarinen interpolaatio värien välillä
@@ -452,12 +415,19 @@ namespace Jypeli
         /// <param name="value2"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public static Color Lerp( Color value1, Color value2, double amount )
+        public static Color Lerp(Color value1, Color value2, double amount)
         {
-            return new Color( XnaColor.Lerp(
-                value1.AsXnaColor(),
-                value2.AsXnaColor(),
-                (float)amount ) );
+            float x = MathHelper.Clamp((float)amount, 0, 1);
+            return new Color(
+                (byte)MathHelper.Lerp(value1.RedComponent, value2.RedComponent, x),
+                (byte)MathHelper.Lerp(value1.GreenComponent, value2.GreenComponent, x),
+                (byte)MathHelper.Lerp(value1.BlueComponent, value2.BlueComponent, x),
+                (byte)MathHelper.Lerp(value1.AlphaComponent, value2.AlphaComponent, x));
+        }
+
+        internal System.Numerics.Vector4 ToNumerics()
+        {
+            return new System.Numerics.Vector4(RedComponent / 255f, GreenComponent / 255f, BlueComponent / 255f, AlphaComponent / 255f);
         }
 
         /// <summary>
@@ -475,7 +445,6 @@ namespace Jypeli
             if ( r < 0 ) r = 0;
             if ( g < 0 ) g = 0;
             if ( b < 0 ) b = 0;
-            Microsoft.Xna.Framework.Color x = c.AsXnaColor();
             return new Color( (byte)r, (byte)g, (byte)b, c.AlphaComponent );
         }
 
@@ -494,7 +463,6 @@ namespace Jypeli
             if ( r > byte.MaxValue ) r = byte.MaxValue;
             if ( g > byte.MaxValue ) g = byte.MaxValue;
             if ( b > byte.MaxValue ) b = byte.MaxValue;
-            Microsoft.Xna.Framework.Color x = c.AsXnaColor();
             return new Color( (byte)r, (byte)g, (byte)b, c.AlphaComponent );
         }
         /// <summary>
@@ -517,12 +485,12 @@ namespace Jypeli
                 sums[3] += colors[i].AlphaComponent / 255.0;
             }
 
-            return new Color(
+            return new Color(50, 50, 50);/*
                 sums[0] / colors.Length,
                 sums[1] / colors.Length,
                 sums[2] / colors.Length,
                 sums[3] / colors.Length
-            );
+            );*/
         }
 
         /// <summary>
@@ -928,7 +896,7 @@ namespace Jypeli
         /// <summary>
         /// Läpinäkyvä väri.
         /// </summary>
-        public static readonly Color Transparent = new Color( XnaColor.Transparent );
+        public static readonly Color Transparent = new Color( 0,0,0,0 );
 
         /// <summary>
         /// Turkoosi.

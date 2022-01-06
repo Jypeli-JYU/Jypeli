@@ -1,7 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Content;
-using XnaSong = Microsoft.Xna.Framework.Media.Song;
-using Microsoft.Xna.Framework.Audio;
 
 namespace Jypeli
 {
@@ -23,12 +20,7 @@ namespace Jypeli
         {
             get
             {
-#if WINDOWS_PHONE || ANDROID
-                //Microsoft.Xna.Framework.FrameworkDispatcher.Update();
-                return Game.AudioEnabled && Microsoft.Xna.Framework.Media.MediaPlayer.GameHasControl;
-#else
                 return Game.AudioEnabled;
-#endif
             }
         }
 
@@ -94,38 +86,10 @@ namespace Jypeli
                 sound.Stop();
             }
 
-            try
-            {
-                sound = Game.LoadSoundEffect(songName).CreateSound();
-            }
-            catch (ContentLoadException e)
-            {
-                throw new Exception(
-                    "Could not play the song \"" + songName + "\".\n" +
-                    "Please check that you added the song to the Content project and typed the name correctly.", e);
-            }
+            sound = Game.LoadSoundEffect(songName).CreateSound();
+
             sound.Play();
         }
-
-#if WINDOWS
-        /// <summary>
-        /// Soittaa kappaleen tiedostosta.
-        /// </summary>
-        /// <param name="fileName">Tiedoston nimi.</param>
-        public void PlayFromFile( string fileName )
-        {
-            if ( !CanPlay ) return;
-
-            // Use reflection to get the internal constructor of Song class
-            // The public constructor does not take spaces well!
-            var ctor = typeof( Song ).GetConstructor(
-                BindingFlags.NonPublic | BindingFlags.Instance, null,
-                new[] { typeof( string ), typeof( string ), typeof( int ) }, null );
-
-            Song song = (Song)ctor.Invoke( new object[] { "name", fileName, 0 } );
-            Microsoft.Xna.Framework.Media.MediaPlayer.Play( song );
-        }
-#endif
 
         /// <summary>
         /// Pysäyttää soiton.

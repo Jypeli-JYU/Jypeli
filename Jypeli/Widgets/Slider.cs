@@ -31,11 +31,11 @@ namespace Jypeli.Widgets
     /// </summary>
     public class Slider : BindableWidget
     {
-        private bool pressedDown = false;
-        private Touch touchObject = null;
+        private bool pressedDown;
+        private Touch touchObject;
 
-        private Color _activeColor = Color.Red;
-        private Color _inactiveColor = Color.DarkGray;
+        private Color activeColor = Color.Red;
+        private Color inactiveColor = Color.DarkGray;
 
         /// <summary>
         /// Liukuva nuppi.
@@ -47,8 +47,8 @@ namespace Jypeli.Widgets
         /// </summary>
         public Color ActiveColor
         {
-            get { return _activeColor; }
-            set { _activeColor = value; }
+            get { return activeColor; }
+            set { activeColor = value; }
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace Jypeli.Widgets
         /// </summary>
         public Color InactiveColor
         {
-            get { return _inactiveColor; }
-            set { _inactiveColor = value; }
+            get { return inactiveColor; }
+            set { inactiveColor = value; }
         }
 
         /// <summary>
@@ -159,10 +159,10 @@ namespace Jypeli.Widgets
 
         private void MouseMove()
         {
-            Knob.Color = pressedDown || Game.Mouse.IsCursorOn(this) ? _activeColor : _inactiveColor;
-
+            Knob.Color = pressedDown || Game.Mouse.IsCursorOn(this) ? activeColor : inactiveColor;
+            Vector cached = Game.Mouse.PositionOnScreen;
             if (pressedDown)
-                GenMove(Game.Mouse.PositionOnScreen - this.Position);
+                GenMove(cached - Game.Camera.WorldToScreen(Position, Layer));
         }
 
         private void MouseRelease()
@@ -177,13 +177,13 @@ namespace Jypeli.Widgets
             if (touchObject != null) return;
             UnsetChangedEvent();
             touchObject = touch;
-            Knob.Color = _activeColor;
+            Knob.Color = activeColor;
         }
 
         private void TouchMove(Touch touch)
         {
             if (touchObject == touch)
-                GenMove(touch.PositionOnScreen - this.Position);
+                GenMove(touch.PositionOnScreen - Game.Camera.WorldToScreen(Position, Layer));
         }
 
         private void TouchRelease(Touch touch)
@@ -191,7 +191,7 @@ namespace Jypeli.Widgets
             if (touchObject == null) return;
             touchObject = null;
             SetChangedEvent();
-            Knob.Color = _inactiveColor;
+            Knob.Color = inactiveColor;
         }
     }
 }

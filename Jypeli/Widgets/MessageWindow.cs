@@ -76,7 +76,7 @@ namespace Jypeli
                 { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
             Add( Message );
 
-#if !WINDOWS_PHONE && !ANDROID
+#if !ANDROID
             OKButton = new PushButton( "OK" );
             OKButton.Clicked += new Action( Close );
             Add( OKButton );
@@ -87,7 +87,7 @@ namespace Jypeli
 
         private void AddListeners()
         {
-            var l1 = Game.Instance.PhoneBackButton.Listen( delegate { Close(); }, null ).InContext( this );
+           /* var l1 = Game.Instance.PhoneBackButton.Listen( delegate { Close(); }, null ).InContext( this );
             var l2 = Game.Instance.TouchPanel.Listen( ButtonState.Pressed, delegate { Close(); }, null ).InContext( this );
             var l3 = Game.Instance.Keyboard.Listen( Key.Enter, ButtonState.Pressed, Close, null ).InContext( this );
             var l4 = Game.Instance.Keyboard.Listen( Key.Space, ButtonState.Pressed, Close, null ).InContext( this );
@@ -98,7 +98,7 @@ namespace Jypeli
                 l1 = controller.Listen( Button.A, ButtonState.Pressed, Close, null ).InContext( this );
                 l2 = controller.Listen( Button.B, ButtonState.Pressed, Close, null ).InContext( this );
                 associatedListeners.AddItems(l1, l2);
-            }
+            }*/
         }
     }
 }

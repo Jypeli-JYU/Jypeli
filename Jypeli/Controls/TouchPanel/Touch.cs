@@ -27,8 +27,6 @@
  * Authors: Tero Jäntti, Tomi Karppinen
  */
 
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Jypeli
 {
@@ -38,9 +36,9 @@ namespace Jypeli
     public class Touch
     {
         private ScreenView screen;
-        protected Vector2 _previousPosition;
-        protected Vector2 _position;
-        protected Vector2 _movement;
+        protected Vector _previousPosition;
+        protected Vector _position;
+        protected Vector _movement;
 
         internal long DurationInTicks = 0;
 
@@ -59,10 +57,13 @@ namespace Jypeli
         /// </summary>
         public Vector PositionOnScreen
         {
-            get
+            get { return _position; }
+            set 
             {
-                return ScreenView.FromXnaCoords( _position, screen.ViewportSize, Vector.Zero ).Transform( screen.GetScreenTransform() );
+                _previousPosition = _position;
+                _position = value;
             }
+
         }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace Jypeli
         {
             get
             {
-                return ScreenView.FromXnaCoords( _previousPosition, screen.ViewportSize, Vector.Zero ).Transform( screen.GetScreenTransform() );
+                return _previousPosition;
             }
         }
 
@@ -120,28 +121,28 @@ namespace Jypeli
             }
         }
 
-        public TouchLocationState State { get; internal set; }
+        /*public TouchLocationState State { get; internal set; }
 
         internal Touch( ScreenView screen, TouchLocation location )
         {
             this.screen = screen;
             this.Id = location.Id;
             this._position = this._previousPosition = location.Position;
-        }
+        }*/
 
-        internal Touch( Vector2 position, Vector2 movement )
+        internal Touch( Vector position, Vector movement )
         {
             this._position = position;
             this._movement = movement;
         }
 
-        internal void Update( TouchLocation location )
+        /*internal void Update( TouchLocation location )
         {
             _previousPosition = _position;
             _position = location.Position;
             _movement = _position - _previousPosition;
             State = location.State;
             DurationInTicks++;
-        }
+        }*/
     }
 }

@@ -78,11 +78,7 @@ namespace Jypeli
         {
             Type meterType = this.GetType();
 
-#if WINDOWS_STOREAPP
-            Type[] genargs = meterType.GenericTypeArguments;
-#else
             Type[] genargs = meterType.GetGenericArguments();
-#endif
 
             if ( genargs.Length < 1 ) throw new ArgumentException( "This meter is not typed" );
             if ( genargs[0] != typeof( T ) ) throw new ArgumentException( String.Format( "This meter measures {0}, not {1}", genargs[0].Name, typeof( T ).Name ) );

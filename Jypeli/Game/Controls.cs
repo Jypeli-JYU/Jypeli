@@ -29,14 +29,14 @@
 
 using System.Collections.Generic;
 using Jypeli.Controls;
-using Microsoft.Xna.Framework;
+using Silk.NET.Input;
 
 namespace Jypeli
 {
     public partial class Game : ControlContexted
     {
-        private ListenContext _context;
-        private List<Controller> _controllers;
+        private ListenContext context;
+        private List<IController> controllers;
 
         /// <summary>
         /// Näppäimistö.
@@ -91,12 +91,14 @@ namespace Jypeli
         /// </summary>
         public GamePad ControllerFour { get { return GameControllers[3]; } }
 
+        private IInputContext inputContext;
+
         /// <summary>
         /// Pelin pääohjainkonteksti.
         /// </summary>
         public ListenContext ControlContext
         {
-            get { return Instance._context; }
+            get { return Instance.context; }
         }
 
         /// <summary>
@@ -107,50 +109,40 @@ namespace Jypeli
             get { return false; }
         }
 
-#if WINDOWS_PHONE || ANDROID
-        public new bool IsMouseVisible
-        {
-            get { return false; }
-            set { }
-        }
-#endif
-
         private void InitControls()
         {
-            _context = new ListenContext() { Active = true };
+            inputContext = Window.CreateInput();
+            context = new ListenContext() { Active = true };
 
-            Keyboard = new Keyboard();
-            Mouse = new Mouse( Screen );
+            Keyboard = new Keyboard(inputContext);
+            Mouse = new Mouse(Screen, inputContext);
             PhoneBackButton = new BackButton();
-            TouchPanel = new TouchPanel( Screen );
+            TouchPanel = new TouchPanel(Screen, inputContext);
 
-            GameControllers = new List<GamePad>( 4 );
-            GameControllers.Add( new GamePad( PlayerIndex.One ) );
-            GameControllers.Add( new GamePad( PlayerIndex.Two ) );
-            GameControllers.Add( new GamePad( PlayerIndex.Three ) );
-            GameControllers.Add( new GamePad( PlayerIndex.Four ) );
+            controllers = new List<IController>();
+            GameControllers = new List<GamePad>(4);
+#if DESKTOP
+            GameControllers.Add(new GamePad(inputContext, 0));
+            GameControllers.Add(new GamePad(inputContext, 1));
+            GameControllers.Add(new GamePad(inputContext, 2));
+            GameControllers.Add(new GamePad(inputContext, 3));
+            controllers.AddRange(GameControllers);
 
-            _controllers = new List<Controller>();
-            _controllers.Add( Keyboard );
-#if !WINDOWS_PHONE && !ANDROID
-            _controllers.Add( Mouse );
+            controllers.Add(Mouse);
 #endif
-            _controllers.Add( Accelerometer );
-            _controllers.Add( TouchPanel );
-#if WINDOWS_PHONE || ANDROID
-            _controllers.Add( PhoneBackButton );
-#endif
-#if NETCOREAPP
-            _controllers.AddRange( GameControllers );
-#endif
+            controllers.Add(Keyboard);
 
-            IsMouseVisible = true;
+            controllers.Add(Accelerometer);
+            controllers.Add( TouchPanel );
+#if ANDROID
+            controllers.Add( PhoneBackButton );
+#endif
         }
 
         private void UpdateControls( Time gameTime )
         {
-            _controllers.ForEach( c => c.Update() );
-            //_gamePads.ForEach( g => g.UpdateVibrations( gameTime ) );
+            controllers.ForEach(c => c.Update());
+            GameControllers.ForEach(g => g.UpdateVibrations(gameTime));
         }
 
         /// <summary>
@@ -158,7 +150,7 @@ namespace Jypeli
         /// </summary>
         public void ClearControls()
         {
-            _controllers.ForEach( c => c.Clear() );
+            controllers.ForEach( c => c.Clear() );
         }
 
         /// <summary>
@@ -166,13 +158,13 @@ namespace Jypeli
         /// </summary>
         public void ShowControlHelp()
         {
-            _controllers.ForEach( c => MessageDisplay.Add( c.GetHelpTexts() ) );
+            controllers.ForEach( c => MessageDisplay.Add( c.GetHelpTexts() ) );
         }
 
         /// <summary>
         /// Näyttää kontrollien ohjetekstit tietylle ohjaimelle.
         /// </summary>
-        public void ShowControlHelp( Controller controller )
+        public void ShowControlHelp( IController controller )
         {
             MessageDisplay.Add( controller.GetHelpTexts() );
         }

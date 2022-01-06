@@ -27,12 +27,6 @@
  * Authors: Tomi Karppinen, Tero Jäntti
  */
 
-
-
-#if WINDOWS_PHONE || ANDROID
-using Microsoft.Xna.Framework;
-#endif
-
 namespace Jypeli
 {
     /// <summary>
@@ -118,12 +112,8 @@ namespace Jypeli
             AddedToGame += AddListeners;
 
 #if ANDROID
-            // Display window at the top of the screen to make space for the virtual keyboard
-
-            // 1.5 is just a magic number that makes it show up properly on my phone,
-            // logically it should be positioned perfectly at the top with 2.0 but
-            // that doesn't seem to be the case
-            Y += Game.Screen.Top - (Height / 1.5);
+            Y += Game.Screen.Top - Height;
+            Game.Keyboard.BeginInput();
 #endif
         }
 
@@ -132,12 +122,13 @@ namespace Jypeli
         {
             //double widthInChars = Width / Font.Default.CharacterWidth;
             //return new InputBox( (int)widthInChars - 1 );
-            return new InputBox( 40 );
+            return new InputBox(40);
         }
 
-        static void InputWindow_Closed( Window sender )
+        protected void InputWindow_Closed( Window sender )
         {
             ((InputWindow)sender).OnTextEntered();
+            Game.Keyboard.EndInput();
         }
 
         private void Cancel()
@@ -148,13 +139,13 @@ namespace Jypeli
 
         private void AddListeners()
         {
-            var l1 = Game.Instance.Keyboard.Listen( Key.Enter, ButtonState.Pressed, Close, null ).InContext( this );
-            var l2 = Game.Instance.Keyboard.Listen( Key.Escape, ButtonState.Pressed, Cancel, null ).InContext( this );
-            var l3 = Game.Instance.PhoneBackButton.Listen( Cancel, null ).InContext( this );
+            var l1 = Game.Instance.Keyboard.Listen(Key.Enter, ButtonState.Pressed, Close, null).InContext(this);
+            var l2 = Game.Instance.Keyboard.Listen(Key.Escape, ButtonState.Pressed, Cancel, null).InContext(this);
+            var l3 = Game.Instance.PhoneBackButton.Listen(Cancel, null).InContext(this);
             associatedListeners.AddItems(l1, l2, l3);
         }
 
-#if WINDOWS_PHONE && TESTING
+#if TESTING
         void TouchTextEntered( IAsyncResult result )
         {
             string typedText = Guide.EndShowKeyboardInput( result );

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -12,7 +12,6 @@ namespace Jypeli
         private void InitAppearance()
         {
             this.BorderColor = Color.Transparent;
-            this.IgnoresLighting = true;
         }
 
         /// <summary>
@@ -28,50 +27,43 @@ namespace Jypeli
         /// Piirtää elementin ruudulle
         /// </summary>
         /// <param name="parentTransformation"></param>
-        public void Draw( Matrix parentTransformation )
+        public void Draw(Matrix parentTransformation)
         {
+            // TODO: onko ikinä tilannetta milloin parentTransformation ei ole kameran transformaatiomatriisi?
             if (!IsVisible)
                 return;
 
-            Matrix transformation =
-                Matrix.CreateScale( (float)Size.X, (float)Size.Y, 1f )
-                * Matrix.CreateRotationZ( (float)Angle.Radians )
-                * Matrix.CreateTranslation( (float)Position.X, (float)Position.Y, 0f )
-                * parentTransformation;
-
-            var lightingEnabled = Renderer.LightingEnabled;
-            Renderer.LightingEnabled &= !IgnoresLighting;
-
-            if ( Image != null && ( !TextureFillsShape ) )
+            if (Image != null && (!TextureFillsShape))
             {
-                Renderer.DrawImage( Image, ref transformation, TextureWrapSize );
+                Renderer.DrawImage(parentTransformation, Image, Graphics.DefaultTextureCoords, Position, Size, (float)Angle.Radians);
             }
-            else if ( Image != null )
+            else if (Image != null)
             {
-                Renderer.DrawShape( Shape, ref transformation, ref transformation, Image, TextureWrapSize, Color );
+                // TODO: TextureFillsShape kuntoon
+                Renderer.DrawImage(parentTransformation, Image, Graphics.DefaultTextureCoords, Position, Size, (float)Angle.Radians);
             }
             else
             {
-                Renderer.DrawShape( Shape, ref transformation, Color );
+                Renderer.DrawFilledShape(Shape.Cache, ref parentTransformation, Position, Size, (float)Angle.Radians, Color);
             }
 
-            if ( BorderColor != Color.Transparent )
+            if (BorderColor != Color.Transparent)
             {
-                Graphics.LineBatch.Begin( ref transformation );
+                Graphics.LineBatch.Begin(ref parentTransformation);
                 {
                     Vector[] vertices = Shape.Cache.OutlineVertices;
-                    for ( int i = 0; i < vertices.Length - 1; i++ )
+                    for (int i = 0; i < vertices.Length - 1; i++)
                     {
-                        Graphics.LineBatch.Draw( vertices[i], vertices[i + 1], BorderColor );
+                        Graphics.LineBatch.Draw(vertices[i], vertices[i + 1], BorderColor);
                     }
-                    Graphics.LineBatch.Draw( vertices[vertices.Length - 1], vertices[0], BorderColor );
+                    Graphics.LineBatch.Draw(vertices[vertices.Length - 1], vertices[0], BorderColor);
                 }
                 Graphics.LineBatch.End();
             }
 
-            Draw( parentTransformation, transformation );
+            Draw(parentTransformation, parentTransformation);
 
-            if ( _childObjects != null && _childObjects.Count > 0 )
+            if (_childObjects != null && _childObjects.Count > 0)
             {
                 foreach (var child in Objects)
                 {
@@ -79,12 +71,10 @@ namespace Jypeli
 
                     if (wc != null && wc.IsVisible)
                     {
-                        wc.Draw(Matrix.CreateTranslation(0, 0, 0));
+                        wc.Draw(parentTransformation);
                     }
                 }
             }
-
-            Renderer.LightingEnabled = lightingEnabled;
         }
     }
 }

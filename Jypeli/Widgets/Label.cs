@@ -28,10 +28,10 @@
  */
 
 using System;
-using FontStashSharp;
 using Jypeli.Widgets;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+using Matrix = System.Numerics.Matrix4x4;
+using Vector3 = System.Numerics.Vector3;
 
 namespace Jypeli
 {
@@ -85,7 +85,7 @@ namespace Jypeli
 
         static double GetDefaultHeight()
         {
-            Vector2 fontDims = Font.Default.XnaFont.MeasureString( "A" );
+            Vector fontDims = Font.Default.MeasureSize( "Ä" );
             return fontDims.Y;
         }
 
@@ -382,7 +382,6 @@ namespace Jypeli
         /// </summary>
         private void updateSize()
         {
-            DynamicSpriteFont xnaFont = this.Font.XnaFont;
             visibleText = (title.Length > 0) ? (title + ": " + originalText) : originalText;
 
             if ( visibleText.Length == 0 )
@@ -392,7 +391,7 @@ namespace Jypeli
                 return;
             }
 
-            Vector2 rawTextDims = xnaFont.MeasureString( visibleText );
+            Vector rawTextDims = Font.MeasureSize( visibleText );
             Vector clientArea = new Vector( this.Width - 2 * XMargin, this.Height - 2 * YMargin );
             Vector fullTextDims = new Vector( _textScale.X * rawTextDims.X, _textScale.Y * rawTextDims.Y );
             TextSize = new Vector( fullTextDims.X, fullTextDims.Y );
@@ -404,7 +403,7 @@ namespace Jypeli
                     break;
 
                 case TextSizeMode.StretchText:
-                    _textScale = new Vector( clientArea.X / rawTextDims.X, clientArea.Y / rawTextDims.Y );
+                    _textScale = new Vector3( (float)(clientArea.X / rawTextDims.X), (float)(clientArea.Y / rawTextDims.Y), 0);
                     TextSize = clientArea;
                     break;
 
@@ -430,15 +429,14 @@ namespace Jypeli
 
             visibleText = font.TruncateText( Text, textWidth );
 
-            Vector2 textDims = Font.XnaFont.MeasureString( visibleText );
+            Vector textDims = Font.MeasureSize( visibleText );
             TextSize = new Vector( textDims.X, textDims.Y );
         }
 
         private void WrapText()
         {
-            DynamicSpriteFont xnaFont = this.Font.XnaFont;
-            Vector2 rawTextDims = xnaFont.MeasureString( visibleText );
-            Vector2 fullTextDims = new Vector2( _textScale.X * rawTextDims.X, _textScale.Y * rawTextDims.Y );
+            Vector rawTextDims = Font.MeasureSize(visibleText);
+            Vector fullTextDims = new Vector( _textScale.X * rawTextDims.X, _textScale.Y * rawTextDims.Y );
 
             if ( Width <= 0 || fullTextDims.X <= Width )
                 return;
@@ -447,21 +445,21 @@ namespace Jypeli
             double softBreak = Math.Max( hardBreak / 2, hardBreak - 5 * Font.CharacterWidth );
 
             visibleText = Font.WrapText( visibleText, softBreak, hardBreak );
-            Vector2 textDims = xnaFont.MeasureString( visibleText );
+            Vector textDims = Font.MeasureSize( visibleText );
             base.Size = PreferredSize = new Vector( base.Size.X, textDims.Y + 2 * YMargin );
             TextSize = new Vector( textDims.X, textDims.Y );
         }
 
         private double GetHorizontalAlignment()
         {
-            switch ( HorizontalAlignment )
+            switch (HorizontalAlignment)
             {
                 case HorizontalAlignment.Center:
                     return 0;
                 case HorizontalAlignment.Left:
-                    return ( -Width + TextSize.X ) / 2 + XMargin;
+                    return (Width - TextSize.X) / 2 - XMargin;
                 case HorizontalAlignment.Right:
-                    return ( Width - TextSize.X ) / 2 - XMargin;
+                    return (-Width + TextSize.X) / 2 + XMargin;
                 default:
                     return XMargin;
             }
@@ -483,25 +481,23 @@ namespace Jypeli
         }
 
         /// <inheritdoc/>
-        public override void Draw( Matrix parentTransformation, Matrix transformation )
+        public override void Draw(Matrix parentTransformation, Matrix transformation)
         {
-            Draw( parentTransformation, transformation, visibleText );
+            Draw(parentTransformation, transformation, visibleText);
         }
 
         /// <inheritdoc/>
-        protected void Draw( Matrix parentTransformation, Matrix transformation, string text )
+        protected void Draw(Matrix parentTransformation, Matrix transformation, string text)
         {
-            Matrix m = Matrix.CreateScale( _textScale )
-                * Matrix.CreateTranslation( (float)GetHorizontalAlignment(), (float)GetVerticalAlignment(), 0 )
-                * Matrix.CreateRotationZ( (float)Angle.Radians )
-                * Matrix.CreateTranslation( (float)Position.X, (float)Position.Y, 0 )
-                * parentTransformation;
+            Vector v = font.SpriteFont.MeasureString(text);
+            Vector pos = Position - new Vector(GetHorizontalAlignment() + v.X * TextScale.X/2, GetVerticalAlignment() - v.Y * TextScale.Y/2);
 
-            if(CharacterColors == null)
-                Renderer.DrawText( text, ref m, Font, TextColor );
+            if (characterColors is null)
+                Renderer.DrawText(text, ref parentTransformation, pos, Font, TextColor, TextScale);
             else
-                Renderer.DrawText(text, ref m, Font, CharacterColors);
-            base.Draw( parentTransformation, transformation );
+                Renderer.DrawText(text, ref parentTransformation, pos, Font, characterColors, TextScale);
+
+            base.Draw(parentTransformation, transformation);
         }
     }
 }

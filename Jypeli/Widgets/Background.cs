@@ -28,7 +28,8 @@
  */
 
 using System;
-using Microsoft.Xna.Framework;
+using Jypeli.Rendering;
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli.Widgets
 {
@@ -48,7 +49,9 @@ namespace Jypeli.Widgets
                     Size = new Vector( value.Width, value.Height );
             }
         }
-        
+
+        TextureCoordinates tx = new TextureCoordinates();
+
         /// <summary>
         /// Liikkuuko taustakuva kameran mukana vai ei.
         /// </summary>
@@ -82,6 +85,11 @@ namespace Jypeli.Widgets
             Level level = Game.Instance.Level;
             Size = level.Size;
             TextureWrapSize = new Vector( level.Width / Image.Width, level.Height / Image.Height );
+
+            tx.TopLeft = new Vector(0, 0);
+            tx.TopRight = new Vector(TextureWrapSize.X, 0);
+            tx.BottomLeft = new Vector(0, TextureWrapSize.Y);
+            tx.BottomRight = new Vector(TextureWrapSize.X, TextureWrapSize.Y);
         }
 
         /// <summary>
@@ -205,15 +213,18 @@ namespace Jypeli.Widgets
         /// <inheritdoc/>
         public override void Draw( Matrix parentTransformation, Matrix transformation )
         {
-            if ( Image == null ) return;
+            if (Image == null) return;
 
-            if ( MovesWithCamera )
+            if (MovesWithCamera)
             {
                 Matrix matrix =
-                    Matrix.CreateScale( (float)Size.X, (float)Size.Y, 1f )
-                    * transformation
+                    transformation
                     * parentTransformation;
-                Renderer.DrawImage( Image, ref matrix, TextureWrapSize );
+
+                Graphics.ImageBatch.Begin(ref matrix, Image);
+
+                Graphics.ImageBatch.Draw(tx, Position, Size, 0);
+                Graphics.ImageBatch.End();
             }
         }
     }

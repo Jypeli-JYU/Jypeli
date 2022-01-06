@@ -174,12 +174,7 @@ namespace Jypeli
                 MemoryStream memStream = new MemoryStream();
                 resStream.CopyStreamTo( memStream );
                 resStream.Dispose();
-
-#if WINDOWS_STOREAPP
-                response.Dispose();
-#else
                 response.Close();
-#endif
 
                 memStream.Seek( 0, SeekOrigin.Begin );
                 op.Callback( new StorageFile( op.Request.RequestUri.AbsoluteUri, memStream ) );
@@ -204,12 +199,7 @@ namespace Jypeli
         public void TriggerOnComplete( Action callback, params AsyncOperation[] actions )
         {
             triggers.Add( new AsyncTrigger( actions.ToList().FindAll( o => !o.IsCompleted ), callback ) );
-
-#if JYPELI
             triggers.Update( Game.Time );
-#else
-            triggers.Update( Time.Zero );
-#endif
         }
 
         /// <summary>
@@ -221,11 +211,7 @@ namespace Jypeli
         public void TriggerOnComplete( Action callback, TimeSpan timeout, params AsyncOperation[] actions )
         {
             triggers.Add( new AsyncTrigger( actions.ToList().FindAll( o => !o.IsCompleted ), timeout, callback ) );
-#if JYPELI
             triggers.Update( Game.Time );
-#else
-            triggers.Update( Time.Zero );
-#endif
         }
     }
 }

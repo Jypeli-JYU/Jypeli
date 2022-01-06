@@ -1,27 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Input.Touch;
+using System.Diagnostics;
 using Jypeli.Controls;
+using Silk.NET.Input;
+using Silk.NET.Windowing;
 
 namespace Jypeli
 {
-    using XnaTouchPanel = Microsoft.Xna.Framework.Input.Touch.TouchPanel;
-    using XnaGestureType = Microsoft.Xna.Framework.Input.Touch.GestureType;
 
-    public delegate void TouchHandler( Touch touch );
-    public delegate void TouchHandler<T>( Touch touch, T p );
-    public delegate void TouchHandler<T1, T2>( Touch touch, T1 p1, T2 p2 );
-    public delegate void TouchHandler<T1, T2, T3>( Touch touch, T1 p1, T2 p2, T3 p3 );
+    public delegate void TouchHandler(Touch touch);
+    public delegate void TouchHandler<T>(Touch touch, T p);
+    public delegate void TouchHandler<T1, T2>(Touch touch, T1 p1, T2 p2);
+    public delegate void TouchHandler<T1, T2, T3>(Touch touch, T1 p1, T2 p2, T3 p3);
 
     /// <summary>
     /// Kosketusnäyttö.
     /// </summary>
-    public class TouchPanel : Controls.Controller
+    public class TouchPanel : IController
     {
         protected static readonly Predicate<Touch> AlwaysTrigger = delegate { return true; };
 
         private ScreenView screen;
-        private TouchPanelCapabilities caps;
+        private IMouse mouse;
+        private MouseState internalState;
+        //private TouchPanelCapabilities caps;
         private List<Touch> touches;
         private List<Touch> newTouches;
         private List<Gesture> gestures;
@@ -34,12 +36,15 @@ namespace Jypeli
         private ListenContext _snipContext = null;
         private ListenContext _pinchContext = null;
 
+        private Touch prevTouch;
+        private Touch touch;
+
         /// <summary>
         /// Onko kosketusnäyttö kytketty.
         /// </summary>
         public bool IsConnected
         {
-            get { return caps.IsConnected; }
+            get { return false; }//caps.IsConnected; }
         }
 
         /// <summary>
@@ -55,7 +60,7 @@ namespace Jypeli
         /// </summary>
         public int NumTouches
         {
-            get { return touches.Count; }
+            get { return 1; }// touches.Count; }
         }
 
         /// <summary>
@@ -63,7 +68,7 @@ namespace Jypeli
         /// </summary>
         public int MaxTouches
         {
-            get { return caps.MaximumTouchCount; }
+            get { return 1; } //caps.MaximumTouchCount; }
         }
 
         /// <summary>
@@ -82,9 +87,11 @@ namespace Jypeli
             get { return _snipContext != null; }
             set
             {
-                TouchHandler handler = delegate ( Touch t ) { Game.Instance.Camera.Position -= t.MovementOnWorld; };
-                ContextHandler op = delegate ( ListenContext ctx ) { Listen( ButtonState.Down, handler, "Move around" ).InContext( ctx ); };
-                setContext( ref _snipContext, value, op );
+                TouchHandler handler = delegate (Touch t)
+                { Game.Instance.Camera.Position -= t.MovementOnWorld; };
+                ContextHandler op = delegate (ListenContext ctx)
+                { Listen(ButtonState.Down, handler, "Move around").InContext(ctx); };
+                setContext(ref _snipContext, value, op);
             }
         }
 
@@ -96,26 +103,28 @@ namespace Jypeli
             get { return _pinchContext != null; }
             set
             {
-                TouchHandler handler = delegate ( Touch t )
+                TouchHandler handler = delegate (Touch t)
                 {
                     Gesture g = (Gesture)t;
-                    Game.Instance.Camera.Zoom( g.WorldDistanceAfter.Magnitude / g.WorldDistanceBefore.Magnitude );
+                    Game.Instance.Camera.Zoom(g.WorldDistanceAfter.Magnitude / g.WorldDistanceBefore.Magnitude);
                 };
-                ContextHandler op = delegate ( ListenContext ctx ) { ListenGesture( GestureType.Pinch, handler, "Zoom" ); };
-                setContext( ref _pinchContext, value, op );
+                ContextHandler op = delegate (ListenContext ctx)
+                { ListenGesture(GestureType.Pinch, handler, "Zoom"); };
+                setContext(ref _pinchContext, value, op);
             }
         }
 
-        delegate void ContextHandler( ListenContext ctx );
+        delegate void ContextHandler(ListenContext ctx);
 
-        private void setContext( ref ListenContext context, bool enable, ContextHandler operation )
+        private void setContext(ref ListenContext context, bool enable, ContextHandler operation)
         {
-            if ( ( context != null ) == enable ) return;
-            if ( enable )
+            if ((context != null) == enable)
+                return;
+            if (enable)
             {
                 context = Game.Instance.ControlContext.CreateSubcontext();
                 context.Active = true;
-                operation( context );
+                operation(context);
             }
             else
             {
@@ -124,49 +133,73 @@ namespace Jypeli
             }
         }
 
-        internal TouchPanel( ScreenView screen )
+        private IInputContext input;
+
+        internal TouchPanel(ScreenView screen, IInputContext input)
         {
             this.screen = screen;
+            this.internalState = default;
+            this.mouse = input.Mice[0];
 
-			try
-			{
-                this.caps = XnaTouchPanel.GetCapabilities();
-			}
-			catch (TypeLoadException)
+            // TODO: Toistaiseksi kosketusnäyttö on yksi virtuaalinen hiiri.
+            mouse.MouseDown += Mouse_MouseDown;
+            mouse.MouseUp += Mouse_MouseUp;
+
+            this.input = input;
+            try
             {
-                this.caps = new TouchPanelCapabilities();
-			}
+                //this.caps = XnaTouchPanel.GetCapabilities();
+            }
+            catch (TypeLoadException)
+            {
+                //this.caps = new TouchPanelCapabilities();
+            }
 
-            this.touches = new List<Touch>( caps.MaximumTouchCount );
-            this.newTouches = new List<Touch>( caps.MaximumTouchCount );
+            //this.touches = new List<Touch>( caps.MaximumTouchCount );
+            //this.newTouches = new List<Touch>( caps.MaximumTouchCount );
+        }
+
+        private void Mouse_MouseUp(IMouse arg1, Silk.NET.Input.MouseButton arg2)
+        {
+            touch = null;
+        }
+
+        private void Mouse_MouseDown(IMouse arg1, Silk.NET.Input.MouseButton arg2)
+        {
+            touch = new Touch(arg1.Position, Vector.Zero);
         }
 
         /// <summary>
         /// Kosketetaako oliota.
         /// </summary>
-        private static bool IsBeingTouched( ScreenView screen, Vector touchOnScreen, GameObject obj )
+        private static bool IsBeingTouched(ScreenView screen, Vector touchOnScreen, GameObject obj)
         {
-            if ( obj == null || obj.Layer == null || obj.IsDestroyed ) return false;
-            return obj.IsInside( Game.Instance.Camera.ScreenToWorld( touchOnScreen, obj.Layer ) );
+            if (obj == null || obj.Layer == null || obj.IsDestroyed)
+                return false;
+            return obj.IsInside(Game.Instance.Camera.ScreenToWorld(touchOnScreen, obj.Layer));
         }
 
-        private static HoverState GetHoverState( Touch touch, GameObject obj )
+        private static HoverState GetHoverState(Touch touch, GameObject obj)
         {
-            bool prevOn = IsBeingTouched( Game.Screen, touch.PrevPositionOnScreen, obj );
-            bool currOn = IsBeingTouched( Game.Screen, touch.PositionOnScreen, obj );
+            bool prevOn = IsBeingTouched(Game.Screen, touch.PrevPositionOnScreen, obj);
+            bool currOn = IsBeingTouched(Game.Screen, touch.PositionOnScreen, obj);
 
-            if ( prevOn && currOn ) return HoverState.On;
-            if ( !prevOn && !currOn ) return HoverState.Off;
-            if ( !prevOn && currOn ) return HoverState.Enter;
+            if (prevOn && currOn)
+                return HoverState.On;
+            if (!prevOn && !currOn)
+                return HoverState.Off;
+            if (!prevOn && currOn)
+                return HoverState.Enter;
             return HoverState.Exit;
         }
 
-        private Predicate<Touch> MakeTriggerRule( GameObject obj, HoverState hover )
+        private Predicate<Touch> MakeTriggerRule(GameObject obj, HoverState hover)
         {
-            return delegate( Touch touch )
+            return delegate (Touch touch)
             {
-                if ( obj == null || obj.IsDestroyed || obj.Layer == null ) return false;
-                return GetHoverState( touch, obj ) == hover;
+                if (obj == null || obj.IsDestroyed || obj.Layer == null)
+                    return false;
+                return GetHoverState(touch, obj) == hover;
             };
         }
 
@@ -178,55 +211,41 @@ namespace Jypeli
 
         public void UpdateTouches()
         {
-            var xnaTouches = XnaTouchPanel.GetState();
-
-            for ( int i = 0; i < xnaTouches.Count; i++ )
+            if(touch != null)
             {
-                Touch prevTouch = touches.Find( s => s.Id == xnaTouches[i].Id );
-                Touch thisTouch = prevTouch != null ? prevTouch : new Touch( screen, xnaTouches[i] );
-
-                newTouches.Add( thisTouch );
-                DownListeners.ForEach( dl => dl.CheckAndInvoke( thisTouch ) );
-
-                if ( prevTouch == null )
-                {
-                    // New touch
-                    PressListeners.ForEach( dl => dl.CheckAndInvoke( thisTouch ) );
-                }
-                else
-                {
-                    // Existing touch
-                    touches.Remove( thisTouch );
-                    thisTouch.Update( xnaTouches[i] );
-                }
+                touch.PositionOnScreen = mouse.Position;
+                DownListeners.ForEach(dl => dl.CheckAndInvoke(touch));
             }
 
-            for ( int i = 0; i < touches.Count; i++ )
+            if (prevTouch == null && touch != null)
+            {
+                // New touch
+                PressListeners.ForEach(dl => dl.CheckAndInvoke(touch));
+                prevTouch = touch;
+            }
+
+            if(touch == null && prevTouch != null)
             {
                 // Released touch
-                ReleaseListeners.ForEach( dl => dl.CheckAndInvoke( touches[i] ) );
+                ReleaseListeners.ForEach(dl => dl.CheckAndInvoke(prevTouch));
+                prevTouch = null;
             }
 
             DownListeners.UpdateChanges();
             PressListeners.UpdateChanges();
             ReleaseListeners.UpdateChanges();
-
-            touches.Clear();
-            var empty = touches;
-            touches = newTouches;
-            newTouches = empty;
         }
 
         public void UpdateGestures()
         {
             var samples = new List<Gesture>();
 
-            if ( XnaTouchPanel.EnabledGestures == XnaGestureType.None )
+            /*if ( XnaTouchPanel.EnabledGestures == XnaGestureType.None )
                 return;
 
             while ( XnaTouchPanel.IsGestureAvailable )
                 samples.Add( new Gesture( XnaTouchPanel.ReadGesture() ) );
-
+            */
             this.GestureListeners.UpdateChanges();
             this.gestures = samples;
         }
@@ -241,49 +260,52 @@ namespace Jypeli
 
         public IEnumerable<string> GetHelpTexts()
         {
-            foreach ( var l in PressListeners )
+            foreach (var l in PressListeners)
             {
-                if ( l.HelpText != null )
-                    yield return String.Format( "TouchPanel Press", l.HelpText );
+                if (l.HelpText != null)
+                    yield return String.Format("TouchPanel Press", l.HelpText);
             }
 
-            foreach ( var l in DownListeners )
+            foreach (var l in DownListeners)
             {
-                if ( l.HelpText != null )
-                    yield return String.Format( "TouchPanel Down", l.HelpText );
+                if (l.HelpText != null)
+                    yield return String.Format("TouchPanel Down", l.HelpText);
             }
 
-            foreach ( var l in ReleaseListeners )
+            foreach (var l in ReleaseListeners)
             {
-                if ( l.HelpText != null )
-                    yield return String.Format( "TouchPanel Release", l.HelpText );
+                if (l.HelpText != null)
+                    yield return String.Format("TouchPanel Release", l.HelpText);
             }
         }
-        
-        private SynchronousList<TouchListener> GetList( ButtonState state )
+
+        private SynchronousList<TouchListener> GetList(ButtonState state)
         {
-            switch ( state )
+            switch (state)
             {
-                case ButtonState.Down: return DownListeners;
-                case ButtonState.Pressed: return PressListeners;
-                case ButtonState.Released: return ReleaseListeners;
+                case ButtonState.Down:
+                    return DownListeners;
+                case ButtonState.Pressed:
+                    return PressListeners;
+                case ButtonState.Released:
+                    return ReleaseListeners;
             }
 
-            throw new ArgumentException( "Button state is not supported" );
+            throw new ArgumentException("Button state is not supported");
         }
 
-        private Listener AddListener( SynchronousList<TouchListener> list, Predicate<Touch> rule, string helpText, Delegate handler, params object[] args )
+        private Listener AddListener(SynchronousList<TouchListener> list, Predicate<Touch> rule, string helpText, Delegate handler, params object[] args)
         {
-            var l = new TouchListener( rule, Game.Instance.ControlContext, helpText, handler, args );
-            list.Add( l );
+            var l = new TouchListener(rule, Game.Instance.ControlContext, helpText, handler, args);
+            list.Add(l);
             return l;
         }
 
-        private Listener AddGestureListener( Predicate<Gesture> rule, string helpText, Delegate handler, params object[] args )
+        private Listener AddGestureListener(Predicate<Gesture> rule, string helpText, Delegate handler, params object[] args)
         {
-            Predicate<Touch> touchRule = ( Touch t ) => t is Gesture && rule( (Gesture)t );
-            var l = new TouchListener( touchRule, Game.Instance.ControlContext, helpText, handler, args );
-            GestureListeners.Add( l );
+            Predicate<Touch> touchRule = (Touch t) => t is Gesture && rule((Gesture)t);
+            var l = new TouchListener(touchRule, Game.Instance.ControlContext, helpText, handler, args);
+            GestureListeners.Add(l);
             return l;
         }
 
@@ -293,9 +315,9 @@ namespace Jypeli
         /// <param name="state">Kosketuksen tila</param>
         /// <param name="handler">Aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public Listener Listen( ButtonState state, TouchHandler handler, string helpText )
+        public Listener Listen(ButtonState state, TouchHandler handler, string helpText)
         {
-            return AddListener( GetList( state ), AlwaysTrigger, helpText, handler );
+            return AddListener(GetList(state), AlwaysTrigger, helpText, handler);
         }
 
         /// <summary>
@@ -306,9 +328,9 @@ namespace Jypeli
         /// <param name="handler">Aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri</param>
-        public Listener Listen<T>( ButtonState state, TouchHandler handler, string helpText, T p )
+        public Listener Listen<T>(ButtonState state, TouchHandler handler, string helpText, T p)
         {
-            return AddListener( GetList( state ), AlwaysTrigger, helpText, handler, p );
+            return AddListener(GetList(state), AlwaysTrigger, helpText, handler, p);
         }
 
         /// <summary>
@@ -321,9 +343,9 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
-        public Listener Listen<T1, T2>( ButtonState state, TouchHandler handler, string helpText, T1 p1, T2 p2 )
+        public Listener Listen<T1, T2>(ButtonState state, TouchHandler handler, string helpText, T1 p1, T2 p2)
         {
-            return AddListener( GetList( state ), AlwaysTrigger, helpText, handler, p1, p2 );
+            return AddListener(GetList(state), AlwaysTrigger, helpText, handler, p1, p2);
         }
 
         /// <summary>
@@ -338,9 +360,9 @@ namespace Jypeli
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
         /// <param name="p3">3. parametri</param>
-        public Listener Listen<T1, T2, T3>( ButtonState state, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener Listen<T1, T2, T3>(ButtonState state, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            return AddListener( GetList( state ), AlwaysTrigger, helpText, handler, p1, p2, p3 );
+            return AddListener(GetList(state), AlwaysTrigger, helpText, handler, p1, p2, p3);
         }
 
         /// <summary>
@@ -351,10 +373,10 @@ namespace Jypeli
         /// <param name="buttonstate">Kosketuksen tila</param>
         /// <param name="handler">Aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public Listener ListenOn( GameObject obj, HoverState hoverstate, ButtonState buttonstate, TouchHandler handler, string helpText )
+        public Listener ListenOn(GameObject obj, HoverState hoverstate, ButtonState buttonstate, TouchHandler handler, string helpText)
         {
-            Predicate<Touch> rule = MakeTriggerRule( obj, hoverstate );
-            return AddListener( GetList( buttonstate ), rule, helpText, handler );
+            Predicate<Touch> rule = MakeTriggerRule(obj, hoverstate);
+            return AddListener(GetList(buttonstate), rule, helpText, handler);
         }
 
         /// <summary>
@@ -367,10 +389,10 @@ namespace Jypeli
         /// <param name="handler">Aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri</param>
-        public Listener ListenOn<T>( GameObject obj, HoverState hoverstate, ButtonState buttonstate, TouchHandler<T> handler, string helpText, T p )
+        public Listener ListenOn<T>(GameObject obj, HoverState hoverstate, ButtonState buttonstate, TouchHandler<T> handler, string helpText, T p)
         {
-            Predicate<Touch> rule = MakeTriggerRule( obj, hoverstate );
-            return AddListener( GetList( buttonstate ), rule, helpText, handler, p );
+            Predicate<Touch> rule = MakeTriggerRule(obj, hoverstate);
+            return AddListener(GetList(buttonstate), rule, helpText, handler, p);
         }
 
         /// <summary>
@@ -385,10 +407,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
-        public Listener ListenOn<T1, T2>( GameObject obj, HoverState hoverstate, ButtonState buttonstate, TouchHandler<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener ListenOn<T1, T2>(GameObject obj, HoverState hoverstate, ButtonState buttonstate, TouchHandler<T1, T2> handler, string helpText, T1 p1, T2 p2)
         {
-            Predicate<Touch> rule = MakeTriggerRule( obj, hoverstate );
-            return AddListener( GetList( buttonstate ), rule, helpText, handler, p1, p2 );
+            Predicate<Touch> rule = MakeTriggerRule(obj, hoverstate);
+            return AddListener(GetList(buttonstate), rule, helpText, handler, p1, p2);
         }
 
         /// <summary>
@@ -405,10 +427,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
         /// <param name="p3">3. parametri</param>
-        public Listener ListenOn<T1, T2, T3>( GameObject obj, HoverState hoverstate, ButtonState buttonstate, TouchHandler<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener ListenOn<T1, T2, T3>(GameObject obj, HoverState hoverstate, ButtonState buttonstate, TouchHandler<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            Predicate<Touch> rule = MakeTriggerRule( obj, hoverstate );
-            return AddListener( GetList( buttonstate ), rule, helpText, handler, p1, p2, p3 );
+            Predicate<Touch> rule = MakeTriggerRule(obj, hoverstate);
+            return AddListener(GetList(buttonstate), rule, helpText, handler, p1, p2, p3);
         }
 
         /// <summary>
@@ -418,9 +440,9 @@ namespace Jypeli
         /// <param name="buttonstate">Kosketuksen tila</param>
         /// <param name="handler">Aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public Listener ListenOn( GameObject obj, ButtonState buttonstate, TouchHandler handler, string helpText )
+        public Listener ListenOn(GameObject obj, ButtonState buttonstate, TouchHandler handler, string helpText)
         {
-            return ListenOn( obj, HoverState.On, buttonstate, handler, helpText );
+            return ListenOn(obj, HoverState.On, buttonstate, handler, helpText);
         }
 
         /// <summary>
@@ -432,9 +454,9 @@ namespace Jypeli
         /// <param name="handler">Aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri</param>
-        public Listener ListenOn<T>( GameObject obj, ButtonState buttonstate, TouchHandler<T> handler, string helpText, T p )
+        public Listener ListenOn<T>(GameObject obj, ButtonState buttonstate, TouchHandler<T> handler, string helpText, T p)
         {
-            return ListenOn( obj, HoverState.On, buttonstate, handler, helpText, p );
+            return ListenOn(obj, HoverState.On, buttonstate, handler, helpText, p);
         }
 
         /// <summary>
@@ -448,9 +470,9 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
-        public Listener ListenOn<T1, T2>( GameObject obj, ButtonState buttonstate, TouchHandler<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener ListenOn<T1, T2>(GameObject obj, ButtonState buttonstate, TouchHandler<T1, T2> handler, string helpText, T1 p1, T2 p2)
         {
-            return ListenOn( obj, HoverState.On, buttonstate, handler, helpText, p1, p2 );
+            return ListenOn(obj, HoverState.On, buttonstate, handler, helpText, p1, p2);
         }
 
         /// <summary>
@@ -466,9 +488,9 @@ namespace Jypeli
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
         /// <param name="p3">3. parametri</param>
-        public Listener ListenOn<T1, T2, T3>( GameObject obj, ButtonState buttonstate, TouchHandler<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener ListenOn<T1, T2, T3>(GameObject obj, ButtonState buttonstate, TouchHandler<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            return ListenOn( obj, HoverState.On, buttonstate, handler, helpText, p1, p2, p3 );
+            return ListenOn(obj, HoverState.On, buttonstate, handler, helpText, p1, p2, p3);
         }
 
         /// <summary>
@@ -477,10 +499,10 @@ namespace Jypeli
         /// <param name="type">Kosketusele</param>
         /// <param name="handler">Aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public Listener ListenGesture( GestureType type, TouchHandler handler, string helpText )
+        public Listener ListenGesture(GestureType type, TouchHandler handler, string helpText)
         {
-            XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
-            return AddGestureListener( ( Gesture g ) => g.GestureType == type, helpText, handler );
+            //XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
+            return AddGestureListener((Gesture g) => g.GestureType == type, helpText, handler);
         }
 
         /// <summary>
@@ -491,10 +513,10 @@ namespace Jypeli
         /// <param name="type">Kosketusele</param>
         /// <param name="handler">Aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public Listener ListenGestureOn( GameObject obj, HoverState hoverstate, GestureType type, TouchHandler handler, string helpText )
+        public Listener ListenGestureOn(GameObject obj, HoverState hoverstate, GestureType type, TouchHandler handler, string helpText)
         {
-            Predicate<Touch> hover = MakeTriggerRule( obj, hoverstate );
-            return AddGestureListener( (Gesture g) => g.GestureType == type && hover(g), helpText, handler );
+            Predicate<Touch> hover = MakeTriggerRule(obj, hoverstate);
+            return AddGestureListener((Gesture g) => g.GestureType == type && hover(g), helpText, handler);
         }
 
         /// <summary>
@@ -504,9 +526,9 @@ namespace Jypeli
         /// <param name="type">Kosketusele</param>
         /// <param name="handler">Aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public Listener ListenGestureOn( GameObject obj, GestureType type, TouchHandler handler, string helpText )
+        public Listener ListenGestureOn(GameObject obj, GestureType type, TouchHandler handler, string helpText)
         {
-            return ListenGestureOn( obj, HoverState.On, type, handler, helpText );
+            return ListenGestureOn(obj, HoverState.On, type, handler, helpText);
         }
 
         /// <summary>
@@ -517,10 +539,10 @@ namespace Jypeli
         /// <param name="handler">Aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri</param>
-        public Listener ListenGesture<T1>( GestureType type, TouchHandler handler, string helpText, T1 p1 )
+        public Listener ListenGesture<T1>(GestureType type, TouchHandler handler, string helpText, T1 p1)
         {
-            XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
-            return AddGestureListener( ( Gesture g ) => g.GestureType == type, helpText, handler, p1 );
+            //XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
+            return AddGestureListener((Gesture g) => g.GestureType == type, helpText, handler, p1);
         }
 
         /// <summary>
@@ -533,10 +555,10 @@ namespace Jypeli
         /// <param name="handler">Aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri</param>
-        public Listener ListenGestureOn<T1>( GameObject obj, HoverState hoverstate, GestureType type, TouchHandler handler, string helpText, T1 p1 )
+        public Listener ListenGestureOn<T1>(GameObject obj, HoverState hoverstate, GestureType type, TouchHandler handler, string helpText, T1 p1)
         {
-            Predicate<Touch> hover = MakeTriggerRule( obj, hoverstate );
-            return AddGestureListener( ( Gesture g ) => g.GestureType == type && hover( g ), helpText, handler, p1 );
+            Predicate<Touch> hover = MakeTriggerRule(obj, hoverstate);
+            return AddGestureListener((Gesture g) => g.GestureType == type && hover(g), helpText, handler, p1);
         }
 
         /// <summary>
@@ -548,9 +570,9 @@ namespace Jypeli
         /// <param name="handler">Aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri</param>
-        public Listener ListenGestureOn<T1>( GameObject obj, GestureType type, TouchHandler handler, string helpText, T1 p1 )
+        public Listener ListenGestureOn<T1>(GameObject obj, GestureType type, TouchHandler handler, string helpText, T1 p1)
         {
-            return ListenGestureOn( obj, HoverState.On, type, handler, helpText, p1 );
+            return ListenGestureOn(obj, HoverState.On, type, handler, helpText, p1);
         }
 
         /// <summary>
@@ -563,10 +585,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
-        public Listener ListenGesture<T1, T2>( GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2 )
+        public Listener ListenGesture<T1, T2>(GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2)
         {
-            XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
-            return AddGestureListener( ( Gesture g ) => g.GestureType == type, helpText, handler, p1, p2 );
+            //XnaTouchPanel.EnabledGestures |= type;
+            return AddGestureListener((Gesture g) => g.GestureType == type, helpText, handler, p1, p2);
         }
 
         /// <summary>
@@ -581,10 +603,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
-        public Listener ListenGestureOn<T1, T2>( GameObject obj, HoverState hoverstate, GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2 )
+        public Listener ListenGestureOn<T1, T2>(GameObject obj, HoverState hoverstate, GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2)
         {
-            Predicate<Touch> hover = MakeTriggerRule( obj, hoverstate );
-            return AddGestureListener( ( Gesture g ) => g.GestureType == type && hover( g ), helpText, handler, p1, p2 );
+            Predicate<Touch> hover = MakeTriggerRule(obj, hoverstate);
+            return AddGestureListener((Gesture g) => g.GestureType == type && hover(g), helpText, handler, p1, p2);
         }
 
         /// <summary>
@@ -598,9 +620,9 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
-        public Listener ListenGestureOn<T1, T2>( GameObject obj, GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2 )
+        public Listener ListenGestureOn<T1, T2>(GameObject obj, GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2)
         {
-            return ListenGestureOn( obj, HoverState.On, type, handler, helpText, p1 );
+            return ListenGestureOn(obj, HoverState.On, type, handler, helpText, p1);
         }
 
         /// <summary>
@@ -615,10 +637,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
         /// <param name="p3">3. parametri</param>
-        public Listener ListenGesture<T1, T2, T3>( GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener ListenGesture<T1, T2, T3>(GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
-            return AddGestureListener( ( Gesture g ) => g.GestureType == type, helpText, handler, p1, p2 );
+            //XnaTouchPanel.EnabledGestures |= (XnaGestureType)type;
+            return AddGestureListener((Gesture g) => g.GestureType == type, helpText, handler, p1, p2);
         }
 
         /// <summary>
@@ -635,10 +657,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
         /// <param name="p3">3. parametri</param>
-        public Listener ListenGestureOn<T1, T2, T3>( GameObject obj, HoverState hoverstate, GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener ListenGestureOn<T1, T2, T3>(GameObject obj, HoverState hoverstate, GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            Predicate<Touch> hover = MakeTriggerRule( obj, hoverstate );
-            return AddGestureListener( ( Gesture g ) => g.GestureType == type && hover( g ), helpText, handler, p1, p2 );
+            Predicate<Touch> hover = MakeTriggerRule(obj, hoverstate);
+            return AddGestureListener((Gesture g) => g.GestureType == type && hover(g), helpText, handler, p1, p2);
         }
 
         /// <summary>
@@ -654,9 +676,9 @@ namespace Jypeli
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
         /// <param name="p3">3. parametri</param>
-        public Listener ListenGestureOn<T1, T2, T3>( GameObject obj, GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener ListenGestureOn<T1, T2, T3>(GameObject obj, GestureType type, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            return ListenGestureOn( obj, HoverState.On, type, handler, helpText, p1 );
+            return ListenGestureOn(obj, HoverState.On, type, handler, helpText, p1);
         }
     }
 }

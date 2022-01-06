@@ -191,7 +191,6 @@ namespace Jypeli
 
         private void applyMetadata( Type type, object obj, string tag, string value )
         {
-#if JYPELI
             if ( TypeHelper.InheritsFrom( type, typeof( GameObject ) ) )
             {
                 // Game object tags
@@ -200,7 +199,6 @@ namespace Jypeli
                 if ( tag == "AddedToGame" && tagTrue( value ) && !gobj.IsAddedToGame )
                     Game.Instance.Add( gobj );
             }
-#endif
         }
 
         private bool tagTrue( string value )
@@ -293,14 +291,12 @@ namespace Jypeli
 
         private void writeMetadata( XmlWriter writer, Type type, object obj )
         {
-#if JYPELI
             if ( TypeHelper.InheritsFrom( type, typeof( GameObject ) ) && ( (GameObject)obj ).IsAddedToGame )
             {
                 writer.WriteStartElement( "Meta" );
                 writer.WriteAttributeString( "AddedToGame", "1" );
                 writer.WriteEndElement();
             }
-#endif
         }
 
         internal object LoadArray( XmlReader reader, Type containerType, object obj )

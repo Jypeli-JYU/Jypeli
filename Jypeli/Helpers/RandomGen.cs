@@ -140,8 +140,8 @@ namespace Jypeli
             {
                 array[i] = NextDouble( curmin, curmax );
 
-                curmin = AdvanceMath.MathHelper.Max((float)min, (float)(array[i] - maxchange));
-                curmax = AdvanceMath.MathHelper.Min((float)max, (float)(array[i] + maxchange));
+                curmin = MathHelper.Max((float)min, (float)(array[i] - maxchange));
+                curmax = MathHelper.Min((float)max, (float)(array[i] + maxchange));
             }
 
             return array;
@@ -153,7 +153,7 @@ namespace Jypeli
         /// <returns>Väri.</returns>
         public static Color NextColor()
         {
-            return new Color( (float)rand.NextDouble(), (float)rand.NextDouble(), (float)rand.NextDouble(), 1 );
+            return new Color((float)rand.NextDouble(), (float)rand.NextDouble(), (float)rand.NextDouble(), 1);
         }
 
         /// <summary>
@@ -180,19 +180,19 @@ namespace Jypeli
         /// </summary>
         /// <param name="obj">Olio</param>
         /// <returns>Väri.</returns>
-        public static Color NextColor( object obj )
+        /*public static Color NextColor( object obj )
         {
             var r = new Random( obj.GetHashCode() );
             return new Color( (float)r.NextDouble(), (float)r.NextDouble(), (float)r.NextDouble(), 1 );
-        }
+        }*/
 
         /// <summary>
         /// Palauttaa satunnaisen värin.
         /// </summary>
         /// <returns>Väri.</returns>
-        public static Color NextColor( Color first, Color second )
+        public static Color NextColor(Color first, Color second)
         {
-            return Color.Lerp( first, second, (float)rand.NextDouble());
+            return Color.Lerp(first, second, (float)rand.NextDouble());
         }
 
         /// <summary>

@@ -87,6 +87,7 @@ namespace Jypeli
         /// Jättääkö olio kentän valaistuksen huomiotta.
         /// Asetettu oletuksena käyttöliittymäkomponenteilla (widget).
         /// </summary>
+        [System.Obsolete("Ei käytössä")]
         public bool IgnoresLighting { get; set; }
 
         private void InitAppearance()
@@ -100,7 +101,6 @@ namespace Jypeli
             InitAppearance();
         }
 
-#if !DISABLE_STORAGE
         /// <summary>
         /// Lataa kuvan tiedostosta ja asettaa sen oliolle.
         /// </summary>
@@ -109,7 +109,6 @@ namespace Jypeli
         {
             this.Image = Image.FromStream( file.Stream );
         }
-#endif
 
         /// <summary>
         /// Kääntää olion kuvan vaakasuunnassa.

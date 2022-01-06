@@ -37,20 +37,20 @@ public class PlatformCharacter2 : PhysicsObject
     private bool customAnimPlaying = false;
     private Action customAnimAction;
 
-    private double gravityMagnitude
+    private double GravityMagnitude
     {
         get
         {
-            updateGravity();
+            UpdateGravity();
             return _cachedGravityMagnitude;
         }
     }
 
-    private Vector gravityNormal
+    private Vector GravityNormal
     {
         get
         {
-            updateGravity();
+            UpdateGravity();
             return _cachedGravityNormal;
         }
     }
@@ -279,14 +279,13 @@ public class PlatformCharacter2 : PhysicsObject
         Animation.Played -= AnimationPlayed;
         customAnimPlaying = false;
 
-        if ( customAnimAction != null )
-            customAnimAction();
+        customAnimAction?.Invoke();
     }
 
-    private void updateGravity()
+    private void UpdateGravity()
     {
-        PhysicsGameBase physGame = Game.Instance as PhysicsGameBase;
-        if ( physGame == null ) return;
+        if (Game.Instance is not PhysicsGameBase physGame)
+            return;
 
         if ( physGame.Gravity != _cachedGravity )
         {
@@ -302,10 +301,10 @@ public class PlatformCharacter2 : PhysicsObject
 
     private void AddCollisionHandler()
     {
-        PhysicsGameBase physicsGame = Game.Instance as PhysicsGameBase;
-        if ( physicsGame == null ) throw new InvalidOperationException( "Cannot have a platform character in non-physics game" );
+        if (Game.Instance is not PhysicsGameBase physicsGame)
+            throw new InvalidOperationException("Cannot have a platform character in non-physics game");
 
-        this.Body.Colliding += delegate( IPhysicsBody o1, IPhysicsBody o2, Collision c )
+        Body.Colliding += delegate( IPhysicsBody o1, IPhysicsBody o2, Collision c )
         {
             PhysicsObject other = (PhysicsObject)o2.Owner;
             Vector normal = c.Contacts.First().Normal;
@@ -363,10 +362,7 @@ public class PlatformCharacter2 : PhysicsObject
 
         _curDirection = direction;
 
-        if ( DirectionChanged != null )
-        {
-            DirectionChanged( direction );
-        }
+        DirectionChanged?.Invoke(direction);
     }
 
     /// <summary>
@@ -402,7 +398,7 @@ public class PlatformCharacter2 : PhysicsObject
     public void ForceJump( double speed )
     {
         IgnoresGravity = false;
-        this.Hit( Mass * speed * -gravityNormal );
+        this.Hit( Mass * speed * -GravityNormal );
         Platform = null;
         
         state = PlatformCharacterState.Jumping;
@@ -427,7 +423,7 @@ public class PlatformCharacter2 : PhysicsObject
     {
         double d = ( this.Width + obj.Width ) / 2;
         Angle throwAngle = FacingDirection == Direction.Left ? Angle.StraightAngle - angle : angle;
-        obj.Position = this.Position + this.FacingDirection.GetVector() * d + gravityNormal * axialDelta;
+        obj.Position = this.Position + this.FacingDirection.GetVector() * d + GravityNormal * axialDelta;
         obj.Hit( Vector.FromLengthAndAngle( force, throwAngle ) );
     }
     
@@ -436,7 +432,7 @@ public class PlatformCharacter2 : PhysicsObject
         if ( target.IgnoresCollisionResponse )
             return;
 
-        double dot = Vector.DotProduct( normal, gravityNormal );
+        double dot = Vector.DotProduct( normal, GravityNormal );
         if ( Math.Abs( dot ) < 0.5 )
             return;
 
@@ -481,8 +477,7 @@ public class PlatformCharacter2 : PhysicsObject
         if ( walkSteps > 0 )
         {
             // Walking
-            double impulse = Mass * Acceleration * time.SinceLastUpdate.TotalSeconds;
-            Vector unitX = gravityMagnitude > 0 ? gravityNormal.LeftNormal : Vector.UnitX;
+            Vector unitX = GravityMagnitude > 0 ? GravityNormal.LeftNormal : Vector.UnitX;
 
             if ( _curDirection == Direction.Left && -Velocity.X < MaxVelocity )
                 this.Push( Mass * Acceleration * -unitX );

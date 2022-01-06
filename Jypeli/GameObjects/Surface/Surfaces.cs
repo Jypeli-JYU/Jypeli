@@ -9,14 +9,15 @@ namespace Jypeli
     /// </summary>
     public struct Surfaces : IEnumerable<Surface>
     {
-        internal Surface l, r, t, b;
+        private Surface left, right, top, bottom;
 
         /// <summary>
         /// Vasen reuna.
         /// </summary>
         public Surface Left
         {
-            get { return l; }
+            get { return left; }
+            internal set { left = value; }
         }
 
         /// <summary>
@@ -24,7 +25,8 @@ namespace Jypeli
         /// </summary>
         public Surface Right
         {
-            get { return r; }
+            get { return right; }
+            internal set { right = value; }
         }
 
         /// <summary>
@@ -32,7 +34,8 @@ namespace Jypeli
         /// </summary>
         public Surface Top
         {
-            get { return t; }
+            get { return top; }
+            internal set { top = value; }
         }
 
         /// <summary>
@@ -40,7 +43,8 @@ namespace Jypeli
         /// </summary>
         public Surface Bottom
         {
-            get { return b; }
+            get { return bottom; }
+            internal set { bottom = value; }
         }
 
         /// <summary>

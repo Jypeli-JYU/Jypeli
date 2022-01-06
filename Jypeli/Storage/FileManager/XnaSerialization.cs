@@ -9,6 +9,7 @@ namespace Jypeli
 {
     public partial class FileManager
     {
+        /*
         public LoadState BeginLoadContent( string assetName )
         {
             if ( Game.Instance == null )
@@ -31,6 +32,6 @@ namespace Jypeli
             T result = state.Load<T>( obj, "default" );
             state.EndLoad();
             return result;
-        }
+        }*/
     }
 }

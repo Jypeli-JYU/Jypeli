@@ -28,19 +28,21 @@
  */
 
 using System;
+using System.Diagnostics;
 using Jypeli.Controls;
 using Jypeli.Controls.GamePad;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-
-using XnaGamePad = Microsoft.Xna.Framework.Input.GamePad;
+using Silk.NET.Input;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Peliohjain.
+    /// </summary>
     public class GamePad : Controller<GamePadState, Enum>
     {
-        private PlayerIndex playerIndex;
         private SynchronousList<Vibration> vibrations;
+        IGamepad gamepad;
+        private GamePadState internalState;
 
         /// <summary>
         /// Vasemman tatin suuntavektori.
@@ -50,8 +52,7 @@ namespace Jypeli
         {
             get
             {
-                Vector2 v = CurrentState.ThumbSticks.Left;
-                return new Vector( v.X, v.Y );
+                return CurrentState.LeftThumbStick;
             }
         }
 
@@ -63,8 +64,7 @@ namespace Jypeli
         {
             get
             {
-                Vector2 v = CurrentState.ThumbSticks.Right;
-                return new Vector( v.X, v.Y );
+                return CurrentState.RightThumbStick;
             }
         }
 
@@ -74,7 +74,7 @@ namespace Jypeli
         /// </summary>
         public double LeftTriggerState
         {
-            get { return CurrentState.Triggers.Left; }
+            get { return CurrentState.LeftTrigger; }
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Jypeli
         /// </summary>
         public double RightTriggerState
         {
-            get { return CurrentState.Triggers.Right; }
+            get { return CurrentState.RightTrigger; }
         }
 
         /// <summary>
@@ -93,8 +93,8 @@ namespace Jypeli
         {
             get
             {
-                Vector2 v = CurrentState.ThumbSticks.Left - PrevState.ThumbSticks.Left;
-                return new Vector( v.X, v.Y );
+                Vector v = CurrentState.LeftThumbStick - PrevState.LeftThumbStick;
+                return new Vector(v.X, v.Y);
             }
         }
 
@@ -105,8 +105,8 @@ namespace Jypeli
         {
             get
             {
-                Vector2 v = CurrentState.ThumbSticks.Right - PrevState.ThumbSticks.Right;
-                return new Vector( v.X, v.Y );
+                Vector v = CurrentState.RightThumbStick - PrevState.RightThumbStick;
+                return new Vector(v.X, v.Y);
             }
         }
 
@@ -115,7 +115,7 @@ namespace Jypeli
         /// </summary>
         public double LeftTriggerChange
         {
-            get { return CurrentState.Triggers.Left - PrevState.Triggers.Left; }
+            get { return CurrentState.LeftTrigger - PrevState.LeftTrigger; }
         }
 
         /// <summary>
@@ -123,86 +123,114 @@ namespace Jypeli
         /// </summary>
         public double RightTriggerChange
         {
-            get { return CurrentState.Triggers.Right - PrevState.Triggers.Left; }
+            get { return CurrentState.RightTrigger - PrevState.RightTrigger; }
         }
 
-        internal GamePad( PlayerIndex index )
+        internal GamePad(IInputContext input, int index)
         {
-            playerIndex = index;
+            gamepad = input.Gamepads[index];
+
             vibrations = new SynchronousList<Vibration>();
+
+            gamepad.ButtonDown += GamepadButtonDown;
+            gamepad.ButtonUp += GamepadButtonUp;
+            gamepad.ThumbstickMoved += GamepadThumbstickMoved;
+            gamepad.TriggerMoved += GamepadTriggerMoved;
+        }
+
+        private void GamepadTriggerMoved(IGamepad arg1, Trigger arg2)
+        {
+            internalState.SetTrigger(arg2);
+        }
+
+        private void GamepadThumbstickMoved(IGamepad arg1, Thumbstick arg2)
+        {
+            internalState.SetThumbstick(arg2);
+        }
+
+        private void GamepadButtonUp(IGamepad arg1, Silk.NET.Input.Button arg2)
+        {
+            internalState.SetButtonUp(arg2);
+        }
+
+        private void GamepadButtonDown(IGamepad arg1, Silk.NET.Input.Button arg2)
+        {
+            internalState.SetButtonDown(arg2);
         }
 
         internal override GamePadState GetState()
         {
-            return XnaGamePad.GetState( playerIndex );
+            return internalState;
         }
 
-        private ChangePredicate<GamePadState> MakeTriggerRule( Button b, ButtonState state )
+        private static ChangePredicate<GamePadState> MakeTriggerRule(Button button, ButtonState state)
         {
-            Buttons buttons = (Buttons)b;
-
-            switch ( state )
+            return state switch
             {
-                case ButtonState.Up:
-                    return delegate( GamePadState prev, GamePadState curr ) { return ( curr.IsButtonUp( buttons ) ); };
+                ButtonState.Up => delegate (GamePadState prev, GamePadState curr)
+                {
+                    return (curr.IsButtonUp(button));
+                },
 
-                case ButtonState.Down:
-                    return delegate( GamePadState prev, GamePadState curr ) { return ( curr.IsButtonDown( buttons ) ); };
+                ButtonState.Down => delegate (GamePadState prev, GamePadState curr)
+                {
+                    return (curr.IsButtonDown(button));
+                },
 
-                case ButtonState.Pressed:
-                    return delegate( GamePadState prev, GamePadState curr ) { return ( prev.IsButtonUp( buttons ) && curr.IsButtonDown( buttons ) ); };
+                ButtonState.Pressed => delegate (GamePadState prev, GamePadState curr)
+                {
+                    return (prev.IsButtonUp(button) && curr.IsButtonDown(button));
+                },
 
-                case ButtonState.Released:
-                    return delegate( GamePadState prev, GamePadState curr ) { return ( prev.IsButtonDown( buttons ) && curr.IsButtonUp( buttons ) ); };
-            }
+                ButtonState.Released => delegate (GamePadState prev, GamePadState curr)
+                {
+                    return (prev.IsButtonDown(button) && curr.IsButtonUp(button));
+                },
 
-            return AlwaysTrigger;
+                _ => AlwaysTrigger
+            };
         }
 
-        private ChangePredicate<GamePadState> MakeTriggerRule( AnalogControl control, double moveTrigger )
+        private static ChangePredicate<GamePadState> MakeTriggerRule(AnalogControl control, double moveTrigger)
         {
-            switch ( control )
+            return control switch
             {
-                case AnalogControl.LeftStick:
-                    return delegate( GamePadState prev, GamePadState curr )
-                    {
-                        double xdist = curr.ThumbSticks.Left.X - prev.ThumbSticks.Left.X;
-                        double ydist = curr.ThumbSticks.Left.Y - prev.ThumbSticks.Left.Y;
-                        return xdist * xdist + ydist * ydist > moveTrigger * moveTrigger;
-                    };
+                AnalogControl.LeftStick => delegate (GamePadState prev, GamePadState curr)
+                {
+                    double xdist = curr.LeftThumbStick.X - prev.LeftThumbStick.X;
+                    double ydist = curr.LeftThumbStick.Y - prev.LeftThumbStick.Y;
+                    return xdist * xdist + ydist * ydist > moveTrigger * moveTrigger;
+                },
 
-                case AnalogControl.RightStick:
-                    return delegate( GamePadState prev, GamePadState curr )
-                    {
-                        double xdist = curr.ThumbSticks.Right.X - prev.ThumbSticks.Right.X;
-                        double ydist = curr.ThumbSticks.Right.Y - prev.ThumbSticks.Right.Y;
-                        return xdist * xdist + ydist * ydist > moveTrigger * moveTrigger;
-                    };
+                AnalogControl.RightStick => delegate (GamePadState prev, GamePadState curr)
+                {
+                    double xdist = curr.RightThumbStick.X - prev.RightThumbStick.X;
+                    double ydist = curr.RightThumbStick.Y - prev.RightThumbStick.Y;
+                    return xdist * xdist + ydist * ydist > moveTrigger * moveTrigger;
+                },
 
-                case AnalogControl.LeftTrigger:
-                    return delegate( GamePadState prev, GamePadState curr )
-                    {
-                        return Math.Abs( curr.Triggers.Left - prev.Triggers.Left ) > moveTrigger;
-                    };
+                AnalogControl.LeftTrigger => delegate (GamePadState prev, GamePadState curr)
+                {
+                    return Math.Abs(curr.LeftTrigger - prev.LeftTrigger) > moveTrigger;
+                },
 
-                case AnalogControl.RightTrigger:
-                    return delegate( GamePadState prev, GamePadState curr )
-                    {
-                        return Math.Abs( curr.Triggers.Right - prev.Triggers.Right ) > moveTrigger;
-                    };
-            }
+                AnalogControl.RightTrigger => delegate (GamePadState prev, GamePadState curr)
+                {
+                    return Math.Abs(curr.RightTrigger - prev.RightTrigger) > moveTrigger;
+                },
 
-            throw new ArgumentException( control.ToString() + " is not a valid analog control for a GamePad" );
+                _ => throw new ArgumentException(control.ToString() + " is not a valid analog control for a GamePad"),
+            };
         }
 
-        private string GetButtonName( Button b )
+        private static string GetButtonName(Button b)
         {
-            return String.Format( "GamePad{0} {1}", playerIndex.ToString(), b.ToString() );
+            return b.ToString();
         }
 
-        private string GetAnalogName( AnalogControl a )
+        private static string GetAnalogName(AnalogControl a)
         {
-            return String.Format( "GamePad{0} {1}", playerIndex.ToString(), a.ToString() );
+            return a.ToString();
         }
 
         /// <summary>
@@ -213,9 +241,9 @@ namespace Jypeli
         /// <param name="leftAcceleration">Vasemmanpuoleisen moottorin tärinäkiihtyvyys (yksikköä sekunnissa).</param>
         /// <param name="rightAcceleration">Oikeanpuoleisen moottorin tärinäkiihtyvyys (yksikköä sekunnissa).</param>
         /// <param name="time">Aika, jonka tärinä kestää (sekunteina).</param>
-        public void Vibrate( double leftMotor, double rightMotor, double leftAcceleration, double rightAcceleration, double time )
+        public void Vibrate(double leftMotor, double rightMotor, double leftAcceleration, double rightAcceleration, double time)
         {
-            vibrations.Add( new Vibration( leftMotor, rightMotor, leftAcceleration, rightAcceleration, time ) );
+            vibrations.Add(new Vibration(gamepad, leftMotor, rightMotor, leftAcceleration, rightAcceleration, time));
         }
 
         /// <summary>
@@ -226,10 +254,9 @@ namespace Jypeli
             vibrations.Clear();
         }
 
-        internal void UpdateVibrations( Time time )
+        internal void UpdateVibrations(Time time)
         {
-            vibrations.Update( time );
-            Vibration.Execute( playerIndex, vibrations );
+            vibrations.Update(time);
         }
 
         /// <summary>
@@ -239,10 +266,10 @@ namespace Jypeli
         /// <param name="state">Napin tila</param>
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public Listener Listen( Button button, ButtonState state, Action handler, string helpText )
+        public Listener Listen(Button button, ButtonState state, Action handler, string helpText)
         {
-            ChangePredicate<GamePadState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, button, GetButtonName( button ), helpText, handler );
+            ChangePredicate<GamePadState> rule = MakeTriggerRule(button, state);
+            return AddListener(rule, button, GetButtonName(button), helpText, handler);
         }
 
         /// <summary>
@@ -254,10 +281,10 @@ namespace Jypeli
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri kuuntelija-aliohjelmalle</param>
-        public Listener Listen<T>( Button button, ButtonState state, Action<T> handler, string helpText, T p )
+        public Listener Listen<T>(Button button, ButtonState state, Action<T> handler, string helpText, T p)
         {
-            ChangePredicate<GamePadState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, button, GetButtonName( button ), helpText, handler, p );
+            ChangePredicate<GamePadState> rule = MakeTriggerRule(button, state);
+            return AddListener(rule, button, GetButtonName(button), helpText, handler, p);
         }
 
         /// <summary>
@@ -271,10 +298,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
-        public Listener Listen<T1, T2>( Button button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener Listen<T1, T2>(Button button, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2)
         {
-            ChangePredicate<GamePadState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, button, GetButtonName( button ), helpText, handler, p1, p2 );
+            ChangePredicate<GamePadState> rule = MakeTriggerRule(button, state);
+            return AddListener(rule, button, GetButtonName(button), helpText, handler, p1, p2);
         }
 
         /// <summary>
@@ -290,10 +317,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p2">2. parametri kuuntelija-aliohjelmalle</param>
         /// <param name="p3">3. parametri kuuntelija-aliohjelmalle</param>
-        public Listener Listen<T1, T2, T3>( Button button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener Listen<T1, T2, T3>(Button button, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            ChangePredicate<GamePadState> rule = MakeTriggerRule( button, state );
-            return AddListener( rule, button, GetButtonName( button ), helpText, handler, p1, p2, p3 );
+            ChangePredicate<GamePadState> rule = MakeTriggerRule(button, state);
+            return AddListener(rule, button, GetButtonName(button), helpText, handler, p1, p2, p3);
         }
 
         /// <summary>
@@ -304,24 +331,24 @@ namespace Jypeli
         /// <param name="handler">Kuuntelija-aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <returns></returns>
-        public Listener ListenAnalog( AnalogControl control, double trigger, Action<AnalogState> handler, string helpText )
+        public Listener ListenAnalog(AnalogControl control, double trigger, Action<AnalogState> handler, string helpText)
         {
-            ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            Action analogHandler = delegate { handler(GenerateAnalogState(control)); };
-            return AddListener( rule, control, GetAnalogName( control ), helpText, analogHandler );
+            ChangePredicate<GamePadState> rule = MakeTriggerRule(control, trigger);
+            Action analogHandler = delegate
+            { handler(GenerateAnalogState(control)); };
+            return AddListener(rule, control, GetAnalogName(control), helpText, analogHandler);
         }
 
         private GamePadAnalogState GenerateAnalogState(AnalogControl control)
         {
-            switch (control)
+            return control switch
             {
-                case AnalogControl.LeftStick:
-                    return new GamePadAnalogState(LeftThumbDirection.Magnitude, LeftThumbChange.Magnitude, LeftThumbDirection, LeftThumbChange);
-                case AnalogControl.RightStick:
-                    return new GamePadAnalogState(RightThumbDirection.Magnitude, RightThumbChange.Magnitude, RightThumbDirection, RightThumbChange);
-                default:
-                    throw new NotImplementedException("Unsupported Controller / GamePad control for ListenAnalog: " + control.ToString());
-            }
+                AnalogControl.LeftStick => new GamePadAnalogState(LeftThumbDirection.Magnitude, LeftThumbChange.Magnitude, LeftThumbDirection, LeftThumbChange),
+                AnalogControl.RightStick => new GamePadAnalogState(RightThumbDirection.Magnitude, RightThumbChange.Magnitude, RightThumbDirection, RightThumbChange),
+                AnalogControl.LeftTrigger => new GamePadAnalogState(LeftTriggerState, LeftTriggerChange),
+                AnalogControl.RightTrigger => new GamePadAnalogState(RightTriggerState, RightTriggerChange),
+                _ => throw new NotImplementedException("Unsupported Controller / GamePad control for ListenAnalog: " + control.ToString()),
+            };
         }
 
         /// <summary>
@@ -334,11 +361,12 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri</param>
         /// <returns></returns>
-        public Listener ListenAnalog<T>( AnalogControl control, double trigger, Action<AnalogState, T> handler, string helpText, T p )
+        public Listener ListenAnalog<T>(AnalogControl control, double trigger, Action<AnalogState, T> handler, string helpText, T p)
         {
-            ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            Action analogHandler = delegate { handler(GenerateAnalogState(control), p); };
-            return AddListener( rule, control, GetAnalogName( control ), helpText, analogHandler);
+            ChangePredicate<GamePadState> rule = MakeTriggerRule(control, trigger);
+            Action analogHandler = delegate
+            { handler(GenerateAnalogState(control), p); };
+            return AddListener(rule, control, GetAnalogName(control), helpText, analogHandler);
         }
 
         /// <summary>
@@ -353,11 +381,12 @@ namespace Jypeli
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
         /// <returns></returns>
-        public Listener ListenAnalog<T1, T2>( AnalogControl control, double trigger, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener ListenAnalog<T1, T2>(AnalogControl control, double trigger, Action<AnalogState, T1, T2> handler, string helpText, T1 p1, T2 p2)
         {
-            ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            Action analogHandler = delegate { handler(GenerateAnalogState(control), p1, p2); };
-            return AddListener( rule, control, GetAnalogName( control ), helpText, analogHandler);
+            ChangePredicate<GamePadState> rule = MakeTriggerRule(control, trigger);
+            Action analogHandler = delegate
+            { handler(GenerateAnalogState(control), p1, p2); };
+            return AddListener(rule, control, GetAnalogName(control), helpText, analogHandler);
         }
 
         /// <summary>
@@ -374,11 +403,12 @@ namespace Jypeli
         /// <param name="p2">2. parametri</param>
         /// <param name="p3">3. parametri</param>
         /// <returns></returns>
-        public Listener ListenAnalog<T1, T2, T3>( AnalogControl control, double trigger, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener ListenAnalog<T1, T2, T3>(AnalogControl control, double trigger, Action<AnalogState, T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            ChangePredicate<GamePadState> rule = MakeTriggerRule( control, trigger );
-            Action analogHandler = delegate { handler(GenerateAnalogState(control), p1, p2, p3); };
-            return AddListener( rule, control, GetAnalogName( control ), helpText, analogHandler);
+            ChangePredicate<GamePadState> rule = MakeTriggerRule(control, trigger);
+            Action analogHandler = delegate
+            { handler(GenerateAnalogState(control), p1, p2, p3); };
+            return AddListener(rule, control, GetAnalogName(control), helpText, analogHandler);
         }
     }
 }

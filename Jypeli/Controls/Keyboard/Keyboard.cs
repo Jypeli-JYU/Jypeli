@@ -24,13 +24,12 @@
 #endregion
 
 /*
- * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
+ * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen, Mikko Röyskö
  */
 
 using System;
 using Jypeli.Controls;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+using Silk.NET.Input;
 
 namespace Jypeli
 {
@@ -44,55 +43,97 @@ namespace Jypeli
         /// </summary>
         public event Action<char> TextInput;
 
-        internal Keyboard()
+        private KeyboardState internalState;
+        private IKeyboard keyboard;
+
+        internal Keyboard(IInputContext input)
         {
+            this.CurrentState = default;
+            this.internalState = default;
+            this.keyboard = input.Keyboards[0];
+
+            keyboard.KeyDown += KeyboardKeyDown;
+            keyboard.KeyUp += KeyboardKeyUp;
+            keyboard.KeyChar += KeyboardKeyChar;
 #if DESKTOP
-            Game.Instance.Window.TextInput += delegate( object sender, TextInputEventArgs args )
+            Game.Instance.TextInput += delegate(object sender, char key)
             {
-                if ( TextInput != null ) TextInput( args.Character );
+                TextInput?.Invoke(key);
             };
 #endif
         }
 
-        internal override KeyboardState GetState()
+        private void KeyboardKeyChar(IKeyboard arg1, char arg2)
         {
-            return Microsoft.Xna.Framework.Input.Keyboard.GetState();
+            Game.Instance.CallTextInput(this, arg2);
         }
 
-        private ChangePredicate<KeyboardState> MakeTriggerRule( Key k, ButtonState state )
+        private void KeyboardKeyDown(IKeyboard arg1, Silk.NET.Input.Key arg2, int arg3)
         {
-            Keys key = (Keys)k;
+            internalState.SetKeyDown(arg2);
+        }
 
-            switch ( state )
+        private void KeyboardKeyUp(IKeyboard arg1, Silk.NET.Input.Key arg2, int arg3)
+        {
+            internalState.SetKeyUp(arg2);
+        }
+
+        // Nämä begin ja end ovat vain mobiilia varten.
+        // Tuo näppäimistön esiin ja alkaa kuunnella sitä.
+        internal void BeginInput()
+        {
+            keyboard.BeginInput();
+            
+        }
+
+        internal void EndInput()
+        {
+            keyboard.EndInput();
+        }
+
+        internal override KeyboardState GetState()
+        {
+            return internalState;
+        }
+
+        private ChangePredicate<KeyboardState> MakeTriggerRule(Key key, ButtonState state)
+        {
+            switch (state)
             {
                 case ButtonState.Up:
-                    return delegate( KeyboardState prev, KeyboardState curr ) { return ( curr.IsKeyUp( key ) ); };
+                    return delegate (KeyboardState prev, KeyboardState curr)
+                    { return (curr.IsKeyUp(key)); };
 
                 case ButtonState.Down:
-                    return delegate( KeyboardState prev, KeyboardState curr ) { return ( curr.IsKeyDown( key ) ); };
+                    return delegate (KeyboardState prev, KeyboardState curr)
+                    { return (curr.IsKeyDown(key)); };
 
                 case ButtonState.Pressed:
-                    return delegate( KeyboardState prev, KeyboardState curr ) { return ( prev.IsKeyUp( key ) && curr.IsKeyDown( key ) ); };
+                    return delegate (KeyboardState prev, KeyboardState curr)
+                    { return (prev.IsKeyUp(key) && curr.IsKeyDown(key)); };
 
                 case ButtonState.Released:
-                    return delegate( KeyboardState prev, KeyboardState curr ) { return ( prev.IsKeyDown( key ) && curr.IsKeyUp( key ) ); };
+                    return delegate (KeyboardState prev, KeyboardState curr)
+                    { return (prev.IsKeyDown(key) && curr.IsKeyUp(key)); };
             }
 
             return AlwaysTrigger;
         }
 
-        private string GetKeyName( Key k )
+        private string GetKeyName(Key k)
         {
             string keyStr = k.ToString();
 
-            if ( k == Key.OemQuotes ) keyStr = "ä";
-            if ( k == Key.OemTilde ) keyStr = "ö";
-            if ( k == Key.OemPlus || k == Key.Add ) keyStr = "+";
-            if ( k == Key.Subtract ) keyStr = "-";
-            if ( k == Key.Multiply ) keyStr = "*";
-            if ( k == Key.Divide ) keyStr = "/";
-            if ( k == Key.Aring ) keyStr = "å";
-            if ( k == Key.LessOrGreater ) keyStr = "<";
+            if (k == Key.Add)
+                keyStr = "+";
+            else if (k == Key.Subtract)
+                keyStr = "-";
+            else if (k == Key.Multiply)
+                keyStr = "*";
+            else if (k == Key.Divide)
+                keyStr = "/";
+            else if (k == Key.LessOrGreater)
+                keyStr = "<";
 
             return "Keyboard " + keyStr;
         }
@@ -100,19 +141,18 @@ namespace Jypeli
         /// <summary>
         /// Palauttaa annetun näppäimen tilan (ks. <c>ButtonState</c>).
         /// </summary>
-        /// <param name="k">Näppäin.</param>
+        /// <param name="key">Näppäin.</param>
         /// <returns>Näppäimen tila</returns>
-        public ButtonState GetKeyState( Key k )
+        public ButtonState GetKeyState(Key key)
         {
-            Keys key = (Keys)k;
-            bool down = CurrentState.IsKeyDown( key );
-            bool lastdown = PrevState.IsKeyDown( key );
+            bool down = CurrentState.IsKeyDown(key);
+            bool lastdown = PrevState.IsKeyDown(key);
 
-            if ( lastdown && down )
+            if (lastdown && down)
                 return ButtonState.Down;
-            if ( !lastdown && down )
+            if (!lastdown && down)
                 return ButtonState.Pressed;
-            if ( lastdown && !down )
+            if (lastdown && !down)
                 return ButtonState.Released;
 
             return ButtonState.Up;
@@ -126,7 +166,7 @@ namespace Jypeli
         /// </returns>
         public bool IsShiftDown()
         {
-            return CurrentState.IsKeyDown( Keys.LeftShift ) || CurrentState.IsKeyDown( Keys.RightShift );
+            return CurrentState.IsKeyDown(Key.LeftShift) || CurrentState.IsKeyDown(Key.RightShift);
         }
 
         /// <summary>
@@ -137,7 +177,7 @@ namespace Jypeli
         /// </returns>
         public bool IsCtrlDown()
         {
-            return CurrentState.IsKeyDown( Keys.LeftControl ) || CurrentState.IsKeyDown( Keys.RightControl );
+            return CurrentState.IsKeyDown(Key.LeftControl) || CurrentState.IsKeyDown(Key.RightControl);
         }
 
         /// <summary>
@@ -148,7 +188,7 @@ namespace Jypeli
         /// </returns>
         public bool IsAltDown()
         {
-            return CurrentState.IsKeyDown( Keys.LeftAlt ) || CurrentState.IsKeyDown( Keys.RightAlt );
+            return CurrentState.IsKeyDown(Key.LeftAlt) || CurrentState.IsKeyDown(Key.RightAlt);
         }
 
         /// <summary>
@@ -158,10 +198,10 @@ namespace Jypeli
         /// <param name="state">Näppäimen tila</param>
         /// <param name="handler">Mitä tehdään</param>
         /// <param name="helpText">Ohjeteksti</param>
-        public Listener Listen( Key k, ButtonState state, Action handler, string helpText )
+        public Listener Listen(Key k, ButtonState state, Action handler, string helpText)
         {
-            ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, k, GetKeyName( k ), helpText, handler );
+            ChangePredicate<KeyboardState> rule = MakeTriggerRule(k, state);
+            return AddListener(rule, k, GetKeyName(k), helpText, handler);
         }
 
         /// <summary>
@@ -173,10 +213,10 @@ namespace Jypeli
         /// <param name="handler">Mitä tehdään</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri</param>
-        public Listener Listen<T>( Key k, ButtonState state, Action<T> handler, string helpText, T p )
+        public Listener Listen<T>(Key k, ButtonState state, Action<T> handler, string helpText, T p)
         {
-            ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, k, GetKeyName( k ), helpText, handler, p );
+            ChangePredicate<KeyboardState> rule = MakeTriggerRule(k, state);
+            return AddListener(rule, k, GetKeyName(k), helpText, handler, p);
         }
 
         /// <summary>
@@ -190,10 +230,10 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
-        public Listener Listen<T1, T2>( Key k, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2 )
+        public Listener Listen<T1, T2>(Key k, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2)
         {
-            ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, k, GetKeyName( k ), helpText, handler, p1, p2 );
+            ChangePredicate<KeyboardState> rule = MakeTriggerRule(k, state);
+            return AddListener(rule, k, GetKeyName(k), helpText, handler, p1, p2);
         }
 
         /// <summary>
@@ -209,10 +249,10 @@ namespace Jypeli
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
         /// <param name="p3">3. parametri</param>
-        public Listener Listen<T1, T2, T3>( Key k, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3 )
+        public Listener Listen<T1, T2, T3>(Key k, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, k, GetKeyName( k ), helpText, handler, p1, p2, p3 );
+            ChangePredicate<KeyboardState> rule = MakeTriggerRule(k, state);
+            return AddListener(rule, k, GetKeyName(k), helpText, handler, p1, p2, p3);
         }
 
         /// <summary>
@@ -230,10 +270,10 @@ namespace Jypeli
         /// <param name="p2">2. parametri</param>
         /// <param name="p3">3. parametri</param>
         /// <param name="p4">4. parametri</param>
-        public Listener Listen<T1, T2, T3, T4>( Key k, ButtonState state, Action<T1, T2, T3, T4> handler, string helpText, T1 p1, T2 p2, T3 p3, T4 p4 )
+        public Listener Listen<T1, T2, T3, T4>(Key k, ButtonState state, Action<T1, T2, T3, T4> handler, string helpText, T1 p1, T2 p2, T3 p3, T4 p4)
         {
-            ChangePredicate<KeyboardState> rule = MakeTriggerRule( k, state );
-            return AddListener( rule, k, GetKeyName( k ), helpText, handler, p1, p2, p3, p4 );
+            ChangePredicate<KeyboardState> rule = MakeTriggerRule(k, state);
+            return AddListener(rule, k, GetKeyName(k), helpText, handler, p1, p2, p3, p4);
         }
 
         #region ListenWSAD
@@ -243,12 +283,12 @@ namespace Jypeli
         /// <param name="state">Näppäinten kuunneltava tila</param>
         /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
         /// <param name="helpText">Ohjeteksti.</param>
-        public void ListenWSAD( ButtonState state, Action<Vector> handler, String helpText )
+        public void ListenWSAD(ButtonState state, Action<Vector> handler, String helpText)
         {
-            Listen( Key.W, state, handler, helpText, Vector.UnitY );
-            Listen( Key.S, state, handler, helpText, -Vector.UnitY );
-            Listen( Key.A, state, handler, helpText, -Vector.UnitX );
-            Listen( Key.D, state, handler, helpText, Vector.UnitX );
+            Listen(Key.W, state, handler, helpText, Vector.UnitY);
+            Listen(Key.S, state, handler, helpText, -Vector.UnitY);
+            Listen(Key.A, state, handler, helpText, -Vector.UnitX);
+            Listen(Key.D, state, handler, helpText, Vector.UnitX);
         }
 
         /// <summary>
@@ -259,12 +299,12 @@ namespace Jypeli
         /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
         /// <param name="helpText">Ohjeteksti.</param>
         /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
-        public void ListenWSAD<T1>( ButtonState state, Action<Vector, T1> handler, String helpText, T1 p1 )
+        public void ListenWSAD<T1>(ButtonState state, Action<Vector, T1> handler, String helpText, T1 p1)
         {
-            Listen( Key.W, state, handler, helpText, Vector.UnitY, p1 );
-            Listen( Key.S, state, handler, helpText, -Vector.UnitY, p1 );
-            Listen( Key.A, state, handler, helpText, -Vector.UnitX, p1 );
-            Listen( Key.D, state, handler, helpText, Vector.UnitX, p1 );
+            Listen(Key.W, state, handler, helpText, Vector.UnitY, p1);
+            Listen(Key.S, state, handler, helpText, -Vector.UnitY, p1);
+            Listen(Key.A, state, handler, helpText, -Vector.UnitX, p1);
+            Listen(Key.D, state, handler, helpText, Vector.UnitX, p1);
         }
 
         /// <summary>
@@ -277,12 +317,12 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti.</param>
         /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
         /// <param name="p2">Toisen oman parametrin arvo</param>
-        public void ListenWSAD<T1, T2>( ButtonState state, Action<Vector, T1, T2> handler, String helpText, T1 p1, T2 p2 )
+        public void ListenWSAD<T1, T2>(ButtonState state, Action<Vector, T1, T2> handler, String helpText, T1 p1, T2 p2)
         {
-            Listen( Key.W, state, handler, helpText, Vector.UnitY, p1, p2 );
-            Listen( Key.S, state, handler, helpText, -Vector.UnitY, p1, p2 );
-            Listen( Key.A, state, handler, helpText, -Vector.UnitX, p1, p2 );
-            Listen( Key.D, state, handler, helpText, Vector.UnitX, p1, p2 );
+            Listen(Key.W, state, handler, helpText, Vector.UnitY, p1, p2);
+            Listen(Key.S, state, handler, helpText, -Vector.UnitY, p1, p2);
+            Listen(Key.A, state, handler, helpText, -Vector.UnitX, p1, p2);
+            Listen(Key.D, state, handler, helpText, Vector.UnitX, p1, p2);
         }
 
         /// <summary>
@@ -297,12 +337,12 @@ namespace Jypeli
         /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
         /// <param name="p2">Toisen oman parametrin arvo</param>
         /// <param name="p3">Kolmannen oman parametrin arvo</param>
-        public void ListenWSAD<T1, T2, T3>( ButtonState state, Action<Vector, T1, T2, T3> handler, String helpText, T1 p1, T2 p2, T3 p3 )
+        public void ListenWSAD<T1, T2, T3>(ButtonState state, Action<Vector, T1, T2, T3> handler, String helpText, T1 p1, T2 p2, T3 p3)
         {
-            Listen( Key.W, state, handler, helpText, Vector.UnitY, p1, p2, p3 );
-            Listen( Key.S, state, handler, helpText, -Vector.UnitY, p1, p2, p3 );
-            Listen( Key.A, state, handler, helpText, -Vector.UnitX, p1, p2, p3 );
-            Listen( Key.D, state, handler, helpText, Vector.UnitX, p1, p2, p3 );
+            Listen(Key.W, state, handler, helpText, Vector.UnitY, p1, p2, p3);
+            Listen(Key.S, state, handler, helpText, -Vector.UnitY, p1, p2, p3);
+            Listen(Key.A, state, handler, helpText, -Vector.UnitX, p1, p2, p3);
+            Listen(Key.D, state, handler, helpText, Vector.UnitX, p1, p2, p3);
         }
         #endregion
 
@@ -313,12 +353,12 @@ namespace Jypeli
         /// <param name="state">Näppäinten kuunneltava tila</param>
         /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
         /// <param name="helpText">Ohjeteksti.</param>
-        public void ListenArrows( ButtonState state, Action<Vector> handler, String helpText )
+        public void ListenArrows(ButtonState state, Action<Vector> handler, String helpText)
         {
-            Listen( Key.Up, state, handler, helpText, Vector.UnitY );
-            Listen( Key.Down, state, handler, helpText, -Vector.UnitY );
-            Listen( Key.Left, state, handler, helpText, -Vector.UnitX );
-            Listen( Key.Right, state, handler, helpText, Vector.UnitX );
+            Listen(Key.Up, state, handler, helpText, Vector.UnitY);
+            Listen(Key.Down, state, handler, helpText, -Vector.UnitY);
+            Listen(Key.Left, state, handler, helpText, -Vector.UnitX);
+            Listen(Key.Right, state, handler, helpText, Vector.UnitX);
         }
 
         /// <summary>
@@ -329,12 +369,12 @@ namespace Jypeli
         /// <param name="handler">Tapahtumakäsittelijä. Ensimmäinen parametri on automaattisesti yksikköpituinen vektori.</param>
         /// <param name="helpText">Ohjeteksti.</param>
         /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
-        public void ListenArrows<T1>( ButtonState state, Action<Vector, T1> handler, String helpText, T1 p1 )
+        public void ListenArrows<T1>(ButtonState state, Action<Vector, T1> handler, String helpText, T1 p1)
         {
-            Listen( Key.Up, state, handler, helpText, Vector.UnitY, p1 );
-            Listen( Key.Down, state, handler, helpText, -Vector.UnitY, p1 );
-            Listen( Key.Left, state, handler, helpText, -Vector.UnitX, p1 );
-            Listen( Key.Right, state, handler, helpText, Vector.UnitX, p1 );
+            Listen(Key.Up, state, handler, helpText, Vector.UnitY, p1);
+            Listen(Key.Down, state, handler, helpText, -Vector.UnitY, p1);
+            Listen(Key.Left, state, handler, helpText, -Vector.UnitX, p1);
+            Listen(Key.Right, state, handler, helpText, Vector.UnitX, p1);
         }
 
         /// <summary>
@@ -347,12 +387,12 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti.</param>
         /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
         /// <param name="p2">Toisen oman parametrin arvo</param>
-        public void ListenArrows<T1, T2>( ButtonState state, Action<Vector, T1, T2> handler, String helpText, T1 p1, T2 p2 )
+        public void ListenArrows<T1, T2>(ButtonState state, Action<Vector, T1, T2> handler, String helpText, T1 p1, T2 p2)
         {
-            Listen( Key.Up, state, handler, helpText, Vector.UnitY, p1, p2 );
-            Listen( Key.Down, state, handler, helpText, -Vector.UnitY, p1, p2 );
-            Listen( Key.Left, state, handler, helpText, -Vector.UnitX, p1, p2 );
-            Listen( Key.Right, state, handler, helpText, Vector.UnitX, p1, p2 );
+            Listen(Key.Up, state, handler, helpText, Vector.UnitY, p1, p2);
+            Listen(Key.Down, state, handler, helpText, -Vector.UnitY, p1, p2);
+            Listen(Key.Left, state, handler, helpText, -Vector.UnitX, p1, p2);
+            Listen(Key.Right, state, handler, helpText, Vector.UnitX, p1, p2);
         }
 
         /// <summary>
@@ -367,12 +407,12 @@ namespace Jypeli
         /// <param name="p1">Ensimmäisen oman parametrin arvo</param>
         /// <param name="p2">Toisen oman parametrin arvo</param>
         /// <param name="p3">Kolmannen oman parameterin arvo</param>
-        public void ListenArrows<T1, T2, T3>( ButtonState state, Action<Vector, T1, T2, T3> handler, String helpText, T1 p1, T2 p2, T3 p3 )
+        public void ListenArrows<T1, T2, T3>(ButtonState state, Action<Vector, T1, T2, T3> handler, String helpText, T1 p1, T2 p2, T3 p3)
         {
-            Listen( Key.Up, state, handler, helpText, Vector.UnitY, p1, p2, p3 );
-            Listen( Key.Down, state, handler, helpText, -Vector.UnitY, p1, p2, p3 );
-            Listen( Key.Left, state, handler, helpText, -Vector.UnitX, p1, p2, p3 );
-            Listen( Key.Right, state, handler, helpText, Vector.UnitX, p1, p2, p3 );
+            Listen(Key.Up, state, handler, helpText, Vector.UnitY, p1, p2, p3);
+            Listen(Key.Down, state, handler, helpText, -Vector.UnitY, p1, p2, p3);
+            Listen(Key.Left, state, handler, helpText, -Vector.UnitX, p1, p2, p3);
+            Listen(Key.Right, state, handler, helpText, Vector.UnitX, p1, p2, p3);
         }
         #endregion
     }

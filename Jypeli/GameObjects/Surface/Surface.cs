@@ -7,7 +7,7 @@ namespace Jypeli
     /// </summary>
     public class Surface : PhysicsObject
     {
-        double[] heights = null;
+        double[] heights;
         double scale = 1.0;
 
         #region Constructors
@@ -44,11 +44,11 @@ namespace Jypeli
 
         private void InitializeFlat( double height )
         {
-            this.heights = new double[1] { height };
-            this.scale = 1.0;
+            heights = new double[] { height };
+            scale = 1.0;
 
-            this.Color = Color.ForestGreen;
-            this.TextureFillsShape = true;
+            Color = Color.ForestGreen;
+            TextureFillsShape = true;
             MakeStatic();
         }
 
@@ -56,8 +56,8 @@ namespace Jypeli
         {
             this.heights = heights;
             this.scale = scale;
-            this.Color = Color.ForestGreen;
-            this.TextureFillsShape = true;
+            Color = Color.ForestGreen;
+            TextureFillsShape = true;
             MakeStatic();
         }
 
@@ -143,7 +143,6 @@ namespace Jypeli
         private static Polygon CreateShape( double width, double[] heights, Vector[] vertexes )
         {
             int n = heights.Length;
-            double step = width / ( n - 1 );
             IndexTriangle[] triangles = new IndexTriangle[( n - 1 ) * 2];
             Int16[] outlineIndices = new Int16[n * 2];
 
@@ -450,7 +449,6 @@ namespace Jypeli
 
             int n = heights.Length;
             double step = Width / ( n - 1 );
-            double maxHeight = heights.Max() * scale;
 
             double indexX = ( Width / 2 + x ) / step;
             int lowerIndex = (int)Math.Floor( indexX );
@@ -476,7 +474,6 @@ namespace Jypeli
 
             int n = heights.Length;
             double step = Width / ( n - 1 );
-            double maxHeight = heights.Max() * scale;
 
             double indexX = ( Width / 2 + x ) / step;
             int lowerIndex = (int)Math.Floor( indexX );

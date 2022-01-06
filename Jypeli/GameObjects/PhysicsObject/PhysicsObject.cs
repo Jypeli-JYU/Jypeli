@@ -154,15 +154,6 @@ namespace Jypeli
             get { throw new NotImplementedException(); }
         }
 
-        /// <summary>
-        /// Tapahtuisi, kun olio on tuhoutumassa.
-        /// EI KÄYTÖSSÄ!
-        /// </summary>
-        /// Tätä ei käytetä, mutta tämä periytyy kaukaiselta interfacelta DelayedDestroyable.
-        /// Interfacet voisi suunnitella uusiksi, mikäli tätä ei voi toteuttaa.
-        [Obsolete("Ei käytössä")]
-        public event Action Destroying;
-
         ///<inheritdoc/>
         public override void Update( Time time )
         {

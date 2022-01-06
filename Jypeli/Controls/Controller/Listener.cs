@@ -147,12 +147,8 @@ namespace Jypeli
 
         public void Invoke()
         {
-#if WINDOWS_STOREAPP
-            // Win8
-            MethodInfo handlerMethod = handler.GetMethodInfo();
-#else
             MethodInfo handlerMethod = handler.Method;
-#endif
+
             handlerMethod.Invoke( handler.Target, handlerParams );
         }
 

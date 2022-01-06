@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Microsoft.Xna.Framework;
 
 namespace Jypeli
 {
@@ -10,6 +9,12 @@ namespace Jypeli
 
         // Game time passed
         private static Time currentTime = new Time();
+
+        /// <summary>
+        /// Ajetaanko peliä kiinteällä aika-askeleella.
+        /// Eli pelin aika "hidastuu" jos tietokoneen tehot eivät riitä reaaliaikaiseen päivitykseen.
+        /// </summary>
+        public static bool FixedTimeStep { get; set; }
 
         /// <summary>
         /// Onko peli pysähdyksissä.
@@ -58,68 +63,60 @@ namespace Jypeli
         /// </summary>
         protected virtual void PausedUpdate( Time time )
         {
-            foreach ( var layer in Layers )
+            foreach (var layer in Layers)
             {
                 // Update the UI components only
-                layer.Objects.Update( time, o => o is Widget );
+                layer.Objects.Update(time, o => o is Widget);
             }
 
-            Timer.UpdateAll( time, t => t.IgnorePause );
+            Timer.UpdateAll(time, t => t.IgnorePause);
+            UpdateControls(time);
+        }
+
+        protected void OnUpdate(double dt)
+        {
+            // Jos jostain syystä olisi tulossa hyvin iso dt, muutetaan se pieneksi.
+            // Tämä voi tapahtua esim kun ikkunaa raahataan. Raahauksen aikana ei ajeta päivityksiä,
+            // kun raahaus päättyy tulee päivitys hyvin suurella dt-arvolla, joka taas rikkoo fysiikoita.
+            if (dt > 0.5)
+                dt = 1 / 60.0;
+
+            if (!IsPaused)
+            {
+                if(FixedTimeStep)
+                    currentTime.Advance(1 / 60.0);
+                else
+                    currentTime.Advance(dt);
+                Update(currentTime);
+            }
+            else
+            {
+                PausedUpdate(currentRealTime);
+            }
+        }
+
+        protected void OnDraw(double dt)
+        {
+            if(!Closing) // Jos peli ollaan sulkemassa, ei yritetä piirtää.
+                Draw(Time);
         }
 
         /// <summary>
         /// Ajetaan kun pelin tilannetta päivitetään. Päivittämisen voi toteuttaa perityssä luokassa
         /// toteuttamalla tämän metodin. Perityn luokan metodissa tulee kutsua kantaluokan metodia.
         /// </summary>
-        protected virtual void Update( Time time )
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected virtual void Update(Time time)
         {
-            this.Camera.Update( time );
-            Layers.Update( time );
-            Timer.UpdateAll( time );
-            UpdateHandlers( time );
+            UpdateControls(time);
+            if (DataStorage.IsUpdated)
+                DataStorage.Update(currentRealTime);
+            Camera.Update(time);
+            Layers.Update(time);
+            Timer.UpdateAll(time);
+            UpdateDebugScreen(currentRealTime);
+            UpdateHandlers(time);
             ExecutePendingActions();
-        }
-
-        /// <summary>
-        /// Ajetaan kun pelin tilannetta päivitetään.
-        /// </summary>
-        /// <param name="gameTime"></param>
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        protected override void Update( GameTime gameTime )
-        {
-            if ( !loadContentHasBeenCalled || !beginHasBeenCalled )
-            {
-                // No updates until both LoadContent and Begin have been called
-                base.Update( gameTime );
-                return;
-            }
-
-            currentRealTime.Advance( gameTime );
-
-#if ANDROID
-            if (IsActive && !VirtualKeyboard.Visible)
-#else
-            if (IsActive)
-#endif
-                UpdateControls( currentTime );
-
-            /*if ( DataStorage.IsUpdated )
-                DataStorage.Update( currentRealTime );*/
-
-            // The update in derived classes.
-            if ( !IsPaused )
-            {
-                currentTime.Advance( gameTime );
-                this.Update( currentTime );
-            }
-            else
-            {
-                this.PausedUpdate( currentRealTime );
-            }
-
-            UpdateDebugScreen( currentRealTime );
-
-            base.Update( gameTime );
         }
     }
 }

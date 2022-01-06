@@ -7,7 +7,7 @@ namespace Jypeli
     /// <summary>
     /// Apufunktioita listojen ja muiden tietorakenteiden käyttöön.
     /// </summary>
-    public static class ListHelpers
+    public static class ListHelpers // TODO: Voisko tän vaan poistaa?
     {
         /// <summary>
         /// Laskee minimin.
@@ -62,8 +62,6 @@ namespace Jypeli
             return sum / count;
         }
 
-#if JYPELI
-
         /// <summary>
         /// Laskee keskiarvon komponenteittain.
         /// </summary>
@@ -83,34 +81,6 @@ namespace Jypeli
 
             return new Vector( xsum / count, ysum / count );
         }
-
-#endif
-
-#if WINDOWS_STOREAPP
-        /// <summary>
-        /// Tyyppi metodille joka muuttaa annetun arvon tyypistä toiseen.
-        /// Löytyy kirjastosta mscorlib.dll.
-        /// </summary>
-        /// <typeparam name="TInput">Tyyppi josta muunnetaan.</typeparam>
-        /// <typeparam name="TOutput">Tyyppi johon muunnetaan.</typeparam>
-        /// <param name="input">Arvo joka muunnetaan.</param>
-        /// <returns>Muunnettu arvo.</returns>
-        public delegate TOutput Converter<in TInput, out TOutput>(TInput input);
-
-        /// <summary>
-        /// Suorittaa metodin kaikille kokoelman olioille.
-        /// </summary>
-        /// <typeparam name="T">Olioiden tyyppi</typeparam>
-        /// <param name="items">Oliokokoelma</param>
-        /// <param name="action">Metodi</param>
-        public static void ForEach<T>(this IEnumerable<T> items, Action<T> action)
-        {
-            foreach (T item in items)
-            {
-                action( item );
-            }
-        }
-#endif
 
         //TODO: Iso osa seuraavista metodeista on jo toteutettu standardikirjastoon.
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member

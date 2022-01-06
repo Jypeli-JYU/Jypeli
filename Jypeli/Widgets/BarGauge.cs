@@ -27,7 +27,7 @@
  * Authors: Tero Jäntti, Tomi Karppinen, Janne Nikkanen.
  */
 
-using Microsoft.Xna.Framework;
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli.Widgets
 {
@@ -146,26 +146,9 @@ namespace Jypeli.Widgets
         public override void Draw(Matrix parentTransformation, Matrix transformation)
         {
             double barLength = Size.Y * boundMeter.RelativeValue;
-            Matrix m =
-                Matrix.CreateScale((float)Size.X, (float)barLength, 1f)
-                * Matrix.CreateTranslation(0, (float)(-Height / 2), 0)
-                * Matrix.CreateRotationZ((float)(Angle).Radians)
-                * Matrix.CreateTranslation((float)Position.X, (float)Position.Y, 0.0f)
-                * parentTransformation;
 
-            Renderer.DrawFilledShape(shapeCache, ref m, BarColor);
-
-            Vector[] borderVertices = new Vector[]
-            {
-                new Vector(-0.5, 0.5),
-                new Vector(-0.5, -0.5),
-                new Vector(0.5, -0.5),
-                new Vector(0.5, 0.5),
-            };
-
-            // The border that is drawn by base class gets obscured by the bar.
-            // Let's draw it again.
-            Renderer.DrawPolygon(borderVertices, ref transformation, BorderColor);
+            Renderer.DrawFilledShape(shapeCache, ref parentTransformation, Position - new Vector(0, Size.Y / 2), Size, 0, BorderColor);
+            Renderer.DrawFilledShape(shapeCache, ref parentTransformation, Position - new Vector(0, Size.Y / 2), new Vector(Size.X*0.8, barLength), (float)Angle.Radians, BarColor);
 
             base.Draw(parentTransformation, transformation);
 

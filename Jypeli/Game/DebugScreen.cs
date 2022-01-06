@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
-using Microsoft.Xna.Framework;
+using Jypeli.Rendering;
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -137,7 +138,6 @@ namespace Jypeli
             LayerWindow.Add(LayerDisplay);
             LayerWindow.Size = LayerDisplay.Size;
 
-
             DebugKeyEnabled = true;
             DebugScreenVisible = false;
         }
@@ -150,9 +150,9 @@ namespace Jypeli
         /// MonoGamen aika edellisestä ruudunpäivityksestä.
         /// </summary>
         /// <param name="gameTime"></param>
-        private void UpdateFps(GameTime gameTime)
+        private void UpdateFps(Time gameTime)
         {
-            fpsText = (10000000.0 / gameTime.ElapsedGameTime.Ticks).ToString("F2");
+            fpsText = (10000000.0 / gameTime.SinceLastUpdate.Ticks).ToString("F2");
             if (fpsSkipCounter++ > 10)
             {
                 fpsSkipCounter = 0;
@@ -207,68 +207,14 @@ namespace Jypeli
         {
             if (!DebugScreenVisible)
                 return;
-
-            debugCanvas.Begin(ref canvasTransform, Screen);
+            
             if (DebugViewSettings.DrawOutlines)
-                PaintDebugScreen(debugCanvas);
-            debugCanvas.End();
+                PaintDebugScreen();
 
             DebugLayer.Draw(Camera);
         }
 
-        private void PaintShapeOutlines(Canvas canvas, IGameObject obj, Color color)
-        {
-            var vertexes = obj.Shape.Cache.OutlineVertices;
-            double wmul = obj.Shape.IsUnitSize ? obj.Width : 1;
-            double hmul = obj.Shape.IsUnitSize ? obj.Height : 1;
-
-            canvas.BrushColor = color;
-
-            Matrix transform =
-                     Matrix.CreateRotationZ((float)obj.Angle.Radians)
-                    * Matrix.CreateTranslation((float)obj.Position.X, (float)obj.Position.Y, 0f)
-                    * Matrix.CreateTranslation(-(float)camera.Position.X, -(float)camera.Position.Y, 0f)
-                    * Matrix.CreateScale((float)(camera.ZoomFactor), (float)(camera.ZoomFactor), 1f);
-
-            for (int j = 0; j < vertexes.Length - 1; j++)
-            {
-                double x1 = wmul * vertexes[j].X;
-                double y1 = hmul * vertexes[j].Y;
-                double x2 = wmul * vertexes[j + 1].X;
-                double y2 = hmul * vertexes[j + 1].Y;
-
-                var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
-                var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
-
-                canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
-            }
-
-            if (vertexes.Length > 2)
-            {
-                double x1 = wmul * vertexes[vertexes.Length - 1].X;
-                double y1 = hmul * vertexes[vertexes.Length - 1].Y;
-                double x2 = wmul * vertexes[0].X;
-                double y2 = hmul * vertexes[0].Y;
-
-                var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
-                var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
-
-                canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
-            }
-            if (obj.Shape == Shape.Circle && DebugViewSettings.DrawCircleRotation)
-            {
-                double x1 = 0;
-                double y1 = 0;
-                double x2 = obj.Width / 2;
-                double y2 = 0;
-
-                var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
-                var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
-
-                canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
-            }
-        }
-
+        // TODO: Mikä olisi järkevin tapa toteuttaa näiden piirto?
         private void PaintPhysicsOutlines(Canvas canvas, PhysicsObject obj, Color color)
         {
             if (obj.Body == null || obj.Body.Shape == null || obj.Body.Shape.Cache == null)
@@ -294,11 +240,11 @@ namespace Jypeli
                     double y1 = hmul * vertexes[j].Y;
                     double x2 = wmul * vertexes[j + 1].X;
                     double y2 = hmul * vertexes[j + 1].Y;
-
+                    /*
                     var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
                     var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
 
-                    canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
+                    canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);*/
                 }
 
                 if (vertexes.Count > 2)
@@ -307,11 +253,11 @@ namespace Jypeli
                     double y1 = hmul * vertexes[vertexes.Count - 1].Y;
                     double x2 = wmul * vertexes[0].X;
                     double y2 = hmul * vertexes[0].Y;
-
+                    /*
                     var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
                     var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
 
-                    canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
+                    canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);*/
                 }
             }
         }
@@ -340,43 +286,37 @@ namespace Jypeli
 
         }
 
-        private void PaintDebugScreen(Canvas canvas)
+        private void PaintDebugScreen()
         {
-            for (int i = Layers.FirstIndex; i <= Layers.LastIndex; i++)
-            {
-                foreach (var obj in Layers[i].Objects)
-                {
-                    if (obj == null || obj.Shape == null || obj.Shape.Cache == null || obj.Layer == null || obj is Widget) // Toistaiseksi ei piirretä widgettien ääriviivoja (halutaanko edes?)
-                        continue;
+            Layers.ForEach(l => l.DrawOutlines(Camera, DebugViewSettings.GameObjectColor, typeof(GameObject)));
+            Layers.ForEach(l => l.DrawOutlines(Camera, DebugViewSettings.PhysicsObjectColor, typeof(PhysicsObject)));
 
-                    if (obj is PhysicsObject)
-                    {
-                        PaintShapeOutlines(canvas, obj, Mouse.IsCursorOn((GameObject)obj) ? DebugViewSettings.PhysicsObjectHoverColor : DebugViewSettings.PhysicsObjectColor);
-                        if (DebugViewSettings.DrawPhysicsOutlines)
-                            PaintPhysicsOutlines(canvas, (PhysicsObject)obj, DebugViewSettings.PhysicsObjectVertexColor);
-                    }
-                    else
-                    {
-                        if (obj is PhysicsStructure)
-                        {
-                            PhysicsStructure ps = obj as PhysicsStructure;
-                            foreach (var o in ps.Objects)
-                            {
-                                PaintShapeOutlines(canvas, o, Mouse.IsCursorOn(o) ? DebugViewSettings.GameObjectHoverColor : DebugViewSettings.GameObjectColor);
-                            }
-                        }
-                        else
-                            PaintShapeOutlines(canvas, obj, Mouse.IsCursorOn((GameObject)obj) ? DebugViewSettings.GameObjectHoverColor : DebugViewSettings.GameObjectColor);
-                    }
-                }
+            var mouseOverObjects = GetObjects(Mouse.IsCursorOn);
+
+            var zoomMatrix = Matrix.CreateScale((float)(camera.ZoomFactor), (float)(camera.ZoomFactor), 1f);
+            var worldMatrix =
+                Matrix.CreateTranslation((float)(-camera.Position.X), (float)(-camera.Position.Y), 0)
+                * zoomMatrix;
+
+            Graphics.ShapeBatch.Begin(ref worldMatrix, PrimitiveType.OpenGLLines);
+
+            foreach (GameObject obj in mouseOverObjects)
+            {
+                if (obj is PhysicsObject)
+                    Graphics.ShapeBatch.DrawOutlines(obj.Shape.Cache, DebugViewSettings.PhysicsObjectHoverColor, obj.Position, obj.Size, (float)obj.Angle.Radians);
+                else
+                    Graphics.ShapeBatch.DrawOutlines(obj.Shape.Cache, DebugViewSettings.GameObjectHoverColor, obj.Position, obj.Size, (float)obj.Angle.Radians);
             }
+
+            Graphics.ShapeBatch.End();
 
             if (PhysicsGameBase.Instance is null)
                 return;
 
             foreach (var joint in PhysicsGameBase.Instance.Joints)
             {
-                DrawJoints(canvas, joint);
+                DrawJoints(debugCanvas, joint);
+
             }
         }
     }

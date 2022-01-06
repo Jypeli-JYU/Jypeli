@@ -30,12 +30,8 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
-using Microsoft.Xna.Framework.Graphics;
 
-using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
-using XnaColor = Microsoft.Xna.Framework.Color;
 using System.Reflection;
-using Jypeli.Physics2d;
 using System.Collections.Generic;
 
 namespace Jypeli
@@ -142,14 +138,10 @@ namespace Jypeli
         /// <returns></returns>
         public static Shape FromString( string shapeStr )
         {
-#if WINDOWS_STOREAPP
-            return typeof( Shape ).GetTypeInfo().GetDeclaredField( shapeStr ).GetValue( null ) as Shape;
-#else
             Type shapeClass = typeof( Shape );
             BindingFlags flags = BindingFlags.GetField | BindingFlags.Public | BindingFlags.Static;
             FieldInfo selectedShape = shapeClass.GetField( shapeStr, flags );
             return (Shape)selectedShape.GetValue( null );
-#endif
         }
 
         /// <summary>
@@ -599,12 +591,12 @@ namespace Jypeli
         /// <summary>
         /// Kulmapisteet.
         /// </summary>
-        public Int16 i1, i2, i3;
+        public uint i1, i2, i3;
 
         /// <summary>
         /// Luo uuden kolmion. Parametreina kulmapisteiden indeksit lueteltuna myötäpäivään.
         /// </summary>
-        public IndexTriangle( Int16 i1, Int16 i2, Int16 i3 )
+        public IndexTriangle(uint i1, uint i2, uint i3 )
         {
             this.i1 = i1;
             this.i2 = i2;
@@ -615,7 +607,7 @@ namespace Jypeli
         /// Luo uuden kolmion. Parametreina kulmapisteiden indeksit lueteltuna myötäpäivään.
         /// </summary>
         public IndexTriangle( int i1, int i2, int i3 )
-            : this( (Int16)i1, (Int16)i2, (Int16)i3 )
+            : this( (uint)i1, (uint)i2, (uint)i3 )
         {
         }
     }
@@ -634,6 +626,11 @@ namespace Jypeli
         /// Ulkoreunan verteksit, lueteltuna vastapäivään.
         /// </summary>
         public readonly Vector[] OutlineVertices;
+        
+        /// <summary>
+        /// Ulkoreunan verteksien indeksit.
+        /// </summary>
+        public readonly Int16[] OutlineIndices;
 
         /// <summary>
         /// Kaikki verteksit, ml. kolmioiden kulmapisteet.
@@ -678,100 +675,13 @@ namespace Jypeli
         {
             Vertices = vertices;
             Triangles = triangles;
+            OutlineIndices = outlineIndices;
 
             OutlineVertices = new Vector[outlineIndices.Length];
             for ( int i = 0; i < outlineIndices.Length; i++ )
             {
                 OutlineVertices[i] = vertices[outlineIndices[i]];
             }
-        }
-    }
-
-    /// <summary>
-    /// Tekstuuribittikartta muotojen luomiseen tekstuureista.
-    /// Sisältää tekstuurin tiedot väritaulukkona.
-    /// </summary>
-    internal class TextureBitmap : IBitmap
-    {
-        /// <summary>
-        /// Bittikarttadata.
-        /// </summary>
-        protected bool[,] bitmap;
-
-        /// <summary>
-        /// Luo uuden bittikartan tekstuurin pohjalta.
-        /// </summary>
-        /// <param name="texture">Tekstuuri.</param>
-        /// <param name="isOpaque">Predikaatti, joka määrää, onko annettu väri läpinäkyvä.</param>
-        public TextureBitmap( Texture2D texture, Predicate<XnaColor> isOpaque )
-        {
-            XnaColor[] scanline = new XnaColor[texture.Width];
-            XnaRectangle srcRect = new XnaRectangle( 0, 0, texture.Width, 1 );
-
-            bitmap = new bool[texture.Width, texture.Height];
-
-            for ( int i = 0; i < texture.Height; i++ )
-            {
-                // Scan a line from the texture
-                srcRect.Y = i;
-                texture.GetData<XnaColor>( 0, srcRect, scanline, 0, texture.Width );
-
-                for ( int j = 0; j < texture.Width; j++ )
-                {
-                    // Flip the y-coordinates because the y-coordinates of the texture
-                    // increase downwards.
-                    bitmap[j, texture.Height - i - 1] = isOpaque( scanline[j] );
-                }
-            }
-        }
-
-        /// <summary>
-        /// Luo uuden bittikartan tekstuurin pohjalta oletusläpinäkyvyysehdoilla.
-        /// Ks. <see cref="IsOpaqueColor"/>
-        /// </summary>
-        /// <param name="texture">Tekstuuri.</param>
-        public TextureBitmap( Texture2D texture )
-            : this( texture, IsOpaqueColor )
-        {
-        }
-
-        /// <summary>
-        /// Bittikartan leveys pikseleinä.
-        /// </summary>
-        public int Width
-        {
-            get { return bitmap.GetLength( 0 ); }
-        }
-
-        /// <summary>
-        /// Bittikartan korkeus pikseleinä.
-        /// </summary>
-        public int Height
-        {
-            get { return bitmap.GetLength( 1 ); }
-        }
-
-        /// <summary>
-        /// Palauttaa yksittäisen pikselin värin annetusta koordinaattipisteestä (ensin x, sitten y).
-        /// </summary>
-        public bool this[int x, int y]
-        {
-            get
-            {
-                if ( x < 0 || y < 0 || x >= Width || y >= Height ) { return false; }
-                return bitmap[x, y];
-            }
-        }
-
-        /// <summary>
-        /// Päättelee pikselin läpinäkyvyyden sen värin perusteella.
-        /// Tässä tapauksessa alfa-arvon tulee olla suurempi tai yhtäsuuri kuin 127.
-        /// </summary>
-        /// <param name="c">Pikselin väri.</param>        
-        /// <returns>Läpinäkyvyys.</returns>
-        public static bool IsOpaqueColor( XnaColor c )
-        {
-            return ( c.A >= 127 );
         }
     }
 }

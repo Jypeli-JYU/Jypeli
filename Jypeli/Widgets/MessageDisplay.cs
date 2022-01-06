@@ -29,10 +29,8 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using XnaColor = Microsoft.Xna.Framework.Color;
-using FontStashSharp;
+
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -58,7 +56,7 @@ namespace Jypeli
                 get { return Expired ? TimeSpan.Zero : Expires - Game.Time.SinceStartOfGame; }
             }
 
-            public Message( string text, Color color, TimeSpan lifetime )
+            public Message(string text, Color color, TimeSpan lifetime)
             {
                 Text = text;
                 Color = color;
@@ -85,8 +83,8 @@ namespace Jypeli
             set
             {
                 _font = value;
-                fontHeight = value.XnaFont.MeasureString( "A" ).Y;
-                UpdateTexture();
+                fontHeight = _font.MeasureSize( "A" ).Y;
+                UpdateSizeAndPosition();
             }
         }
 
@@ -104,7 +102,6 @@ namespace Jypeli
             set
             {
                 bgColor = value;
-                UpdateTexture();
             }
         }
 
@@ -117,9 +114,8 @@ namespace Jypeli
         public bool RealTime { get; set; }
 
         private Color bgColor = Color.Transparent;
-        private Image bgImage = null;
         private Font _font;
-        private float fontHeight;
+        private double fontHeight;
         private List<Message> messages = new List<Message>();
         private Queue<String> unseen = new Queue<string>();
 
@@ -129,7 +125,7 @@ namespace Jypeli
         /// Luo uuden viestinäytön.
         /// </summary>
         public MessageDisplay()
-            : base( Game.Screen.WidthSafe, Game.Screen.HeightSafe )
+            : base(0, 0)
         {
             removeTimer = new Timer();
             removeTimer.Timeout += RemoveMessages;
@@ -162,50 +158,43 @@ namespace Jypeli
                 removeTimer.Start();
             }
 
-            UpdateTexture();
+            UpdateSizeAndPosition();
         }
-        
+
         /// <inheritdoc/>
-        public override void Draw( Matrix parentTransformation, Matrix transformation )
+        public override void Draw(Matrix parentTransformation, Matrix transformation)
         {
-            SpriteBatch spriteBatch = Graphics.SpriteBatch;
-            Matrix m =
-                Matrix.CreateTranslation( (float)Position.X, (float)Position.Y, 0 )
-                * parentTransformation;
-
-            spriteBatch.Begin( SpriteSortMode.Immediate, BlendState.AlphaBlend, Graphics.GetDefaultSamplerState(), DepthStencilState.None, RasterizerState.CullCounterClockwise, null, m );
-
-            if ( bgImage != null )
-                spriteBatch.Draw( bgImage.XNATexture, Vector2.Zero, XnaColor.White );
-
-            for ( int i = 0; i < messages.Count; i++ )
+            if (messages.Count == 0)
+                return;
+            Graphics.FontRenderer.Begin();
+            for (int i = 0; i < Math.Min(messages.Count, MaxMessageCount); i++)
             {
-                Font.XnaFont.DrawText(Graphics.FontRenderer, messages[i].Text, (new Vector2(0, i * fontHeight)).ToSystemNumerics(), messages[i].Color.AsXnaColor().ToSystemDrawing());
+                Font.SpriteFont.DrawText(Graphics.FontRenderer, messages[i].Text, Position - new Vector(Width/2, i * fontHeight - Height/2), messages[i].Color.ToSystemDrawing());
             }
-
-            spriteBatch.End();
-
-            base.Draw( parentTransformation, transformation );
+            base.Draw(parentTransformation, transformation);
         }
 
-        private void UpdateTexture()
+        private void UpdateSizeAndPosition()
         {
-            if ( messages.Count == 0 || bgColor == Color.Transparent )
-            {
-                bgImage = null;
-                return;
-            }
+            if (messages.Count == 0)
+                Color = Color.Transparent;
+            else
+                Color = bgColor;
 
             double maxW = 0;
+            double height = 0;
 
-            for ( int i = 0; i < messages.Count; i++ )
+            for (int i = 0; i < Math.Min(messages.Count, MaxMessageCount); i++)
             {
-                Vector2 dims = Font.XnaFont.MeasureString( messages[i].Text );
-                if ( dims.X > maxW ) maxW = dims.X;
+                Vector dims = Font.SpriteFont.MeasureString(messages[i].Text);
+                maxW = Math.Max(maxW, dims.X);
+                height = Math.Max(height, dims.Y);
             }
 
-            if ( maxW > 0 )
-                bgImage = new Image( maxW, messages.Count * fontHeight, bgColor );
+            if (maxW > 0)
+                Size = new Vector(maxW, fontHeight * Math.Min(messages.Count, MaxMessageCount));
+
+            Position = new Vector(-Game.Screen.Width / 2 + Width/2, Game.Screen.Height / 2 - Height/2); // TODO: Tää on huono
         }
 
         /// <summary>
@@ -227,7 +216,7 @@ namespace Jypeli
             }
 
             messages.Add( new Message( message, TextColor, MessageTime ) );
-            UpdateTexture();
+            UpdateSizeAndPosition();
 
             if ( !removeTimer.Enabled )
             {
@@ -266,7 +255,7 @@ namespace Jypeli
             }
 
             messages.Add( new Message( message, color, MessageTime ) );
-            UpdateTexture();
+            UpdateSizeAndPosition();
 
             if ( !removeTimer.Enabled )
             {
@@ -281,7 +270,7 @@ namespace Jypeli
         public override void Clear()
         {
             messages.Clear();
-            UpdateTexture();
+            UpdateSizeAndPosition();
         }
     }
 }

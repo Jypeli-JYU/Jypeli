@@ -4,8 +4,8 @@ namespace Jypeli
 {
     public partial class PhysicsObject
     {
-        private double _maxAngularV = double.PositiveInfinity;
-        private double _maxLinearV = double.PositiveInfinity;
+        private double maxAngularV = double.PositiveInfinity;
+        private double maxLinearV = double.PositiveInfinity;
 
         /// <summary>
         /// Nopeus.
@@ -53,8 +53,8 @@ namespace Jypeli
         [Save]
         public double MaxVelocity
         {
-            get { return _maxLinearV; }
-            set { _maxLinearV = value; IsUpdated = true; }
+            get { return maxLinearV; }
+            set { maxLinearV = value; IsUpdated = true; }
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace Jypeli
         [Save]
         public double MaxAngularVelocity
         {
-            get { return _maxAngularV; }
-            set { _maxAngularV = value; IsUpdated = true; }
+            get { return maxAngularV; }
+            set { maxAngularV = value; IsUpdated = true; }
         }
 
         /// <summary>
@@ -158,9 +158,9 @@ namespace Jypeli
         /// <param name="axialDelta">Kuinka paljon lähtöpistettä siirretään sen liikeakselin suhteen</param>
         protected virtual void PrepareThrowable( PhysicsObject obj, Angle angle, double force, double distanceDelta, double axialDelta )
         {
-            double d = ( this.Width + obj.Width ) / 2 + distanceDelta;
-            Angle a = this.Angle + angle;
-            obj.Position = this.Position + a.GetVector() * d + ( a + Angle.RightAngle ).GetVector() * axialDelta;
+            double d = ( Width + obj.Width ) / 2 + distanceDelta;
+            Angle a = Angle + angle;
+            obj.Position = Position + a.GetVector() * d + ( a + Angle.RightAngle ).GetVector() * axialDelta;
             obj.Hit( Vector.FromLengthAndAngle( force, a ) );
         }
 
@@ -206,7 +206,6 @@ namespace Jypeli
 
             if ( d.Magnitude < vt )
             {
-                Vector targetLoc = moveTarget.Value;
                 Stop();
                 moveTimer.Stop();
                 moveTarget = null;
@@ -216,7 +215,7 @@ namespace Jypeli
             }
             else
             {
-                Vector dv = Vector.FromLengthAndAngle( moveSpeed, d.Angle ) - this.Velocity;
+                Vector dv = Vector.FromLengthAndAngle( moveSpeed, d.Angle ) - Velocity;
                 Hit( Mass * dv );
             }
         }

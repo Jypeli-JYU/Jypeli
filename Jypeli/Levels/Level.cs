@@ -80,8 +80,7 @@ namespace Jypeli
         /// <summary>
         /// Taustavalo
         /// </summary>
-        [Obsolete("Ei käytössä")]
-        public double AmbientLight { get; set; }
+        public Color AmbientLight { get; set; }
 
         /// <summary>
         /// Kentän keskipiste.
@@ -172,7 +171,7 @@ namespace Jypeli
         internal Level( Game game )
         {
             this.game = game;
-            AmbientLight = 1.0;
+            AmbientLight = Color.White;
 
             // creates a null background
             this.Background = new Jypeli.Widgets.Background( Vector.Zero );

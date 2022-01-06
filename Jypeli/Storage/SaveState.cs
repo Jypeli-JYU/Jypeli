@@ -49,13 +49,7 @@ namespace Jypeli
             BeginWriteXml();
             writer.WriteStartElement( "Object" );
             writer.WriteAttributeString( "Name", name );
-
-#if WINDOWS_STOREAPP
-            writer.WriteAttributeString( "TypeAssembly", objType.AssemblyQualifiedName );
-#else
             writer.WriteAttributeString( "TypeAssembly", objType.Assembly.FullName );
-#endif
-            
             writer.WriteAttributeString( "Type", objType.Name );
             File.SaveData( writer, objType, obj, false );
             writer.WriteEndElement();
@@ -73,11 +67,7 @@ namespace Jypeli
 
             if ( writer != null )
             {
-#if WINDOWS_STOREAPP
-                writer.Dispose();
-#else
                 writer.Close();
-#endif
                 writer = null;
             }
 

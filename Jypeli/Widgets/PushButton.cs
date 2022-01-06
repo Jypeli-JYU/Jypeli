@@ -29,7 +29,7 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
 {
@@ -310,20 +310,20 @@ namespace Jypeli
 
         private void InitializeControls()
         {
-            var l1 = Game.Mouse.ListenOn( this, MouseButton.Left, ButtonState.Pressed, SetState, null, State.LeftPressed ).InContext( this );
-            var l2 = Game.Mouse.ListenOn( this, MouseButton.Left, ButtonState.Released, Release, null ).InContext( this );
-            var l3 = Game.Mouse.Listen( MouseButton.Left, ButtonState.Released, Release, null ).InContext( this );
+            var l1 = Game.Mouse.ListenOn(this, MouseButton.Left, ButtonState.Pressed, SetState, null, State.LeftPressed).InContext(this);
+            var l2 = Game.Mouse.ListenOn(this, MouseButton.Left, ButtonState.Released, Release, null).InContext(this);
+            var l3 = Game.Mouse.Listen(MouseButton.Left, ButtonState.Released, Release, null).InContext(this);
 
-            var l4 = Game.Mouse.ListenOn( this, MouseButton.Right, ButtonState.Pressed, SetState, null, State.RightPressed ).InContext( this );
-            var l5 = Game.Mouse.ListenOn( this, MouseButton.Right, ButtonState.Released, Release, null ).InContext( this );
-            var l6 = Game.Mouse.Listen( MouseButton.Right, ButtonState.Released, Release, null ).InContext( this );
+            var l4 = Game.Mouse.ListenOn(this, MouseButton.Right, ButtonState.Pressed, SetState, null, State.RightPressed).InContext(this);
+            var l5 = Game.Mouse.ListenOn(this, MouseButton.Right, ButtonState.Released, Release, null).InContext(this);
+            var l6 = Game.Mouse.Listen(MouseButton.Right, ButtonState.Released, Release, null).InContext(this);
 
-            var l7 = Game.Mouse.ListenMovement( 1.0, CheckHover, null ).InContext( this );
+            var l7 = Game.Mouse.ListenMovement(1.0, CheckHover, null).InContext(this);
 
-            var l8 = Game.Instance.TouchPanel.Listen( ButtonState.Down, TouchHover, null ).InContext( this );
-            var l9 = Game.Instance.TouchPanel.ListenOn( this, ButtonState.Released, TouchRelease, null ).InContext( this );
-            var l10 = Game.Instance.TouchPanel.Listen( ButtonState.Released, TouchRelease, null ).InContext( this );
-            var l11 = Game.Instance.TouchPanel.ListenOn(  this, ButtonState.Released, TouchClick, null ).InContext( this );
+            var l8 = Game.Instance.TouchPanel.Listen(ButtonState.Down, TouchHover, null).InContext(this);
+            var l9 = Game.Instance.TouchPanel.ListenOn(this, ButtonState.Released, TouchRelease, null).InContext(this);
+            var l10 = Game.Instance.TouchPanel.Listen(ButtonState.Released, TouchRelease, null).InContext(this);
+            var l11 = Game.Instance.TouchPanel.ListenOn(this, ButtonState.Released, TouchClick, null).InContext(this);
 
             associatedListeners.AddItems(l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11);
         }
@@ -430,17 +430,17 @@ namespace Jypeli
         /// <param name="key">Näppäin</param>
         public Listener AddShortcut( Key key )
         {
-            return Jypeli.Game.Instance.Keyboard.Listen( key, ButtonState.Pressed, Click, null ).InContext( this );
+            return Jypeli.Game.Instance.Keyboard.Listen(key, ButtonState.Pressed, Click, null).InContext(this);
         }
 
         /// <summary>
         /// Lisää pikanäppäimen kaikille ohjaimille.
         /// </summary>
         /// <param name="button">Näppäin</param>
-        public List<Listener> AddShortcut( Button button )
+        /*public List<Listener> AddShortcut( Button button )
         {
             var listeners = new List<Listener>(Game.GameControllers.Count);
-            Game.Instance.GameControllers.ForEach( c => listeners.Add(AddShortcut( c, button )) );
+            Game.Instance.GameControllers.ForEach(c => listeners.Add(AddShortcut(c, button)));
             return listeners;
         }
 
@@ -461,8 +461,8 @@ namespace Jypeli
         /// <param name="button">Näppäin</param>
         public Listener AddShortcut( GamePad controller, Button button )
         {
-            return controller.Listen( button, ButtonState.Pressed, Click, null ).InContext( this );
-        }
+            return controller.Listen(button, ButtonState.Pressed, Click, null).InContext(this);
+        }*/
 
         private void Release()
         {
@@ -486,7 +486,7 @@ namespace Jypeli
         private void CheckHover()
         {
             if ( isPressed || state == State.Selected) return; // Ehkä voisi olla jonkinlainen lisäkorostus jos hiiri on päällä ja nappula on valittuna samanaikaisesti...
-            SetState( Game.Mouse.IsCursorOn( this ) ? State.Hover : State.Released );
+            SetState(Game.Mouse.IsCursorOn(this) ? State.Hover : State.Released);
         }
 
         /// <inheritdoc/>
@@ -514,10 +514,10 @@ namespace Jypeli
                     bottom = BottomSidePressedShape;
                 }
 
-                Renderer.DrawFilledShape( left, ref transformation, color1 );
-                Renderer.DrawFilledShape( top, ref transformation, color1 );
-                Renderer.DrawFilledShape( right, ref transformation, color2 );
-                Renderer.DrawFilledShape( bottom, ref transformation, color2 );
+                Renderer.DrawFilledShape(left, ref transformation, Position, Size, (float)Angle.Radians, color1);
+                Renderer.DrawFilledShape(top, ref transformation, Position, Size, (float)Angle.Radians, color1);
+                Renderer.DrawFilledShape(right, ref transformation, Position, Size, (float)Angle.Radians, color2);
+                Renderer.DrawFilledShape(bottom, ref transformation, Position, Size, (float)Angle.Radians, color2);
             }
         }
     }

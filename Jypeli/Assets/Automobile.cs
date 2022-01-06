@@ -75,7 +75,7 @@ namespace Jypeli.Assets
             Maneuverability = Angle.FromDegrees( 20 );
             if ( commonImage == null )
                 commonImage = Game.LoadImageFromResources( "Auto.png" );
-            Image = Image.Color( commonImage, Color );
+            Image = commonImage;// Image.Color( commonImage, Color ); // TODO: Image coloring.
             IsUpdated = true;
         }
 
@@ -156,7 +156,7 @@ namespace Jypeli.Assets
             if ( pendingDeceleration > 0 )
             {
                 // Brake
-                double decel = AdvanceMath.MathHelper.Min((float)pendingDeceleration, (float)(BrakeDeceleration * dt), (float)Velocity.Magnitude);
+                double decel = Math.Min(Math.Min((float)pendingDeceleration, (float)(BrakeDeceleration * dt)), (float)Velocity.Magnitude);
                 pendingDeceleration -= decel;
 
                 Velocity += Vector.FromLengthAndAngle( -decel, Velocity.Angle );

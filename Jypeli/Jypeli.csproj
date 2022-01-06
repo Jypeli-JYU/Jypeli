@@ -9,7 +9,7 @@
     <AssemblyName>Jypeli</AssemblyName>
     <RootNamespace>Jypeli</RootNamespace>
     <PackageId>Jypeli.NET</PackageId>
-    <Version>11.0.0</Version>
+    <Version>11.0.1</Version>
     <Authors>University of Jyväskylä</Authors>
     <Company />
     <Product />
@@ -146,8 +146,8 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <AssemblyVersion>11.0.0</AssemblyVersion>
-    <FileVersion>1111.0.0</FileVersion>
+    <AssemblyVersion>11.0.1</AssemblyVersion>
+    <FileVersion>11.0.1</FileVersion>
     <PackageIcon>jypeli_logo.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>

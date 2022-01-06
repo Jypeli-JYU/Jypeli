@@ -6,8 +6,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jypeli", "Jypeli\Jypeli.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FarseerPhysics", "FarseerPhysics\FarseerPhysics.csproj", "{14910AE8-DEFC-432C-AA82-4DB8F9DAC5CE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{8BE3FD62-3AF4-4DAC-824F-972BF02E9779}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{DC335282-9CEC-461A-934F-68E4E9962460}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tasohyppelypeli", "Tests\TasohyppelypeliFarseer\Norsupeli\Tasohyppelypeli.csproj", "{ED552C6C-5B2B-4FF8-871B-4A4977A1C3E8}"

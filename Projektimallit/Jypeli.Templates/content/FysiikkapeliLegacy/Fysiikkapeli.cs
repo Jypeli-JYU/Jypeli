@@ -7,13 +7,6 @@ using Jypeli.Widgets;
 
 public class Fysiikkapeli : PhysicsGame
 {
-    /*
-    HUOM!
-    Tämä projektimalli käyttää hyvin kokeellista versiota Jypelistä.
-    Kaikki ominaisuudet eivät välttämättä toimi, tai ne voivat olla puuttellisia.
-    
-    Jos kuitenkin käytät tätä, olisi hyvä jos ilmoitat löytämistäsi vioista.
-    */
     public override void Begin()
     {
         // Kirjoita ohjelmakoodisi tähän

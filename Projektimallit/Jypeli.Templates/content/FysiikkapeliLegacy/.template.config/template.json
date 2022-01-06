@@ -1,0 +1,22 @@
+{
+    "author": "University of Jyväskylä",
+    "classifications": [
+        "Jypeli"
+    ],
+    "name": "Jypeli Legacy",
+    "identity": "Jypeli.Fysiikkapeli.Legacy",
+    "groupIdentity": "Jypeli.Fysiikkapeli.Legacy",
+    "shortName": "Fysiikkapeli",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "primaryOutputs": [
+        {
+            "path": "Fysiikkapeli.csproj"
+        }
+    ],
+    "sourceName": "Fysiikkapeli",
+    "preferNameDirectory": "true",
+    "description": "Hieman vanhempi MonoGamepohjainen versio Jypelistä. Käytä tätä mikäli muut projektimallit eivät toimi."
+}

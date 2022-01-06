@@ -1,4 +1,4 @@
-Copyright (c) 2009-2021 University of Jyväskylä, Department of Mathematical
+Copyright (c) 2009-2022 University of Jyväskylä, Department of Mathematical
 Information Technology.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

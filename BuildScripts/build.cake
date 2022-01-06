@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 var target = Argument("build-target", "Default");
-var templateversion = "1.4.2";
+var templateversion = "1.5.0";
 var configuration = Argument("configuration", "Release");
 
 //////////////////////////////////////////////////////////////////////
@@ -123,35 +123,6 @@ Task("PackDotNetTemplates")
     PackDotnet("../projektimallit/Jypeli.Templates/Jypeli.Templates.csproj");
 });
 
-Task("PackVSTemplates")
-    .IsDependentOn("PackDotNetTemplates")
-    .WithCriteria(() => IsRunningOnWindows())
-    .Does(() =>
-{
-    var dotnet = Context.Tools.Resolve("dotnet.exe");
-    if (StartProcess(dotnet, "tool restore") != 0)
-        throw new Exception("dotnet tool restore failed.");
-
-    var result = StartProcess(
-        dotnet,
-        "vstemplate --force " +
-       $"-s ../compiled/Jypeli.Templates.{templateversion}.nupkg " +
-       $"--vsix ../compiled/Jypeli.Templates.{templateversion}.vsix " +
-       "@../projektimallit/VisualStudio/settings.rsp");
-
-    if (result != 0)
-        throw new Exception("dotnet-vstemplate failed to create VSIX.");
-});
-
-Task("PackVSMacTemplates")
-    .IsDependentOn("PackDotNetTemplates")
-    .WithCriteria(() => IsRunningOnUnix() && DirectoryExists("/Applications") && DirectoryExists("/Library"))
-    .Does(() =>
-{
-    DotNetCoreRestore("../projektimallit/VisualStudioForMac/VSForMac.csproj");
-    MSBuild("../projektimallit/VisualStudioForMac/VSForMac.csproj", mdPackSettings);
-});
-
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
 //////////////////////////////////////////////////////////////////////
@@ -161,9 +132,7 @@ Task("Build")
     .IsDependentOn("BuildFarseer");
 
 Task("Pack")
-    .IsDependentOn("PackDotNetTemplates")
-    .IsDependentOn("PackVSTemplates")
-    .IsDependentOn("PackVSMacTemplates");
+    .IsDependentOn("PackDotNetTemplates");
 
 Task("All")
     .IsDependentOn("Build")

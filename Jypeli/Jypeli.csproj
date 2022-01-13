@@ -1,156 +1,159 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  
-  <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFrameworks>net6.0; net6-android</TargetFrameworks>
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFrameworks>net6.0; net6-android</TargetFrameworks>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<ApplicationIcon />
+		<StartupObject />
+		<AssemblyName>Jypeli</AssemblyName>
+		<RootNamespace>Jypeli</RootNamespace>
+		<PackageId>Jypeli.NET</PackageId>
+		<Version>11.0.1</Version>
+		<Authors>University of Jyväskylä</Authors>
+		<Company />
+		<Product />
+		<Description>
+			Jypeli is a simple C# game programming library built on top of .NET and Silk.NET. It is used as a tool for teaching programming in the University of Jyväskylä.
+		</Description>
+		<Copyright>University of Jyväskylä</Copyright>
+		<PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
+		<PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
+	</PropertyGroup>
 
-    <ApplicationIcon />
-    <StartupObject />
-    <AssemblyName>Jypeli</AssemblyName>
-    <RootNamespace>Jypeli</RootNamespace>
-    <PackageId>Jypeli.NET</PackageId>
-    <Version>11.0.1</Version>
-    <Authors>University of Jyväskylä</Authors>
-    <Company />
-    <Product />
-    <Description>
-		Jypeli is a simple C# game programming library built on top of .NET and Silk.NET. It is used as a tool for teaching programming in the University of Jyväskylä.
-	</Description>
-    <Copyright>University of Jyväskylä</Copyright>
-    <PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
-    <PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>TRACE;DEBUG</DefineConstants>
+		<Optimize>false</Optimize>
+		<OutputPath>../Compiled</OutputPath>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <Optimize>false</Optimize>
-    <OutputPath>../Compiled</OutputPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants></DefineConstants>
+		<Optimize>true</Optimize>
+		<OutputPath>../Compiled</OutputPath>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants></DefineConstants>
-    <Optimize>true</Optimize>
-    <OutputPath>../Compiled</OutputPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
+		<DefineConstants>$(DefineConstants);DESKTOP</DefineConstants>
+	</PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
-    <DefineConstants>$(DefineConstants);DESKTOP</DefineConstants>
-  </PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6-android'">
+		<DefineConstants>$(DefineConstants);ANDROID</DefineConstants>
+	</PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6-android'">
-    <DefineConstants>$(DefineConstants);ANDROID</DefineConstants>
-  </PropertyGroup>
+	<ItemGroup>
+		<None Remove="Content\Fonts\Roboto-Bold.ttf" />
+		<None Remove="Content\Fonts\Roboto-Regular.ttf" />
+		<None Remove="Content\Images\AsRifle.png" />
+		<None Remove="Content\Images\Auto.png" />
+		<None Remove="Content\Images\Bullet.png" />
+		<None Remove="Content\Images\Cannon.png" />
+		<None Remove="Content\Images\CannonBall.png" />
+		<None Remove="Content\Images\DownArrow.png" />
+		<None Remove="Content\Images\Explosion.png" />
+		<None Remove="Content\Images\Explosion2.png" />
+		<None Remove="Content\Images\Grenade.png" />
+		<None Remove="Content\Images\PlasmaCannon.png" />
+		<None Remove="Content\Images\Smoke.png" />
+		<None Remove="Content\Images\Tank.png" />
+		<None Remove="Content\Images\UpArrow.png" />
+		<None Remove="Content\Shaders\OpenGLES\DefaultColorShader.glsl" />
+		<None Remove="Content\Shaders\OpenGLES\DefaultTextureShader.glsl" />
+		<None Remove="Content\Shaders\OpenGLES\DefaultTextureShaderLightPass.glsl" />
+		<None Remove="Content\Shaders\OpenGLES\DefaultVertexShader.glsl" />
+		<None Remove="Content\Shaders\OpenGLES\ParticleVertexShader.glsl" />
+		<None Remove="Content\Shaders\OpenGLES\SimpleFloodLightFragment.glsl" />
+		<None Remove="Content\Shaders\OpenGLES\SimpleFloodLightVertex.glsl" />
+		<None Remove="Content\Shaders\OpenGL\DefaultColorShader.glsl" />
+		<None Remove="Content\Shaders\OpenGL\DefaultTextureShader.glsl" />
+		<None Remove="Content\Shaders\OpenGL\DefaultTextureShaderLightPass.glsl" />
+		<None Remove="Content\Shaders\OpenGL\DefaultVertexShader.glsl" />
+		<None Remove="Content\Shaders\OpenGL\ParticleVertexShader.glsl" />
+		<None Remove="Content\Shaders\OpenGL\SimpleFloodLightFragment.glsl" />
+		<None Remove="Content\Shaders\OpenGL\SimpleFloodLightVertex.glsl" />
+		<None Remove="Content\Sounds\CannonFire.wav" />
+		<None Remove="Content\Sounds\ExplosionSound.wav" />
+		<None Remove="Content\Sounds\ImplosionSound.wav" />
+		<None Remove="Content\Sounds\Laser.wav" />
+		<None Remove="Content\Sounds\MGAttack.wav" />
+		<None Remove="Content\Sounds\PlasmaAttack.wav" />
+		<EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultColorShader.glsl" />
+		<EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultTextureShader.glsl" />
+		<EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultTextureShaderLightPass.glsl" />
+		<EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultVertexShader.glsl" />
+		<EmbeddedResource Include="Content\Shaders\OpenGLES\ParticleVertexShader.glsl" />
+		<EmbeddedResource Include="Content\Shaders\OpenGLES\SimpleFloodLightFragment.glsl" />
+		<EmbeddedResource Include="Content\Shaders\OpenGLES\SimpleFloodLightVertex.glsl" />
+		<EmbeddedResource Include="Content\Shaders\OpenGL\DefaultTextureShaderLightPass.glsl" />
+		<EmbeddedResource Include="Content\Shaders\OpenGL\ParticleVertexShader.glsl" />
+		<EmbeddedResource Include="Content\Shaders\OpenGL\SimpleFloodLightFragment.glsl" />
+		<EmbeddedResource Include="Content\Shaders\OpenGL\DefaultColorShader.glsl" />
+		<None Include="..\Documentation\jypeli_logo.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Content\Fonts\Roboto-Bold.ttf" />
-    <None Remove="Content\Fonts\Roboto-Regular.ttf" />
-    <None Remove="Content\Images\AsRifle.png" />
-    <None Remove="Content\Images\Auto.png" />
-    <None Remove="Content\Images\Bullet.png" />
-    <None Remove="Content\Images\Cannon.png" />
-    <None Remove="Content\Images\CannonBall.png" />
-    <None Remove="Content\Images\DownArrow.png" />
-    <None Remove="Content\Images\Explosion.png" />
-    <None Remove="Content\Images\Explosion2.png" />
-    <None Remove="Content\Images\Grenade.png" />
-    <None Remove="Content\Images\PlasmaCannon.png" />
-    <None Remove="Content\Images\Smoke.png" />
-    <None Remove="Content\Images\Tank.png" />
-    <None Remove="Content\Images\UpArrow.png" />
-    <None Remove="Content\Shaders\OpenGLES\DefaultColorShader.glsl" />
-    <None Remove="Content\Shaders\OpenGLES\DefaultTextureShader.glsl" />
-    <None Remove="Content\Shaders\OpenGLES\DefaultTextureShaderLightPass.glsl" />
-    <None Remove="Content\Shaders\OpenGLES\DefaultVertexShader.glsl" />
-    <None Remove="Content\Shaders\OpenGLES\ParticleVertexShader.glsl" />
-    <None Remove="Content\Shaders\OpenGLES\SimpleFloodLightFragment.glsl" />
-    <None Remove="Content\Shaders\OpenGLES\SimpleFloodLightVertex.glsl" />
-    <None Remove="Content\Shaders\OpenGL\DefaultColorShader.glsl" />
-    <None Remove="Content\Shaders\OpenGL\DefaultTextureShader.glsl" />
-    <None Remove="Content\Shaders\OpenGL\DefaultTextureShaderLightPass.glsl" />
-    <None Remove="Content\Shaders\OpenGL\DefaultVertexShader.glsl" />
-    <None Remove="Content\Shaders\OpenGL\ParticleVertexShader.glsl" />
-    <None Remove="Content\Shaders\OpenGL\SimpleFloodLightFragment.glsl" />
-    <None Remove="Content\Shaders\OpenGL\SimpleFloodLightVertex.glsl" />
-    <None Remove="Content\Sounds\CannonFire.wav" />
-    <None Remove="Content\Sounds\ExplosionSound.wav" />
-    <None Remove="Content\Sounds\ImplosionSound.wav" />
-    <None Remove="Content\Sounds\Laser.wav" />
-    <None Remove="Content\Sounds\MGAttack.wav" />
-    <None Remove="Content\Sounds\PlasmaAttack.wav" />
-    <EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultColorShader.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultTextureShader.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultTextureShaderLightPass.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGLES\DefaultVertexShader.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGLES\ParticleVertexShader.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGLES\SimpleFloodLightFragment.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGLES\SimpleFloodLightVertex.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGL\DefaultTextureShaderLightPass.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGL\ParticleVertexShader.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGL\SimpleFloodLightFragment.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGL\DefaultColorShader.glsl" />
-    <None Include="..\Documentation\jypeli_logo.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Content\Fonts\Roboto-Bold.ttf" />
+		<EmbeddedResource Include="Content\Fonts\Roboto-Regular.ttf" />
+		<EmbeddedResource Include="Content\Images\AsRifle.png" />
+		<EmbeddedResource Include="Content\Images\Auto.png" />
+		<EmbeddedResource Include="Content\Images\Bullet.png" />
+		<EmbeddedResource Include="Content\Images\Cannon.png" />
+		<EmbeddedResource Include="Content\Images\CannonBall.png" />
+		<EmbeddedResource Include="Content\Images\DownArrow.png" />
+		<EmbeddedResource Include="Content\Images\Explosion.png" />
+		<EmbeddedResource Include="Content\Images\Explosion2.png" />
+		<EmbeddedResource Include="Content\Images\Grenade.png" />
+		<EmbeddedResource Include="Content\Images\PlasmaCannon.png" />
+		<EmbeddedResource Include="Content\Images\Smoke.png" />
+		<EmbeddedResource Include="Content\Images\Tank.png" />
+		<EmbeddedResource Include="Content\Images\UpArrow.png" />
+		<EmbeddedResource Include="Content\Shaders\OpenGL\DefaultTextureShader.glsl" />
+		<EmbeddedResource Include="Content\Shaders\OpenGL\DefaultVertexShader.glsl" />
+		<EmbeddedResource Include="Content\Shaders\OpenGL\SimpleFloodLightVertex.glsl" />
+		<EmbeddedResource Include="Content\Sounds\CannonFire.wav" />
+		<EmbeddedResource Include="Content\Sounds\ExplosionSound.wav" />
+		<EmbeddedResource Include="Content\Sounds\ImplosionSound.wav" />
+		<EmbeddedResource Include="Content\Sounds\Laser.wav" />
+		<EmbeddedResource Include="Content\Sounds\MGAttack.wav" />
+		<EmbeddedResource Include="Content\Sounds\PlasmaAttack.wav" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Content\Fonts\Roboto-Bold.ttf" />
-    <EmbeddedResource Include="Content\Fonts\Roboto-Regular.ttf" />
-    <EmbeddedResource Include="Content\Images\AsRifle.png" />
-    <EmbeddedResource Include="Content\Images\Auto.png" />
-    <EmbeddedResource Include="Content\Images\Bullet.png" />
-    <EmbeddedResource Include="Content\Images\Cannon.png" />
-    <EmbeddedResource Include="Content\Images\CannonBall.png" />
-    <EmbeddedResource Include="Content\Images\DownArrow.png" />
-    <EmbeddedResource Include="Content\Images\Explosion.png" />
-    <EmbeddedResource Include="Content\Images\Explosion2.png" />
-    <EmbeddedResource Include="Content\Images\Grenade.png" />
-    <EmbeddedResource Include="Content\Images\PlasmaCannon.png" />
-    <EmbeddedResource Include="Content\Images\Smoke.png" />
-    <EmbeddedResource Include="Content\Images\Tank.png" />
-    <EmbeddedResource Include="Content\Images\UpArrow.png" />
-    <EmbeddedResource Include="Content\Shaders\OpenGL\DefaultTextureShader.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGL\DefaultVertexShader.glsl" />
-    <EmbeddedResource Include="Content\Shaders\OpenGL\SimpleFloodLightVertex.glsl" />
-    <EmbeddedResource Include="Content\Sounds\CannonFire.wav" />
-    <EmbeddedResource Include="Content\Sounds\ExplosionSound.wav" />
-    <EmbeddedResource Include="Content\Sounds\ImplosionSound.wav" />
-    <EmbeddedResource Include="Content\Sounds\Laser.wav" />
-    <EmbeddedResource Include="Content\Sounds\MGAttack.wav" />
-    <EmbeddedResource Include="Content\Sounds\PlasmaAttack.wav" />
-  </ItemGroup>
+	<PropertyGroup>
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\Licenses\Jypeli.txt">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-    
-  <ItemGroup>
-    <PackageReference Include="FontStashSharp" Version="1.0.4" />
-    <PackageReference Include="Silk.NET.Input" Version="2.11.0" />
-    <PackageReference Include="Silk.NET.OpenAL" Version="2.11.0" />
-    <PackageReference Include="Silk.NET.OpenAL.Soft.Native" Version="1.21.1.1" />
-    <PackageReference Include="Silk.NET.OpenGL" Version="2.11.0" />
-    <PackageReference Include="Silk.NET.Windowing" Version="2.11.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\Licenses\Jypeli.txt">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net6-android' ">
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="FontStashSharp" Version="1.0.4" />
+		<PackageReference Include="Silk.NET.Input" Version="2.11.0" />
+		<PackageReference Include="Silk.NET.OpenAL" Version="2.11.0" />
+		<PackageReference Include="Silk.NET.OpenAL.Soft.Native" Version="1.21.1.1" />
+		<PackageReference Include="Silk.NET.OpenGL" Version="2.11.0" />
+		<PackageReference Include="Silk.NET.Windowing" Version="2.11.0" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
+	</ItemGroup>
 
-  <PropertyGroup>
-    <AssemblyVersion>11.0.1</AssemblyVersion>
-    <FileVersion>11.0.1</FileVersion>
-    <PackageIcon>jypeli_logo.png</PackageIcon>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-    <AnalysisLevel>latest</AnalysisLevel>
-  </PropertyGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net6-android' ">
+		<PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<AssemblyVersion>11.0.1</AssemblyVersion>
+		<FileVersion>11.0.1</FileVersion>
+		<PackageIcon>jypeli_logo.png</PackageIcon>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<AnalysisLevel>latest</AnalysisLevel>
+	</PropertyGroup>
 </Project>

@@ -1,44 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFrameworks>net6.0; net6-android</TargetFrameworks>
-    
-    <AssemblyName>Jypeli.FarseerPhysics</AssemblyName>
-    <PackageId>Jypeli.FarseerPhysics.NET</PackageId>
-    <Description>FarseerPhysics implementation for Jypeli</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>University of Jyväskylä</Authors>
-    <Company>University of Jyväskylä</Company>
-    <Copyright>University of Jyväskylä</Copyright>
-    <RootNamespace>Jypeli.FarseerPhysics</RootNamespace>
-    <PackageLicenseFile>Farseer.txt</PackageLicenseFile>
-    <Version>2.0</Version>
-    <AssemblyVersion>2.0</AssemblyVersion>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>NETSTANDARD2_0;USE_AWAKE_BODY_SET;USE_ACTIVE_CONTACT_SET</DefineConstants>
-    <Optimize>false</Optimize>
-    <OutputPath>../Compiled</OutputPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants>NETSTANDARD2_0;USE_AWAKE_BODY_SET;USE_ACTIVE_CONTACT_SET</DefineConstants>
-    <OutputPath>../Compiled</OutputPath>
-    <Optimize>true</Optimize>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\Jypeli\Jypeli.csproj" />
-  </ItemGroup>
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFrameworks>net6.0; net6-android</TargetFrameworks>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<AssemblyName>Jypeli.FarseerPhysics</AssemblyName>
+		<PackageId>Jypeli.FarseerPhysics.NET</PackageId>
+		<Description>FarseerPhysics implementation for Jypeli</Description>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Authors>University of Jyväskylä</Authors>
+		<Company>University of Jyväskylä</Company>
+		<Copyright>University of Jyväskylä</Copyright>
+		<RootNamespace>Jypeli.FarseerPhysics</RootNamespace>
+		<PackageLicenseFile>Farseer.txt</PackageLicenseFile>
+		<Version>2.0</Version>
+		<AssemblyVersion>2.0</AssemblyVersion>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\Licenses\Farseer.txt">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DefineConstants>NETSTANDARD2_0;USE_AWAKE_BODY_SET;USE_ACTIVE_CONTACT_SET</DefineConstants>
+		<Optimize>false</Optimize>
+		<OutputPath>../Compiled</OutputPath>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DefineConstants>NETSTANDARD2_0;USE_AWAKE_BODY_SET;USE_ACTIVE_CONTACT_SET</DefineConstants>
+		<OutputPath>../Compiled</OutputPath>
+		<Optimize>true</Optimize>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Jypeli\Jypeli.csproj" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\Licenses\Farseer.txt">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>

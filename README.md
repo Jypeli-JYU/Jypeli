@@ -1,19 +1,30 @@
 # Jypeli
 
-Jypeli is a simple C# game programming library built on top of MonoGame. It is used as a tool for teaching programming in the University of Jyväskylä.
+Jypeli is a simple C# game programming library. It is used as a tool for teaching programming in the University of Jyväskylä.
 
 Installation instructions for regular users (in Finnish) <https://tim.jyu.fi/view/kurssit/tie/ohj1/tyokalut/windows>
 
-Instructions for using the library (also in Finnish) <https://trac.cc.jyu.fi/projects/npo/wiki/KirjastonOhjeet>
+Instructions for using the library (also in Finnish) <https://tim.jyu.fi/view/kurssit/jypeli/wiki>
 
-Jypeli (C) University of Jyväskylä, 2009-2020.
+Jypeli (C) University of Jyväskylä, 2009-2022.
 
 ## Source Code
 
 The full source code is available here from GitHub:
- * Clone the source: `git clone https://github.com/Jypeli-JYU/Jypeli.git`
- * Switch to Jypeli folder: `cd Jypeli`
- * Set up the submodules: `git submodule update --init --recursive` 
-  * **Or** you can just clone everything at once: `git clone --recursive --jobs 4 https://github.com/Jypeli-JYU/Jypeli.git`
+```
+git clone https://github.com/Jypeli-JYU/Jypeli.git
+```
 
-`testit/Tasohyppelypeli` contains a test project ready for development purposes.
+You need to have .NET 6 installed to build & run Jypeli.
+For Android-projects, you also need to have `net6-android` workload installed:
+
+```
+dotnet workload install android
+```
+
+If you do not wish to run android projects, you can also edit `Jypeli.csproj` & `FarseerPhysics.csproj` and remove `net6-android` from targetframeworks.
+
+Open the main `Jypeli.sln` with Visual Studio 2022 or JetBrains Rider.
+
+`TestProjects/Tasohyppelypeli` is a test project ready for development purposes.
+`TestProjects/Net6Android` is for Android development.

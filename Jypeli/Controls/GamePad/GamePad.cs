@@ -241,6 +241,7 @@ namespace Jypeli
         /// <param name="leftAcceleration">Vasemmanpuoleisen moottorin tärinäkiihtyvyys (yksikköä sekunnissa).</param>
         /// <param name="rightAcceleration">Oikeanpuoleisen moottorin tärinäkiihtyvyys (yksikköä sekunnissa).</param>
         /// <param name="time">Aika, jonka tärinä kestää (sekunteina).</param>
+        [Obsolete("Ei toistaiseksi toiminnassa!")]
         public void Vibrate(double leftMotor, double rightMotor, double leftAcceleration, double rightAcceleration, double time)
         {
             vibrations.Add(new Vibration(gamepad, leftMotor, rightMotor, leftAcceleration, rightAcceleration, time));

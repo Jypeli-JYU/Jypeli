@@ -145,6 +145,8 @@ namespace Jypeli
 
         private void InitDimensions( double width, double height, Shape shape )
         {
+            if (width < 0 || height < 0)
+                throw new ArgumentException("The size must be positive!");
             this._size = new Vector( width, height );
             this._shape = shape;
         }

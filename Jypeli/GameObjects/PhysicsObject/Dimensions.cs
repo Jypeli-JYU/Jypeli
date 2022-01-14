@@ -1,4 +1,5 @@
-﻿using Jypeli.Physics;
+﻿using System;
+using Jypeli.Physics;
 
 namespace Jypeli
 {
@@ -80,7 +81,9 @@ namespace Jypeli
         {
             get { return Body.Size; }
             set 
-            { 
+            {
+                if (value.X < 0 || value.Y < 0)
+                    throw new ArgumentException("The size must be positive!");
                 Body.Size = value;
                 /*if (Parent != null) // TODO: tästä tulee stackoverflow
                     Body.RegenerateConnectedFixtures();*/

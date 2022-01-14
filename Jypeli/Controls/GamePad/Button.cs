@@ -74,15 +74,14 @@ namespace Jypeli
         X = Buttons.X,
         Y = Buttons.Y,
 
-        //TODO: Nämä ovat analogisia nappuloita. Pitäisikö toteuttaa nämäkin, esim. vaatimalla että nappula on pohjassa asti jolloin tämä tapahtuu?
         /// <summary>
         /// Oikea liipasin.
         /// </summary>
-        //RightTrigger = Buttons.RightTrigger,
+        RightTrigger = 15,
 
         /// <summary>
         /// Vasen liipasin.
         /// </summary>
-        //LeftTrigger = Buttons.LeftTrigger
+        LeftTrigger = 16
     }
 }

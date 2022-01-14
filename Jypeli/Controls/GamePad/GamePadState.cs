@@ -73,9 +73,11 @@ namespace Jypeli.Controls
             {
                 case 0:
                     LeftTrigger = trigger.Position;
+                    buttons[(int)Button.LeftTrigger] = trigger.Position > 0; // sijainti on -1...1
                     break;
                 case 1:
                     RightTrigger = trigger.Position;
+                    buttons[(int)Button.RightTrigger] = trigger.Position > 0;
                     break;
             }
         }

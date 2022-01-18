@@ -87,10 +87,10 @@ namespace Jypeli
 
         private void AddControls()
         {
-            //var l1 = Buttons[0].AddShortcut(Button.A);
-            //var l2 = Buttons[1].AddShortcut(Button.B);
-            //associatedListeners.AddRange(l1);
-            //associatedListeners.AddRange(l2);
+            var l1 = Buttons[0].AddShortcut(Button.A);
+            var l2 = Buttons[1].AddShortcut(Button.B);
+            associatedListeners.AddRange(l1);
+            associatedListeners.AddRange(l2);
         }
     }
 }

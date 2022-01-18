@@ -159,7 +159,7 @@ namespace Jypeli.Widgets
 
         private void AddControls()
         {
-            /*var l1 = Game.Keyboard.Listen(Key.Enter, ButtonState.Pressed, BeginLoad, null, StartLabel).InContext(this);
+            var l1 = Game.Keyboard.Listen(Key.Enter, ButtonState.Pressed, BeginLoad, null, StartLabel).InContext(this);
             var l2 = Game.Keyboard.Listen(Key.Escape, ButtonState.Pressed, Game.Instance.Exit, null).InContext(this); ;
             var l3 = Game.Mouse.Listen(MouseButton.Left, ButtonState.Down, BeginLoad, null, StartLabel).InContext(this);
             associatedListeners.AddItems(l1, l2, l3);
@@ -173,7 +173,7 @@ namespace Jypeli.Widgets
 
             l1 = Game.TouchPanel.ListenOn(StartLabel, ButtonState.Pressed, delegate { BeginLoad(StartLabel); }, null).InContext(this);
             l2 = Game.PhoneBackButton.Listen(Game.Instance.Exit, null).InContext(this);
-            associatedListeners.AddItems(l1, l2);*/
+            associatedListeners.AddItems(l1, l2);
         }
 
         private void BeginLoad(Label aloitusohje)

@@ -437,7 +437,7 @@ namespace Jypeli
         /// Lisää pikanäppäimen kaikille ohjaimille.
         /// </summary>
         /// <param name="button">Näppäin</param>
-        /*public List<Listener> AddShortcut( Button button )
+        public List<Listener> AddShortcut( Button button )
         {
             var listeners = new List<Listener>(Game.GameControllers.Count);
             Game.Instance.GameControllers.ForEach(c => listeners.Add(AddShortcut(c, button)));
@@ -462,7 +462,7 @@ namespace Jypeli
         public Listener AddShortcut( GamePad controller, Button button )
         {
             return controller.Listen(button, ButtonState.Pressed, Click, null).InContext(this);
-        }*/
+        }
 
         private void Release()
         {

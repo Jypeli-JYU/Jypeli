@@ -67,7 +67,7 @@ namespace Jypeli
         public bool IsCursorVisible
         {
             get { return mouse.Cursor.CursorMode == CursorMode.Normal; }
-            set { 
+            set {
                 if (value)
                     mouse.Cursor.CursorMode = CursorMode.Normal;
                 else
@@ -191,6 +191,21 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Hiiren kuva. Katso myös <see cref="SetCursorImage(Image)"/>
+        /// </summary>
+        public MouseCursor MouseCursor
+        {
+            get
+            {
+                return (MouseCursor)mouse.Cursor.StandardCursor;
+            }
+            set
+            {
+                mouse.Cursor.StandardCursor = (StandardCursor)value;
+            }
+        }
+
         internal Mouse(ScreenView screen, IInputContext input)
         {
             this.screen = screen;
@@ -201,6 +216,24 @@ namespace Jypeli
             mouse.MouseDown += MouseDown;
             mouse.MouseUp += MouseUp;
             mouse.MouseMove += MouseMove;
+        }
+
+        /// <summary>
+        /// Asettaa hiiren kuvan.
+        /// Jos parametrina annetaan <c>null</c>, muutetaan hiiren kuva takaisin normaaliksi.
+        /// </summary>
+        /// <param name="img">Hiiren kuva, tai null</param>
+        public void SetCursorImage(Image img)
+        {
+            if(img == null)
+            {
+                mouse.Cursor.Type = CursorType.Standard;
+                return;
+            }
+            mouse.Cursor.Image = new Silk.NET.Core.RawImage(img.Width, img.Height, img.GetByteArray());
+            mouse.Cursor.Type = CursorType.Custom;
+            mouse.Cursor.HotspotX = img.Width / 2;
+            mouse.Cursor.HotspotY = img.Height / 2;
         }
 
         private void MouseMove(IMouse arg1, Vector2 arg2)

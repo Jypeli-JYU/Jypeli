@@ -44,11 +44,20 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
     public static unsafe class OpenAL
     {
         private static AL al;
+        private static bool initialized;
 
         internal static void Init()
         {
             // Jos initialisointia on jo kutsuttu.
-            if (al is not null)
+            if (initialized)
+            {
+                return;
+            }
+
+            initialized = true;
+
+            // Don't initialize OpenAL in headless mode.
+            if (CommandLineOptions.Headless ?? Game.Instance.Headless)
             {
                 return;
             }
@@ -58,6 +67,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             var device = alc.OpenDevice("");
             if (device == null)
             {
+                al = null;
                 throw new AudioDeviceException("Unable to initialize OpenAL device.");
             }
 
@@ -67,7 +77,6 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             al.GetError();
 
             al.SetListenerProperty(ListenerVector3.Position, 0, 0, 1);
-
         }
 
         public static uint LoadSound(Stream stream)
@@ -93,9 +102,21 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
         private static uint LoadWAV(ReadOnlySpan<byte> file)
         {
             // On mahdollista, että tänne tullaan ennen initialisointiin menemistä.
-            if(al is null)
+            if (!initialized)
             {
-                Init();
+                try
+                {
+                    Init();
+                }
+                catch (Exception)
+                {
+                    // Suppress and let the Game.InitAudio() report the error
+                }
+            }
+
+            if (al is null)
+            {
+                return 0;
             }
 
             int index = 0;
@@ -227,6 +248,11 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
 
         public static uint Duplicate(uint from)
         {
+            if (al is null)
+            {
+                return 0;
+            }
+
             uint to = al.GenSource();
             al.GetSourceProperty(from, GetSourceInteger.Buffer, out int buffer);
             al.SetSourceProperty(to, SourceInteger.Buffer, buffer);
@@ -236,21 +262,26 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
 
         public static void Play(uint source)
         {
-            al.SourcePlay(source);
+            al?.SourcePlay(source);
         }
 
         public static void Stop(uint source)
         {
-            al.SourceStop(source);
+            al?.SourceStop(source);
         }
 
         public static void Pause(uint source)
         {
-            al.SourcePause(source);
+            al?.SourcePause(source);
         }
 
         internal static double GetPan(uint handle)
         {
+            if (al is null)
+            {
+                return 0;
+            }
+
             al.GetSourceProperty(handle, SourceVector3.Position, out System.Numerics.Vector3 value);
             return value.X;
         }
@@ -258,7 +289,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
         internal static void SetPan(uint handle, double value)
         {
             System.Numerics.Vector3 v = new System.Numerics.Vector3((float)value, 0, 0);
-            al.SetSourceProperty(handle, SourceVector3.Position, in v);
+            al?.SetSourceProperty(handle, SourceVector3.Position, in v);
         }
 
         internal static Vector GetPosition(uint handle)
@@ -270,33 +301,46 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
         internal static void SetPosition(uint handle, Vector value)
         {
             System.Numerics.Vector3 v = new System.Numerics.Vector3((float)value.X, (float)value.Y, 0);
-            al.SetSourceProperty(handle, SourceVector3.Position, in v);
+            al?.SetSourceProperty(handle, SourceVector3.Position, in v);
         }
 
         internal static double GetVolume(uint handle)
         {
+            if (al is null)
+            {
+                return 0;
+            }
             al.GetSourceProperty(handle, SourceFloat.Gain, out float value);
             return value;
         }
 
         internal static void SetVolume(uint handle, double value)
         {
-            al.SetSourceProperty(handle, SourceFloat.Gain, (float)value);
+            al?.SetSourceProperty(handle, SourceFloat.Gain, (float)value);
         }
 
         internal static double GetPitch(uint handle)
         {
+            if (al is null)
+            {
+                return 0;
+            }
             al.GetSourceProperty(handle, SourceFloat.Pitch, out float value);
             return value;
         }
 
         internal static void SetPitch(uint handle, double value)
         {
-            al.SetSourceProperty(handle, SourceFloat.Pitch, (float)value);
+            al?.SetSourceProperty(handle, SourceFloat.Pitch, (float)value);
         }
 
         internal static double GetDuration(uint handle)
         {
+            if (al is null)
+            {
+                return 0;
+            }
+
             al.GetSourceProperty(handle, GetSourceInteger.Buffer, out int buffer);
 
             al.GetBufferProperty((uint)buffer, GetBufferInteger.Size, out int size);
@@ -309,13 +353,18 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
 
         internal static bool GetLooping(uint handle)
         {
+            if (al is null)
+            {
+                return false;
+            }
+
             al.GetSourceProperty(handle, SourceBoolean.Looping, out bool value);
             return value;
         }
 
         internal static void SetLooping(uint handle, bool value)
         {
-            al.SetSourceProperty(handle, SourceBoolean.Looping, value);
+            al?.SetSourceProperty(handle, SourceBoolean.Looping, value);
         }
     }
 }

@@ -278,6 +278,12 @@ namespace Jypeli
 
         private void InitAudio()
         {
+            if (Headless)
+            {
+                DisableAudio();
+                return;
+            }
+
             try
             {
                 Audio.OpenAL.OpenAL.Init();

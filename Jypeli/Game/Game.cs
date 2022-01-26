@@ -85,7 +85,7 @@ namespace Jypeli
         /// <summary>
         /// Kirjoitetaanko kuvatiedosto standarditulosteeseen jos <see cref="SaveOutput"/> on päällä.
         /// </summary>
-        public bool SaveOutputToConsole { get; private set; }
+        public bool SaveOutputToConsole { get; } = CommandLineOptions.SaveToStdout ?? false;
 
         /// <summary>
         /// Ajetaanko peli ilman ääntä (esim. TIMissä)
@@ -140,8 +140,6 @@ namespace Jypeli
 
         private readonly Lazy<Stream> standardOutStream = new Lazy<Stream>(Console.OpenStandardOutput);
         
-
-
         /// <summary>
         /// Onko peli sulkeutumassa tämän päivityksen jölkeen.
         /// </summary>
@@ -176,12 +174,10 @@ namespace Jypeli
         public void Run(bool headless = false, bool save = false, int frames = 0, int skip = 1)
         {
             if (frames < 0) throw new ArgumentException("n must be greater than 0!");
-            TotalFramesToRun = frames;
-            SaveOutput = save;
-            Headless = headless;
-            FramesToSkip = skip;
-
-            ApplyCMDArgs();
+            TotalFramesToRun = CommandLineOptions.FramesToRun ?? frames;
+            SaveOutput = CommandLineOptions.Save ?? save;
+            Headless = CommandLineOptions.Headless ?? headless;
+            FramesToSkip = CommandLineOptions.SkipFrames ?? skip;
 
             if (SaveOutput && !Directory.Exists("Output"))
             {
@@ -189,46 +185,6 @@ namespace Jypeli
             }
 
             Window.Run();
-        }
-
-        private void ApplyCMDArgs()
-        {
-            string[] args = Environment.GetCommandLineArgs();
-            if (args.Contains("--save"))
-            {
-                if (bool.TryParse(args[Array.IndexOf(args, "--save") + 1], out bool save))
-                    SaveOutput = save;
-                else
-                    throw new ArgumentException("Invalid value for --save");
-            }
-            if (args.Contains("--framesToRun"))
-            {
-                if (int.TryParse(args[Array.IndexOf(args, "--framesToRun") + 1], out int frames))
-                    TotalFramesToRun = frames;
-                else
-                    throw new ArgumentException("Invalid value for --framesToRun");
-            }
-            if (args.Contains("--headless"))
-            {
-                if (bool.TryParse(args[Array.IndexOf(args, "--headless") + 1], out bool headless))
-                    Headless = headless;
-                else
-                    throw new ArgumentException("Invalid value for --headless");
-            }
-            if (args.Contains("--skipFrames"))
-            {
-                if (int.TryParse(args[Array.IndexOf(args, "--skipFrames") + 1], out int skip))
-                    FramesToSkip = skip;
-                else
-                    throw new ArgumentException("Invalid value for --skipFrames");
-            }
-            if (args.Contains("--saveToStdout"))
-            {
-                if (bool.TryParse(args[Array.IndexOf(args, "--saveToStdout") + 1], out bool saveToStdout))
-                    SaveOutputToConsole = saveToStdout;
-                else
-                    throw new ArgumentException("Invalid value for --saveToStdout");
-            }
         }
 
         internal static void DisableAudio()
@@ -414,14 +370,14 @@ namespace Jypeli
                     }
             }
 
-            FrameCounter++;
-
             if (TotalFramesToRun != 0 && FrameCounter == TotalFramesToRun)
             {
                 OnExiting(this, EventArgs.Empty);
                 //UnloadContent();
                 Exit();
             }
+
+            FrameCounter++;
         }
 
         /// <summary>

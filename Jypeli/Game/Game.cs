@@ -420,14 +420,14 @@ namespace Jypeli
                     }
             }
 
-            FrameCounter++;
-
             if (TotalFramesToRun != 0 && FrameCounter == TotalFramesToRun)
             {
                 OnExiting(this, EventArgs.Empty);
                 //UnloadContent();
                 Exit();
             }
+
+            FrameCounter++;
         }
 
         /// <summary>

@@ -62,8 +62,22 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
                 return;
             }
 
-            var alc = ALContext.GetApi(true);
-            al = AL.GetApi(true);
+            ALContext alc = null;
+            try
+            {
+                // Yritetään ladata OpenAL Soft.
+                // Jos softia ei ole saatavilla (Esim. M1 tms. ARM suorittimella varustettu kone),
+                // Koitetaan sitten käyttää laitteen omaa OpenAL kirjastoa.
+                // TODO: Kumpi on oikeasti parempi? Pitäisikö logiikan mennä toisinpäin?
+                alc = ALContext.GetApi(true);
+                al = AL.GetApi(true);
+            }
+            catch (Exception e)
+            {
+                alc = ALContext.GetApi();
+                al = AL.GetApi();
+            }
+            
             var device = alc.OpenDevice("");
             if (device == null)
             {

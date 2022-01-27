@@ -57,7 +57,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             initialized = true;
 
             // Don't initialize OpenAL in headless mode.
-            if (CommandLineOptions.Headless ?? Game.Instance.Headless)
+            if (CommandLineOptions.Headless ?? Game.Instance?.Headless ?? false)
             {
                 return;
             }

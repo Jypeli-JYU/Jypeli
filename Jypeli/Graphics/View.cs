@@ -78,7 +78,7 @@ namespace Jypeli
         /// </summary>
         public ScreenView()
         {
-            size = new Vector(Game.Instance.Window.Size.X, Game.Instance.Window.Size.Y);
+            size = new Vector(Game.Instance.Window.Size.X * Scale.X, Game.Instance.Window.Size.Y * Scale.Y);
         }
 
         /// <summary>
@@ -192,11 +192,15 @@ namespace Jypeli
         /// </summary>
         public Vector Scale
         {
-            get { return new Vector( scale.X, scale.Y ); }
+            get
+            {
+                var fbs = Game.Instance.Window.FramebufferSize;
+                var ws = Game.Instance.Window.Size;
+                return new Vector(fbs.X / (double)ws.X, fbs.Y / (double)ws.Y);;
+            }
             set
             {
-                scale = new Vector3( (float)value.X, (float)value.Y, 1 );
-                scaleInv = new Vector3( 1 / scale.X, 1 / scale.Y, 1 );
+                // TODO: Skaalausta ei voi muuttaa, joten tätä asetusta ei myöskään voi tehdä.
             }
         }
 
@@ -205,10 +209,10 @@ namespace Jypeli
         /// </summary>
         public double Width
         {
-            get { return RenderTarget.Width; }
+            get { return RenderTarget.Width / Scale.X; }
             set
             {
-                size.X = (int)value;
+                size.X = (int)value * Scale.X;
                 renderTarget?.Dispose();
                 renderTarget = null;
             }
@@ -219,10 +223,10 @@ namespace Jypeli
         /// </summary>
         public double Height
         {
-            get { return RenderTarget.Height; }
+            get { return RenderTarget.Height / Scale.Y; }
             set
             {
-                size.Y = (int)value;
+                size.Y = (int)value * Scale.Y;
                 renderTarget?.Dispose();
                 renderTarget = null;
             }
@@ -233,13 +237,13 @@ namespace Jypeli
         /// </summary>
         public Vector Size
         {
-            get { return new Vector( RenderTarget.Width, RenderTarget.Height ); }
+            get { return new Vector( Width, Height ); }
             set
             {
 #if DESKTOP
                 ((Silk.NET.Windowing.IWindow)Game.Instance.Window).Size = new Vector2D<int>((int)value.X, (int)value.Y);
-                size.X = (int)value.X;
-                size.Y = (int)value.Y;
+                size.X = (int)value.X * Scale.X;
+                size.Y = (int)value.Y * Scale.Y;
                 renderTarget?.Dispose();
                 renderTarget = null;
 #endif
@@ -272,8 +276,8 @@ namespace Jypeli
         {
             renderTarget?.Dispose();
             renderTarget = null;
-            size = newSize;
-            Game.GraphicsDevice.ResizeWindow(newSize);
+            size = new Vector(newSize.X * Scale.X, newSize.Y * Scale.Y);
+            Game.GraphicsDevice.ResizeWindow(size);
         }
 
         /// <summary>

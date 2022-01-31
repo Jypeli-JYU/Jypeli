@@ -197,7 +197,15 @@ namespace Jypeli.Assets
                 return;
 
             double relDistance = ( CurrentRadius + distanceFromEdge ) / CurrentRadius;
-            double shockQuotient = 1 / Math.Pow( relDistance, 2 );
+            if (relDistance == 0)
+            {
+                // erikoistapaus jos räjähdys on tismalleen samassa paikassa kappaleen kanssa.
+                // Nyt voima on tässä tilanteessa huomattavasti pienempi kuin jos kappale olisi hieman sivulla, 
+                // Mutta ei välitetä siitä.
+                relDistance = 0.1;
+            }
+
+            double shockQuotient = 1 / Math.Pow(relDistance, 2);
             double shockForce = Force * shockQuotient;
 
             if ( Math.Abs( shockForce ) > float.Epsilon )

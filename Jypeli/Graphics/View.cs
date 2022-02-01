@@ -194,9 +194,13 @@ namespace Jypeli
         {
             get
             {
+#if ANDROID
+                return Vector.One; // FrameBufferSize ei toimi luotettavasti Androidilla, toivotaan että millään Android laitteella tämä ei olisi mitään muuta kuin (1,1).
+#else
                 var fbs = Game.Instance.Window.FramebufferSize;
                 var ws = Game.Instance.Window.Size;
-                return new Vector(fbs.X / (double)ws.X, fbs.Y / (double)ws.Y);;
+                return new Vector(fbs.X / (double)ws.X, fbs.Y / (double)ws.Y);
+#endif
             }
             set
             {

@@ -154,6 +154,9 @@ namespace Jypeli
             get { throw new NotImplementedException(); }
         }
 
+        Vector prevPos;
+        Angle prevAngle;
+
         ///<inheritdoc/>
         public override void Update( Time time )
         {
@@ -164,8 +167,41 @@ namespace Jypeli
             
             if(!IsDestroyed)
                 Body.Update(time);
-
+            UpdateChildrenPos();
             base.Update( time );
+        }
+
+        ///<inheritdoc/>
+        public new void OnAddedToGame()
+        {
+            prevPos = Position;
+            prevAngle = Angle;
+            base.OnAddedToGame();
+        }
+
+        private void UpdateChildrenPos()
+        {
+            Vector pdiff = Position - prevPos;
+            Angle adiff = Angle - prevAngle;
+
+            Objects?.ForEach(o => {
+                o.Angle += adiff;
+                o.Position += pdiff;
+                Vector vdiff = o.Position - Position;
+                o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, adiff + vdiff.Angle);
+            });
+
+            // TODO: Purkkapallokorjaus, SynchronousListin kappalaiden lisäys pitäisi saada hieman yksinkertaisemmaksi.
+            foreach (var o in Objects?.GetObjectsAboutToBeAdded())
+            {
+                o.Angle += adiff;
+                o.Position += pdiff;
+                Vector vdiff = o.Position - Position;
+                o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, adiff + vdiff.Angle);
+            }
+
+            prevPos = Position;
+            prevAngle = Angle;
         }
     }
 }

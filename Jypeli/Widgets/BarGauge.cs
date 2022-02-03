@@ -100,10 +100,10 @@ namespace Jypeli.Widgets
 
         private static readonly Vector[] barVertices = new Vector[]
         {
-            new Vector(-0.5, 0),
-            new Vector(0.5, 0),
-            new Vector(0.5, 1.0),
-            new Vector(-0.5, 1.0)
+            new Vector(0.5, -0.5),
+            new Vector(0.5, 0.5),
+            new Vector(-0.5, 0.5),
+            new Vector(-0.5, -0.5)
         };
 
         private static readonly IndexTriangle[] barIndices = new IndexTriangle[]
@@ -147,8 +147,8 @@ namespace Jypeli.Widgets
         {
             double barLength = Size.Y * boundMeter.RelativeValue;
 
-            Renderer.DrawFilledShape(shapeCache, ref parentTransformation, Position - new Vector(0, Size.Y / 2), Size, 0, BorderColor);
-            Renderer.DrawFilledShape(shapeCache, ref parentTransformation, Position - new Vector(0, Size.Y / 2), new Vector(Size.X*0.8, barLength), (float)Angle.Radians, BarColor);
+            Renderer.DrawFilledShape(shapeCache, ref parentTransformation, Position, Size, (float)Angle.Radians, BorderColor);
+            Renderer.DrawFilledShape(shapeCache, ref parentTransformation, Position + Vector.FromLengthAndAngle(barLength / 2 - Size.Y / 2, Angle + Angle.RightAngle), new Vector(Size.X*0.8, barLength), (float)Angle.Radians, BarColor);
 
             base.Draw(parentTransformation, transformation);
 

@@ -90,6 +90,8 @@ namespace Jypeli.Widgets
             tx.TopRight = new Vector(TextureWrapSize.X, 0);
             tx.BottomLeft = new Vector(0, TextureWrapSize.Y);
             tx.BottomRight = new Vector(TextureWrapSize.X, TextureWrapSize.Y);
+
+            Game.GraphicsDevice.SetTextureToRepeat(Image);
         }
 
         /// <summary>

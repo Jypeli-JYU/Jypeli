@@ -32,7 +32,19 @@ namespace Jypeli
             get { return Body.Position; }
             set 
             {
+                Vector diff = value - Position;
                 Body.Position = value;
+
+                Objects?.ForEach(o => {
+                    o.Position += diff;
+                });
+
+                // TODO: Purkkapallokorjaus, SynchronousListin kappalaiden lisäys pitäisi saada hieman yksinkertaisemmaksi.
+                foreach (var o in Objects?.GetObjectsAboutToBeAdded())
+                {
+                    o.Position += diff;
+                }
+                prevPos += diff;
             }
         }
 
@@ -42,7 +54,23 @@ namespace Jypeli
             get { return Angle.FromRadians(Body.Angle); }
             set 
             {
+                Angle diff = value - Angle;
                 Body.Angle = value.Radians;
+
+                Objects?.ForEach(o => {
+                    o.Angle += diff;
+                    Vector vdiff = o.Position - Position;
+                    o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, diff + vdiff.Angle);
+                });
+
+                // TODO: Purkkapallokorjaus, SynchronousListin kappalaiden lisäys pitäisi saada hieman yksinkertaisemmaksi.
+                foreach (var o in Objects?.GetObjectsAboutToBeAdded())
+                {
+                    o.Angle += diff;
+                    Vector vdiff = o.Position - Position;
+                    o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, diff + vdiff.Angle);
+                }
+                prevAngle += diff;
             }
         }
 

@@ -138,6 +138,8 @@ namespace Jypeli
         {
             if (this == target)
                 return true;
+            if (target.Parent != null)
+                return IgnoresCollisionWith((PhysicsObject)target.Parent);
             if ( this.IgnoresCollisionResponse || target.IgnoresCollisionResponse )
                 return true;
             if ( this.CollisionIgnorer == null || target.CollisionIgnorer == null )

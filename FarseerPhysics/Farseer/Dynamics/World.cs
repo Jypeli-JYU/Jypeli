@@ -1807,6 +1807,7 @@ namespace FarseerPhysics.Dynamics
             }
             fsBody2.FixtureList._list.Clear();
             fsBody2.Enabled = false;
+            Remove(fsBody2);
             fsBody1.ResetMassData();
         }
 

@@ -63,7 +63,7 @@ namespace Jypeli
                     FSBody.Awake = true;
                 // Farseer ei hirveästi arvosta kappaleen raahaamista hiirellä suoraan sijaintia muuttamalla.
                 // TODO: Kappaleille jonkin sortin "EnableDragging" tms. ja FixedMouseJoint
-                FSBody.SetTransform(ref temp, (float)Angle);
+                FSBody.Position = temp;
             }
         }
 

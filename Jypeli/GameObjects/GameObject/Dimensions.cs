@@ -76,22 +76,18 @@ namespace Jypeli
             }
             set
             {
+                Vector diff = value - Position;
                 base.Position = value;
 
                 Objects?.ForEach(o => {
-                    o.RelativePositionToMainParent = o.InitialRelativePosition;
-                    o.RelativeAngleToMainParent = o.InitialRelativeAngle;
+                    o.Position += diff;
                 });
 
                 // TODO: Purkkapallokorjaus, SynchronousListin kappalaiden lisäys pitäisi saada hieman yksinkertaisemmaksi.
                 foreach(var o in Objects?.GetObjectsAboutToBeAdded())
                 {
-                    o.RelativePositionToMainParent = o.InitialRelativePosition;
-                    o.RelativeAngleToMainParent = o.InitialRelativeAngle;
+                    o.Position += diff;
                 }
-
-                if (Parent != null)
-                    InitialRelativePosition = RelativePositionToMainParent;
             }
         }
 
@@ -106,22 +102,22 @@ namespace Jypeli
             }
             set
             {
+                Angle diff = value - Angle;
                 _angle = value;
 
                 Objects?.ForEach(o => {
-                    o.RelativePositionToMainParent = o.InitialRelativePosition;
-                    o.RelativeAngleToMainParent = o.InitialRelativeAngle;
+                    o.Angle += diff;
+                    Vector vdiff = o.Position - Position;
+                    o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, diff + vdiff.Angle);
                 });
 
                 // TODO: Purkkapallokorjaus, SynchronousListin kappalaiden lisäys pitäisi saada hieman yksinkertaisemmaksi.
                 foreach (var o in Objects?.GetObjectsAboutToBeAdded())
                 {
-                    o.RelativePositionToMainParent = o.InitialRelativePosition;
-                    o.RelativeAngleToMainParent = o.InitialRelativeAngle;
+                    o.Angle += diff;
+                    Vector vdiff = o.Position - Position;
+                    o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, diff + vdiff.Angle);
                 }
-
-                if (Parent != null)
-                    InitialRelativeAngle = RelativeAngleToMainParent;
             }
         }
 

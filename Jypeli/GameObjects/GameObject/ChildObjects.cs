@@ -187,11 +187,6 @@ namespace Jypeli
         private void UpdateChildren( Time time )
         {
             Objects.Update( time );
-
-            Objects.ForEach(o => {
-                o.RelativePositionToMainParent = o.InitialRelativePosition;
-                o.RelativeAngleToMainParent = o.InitialRelativeAngle;
-            });
         }
 
         /// <summary>

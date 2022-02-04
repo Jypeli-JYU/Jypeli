@@ -2,14 +2,14 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFrameworks>net5.0</TargetFrameworks>
+        <TargetFrameworks>net6.0</TargetFrameworks>
         <PublishReadyToRun>false</PublishReadyToRun>
         <TieredCompilation>false</TieredCompilation>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Jypeli.NET" Version="10.*" />
-        <PackageReference Include="Jypeli.FarseerPhysics.NET" Version="1.0.*" />
+      <ProjectReference Include="..\..\FarseerPhysics\FarseerPhysics.csproj" />
+      <ProjectReference Include="..\..\Jypeli\Jypeli.csproj" />
     </ItemGroup>
 
     <ItemGroup>

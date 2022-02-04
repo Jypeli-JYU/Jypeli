@@ -19,14 +19,10 @@ public class Pong : PhysicsGame
     IntMeter pelaajan1Pisteet;
     IntMeter pelaajan2Pisteet;
 
-    public Pong()
-    {
-        SetWindowSize(800, 600);
-        IsMouseVisible = true;
-    }
-
     public override void Begin()
     {
+        SetWindowSize(800, 600);
+        Mouse.IsCursorVisible = true;
         LuoKentta();
         AsetaOhjaimet();
         LisaaLaskurit();

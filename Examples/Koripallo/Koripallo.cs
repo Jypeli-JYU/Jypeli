@@ -310,12 +310,12 @@ public class Koripallo : PhysicsGame
         return Vector.Distance(paikka, pallo.Position) < (pallo.Width / 2);
     }
 
-    void HeitaHiirella(AnalogState state)
+    void HeitaHiirella()
     {
         if (onHeittamassa)
         {
             pallo.Position = Mouse.PositionOnWorld;
-            LisaaLiike(state.MouseMovement);
+            LisaaLiike(Mouse.MovementOnScreen);
         }
     }
 

@@ -46,6 +46,7 @@ namespace Jypeli.Assets
         private List<IMotorJoint> joints = new List<IMotorJoint>();
         //private IntMeter ammo = new IntMeter( 10 );
         private IntMeter hitPoints = new IntMeter( 10 );
+        private bool accelerateCalled = false;
 
         /// <summary>
         /// Tankin koko. Tätä ei voi muuttaa.
@@ -145,7 +146,7 @@ namespace Jypeli.Assets
 
                 IMotorJoint joint = (IMotorJoint)pg.Engine.CreateJoint(this, wheel, JointTypes.WheelJoint);
 
-                joint.Softness = Mass;
+                joint.Softness = Mass*10;
                 joint.MaxMotorTorque = Mass * 50;
                 joint.MotorEnabled = false;
                 joint.Axis = Vector.UnitY;
@@ -183,6 +184,7 @@ namespace Jypeli.Assets
         /// <param name="speed">Nopeus johon kiihdytetään.</param>
         public void Accelerate(double speed)
         {
+            accelerateCalled = true;
             double rotSpeed = speed / wheels[0].Width * 2;
             foreach (var j in joints)
             {
@@ -212,10 +214,12 @@ namespace Jypeli.Assets
         /// <inheritdoc/>
         public override void Update(Time time)
         {
-            foreach (var j in joints)
-            {
-                j.MotorEnabled = false;
-            }
+            if(!accelerateCalled)
+                foreach (var j in joints)
+                {
+                    j.MotorEnabled = false;
+                }
+            accelerateCalled = false;
             base.Update(time);
         }
     }

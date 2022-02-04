@@ -72,12 +72,12 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
                 alc = ALContext.GetApi(true);
                 al = AL.GetApi(true);
             }
-            catch (Exception e)
+            catch
             {
                 alc = ALContext.GetApi();
                 al = AL.GetApi();
             }
-            
+
             var device = alc.OpenDevice("");
             if (device == null)
             {
@@ -122,7 +122,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
                 {
                     Init();
                 }
-                catch (Exception)
+                catch
                 {
                     // Suppress and let the Game.InitAudio() report the error
                 }
@@ -260,6 +260,11 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             return source;
         }
 
+        internal static void Destroy(uint handle)
+        {
+            al.DeleteSource(handle);
+        }
+
         public static uint Duplicate(uint from)
         {
             if (al is null)
@@ -277,7 +282,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
         public static void Play(uint source)
         {
             al?.SourcePlay(source);
-        }
+       }
 
         public static void Stop(uint source)
         {

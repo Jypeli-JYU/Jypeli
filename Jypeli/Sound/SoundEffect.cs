@@ -181,5 +181,13 @@ namespace Jypeli
         {
             get; set;
         }
+
+        /// <summary>
+        /// Poistaa ääniefektin järjestelmän muistista.
+        /// </summary>
+        ~SoundEffect()
+        {
+            OpenAL.Destroy(handle);
+        }
     }
 }

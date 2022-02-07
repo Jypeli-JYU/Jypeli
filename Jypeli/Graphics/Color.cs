@@ -417,7 +417,7 @@ namespace Jypeli
         /// <returns></returns>
         public static Color Lerp(Color value1, Color value2, double amount)
         {
-            float x = MathHelper.Clamp((float)amount, 0, 1);
+            float x = (float)MathHelper.Clamp(amount, 0, 1);
             return new Color(
                 (byte)MathHelper.Lerp(value1.RedComponent, value2.RedComponent, x),
                 (byte)MathHelper.Lerp(value1.GreenComponent, value2.GreenComponent, x),

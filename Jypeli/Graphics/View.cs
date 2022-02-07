@@ -448,7 +448,7 @@ namespace Jypeli
 
         internal void Render()
         {
-            float angle = flipAndMirror ? this.angle + MathHelper.Pi : this.angle;
+            float angle = flipAndMirror ? this.angle + (float)MathHelper.Pi : this.angle;
 
             Game.GraphicsDevice.SetRenderTarget(null);
             Game.GraphicsDevice.Clear(Game.Instance.Level.BackgroundColor);

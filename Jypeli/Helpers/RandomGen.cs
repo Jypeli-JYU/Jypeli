@@ -180,11 +180,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="obj">Olio</param>
         /// <returns>Väri.</returns>
-        /*public static Color NextColor( object obj )
+        public static Color NextColor( object obj )
         {
-            var r = new Random( obj.GetHashCode() );
-            return new Color( (float)r.NextDouble(), (float)r.NextDouble(), (float)r.NextDouble(), 1 );
-        }*/
+            var r = new Random(obj.GetHashCode());
+            return new Color((float)r.NextDouble(), (float)r.NextDouble(), (float)r.NextDouble(), 1);
+        }
 
         /// <summary>
         /// Palauttaa satunnaisen värin.

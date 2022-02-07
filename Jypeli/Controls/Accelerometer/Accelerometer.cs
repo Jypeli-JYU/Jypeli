@@ -4,12 +4,21 @@ using Vector3 = System.Numerics.Vector3;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Dummy -kiihtyvyysanturi tietokonetta varten. Ei tee mitään.
+    /// </summary>
     public class DummyAccelerometer : Accelerometer
     {
     }
 
+    /// <summary>
+    /// Kiihtyvyysanturi/>
+    /// </summary>
     public abstract class Accelerometer : Controller<System.Numerics.Vector3, AccelerometerDirection>
     {
+        /// <summary>
+        /// Onko anturi käynnistetty
+        /// </summary>
         protected bool started = false;
 
         /// <summary>
@@ -39,6 +48,9 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Kiihtyvyyden arvo.
+        /// </summary>
         public Vector3 Reading3d
         {
             get
@@ -47,6 +59,9 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Edellinen kiihtyvyyden arvo.
+        /// </summary>
         public Vector3 PreviousReading3d
         {
             get
@@ -88,6 +103,10 @@ namespace Jypeli
         /// </summary>
         public int TimeBetweenShakes { get; set; }
 
+        /// <summary>
+        /// Kiihtyvyysanturin muodostaja, tätä sinun tuskin tarvitsee käyttää itse.
+        /// Käytä <c>Device.Accelerometer</c>
+        /// </summary>
         public Accelerometer()
         {
             Calibration = AccelerometerCalibration.ZeroAngle;
@@ -207,26 +226,58 @@ namespace Jypeli
 
 #region Listen with no parameters
 
+        /// <summary>
+        /// Kuuntele kiihtyvyysanturin muutosta
+        /// </summary>
+        /// <param name="direction">Suunta</param>
+        /// <param name="handler">Tapahtumankäsittelijä</param>
+        /// <param name="helpText">Aputeksti</param>
         public void Listen( AccelerometerDirection direction, Action handler, string helpText )
         {
             this.Listen( direction, DefaultSensitivity, handler, helpText );
         }
 
+        /// <summary>
+        /// Kuuntele kiihtyvyysanturin muutosta
+        /// </summary>
+        /// <param name="handler">Tapahtumankäsittelijä</param>
+        /// <param name="helpText">Aputeksti</param>
         public void ListenAnalog( Action<AnalogState> handler, string helpText )
         {
             this.ListenAnalog( DefaultAnalogSensitivity, handler, helpText );
         }
 
+        /// <summary>
+        /// Kuuntele kiihtyvyysanturin muutosta
+        /// </summary>
+        /// <param name="direction">Suunta</param>
+        /// <param name="sensitivity">Herkkyys</param>
+        /// <param name="handler">Tapahtumankäsittelijä</param>
+        /// <param name="helpText">Aputeksti</param>
         public void Listen( AccelerometerDirection direction, AccelerometerSensitivity sensitivity, Action handler, string helpText )
         {
             this.Listen( direction, (int)sensitivity / 100, handler, helpText );
         }
 
+        /// <summary>
+        /// Kuuntele kiihtyvyysanturin muutosta
+        /// </summary>
+        /// <param name="sensitivity">Herkkyys</param>
+        /// <param name="handler">Tapahtumankäsittelijä</param>
+        /// <param name="helpText">Aputeksti</param>
         public void ListenAnalog( AccelerometerSensitivity sensitivity, Action<AnalogState> handler, string helpText )
         {
             this.ListenAnalog( (int)sensitivity / 100, handler, helpText );
         }
 
+        /// <summary>
+        /// Kuuntele kiihtyvyysanturin muutosta
+        /// </summary>
+        /// <param name="direction">Suunta</param>
+        /// <param name="trigger">Herkkyys</param>
+        /// <param name="handler">Tapahtumankäsittelijä</param>
+        /// <param name="helpText">Aputeksti</param>
+        /// <returns></returns>
         public Listener Listen( AccelerometerDirection direction, double trigger, Action handler, string helpText )
         {
             Start();
@@ -234,6 +285,13 @@ namespace Jypeli
             return AddListener( rule, direction, GetDirectionName( direction ), helpText, handler );
         }
 
+        /// <summary>
+        /// Kuuntele kiihtyvyysanturin muutosta
+        /// </summary>
+        /// <param name="trigger">Herkkyys</param>
+        /// <param name="handler">Tapahtumankäsittelijä</param>
+        /// <param name="helpText">Aputeksti</param>
+        /// <returns></returns>
         public Listener ListenAnalog( double trigger, Action<AnalogState> handler, string helpText )
         {
             Start();

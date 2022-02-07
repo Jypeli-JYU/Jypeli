@@ -73,6 +73,10 @@ namespace Jypeli
             UpdateControls(time);
         }
 
+        /// <summary>
+        /// Kun pelitilanne pitää päivittää.
+        /// </summary>
+        /// <param name="dt">Kulunut aika edellisestä päivityksestä</param>
         protected void OnUpdate(double dt)
         {
             // Jos jostain syystä olisi tulossa hyvin iso dt, muutetaan se pieneksi.
@@ -95,6 +99,10 @@ namespace Jypeli
             }
         }
 
+        /// <summary>
+        /// Kun pelitilanne pitää piirtää ruudulle
+        /// </summary>
+        /// <param name="dt">Kulunut aika edellisestä päivityksestä</param>
         protected void OnDraw(double dt)
         {
             if(!Closing) // Jos peli ollaan sulkemassa, ei yritetä piirtää.

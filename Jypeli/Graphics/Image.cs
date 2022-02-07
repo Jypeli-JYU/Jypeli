@@ -18,9 +18,18 @@ using System.Numerics;
 
 namespace Jypeli
 {
+    /// <summary>
+    /// Kuvan skaalausasetus
+    /// </summary>
     public enum ImageScaling
     {
+        /// <summary>
+        /// Lineaarinen interpolointi (Sumentaa/pehmentää)
+        /// </summary>
         Linear,
+        /// <summary>
+        /// Lähin pikseli (Pikseligrafiikalle oikea valinta)
+        /// </summary>
         Nearest
     }
     /// <summary>
@@ -86,6 +95,9 @@ namespace Jypeli
             get { return assetName; }
         }
 
+        /// <summary>
+        /// Kuvan koko
+        /// </summary>
         public Vector Size { get => new Vector(Width, Height); }
 
         internal Image(int width, int height)

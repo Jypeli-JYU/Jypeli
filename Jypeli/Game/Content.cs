@@ -46,7 +46,7 @@ namespace Jypeli
         /// Pelin kaikkien ääniefektien voimakkuuskerroin, Väliltä 0-1.0.
         /// Tämä on sama kuin SoundEffect.MasterVolume.
         /// </summary>
-        public double MasterVolume
+        public static double MasterVolume
         {
             get => SoundEffect.MasterVolume;
             set => SoundEffect.MasterVolume = value;

@@ -115,6 +115,16 @@ namespace Jypeli
             set { _helpText = value; }
         }
 
+        /// <summary>
+        /// Luo uuden ohjaintapahtumien kuuntelijan
+        /// </summary>
+        /// <param name="triggerRule"></param>
+        /// <param name="context"></param>
+        /// <param name="ctrl"></param>
+        /// <param name="controlName"></param>
+        /// <param name="helpText"></param>
+        /// <param name="handler"></param>
+        /// <param name="args"></param>
         public Listener( ChangePredicate<State> triggerRule, ListenContext context, Ctrl ctrl, string controlName, string helpText, Delegate handler, params object[] args )
         {
             this.isDestroyed = false;
@@ -130,6 +140,16 @@ namespace Jypeli
             this.contextedObject = null;
         }
 
+        /// <summary>
+        /// Luo uuden ohjaintapahtumien kuuntelijan
+        /// </summary>
+        /// <param name="triggerRule"></param>
+        /// <param name="contexted"></param>
+        /// <param name="ctrl"></param>
+        /// <param name="controlName"></param>
+        /// <param name="helpText"></param>
+        /// <param name="handler"></param>
+        /// <param name="args"></param>
         public Listener( ChangePredicate<State> triggerRule, ControlContexted contexted, Ctrl ctrl, string controlName, string helpText, Delegate handler, params object[] args )
         {
             this.isDestroyed = false;
@@ -145,6 +165,9 @@ namespace Jypeli
             this.contextedObject = contexted;
         }
 
+        /// <summary>
+        /// Kutsuu tapahtumankäsittelijää.
+        /// </summary>
         public void Invoke()
         {
             MethodInfo handlerMethod = handler.Method;
@@ -152,6 +175,11 @@ namespace Jypeli
             handlerMethod.Invoke( handler.Target, handlerParams );
         }
 
+        /// <summary>
+        /// Kutsuu tapahtumankäsittelijää, mikäli sen ehto on toteutunut
+        /// </summary>
+        /// <param name="oldState">Vanha tila</param>
+        /// <param name="newState">Uusi tila</param>
         public void CheckAndInvoke( State oldState, State newState )
         {
             if ( !IsDestroyed && Context != null && !Context.IsDestroyed && Context.Active && isTriggered( oldState, newState ) )

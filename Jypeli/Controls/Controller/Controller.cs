@@ -99,6 +99,16 @@ namespace Jypeli.Controls
             listeners.ForEach( l => l.CheckAndInvoke( PrevState, CurrentState ) );
         }
 
+        /// <summary>
+        /// Lisää kuuntelijan ohjaimelle.
+        /// </summary>
+        /// <param name="rule"></param>
+        /// <param name="control"></param>
+        /// <param name="controlName"></param>
+        /// <param name="helpText"></param>
+        /// <param name="handler"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         protected Listener AddListener( ChangePredicate<ControllerState> rule, Control control, string controlName, string helpText, Delegate handler, params object[] args )
         {
             var l = new Listener<ControllerState, Control>( rule, Game.Instance.ControlContext, control, controlName, helpText, handler, args );

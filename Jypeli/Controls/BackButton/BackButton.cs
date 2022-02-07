@@ -70,11 +70,17 @@ namespace Jypeli
             return AddListener(ButtonDown, Button.Back, "Back", helpText, handler, p1, p2, p3);
         }
 
+        /// <summary>
+        /// Ottaa paluunäppäimen käyttöön
+        /// </summary>
         public void Enable()
         {
             EnableAll();
         }
 
+        /// <summary>
+        /// Poistaa paluunäppäimen käytöstä.
+        /// </summary>
         public void Disable()
         {
             DisableAll();

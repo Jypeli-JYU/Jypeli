@@ -41,7 +41,7 @@ using Silk.NET.OpenAL;
 
 namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta jos tulevaisuudessa tulee jokin muukin alusta äänen toistoa varten.
 {
-    public static unsafe class OpenAL
+    internal static unsafe class OpenAL
     {
         private static AL al;
         private static bool initialized;
@@ -93,7 +93,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             al.SetListenerProperty(ListenerVector3.Position, 0, 0, 1);
         }
 
-        public static uint LoadSound(Stream stream)
+        internal static uint LoadSound(Stream stream)
         {
             using (var memoryStream = new MemoryStream())
             {
@@ -102,7 +102,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             }
         }
 
-        public static uint LoadSound(string filename)
+        internal static uint LoadSound(string filename)
         {
             ReadOnlySpan<byte> file = File.ReadAllBytes(filename);
             return LoadWAV(file);
@@ -265,7 +265,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             al.DeleteSource(handle);
         }
 
-        public static uint Duplicate(uint from)
+        internal static uint Duplicate(uint from)
         {
             if (al is null)
             {
@@ -279,17 +279,17 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             return to;
         }
 
-        public static void Play(uint source)
+        internal static void Play(uint source)
         {
             al?.SourcePlay(source);
-       }
+        }
 
-        public static void Stop(uint source)
+        internal static void Stop(uint source)
         {
             al?.SourceStop(source);
         }
 
-        public static void Pause(uint source)
+        internal static void Pause(uint source)
         {
             al?.SourcePause(source);
         }

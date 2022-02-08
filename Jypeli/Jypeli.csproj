@@ -90,13 +90,6 @@
 		<EmbeddedResource Include="Content\Shaders\OpenGL\ParticleVertexShader.glsl" />
 		<EmbeddedResource Include="Content\Shaders\OpenGL\SimpleFloodLightFragment.glsl" />
 		<EmbeddedResource Include="Content\Shaders\OpenGL\DefaultColorShader.glsl" />
-		<None Include="..\Documentation\jypeli_logo.png">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
 		<EmbeddedResource Include="Content\Fonts\Roboto-Bold.ttf" />
 		<EmbeddedResource Include="Content\Fonts\Roboto-Regular.ttf" />
 		<EmbeddedResource Include="Content\Images\AsRifle.png" />
@@ -121,6 +114,10 @@
 		<EmbeddedResource Include="Content\Sounds\Laser.wav" />
 		<EmbeddedResource Include="Content\Sounds\MGAttack.wav" />
 		<EmbeddedResource Include="Content\Sounds\PlasmaAttack.wav" />
+		<None Include="..\Documentation\jypeli_logo.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
 	</ItemGroup>
 
 	<PropertyGroup>
@@ -149,8 +146,6 @@
 	</ItemGroup>
 
 	<PropertyGroup>
-		<AssemblyVersion>11.1.0</AssemblyVersion>
-		<FileVersion>11.1.0</FileVersion>
 		<PackageIcon>jypeli_logo.png</PackageIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>

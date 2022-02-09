@@ -139,6 +139,12 @@ namespace Jypeli
         private Stream CurrentFrameStream => !SaveOutputToConsole ? new FileStream(Path.Combine("Output", $"{SavedFrameCounter}.bmp"), FileMode.Create) : standardOutStream.Value;
 
         private readonly Lazy<Stream> standardOutStream = new Lazy<Stream>(Console.OpenStandardOutput);
+
+        /// <summary>
+        /// Tapahtuu kun ikkunan koko muuttuu.
+        /// Parametrina tulee ikkunan uusi koko.
+        /// </summary>
+        public event Action<Vector> WindowSizeChanged;
         
         /// <summary>
         /// Onko peli sulkeutumassa tämän päivityksen jölkeen.
@@ -248,6 +254,7 @@ namespace Jypeli
         internal static void OnResize(Vector size)
         {
             Screen.Resize(size);
+            Instance.WindowSizeChanged?.Invoke(size);
         }
 
         internal void OnNoAudioHardwareException()

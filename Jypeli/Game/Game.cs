@@ -231,7 +231,7 @@ namespace Jypeli
 
             Window = Silk.NET.Windowing.Window.Create(options);
 #endif
-            Window.Load += LoadContent;
+            Window.Load += Initialize;
             Window.Update += OnUpdate;
             Window.Render += OnDraw;
             Window.Closing += OnExit;
@@ -267,32 +267,9 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// This gets called after the GraphicsDevice has been created. So, this is
-        /// the place to initialize the resources needed in the game. Except the graphics content,
-        /// which should be called int LoadContent(), according to the XNA docs.
+        /// Pelin sisällön alustus
         /// </summary>
-        [EditorBrowsable( EditorBrowsableState.Never )]
         protected void Initialize()
-        {
-            CenterWindow();
-
-            Level = new Level( this );
-
-#if ANDROID
-            VirtualKeyboard = new VirtualKeyboard(this);
-            //Components.Add(VirtualKeyboard);
-            VirtualKeyboard.Initialize();
-            VirtualKeyboard.Hide();
-#endif
-
-            //Activated += (e, sender) => { IsActive = true; };
-            //Deactivated += (e, sender) => { IsActive = false; };
-        }
-
-        /// <summary>
-        /// XNA:n sisällön alustus (Initializen jälkeen)
-        /// </summary>
-        protected void LoadContent()
         {
 #if DESKTOP
             ((IWindow)Window).Center();
@@ -308,12 +285,21 @@ namespace Jypeli
             InstanceInitialized?.Invoke();
 
             AddMessageDisplay();
-            Initialize();
+
+            Level = new Level(this);
+
+#if ANDROID
+            VirtualKeyboard = new VirtualKeyboard(this);
+            //Components.Add(VirtualKeyboard);
+            VirtualKeyboard.Initialize();
+            VirtualKeyboard.Hide();
+#endif
+
             CallBegin();
         }
 
         /// <summary>
-        /// XNA:n piirtorutiinit.
+        /// Pelin piirtorutiinit.
         /// </summary>
         /// <param name="gameTime"></param>
         [EditorBrowsable( EditorBrowsableState.Never )]

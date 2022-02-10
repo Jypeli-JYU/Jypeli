@@ -106,6 +106,14 @@ namespace Jypeli
             CreateNewTexture(width, height, Color.Black);
         }
 
+        /// <summary>
+        /// Luo kuvan StorageFile-oliosta.
+        /// </summary>
+        /// <param name="f"></param>
+        public Image(StorageFile f) : this(f.Stream)
+        {
+        }
+
         internal Image(Stream s)
         {
             image = (SXImage)SImage.Load(s);
@@ -491,14 +499,9 @@ namespace Jypeli
         /// <returns>Kuva</returns> 
         public static Image FromURL(string url)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create( url );
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream resStream = response.GetResponseStream();
-
-            MemoryStream memStream = new MemoryStream();
-            resStream.CopyTo( memStream );
-
-            Image img = new Image(SImage.Load(memStream));
+            var req = FileManager.Client.GetAsync(url);
+            req.Wait();
+            Image img = new Image(SImage.Load(req.Result.Content.ReadAsStream()));
             return img;
         }
 

@@ -3,33 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Jypeli
 {
     public partial class FileManager : Updatable
     {
+        internal static HttpClient Client = new HttpClient();
         public class AsyncOperation
         {
-            public HttpWebRequest Request;
+            public Task<HttpResponseMessage> Request;
             public IAsyncResult Result;
             public TimeSpan Lifetime;
             public Action<StorageFile> Callback;
+            public CancellationTokenSource CancellationToken;
 
             public bool IsCompleted
             {
                 get { return Result == null ? true : Result.IsCompleted; }
             }
 
-            public AsyncOperation( HttpWebRequest req, Action<StorageFile> callback )
+            public AsyncOperation(Task<HttpResponseMessage> req, Action<StorageFile> callback)
             {
                 this.Request = req;
+                this.Callback = callback;
+                this.Lifetime = TimeSpan.FromSeconds(15);
+            }
+
+            public AsyncOperation(Task<HttpResponseMessage> req, Action<StorageFile> callback, TimeSpan timeout)
+            {
+                this.Request = req;
+                this.Callback = callback;
+                this.Lifetime = timeout;
+            }
+
+            public AsyncOperation(Task<HttpResponseMessage> req, CancellationTokenSource cancel, Action<StorageFile> callback)
+            {
+                this.Request = req;
+                this.CancellationToken = cancel;
                 this.Callback = callback;
                 this.Lifetime = TimeSpan.FromSeconds( 15 );
             }
 
-            public AsyncOperation( HttpWebRequest req, Action<StorageFile> callback, TimeSpan timeout )
+            public AsyncOperation(Task<HttpResponseMessage> req, CancellationTokenSource cancel, Action<StorageFile> callback, TimeSpan timeout)
             {
                 this.Request = req;
+                this.CancellationToken = cancel;
                 this.Callback = callback;
                 this.Lifetime = timeout;
             }
@@ -76,7 +97,7 @@ namespace Jypeli
                     if ( op.Lifetime.TotalSeconds <= 0 )
                     {
                         //Game.Instance.MessageDisplay.Add( "!!ABORT" );
-                        op.Request.Abort();
+                        op.CancellationToken.Cancel();
                         trig.failed++;
                     }
                 }
@@ -131,10 +152,13 @@ namespace Jypeli
         /// </example>
         public AsyncOperation DoWithURL( string url, Action<StorageFile> callback )
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create( url );
-            AsyncOperation op = new AsyncOperation( request, callback );
-            IAsyncResult result = request.BeginGetResponse( DoWithCallback, op );
-            op.Result = result;
+            var cancelToken = new CancellationTokenSource();
+            var request = Client.GetAsync(url, cancelToken.Token);
+            request.ContinueWith((t) =>
+            {
+                callback(new StorageFile(url, request.Result.Content.ReadAsStream()));
+            });
+            AsyncOperation op = new AsyncOperation(request, cancelToken, callback);
             return op;
         }
 
@@ -147,7 +171,7 @@ namespace Jypeli
         /// <param name="callback">Mitä tehdään (aliohjelman nimi)</param>
         /// <example>
         /// {
-        ///    DoWith( "http://www.google.fi/images/srpr/logo3w.png", AsetaKuva );
+        ///    DoWithURL( "http://www.google.fi/images/srpr/logo3w.png", AsetaKuva );
         /// }
         /// 
         /// void AsetaKuva( StorageFile kuva )
@@ -157,38 +181,15 @@ namespace Jypeli
         /// </example>
         public AsyncOperation DoWithURL( string url, TimeSpan timeout, Action<StorageFile> callback )
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create( url );
-            AsyncOperation op = new AsyncOperation( request, callback, timeout );
-            IAsyncResult result = request.BeginGetResponse( DoWithCallback, op );
-            op.Result = result;
+            var cancelToken = new CancellationTokenSource();
+            cancelToken.CancelAfter(timeout);
+            var request = Client.GetAsync(url, cancelToken.Token);
+            request.ContinueWith((t) =>
+            {
+                callback(new StorageFile(url, request.Result.Content.ReadAsStream()));
+            });
+            AsyncOperation op = new AsyncOperation(request, callback, timeout);
             return op;
-        }
-
-        private void DoWithCallback(IAsyncResult ar)
-        {
-            try
-            {
-                AsyncOperation op = (AsyncOperation)ar.AsyncState;
-                WebResponse response = op.Request.EndGetResponse( ar );
-                Stream resStream = response.GetResponseStream();
-                MemoryStream memStream = new MemoryStream();
-                resStream.CopyStreamTo( memStream );
-                resStream.Dispose();
-                response.Close();
-
-                memStream.Seek( 0, SeekOrigin.Begin );
-                op.Callback( new StorageFile( op.Request.RequestUri.AbsoluteUri, memStream ) );
-                memStream.Dispose();
-
-                foreach ( var trig in triggers.FindAll( t => t.ops.Any( o => o.Result == ar ) ) )
-                    trig.triggered++;
-
-            }
-            catch ( WebException )
-            {
-                // Return if aborted
-                return;
-            }
         }
 
         /// <summary>

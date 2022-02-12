@@ -82,11 +82,11 @@ namespace Jypeli
         {
             get
             {
-                return new Vector(mouse.Position.X, -mouse.Position.Y);
+                return ScreenView.FromDisplayCoords(new Vector(mouse.Position.X, mouse.Position.Y));
             }
             set
             {
-                mouse.Position = value;
+                mouse.Position = ScreenView.ToDisplayCoords(value);
             }
         }
 
@@ -116,8 +116,8 @@ namespace Jypeli
 
                 Vector curXna = new Vector(CurrentState.PosX, CurrentState.PosY);
                 Vector prevXna = new Vector(PrevState.PosX, PrevState.PosY);
-                Vector curScr = ScreenView.FromXnaCoords(curXna, screen.ViewportSize, Vector.Zero);
-                Vector prevScr = ScreenView.FromXnaCoords(prevXna, screen.ViewportSize, Vector.Zero);
+                Vector curScr = ScreenView.FromDisplayCoords(curXna);
+                Vector prevScr = ScreenView.FromDisplayCoords(prevXna);
                 Vector curr = curScr.Transform(screenTransform);
                 Vector prev = prevScr.Transform(screenTransform);
 
@@ -136,8 +136,8 @@ namespace Jypeli
 
                 Vector curXna = new Vector(CurrentState.PosX, CurrentState.PosY);
                 Vector prevXna = new Vector(PrevState.PosX, PrevState.PosY);
-                Vector curScr = ScreenView.FromXnaCoords(curXna, screen.ViewportSize, Vector.Zero);
-                Vector prevScr = ScreenView.FromXnaCoords(prevXna, screen.ViewportSize, Vector.Zero);
+                Vector curScr = ScreenView.FromDisplayCoords(curXna);
+                Vector prevScr = ScreenView.FromDisplayCoords(prevXna);
                 Vector curr = curScr.Transform(screenTransform);
                 Vector prev = prevScr.Transform(screenTransform);
 

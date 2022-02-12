@@ -20,7 +20,7 @@ namespace Jypeli
         {
             get
             {
-                return ScreenView.FromXnaCoords( _position, Game.Screen.ViewportSize, Vector.Zero ).Transform( Game.Screen.GetScreenTransform() );
+                return ScreenView.FromDisplayCoords(_position).Transform(Game.Screen.GetScreenTransform());
             }
         }
 

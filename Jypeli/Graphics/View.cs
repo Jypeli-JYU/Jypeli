@@ -364,43 +364,34 @@ namespace Jypeli
 		}
 
         /// <summary>
-        /// Muuntaa XNA:n ruutukoordinaateista Jypelin ruutukoordinaateiksi.
+        /// Muuntaa standardeista ruutukoordinaateista Jypelin ruutukoordinaateiksi.
+        /// Normaaleissa ruutukoordinaateissa origo on vasemmassa yläkulmassa.
+        /// Jypelissä se taas on ruudun keskellä.
         /// </summary>
-        /// <param name="position"></param>
-        /// <param name="screenSize"></param>
-        /// <param name="objectSize"></param>
+        /// <param name="position">Sijainti joka muutetaan</param>
         /// <returns></returns>
-        internal static Vector FromXnaCoords( Vector position, Vector screenSize, Vector objectSize )
+        internal static Vector FromDisplayCoords(Vector position)
         {
-            double x = ( -screenSize.X + objectSize.X ) / 2 + position.X;
-            double y = ( screenSize.Y - objectSize.Y ) / 2 - position.Y;
-            return new Vector( x, y );
-        }
-
-        private static float xToXna( float x, float scrW, float objW )
-        {
-            return ( scrW - objW ) / 2 + x;
-        }
-
-        private static float yToXna( float y, float scrH, float objH )
-        {
-            return ( scrH - objH ) / 2 - y;
+            var screenSize = Game.Screen.Size;
+            double x = -screenSize.X / 2 + position.X;
+            double y = screenSize.Y / 2 - position.Y;
+            return new Vector(x, y);
         }
 
         /// <summary>
-        /// Muuntaa Jypelin ruutukoordinaateista XNA:n ruutukoordinaateiksi.
+        /// Muuntaa Jypelin ruutukoordinaateista standardeiksi ruutukoordinaateiksi.
         /// </summary>
-        /// <param name="position"></param>
-        /// <param name="screenSize"></param>
-        /// <param name="objectSize"></param>
+        /// <param name="position">Sijainti joka muutetaan</param>
         /// <returns></returns>
-        internal static Vector ToXnaCoords( Vector position, Vector screenSize, Vector objectSize )
+        internal static Vector ToDisplayCoords( Vector position)
         {
-            return new Vector(
-                xToXna( (float)position.X, (float)screenSize.X, (float)objectSize.X ),
-                yToXna( (float)position.Y, (float)screenSize.Y, (float)objectSize.Y ) );
+            var screenSize = Game.Screen.Size;
+            double x = screenSize.X / 2 + position.X;
+            double y = screenSize.Y / 2 - position.Y;
+            return new Vector(x, y);
         }
         
+        // TODO: Tehdäänkö tällä enää mitään?
         /// <summary>
         /// Muuntaa matriisin Jypelin ruutukoordinaateista XNA:n ruutukoordinaatteihin.
         /// </summary>

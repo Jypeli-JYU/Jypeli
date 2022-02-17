@@ -113,6 +113,7 @@ namespace Jypeli
         {
             try
             {
+                OpenAL.SetVolume(soundeffect.handle, Volume * Game.MasterVolume);
                 OpenAL.Play(soundeffect.handle);
             }
             catch (NullReferenceException)

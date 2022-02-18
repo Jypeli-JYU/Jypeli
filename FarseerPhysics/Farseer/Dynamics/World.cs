@@ -1758,11 +1758,13 @@ namespace FarseerPhysics.Dynamics
         {
             PhysicsBody b = body as PhysicsBody;
             b.FSBody.Enabled = true;
+            Add(b.FSBody);
         }
 
         public void RemoveBody(IPhysicsBody body)
         {
             PhysicsBody b = body as PhysicsBody;
+            b.FSBody.Enabled = false;
             Remove(b.FSBody);
         }
 

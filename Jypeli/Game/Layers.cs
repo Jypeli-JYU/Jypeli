@@ -143,6 +143,8 @@ namespace Jypeli
         /// </summary>
         public void Add( IGameObject o )
         {
+            if (o.IsDestroyed)
+                throw new NotSupportedException("Destroyed object cannot be added back to the game!");
             if ( o.Layer != null && o.Layer.Objects.WillContain( o ) )
             {
                 if ( o.Layer == Layers[0] )

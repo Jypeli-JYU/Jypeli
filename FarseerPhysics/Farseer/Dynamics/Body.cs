@@ -715,7 +715,7 @@ namespace FarseerPhysics.Dynamics
                 ((PolygonShape)fixture.Shape).Vertices.AttachedToBody = false;
 #endif
 
-            var fixtureRemovedHandler = World.FixtureRemoved;
+            var fixtureRemovedHandler = World?.FixtureRemoved;
             if (fixtureRemovedHandler != null)
                 fixtureRemovedHandler(World, this, fixture);
 

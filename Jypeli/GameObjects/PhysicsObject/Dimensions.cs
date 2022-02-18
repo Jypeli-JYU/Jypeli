@@ -80,9 +80,12 @@ namespace Jypeli
             get { return Body.Size; }
             set 
             {
+                if (IsDestroyed)
+                    throw new InvalidOperationException("Object is already destroyed");
                 if (value.X < 0 || value.Y < 0)
                     throw new ArgumentException("The size must be positive!");
-                Body.Size = value;
+                if(IsAddedToGame)
+                    Body.Size = value;
                 /*if (Parent != null) // TODO: tästä tulee stackoverflow
                     Body.RegenerateConnectedFixtures();*/
             }
@@ -94,6 +97,8 @@ namespace Jypeli
             get { return Body.Shape; }
             set 
             {
+                if (IsDestroyed)
+                    throw new InvalidOperationException("Object is already destroyed");
                 Body.Shape = value;
                 if (Parent != null)
                     Body.RegenerateConnectedFixtures();

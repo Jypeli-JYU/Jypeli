@@ -36,6 +36,8 @@ namespace Jypeli
         private int size;
         private ContentSource source;
 
+        private FontSystemSettings settings;
+
         private int blurAmount = 0;
         private int strokeAmount = 0;
 
@@ -67,7 +69,8 @@ namespace Jypeli
                 DoLoad();
                 if (value <= 0) throw new Exception("Fontsize must be greater than zero.");
                 size = value;
-                DoLoad();
+                font = fontsystem.GetFont(Size);
+                GenerateCommonGlyphs();
             }
         }
 
@@ -85,9 +88,13 @@ namespace Jypeli
             get { return blurAmount; }
             set
             {
-                DoLoad();
+                fontsystem = null;
                 blurAmount = value;
                 strokeAmount = 0;
+
+                settings.Effect = FontSystemEffect.Blurry;
+                settings.EffectAmount = value;
+
                 DoLoad();
             }
         }
@@ -106,9 +113,13 @@ namespace Jypeli
             get { return strokeAmount; }
             set
             {
-                DoLoad();
+                fontsystem = null;
                 strokeAmount = value;
                 blurAmount = 0;
+
+                settings.Effect = FontSystemEffect.Stroked;
+                settings.EffectAmount = value;
+
                 DoLoad();
             }
         }
@@ -194,8 +205,17 @@ namespace Jypeli
         {
             if (fontsystem == null)
             {
-                fontsystem = new FontSystem();
-                fontsystem.AddFont(Game.ResourceContent.StreamInternalFont("Roboto-Regular.ttf"));
+                if (settings == null)
+                    settings = new FontSystemSettings();
+                fontsystem = new FontSystem(settings);
+                if(source == ContentSource.GameContent)
+                {
+                    fontsystem.AddFont(Game.Device.StreamContent(name, null));
+                }
+                else
+                {
+                    fontsystem.AddFont(Game.ResourceContent.StreamInternalFont(name));
+                }
                 font = fontsystem.GetFont(Size);
                 GenerateCommonGlyphs();
             }

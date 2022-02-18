@@ -159,10 +159,21 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Tarkistaa, onko näppäin alhaalla painettuna.
+        /// </summary>
+        /// <returns>
+        /// 	<c>true</c> jos alhaalla, muuten <c>false</c>.
+        /// </returns>
+        public bool IsKeyDown(Key key)
+        {
+            return CurrentState.IsKeyDown(key);
+        }
+
+        /// <summary>
         /// Tarkistaa, onko kumpikaan shift-näppäimistä painettuna.
         /// </summary>
         /// <returns>
-        /// 	<c>true</c> jos alhaalla, muuten <c>painettuna</c>.
+        /// 	<c>true</c> jos alhaalla, muuten <c>false</c>.
         /// </returns>
         public bool IsShiftDown()
         {
@@ -173,7 +184,7 @@ namespace Jypeli
         /// Tarkistaa, onko kumpikaan ctrl-näppäimistä painettuna.
         /// </summary>
         /// <returns>
-        /// 	<c>true</c> jos alhaalla, muuten <c>painettuna</c>.
+        /// 	<c>true</c> jos alhaalla, muuten <c>false</c>.
         /// </returns>
         public bool IsCtrlDown()
         {
@@ -184,7 +195,7 @@ namespace Jypeli
         /// Tarkistaa, onko kumpikaan alt-näppäimistä painettuna.
         /// </summary>
         /// <returns>
-        /// 	<c>true</c> jos alhaalla, muuten <c>painettuna</c>.
+        /// 	<c>true</c> jos alhaalla, muuten <c>false</c>.
         /// </returns>
         public bool IsAltDown()
         {

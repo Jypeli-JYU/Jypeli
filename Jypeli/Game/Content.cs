@@ -179,7 +179,7 @@ namespace Jypeli
         /// <param name="name">Fontin tiedoston nimi.</param>
         public static Font LoadFont(string name)
         {
-            return new Font(FileExtensionCheck(Path.Combine(Device.ContentPath, name), Font.FontExtensions));
+            return new Font(name);
         }
 
         /// <summary>

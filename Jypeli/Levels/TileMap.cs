@@ -66,8 +66,6 @@ namespace Jypeli
         /// <param name="assetName">Tiedoston nimi</param>        
         public static TileMap FromLevelAsset(string assetName)
         {
-            assetName = "Content/" + assetName;
-            assetName = Game.FileExtensionCheck(assetName, textExtensions);
             char[,] tiles = ReadFromFile(assetName);
             return new TileMap(tiles);
         }
@@ -124,9 +122,9 @@ namespace Jypeli
         /// <returns>Kentän ruudut kaksiulotteisessa taulukossa</returns>
         internal static char[,] ReadFromFile( string path )
         {
-            var tileBuffer = new List<char[]>();            
+            var tileBuffer = new List<char[]>();
 
-            using (StreamReader input = File.OpenText(path))
+            using (StreamReader input = new StreamReader(Game.Device.StreamContent(path, textExtensions)))
             {
                 string line;
                 while ( ( line = input.ReadLine() ) != null )

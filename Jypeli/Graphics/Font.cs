@@ -210,7 +210,7 @@ namespace Jypeli
                 fontsystem = new FontSystem(settings);
                 if(source == ContentSource.GameContent)
                 {
-                    fontsystem.AddFont(Game.Device.StreamContent(name, null));
+                    fontsystem.AddFont(Game.Device.StreamContent(name, FontExtensions));
                 }
                 else
                 {

@@ -33,12 +33,13 @@ namespace Jypeli.Android
         internal override Stream StreamContent(string name, string[] extensions)
         {
             Stream s;
+            string fullPath = Path.Combine(ContentPath, name);
             try
             {
-                 s = Game.AssetManager.Open(ContentPath + name);
+                 s = Game.AssetManager.Open(fullPath);
             }catch
             {
-                s = FindContentFile(name, extensions);
+                s = FindContentFile(fullPath, extensions);
             }
             
             return s;
@@ -52,7 +53,7 @@ namespace Jypeli.Android
                 Stream s;
                 try
                 {
-                    s = Game.AssetManager.Open(ContentPath + withExt);
+                    s = Game.AssetManager.Open(withExt);
                 }
                 catch
                 {

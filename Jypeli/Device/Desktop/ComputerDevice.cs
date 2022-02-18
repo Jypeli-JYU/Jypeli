@@ -28,7 +28,7 @@ namespace Jypeli.Devices
         {
             string fullPath = Path.Combine(ContentPath, name);
             if (File.Exists(fullPath))
-                return File.OpenRead(Path.Combine(ContentPath, name));
+                return File.OpenRead(fullPath);
             else
             {
                 return File.OpenRead(FindContentFile(fullPath, extensions));

@@ -180,7 +180,7 @@ namespace Jypeli
         public static double MasterVolume
         {
             get; set;
-        }
+        } = 1;
 
         /// <summary>
         /// Poistaa ääniefektin järjestelmän muistista.

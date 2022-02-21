@@ -15,71 +15,27 @@ namespace Jypeli
     {
         #region Item actions
         
-        protected abstract class ListAction
+        private enum ListOperation
         {
-            protected SynchronousList<T> list;
-
-            public ListAction( SynchronousList<T> list )
-            {
-                this.list = list;
-            }
-
-            public abstract void Execute();
+            Add,
+            Remove,
+            Clear
         }
 
-        protected sealed class AddItemAction : ListAction
+        private struct ListAction
         {
-            internal T newItem;
-
-            public AddItemAction( SynchronousList<T> list, T itemToAdd )
-                : base( list )
+            internal T Item;
+            internal ListOperation Operation;
+            public ListAction(ListOperation op, T item)
             {
-                this.newItem = itemToAdd;
+                this.Item = item;
+                this.Operation = op;
             }
 
-            public override void Execute()
+            public ListAction(ListOperation op)
             {
-                if ( list.Contains( newItem ) )
-                    //throw new ArgumentException( "The object has already been added." );
-                    return;
-
-                list.items.Add( newItem );
-                list.OnItemAdded( newItem );
-            }
-        }
-
-        protected sealed class RemoveItemAction : ListAction
-        {
-            internal T removeItem;
-
-            public RemoveItemAction( SynchronousList<T> items, T itemToRemove )
-                : base( items )
-            {
-                this.removeItem = itemToRemove;
-            }
-
-            public override void Execute()
-            {
-                if ( list.items.Remove( removeItem ) )
-                    list.OnItemRemoved( removeItem );
-            }
-        }
-
-        protected sealed class ClearAction : ListAction
-        {
-            public ClearAction( SynchronousList<T> items )
-                : base( items )
-            {
-            }
-
-            public override void Execute()
-            {
-                foreach ( var item in list )
-                {
-                    list.OnItemRemoved( item );
-                }
-
-                list.items.Clear();
+                this.Item = default;
+                this.Operation = op;
             }
         }
 
@@ -121,6 +77,7 @@ namespace Jypeli
             get { return items.Count; }
         }
 
+        /// <inheritdoc/>
         public bool IsUpdated
         {
             get { return true; }
@@ -194,19 +151,19 @@ namespace Jypeli
 
         #endregion
 
-        public void Add( T item )
+        public void Add(T item)
         {
-            actions.Enqueue( new AddItemAction( this, item ) );
+            actions.Enqueue(new ListAction(ListOperation.Add, item));
         }
 
-        public void Remove( T item )
+        public void Remove(T item)
         {
-            actions.Enqueue( new RemoveItemAction( this, item ) );
+            actions.Enqueue(new ListAction(ListOperation.Remove, item));
         }
 
         public void Clear()
         {
-            actions.Enqueue( new ClearAction( this ) );
+            actions.Enqueue(new ListAction(ListOperation.Clear));
         }
 
         public bool Contains( T item )
@@ -221,13 +178,13 @@ namespace Jypeli
 
             for (int i = 0; i < actionArray.Length; i++)
             {
-                if (actionArray[i] is AddItemAction && ((AddItemAction)actionArray[i]).newItem.Equals( item ))
+                if (actionArray[i].Operation == ListOperation.Add && actionArray[i].Equals(item))
                     exists = true;
 
-                else if (actionArray[i] is RemoveItemAction && ((RemoveItemAction)actionArray[i]).removeItem.Equals( item ))
+                else if (actionArray[i].Operation == ListOperation.Remove && actionArray[i].Equals(item))
                     exists = false;
 
-                else if (actionArray[i] is ClearAction)
+                else if (actionArray[i].Operation == ListOperation.Clear)
                     exists = false;
             }
 
@@ -258,8 +215,35 @@ namespace Jypeli
         {
             if ( actions.Count == 0 ) return false;
 
-            while ( actions.Count > 0 )
-                actions.Dequeue().Execute();
+            while (actions.Count > 0)
+            {
+                ListAction action = actions.Dequeue();
+                switch (action.Operation)
+                {
+                    case ListOperation.Add:
+                        if (Contains(action.Item))
+                            break;
+
+                        items.Add(action.Item);
+                        OnItemAdded(action.Item);
+                        break;
+
+                    case ListOperation.Remove:
+                        if (items.Remove(action.Item))
+                            OnItemRemoved(action.Item);
+                        break;
+
+                    case ListOperation.Clear:
+                        foreach (var item in this)
+                        {
+                            OnItemRemoved(item);
+                        }
+
+                        items.Clear();
+                        break;
+                }
+            }
+                
 
             return true;
         }
@@ -342,8 +326,8 @@ namespace Jypeli
         internal IEnumerable<T> GetObjectsAboutToBeAdded()
         {
             return from a in actions
-                   where a is AddItemAction
-                   select (a as AddItemAction).newItem;
+                   where a.Operation is ListOperation.Add
+                   select a.Item;
         }
     }
 }

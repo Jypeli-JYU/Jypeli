@@ -68,7 +68,6 @@ namespace FarseerPhysics.Collision
                 case ShapeType.Circle:
                     {
                         CircleShape circle = (CircleShape)shape;
-                        Vertices.Clear();
                         Vertices.Add(circle.Position);
                         Radius = circle.Radius;
                     }
@@ -77,11 +76,7 @@ namespace FarseerPhysics.Collision
                 case ShapeType.Polygon:
                     {
                         PolygonShape polygon = (PolygonShape)shape;
-                        Vertices.Clear();
-                        for (int i = 0; i < polygon.Vertices.Count; i++)
-                        {
-                            Vertices.Add(polygon.Vertices[i]);
-                        }
+                        Vertices.AddRange(polygon.Vertices);
                         Radius = polygon.Radius;
                     }
                     break;
@@ -90,7 +85,6 @@ namespace FarseerPhysics.Collision
                     {
                         ChainShape chain = (ChainShape)shape;
                         Debug.Assert(0 <= index && index < chain.Vertices.Count);
-                        Vertices.Clear();
                         Vertices.Add(chain.Vertices[index]);
                         Vertices.Add(index + 1 < chain.Vertices.Count ? chain.Vertices[index + 1] : chain.Vertices[0]);
 
@@ -101,7 +95,6 @@ namespace FarseerPhysics.Collision
                 case ShapeType.Edge:
                     {
                         EdgeShape edge = (EdgeShape)shape;
-                        Vertices.Clear();
                         Vertices.Add(edge.Vertex1);
                         Vertices.Add(edge.Vertex2);
                         Radius = edge.Radius;

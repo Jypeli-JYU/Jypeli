@@ -79,14 +79,20 @@ namespace Jypeli
                 Vector diff = value - Position;
                 base.Position = value;
 
-                Objects?.ForEach(o => {
-                    o.Position += diff;
-                });
-
-                // TODO: Purkkapallokorjaus, SynchronousListin kappalaiden lisäys pitäisi saada hieman yksinkertaisemmaksi.
-                foreach(var o in Objects?.GetObjectsAboutToBeAdded())
+                if (ObjectCount > 0)
                 {
-                    o.Position += diff;
+                    Objects?.ForEach(o =>
+                    {
+                        o.Position += diff;
+                    });
+                }
+
+                if (Objects?.AmountToBeAdded > 0)
+                {
+                    foreach (var o in Objects?.GetObjectsAboutToBeAdded())
+                    {
+                        o.Position += diff;
+                    }
                 }
             }
         }
@@ -105,18 +111,24 @@ namespace Jypeli
                 Angle diff = value - Angle;
                 _angle = value;
 
-                Objects?.ForEach(o => {
-                    o.Angle += diff;
-                    Vector vdiff = o.Position - Position;
-                    o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, diff + vdiff.Angle);
-                });
-
-                // TODO: Purkkapallokorjaus, SynchronousListin kappalaiden lisäys pitäisi saada hieman yksinkertaisemmaksi.
-                foreach (var o in Objects?.GetObjectsAboutToBeAdded())
+                if(ObjectCount > 0)
                 {
-                    o.Angle += diff;
-                    Vector vdiff = o.Position - Position;
-                    o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, diff + vdiff.Angle);
+                    Objects?.ForEach(o => {
+                        o.Angle += diff;
+                        Vector vdiff = o.Position - Position;
+                        o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, diff + vdiff.Angle);
+                    });
+                }
+
+                // Tarkistetaan määrä ensin, sillä muuten luodaan turhaan yksi iteraattori joka lisää turhaan roskien luontia.
+                if(Objects?.AmountToBeAdded > 0)
+                {
+                    foreach (var o in Objects?.GetObjectsAboutToBeAdded())
+                    {
+                        o.Angle += diff;
+                        Vector vdiff = o.Position - Position;
+                        o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, diff + vdiff.Angle);
+                    }
                 }
             }
         }

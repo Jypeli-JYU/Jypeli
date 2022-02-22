@@ -184,20 +184,25 @@ namespace Jypeli
             Vector pdiff = Position - prevPos;
             Angle adiff = Angle - prevAngle;
 
-            Objects?.ForEach(o => {
-                o.Angle += adiff;
-                o.Position += pdiff;
-                Vector vdiff = o.Position - Position;
-                o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, adiff + vdiff.Angle);
-            });
-
-            // TODO: Purkkapallokorjaus, SynchronousListin kappalaiden lisäys pitäisi saada hieman yksinkertaisemmaksi.
-            foreach (var o in Objects?.GetObjectsAboutToBeAdded())
+            if(ObjectCount > 0)
             {
-                o.Angle += adiff;
-                o.Position += pdiff;
-                Vector vdiff = o.Position - Position;
-                o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, adiff + vdiff.Angle);
+                Objects?.ForEach(o => {
+                    o.Angle += adiff;
+                    o.Position += pdiff;
+                    Vector vdiff = o.Position - Position;
+                    o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, adiff + vdiff.Angle);
+                });
+            }
+
+            if(Objects?.AmountToBeAdded > 0)
+            {
+                foreach (var o in Objects?.GetObjectsAboutToBeAdded())
+                {
+                    o.Angle += adiff;
+                    o.Position += pdiff;
+                    Vector vdiff = o.Position - Position;
+                    o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, adiff + vdiff.Angle);
+                }
             }
 
             prevPos = Position;

@@ -47,6 +47,11 @@ namespace Jypeli
         private List<T> toBeAdded = new List<T>();
 
         /// <summary>
+        /// Kuinka monta oliota ollaan lisäämässä tähän listaan seuraavalla päivityksellä.
+        /// </summary>
+        public int AmountToBeAdded { get; set; }
+
+        /// <summary>
         /// Indeksointioperaattori.
         /// </summary>
         /// <param name="index"></param>
@@ -156,6 +161,7 @@ namespace Jypeli
         public void Add(T item)
         {
             actions.Enqueue(new ListAction(ListOperation.Add, item));
+            AmountToBeAdded++;
             toBeAdded.Add(item);
         }
 
@@ -248,6 +254,7 @@ namespace Jypeli
             }
 
             toBeAdded.Clear();
+            AmountToBeAdded = 0;
             return true;
         }
 

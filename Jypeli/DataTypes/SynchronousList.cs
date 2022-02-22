@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace Jypeli
 {
@@ -42,7 +43,8 @@ namespace Jypeli
         #endregion
 
         internal List<T> items = new List<T>();
-        Queue<ListAction> actions = new Queue<ListAction>();
+        private Queue<ListAction> actions = new Queue<ListAction>();
+        private List<T> toBeAdded = new List<T>();
 
         /// <summary>
         /// Indeksointioperaattori.
@@ -154,6 +156,7 @@ namespace Jypeli
         public void Add(T item)
         {
             actions.Enqueue(new ListAction(ListOperation.Add, item));
+            toBeAdded.Add(item);
         }
 
         public void Remove(T item)
@@ -243,8 +246,8 @@ namespace Jypeli
                         break;
                 }
             }
-                
 
+            toBeAdded.Clear();
             return true;
         }
 
@@ -325,9 +328,7 @@ namespace Jypeli
 
         internal IEnumerable<T> GetObjectsAboutToBeAdded()
         {
-            return from a in actions
-                   where a.Operation is ListOperation.Add
-                   select a.Item;
+            return toBeAdded.AsReadOnly();
         }
     }
 }

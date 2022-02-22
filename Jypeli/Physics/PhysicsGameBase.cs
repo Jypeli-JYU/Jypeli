@@ -113,7 +113,7 @@ namespace Jypeli
         /// <param name="obj"></param>
         protected override void OnObjectAdded( IGameObject obj )
         {
-            if ( obj is PhysicsObject )
+            if ( obj is PhysicsObject && obj.Parent == null )
             {
                 PhysicsObject po = (PhysicsObject)obj;
                 Engine.AddBody( po.Body );

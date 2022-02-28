@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Jypeli
 {
@@ -186,17 +187,19 @@ namespace Jypeli
 
             if(ObjectCount > 0)
             {
-                Objects?.ForEach(o => {
+                foreach (var o in Objects)
+                {
                     o.Angle += adiff;
                     o.Position += pdiff;
                     Vector vdiff = o.Position - Position;
                     o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, adiff + vdiff.Angle);
-                });
+                }
             }
 
-            if(Objects?.AmountToBeAdded > 0)
+            if(Objects.AmountToBeAdded > 0)
             {
-                foreach (var o in Objects?.GetObjectsAboutToBeAdded())
+                var objs = Objects.GetObjectsAboutToBeAdded();
+                foreach (var o in objs)
                 {
                     o.Angle += adiff;
                     o.Position += pdiff;

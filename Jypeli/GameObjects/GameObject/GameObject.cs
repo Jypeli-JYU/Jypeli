@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Jypeli.GameObjects;
 
 
@@ -170,8 +171,15 @@ namespace Jypeli
                 RefreshLayout();
                 _layoutNeedsRefreshing = false;
             }
-            if ( oscillators != null )
-                oscillators.Update( time );
+            if (oscillators != null)
+            {
+                oscillators.Update(time);
+                oscillators.ForEach(o => { 
+                    if (o.IsDestroyed)
+                        oscillators.Remove(o);
+                });
+            }
+                
         }
     }
 }

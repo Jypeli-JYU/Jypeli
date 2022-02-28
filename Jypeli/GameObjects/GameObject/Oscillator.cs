@@ -9,11 +9,17 @@ namespace Jypeli.GameObjects
     internal abstract class Oscillator : Updatable, Destroyable
     {
         protected double t = 0;
+        protected Angle prevAngle;
+        protected Vector prevPos;
+        protected bool distanceDecreasing = false;
 
         public IGameObject Object;
         public double Frequency;
         public double Phase;
         public double Damping;
+        public Vector OriginalPosition;
+        public Angle OriginalAngle;
+        public bool stopGradually;
 
         public bool IsUpdated { get { return true; } }
         public bool IsDestroyed { get; private set; }
@@ -28,6 +34,8 @@ namespace Jypeli.GameObjects
             this.Frequency = f;
             this.Phase = phase;
             this.Damping = damping;
+            this.OriginalPosition = obj.Position;
+            this.OriginalAngle = obj.Angle;
         }
 
         public double GetDampingMultiplier()
@@ -44,8 +52,10 @@ namespace Jypeli.GameObjects
                 Stop();
                 Destroy();
             }
-
-            Apply();
+            if (!IsDestroyed)
+            {
+                Apply();
+            }
         }
 
         protected abstract void Apply();
@@ -56,7 +66,7 @@ namespace Jypeli.GameObjects
             if ( Destroyed != null ) Destroyed();
         }
 
-        public abstract void Stop();
+        public abstract void Stop(bool returnToOriginalPosition = false, bool stopGradually = false);
     }
 
     /// <summary>
@@ -98,17 +108,17 @@ namespace Jypeli.GameObjects
 
         protected override void Apply()
         {
-            if ( IsDynamic( Object ) )
+            if (IsDynamic(Object))
             {
                 IPhysicsObject physObj = (IPhysicsObject)Object;
-                double d = ( Object.Position - Center ).ScalarProjection(Axis);
+                double d = (Object.Position - Center).ScalarProjection(Axis);
                 double angularFreq = 2 * Math.PI * Frequency;
-                double k = Math.Pow( angularFreq, 2 ) * physObj.Mass;
+                double k = Math.Pow(angularFreq, 2) * physObj.Mass;
                 double force = -k * d;
                 double dampingForce = physObj.Velocity.ScalarProjection(Axis) * Damping * physObj.Mass;
                 double totalForce = force - dampingForce;
 
-                physObj.Push( totalForce * Axis );
+                physObj.Push(totalForce * Axis);
             }else if(Object is PhysicsObject obj)
             {
                 obj.Velocity = GetVelocity();
@@ -117,14 +127,37 @@ namespace Jypeli.GameObjects
             {
                 Object.Position = Center + GetOffset();
             }
+            if (stopGradually)
+            {
+                double origDst = Vector.Distance(OriginalPosition, prevPos);
+                double currDst = Vector.Distance(OriginalPosition, Object.Position);
+                if (!distanceDecreasing && origDst > currDst)
+                {
+                    distanceDecreasing = true;
+                }
+                if (distanceDecreasing && origDst < currDst)
+                {
+                    Stop(true);
+                }
+            }
+            prevPos = Object.Position;
         }
 
-        public override void Stop()
+        public override void Stop(bool returnToOriginalPosition = false, bool stopGradually = false)
         {
-            if ( Object is IPhysicsObject )
+            if (!stopGradually)
             {
-                ( (IPhysicsObject)Object ).StopAxial( Axis );
+                if (Object is IPhysicsObject)
+                {
+                    ((IPhysicsObject)Object).Velocity = Vector.Zero;
+                }
+                if (returnToOriginalPosition)
+                {
+                    Object.Position = OriginalPosition;
+                }
+                Destroy();
             }
+            this.stopGradually = stopGradually;
         }
     }
 
@@ -160,9 +193,6 @@ namespace Jypeli.GameObjects
             return -W * Amplitude.Radians * Math.Sin(W * t + Phase);
         }
 
-        List<double> lista = new List<double>();
-        List<double> lista2 = new List<double>();
-
         protected override void Apply()
         {
             if (IsDynamic(Object))
@@ -175,8 +205,6 @@ namespace Jypeli.GameObjects
                 double totalTorque = torque - dampingTorque;
 
                 physObj.ApplyTorque(totalTorque);
-                lista.Add(totalTorque);
-                lista2.Add(physObj.AngularVelocity);
             }
             else if (Object is PhysicsObject obj)
             {
@@ -186,13 +214,41 @@ namespace Jypeli.GameObjects
             {
                 Object.Angle = Angle.Sum(Center, GetOffset());
             }
+            if (stopGradually)
+            {
+                double origDst = (OriginalAngle - prevAngle).Degrees;
+                double currDst = (OriginalAngle - Object.Angle).Degrees;
+                if (!distanceDecreasing && origDst > currDst)
+                {
+                    distanceDecreasing = true;
+                }
+                if (distanceDecreasing && origDst < currDst)
+                {
+                    Stop(true);
+                }
+            }
+            prevAngle = Object.Angle;
         }
 
-        public override void Stop()
+        public override void Stop(bool returnToOriginalPosition = false, bool stopGradually = false)
         {
-            if ( Object is IPhysicsObject )
+            if (!stopGradually)
             {
-                ( (IPhysicsObject)Object ).StopAngular();
+                if (Object is IPhysicsObject)
+                {
+                    ((IPhysicsObject)Object).AngularVelocity = 0;
+                }
+                if (returnToOriginalPosition)
+                {
+                    Object.Angle = OriginalAngle;
+                }
+                
+                Destroy();
+            }
+            else
+            {
+                double T = 1 / Frequency;
+                Timer.SingleShot(T - t % T, () => Stop(returnToOriginalPosition));
             }
         }
     }

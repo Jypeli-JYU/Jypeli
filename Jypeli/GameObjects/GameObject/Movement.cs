@@ -182,9 +182,26 @@ namespace Jypeli
         /// <summary>
         /// Poistaa kaikki värähtelyt kappaleelta.
         /// </summary>
+        /// <param name="returnToOriginalPosition">Palautetaanko kappale takaisin sen alkuperäiseen sijaintiin.</param>
+        /// <param name="stopGradually">Suoritetaanko oskillaatio ensin loppuun, jonka jälkeen vasta pysähdytään alkuperäiseen sijaintiin.</param>
+        public void ClearOscillations(bool returnToOriginalPosition = false, bool stopGradually = false)
+        {
+            if(oscillators != null && oscillators.Count >= 1)
+            {
+                oscillators.ForEach(o => o.Stop(returnToOriginalPosition, stopGradually));
+            }
+            if (!stopGradually)
+            {
+                oscillators = null;
+            }
+        }
+
+        /// <summary>
+        /// Poistaa kaikki värähtelyt kappaleelta.
+        /// </summary>
         public void ClearOscillations()
         {
-            oscillators = null;
+            ClearOscillations(false, false);
         }
 
         /// <summary>

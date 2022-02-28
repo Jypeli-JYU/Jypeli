@@ -145,5 +145,11 @@ namespace Jypeli.Rendering
         /// </summary>
         /// <param name="matrix">Kameran transformaatiomatriisi</param>
         public void DrawLights(Matrix4x4 matrix);
+
+        /// <summary>
+        /// Suurin tekstuurin koko, jota näytönohjain tukee.
+        /// </summary>
+        /// <returns></returns>
+        public int GetMaxTextureSize();
     }
 }

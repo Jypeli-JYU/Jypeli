@@ -245,6 +245,7 @@ namespace Jypeli.Rendering.OpenGl
             Gl.Viewport(new System.Drawing.Size((int)newSize.X, (int)newSize.Y));
         }
 
+        /// <inheritdoc/>
         public void SetTextureToRepeat(Image image)
         {
             BindTexture(image);
@@ -253,6 +254,7 @@ namespace Jypeli.Rendering.OpenGl
             Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapT, (int)GLEnum.Repeat);
         }
 
+        /// <inheritdoc/>
         public void GetScreenContents(void* ptr)
         {
             if(SelectedRendertarget == null)
@@ -261,11 +263,18 @@ namespace Jypeli.Rendering.OpenGl
                 Gl.ReadPixels(0, 0, (uint)SelectedRendertarget.Width, (uint)SelectedRendertarget.Height, GLEnum.Rgba, GLEnum.UnsignedByte, ptr);
         }
 
+        /// <inheritdoc/>
         public void GetScreenContentsToImage(Image img)
         {
             img.image.TryGetSinglePixelSpan(out Span<Rgba32> ptr);
             fixed(void* p = ptr)
                 GetScreenContents(p);
+        }
+
+        /// <inheritdoc/>
+        public int GetMaxTextureSize()
+        {
+            return Gl.GetInteger(GLEnum.MaxTextureSize);
         }
     }
 }

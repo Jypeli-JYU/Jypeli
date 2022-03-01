@@ -214,10 +214,10 @@ namespace Jypeli.Effects
 
             databuffer = new Rendering.OpenGl.BufferObject<Particledata>(gl, particledata, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer); // x, y, kulma, koko, läpinäkyvyys
 
-            databuffer.SetVertexAttribPointer(3, 2, (uint)sizeof(Particledata), 0);
-            databuffer.SetVertexAttribPointer(4, 1, (uint)sizeof(Particledata), 8);
-            databuffer.SetVertexAttribPointer(5, 1, (uint)sizeof(Particledata), 12);
-            databuffer.SetVertexAttribPointer(6, 4, (uint)sizeof(Particledata), 16);
+            databuffer.VertexAttributePointer(3, 2, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(Particledata), 0);
+            databuffer.VertexAttributePointer(4, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(Particledata), 8);
+            databuffer.VertexAttributePointer(5, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(Particledata), 12);
+            databuffer.VertexAttributePointer(6, 4, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(Particledata), 16);
             
             gl.BindBuffer(Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer, 0);
         }

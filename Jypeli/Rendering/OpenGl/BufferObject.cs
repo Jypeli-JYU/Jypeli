@@ -44,11 +44,11 @@ namespace Jypeli.Rendering.OpenGl
         /// <param name="stride">Taulukon yhden alkion koko</param>
         /// <param name="offset">Offset tavuina mistä kohtaa alkion dataa luetaan</param>
         /// <param name="vertexDivisor">Kuinka moneen instansoituun esiintymään käytetään yhden taulukon alkion dataa</param>
-        public void SetVertexAttribPointer(uint index, int size, uint stride, uint offset, uint vertexDivisor)
+        public void VertexAttributePointer(uint index, int size, VertexAttribPointerType type, uint stride, uint offset, uint vertexDivisor)
         {
             Bind();
             _gl.EnableVertexAttribArray(index);
-            _gl.VertexAttribPointer(index, size, VertexAttribPointerType.Float, false, stride, (void*)offset);
+            _gl.VertexAttribPointer(index, size, type, false, stride, (void*)offset);
             _gl.VertexAttribDivisor(index, vertexDivisor);
         }
 
@@ -59,9 +59,9 @@ namespace Jypeli.Rendering.OpenGl
         /// <param name="size">Vastaanotettavan muuttujan koko tavuina</param>
         /// <param name="stride">Taulukon yhden alkion koko</param>
         /// <param name="offset">Offset tavuina mistä kohtaa alkion dataa luetaan</param>
-        public void SetVertexAttribPointer(uint index, int size, uint stride, uint offset)
+        public void VertexAttributePointer(uint index, int size, VertexAttribPointerType type, uint stride, uint offset)
         {
-            SetVertexAttribPointer(index, size, stride, offset, 1);
+            VertexAttributePointer(index, size, type, stride, offset, 1);
         }
 
         public void Bind()

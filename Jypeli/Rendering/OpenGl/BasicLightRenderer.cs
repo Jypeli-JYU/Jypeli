@@ -41,10 +41,10 @@ namespace Jypeli.Rendering.OpenGl
             Vao.VertexAttributePointer(2, 2, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 28);
 
             databuffer = new BufferObject<LightData>(gl, lightData, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer);
-            databuffer.SetVertexAttribPointer(3, 2, (uint)sizeof(LightData), 0);
-            databuffer.SetVertexAttribPointer(4, 1, (uint)sizeof(LightData), 8);
-            databuffer.SetVertexAttribPointer(5, 1, (uint)sizeof(LightData), 12);
-            databuffer.SetVertexAttribPointer(6, 4, (uint)sizeof(LightData), 16);
+            databuffer.VertexAttributePointer(3, 2, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(LightData), 0);
+            databuffer.VertexAttributePointer(4, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(LightData), 8);
+            databuffer.VertexAttributePointer(5, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(LightData), 12);
+            databuffer.VertexAttributePointer(6, 4, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(LightData), 16);
 
             gl.BindBuffer(Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer, 0);
         }

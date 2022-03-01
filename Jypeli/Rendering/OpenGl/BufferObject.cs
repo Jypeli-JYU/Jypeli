@@ -3,7 +3,7 @@ using Silk.NET.OpenGL;
 
 namespace Jypeli.Rendering.OpenGl
 {
-    public class BufferObject<TDataType> : IDisposable
+    public unsafe class BufferObject<TDataType> : IDisposable
         where TDataType : unmanaged
     {
         //Our handle, buffertype and the GL instance this class will use, these are private because they have no reason to be public.
@@ -12,7 +12,7 @@ namespace Jypeli.Rendering.OpenGl
         private BufferTargetARB _bufferType;
         private GL _gl;
 
-        public unsafe BufferObject(GL gl, Span<TDataType> data, BufferTargetARB bufferType)
+        public BufferObject(GL gl, Span<TDataType> data, BufferTargetARB bufferType)
         {
             //Setting the gl instance and storing our buffer type.
             _gl = gl;
@@ -27,13 +27,41 @@ namespace Jypeli.Rendering.OpenGl
             }
         }
 
-        public unsafe void UpdateBuffer(nint offset, Span<TDataType> data)
+        public void UpdateBuffer(nint offset, Span<TDataType> data)
         {
             Bind();
             fixed (void* d = data)
             {
                 _gl.BufferSubData(_bufferType, offset, (nuint)(data.Length * sizeof(TDataType)), d);
             }
+        }
+
+        /// <summary>
+        /// Asettaa verteksiattribuutteja lähetettävään (float) dataan
+        /// </summary>
+        /// <param name="index">Indeksi</param>
+        /// <param name="size">Vastaanotettavan muuttujan koko tavuina</param>
+        /// <param name="stride">Taulukon yhden alkion koko</param>
+        /// <param name="offset">Offset tavuina mistä kohtaa alkion dataa luetaan</param>
+        /// <param name="vertexDivisor">Kuinka moneen instansoituun esiintymään käytetään yhden taulukon alkion dataa</param>
+        public void SetVertexAttribPointer(uint index, int size, uint stride, uint offset, uint vertexDivisor)
+        {
+            Bind();
+            _gl.EnableVertexAttribArray(index);
+            _gl.VertexAttribPointer(index, size, VertexAttribPointerType.Float, false, stride, (void*)offset);
+            _gl.VertexAttribDivisor(index, vertexDivisor);
+        }
+
+        /// <summary>
+        /// Asettaa verteksiattribuutteja lähetettävään (float) dataan
+        /// </summary>
+        /// <param name="index">Indeksi</param>
+        /// <param name="size">Vastaanotettavan muuttujan koko tavuina</param>
+        /// <param name="stride">Taulukon yhden alkion koko</param>
+        /// <param name="offset">Offset tavuina mistä kohtaa alkion dataa luetaan</param>
+        public void SetVertexAttribPointer(uint index, int size, uint stride, uint offset)
+        {
+            SetVertexAttribPointer(index, size, stride, offset, 1);
         }
 
         public void Bind()

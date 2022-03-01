@@ -52,8 +52,9 @@ namespace Jypeli.Rendering
         /// <param name="primitivetype">Verteksien tyyppi</param>
         /// <param name="textureVertices">Luettelo vertekseistä</param>
         /// <param name="count">Määrä</param>
+        /// <param name="instanceCount">Esiintymien määrä</param>
         /// <param name="normalized">Onko verteksit normalisoitu ruutukoordinaatteihin</param>
-        public void DrawPrimitivesInstanced(PrimitiveType primitivetype, VertexPositionColorTexture[] textureVertices, uint count, bool normalized = false);
+        public void DrawPrimitivesInstanced(PrimitiveType primitivetype, VertexPositionColorTexture[] textureVertices, uint count, uint instanceCount, bool normalized = false);
 
         /// <summary>
         /// Asettaa rendertargetin.

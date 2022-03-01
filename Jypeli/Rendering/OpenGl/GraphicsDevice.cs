@@ -120,10 +120,9 @@ namespace Jypeli.Rendering.OpenGl
         }
 
         /// <inheritdoc/>
-        public void DrawPrimitivesInstanced(PrimitiveType primitivetype, VertexPositionColorTexture[] textureVertices, uint count, bool normalized = false)
+        public void DrawPrimitivesInstanced(PrimitiveType primitivetype, VertexPositionColorTexture[] textureVertices, uint count, uint instanceCount, bool normalized = false)
         {
-
-            Gl.DrawArraysInstanced((GLEnum)primitivetype, 0, 4, count);
+            Gl.DrawArraysInstanced((GLEnum)primitivetype, 0, count, instanceCount);
         }
 
         public void DrawLights(Matrix4x4 matrix)

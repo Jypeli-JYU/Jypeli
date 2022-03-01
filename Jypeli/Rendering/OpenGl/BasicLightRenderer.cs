@@ -41,23 +41,10 @@ namespace Jypeli.Rendering.OpenGl
             Vao.VertexAttributePointer(2, 2, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(VertexPositionColorTexture), 28);
 
             databuffer = new BufferObject<LightData>(gl, lightData, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer);
-
-            databuffer.Bind();
-            gl.EnableVertexAttribArray(3);
-            gl.VertexAttribPointer(3, 2, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(LightData), (void*)0);
-            gl.VertexAttribDivisor(3, 1);
-
-            gl.EnableVertexAttribArray(4);
-            gl.VertexAttribPointer(4, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(LightData), (void*)8); // Vika parametri on offsetin määrä tavuissa.
-            gl.VertexAttribDivisor(4, 1);
-
-            gl.EnableVertexAttribArray(5);
-            gl.VertexAttribPointer(5, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(LightData), (void*)12);
-            gl.VertexAttribDivisor(5, 1);
-
-            gl.EnableVertexAttribArray(6);
-            gl.VertexAttribPointer(6, 4, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(LightData), (void*)16);
-            gl.VertexAttribDivisor(6, 1);
+            databuffer.SetVertexAttribPointer(3, 2, (uint)sizeof(LightData), 0);
+            databuffer.SetVertexAttribPointer(4, 1, (uint)sizeof(LightData), 8);
+            databuffer.SetVertexAttribPointer(5, 1, (uint)sizeof(LightData), 12);
+            databuffer.SetVertexAttribPointer(6, 4, (uint)sizeof(LightData), 16);
 
             gl.BindBuffer(Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer, 0);
         }

@@ -214,23 +214,11 @@ namespace Jypeli.Effects
 
             databuffer = new Rendering.OpenGl.BufferObject<Particledata>(gl, particledata, Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer); // x, y, kulma, koko, läpinäkyvyys
 
-            databuffer.Bind();
-            gl.EnableVertexAttribArray(3);
-            gl.VertexAttribPointer(3, 2, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(Particledata), (void*)0);
-            gl.VertexAttribDivisor(3, 1);
-
-            gl.EnableVertexAttribArray(4);
-            gl.VertexAttribPointer(4, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(Particledata), (void*)8); // Vika parametri on offsetin määrä tavuissa.
-            gl.VertexAttribDivisor(4, 1);
-
-            gl.EnableVertexAttribArray(5);
-            gl.VertexAttribPointer(5, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(Particledata), (void*)12);
-            gl.VertexAttribDivisor(5, 1);
-
-            gl.EnableVertexAttribArray(6);
-            gl.VertexAttribPointer(6, 4, Silk.NET.OpenGL.VertexAttribPointerType.Float, false, (uint)sizeof(Particledata), (void*)16);
-            gl.VertexAttribDivisor(6, 1);
-
+            databuffer.SetVertexAttribPointer(3, 2, (uint)sizeof(Particledata), 0);
+            databuffer.SetVertexAttribPointer(4, 1, (uint)sizeof(Particledata), 8);
+            databuffer.SetVertexAttribPointer(5, 1, (uint)sizeof(Particledata), 12);
+            databuffer.SetVertexAttribPointer(6, 4, (uint)sizeof(Particledata), 16);
+            
             gl.BindBuffer(Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer, 0);
         }
         Rendering.OpenGl.VertexArrayObject<VertexPositionColorTexture, Vector4> Vao;
@@ -451,14 +439,14 @@ namespace Jypeli.Effects
 
                 Vao.Bind();
 
-                gl.DrawArraysInstanced(Silk.NET.OpenGL.GLEnum.Triangles, 0, 6, (uint)particles.Count);
+                device.DrawPrimitivesInstanced(PrimitiveType.OpenGlTriangles, null, 6, (uint)particles.Count);
             }
 
             device.BindTexture(ParticleImage);
             shader.SetUniform("scale", 0.75f);
             Vao.Bind();
 
-            gl.DrawArraysInstanced(Silk.NET.OpenGL.GLEnum.Triangles, 0, 6, (uint)particles.Count);
+            device.DrawPrimitivesInstanced(PrimitiveType.OpenGlTriangles, null, 6, (uint)particles.Count);
         }
     }
 }

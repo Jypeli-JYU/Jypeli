@@ -106,7 +106,7 @@ namespace Jypeli
 
         public void Draw(ShapeCache cache, Color color, Vector position, Vector size, float angle)
         {
-            if ((iVertexBuffer + cache.Vertices.Length) > vertexBuffer.Length || (iIndexBuffer + cache.Triangles.Length) > indexBuffer.Length)
+            if ((iVertexBuffer + cache.Vertices.Length) > vertexBuffer.Length || (iIndexBuffer + cache.Triangles.Length*3) > indexBuffer.Length)
             {
                 Flush();
             }

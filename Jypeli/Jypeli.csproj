@@ -8,7 +8,7 @@
 		<AssemblyName>Jypeli</AssemblyName>
 		<RootNamespace>Jypeli</RootNamespace>
 		<PackageId>Jypeli.NET</PackageId>
-		<Version>11.1.2</Version>
+		<Version>11.1.3</Version>
 		<Authors>University of Jyväskylä</Authors>
 		<Company />
 		<Product />

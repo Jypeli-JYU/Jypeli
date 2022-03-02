@@ -375,18 +375,10 @@ namespace Jypeli
             {
                 if (IsJypeliWidget(obj)) return false;
 
-                Vector positionUp = new Vector( position.X, position.Y + radius );
-                Vector positionDown = new Vector( position.X, position.Y - radius );
-                Vector positionLeft = new Vector( position.X - radius, position.Y );
-                Vector positionRight = new Vector( position.X + radius, position.Y );
+                BoundingRectangle br1 = new BoundingRectangle(new Vector(obj.Left, obj.Top), new Vector(obj.Right, obj.Bottom));
+                BoundingRectangle br2 = new BoundingRectangle(position.X, position.Y, radius*2, radius*2);
 
-                if ( obj.IsInside( position ) ) return true;
-                if ( obj.IsInside( positionUp ) ) return true;
-                if ( obj.IsInside( positionDown ) ) return true;
-                if ( obj.IsInside( positionLeft ) ) return true;
-                if ( obj.IsInside( positionRight ) ) return true;
-
-                return false;
+                return BoundingRectangle.Intersects(br1, br2);
             };
 
             return GetObjects( isInsideRadius );

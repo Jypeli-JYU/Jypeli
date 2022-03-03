@@ -416,8 +416,12 @@ public class PlatformCharacter : PhysicsObject
                                                    // clipataan niiden sisälle jolloin moottori "korjaa" sijaintia hieman ylöspäin.
         }
 
-        if ( state == PlatformCharacterState.Idle || WalkOnAir )
-            SetAnimation( AnimWalk );
+        if (state == PlatformCharacterState.Idle || WalkOnAir)
+        {
+            state = PlatformCharacterState.Walking;
+            SetAnimation(AnimWalk);
+        }
+            
 
         isWalking = true;
     }
@@ -722,8 +726,11 @@ public class PlatformCharacter : PhysicsObject
             StopHorizontal();
         }
 
-        if ( state == PlatformCharacterState.Idle )
-            SetAnimation( AnimIdle );
+        if (Math.Abs(Velocity.Y) < 0.5 || state == PlatformCharacterState.Walking)
+        {
+            SetAnimation(AnimIdle);
+            state = PlatformCharacterState.Idle;
+        }
     }
 
     /// <summary>

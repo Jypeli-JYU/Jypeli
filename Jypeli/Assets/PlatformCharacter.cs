@@ -19,7 +19,6 @@ public class PlatformCharacter : PhysicsObject
 {
     private class CollisionHelper
     {
-#if VISUALIZE
         private struct Appearance
         {
             public Color Color;
@@ -37,7 +36,6 @@ public class PlatformCharacter : PhysicsObject
             o.Animation = original.Animation;
             originalAppearances.Remove(o);
         }
-#endif
 
         private PhysicsObject parent;
         public PhysicsObject Object;
@@ -48,27 +46,28 @@ public class PlatformCharacter : PhysicsObject
             this.parent = parent;
         }
 
-        public void SetObjectBeingHit(PhysicsObject collisionHelper, PhysicsObject target)
+        public void SetObjectBeingHit(PhysicsObject collisionHelper, PhysicsObject target, bool visualisation)
         {
             if (target != parent && IsPlatform(target))
             {
-#if VISUALIZE
-                if (! originalAppearances.ContainsKey(target))
+                if (visualisation)
                 {
-                    originalAppearances.Add(target, new Appearance { Animation = target.Animation, Color = target.Color });
-                }
+                    if (!originalAppearances.ContainsKey(target))
+                    {
+                        originalAppearances.Add(target, new Appearance { Animation = target.Animation, Color = target.Color });
+                    }
 
-                target.Color = Color.Red;
-                target.Animation = null;
-                Timer.SingleShot(1.0, delegate() { ResetAppearance(target); });
-#endif
+                    target.Color = Color.Red;
+                    target.Animation = null;
+                    Timer.SingleShot(1.0, delegate () { ResetAppearance(target); });
+                }
 
                 LastHitObject = target;
             }
         }
     }
 
-    private enum PlatformCharacterState { Idle, Falling, Jumping }
+    private enum PlatformCharacterState { Idle, Falling, Jumping, Walking }
     private PlatformCharacterState state = PlatformCharacterState.Idle;
     
     
@@ -223,6 +222,11 @@ public class PlatformCharacter : PhysicsObject
     public Animation AnimFall { get; set; }
 
     /// <summary>
+    /// Animaatio, jota käytetään kun hahmo on paikallaan (kääntyneenä oikealle)
+    /// </summary>
+    public Animation AnimIdle { get; set; }
+
+    /// <summary>
     /// Toistetaanko hyppyanimaatiota useammin kuin kerran.
     /// </summary>
     public bool LoopJumpAnim { get; set; }
@@ -233,14 +237,15 @@ public class PlatformCharacter : PhysicsObject
     public bool LoopFallAnim { get; set; }
 
     /// <summary>
-    /// Animaatio, jota käytetään kun hahmo on paikallaan (kääntyneenä oikealle)
-    /// </summary>
-    public Animation AnimIdle { get; set; }
-
-    /// <summary>
     /// Toistetaanko kävelyanimaatiota ilmassa liikuttaessa?
     /// </summary>
     public bool WalkOnAir { get; set; }
+
+    /// <summary>
+    /// Visualisoidaanko hahmon tila ja kosketukset kappaleisiin.
+    /// Hyödyllinen debuggauksessa.
+    /// </summary>
+    public bool Visualisation { get; set; }
 
     /// <summary>
     /// Hahmon suunnan muutos.
@@ -283,19 +288,16 @@ public class PlatformCharacter : PhysicsObject
                 IgnoresGravity = true,
                 IgnoresCollisionResponse = true,
                 IgnoresExplosions = true,
-#if VISUALIZE
-                IsVisible = true,
-#else
-                IsVisible = false,
-#endif
+
+                IsVisible = Visualisation,
+
             };
         }
 
-#if VISUALIZE
+
         collisionHelpers[0].Object.Color = new Color(150, 150, 0, 100);
         collisionHelpers[1].Object.Color = new Color(150, 180, 0, 100);
         collisionHelpers[2].Object.Color = new Color(150, 210, 0, 100);
-#endif
         
         AddedToGame += AddCollisionHelpers;
         AddedToGame += SetIdleAnim;
@@ -324,7 +326,8 @@ public class PlatformCharacter : PhysicsObject
 
         for (int i = 0; i < collisionHelpers.Length; i++)
         {
-            physicsGame.AddProtectedCollisionHandler<PhysicsObject, PhysicsObject>( collisionHelpers[i].Object, collisionHelpers[i].SetObjectBeingHit );
+            CollisionHelper helper = collisionHelpers[i];
+            physicsGame.AddProtectedCollisionHandler<PhysicsObject, PhysicsObject>( collisionHelpers[i].Object, (a, b) => helper.SetObjectBeingHit(a,b, Visualisation) );
         }
     }
 
@@ -608,7 +611,9 @@ public class PlatformCharacter : PhysicsObject
     [EditorBrowsable(EditorBrowsableState.Never)]
     public override void Update(Time time)
     {
-        Visualize();
+        if(Visualisation)
+            Visualize();
+
         AdjustPosition();
 
         if (!isWalking)
@@ -644,7 +649,6 @@ public class PlatformCharacter : PhysicsObject
 
     private void Visualize()
     {
-#if VISUALIZE
         if ( stateIndicator == null )
         {
             stateIndicator = new GameObject( this.Width, 10 );
@@ -653,7 +657,7 @@ public class PlatformCharacter : PhysicsObject
 
         stateIndicator.Position = this.Position + new Vector( 0, this.Height );
         stateIndicator.Color = GetStateColor( state );
-#endif
+
     }
 
     private void AdjustPosition()
@@ -690,7 +694,8 @@ public class PlatformCharacter : PhysicsObject
         {
             PlatformCharacterState.Falling => Color.Red,
             PlatformCharacterState.Jumping => Color.Yellow,
-            _ => Color.White,
+            PlatformCharacterState.Walking => Color.Blue,
+            _ => Color.White
         };
     }
 

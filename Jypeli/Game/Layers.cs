@@ -291,6 +291,15 @@ namespace Jypeli
                     if ( gobj != null && condition( gobj ) )
                         objs.Add( gobj );
                 }
+
+                foreach (var obj in Layers[i].Objects.GetObjectsAboutToBeAdded())
+                {
+                    GameObject gobj = obj as GameObject;
+
+                    if (gobj != null && condition(gobj))
+                        objs.Add(gobj);
+                }
+
             }
 
             return objs;

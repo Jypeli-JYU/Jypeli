@@ -439,8 +439,8 @@ public class PlatformCharacter : PhysicsObject
 
         if ( Weapon != null )
         {
-            Weapon.TextureWrapSize = new Vector(direction.GetVector().X, 1);
-            //Weapon.Angle = Angle.Supplement( Weapon.Angle );
+            Weapon.TextureWrapSize = new Vector(1, direction.GetVector().X);
+            Weapon.Angle = Angle.Supplement( Weapon.Angle );
         }
 
         _facingDirection = direction;

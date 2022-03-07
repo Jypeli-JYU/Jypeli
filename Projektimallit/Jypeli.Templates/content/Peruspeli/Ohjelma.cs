@@ -17,8 +17,8 @@ namespace Program
         [STAThread]
         static void Main()
         {
-            using ( var game = new Peruspeli() )
-                game.Run();
+            using var game = new Peruspeli();
+            game.Run();
         }
     }
 }

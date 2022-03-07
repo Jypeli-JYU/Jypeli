@@ -180,6 +180,7 @@ namespace Jypeli
         {
             get
             {
+                // Imagesharpin indeksointi menee x,y, kun taas yleisesti 2d taulukko on y,x
                 Rgba32 color = image[col, row];
                 return new Color(color.R, color.G, color.B, color.A);
             }
@@ -520,7 +521,6 @@ namespace Jypeli
             // Random stars
             for (int j = 0; j < stars; j++)
             {
-
                 int px = RandomGen.NextInt(0, width);
                 int py = RandomGen.NextInt(0, height);
 
@@ -533,7 +533,7 @@ namespace Jypeli
                     {
                         if (x * x + y * y <= radius * radius && px + x > 0 && px + x < width && py + y > 0 && py + y < height)
                         {
-                            img[px + x, py + y] = starcolor;
+                            img[py + y, px + x] = starcolor;
                         }
 
                     }

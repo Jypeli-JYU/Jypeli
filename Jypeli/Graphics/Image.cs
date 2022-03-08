@@ -600,38 +600,41 @@ namespace Jypeli
         /// <returns>Kuva tekstin kanssa</returns>
         public static Image DrawTextOnImage( Image img, string text, Vector position, Font font, Color textColor, Color backgroundColor )
         {
-            if ( text == null )
+            if (text == null)
                 text = "";
 
-            /*var spriteBatch = new SpriteBatch( Game.GraphicsDevice );
-            var device = spriteBatch.GraphicsDevice;
+            var device = Game.GraphicsDevice;
 
-            XnaV2 textDims = font.XnaFont.MeasureString( text );
-            int textw = ( textDims.X > 1 ) ? Convert.ToInt32( textDims.X ) : 1;
-            int texth = ( textDims.Y > 1 ) ? Convert.ToInt32( textDims.Y ) : 1;
+            Vector textDims = font.MeasureSize(text);
+            int textw = (textDims.X > 1) ? Convert.ToInt32(textDims.X) : 1;
+            int texth = (textDims.Y > 1) ? Convert.ToInt32(textDims.Y) : 1;
 
-            //RenderTarget2D rt = new RenderTarget2D( device, textw, texth, 1, device.DisplayMode.Format );
-            RenderTarget2D rt = new RenderTarget2D( device, img.Width, img.Height, false, SurfaceFormat.Color, DepthFormat.Depth24Stencil8 );
+            Rendering.IRenderTarget rt = Game.GraphicsDevice.CreateRenderTarget((uint)img.Width, (uint)img.Height);
 
-            //device.SetRenderTarget( 0, rt );
-            device.SetRenderTarget( rt );
-            device.Clear( ClearOptions.Target | ClearOptions.DepthBuffer, backgroundColor.AsXnaColor(), 1.0f, 0 );
+            device.SetRenderTarget(rt);
+            device.Clear(backgroundColor);
 
-            float xpos = 0.5f * ( img.Width - textw ) + (float)position.X;
-            float ypos = 0.5f * ( img.Height - texth ) - (float)position.Y;
+            Matrix4x4 ProjectionMatrix = Matrix4x4.CreateOrthographic(
+                img.Width,
+                img.Height,
+                1, 2
+            );
 
-            spriteBatch.Begin();
-            spriteBatch.Draw( img.XNATexture, rt.Bounds, XnaColor.White );
-            font.XnaFont.DrawText(Graphics.FontRenderer, text, (new XnaV2(xpos, ypos)).ToSystemNumerics(), textColor.AsXnaColor().ToSystemDrawing());
-            spriteBatch.End();
+            Matrix4x4 temp = Graphics.ViewProjectionMatrix;
+            Graphics.ViewProjectionMatrix = ProjectionMatrix;
 
-            //device.SetRenderTarget( 0, null );
-            device.SetRenderTarget( null );
+            Renderer.DrawImage(Matrix4x4.Identity, img, new Rendering.TextureCoordinates(), Vector.Zero, img.Size, 0);
+            Renderer.DrawText(text, position + new Vector(0, texth / 2), font, textColor, Vector.One);
+            Graphics.CustomBatch.Flush();
 
+            Graphics.ViewProjectionMatrix = temp;
 
-            //return new Image( rt.GetTexture() );
-            return new Image( rt );*/
-            return new Image(20,20);
+            Image tex = new Image(img.Width, img.Height);
+            device.GetScreenContentsToImage(tex);
+
+            device.SetRenderTarget(null);
+
+            return Flip(tex);
         }
 
         /// <summary>

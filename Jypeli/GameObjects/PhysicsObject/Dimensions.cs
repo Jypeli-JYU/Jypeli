@@ -54,6 +54,7 @@ namespace Jypeli
             get { return Angle.FromRadians(Body.Angle); }
             set 
             {
+                UpdateChildrenPos();
                 Angle diff = value - Angle;
                 Body.Angle = value.Radians;
 

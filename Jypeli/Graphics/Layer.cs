@@ -563,13 +563,16 @@ namespace Jypeli
                 c.Draw(parentTransformation);
                 return;
             }
+
+            Vector drawScale = o.Shape.IsUnitSize ? o.Size : Vector.One;
+
             switch (o.Shape)
             {
                 case RaySegment r:
                     Graphics.LineBatch.Draw(r.Origin + o.Position, (r.Direction.Angle + o.Angle).GetVector() * r.Length + o.Position, o.Color);
                     break;
                 default:
-                    Graphics.ShapeBatch.Draw(o.Shape.Cache, o.Color, o.Position, o.Size, rotation);
+                    Graphics.ShapeBatch.Draw(o.Shape.Cache, o.Color, o.Position, drawScale, rotation);
                     break;
             }
         }

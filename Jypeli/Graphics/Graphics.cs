@@ -104,7 +104,7 @@ namespace Jypeli
         public static void ResetScreenSize()
         {
             ViewMatrix = Matrix.CreateLookAt(
-                new Vector3( 0.0f, 0.0f, 1.0f ),
+                new Vector3(0.0f, 0.0f, 1.0f),
                 Vector3.Zero,
                 Vector3.UnitY
                 );

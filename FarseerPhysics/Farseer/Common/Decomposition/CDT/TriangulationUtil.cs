@@ -78,7 +78,8 @@ namespace FarseerPhysics.Common.Decomposition.CDT
             double oabd = adxbdy - bdxady;
 
             //        oabd = orient2d(pa,pb,pd);
-            if (oabd <= 0) return false;
+            if (oabd <= 0)
+                return false;
 
             double cdx = pc.X - pdx;
             double cdy = pc.Y - pdy;
@@ -88,7 +89,8 @@ namespace FarseerPhysics.Common.Decomposition.CDT
             double ocad = cdxady - adxcdy;
 
             //      ocad = orient2d(pc,pa,pd);
-            if (ocad <= 0) return false;
+            if (ocad <= 0)
+                return false;
 
             double bdxcdy = bdx * cdy;
             double cdxbdy = cdx * bdy;

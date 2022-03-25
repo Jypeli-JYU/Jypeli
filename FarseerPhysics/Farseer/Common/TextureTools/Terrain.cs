@@ -177,11 +177,15 @@ namespace FarseerPhysics.Common.TextureTools
                 _terrainMap[(int)p.X, (int)p.Y] = value;
 
                 // expand dirty area
-                if (p.X < _dirtyArea.LowerBound.X) _dirtyArea.LowerBound.X = p.X;
-                if (p.X > _dirtyArea.UpperBound.X) _dirtyArea.UpperBound.X = p.X;
+                if (p.X < _dirtyArea.LowerBound.X)
+                    _dirtyArea.LowerBound.X = p.X;
+                if (p.X > _dirtyArea.UpperBound.X)
+                    _dirtyArea.UpperBound.X = p.X;
 
-                if (p.Y < _dirtyArea.LowerBound.Y) _dirtyArea.LowerBound.Y = p.Y;
-                if (p.Y > _dirtyArea.UpperBound.Y) _dirtyArea.UpperBound.Y = p.Y;
+                if (p.Y < _dirtyArea.LowerBound.Y)
+                    _dirtyArea.LowerBound.Y = p.Y;
+                if (p.Y > _dirtyArea.UpperBound.Y)
+                    _dirtyArea.UpperBound.Y = p.Y;
             }
         }
 
@@ -192,16 +196,20 @@ namespace FarseerPhysics.Common.TextureTools
         {
             //iterate effected cells
             int xStart = (int)(_dirtyArea.LowerBound.X / CellSize);
-            if (xStart < 0) xStart = 0;
+            if (xStart < 0)
+                xStart = 0;
 
             int xEnd = (int)(_dirtyArea.UpperBound.X / CellSize) + 1;
-            if (xEnd > _xnum) xEnd = _xnum;
+            if (xEnd > _xnum)
+                xEnd = _xnum;
 
             int yStart = (int)(_dirtyArea.LowerBound.Y / CellSize);
-            if (yStart < 0) yStart = 0;
+            if (yStart < 0)
+                yStart = 0;
 
             int yEnd = (int)(_dirtyArea.UpperBound.Y / CellSize) + 1;
-            if (yEnd > _ynum) yEnd = _ynum;
+            if (yEnd > _ynum)
+                yEnd = _ynum;
 
             RemoveOldData(xStart, xEnd, yStart, yEnd);
 
@@ -237,7 +245,8 @@ namespace FarseerPhysics.Common.TextureTools
             float ay = gy * CellSize;
 
             List<Vertices> polys = MarchingSquares.DetectSquares(new AABB(new Vector2(ax, ay), new Vector2(ax + CellSize, ay + CellSize)), SubCellSize, SubCellSize, _terrainMap, Iterations, true);
-            if (polys.Count == 0) return;
+            if (polys.Count == 0)
+                return;
 
             _bodyMap[gx, gy] = new List<Body>();
 

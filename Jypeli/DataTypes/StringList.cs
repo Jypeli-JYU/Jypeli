@@ -25,7 +25,7 @@ namespace Jypeli
         {
             return GetEnumerator();
         }
-        
+
         /// <summary>
         /// Merkkijono listassa.
         /// </summary>
@@ -43,9 +43,9 @@ namespace Jypeli
         /// <param name="a">Lista</param>
         /// <param name="b">Olio.</param>
         /// <returns>Lista jatkettuna oliolla.</returns>
-        public static StringList operator +( StringList a, object b )
+        public static StringList operator +(StringList a, object b)
         {
-            return new StringList( a ).Add( b );
+            return new StringList(a).Add(b);
         }
 
         /// <summary>
@@ -54,9 +54,9 @@ namespace Jypeli
         /// <param name="a">Olio</param>
         /// <param name="b">Lista.</param>
         /// <returns>Olio jatkettuna listalla.</returns>
-        public static StringList operator +( object a, StringList b )
+        public static StringList operator +(object a, StringList b)
         {
-            return new StringList( a ).Add( b );
+            return new StringList(a).Add(b);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="list">Merkkijonolista.</param>
         /// <returns>Lista merkkijonoja.</returns>
-        public static implicit operator List<String>( StringList list )
+        public static implicit operator List<String>(StringList list)
         {
             return list.strings;
         }
@@ -74,9 +74,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="list">Lista merkkijonoja.</param>
         /// <returns>Merkkijonolista.</returns>
-        public static implicit operator StringList( List<String> list )
+        public static implicit operator StringList(List<String> list)
         {
-            return new StringList( list );
+            return new StringList(list);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="list">Merkkijonolista.</param>
         /// <returns>Taulukko merkkijonoja.</returns>
-        public static implicit operator String[]( StringList list )
+        public static implicit operator String[](StringList list)
         {
             return list.strings.ToArray();
         }
@@ -94,9 +94,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="array">Taulukko merkkijonoja.</param>
         /// <returns>Merkkijonolista.</returns>
-        public static implicit operator StringList( String[] array )
+        public static implicit operator StringList(String[] array)
         {
-            return new StringList( array );
+            return new StringList(array);
         }
 
         /// <summary>
@@ -114,15 +114,15 @@ namespace Jypeli
             get { return strings.Count; }
             set
             {
-                if ( value < strings.Count )
+                if (value < strings.Count)
                 {
-                    strings.RemoveRange( value, strings.Count - value );
+                    strings.RemoveRange(value, strings.Count - value);
                 }
 
-                else if ( value > strings.Count )
+                else if (value > strings.Count)
                 {
-                    for ( int i = value; i < strings.Count; i++ )
-                        strings.Add( "" );
+                    for (int i = value; i < strings.Count; i++)
+                        strings.Add("");
                 }
             }
         }
@@ -141,7 +141,7 @@ namespace Jypeli
 
         private void OnChanged()
         {
-            if ( Changed != null )
+            if (Changed != null)
                 Changed();
         }
 
@@ -156,27 +156,27 @@ namespace Jypeli
         /// Luo uuden merkkijonolistan olemassaolevan kopiona.
         /// </summary>
         /// <param name="source">Olemassaoleva merkkijonolista.</param>
-        public StringList( StringList source )
+        public StringList(StringList source)
         {
-            strings.AddRange( source.strings );
+            strings.AddRange(source.strings);
         }
 
         /// <summary>
         /// Luo uuden merkkijonolistan olemassaolevan kopiona.
         /// </summary>
         /// <param name="source">Olemassaoleva merkkijonolista.</param>
-        public StringList( List<string> source )
+        public StringList(List<string> source)
         {
-            strings.AddRange( source );
+            strings.AddRange(source);
         }
 
         /// <summary>
         /// Luo uuden merkkijonolistan oliosta.
         /// </summary>
         /// <param name="source">Olio.</param>
-        public StringList( object source )
+        public StringList(object source)
         {
-            Add( source );
+            Add(source);
         }
 
         /// <summary>
@@ -184,16 +184,16 @@ namespace Jypeli
         /// annetuista merkkijonoista.
         /// </summary>
         /// <param name="source">Merkkijonot taulukkona tai parametreina.</param>
-        public StringList( params string[] source )
+        public StringList(params string[] source)
         {
-            strings.AddRange( source );
+            strings.AddRange(source);
         }
 
         /// <summary>
         /// Lukee merkkijonolistan Content-projektin tekstitiedostosta.
         /// </summary>
         /// <param name="assetName">Tiedoston nimi</param>        
-        public static StringList FromAsset( string assetName )
+        public static StringList FromAsset(string assetName)
         {
             return new StringList(/* Game.Instance.Content.Load<string[]>( assetName )*/ );
         }
@@ -202,14 +202,14 @@ namespace Jypeli
         /// Lukee merkkijonolistan tietovirrasta.
         /// </summary>
         /// <param name="stream">Luettava virta.</param>
-        internal StringList AssignFrom( Stream stream )
+        internal StringList AssignFrom(Stream stream)
         {
-            using ( StreamReader input = new StreamReader( stream ) )
+            using (StreamReader input = new StreamReader(stream))
             {
                 string line;
-                while ( ( line = input.ReadLine() ) != null )
+                while ((line = input.ReadLine()) != null)
                 {
-                    strings.Add( line );
+                    strings.Add(line);
                 }
             }
 
@@ -223,16 +223,16 @@ namespace Jypeli
         /// FromAsset-metodia jos vain mahdollista.
         /// </summary>
         /// <param name="path">Tiedoston polku.</param>
-        public static StringList FromFile( string path )
+        public static StringList FromFile(string path)
         {
             StringList result = new StringList();
 
-            using ( StreamReader input = File.OpenText( path ) )
+            using (StreamReader input = File.OpenText(path))
             {
                 string line;
-                while ( ( line = input.ReadLine() ) != null )
+                while ((line = input.ReadLine()) != null)
                 {
-                    result.Add( line );
+                    result.Add(line);
                 }
             }
 
@@ -244,9 +244,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="lines">Rivi(t)</param>
         /// <returns>Lista itse</returns>
-        public StringList Add( params string[] lines )
+        public StringList Add(params string[] lines)
         {
-            strings.AddRange( lines );
+            strings.AddRange(lines);
             OnChanged();
             return this;
         }
@@ -256,9 +256,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="list">Merkkijonolista</param>
         /// <returns>Lista itse</returns>
-        public StringList Add( StringList list )
+        public StringList Add(StringList list)
         {
-            strings.AddRange( list.strings );
+            strings.AddRange(list.strings);
             OnChanged();
             return this;
         }
@@ -268,9 +268,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="list">Lista merkkijonoja.</param>
         /// <returns>Lista itse</returns>
-        public StringList Add( List<String> list )
+        public StringList Add(List<String> list)
         {
-            strings.AddRange( list );
+            strings.AddRange(list);
             OnChanged();
             return this;
         }
@@ -280,18 +280,19 @@ namespace Jypeli
         /// </summary>
         /// <param name="obj">Olio.</param>
         /// <returns>Lista itse</returns>
-        public StringList Add( object obj )
+        public StringList Add(object obj)
         {
-            if ( obj is StringList ) return this.Add( (StringList)obj );
-            if ( obj is ICollection<object> )
+            if (obj is StringList)
+                return this.Add((StringList)obj);
+            if (obj is ICollection<object>)
             {
-                foreach ( object element in (ICollection<object>)obj )
+                foreach (object element in (ICollection<object>)obj)
                 {
-                    this.Add( element );
+                    this.Add(element);
                 }
             }
 
-            return this.Add( obj.ToString() );
+            return this.Add(obj.ToString());
         }
 
         /// <summary>
@@ -300,11 +301,12 @@ namespace Jypeli
         /// </summary>
         /// <param name="lines">Poistettava(t) rivi(t)</param>
         /// <returns>Lista itse</returns>
-        public StringList RemoveAll( params string[] lines )
+        public StringList RemoveAll(params string[] lines)
         {
-            for ( int i = 0; i < lines.Length; i++ )
+            for (int i = 0; i < lines.Length; i++)
             {
-                while ( strings.Remove( lines[i] ) ) ;
+                while (strings.Remove(lines[i]))
+                    ;
             }
 
             OnChanged();
@@ -317,11 +319,12 @@ namespace Jypeli
         /// </summary>
         /// <param name="list">Lista joka sisältää poistettavat rivit</param>
         /// <returns>Lista itse</returns>
-        public StringList RemoveAll( List<string> list )
+        public StringList RemoveAll(List<string> list)
         {
-            for ( int i = 0; i < list.Count; i++ )
+            for (int i = 0; i < list.Count; i++)
             {
-                while ( strings.Remove( list[i] ) ) ;
+                while (strings.Remove(list[i]))
+                    ;
             }
 
             OnChanged();
@@ -334,9 +337,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="list">Lista joka sisältää poistettavat rivit</param>
         /// <returns>Lista itse</returns>
-        public StringList RemoveAll( StringList list )
+        public StringList RemoveAll(StringList list)
         {
-            return RemoveAll( list.strings );
+            return RemoveAll(list.strings);
         }
 
         /// <summary>
@@ -345,11 +348,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="lines">Poistettava(t) rivi(t)</param>
         /// <returns>Lista itse</returns>
-        public StringList RemoveFirst( params string[] lines )
+        public StringList RemoveFirst(params string[] lines)
         {
-            for ( int i = 0; i < lines.Length; i++ )
+            for (int i = 0; i < lines.Length; i++)
             {
-                strings.Remove( lines[i] );
+                strings.Remove(lines[i]);
             }
 
             OnChanged();
@@ -362,11 +365,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="list">Lista joka sisältää poistettavat rivit</param>
         /// <returns>Lista itse</returns>
-        public StringList RemoveFirst( List<string> list )
+        public StringList RemoveFirst(List<string> list)
         {
-            for ( int i = 0; i < list.Count; i++ )
+            for (int i = 0; i < list.Count; i++)
             {
-                strings.Remove( list[i] );
+                strings.Remove(list[i]);
             }
 
             OnChanged();
@@ -379,9 +382,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="list">Lista joka sisältää poistettavat rivit</param>
         /// <returns>Lista itse</returns>
-        public StringList RemoveFirst( StringList list )
+        public StringList RemoveFirst(StringList list)
         {
-            return RemoveFirst( list.strings );
+            return RemoveFirst(list.strings);
         }
 
         /// <summary>
@@ -390,11 +393,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="lines">Poistettava(t) rivi(t)</param>
         /// <returns>Lista itse</returns>
-        public StringList RemoveLast( params string[] lines )
+        public StringList RemoveLast(params string[] lines)
         {
-            for ( int i = lines.Length - 1; i >= 0; i-- )
+            for (int i = lines.Length - 1; i >= 0; i--)
             {
-                strings.Remove( lines[i] );
+                strings.Remove(lines[i]);
             }
 
             OnChanged();
@@ -407,11 +410,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="list">Lista joka sisältää poistettavat rivit</param>
         /// <returns>Lista itse</returns>
-        public StringList RemoveLast( List<string> list )
+        public StringList RemoveLast(List<string> list)
         {
-            for ( int i = list.Count - 1; i >= 0; i-- )
+            for (int i = list.Count - 1; i >= 0; i--)
             {
-                strings.Remove( list[i] );
+                strings.Remove(list[i]);
             }
 
             OnChanged();
@@ -424,9 +427,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="list">Lista joka sisältää poistettavat rivit</param>
         /// <returns>Lista itse</returns>
-        public StringList RemoveLast( StringList list )
+        public StringList RemoveLast(StringList list)
         {
-            return RemoveLast( list.strings );
+            return RemoveLast(list.strings);
         }
 
         /// <summary>
@@ -434,11 +437,12 @@ namespace Jypeli
         /// </summary>
         /// <param name="line">Etsittävä rivi.</param>
         /// <returns>true jos löytyy</returns>
-        public bool Contains( string line )
+        public bool Contains(string line)
         {
-            for ( int i = 0; i < strings.Count; i++ )
+            for (int i = 0; i < strings.Count; i++)
             {
-                if ( strings[i] == line ) return true;
+                if (strings[i] == line)
+                    return true;
             }
 
             return false;
@@ -450,12 +454,14 @@ namespace Jypeli
         /// </summary>
         /// <param name="line">Etsittävän rivin alku.</param>
         /// <returns>Löydetty merkkijono tai null jos ei löytynyt.</returns>
-        public string FirstBeginningWith( string line )
+        public string FirstBeginningWith(string line)
         {
-            for ( int i = 0; i < strings.Count; i++ )
+            for (int i = 0; i < strings.Count; i++)
             {
-                if ( strings[i].Length < line.Length ) continue;
-                if ( strings[i].Substring( 0, line.Length ) == line ) return strings[i];
+                if (strings[i].Length < line.Length)
+                    continue;
+                if (strings[i].Substring(0, line.Length) == line)
+                    return strings[i];
             }
 
             return null;

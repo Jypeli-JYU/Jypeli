@@ -24,8 +24,8 @@ namespace Jypeli.Widgets
         /// Alustaa widgetin.
         /// </summary>
         /// <param name="animation"></param>
-        public BindableWidget( Animation animation )
-            : base( animation )
+        public BindableWidget(Animation animation)
+            : base(animation)
         {
             CreateInnerMeter();
         }
@@ -35,8 +35,8 @@ namespace Jypeli.Widgets
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public BindableWidget( double width, double height )
-            : base( width, height )
+        public BindableWidget(double width, double height)
+            : base(width, height)
         {
             CreateInnerMeter();
         }
@@ -47,8 +47,8 @@ namespace Jypeli.Widgets
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="shape"></param>
-        public BindableWidget( double width, double height, Shape shape )
-            : base( width, height, shape )
+        public BindableWidget(double width, double height, Shape shape)
+            : base(width, height, shape)
         {
             CreateInnerMeter();
         }
@@ -57,8 +57,8 @@ namespace Jypeli.Widgets
         /// Alustaa widgetin.
         /// </summary>
         /// <param name="layout"></param>
-        public BindableWidget( ILayout layout )
-            : base( layout )
+        public BindableWidget(ILayout layout)
+            : base(layout)
         {
             CreateInnerMeter();
         }
@@ -67,7 +67,7 @@ namespace Jypeli.Widgets
         {
             Bound = false;
             UnsetChangedEvent();
-            Meter = new DoubleMeter( 0, 0, 100 );
+            Meter = new DoubleMeter(0, 0, 100);
             SetChangedEvent();
             AddedToGame += UpdateValue;
         }
@@ -77,11 +77,15 @@ namespace Jypeli.Widgets
         /// </summary>
         protected void SetChangedEvent()
         {
-            if ( updateSet ) return;
+            if (updateSet)
+                return;
 
-            if ( Meter is IntMeter ) ( (IntMeter)Meter ).Changed += UpdateIntValue;
-            else if ( Meter is DoubleMeter ) ( (DoubleMeter)Meter ).Changed += UpdateDoubleValue;
-            else throw new InvalidOperationException( "Meter is of unknown type!" );
+            if (Meter is IntMeter)
+                ((IntMeter)Meter).Changed += UpdateIntValue;
+            else if (Meter is DoubleMeter)
+                ((DoubleMeter)Meter).Changed += UpdateDoubleValue;
+            else
+                throw new InvalidOperationException("Meter is of unknown type!");
 
             updateSet = true;
         }
@@ -93,11 +97,15 @@ namespace Jypeli.Widgets
         /// </summary>
         protected void UnsetChangedEvent()
         {
-            if ( !updateSet ) return;
+            if (!updateSet)
+                return;
 
-            if ( Meter is IntMeter ) ( (IntMeter)Meter ).Changed -= UpdateIntValue;
-            else if ( Meter is DoubleMeter ) ( (DoubleMeter)Meter ).Changed -= UpdateDoubleValue;
-            else throw new InvalidOperationException( "Meter is of unknown type!" );
+            if (Meter is IntMeter)
+                ((IntMeter)Meter).Changed -= UpdateIntValue;
+            else if (Meter is DoubleMeter)
+                ((DoubleMeter)Meter).Changed -= UpdateDoubleValue;
+            else
+                throw new InvalidOperationException("Meter is of unknown type!");
 
             updateSet = false;
         }
@@ -105,7 +113,7 @@ namespace Jypeli.Widgets
         /// <summary>
         /// Asettaa kontrollin seuraamaan mittarin arvoa.
         /// </summary>
-        public virtual void BindTo( Meter meter )
+        public virtual void BindTo(Meter meter)
         {
             UnsetChangedEvent();
             Meter = meter;
@@ -122,12 +130,12 @@ namespace Jypeli.Widgets
             CreateInnerMeter();
         }
 
-        private void UpdateIntValue( int oldValue, int newValue )
+        private void UpdateIntValue(int oldValue, int newValue)
         {
             UpdateValue();
         }
 
-        private void UpdateDoubleValue( double oldValue, double newValue )
+        private void UpdateDoubleValue(double oldValue, double newValue)
         {
             UpdateValue();
         }

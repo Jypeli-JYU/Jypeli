@@ -44,7 +44,7 @@ namespace Jypeli
                 this.Request = req;
                 this.CancellationToken = cancel;
                 this.Callback = callback;
-                this.Lifetime = TimeSpan.FromSeconds( 15 );
+                this.Lifetime = TimeSpan.FromSeconds(15);
             }
 
             public AsyncOperation(Task<HttpResponseMessage> req, CancellationTokenSource cancel, Action<StorageFile> callback, TimeSpan timeout)
@@ -63,20 +63,21 @@ namespace Jypeli
             public int triggered = 0;
             public int failed = 0;
 
-            public AsyncTrigger( List<AsyncOperation> operations, Action endAction )
+            public AsyncTrigger(List<AsyncOperation> operations, Action endAction)
             {
                 this.ops = operations;
                 this.onCompleted = endAction;
             }
 
-            public AsyncTrigger( List<AsyncOperation> operations, TimeSpan timeout, Action endAction )
+            public AsyncTrigger(List<AsyncOperation> operations, TimeSpan timeout, Action endAction)
             {
                 this.ops = operations;
                 this.onCompleted = endAction;
-                foreach ( var op in ops ) op.Lifetime = timeout;
+                foreach (var op in ops)
+                    op.Lifetime = timeout;
             }
         }
-        
+
         SynchronousList<AsyncTrigger> triggers = new SynchronousList<AsyncTrigger>();
 
         public bool IsUpdated
@@ -84,17 +85,17 @@ namespace Jypeli
             get { return triggers.Count > 0; }
         }
 
-        public void Update( Time time )
+        public void Update(Time time)
         {
-            triggers.Update( time );
+            triggers.Update(time);
 
-            foreach ( var trig in triggers )
+            foreach (var trig in triggers)
             {
-                foreach ( var op in trig.ops.FindAll( o => !o.IsCompleted ) )
+                foreach (var op in trig.ops.FindAll(o => !o.IsCompleted))
                 {
                     op.Lifetime -= time.SinceLastUpdate;
 
-                    if ( op.Lifetime.TotalSeconds <= 0 )
+                    if (op.Lifetime.TotalSeconds <= 0)
                     {
                         //Game.Instance.MessageDisplay.Add( "!!ABORT" );
                         op.CancellationToken.Cancel();
@@ -102,9 +103,9 @@ namespace Jypeli
                     }
                 }
 
-                if ( trig.triggered + trig.failed >= trig.ops.Count )
+                if (trig.triggered + trig.failed >= trig.ops.Count)
                 {
-                    triggers.Remove( trig );
+                    triggers.Remove(trig);
                     trig.onCompleted();
                 }
             }
@@ -125,14 +126,14 @@ namespace Jypeli
         ///    olio.Image = new Image( kuva );
         /// }
         /// </example>
-        public AsyncOperation DoWith( string fileName, Action<StorageFile> callback )
+        public AsyncOperation DoWith(string fileName, Action<StorageFile> callback)
         {
-            using ( var f = Open( fileName, false ) )
+            using (var f = Open(fileName, false))
             {
-                callback( f );
+                callback(f);
             }
 
-            return new AsyncOperation( null, callback );
+            return new AsyncOperation(null, callback);
         }
 
         /// <summary>
@@ -150,7 +151,7 @@ namespace Jypeli
         ///    olio.Image = new Image( kuva );
         /// }
         /// </example>
-        public AsyncOperation DoWithURL( string url, Action<StorageFile> callback )
+        public AsyncOperation DoWithURL(string url, Action<StorageFile> callback)
         {
             var cancelToken = new CancellationTokenSource();
             var request = Client.GetAsync(url, cancelToken.Token);
@@ -179,7 +180,7 @@ namespace Jypeli
         ///    olio.Image = new Image( kuva );
         /// }
         /// </example>
-        public AsyncOperation DoWithURL( string url, TimeSpan timeout, Action<StorageFile> callback )
+        public AsyncOperation DoWithURL(string url, TimeSpan timeout, Action<StorageFile> callback)
         {
             var cancelToken = new CancellationTokenSource();
             cancelToken.CancelAfter(timeout);
@@ -197,10 +198,10 @@ namespace Jypeli
         /// </summary>
         /// <param name="callback">Aliohjelma</param>
         /// <param name="actions">Operaatiot</param>
-        public void TriggerOnComplete( Action callback, params AsyncOperation[] actions )
+        public void TriggerOnComplete(Action callback, params AsyncOperation[] actions)
         {
-            triggers.Add( new AsyncTrigger( actions.ToList().FindAll( o => !o.IsCompleted ), callback ) );
-            triggers.Update( Game.Time );
+            triggers.Add(new AsyncTrigger(actions.ToList().FindAll(o => !o.IsCompleted), callback));
+            triggers.Update(Game.Time);
         }
 
         /// <summary>
@@ -209,10 +210,10 @@ namespace Jypeli
         /// <param name="callback">Aliohjelma</param>
         /// <param name="timeout">Kuinka pitkään odotetaan yksittäistä operaatiota ennen kuin luovutetaan</param>
         /// <param name="actions">Operaatiot</param>
-        public void TriggerOnComplete( Action callback, TimeSpan timeout, params AsyncOperation[] actions )
+        public void TriggerOnComplete(Action callback, TimeSpan timeout, params AsyncOperation[] actions)
         {
-            triggers.Add( new AsyncTrigger( actions.ToList().FindAll( o => !o.IsCompleted ), timeout, callback ) );
-            triggers.Update( Game.Time );
+            triggers.Add(new AsyncTrigger(actions.ToList().FindAll(o => !o.IsCompleted), timeout, callback));
+            triggers.Update(Game.Time);
         }
     }
 }

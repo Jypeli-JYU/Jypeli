@@ -111,7 +111,7 @@ namespace Jypeli
             _shape = shape;
             var collisionHandlers = FSBody.FixtureList[0].OnCollision;
 
-            for(int i = 0; i < FSBody.FixtureList.Count; i++)
+            for (int i = 0; i < FSBody.FixtureList.Count; i++)
             {
                 FSBody.Remove(FSBody.FixtureList[i]);
             }

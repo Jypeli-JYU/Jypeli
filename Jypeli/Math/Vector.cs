@@ -67,22 +67,22 @@ namespace Jypeli
         /// <summary>
         /// Nollavektori.
         /// </summary>
-        public static readonly Vector Zero = new Vector( 0, 0 );
+        public static readonly Vector Zero = new Vector(0, 0);
 
         /// <summary>
         /// Yksikkövektori.
         /// </summary>
-        public static readonly Vector One = new Vector( 1, 1 );
+        public static readonly Vector One = new Vector(1, 1);
 
         /// <summary>
         /// Vaakasuuntainen yksikkövektori (pituus 1, suunta oikealle).
         /// </summary>
-        public static readonly Vector UnitX = new Vector( 1.0, 0.0 );
+        public static readonly Vector UnitX = new Vector(1.0, 0.0);
 
         /// <summary>
         /// Pystysuuntainen yksikkövektori (pituus 1, suunta ylös).
         /// </summary>
-        public static readonly Vector UnitY = new Vector( 0.0, 1.0 );
+        public static readonly Vector UnitY = new Vector(0.0, 1.0);
 
         /// <summary>
         /// Diagonaalivektori (1,1)
@@ -94,7 +94,7 @@ namespace Jypeli
         /// </summary>
         public Vector LeftNormal
         {
-            get { return new Vector( -Y, X ); }
+            get { return new Vector(-Y, X); }
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Jypeli
         /// </summary>
         public Vector RightNormal
         {
-            get { return new Vector( Y, -X ); }
+            get { return new Vector(Y, -X); }
         }
 
         /// <summary>
@@ -110,39 +110,39 @@ namespace Jypeli
         /// </summary>
         /// <param name="length">Pituus.</param>
         /// <param name="angle">Kulma radiaaneina.</param>
-        private static Vector FromLengthAndAngle( double length, double angle )
+        private static Vector FromLengthAndAngle(double length, double angle)
         {
             Vector result;
-            result.X = length * Math.Cos( angle );
-            result.Y = length * Math.Sin( angle );
+            result.X = length * Math.Cos(angle);
+            result.Y = length * Math.Sin(angle);
             return result;
         }
 
         /// <summary>
         /// Luo vektorin pituuden ja kulman perusteella.
         /// </summary>
-        public static Vector FromLengthAndAngle( double length, Angle angle )
+        public static Vector FromLengthAndAngle(double length, Angle angle)
         {
-            return FromLengthAndAngle( length, angle.Radians );
+            return FromLengthAndAngle(length, angle.Radians);
         }
 
         /// <summary>
         /// Luo vektorin kulman perusteella yksikköpituudella.
         /// </summary>
-        public static Vector FromAngle( Angle angle )
+        public static Vector FromAngle(Angle angle)
         {
-            return FromLengthAndAngle( 1, angle.Radians );
+            return FromLengthAndAngle(1, angle.Radians);
         }
 
         /// <summary>
         /// Etäisyys kahden pisteen välillä.
         /// </summary>
-        public static double Distance( Vector p1, Vector p2 )
+        public static double Distance(Vector p1, Vector p2)
         {
             double x, y;
             x = p1.X - p2.X;
             y = p1.Y - p2.Y;
-            return Math.Sqrt( (float)(x * x + y * y) );
+            return Math.Sqrt((float)(x * x + y * y));
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Jypeli
         /// <param name="left">Vasen vektori</param>
         /// <param name="right">Oikea vektori</param>
         /// <returns></returns>
-        public static double DotProduct( Vector left, Vector right )
+        public static double DotProduct(Vector left, Vector right)
         {
             return left.Y * right.Y + left.X * right.X;
         }
@@ -164,9 +164,9 @@ namespace Jypeli
         /// <param name="left">Vasen vektori</param>
         /// <param name="right">Oikea vektori</param>
         /// <returns></returns>
-        public static double CrossProduct( Vector left, Vector right )
+        public static double CrossProduct(Vector left, Vector right)
         {
-            return left.Magnitude * right.Magnitude * ( right.Angle - left.Angle ).Sin;
+            return left.Magnitude * right.Magnitude * (right.Angle - left.Angle).Sin;
         }
 
         /// <summary>
@@ -175,9 +175,9 @@ namespace Jypeli
         /// <param name="a">Vektori</param>
         /// <param name="b">Vektori</param>
         /// <returns>Tulovektori</returns>
-        public static Vector ComponentProduct( Vector a, Vector b )
+        public static Vector ComponentProduct(Vector a, Vector b)
         {
-            return new Vector( a.X * b.X, a.Y * b.Y );
+            return new Vector(a.X * b.X, a.Y * b.Y);
         }
 
         /// <summary>
@@ -204,9 +204,9 @@ namespace Jypeli
         /// <summary>
         /// Laskee ja palauttaa tämän pisteen etäisyyden toiseen pisteeseen.
         /// </summary>
-        public Vector Project( Vector to )
+        public Vector Project(Vector to)
         {
-            return ScalarProjection( to ) * to;
+            return ScalarProjection(to) * to;
         }
 
         /// <summary>
@@ -223,12 +223,12 @@ namespace Jypeli
         /// </summary>
         /// <param name="matrix"></param>
         /// <returns></returns>
-        public Vector Transform( Matrix matrix )
+        public Vector Transform(Matrix matrix)
         {
             return new Vector
             (
-                ( X * matrix.M11 ) + ( Y * matrix.M21 ) + matrix.M41,
-                ( X * matrix.M12 ) + ( Y * matrix.M22 ) + matrix.M42
+                (X * matrix.M11) + (Y * matrix.M21) + matrix.M41,
+                (X * matrix.M12) + (Y * matrix.M22) + matrix.M42
             );
         }
 
@@ -238,7 +238,7 @@ namespace Jypeli
         /// <returns></returns>
         public Vector Transpose()
         {
-            return new Vector( Y, X );
+            return new Vector(Y, X);
         }
 
         /// <summary>
@@ -246,15 +246,15 @@ namespace Jypeli
         /// </summary>
         /// <param name="vectors">Vektorit</param>
         /// <returns>Lyhin vektori.</returns>
-        public static Vector Min( params Vector[] vectors )
+        public static Vector Min(params Vector[] vectors)
         {
             int minIndex = 0;
             double minMagnitude = vectors[0].Magnitude;
 
-            for ( int i = 1; i < vectors.Length; i++ )
+            for (int i = 1; i < vectors.Length; i++)
             {
                 double m = vectors[i].Magnitude;
-                if ( m < minMagnitude )
+                if (m < minMagnitude)
                 {
                     minIndex = i;
                     minMagnitude = m;
@@ -269,15 +269,15 @@ namespace Jypeli
         /// </summary>
         /// <param name="vectors">Vektorit</param>
         /// <returns>Pisin vektori.</returns>
-        public static Vector Max( params Vector[] vectors )
+        public static Vector Max(params Vector[] vectors)
         {
             int maxIndex = 0;
             double maxMagnitude = vectors[0].Magnitude;
 
-            for ( int i = 1; i < vectors.Length; i++ )
+            for (int i = 1; i < vectors.Length; i++)
             {
                 double m = vectors[i].Magnitude;
-                if ( m > maxMagnitude )
+                if (m > maxMagnitude)
                 {
                     maxIndex = i;
                     maxMagnitude = m;
@@ -292,20 +292,20 @@ namespace Jypeli
         /// </summary>
         /// <param name="vectors">Vektorit</param>
         /// <returns>Keskiarvovektori</returns>
-        public static Vector Average( IEnumerable<Vector> vectors )
+        public static Vector Average(IEnumerable<Vector> vectors)
         {
             double sumX = 0;
             double sumY = 0;
             int count = 0;
 
-            foreach ( var v in vectors )
+            foreach (var v in vectors)
             {
                 sumX += v.X;
                 sumY += v.Y;
                 count++;
             }
 
-            return count > 0 ? new Vector( sumX, sumY ) / count : Zero;
+            return count > 0 ? new Vector(sumX, sumY) / count : Zero;
         }
 
         /// <summary>
@@ -313,18 +313,18 @@ namespace Jypeli
         /// </summary>
         /// <param name="vectors">Vektorit</param>
         /// <returns>Keskiarvovektori</returns>
-        public static Vector Average( params Vector[] vectors )
+        public static Vector Average(params Vector[] vectors)
         {
             double sumX = 0;
             double sumY = 0;
 
-            foreach ( var v in vectors )
+            foreach (var v in vectors)
             {
                 sumX += v.X;
                 sumY += v.Y;
             }
 
-            return vectors.Length > 0 ? new Vector( sumX, sumY ) / vectors.Length : Zero;
+            return vectors.Length > 0 ? new Vector(sumX, sumY) / vectors.Length : Zero;
         }
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace Jypeli
         /// </summary>
         public double Magnitude
         {
-            get { return Math.Sqrt( MagnitudeSquared ); }
+            get { return Math.Sqrt(MagnitudeSquared); }
         }
 
         /// <summary>
@@ -358,7 +358,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="X">X-komponentti</param>
         /// <param name="Y">Y-komponentti</param>
-        public Vector( double X, double Y )
+        public Vector(double X, double Y)
         {
             this.X = X;
             this.Y = Y;
@@ -371,10 +371,10 @@ namespace Jypeli
         {
             get
             {
-                double a = Math.Atan2( Y, X );
-                if ( a < 0 )
+                double a = Math.Atan2(Y, X);
+                if (a < 0)
                     a += 2 * Math.PI;
-                return Angle.FromRadians( a );
+                return Angle.FromRadians(a);
             }
         }
 
@@ -384,7 +384,7 @@ namespace Jypeli
         /// <returns></returns>
         public override string ToString()
         {
-            return ToString( NumberFormatInfo.InvariantInfo );
+            return ToString(NumberFormatInfo.InvariantInfo);
         }
 
         /// <summary>
@@ -393,11 +393,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="formatProvider"></param>
         /// <returns></returns>
-        public string ToString( IFormatProvider formatProvider )
+        public string ToString(IFormatProvider formatProvider)
         {
-            string x = X.ToString( formatProvider );
-            string y = Y.ToString( formatProvider );
-            return string.Format( "({0},{1})", x, y );
+            string x = X.ToString(formatProvider);
+            string y = Y.ToString(formatProvider);
+            return string.Format("({0},{1})", x, y);
         }
 
         /// <summary>
@@ -405,9 +405,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="vectorStr"></param>
         /// <returns></returns>
-        public static Vector Parse( string vectorStr )
+        public static Vector Parse(string vectorStr)
         {
-            return Parse( vectorStr, NumberFormatInfo.InvariantInfo );
+            return Parse(vectorStr, NumberFormatInfo.InvariantInfo);
         }
 
         /// <summary>
@@ -417,17 +417,17 @@ namespace Jypeli
         /// <param name="vectorStr"></param>
         /// <param name="formatProvider"></param>
         /// <returns></returns>
-        public static Vector Parse( string vectorStr, IFormatProvider formatProvider )
+        public static Vector Parse(string vectorStr, IFormatProvider formatProvider)
         {
-            string[] splitStr = vectorStr.Split( '(', ',', ')' );
+            string[] splitStr = vectorStr.Split('(', ',', ')');
 
-            if ( splitStr.Length != 4 )
-                throw new FormatException( "Not a vector string: " + vectorStr );
+            if (splitStr.Length != 4)
+                throw new FormatException("Not a vector string: " + vectorStr);
 
-            double x = double.Parse( splitStr[1], formatProvider );
-            double y = double.Parse( splitStr[2], formatProvider );
+            double x = double.Parse(splitStr[1], formatProvider);
+            double y = double.Parse(splitStr[2], formatProvider);
 
-            return new Vector( x, y );
+            return new Vector(x, y);
         }
 
         /// <summary>
@@ -447,8 +447,9 @@ namespace Jypeli
         /// <returns></returns>
         public override bool Equals(Object obj)
         {
-            if (obj is not Vector) return false;
-            
+            if (obj is not Vector)
+                return false;
+
             Vector v = (Vector)obj;
 
             double x = v.X;
@@ -547,9 +548,9 @@ namespace Jypeli
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator ==( Vector left, Vector right )
+        public static bool operator ==(Vector left, Vector right)
         {
-            return ( Math.Abs( left.X - right.X ) < double.Epsilon ) && ( Math.Abs( left.Y - right.Y ) < double.Epsilon );
+            return (Math.Abs(left.X - right.X) < double.Epsilon) && (Math.Abs(left.Y - right.Y) < double.Epsilon);
         }
 
         /// <summary>
@@ -558,9 +559,9 @@ namespace Jypeli
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=( Vector left, Vector right )
+        public static bool operator !=(Vector left, Vector right)
         {
-            return !( left == right );
+            return !(left == right);
         }
 
         #region Silk.NET conversions

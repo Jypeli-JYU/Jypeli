@@ -23,7 +23,7 @@ namespace FarseerPhysics.Dynamics
             Body body = new Body();
             //body._world = this;
             body.Position = position;
-            body.Rotation = rotation;            
+            body.Rotation = rotation;
             body.BodyType = bodyType;
 
             return body;

@@ -33,7 +33,7 @@ namespace Jypeli
         {
             get
             {
-                return Project2d( CurrentState );
+                return Project2d(CurrentState);
             }
         }
 
@@ -44,7 +44,7 @@ namespace Jypeli
         {
             get
             {
-                return Project2d( PrevState );
+                return Project2d(PrevState);
             }
         }
 
@@ -128,18 +128,18 @@ namespace Jypeli
 
         internal virtual Vector Project2d(Vector3 spaceVector)
         {
-            switch ( Calibration )
+            switch (Calibration)
             {
                 case AccelerometerCalibration.ZeroAngle:
-                    return new Vector( spaceVector.X, spaceVector.Y );
+                    return new Vector(spaceVector.X, spaceVector.Y);
                 case AccelerometerCalibration.InvertXY:
                     return new Vector(spaceVector.Y, spaceVector.X);
                 case AccelerometerCalibration.HalfRightAngle:
-                    return new Vector( spaceVector.X, spaceVector.Y - spaceVector.Z );
+                    return new Vector(spaceVector.X, spaceVector.Y - spaceVector.Z);
                 case AccelerometerCalibration.RightAngle:
-                    return new Vector( spaceVector.X, -spaceVector.Z );
+                    return new Vector(spaceVector.X, -spaceVector.Z);
                 default:
-                    return new Vector( spaceVector.X, spaceVector.Y );
+                    return new Vector(spaceVector.X, spaceVector.Y);
             }
         }
 
@@ -148,7 +148,7 @@ namespace Jypeli
         /// </summary>
         public virtual void Start()
         {
-            if ( started )
+            if (started)
                 return;
 
             started = true;
@@ -159,7 +159,7 @@ namespace Jypeli
         /// </summary>
         public virtual void Stop()
         {
-            if ( !started )
+            if (!started)
                 return;
 
             started = false;
@@ -174,13 +174,13 @@ namespace Jypeli
         /// Pysäyttää kiihtyvyysanturin annetuksi ajaksi.
         /// </summary>
         /// <param name="seconds">Aika sekunteina</param>
-        public void PauseForDuration( double seconds )
+        public void PauseForDuration(double seconds)
         {
             Stop();
-            Timer.SingleShot( seconds, Start );
+            Timer.SingleShot(seconds, Start);
         }
 
-        private string GetDirectionName( AccelerometerDirection direction )
+        private string GetDirectionName(AccelerometerDirection direction)
         {
             switch (direction)
             {
@@ -201,20 +201,20 @@ namespace Jypeli
             }
         }
 
-        private ChangePredicate<Vector3> MakeTriggerRule( AccelerometerDirection direction, double trigger )
+        private ChangePredicate<Vector3> MakeTriggerRule(AccelerometerDirection direction, double trigger)
         {
-            switch ( direction )
+            switch (direction)
             {
                 case AccelerometerDirection.Any:
-                    return ( Vector3 prev, Vector3 curr ) => Project2d(curr).Magnitude > trigger;
+                    return (Vector3 prev, Vector3 curr) => Project2d(curr).Magnitude > trigger;
                 case AccelerometerDirection.Left:
-                    return ( Vector3 prev, Vector3 curr ) => Project2d( curr ).X < -trigger;
+                    return (Vector3 prev, Vector3 curr) => Project2d(curr).X < -trigger;
                 case AccelerometerDirection.Right:
-                    return ( Vector3 prev, Vector3 curr ) => Project2d( curr ).X > trigger;
+                    return (Vector3 prev, Vector3 curr) => Project2d(curr).X > trigger;
                 case AccelerometerDirection.Up:
-                    return ( Vector3 prev, Vector3 curr ) => Project2d( curr ).Y > trigger;
+                    return (Vector3 prev, Vector3 curr) => Project2d(curr).Y > trigger;
                 case AccelerometerDirection.Down:
-                    return ( Vector3 prev, Vector3 curr ) => Project2d( curr ).Y < -trigger;
+                    return (Vector3 prev, Vector3 curr) => Project2d(curr).Y < -trigger;
                 /*case AccelerometerDirection.Shake:
                     return GestureTriggered( direction, trigger, 3 );
                 case AccelerometerDirection.Tap:
@@ -224,7 +224,7 @@ namespace Jypeli
             }
         }
 
-#region Listen with no parameters
+        #region Listen with no parameters
 
         /// <summary>
         /// Kuuntele kiihtyvyysanturin muutosta
@@ -232,9 +232,9 @@ namespace Jypeli
         /// <param name="direction">Suunta</param>
         /// <param name="handler">Tapahtumankäsittelijä</param>
         /// <param name="helpText">Aputeksti</param>
-        public void Listen( AccelerometerDirection direction, Action handler, string helpText )
+        public void Listen(AccelerometerDirection direction, Action handler, string helpText)
         {
-            this.Listen( direction, DefaultSensitivity, handler, helpText );
+            this.Listen(direction, DefaultSensitivity, handler, helpText);
         }
 
         /// <summary>
@@ -242,9 +242,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="handler">Tapahtumankäsittelijä</param>
         /// <param name="helpText">Aputeksti</param>
-        public void ListenAnalog( Action<AnalogState> handler, string helpText )
+        public void ListenAnalog(Action<AnalogState> handler, string helpText)
         {
-            this.ListenAnalog( DefaultAnalogSensitivity, handler, helpText );
+            this.ListenAnalog(DefaultAnalogSensitivity, handler, helpText);
         }
 
         /// <summary>
@@ -254,9 +254,9 @@ namespace Jypeli
         /// <param name="sensitivity">Herkkyys</param>
         /// <param name="handler">Tapahtumankäsittelijä</param>
         /// <param name="helpText">Aputeksti</param>
-        public void Listen( AccelerometerDirection direction, AccelerometerSensitivity sensitivity, Action handler, string helpText )
+        public void Listen(AccelerometerDirection direction, AccelerometerSensitivity sensitivity, Action handler, string helpText)
         {
-            this.Listen( direction, (int)sensitivity / 100, handler, helpText );
+            this.Listen(direction, (int)sensitivity / 100, handler, helpText);
         }
 
         /// <summary>
@@ -265,9 +265,9 @@ namespace Jypeli
         /// <param name="sensitivity">Herkkyys</param>
         /// <param name="handler">Tapahtumankäsittelijä</param>
         /// <param name="helpText">Aputeksti</param>
-        public void ListenAnalog( AccelerometerSensitivity sensitivity, Action<AnalogState> handler, string helpText )
+        public void ListenAnalog(AccelerometerSensitivity sensitivity, Action<AnalogState> handler, string helpText)
         {
-            this.ListenAnalog( (int)sensitivity / 100, handler, helpText );
+            this.ListenAnalog((int)sensitivity / 100, handler, helpText);
         }
 
         /// <summary>
@@ -278,11 +278,11 @@ namespace Jypeli
         /// <param name="handler">Tapahtumankäsittelijä</param>
         /// <param name="helpText">Aputeksti</param>
         /// <returns></returns>
-        public Listener Listen( AccelerometerDirection direction, double trigger, Action handler, string helpText )
+        public Listener Listen(AccelerometerDirection direction, double trigger, Action handler, string helpText)
         {
             Start();
             ChangePredicate<Vector3> rule = MakeTriggerRule(direction, trigger);
-            return AddListener( rule, direction, GetDirectionName( direction ), helpText, handler );
+            return AddListener(rule, direction, GetDirectionName(direction), helpText, handler);
         }
 
         /// <summary>
@@ -292,14 +292,15 @@ namespace Jypeli
         /// <param name="handler">Tapahtumankäsittelijä</param>
         /// <param name="helpText">Aputeksti</param>
         /// <returns></returns>
-        public Listener ListenAnalog( double trigger, Action<AnalogState> handler, string helpText )
+        public Listener ListenAnalog(double trigger, Action<AnalogState> handler, string helpText)
         {
             Start();
-            ChangePredicate<Vector3> rule = ( Vector3 prev, Vector3 curr ) => Project2d(curr).Magnitude >= trigger;
-            Action analogHandler = delegate { handler( new AccelerometerAnalogState( this.Reading, this.PreviousReading ) ); };
-            return AddListener( rule, AccelerometerDirection.Any, "Accelerometer", helpText, analogHandler );
+            ChangePredicate<Vector3> rule = (Vector3 prev, Vector3 curr) => Project2d(curr).Magnitude >= trigger;
+            Action analogHandler = delegate
+            { handler(new AccelerometerAnalogState(this.Reading, this.PreviousReading)); };
+            return AddListener(rule, AccelerometerDirection.Any, "Accelerometer", helpText, analogHandler);
         }
 
-#endregion
+        #endregion
     }
 }

@@ -30,12 +30,12 @@ namespace Jypeli
             get { return oldLegend[c]; }
             set { oldLegend[c] = value; }
         }
-        
+
         /// <summary>
         /// Luo uuden ruutukartan.
         /// </summary>
         /// <param name="tiles">Kaksiulotteinen taulukko merkeistä.</param>
-        public TileMap( char[,] tiles )
+        public TileMap(char[,] tiles)
             : base(tiles)
         {
         }
@@ -44,10 +44,10 @@ namespace Jypeli
         /// Lukee ruutukentän tiedostosta.
         /// </summary>
         /// <param name="path">Tiedoston polku.</param>
-        public static TileMap FromFile( string path )
+        public static TileMap FromFile(string path)
         {
-            char[,] tiles = ReadFromFile( path );
-            return new TileMap( tiles );
+            char[,] tiles = ReadFromFile(path);
+            return new TileMap(tiles);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Jypeli
             char[,] tiles = ReadFromFile(assetName);
             return new TileMap(tiles);
         }
-        
+
         /// <summary>
         /// Asettaa oliot kenttään aiemmin annettujen merkkien perusteella.
         /// </summary>
@@ -89,27 +89,27 @@ namespace Jypeli
         /// </remarks>
         /// <param name="tileWidth">Ruudun leveys.</param>
         /// <param name="tileHeight">Ruudun korkeus.</param>
-        public void Insert( double tileWidth, double tileHeight )
+        public void Insert(double tileWidth, double tileHeight)
         {
             Game game = Game.Instance;
-            int width = tiles.GetLength( 1 );
-            int height = tiles.GetLength( 0 );
+            int width = tiles.GetLength(1);
+            int height = tiles.GetLength(0);
 
             game.Level.Width = width * tileWidth;
             game.Level.Height = height * tileHeight;
 
-            for ( int y = height - 1; y >= 0; y-- )
+            for (int y = height - 1; y >= 0; y--)
             {
-                for ( int x = 0; x < width; x++ )
+                for (int x = 0; x < width; x++)
                 {
                     char symbol = tiles[y, x];
-                    if ( oldLegend.ContainsKey( symbol ) )
+                    if (oldLegend.ContainsKey(symbol))
                     {
                         Func<GameObject> create = oldLegend[symbol];
                         GameObject o = create();
-                        o.X = game.Level.Left + ( x * tileWidth ) + ( tileWidth / 2 );
-                        o.Y = game.Level.Top - ( y * tileHeight ) - ( tileHeight / 2 );
-                        game.Add( o );
+                        o.X = game.Level.Left + (x * tileWidth) + (tileWidth / 2);
+                        o.Y = game.Level.Top - (y * tileHeight) - (tileHeight / 2);
+                        game.Add(o);
                     }
                 }
             }
@@ -120,16 +120,16 @@ namespace Jypeli
         /// </summary>
         /// <param name="path">Tiedoston polku</param>
         /// <returns>Kentän ruudut kaksiulotteisessa taulukossa</returns>
-        internal static char[,] ReadFromFile( string path )
+        internal static char[,] ReadFromFile(string path)
         {
             var tileBuffer = new List<char[]>();
 
             using (StreamReader input = new StreamReader(Game.Device.StreamContent(path, textExtensions)))
             {
                 string line;
-                while ( ( line = input.ReadLine() ) != null )
+                while ((line = input.ReadLine()) != null)
                 {
-                    tileBuffer.Add( line.ToCharArray() );
+                    tileBuffer.Add(line.ToCharArray());
                 }
             }
 
@@ -140,7 +140,7 @@ namespace Jypeli
         {
             var tileBuffer = new List<char[]>();
 
-            for (int i = 0; i < lines.Length; i++ )
+            for (int i = 0; i < lines.Length; i++)
             {
 
                 tileBuffer.Add(lines[i].ToCharArray());
@@ -148,7 +148,7 @@ namespace Jypeli
             }
 
             return ListToArray(tileBuffer);
-        }   
+        }
 
         private static char[,] ListToArray(List<char[]> list)
         {

@@ -41,7 +41,7 @@ namespace Jypeli
     /// <param name="prev">Vanha arvo</param>
     /// <param name="curr">Uusi arvo</param>
     /// <returns>true tai false</returns>
-    public delegate bool ChangePredicate<T>( T prev, T curr );
+    public delegate bool ChangePredicate<T>(T prev, T curr);
 
     /// <summary>
     /// Ohjaintapahtumien kuuntelija.
@@ -52,7 +52,7 @@ namespace Jypeli
         /// Kuuntelee tapahtumaa vain tietyssä kontekstissa.
         /// </summary>
         /// <param name="context"></param>
-        Listener InContext( ListenContext context );
+        Listener InContext(ListenContext context);
 
         /// <summary>
         /// Kuuntelee tapahtumaa vain tietyssä kontekstissa.
@@ -60,7 +60,7 @@ namespace Jypeli
         /// haluttua näppäimistötapahtumaa ainoastaan kun ikkuna on näkyvissä ja päällimmäisenä.
         /// </summary>
         /// <param name="obj">Konteksti.</param>
-        Listener InContext( ControlContexted obj );
+        Listener InContext(ControlContexted obj);
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ namespace Jypeli
         /// <value>The context.</value>
         internal ListenContext Context
         {
-            get { return ( dynamicContext ? contextedObject.ControlContext : context ); }
+            get { return (dynamicContext ? contextedObject.ControlContext : context); }
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Jypeli
         /// <param name="helpText"></param>
         /// <param name="handler"></param>
         /// <param name="args"></param>
-        public Listener( ChangePredicate<State> triggerRule, ListenContext context, Ctrl ctrl, string controlName, string helpText, Delegate handler, params object[] args )
+        public Listener(ChangePredicate<State> triggerRule, ListenContext context, Ctrl ctrl, string controlName, string helpText, Delegate handler, params object[] args)
         {
             this.isDestroyed = false;
             this.isTriggered = triggerRule;
@@ -150,7 +150,7 @@ namespace Jypeli
         /// <param name="helpText"></param>
         /// <param name="handler"></param>
         /// <param name="args"></param>
-        public Listener( ChangePredicate<State> triggerRule, ControlContexted contexted, Ctrl ctrl, string controlName, string helpText, Delegate handler, params object[] args )
+        public Listener(ChangePredicate<State> triggerRule, ControlContexted contexted, Ctrl ctrl, string controlName, string helpText, Delegate handler, params object[] args)
         {
             this.isDestroyed = false;
             this.isTriggered = triggerRule;
@@ -172,7 +172,7 @@ namespace Jypeli
         {
             MethodInfo handlerMethod = handler.Method;
 
-            handlerMethod.Invoke( handler.Target, handlerParams );
+            handlerMethod.Invoke(handler.Target, handlerParams);
         }
 
         /// <summary>
@@ -180,9 +180,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="oldState">Vanha tila</param>
         /// <param name="newState">Uusi tila</param>
-        public void CheckAndInvoke( State oldState, State newState )
+        public void CheckAndInvoke(State oldState, State newState)
         {
-            if ( !IsDestroyed && Context != null && !Context.IsDestroyed && Context.Active && isTriggered( oldState, newState ) )
+            if (!IsDestroyed && Context != null && !Context.IsDestroyed && Context.Active && isTriggered(oldState, newState))
                 Invoke();
         }
 
@@ -190,7 +190,7 @@ namespace Jypeli
         /// Kuuntelee tapahtumaa vain tietyssä kontekstissa.
         /// </summary>
         /// <param name="context"></param>
-        public Listener InContext( ListenContext context )
+        public Listener InContext(ListenContext context)
         {
             this.dynamicContext = false;
             this.context = context;
@@ -203,7 +203,7 @@ namespace Jypeli
         /// haluttua näppäimistötapahtumaa ainoastaan kun ikkuna on näkyvissä ja päällimmäisenä.
         /// </summary>
         /// <param name="obj"></param>
-        public Listener InContext( ControlContexted obj )
+        public Listener InContext(ControlContexted obj)
         {
             this.dynamicContext = true;
             this.contextedObject = obj;
@@ -237,7 +237,7 @@ namespace Jypeli
 
         private void OnDestroyed()
         {
-            if ( Destroyed != null )
+            if (Destroyed != null)
                 Destroyed();
         }
 

@@ -181,7 +181,7 @@ namespace Jypeli
         public Vector WorldToScreen(Vector point)
         {
             Matrix4x4 transform =
-                Matrix4x4.CreateScale(new Vector(1, -1)) * 
+                Matrix4x4.CreateScale(new Vector(1, -1)) *
                 Matrix4x4.CreateTranslation(new Vector(-Position.X, Position.Y)) *
                 Matrix4x4.CreateScale(new Vector(ZoomFactor, ZoomFactor)) *
                 Matrix4x4.CreateTranslation(new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2));
@@ -235,9 +235,9 @@ namespace Jypeli
         /// Liikuttaa kameraa.
         /// </summary>
         /// <param name="v">Kameran liikevektori.</param>
-        public void Move( Vector v )
+        public void Move(Vector v)
         {
-            Position += new Vector( v.X / ZoomFactor, v.Y / ZoomFactor );
+            Position += new Vector(v.X / ZoomFactor, v.Y / ZoomFactor);
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace Jypeli
         /// Zoomauskerroin. Ykköstä suurempi (esim. 1.5) lähentää ja
         /// ykköstä pienempi (esim. 0.5) zoomaa kauemmas.
         /// </param>
-        public void Zoom( double zoom )
+        public void Zoom(double zoom)
         {
             ZoomFactor *= zoom;
         }
@@ -267,20 +267,21 @@ namespace Jypeli
         /// Seuraa yhtä tai useampaa peliobjektia.
         /// </summary>
         /// <param name="gameobjects">Seurattavat peliobjektit.</param>
-        public void Follow( params GameObject[] gameobjects )
+        public void Follow(params GameObject[] gameobjects)
         {
             FollowsX = true;
             FollowsY = true;
 
-            if ( gameobjects.Length == 0 ) return;
-            if ( gameobjects.Length == 1 )
+            if (gameobjects.Length == 0)
+                return;
+            if (gameobjects.Length == 1)
             {
                 FollowedObject = gameobjects[0];
                 return;
             }
 
-            FollowedObject = new GameObject( 1.0, 1.0 );
-            followedObjects = new List<GameObject>( gameobjects );
+            FollowedObject = new GameObject(1.0, 1.0);
+            followedObjects = new List<GameObject>(gameobjects);
             UpdateAvgPoint();
         }
 
@@ -288,9 +289,9 @@ namespace Jypeli
         /// Seuraa jotakin peliobjektia X- eli vaakasuunnassa.
         /// </summary>
         /// <param name="gameobjects">Seurattavat peliobjektit.</param>
-        public void FollowX( params GameObject[] gameobjects )
+        public void FollowX(params GameObject[] gameobjects)
         {
-            Follow( gameobjects );
+            Follow(gameobjects);
             FollowsX = true;
             FollowsY = false;
         }
@@ -299,9 +300,9 @@ namespace Jypeli
         /// Seuraa jotakin peliobjektia Y- eli pystysuunnassa.
         /// </summary>
         /// <param name="gameobjects">Seurattavat peliobjektit.</param>
-        public void FollowY( params GameObject[] gameobjects )
+        public void FollowY(params GameObject[] gameobjects)
         {
-            Follow( gameobjects );
+            Follow(gameobjects);
             FollowsX = false;
             FollowsY = true;
         }
@@ -311,7 +312,7 @@ namespace Jypeli
         /// </summary>
         public void StopFollowing()
         {
-            if ( followedObjects != null )
+            if (followedObjects != null)
             {
                 followedObjects = null;
                 FollowedObject.Destroy();
@@ -322,15 +323,15 @@ namespace Jypeli
 
         private void UpdateAvgPoint()
         {
-            FollowedObject.Position = followedObjects.ConvertAll<GameObject, Vector>( ( GameObject o ) => { return o.Position; } ).Average();
+            FollowedObject.Position = followedObjects.ConvertAll<GameObject, Vector>((GameObject o) => { return o.Position; }).Average();
 
-            double maxDx = followedObjects.ConvertAll<GameObject, double>( ( GameObject o ) => { return Math.Abs( o.X - FollowedObject.X ); } ).Max();
-            double maxDy = followedObjects.ConvertAll<GameObject, double>( ( GameObject o ) => { return Math.Abs( o.Y - FollowedObject.Y ); } ).Max();
+            double maxDx = followedObjects.ConvertAll<GameObject, double>((GameObject o) => { return Math.Abs(o.X - FollowedObject.X); }).Max();
+            double maxDy = followedObjects.ConvertAll<GameObject, double>((GameObject o) => { return Math.Abs(o.Y - FollowedObject.Y); }).Max();
 
-            double zoomX = Game.Screen.Width / ( 2 * maxDx + FollowXMargin );
-            double zoomY = Game.Screen.Height / ( 2 * maxDy + FollowYMargin );
+            double zoomX = Game.Screen.Width / (2 * maxDx + FollowXMargin);
+            double zoomY = Game.Screen.Height / (2 * maxDy + FollowYMargin);
 
-            ZoomFactor = Math.Min( zoomX, zoomY );
+            ZoomFactor = Math.Min(zoomX, zoomY);
         }
 
         /// <summary>
@@ -338,18 +339,18 @@ namespace Jypeli
         /// </summary>
         /// <param name="bottomLeft">Alueen vasen alanurkka.</param>
         /// <param name="topRight">Alueen oikea ylänurkka.</param>
-        public void ZoomTo( Vector bottomLeft, Vector topRight )
+        public void ZoomTo(Vector bottomLeft, Vector topRight)
         {
-            ZoomTo( bottomLeft.X, bottomLeft.Y, topRight.X, topRight.Y );
+            ZoomTo(bottomLeft.X, bottomLeft.Y, topRight.X, topRight.Y);
         }
 
         /// <summary>
         /// Sijoittelee kameran annettuun suorakulmioon
         /// </summary>
         /// <param name="rectangle"></param>
-        public void ZoomTo( BoundingRectangle rectangle )
+        public void ZoomTo(BoundingRectangle rectangle)
         {
-            ZoomTo( rectangle.Left, rectangle.Bottom, rectangle.Right, rectangle.Top );
+            ZoomTo(rectangle.Left, rectangle.Bottom, rectangle.Right, rectangle.Top);
         }
 
         /// <summary>
@@ -358,9 +359,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="rectangle"></param>
         /// <param name="borderSize"></param>
-        public void ZoomTo( BoundingRectangle rectangle, double borderSize )
+        public void ZoomTo(BoundingRectangle rectangle, double borderSize)
         {
-            ZoomTo( rectangle.Left, rectangle.Bottom, rectangle.Right, rectangle.Top, borderSize );
+            ZoomTo(rectangle.Left, rectangle.Bottom, rectangle.Right, rectangle.Top, borderSize);
         }
 
         /// <summary>
@@ -368,23 +369,23 @@ namespace Jypeli
         /// </summary>
         public void ZoomToAllObjects()
         {
-            ZoomToAllObjects( 0 );
+            ZoomToAllObjects(0);
         }
 
         /// <summary>
         /// Zoomaa ja sijoittaa kameran siten, että kaikki pelioliot ovat yhtäaikaa näkyvissä.
         /// </summary>
         /// <param name="borderSize">Reunalle jätettävä tila (jos negatiivinen, niin osa kentästä jää piiloon).</param>
-        public void ZoomToAllObjects( double borderSize )
+        public void ZoomToAllObjects(double borderSize)
         {
             // Do the real zoom next update so all objects waiting to be added are added before that
-            Game.DoNextUpdate( DoZoomToAllObjects, borderSize );
+            Game.DoNextUpdate(DoZoomToAllObjects, borderSize);
         }
 
-        private void DoZoomToAllObjects( double borderSize )
+        private void DoZoomToAllObjects(double borderSize)
         {
-            if ( Game.Instance.ObjectCount > 0 )
-                ZoomTo( Game.Instance.Level.FindObjectLimits(), borderSize );
+            if (Game.Instance.ObjectCount > 0)
+                ZoomTo(Game.Instance.Level.FindObjectLimits(), borderSize);
         }
 
         /// <summary>
@@ -394,24 +395,24 @@ namespace Jypeli
         /// <param name="bottom">Alueen alareunan y-koordinaatti.</param>
         /// <param name="right">Alueen oikean reunan x-koordinaatti.</param>
         /// <param name="top">Alueen yläreunan y-koordinaatti.</param>
-        public void ZoomTo( double left, double bottom, double right, double top )
+        public void ZoomTo(double left, double bottom, double right, double top)
         {
-            ZoomTo( left, bottom, right, top, 0 );
+            ZoomTo(left, bottom, right, top, 0);
         }
 
-        internal void ZoomTo( double left, double bottom, double right, double top, double borderSize )
+        internal void ZoomTo(double left, double bottom, double right, double top, double borderSize)
         {
             double screenWidth = (double)Game.Screen.Width;
             double screenHeight = (double)Game.Screen.Height;
             double width = right - left;
             double height = top - bottom;
 
-            Position = new Vector( left + width / 2, bottom + height / 2 );
+            Position = new Vector(left + width / 2, bottom + height / 2);
 
-            if ( ( width / height ) >= ( screenWidth / screenHeight ) )
-                this.ZoomFactor = screenWidth / ( width + borderSize );
+            if ((width / height) >= (screenWidth / screenHeight))
+                this.ZoomFactor = screenWidth / (width + borderSize);
             else
-                this.ZoomFactor = screenHeight / ( height + borderSize );
+                this.ZoomFactor = screenHeight / (height + borderSize);
         }
 
         /// <summary>
@@ -419,45 +420,46 @@ namespace Jypeli
         /// </summary>
         public void ZoomToLevel()
         {
-            ZoomToLevel( 0 );
+            ZoomToLevel(0);
         }
 
         /// <summary>
         /// Zoomaa ja keskittää kameran siten, että koko kenttä on näkyvissä kerralla. Tällöin kamera ei seuraa mitään oliota.
         /// </summary>
         /// <param name="borderSize">Reunalle jätettävä tila (jos negatiivinen, niin osa kentästä jää piiloon).</param>
-        public void ZoomToLevel( double borderSize )
+        public void ZoomToLevel(double borderSize)
         {
             FollowedObject = null;
             Level level = Game.Instance.Level;
-            ZoomTo( level.Left, level.Bottom, level.Right, level.Top, borderSize );
+            ZoomTo(level.Left, level.Bottom, level.Right, level.Top, borderSize);
         }
 
         /// <summary>
         /// Ajetaan kun pelitilannetta päivitetään.
         /// </summary>
         /// <param name="time">Peliaika</param>
-        internal void Update( Time time )
+        internal void Update(Time time)
         {
             Position += Velocity * time.SinceLastUpdate.TotalSeconds;
 
-            if ( FollowedObject != null )
+            if (FollowedObject != null)
             {
-                Vector center = ScreenToWorld( Vector.Zero );
-                Vector worldOffset = ScreenToWorld( FollowOffset );
+                Vector center = ScreenToWorld(Vector.Zero);
+                Vector worldOffset = ScreenToWorld(FollowOffset);
 
                 // Update the average point if following multiple objects
-                if ( followedObjects != null ) UpdateAvgPoint();
+                if (followedObjects != null)
+                    UpdateAvgPoint();
 
-                if ( FollowsX && FollowsY )
-                    Position = FollowedObject.Position + ( worldOffset - center );
-                else if ( FollowsX )
-                    X = FollowedObject.X + ( worldOffset.X - center.X );
-                else if ( FollowsY )
-                    Y = FollowedObject.Y + ( worldOffset.Y - center.Y );
+                if (FollowsX && FollowsY)
+                    Position = FollowedObject.Position + (worldOffset - center);
+                else if (FollowsX)
+                    X = FollowedObject.X + (worldOffset.X - center.X);
+                else if (FollowsY)
+                    Y = FollowedObject.Y + (worldOffset.Y - center.Y);
             }
 
-            if ( StayInLevel )
+            if (StayInLevel)
             {
                 double screenWidth = (double)Game.Screen.Width;
                 double screenHeight = (double)Game.Screen.Height;
@@ -474,22 +476,22 @@ namespace Jypeli
                     ZoomFactor = Math.Max(screenWidth / level.Width, screenHeight / level.Height);
                 }
 
-                if ( ( Position.X - ( viewAreaWidth / 2 ) ) < level.Left )
+                if ((Position.X - (viewAreaWidth / 2)) < level.Left)
                 {
-                    _pos.X = level.Left + ( viewAreaWidth / 2 );
+                    _pos.X = level.Left + (viewAreaWidth / 2);
                 }
-                else if ( Position.X + ( viewAreaWidth / 2 ) > level.Right )
+                else if (Position.X + (viewAreaWidth / 2) > level.Right)
                 {
-                    _pos.X = level.Right - ( viewAreaWidth / 2 );
+                    _pos.X = level.Right - (viewAreaWidth / 2);
                 }
 
-                if ( Position.Y - ( viewAreaHeight / 2 ) < level.Bottom )
+                if (Position.Y - (viewAreaHeight / 2) < level.Bottom)
                 {
-                    _pos.Y = level.Bottom + ( viewAreaHeight / 2 );
+                    _pos.Y = level.Bottom + (viewAreaHeight / 2);
                 }
-                else if ( Position.Y + ( viewAreaHeight / 2 ) > level.Top )
+                else if (Position.Y + (viewAreaHeight / 2) > level.Top)
                 {
-                    _pos.Y = level.Top - ( viewAreaHeight / 2 );
+                    _pos.Y = level.Top - (viewAreaHeight / 2);
                 }
             }
         }

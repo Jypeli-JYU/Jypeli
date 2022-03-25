@@ -28,7 +28,7 @@ namespace Jypeli.Tests.Game
 
             DataStorage.ChDir(FileLocation.DataPath);
 
-            if(DataStorage.Exists("testi.txt"))
+            if (DataStorage.Exists("testi.txt"))
                 DataStorage.Delete("testi.txt");
 
             if (DataStorage.Exists("topten.xml"))
@@ -98,7 +98,7 @@ namespace Jypeli.Tests.Game
         [Test]
         public void DeleteNonExisting()
         {
-            Assert.DoesNotThrow(()=>DataStorage.Delete("kissa"));
+            Assert.DoesNotThrow(() => DataStorage.Delete("kissa"));
         }
 
         [Test]

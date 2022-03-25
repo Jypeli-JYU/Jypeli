@@ -57,7 +57,7 @@ namespace Jypeli
         /// </summary>
         public void InitControl()
         {
-            if ( ControlContext == null || ControlContext.IsDestroyed )
+            if (ControlContext == null || ControlContext.IsDestroyed)
                 context = new ListenContext();
 
             Objects.ItemAdded += InitChildContext;
@@ -66,18 +66,20 @@ namespace Jypeli
             Removed += RemoveListeners;
         }
 
-        private void InitChildContext( GameObject child )
+        private void InitChildContext(GameObject child)
         {
             ControlContexted ctxChild = child as ControlContexted;
-            if ( ctxChild == null ) return;
+            if (ctxChild == null)
+                return;
             ctxChild.ControlContext.dynamicParent = true;
             ctxChild.ControlContext.parentObject = this;
         }
 
-        private void ResetChildContext( GameObject child )
+        private void ResetChildContext(GameObject child)
         {
             ControlContexted ctxChild = child as ControlContexted;
-            if ( ctxChild == null ) return;
+            if (ctxChild == null)
+                return;
             ctxChild.ControlContext.parentObject = null;
             ctxChild.ControlContext.parentContext = null;
         }

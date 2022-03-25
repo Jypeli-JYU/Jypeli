@@ -114,7 +114,8 @@ namespace Jypeli
         /// <param name="p1">Parametri</param>
         public void SetTileMethod<T1>(TileType tileSymbol, TileMethod<T1> f, T1 p1)
         {
-            legend[tileSymbol] = delegate (Vector p, double w, double h) { f(p, w, h, p1); };
+            legend[tileSymbol] = delegate (Vector p, double w, double h)
+            { f(p, w, h, p1); };
         }
 
         /// <summary>
@@ -130,7 +131,8 @@ namespace Jypeli
         /// <param name="p2">Toinen parametri</param>
         public void SetTileMethod<T1, T2>(TileType tileSymbol, TileMethod<T1, T2> f, T1 p1, T2 p2)
         {
-            legend[tileSymbol] = delegate (Vector p, double w, double h) { f(p, w, h, p1, p2); };
+            legend[tileSymbol] = delegate (Vector p, double w, double h)
+            { f(p, w, h, p1, p2); };
         }
 
         /// <summary>
@@ -148,7 +150,8 @@ namespace Jypeli
         /// <param name="p3">Kolmas parametri</param>
         public void SetTileMethod<T1, T2, T3>(TileType tileSymbol, TileMethod<T1, T2, T3> f, T1 p1, T2 p2, T3 p3)
         {
-            legend[tileSymbol] = delegate (Vector p, double w, double h) { f(p, w, h, p1, p2, p3); };
+            legend[tileSymbol] = delegate (Vector p, double w, double h)
+            { f(p, w, h, p1, p2, p3); };
         }
 
         /// <summary>
@@ -168,7 +171,8 @@ namespace Jypeli
         /// <param name="p4">Neljäs parametri</param>
         public void SetTileMethod<T1, T2, T3, T4>(TileType tileSymbol, TileMethod<T1, T2, T3, T4> f, T1 p1, T2 p2, T3 p3, T4 p4)
         {
-            legend[tileSymbol] = delegate (Vector p, double w, double h) { f(p, w, h, p1, p2, p3, p4); };
+            legend[tileSymbol] = delegate (Vector p, double w, double h)
+            { f(p, w, h, p1, p2, p3, p4); };
         }
 
         /// <summary>
@@ -190,7 +194,8 @@ namespace Jypeli
         /// <param name="p5">Viides parametri</param>
         public void SetTileMethod<T1, T2, T3, T4, T5>(TileType tileSymbol, TileMethod<T1, T2, T3, T4, T5> f, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5)
         {
-            legend[tileSymbol] = delegate (Vector p, double w, double h) { f(p, w, h, p1, p2, p3, p4, p5); };
+            legend[tileSymbol] = delegate (Vector p, double w, double h)
+            { f(p, w, h, p1, p2, p3, p4, p5); };
         }
 
         /// <summary>
@@ -214,7 +219,8 @@ namespace Jypeli
         /// <param name="p6">Kuudes parametri</param>
         public void SetTileMethod<T1, T2, T3, T4, T5, T6>(TileType tileSymbol, TileMethod<T1, T2, T3, T4, T5, T6> f, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6)
         {
-            legend[tileSymbol] = delegate (Vector p, double w, double h) { f(p, w, h, p1, p2, p3, p4, p5, p6); };
+            legend[tileSymbol] = delegate (Vector p, double w, double h)
+            { f(p, w, h, p1, p2, p3, p4, p5, p6); };
         }
 
         /// <summary>
@@ -306,7 +312,8 @@ namespace Jypeli
         /// <returns></returns>
         protected TileMethod GetMethodForSymbol(TileType symbol)
         {
-            if (symbol.Equals(Null)) return null;
+            if (symbol.Equals(Null))
+                return null;
 
             foreach (var key in legend.Keys)
             {
@@ -400,7 +407,8 @@ namespace Jypeli
         {
             for (int i = col; i < col + length; i++)
             {
-                if (!SymbolEquals(tiles[row, i], sym)) return false;
+                if (!SymbolEquals(tiles[row, i], sym))
+                    return false;
             }
 
             return true;
@@ -459,7 +467,8 @@ namespace Jypeli
         /// <returns></returns>
         public static TileMethod ChangeSize(TileMethod m, double newWidth, double newHeight)
         {
-            return new TileMethod(delegate (Vector p, double w, double h) { m(p, newWidth, newHeight); });
+            return new TileMethod(delegate (Vector p, double w, double h)
+            { m(p, newWidth, newHeight); });
         }
 
         /// <summary>
@@ -471,7 +480,8 @@ namespace Jypeli
         /// <returns></returns>
         public static TileMethod ChangeSizeMultiplier(TileMethod m, double widthMultiplier, double heightMultiplier)
         {
-            return new TileMethod(delegate (Vector p, double w, double h) { m(p, w * widthMultiplier, h * heightMultiplier); });
+            return new TileMethod(delegate (Vector p, double w, double h)
+            { m(p, w * widthMultiplier, h * heightMultiplier); });
         }
     }
 }

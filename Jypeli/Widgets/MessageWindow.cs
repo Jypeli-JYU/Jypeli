@@ -57,7 +57,7 @@ namespace Jypeli
             }
             set
             {
-                OKButton.Color = Color.Darker( value, 40 );
+                OKButton.Color = Color.Darker(value, 40);
                 base.Color = value;
             }
         }
@@ -66,20 +66,20 @@ namespace Jypeli
         /// Alustaa uuden viesti-ikkunan.
         /// </summary>
         /// <param name="message">Viesti</param>
-        public MessageWindow( string message )
+        public MessageWindow(string message)
         {
             Layout = new VerticalLayout { Spacing = 20, LeftPadding = 15, RightPadding = 15, TopPadding = 15, BottomPadding = 15 };
 
             int maxWidth = (int)Game.Screen.Width - 30;
 
-            Message = new Label( Math.Min(maxWidth, Font.Default.MeasureSize(message).X), 100, message )
-                { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
-            Add( Message );
+            Message = new Label(Math.Min(maxWidth, Font.Default.MeasureSize(message).X), 100, message)
+            { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
+            Add(Message);
 
 #if !ANDROID
-            OKButton = new PushButton( "OK" );
-            OKButton.Clicked += new Action( Close );
-            Add( OKButton );
+            OKButton = new PushButton("OK");
+            OKButton.Clicked += new Action(Close);
+            Add(OKButton);
 #endif
 
             AddedToGame += AddListeners;
@@ -87,16 +87,18 @@ namespace Jypeli
 
         private void AddListeners()
         {
-            var l1 = Game.Instance.PhoneBackButton.Listen( delegate { Close(); }, null ).InContext( this );
-            var l2 = Game.Instance.TouchPanel.Listen( ButtonState.Pressed, delegate { Close(); }, null ).InContext( this );
-            var l3 = Game.Instance.Keyboard.Listen( Key.Enter, ButtonState.Pressed, Close, null ).InContext( this );
-            var l4 = Game.Instance.Keyboard.Listen( Key.Space, ButtonState.Pressed, Close, null ).InContext( this );
+            var l1 = Game.Instance.PhoneBackButton.Listen(delegate
+            { Close(); }, null).InContext(this);
+            var l2 = Game.Instance.TouchPanel.Listen(ButtonState.Pressed, delegate
+            { Close(); }, null).InContext(this);
+            var l3 = Game.Instance.Keyboard.Listen(Key.Enter, ButtonState.Pressed, Close, null).InContext(this);
+            var l4 = Game.Instance.Keyboard.Listen(Key.Space, ButtonState.Pressed, Close, null).InContext(this);
             associatedListeners.AddItems(l1, l2, l3, l4);
 
-            foreach ( var controller in Game.Instance.GameControllers )
+            foreach (var controller in Game.Instance.GameControllers)
             {
-                l1 = controller.Listen( Button.A, ButtonState.Pressed, Close, null ).InContext( this );
-                l2 = controller.Listen( Button.B, ButtonState.Pressed, Close, null ).InContext( this );
+                l1 = controller.Listen(Button.A, ButtonState.Pressed, Close, null).InContext(this);
+                l2 = controller.Listen(Button.B, ButtonState.Pressed, Close, null).InContext(this);
                 associatedListeners.AddItems(l1, l2);
             }
         }

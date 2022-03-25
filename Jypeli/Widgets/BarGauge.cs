@@ -74,24 +74,29 @@ namespace Jypeli.Widgets
             set
             {
                 direction = value;
-                if (h == -1 && w == -1) { h = Height; w = Width; };
+                if (h == -1 && w == -1)
+                { h = Height; w = Width; };
                 switch (value)
                 {
                     case BarDirection.BarVerticalUp:
-                        Angle = Angle.FromDegrees(0); 
-                        Height = h; Width = w;
+                        Angle = Angle.FromDegrees(0);
+                        Height = h;
+                        Width = w;
                         return;
-                    case BarDirection.BarVerticalDown: 
-                        Angle = Angle.FromDegrees(180); 
-                        Height = h; Width = w;
+                    case BarDirection.BarVerticalDown:
+                        Angle = Angle.FromDegrees(180);
+                        Height = h;
+                        Width = w;
                         return;
                     case BarDirection.BarHorizontalLeft:
                         Angle = Angle.FromDegrees(-90);
-                        Height = w; Width = h;
+                        Height = w;
+                        Width = h;
                         return;
                     case BarDirection.BarHorizontalRight:
                         Angle = Angle.FromDegrees(90);
-                        Height = w; Width = h;
+                        Height = w;
+                        Width = h;
                         return;
                 }
 
@@ -114,7 +119,7 @@ namespace Jypeli.Widgets
 
         private static readonly ShapeCache shapeCache = new ShapeCache(barVertices, barIndices);
 
-        private static readonly DoubleMeter defaultMeter = new DoubleMeter( 0, 0, 100 );
+        private static readonly DoubleMeter defaultMeter = new DoubleMeter(0, 0, 100);
 
         private Meter boundMeter = defaultMeter;
 
@@ -148,7 +153,7 @@ namespace Jypeli.Widgets
             double barLength = Size.Y * boundMeter.RelativeValue;
 
             Renderer.DrawFilledShape(shapeCache, ref parentTransformation, Position, Size, (float)Angle.Radians, BorderColor);
-            Renderer.DrawFilledShape(shapeCache, ref parentTransformation, Position + Vector.FromLengthAndAngle(barLength / 2 - Size.Y / 2, Angle + Angle.RightAngle), new Vector(Size.X*0.8, barLength), (float)Angle.Radians, BarColor);
+            Renderer.DrawFilledShape(shapeCache, ref parentTransformation, Position + Vector.FromLengthAndAngle(barLength / 2 - Size.Y / 2, Angle + Angle.RightAngle), new Vector(Size.X * 0.8, barLength), (float)Angle.Radians, BarColor);
 
             base.Draw(parentTransformation, transformation);
 

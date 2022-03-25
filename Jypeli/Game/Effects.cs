@@ -23,7 +23,8 @@ namespace Jypeli
         /// </summary>
         public void Add(Light light)
         {
-            if (light == null) throw new NullReferenceException("Tried to add a null light to game");
+            if (light == null)
+                throw new NullReferenceException("Tried to add a null light to game");
 
             lights.Add(light);
         }

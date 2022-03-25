@@ -18,7 +18,7 @@ namespace Jypeli
         /// <summary>
         /// Pystypalkki
         /// </summary>
-        IBeam= StandardCursor.IBeam,
+        IBeam = StandardCursor.IBeam,
         /// <summary>
         /// Tähtäin
         /// </summary>

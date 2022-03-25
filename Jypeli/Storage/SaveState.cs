@@ -8,30 +8,30 @@ namespace Jypeli
     public class SaveState : IDisposable
     {
         public StorageFile File { get; private set; }
-        
+
         private XmlWriter writer;
         private XmlWriterSettings settings;
         private bool closed = false;
 
-        internal SaveState( FileManager manager, string fileName )
+        internal SaveState(FileManager manager, string fileName)
         {
-            File = manager.Open( fileName, true );
+            File = manager.Open(fileName, true);
             settings = new XmlWriterSettings();
             settings.ConformanceLevel = ConformanceLevel.Document;
             settings.Encoding = Encoding.UTF8;
             settings.Indent = true;
             BeginWriteXml();
             writer.WriteStartDocument();
-            writer.WriteStartElement( "State" );
+            writer.WriteStartElement("State");
         }
 
         internal void BeginWriteXml()
         {
-            if ( closed )
-                throw new IOException( "Tried to write to a closed state file." );
+            if (closed)
+                throw new IOException("Tried to write to a closed state file.");
 
-            if ( writer == null )
-                writer = XmlWriter.Create( File.Stream, settings );
+            if (writer == null)
+                writer = XmlWriter.Create(File.Stream, settings);
         }
 
         public void Dispose()
@@ -39,25 +39,25 @@ namespace Jypeli
             EndSave();
         }
 
-        public void Save<T>( object obj, string name )
+        public void Save<T>(object obj, string name)
         {
-            Save( obj, typeof( T ), name );
+            Save(obj, typeof(T), name);
         }
 
-        public void Save( object obj, Type objType, string name )
+        public void Save(object obj, Type objType, string name)
         {
             BeginWriteXml();
-            writer.WriteStartElement( "Object" );
-            writer.WriteAttributeString( "Name", name );
-            writer.WriteAttributeString( "TypeAssembly", objType.Assembly.FullName );
-            writer.WriteAttributeString( "Type", objType.Name );
-            File.SaveData( writer, objType, obj, false );
+            writer.WriteStartElement("Object");
+            writer.WriteAttributeString("Name", name);
+            writer.WriteAttributeString("TypeAssembly", objType.Assembly.FullName);
+            writer.WriteAttributeString("Type", objType.Name);
+            File.SaveData(writer, objType, obj, false);
             writer.WriteEndElement();
         }
 
         public void EndSave()
         {
-            if ( !closed )
+            if (!closed)
             {
                 BeginWriteXml();
                 writer.WriteEndElement();
@@ -65,13 +65,13 @@ namespace Jypeli
                 closed = true;
             }
 
-            if ( writer != null )
+            if (writer != null)
             {
                 writer.Close();
                 writer = null;
             }
 
-            if ( File != null )
+            if (File != null)
             {
                 File.Close();
                 File = null;

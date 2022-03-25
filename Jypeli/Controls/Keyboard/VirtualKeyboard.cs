@@ -251,7 +251,7 @@ namespace Jypeli.Controls.Keyboard
         /// Teksti, joka syötetään näppäintä painettaessa.
         /// </summary>
         public string Value { get; private set; }
-        
+
         /// <summary>
         /// Käyttöliittymässä näppäimen kohdalla näytetty teksti.
         /// </summary>

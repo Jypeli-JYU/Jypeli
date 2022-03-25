@@ -63,8 +63,10 @@ namespace FarseerPhysics.Common.TextureTools
             bool xp = xn == (domain.Extents.X * 2 / cellWidth);
             int yn = (int)(domain.Extents.Y * 2 / cellHeight);
             bool yp = yn == (domain.Extents.Y * 2 / cellHeight);
-            if (!xp) xn++;
-            if (!yp) yn++;
+            if (!xp)
+                xn++;
+            if (!yp)
+                yn++;
 
             sbyte[,] fs = new sbyte[xn + 1, yn + 1];
             GeomPolyVal[,] ps = new GeomPolyVal[xn + 1, yn + 1];
@@ -73,13 +75,17 @@ namespace FarseerPhysics.Common.TextureTools
             for (int x = 0; x < xn + 1; x++)
             {
                 int x0;
-                if (x == xn) x0 = (int)domain.UpperBound.X;
-                else x0 = (int)(x * cellWidth + domain.LowerBound.X);
+                if (x == xn)
+                    x0 = (int)domain.UpperBound.X;
+                else
+                    x0 = (int)(x * cellWidth + domain.LowerBound.X);
                 for (int y = 0; y < yn + 1; y++)
                 {
                     int y0;
-                    if (y == yn) y0 = (int)domain.UpperBound.Y;
-                    else y0 = (int)(y * cellHeight + domain.LowerBound.Y);
+                    if (y == yn)
+                        y0 = (int)domain.UpperBound.Y;
+                    else
+                        y0 = (int)(y * cellHeight + domain.LowerBound.Y);
                     fs[x, y] = f[x0, y0];
                 }
             }
@@ -89,15 +95,19 @@ namespace FarseerPhysics.Common.TextureTools
             {
                 float y0 = y * cellHeight + domain.LowerBound.Y;
                 float y1;
-                if (y == yn - 1) y1 = domain.UpperBound.Y;
-                else y1 = y0 + cellHeight;
+                if (y == yn - 1)
+                    y1 = domain.UpperBound.Y;
+                else
+                    y1 = y0 + cellHeight;
                 GeomPoly pre = null;
                 for (int x = 0; x < xn; x++)
                 {
                     float x0 = x * cellWidth + domain.LowerBound.X;
                     float x1;
-                    if (x == xn - 1) x1 = domain.UpperBound.X;
-                    else x1 = x0 + cellWidth;
+                    if (x == xn - 1)
+                        x1 = domain.UpperBound.X;
+                    else
+                        x1 = x0 + cellWidth;
 
                     gp = new GeomPoly();
 
@@ -185,7 +195,8 @@ namespace FarseerPhysics.Common.TextureTools
 
                     //combine above (but disallow the hole thingies
                     CxFastListNode<Vector2> bi = bp.Begin();
-                    while (Square(bi.Elem().Y - ay) > Settings.Epsilon || bi.Elem().X < ax) bi = bi.Next();
+                    while (Square(bi.Elem().Y - ay) > Settings.Epsilon || bi.Elem().X < ax)
+                        bi = bi.Next();
 
                     //NOTE: Unused
                     //Vector2 b0 = bi.elem();
@@ -216,12 +227,14 @@ namespace FarseerPhysics.Common.TextureTools
                     }
 
                     CxFastListNode<Vector2> bj = bi.Next().Next();
-                    if (bj == bp.End()) bj = bp.Begin();
+                    if (bj == bp.End())
+                        bj = bp.Begin();
                     while (bj != bi)
                     {
                         ai = ap.Insert(ai, bj.Elem()); // .clone()
                         bj = bj.Next();
-                        if (bj == bp.End()) bj = bp.Begin();
+                        if (bj == bp.End())
+                            bj = bp.Begin();
                         u.GeomP.Length++;
                     }
 
@@ -292,7 +305,8 @@ namespace FarseerPhysics.Common.TextureTools
             float t;
             if (dv * dv < Settings.Epsilon)
                 t = 0.5f;
-            else t = v0 / dv;
+            else
+                t = v0 / dv;
             return x0 + t * (x1 - x0);
         }
 
@@ -360,13 +374,17 @@ namespace FarseerPhysics.Common.TextureTools
             //key lookup
             int key = 0;
             sbyte v0 = fs[ax, ay];
-            if (v0 < 0) key |= 8;
+            if (v0 < 0)
+                key |= 8;
             sbyte v1 = fs[ax + 1, ay];
-            if (v1 < 0) key |= 4;
+            if (v1 < 0)
+                key |= 4;
             sbyte v2 = fs[ax + 1, ay + 1];
-            if (v2 < 0) key |= 2;
+            if (v2 < 0)
+                key |= 2;
             sbyte v3 = fs[ax, ay + 1];
-            if (v3 < 0) key |= 1;
+            if (v3 < 0)
+                key |= 1;
 
             int val = _lookMarch[key];
             if (val != 0)
@@ -381,16 +399,24 @@ namespace FarseerPhysics.Common.TextureTools
                             poly.Points.Add(new Vector2(x0, YLerp(y0, y1, x0, v0, v3, f, bin)));
                         else
                         {
-                            if (i == 0) p = new Vector2(x0, y0);
-                            else if (i == 2) p = new Vector2(x1, y0);
-                            else if (i == 4) p = new Vector2(x1, y1);
-                            else if (i == 6) p = new Vector2(x0, y1);
+                            if (i == 0)
+                                p = new Vector2(x0, y0);
+                            else if (i == 2)
+                                p = new Vector2(x1, y0);
+                            else if (i == 4)
+                                p = new Vector2(x1, y1);
+                            else if (i == 6)
+                                p = new Vector2(x0, y1);
 
-                            else if (i == 1) p = new Vector2(XLerp(x0, x1, y0, v0, v1, f, bin), y0);
-                            else if (i == 5) p = new Vector2(XLerp(x0, x1, y1, v3, v2, f, bin), y1);
+                            else if (i == 1)
+                                p = new Vector2(XLerp(x0, x1, y0, v0, v1, f, bin), y0);
+                            else if (i == 5)
+                                p = new Vector2(XLerp(x0, x1, y1, v3, v2, f, bin), y1);
 
-                            else if (i == 3) p = new Vector2(x1, YLerp(y0, y1, x1, v1, v2, f, bin));
-                            else p = new Vector2(x0, YLerp(y0, y1, x0, v0, v3, f, bin));
+                            else if (i == 3)
+                                p = new Vector2(x1, YLerp(y0, y1, x1, v1, v2, f, bin));
+                            else
+                                p = new Vector2(x0, YLerp(y0, y1, x0, v0, v3, f, bin));
 
                             pi = poly.Points.Insert(pi, p);
                         }
@@ -465,7 +491,8 @@ namespace FarseerPhysics.Common.TextureTools
                     ai = ai.Next();
                     Vector2 a1 = ai.Elem();
                     ai = ai.Next();
-                    if (ai == ap.End()) ai = ap.Begin();
+                    if (ai == ap.End())
+                        ai = ap.Begin();
                     Vector2 a2 = ai.Elem();
                     Vector2 a00 = preb.Elem();
                     Vector2 uu = a1 - a00;

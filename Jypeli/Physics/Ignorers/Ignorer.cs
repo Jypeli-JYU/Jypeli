@@ -33,12 +33,12 @@ namespace Jypeli
     public abstract class Ignorer
     {
         bool isInverted;
-        internal static bool CanCollide( IPhysicsBody leftBody, IPhysicsBody rightBody, Ignorer left, Ignorer right )
+        internal static bool CanCollide(IPhysicsBody leftBody, IPhysicsBody rightBody, Ignorer left, Ignorer right)
         {
-            return left.CanCollideInternal( leftBody, rightBody, right );
+            return left.CanCollideInternal(leftBody, rightBody, right);
         }
         protected Ignorer() { }
-        protected Ignorer( Ignorer copy )
+        protected Ignorer(Ignorer copy)
         {
             this.isInverted = copy.isInverted;
         }
@@ -51,11 +51,11 @@ namespace Jypeli
             set { isInverted = value; }
         }
         public abstract bool BothNeeded { get; }
-        private bool CanCollideInternal( IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other )
+        private bool CanCollideInternal(IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other)
         {
-            return isInverted ^ CanCollide( thisBody, otherBody, other );
+            return isInverted ^ CanCollide(thisBody, otherBody, other);
         }
-        public abstract bool CanCollide( IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other );
+        public abstract bool CanCollide(IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other);
         //public virtual void UpdateTime( TimeStep step ) { }
     }
 }

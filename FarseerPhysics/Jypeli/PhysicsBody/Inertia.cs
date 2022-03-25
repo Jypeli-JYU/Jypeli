@@ -146,7 +146,7 @@ namespace Jypeli
         private void SetMassAndInertia(float mass)
         {
             FSBody.Mass = mass;
-         
+
             Vector2 localCenter = Vector2.Zero;
             float inertia = 0;
             float totalArea = 0;
@@ -155,22 +155,22 @@ namespace Jypeli
             {
                 totalArea += f.Shape.MassData.Area;
             }
-            
+
             float newDensity = mass / totalArea;
-            
+
             foreach (Fixture f in FSBody.FixtureList)
             {
                 f.Shape._density = newDensity;
                 f.Shape.ComputeProperties();
                 var massData = f.Shape.MassData;
                 localCenter += massData.Mass * massData.Centroid;
-                
+
                 inertia += massData.Inertia;
             }
-            
+
             // TODO: Meneeköhän tää nyt ihan oikein?
             // Luultavasti ainakin "tarpeeksi lähellä"?
-            
+
             inertia -= mass * Vector2.Dot(localCenter, localCenter);
 
             FSBody.Inertia = inertia;

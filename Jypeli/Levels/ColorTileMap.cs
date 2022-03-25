@@ -27,17 +27,18 @@ namespace Jypeli
             get { return _tolerance; }
             set
             {
-                if (value < 0) throw new ArgumentException("Tolerance must not be negative.");
+                if (value < 0)
+                    throw new ArgumentException("Tolerance must not be negative.");
                 _tolerance = value;
             }
         }
-        
+
         /// <summary>
         /// Luo uuden ruutukartan.
         /// </summary>
         /// <param name="img">Kuva, jossa jokainen pikseli vastaa oliota.</param>
-        public ColorTileMap( Image img )
-            : base( img.GetData() )
+        public ColorTileMap(Image img)
+            : base(img.GetData())
         {
         }
 
@@ -54,9 +55,9 @@ namespace Jypeli
         /// Lukee ruutukentän Content-projektin kuvatiedostosta.
         /// </summary>
         /// <param name="assetName">Tiedoston nimi</param>        
-        public static ColorTileMap FromLevelAsset( string assetName )
+        public static ColorTileMap FromLevelAsset(string assetName)
         {
-            return new ColorTileMap( Game.LoadImage( assetName ) );
+            return new ColorTileMap(Game.LoadImage(assetName));
         }
 
         /// <summary>
@@ -65,9 +66,9 @@ namespace Jypeli
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        protected virtual bool ItemEquals( Color a, Color b )
+        protected virtual bool ItemEquals(Color a, Color b)
         {
-            return ( a.AlphaComponent == b.AlphaComponent && Color.Distance( a, b ) <= ColorTolerance );
+            return (a.AlphaComponent == b.AlphaComponent && Color.Distance(a, b) <= ColorTolerance);
         }
 
         /// <summary>

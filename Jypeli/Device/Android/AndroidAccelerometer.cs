@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 
 #if ANDROID
-using Essentials = Xamarin.Essentials ;
+using Essentials = Xamarin.Essentials;
 
 using Vector3 = System.Numerics.Vector3;
 

@@ -152,7 +152,8 @@ namespace Jypeli
         /// <returns>Rajoitettu kulma</returns>
         public static double ClampAngle(double angle)
         {
-            if (-Pi <= angle && angle < Pi) return angle;
+            if (-Pi <= angle && angle < Pi)
+                return angle;
 
             double rem = (angle + Pi) % (TwoPi);
             return rem + ((rem < 0) ? (Pi) : (-Pi));

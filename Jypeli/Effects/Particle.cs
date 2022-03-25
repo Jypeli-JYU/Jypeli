@@ -115,7 +115,7 @@ namespace Jypeli.Effects
             this.scale = scale;
             this.maxLifetime = TimeSpan.FromSeconds(lifetime);
             this.creationTime = Game.Time.SinceStartOfGame;
-            
+
             this.velocity = velocity;
             this.rotationSpeed = rotationSpeed;
             this.acceleration = acceleration;

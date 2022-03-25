@@ -90,7 +90,7 @@ namespace Jypeli
         /// <summary>
         /// Piirtää kuvion niin, että tekstuuri täyttää sen.
         /// </summary>
-        public static void DrawShape( Shape shape, ref Matrix transformation, ref Matrix textureTransformation, Image texture, Vector textureWrapSize, Color color )
+        public static void DrawShape(Shape shape, ref Matrix transformation, ref Matrix textureTransformation, Image texture, Vector textureWrapSize, Color color)
         {
             throw new System.Exception("TODO");
             //DrawImage( texture, ref textureTransformation, textureWrapSize );
@@ -108,7 +108,7 @@ namespace Jypeli
         {
             Vector textSize = font.SpriteFont.MeasureString(text);
             Graphics.FontRenderer.Begin();
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X/2, 0), color.ToSystemDrawing(), scale);
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), color.ToSystemDrawing(), scale);
         }
 
         /// <summary>
@@ -162,14 +162,14 @@ namespace Jypeli
         /// <param name="segment"></param>
         /// <param name="matrix"></param>
         /// <param name="color"></param>
-        public static void DrawRaySegment( RaySegment segment, ref Matrix matrix, Color color )
+        public static void DrawRaySegment(RaySegment segment, ref Matrix matrix, Color color)
         {
 
             Vector endPoint = segment.Origin + segment.Direction * segment.Length;
 
             VertexPositionColorTexture[] colorVertices = new VertexPositionColorTexture[2];
-            colorVertices[0] = new VertexPositionColorTexture(new Vector3( (float)segment.Origin.X, (float)segment.Origin.Y, 0 ), color, Vector.Zero);
-            colorVertices[1] = new VertexPositionColorTexture(new Vector3( (float)endPoint.X, (float)endPoint.Y, 0 ), color, Vector.Zero);
+            colorVertices[0] = new VertexPositionColorTexture(new Vector3((float)segment.Origin.X, (float)segment.Origin.Y, 0), color, Vector.Zero);
+            colorVertices[1] = new VertexPositionColorTexture(new Vector3((float)endPoint.X, (float)endPoint.Y, 0), color, Vector.Zero);
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Jypeli
         /// <param name="size">Koko</param>
         /// <param name="rotation">Kulma</param>
         /// <param name="color">Väri</param>
-        public static void DrawFilledShape( ShapeCache cache, ref Matrix matrix, Vector position, Vector size, float rotation, Color color )
+        public static void DrawFilledShape(ShapeCache cache, ref Matrix matrix, Vector position, Vector size, float rotation, Color color)
         {
             Graphics.CustomBatch.AddShape(matrix, cache, color, position, size, rotation);
         }

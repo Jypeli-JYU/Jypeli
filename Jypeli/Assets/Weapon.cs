@@ -46,7 +46,7 @@ namespace Jypeli.Assets
         {
             get
             {
-                return ( Ammo > 0 ) && ( ( Game.Time.SinceStartOfGame - timeOfLastUse ) > TimeBetweenUse );
+                return (Ammo > 0) && ((Game.Time.SinceStartOfGame - timeOfLastUse) > TimeBetweenUse);
             }
         }
 
@@ -73,9 +73,9 @@ namespace Jypeli.Assets
             get { return Ammo.Value == Int32.MaxValue; }
             set
             {
-                if ( !value && Ammo.Value == Int32.MaxValue )
+                if (!value && Ammo.Value == Int32.MaxValue)
                     Ammo.Value = 100;
-                else if ( value )
+                else if (value)
                     Ammo.Value = Int32.MaxValue;
             }
         }
@@ -120,9 +120,12 @@ namespace Jypeli.Assets
             get { return 1 / TimeBetweenUse.TotalSeconds; }
             set
             {
-                if (value < 0) throw new ArgumentException("Fire rate cannot be negative!");
-                if (value == 0) TimeBetweenUse = TimeSpan.MaxValue;
-                else TimeBetweenUse = TimeSpan.FromSeconds( 1 / value );
+                if (value < 0)
+                    throw new ArgumentException("Fire rate cannot be negative!");
+                if (value == 0)
+                    TimeBetweenUse = TimeSpan.MaxValue;
+                else
+                    TimeBetweenUse = TimeSpan.FromSeconds(1 / value);
             }
         }
 
@@ -137,10 +140,10 @@ namespace Jypeli.Assets
         /// Suoritetaan kun ase ampuu
         /// </summary>
         /// <param name="projectile">Ammus</param>
-        protected void OnShooting( PhysicsObject projectile )
+        protected void OnShooting(PhysicsObject projectile)
         {
-            if ( Shooting != null )
-                Shooting( projectile );
+            if (Shooting != null)
+                Shooting(projectile);
         }
 
         /// <summary>
@@ -153,13 +156,13 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
-        public Weapon( double width, double height )
-            : base( width, height )
+        public Weapon(double width, double height)
+            : base(width, height)
         {
             Shape = Shape.Rectangle;
-            Power = new DoubleMeter( 0 );
+            Power = new DoubleMeter(0);
             Power.MinValue = 0;
-            Ammo = new IntMeter( Int32.MaxValue, 0, Int32.MaxValue );
+            Ammo = new IntMeter(Int32.MaxValue, 0, Int32.MaxValue);
             Ammo.MinValue = 0;
             MaxAmmoLifetime = TimeSpan.MaxValue;
             Volume = 0.5;
@@ -184,7 +187,7 @@ namespace Jypeli.Assets
         /// <returns>Ammuttu panos tai <c>null</c>.</returns>
         public PhysicsObject Shoot()
         {
-            if ( IsReady )
+            if (IsReady)
             {
                 timeOfLastUse = Game.Time.SinceStartOfGame;
 
@@ -193,14 +196,15 @@ namespace Jypeli.Assets
 
                 PhysicsObject p = CreateProjectile();
 
-                SetCollisionHandler( p, ProjectileCollision );
+                SetCollisionHandler(p, ProjectileCollision);
                 p.IgnoresGravity = AmmoIgnoresGravity;
                 p.IgnoresExplosions = AmmoIgnoresExplosions;
                 p.MaximumLifetime = MaxAmmoLifetime;
-                ShootProjectile( p, Power.Value );
-                if ( !InfiniteAmmo ) Ammo.Value--;
+                ShootProjectile(p, Power.Value);
+                if (!InfiniteAmmo)
+                    Ammo.Value--;
                 Power.Reset();
-                OnShooting( p );
+                OnShooting(p);
 
                 return p;
             }
@@ -213,26 +217,26 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="projectile"></param>
         /// <param name="power"></param>
-        protected void ShootProjectile( PhysicsObject projectile, double power )
+        protected void ShootProjectile(PhysicsObject projectile, double power)
         {
-            if ( !IsAddedToGame )
+            if (!IsAddedToGame)
                 return;
 
-            Vector impulse = Vector.FromLengthAndAngle( power, Angle );
-            Vector direction = Vector.FromLengthAndAngle( 1.0, Angle );
+            Vector impulse = Vector.FromLengthAndAngle(power, Angle);
+            Vector direction = Vector.FromLengthAndAngle(1.0, Angle);
             Vector position = this.Position;
 
-            if ( Parent != null )
+            if (Parent != null)
             {
                 //0.75 * max(width, height) -> projectiles don't hit the PlatformCharacter's collisionHelpers.
                 //Would be better to choose the width or height manually based on the direction.
-                position = this.Position + direction * 0.75 * ( Math.Max(this.Parent.Width, this.Parent.Height) );
+                position = this.Position + direction * 0.75 * (Math.Max(this.Parent.Width, this.Parent.Height));
             }
 
             projectile.Position = position;
             projectile.Angle = this.Angle;
 
-            if ( Parent is PhysicsObject && !CanHitOwner )
+            if (Parent is PhysicsObject && !CanHitOwner)
             {
                 // The projectile can not hit the owner of the weapon.
                 // Owner's CollisionIgnorer can be null if no CollisionIgnorer is set for the owner
@@ -248,8 +252,8 @@ namespace Jypeli.Assets
                 projectile.CollisionIgnorer = physParent.CollisionIgnorer;
             }
 
-            Game.Instance.Add( projectile );
-            projectile.Hit( impulse );
+            Game.Instance.Add(projectile);
+            projectile.Hit(impulse);
         }
 
         /// <summary>
@@ -257,18 +261,18 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="projectile">Ammus</param>
         /// <param name="handler">Käsittelijä</param>
-        protected void SetCollisionHandler( PhysicsObject projectile, CollisionHandler<PhysicsObject, PhysicsObject> handler )
+        protected void SetCollisionHandler(PhysicsObject projectile, CollisionHandler<PhysicsObject, PhysicsObject> handler)
         {
-            if ( handler == null )
+            if (handler == null)
                 return;
 
-            if ( Game.Instance is PhysicsGameBase )
+            if (Game.Instance is PhysicsGameBase)
             {
                 PhysicsGameBase pg = (PhysicsGameBase)Game.Instance;
-                pg.AddCollisionHandler( projectile, handler );
+                pg.AddCollisionHandler(projectile, handler);
             }
             else
-                throw new InvalidOperationException( "Cannot set a collision handler to non-physics game!" );
+                throw new InvalidOperationException("Cannot set a collision handler to non-physics game!");
         }
 
         /// <inheritdoc/>

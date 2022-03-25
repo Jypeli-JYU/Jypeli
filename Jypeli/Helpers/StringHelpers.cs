@@ -17,18 +17,25 @@ namespace Jypeli
         /// <returns></returns>
         public static bool StringEquals(object o1, object o2)
         {
-            if ( o1 == o2 ) return true;
+            if (o1 == o2)
+                return true;
 
             string s1 = null;
             string s2 = null;
-            
-            if ( o1 is string ) s1 = (string)o1;
-            else if (o1 is StringBuilder) s1 = ((StringBuilder)o1).ToString();
-            else return false;
-            
-            if ( o2 is string ) s2 = (string)o2;
-            else if (o2 is StringBuilder) s2 = ((StringBuilder)o2).ToString();
-            else return false;
+
+            if (o1 is string)
+                s1 = (string)o1;
+            else if (o1 is StringBuilder)
+                s1 = ((StringBuilder)o1).ToString();
+            else
+                return false;
+
+            if (o2 is string)
+                s2 = (string)o2;
+            else if (o2 is StringBuilder)
+                s2 = ((StringBuilder)o2).ToString();
+            else
+                return false;
 
             return s1.Equals(s2);
         }
@@ -42,7 +49,7 @@ namespace Jypeli
         /// <returns></returns>
         public static StringBuilder RemoveLast(this StringBuilder builder, int chars)
         {
-            if ( builder.Length <= chars )
+            if (builder.Length <= chars)
             {
                 builder.Length = 0;
                 return builder;
@@ -59,9 +66,9 @@ namespace Jypeli
         /// <param name="dest">StringBuilder johon kirjoitetaan</param>
         /// <param name="start">Ensimmäinen merkki osajonosta</param>
         /// <param name="length">Osajonon pituus</param>
-        public static void Substring( this StringBuilder src, StringBuilder dest, int start, int length )
+        public static void Substring(this StringBuilder src, StringBuilder dest, int start, int length)
         {
-            for ( int i = start; i < length; i++ )
+            for (int i = start; i < length; i++)
             {
                 dest.Append(src[i]);
             }
@@ -74,10 +81,10 @@ namespace Jypeli
         /// <param name="start">Ensimmäinen merkki osajonosta</param>
         /// <param name="length">Osajonon pituus</param>
         /// <returns>Osamerkkijono-StringBuilder</returns>
-        public static StringBuilder Substring( this StringBuilder builder, int start, int length )
+        public static StringBuilder Substring(this StringBuilder builder, int start, int length)
         {
             StringBuilder result = new StringBuilder();
-            builder.Substring( start, length );
+            builder.Substring(start, length);
             return result;
         }
 
@@ -86,9 +93,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="src">StringBuilder josta otetaan</param>
         /// <param name="dest">StringBuilder johon kirjoitetaan</param>
-        public static void PutTo( this StringBuilder src, StringBuilder dest )
+        public static void PutTo(this StringBuilder src, StringBuilder dest)
         {
-            dest.Append( src );
+            dest.Append(src);
             src.Clear();
         }
 
@@ -99,10 +106,10 @@ namespace Jypeli
         /// <param name="dest">StringBuilder johon kirjoitetaan</param>
         /// <param name="start">Ensimmäinen merkki osajonosta</param>
         /// <param name="length">Osajonon pituus</param>
-        public static void PutTo( this StringBuilder src, StringBuilder dest, int start, int length )
+        public static void PutTo(this StringBuilder src, StringBuilder dest, int start, int length)
         {
-            src.Substring( dest, start, length );
-            src.Remove( start, length );
+            src.Substring(dest, start, length);
+            src.Remove(start, length);
         }
 
         /// <summary>
@@ -112,10 +119,10 @@ namespace Jypeli
         /// <param name="start">Ensimmäinen merkki osajonosta</param>
         /// <param name="length">Osajonon pituus</param>
         /// <returns>Osamerkkijono-StringBuilder</returns>
-        public static StringBuilder PutTo( this StringBuilder builder, int start, int length )
+        public static StringBuilder PutTo(this StringBuilder builder, int start, int length)
         {
-            StringBuilder removed = builder.Substring( start, length );
-            builder.Remove( start, length );
+            StringBuilder removed = builder.Substring(start, length);
+            builder.Remove(start, length);
             return removed;
         }
 
@@ -125,11 +132,11 @@ namespace Jypeli
         /// <param name="builder">StringBuilder</param>
         /// <param name="pred">Funktio</param>
         /// <returns></returns>
-        public static int IndexForWhich( this StringBuilder builder, Predicate<char> pred )
+        public static int IndexForWhich(this StringBuilder builder, Predicate<char> pred)
         {
-            for ( int i = 0; i < builder.Length; i++ )
+            for (int i = 0; i < builder.Length; i++)
             {
-                if ( pred( builder[i] ) )
+                if (pred(builder[i]))
                     return i;
             }
 
@@ -142,9 +149,9 @@ namespace Jypeli
         /// <param name="builder">StringBuilder</param>
         /// <param name="c">Merkki</param>
         /// <returns></returns>
-        public static int IndexOf( this StringBuilder builder, char c )
+        public static int IndexOf(this StringBuilder builder, char c)
         {
-            return builder.IndexForWhich( ch => ch == c );
+            return builder.IndexForWhich(ch => ch == c);
         }
 
         /// <summary>
@@ -152,17 +159,17 @@ namespace Jypeli
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="pred"></param>
-        public static void RemoveLeading( this StringBuilder builder, Predicate<char> pred )
+        public static void RemoveLeading(this StringBuilder builder, Predicate<char> pred)
         {
             int i = 0;
-            for ( i = 0; i < builder.Length; i++ )
+            for (i = 0; i < builder.Length; i++)
             {
-                if ( !pred( builder[i] ) )
+                if (!pred(builder[i]))
                     break;
             }
-            
+
             if (i > 0)
-                builder.Remove( 0, i );
+                builder.Remove(0, i);
         }
 
         /// <summary>
@@ -170,27 +177,27 @@ namespace Jypeli
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="pred"></param>
-        public static void RemoveTrailing( this StringBuilder builder, Predicate<char> pred )
+        public static void RemoveTrailing(this StringBuilder builder, Predicate<char> pred)
         {
             int i = 0;
-            for ( i = builder.Length - 1; i >= 0; i-- )
+            for (i = builder.Length - 1; i >= 0; i--)
             {
-                if ( !pred( builder[i] ) )
+                if (!pred(builder[i]))
                     break;
             }
 
             if (i < builder.Length - 1)
-                builder.Remove( i + 1, builder.Length - i - 1 );
+                builder.Remove(i + 1, builder.Length - i - 1);
         }
 
         /// <summary>
         /// Poistaa tyhjät merkit alusta ja lopusta
         /// </summary>
         /// <param name="builder"></param>
-        public static void Trim( this StringBuilder builder )
+        public static void Trim(this StringBuilder builder)
         {
-            builder.RemoveLeading( c => Char.IsWhiteSpace( c ) );
-            builder.RemoveTrailing( c => Char.IsWhiteSpace( c ) );
+            builder.RemoveLeading(c => Char.IsWhiteSpace(c));
+            builder.RemoveTrailing(c => Char.IsWhiteSpace(c));
         }
 
         /// <summary>
@@ -198,11 +205,13 @@ namespace Jypeli
         /// </summary>
         /// <param name="src"></param>
         /// <param name="dest"></param>
-        public static void TakeFirstWord( this StringBuilder src, StringBuilder dest )
+        public static void TakeFirstWord(this StringBuilder src, StringBuilder dest)
         {
-            int ws = src.IndexForWhich( c => char.IsWhiteSpace( c ) );
-            if ( ws < 0 ) src.PutTo( dest );
-            else src.PutTo( dest, 0, ws + 1 );
+            int ws = src.IndexForWhich(c => char.IsWhiteSpace(c));
+            if (ws < 0)
+                src.PutTo(dest);
+            else
+                src.PutTo(dest, 0, ws + 1);
         }
 
         /// <summary>
@@ -211,12 +220,12 @@ namespace Jypeli
         /// <param name="s">Toistettava merkkijono</param>
         /// <param name="times">Kuinka monta kertaa toistetaan</param>
         /// <returns>Toistettu merkkijono</returns>
-        public static string Repeat( this string s, int times )
+        public static string Repeat(this string s, int times)
         {
             StringBuilder sb = new StringBuilder();
-            
+
             for (int i = 0; i < times; i++)
-                sb.Append( s );
+                sb.Append(s);
 
             return sb.ToString();
         }
@@ -227,11 +236,11 @@ namespace Jypeli
         /// <param name="s">Alkuihin lisättävä merkkijono</param>
         /// <param name="ends">Merkkijonot</param>
         /// <returns></returns>
-        public static string[] Append( this string s, params object[] ends )
+        public static string[] Append(this string s, params object[] ends)
         {
             string[] results = new string[ends.Length];
 
-            for ( int i = 0; i < ends.Length; i++ )
+            for (int i = 0; i < ends.Length; i++)
             {
                 results[i] = s + ends[i];
             }

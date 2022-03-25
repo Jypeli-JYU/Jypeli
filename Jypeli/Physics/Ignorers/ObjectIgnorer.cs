@@ -43,9 +43,9 @@ namespace Jypeli
         /// <param name="otherBody"></param>
         /// <param name="other"></param>
         /// <returns></returns>
-        public override bool CanCollide( IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other )
+        public override bool CanCollide(IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other)
         {
-            return other!= this;
+            return other != this;
         }
     }
 }

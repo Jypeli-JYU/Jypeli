@@ -33,7 +33,7 @@ namespace Jypeli.Tests.Game
 
                 game.Add(parent);
 
-                parent.MoveTo(posToMove, 20, () => 
+                parent.MoveTo(posToMove, 20, () =>
                 {
                     Assert.That(parent.Position, Is.EqualTo(posToMove).Using(new VectorComparer(0.1)));
                     Assert.That(g.Position, Is.EqualTo(posToMove + delta).Using(new VectorComparer(0.1)));

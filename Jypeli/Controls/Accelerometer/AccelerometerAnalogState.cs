@@ -7,7 +7,7 @@ namespace Jypeli
         public Vector StateVector { get; private set; }
         public Vector MouseMovement { get; private set; }
 
-        internal AccelerometerAnalogState( Vector prev, Vector curr )
+        internal AccelerometerAnalogState(Vector prev, Vector curr)
         {
             StateVector = curr;
             State = curr.Magnitude;

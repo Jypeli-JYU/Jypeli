@@ -225,25 +225,25 @@ namespace Jypeli
             var worldMatrix =
                 Matrix.CreateTranslation((float)(-camera.Position.X * RelativeTransition.X), (float)(-camera.Position.Y * RelativeTransition.Y), 0)
                 * zoomMatrix;
-            
+
             Graphics.ShapeBatch.Begin(ref worldMatrix, PrimitiveType.OpenGLLines);
-            
+
             // TODO: Millainen tämä ratkaisu tyyppien suhteen on suorituskyvyn kannalta?
             foreach (var o in Objects.Where(type.IsInstanceOfType))
             {
-                if(o.Shape.Cache.Triangles is not null)
+                if (o.Shape.Cache.Triangles is not null)
                     Graphics.ShapeBatch.DrawOutlines(o.Shape.Cache, outlineColor, o.Position, o.Size, (float)o.Angle.Radians);
             }
             Graphics.ShapeBatch.End();
         }
-        
+
         /// <summary>
         /// Järjestelee kappaleet uudestaan oikeisiin listoihin, jos niille on lisätty tai poistettu kuva.
         /// TODO: Tätä ei oikeasti tarvitsisi ajaa kuin olion kuvaa muutettaessa.
         /// </summary>
         private void SortObjects()
         {
-            for(int i = 0; i < objectsWithImage.Count; i++)
+            for (int i = 0; i < objectsWithImage.Count; i++)
             {
                 var obj = objectsWithImage[i];
                 if (obj.Image is null)
@@ -441,7 +441,7 @@ namespace Jypeli
                     for (int j = 0; j < children.Count; j++)
                     {
                         GameObject go = children[j];
-                        if(go.Image != null) // Tämä ei nyt ole erityisen tehokas ratkaisu, mutta harvemmin kappaleella on useita lapsiolioita, etenkään monella eri kuvalla.
+                        if (go.Image != null) // Tämä ei nyt ole erityisen tehokas ratkaisu, mutta harvemmin kappaleella on useita lapsiolioita, etenkään monella eri kuvalla.
                         {
                             Graphics.ImageBatch.Begin(ref worldMatrix, go.Image);
                             DrawTexture(go, ref worldMatrix);
@@ -522,7 +522,7 @@ namespace Jypeli
                 return;
 
             float rotation = (float)o.Angle.Radians;
-            if(o is CustomDrawable c)
+            if (o is CustomDrawable c)
             {
                 c.Draw(parentTransformation);
                 return;

@@ -121,10 +121,10 @@ namespace Jypeli
         [Save]
         public Camera Camera { get; set; }
 
-		/// <summary>
-		/// Pelin nimi.
-		/// </summary>
-		public static string Name { get; private set; }
+        /// <summary>
+        /// Pelin nimi.
+        /// </summary>
+        public static string Name { get; private set; }
 
         /// <summary>
         /// Voiko ääniä soittaa.
@@ -135,7 +135,7 @@ namespace Jypeli
         /// Aktiivinen kenttä.
         /// </summary>
         public Level Level { get; private set; }
-        
+
         private Stream CurrentFrameStream => !SaveOutputToConsole ? new FileStream(Path.Combine("Output", $"{SavedFrameCounter}.bmp"), FileMode.Create) : standardOutStream.Value;
 
         private readonly Lazy<Stream> standardOutStream = new Lazy<Stream>(Console.OpenStandardOutput);
@@ -145,7 +145,7 @@ namespace Jypeli
         /// Parametrina tulee ikkunan uusi koko.
         /// </summary>
         public event Action<Vector> WindowSizeChanged;
-        
+
         /// <summary>
         /// Onko peli sulkeutumassa tämän päivityksen jölkeen.
         /// </summary>
@@ -164,7 +164,7 @@ namespace Jypeli
         /// </summary>
         public Game()
         {
-			InitGlobals();
+            InitGlobals();
             InitContent();
             InitWindow();
             InitAudio();
@@ -179,7 +179,8 @@ namespace Jypeli
         /// <param name="skip">Kuinka mones frame tallennetaan peliä kuvatessa, ts. arvo 1 tarkoittaa että joka toinen frame tallennetaan</param>
         public void Run(bool headless = false, bool save = false, int frames = 0, int skip = 1)
         {
-            if (frames < 0) throw new ArgumentException("n must be greater than 0!");
+            if (frames < 0)
+                throw new ArgumentException("n must be greater than 0!");
             TotalFramesToRun = CommandLineOptions.FramesToRun ?? frames;
             SaveOutput = CommandLineOptions.Save ?? save;
             Headless = CommandLineOptions.Headless ?? headless;
@@ -198,11 +199,11 @@ namespace Jypeli
             AudioEnabled = false;
         }
 
-		/// <summary>
-		/// Ajaa yhden päivityksen ja tallentaa ruudun tiedostoon.
-		/// </summary>
-		/// <param name="bmpOutName">Bmp file to write to.</param>
-		public void RunOneFrame( string bmpOutName )
+        /// <summary>
+        /// Ajaa yhden päivityksen ja tallentaa ruudun tiedostoon.
+        /// </summary>
+        /// <param name="bmpOutName">Bmp file to write to.</param>
+        public void RunOneFrame(string bmpOutName)
         {
             //base.RunOneFrame();
             Screencap.SaveBmp(bmpOutName);
@@ -212,7 +213,7 @@ namespace Jypeli
         }
 
 
-        void InitGlobals ()
+        void InitGlobals()
         {
             Name = this.GetType().Assembly.FullName.Split(',')[0];
             Instance = this;
@@ -243,7 +244,8 @@ namespace Jypeli
             try
             {
                 Audio.OpenAL.OpenAL.Init();
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 OnNoAudioHardwareException();
                 Debug.WriteLine(ex);
@@ -302,14 +304,14 @@ namespace Jypeli
         /// Pelin piirtorutiinit.
         /// </summary>
         /// <param name="gameTime"></param>
-        [EditorBrowsable( EditorBrowsableState.Never )]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         protected void Draw(Time gameTime)
         {
             UpdateFps(gameTime);
             GraphicsDevice.SetRenderTarget(Screen.RenderTarget);
             GraphicsDevice.Clear(Level.BackgroundColor);
-            
-            if ( Level.Background.Image != null && !Level.Background.MovesWithCamera )
+
+            if (Level.Background.Image != null && !Level.Background.MovesWithCamera)
             {
                 GraphicsDevice.BindTexture(Level.Background.Image);
 
@@ -318,17 +320,17 @@ namespace Jypeli
 
                 GraphicsDevice.DrawPrimitives(Rendering.PrimitiveType.OpenGlTriangles, Graphics.TextureVertices, 6, true);
             }
-            
+
             // The world matrix adjusts the position and size of objects according to the camera angle.
             var worldMatrix =
-                Matrix.CreateTranslation( (float)-Camera.Position.X, (float)-Camera.Position.Y, 0 )
-                * Matrix.CreateScale( (float)Camera.ZoomFactor, (float)Camera.ZoomFactor, 1f );
+                Matrix.CreateTranslation((float)-Camera.Position.X, (float)-Camera.Position.Y, 0)
+                * Matrix.CreateScale((float)Camera.ZoomFactor, (float)Camera.ZoomFactor, 1f);
 
             // If the background should move with camera, draw it here.
-            Level.Background.Draw( worldMatrix, Matrix.Identity );
+            Level.Background.Draw(worldMatrix, Matrix.Identity);
 
             // Draw the layers containing the GameObjects
-            DynamicLayers.ForEach( l => l.Draw( Camera ) );
+            DynamicLayers.ForEach(l => l.Draw(Camera));
 
             // TODO: Tätä ei tarvitsisi tehdä, jos valoja ei käytetä.
             // Yhdistetään valotekstuuri ja objektien tekstuuri.
@@ -338,20 +340,20 @@ namespace Jypeli
             StaticLayers.ForEach(l => l.Draw(Camera));
 
             // Draw on the canvas
-            Graphics.Canvas.Begin( ref worldMatrix, Level );
-            Paint( Graphics.Canvas );
+            Graphics.Canvas.Begin(ref worldMatrix, Level);
+            Paint(Graphics.Canvas);
             Graphics.Canvas.End();
 
             // Draw the debug information screen
             DrawDebugScreen();
-            
+
             // Render the scene on screen
             Screen.Render();
 
             if (SaveOutput)
             {
                 if (FrameCounter != 0) // Ekaa framea ei voi tallentaa?
-                    if(skipcounter == 0)
+                    if (skipcounter == 0)
                     {
                         Screencap.SaveBmp(CurrentFrameStream);
                         skipcounter = FramesToSkip;
@@ -410,7 +412,7 @@ namespace Jypeli
         /// Canvakselle piirto.
         /// </summary>
         /// <param name="canvas"></param>
-        protected virtual void Paint( Canvas canvas )
+        protected virtual void Paint(Canvas canvas)
         {
         }
 

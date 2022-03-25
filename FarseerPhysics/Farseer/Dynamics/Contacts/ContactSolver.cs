@@ -367,7 +367,8 @@ namespace FarseerPhysics.Dynamics.Contacts
         {
             if (_count >= _velocityConstraintsMultithreadThreshold && ContactManager.ThreadsToUse > 1)
             {
-                if (_count == 0) return;
+                if (_count == 0)
+                    return;
                 var batchSize = (int)Math.Ceiling((float)_count / ContactManager.ThreadsToUse);
                 var batches = (int)Math.Ceiling((float)_count / batchSize);
 
@@ -377,7 +378,7 @@ namespace FarseerPhysics.Dynamics.Contacts
                 {
                     var start = i * batchSize;
                     var end = Math.Min(start + batchSize, _count);
-                    ThreadPool.QueueUserWorkItem( SolveVelocityConstraintsCallback, SolveVelocityConstraintsState.Get(this, start,end));                    
+                    ThreadPool.QueueUserWorkItem(SolveVelocityConstraintsCallback, SolveVelocityConstraintsState.Get(this, start, end));
                 }
                 // We avoid SolveVelocityConstraintsWaitLock.Wait(); because it spins a few milliseconds before going into sleep. Going into sleep(0) directly in a while loop is faster.
                 while (SolveVelocityConstraintsWaitLock.CurrentCount > 0)
@@ -394,7 +395,7 @@ namespace FarseerPhysics.Dynamics.Contacts
 #endif
             }
             else
-            {                
+            {
                 SolveVelocityConstraints(0, _count);
             }
 
@@ -459,7 +460,7 @@ namespace FarseerPhysics.Dynamics.Contacts
                     orderedIndexA = vc.indexB;
                     orderedIndexB = vc.indexA;
                 }
-                
+
                 for (; ; )
                 {
                     if (Interlocked.CompareExchange(ref _locks[orderedIndexA], 1, 0) == 0)
@@ -808,7 +809,8 @@ namespace FarseerPhysics.Dynamics.Contacts
 
             if (_count >= _positionConstraintsMultithreadThreshold && ContactManager.ThreadsToUse > 1)
             {
-                if (_count == 0) return true;
+                if (_count == 0)
+                    return true;
                 var batchSize = (int)Math.Ceiling((float)_count / ContactManager.ThreadsToUse);
                 var batches = (int)Math.Ceiling((float)_count / batchSize);
 
@@ -831,7 +833,7 @@ namespace FarseerPhysics.Dynamics.Contacts
             {
                 contactsOkay = SolvePositionConstraints(0, _count);
             }
-            
+
             return contactsOkay;
         }
 
@@ -852,7 +854,7 @@ namespace FarseerPhysics.Dynamics.Contacts
                     orderedIndexA = pc.indexB;
                     orderedIndexB = pc.indexA;
                 }
-                
+
                 // Lock bodies.
                 for (; ; )
                 {
@@ -1058,53 +1060,53 @@ namespace FarseerPhysics.Dynamics.Contacts
                 switch (manifold.Type)
                 {
                     case ManifoldType.Circles:
+                    {
+                        normal = new Vector2(1.0f, 0.0f);
+                        Vector2 pointA = Transform.Multiply(ref manifold.LocalPoint, ref xfA);
+                        Vector2 pointB = Transform.Multiply(manifold.Points[0].LocalPoint, ref xfB);
+                        if (Vector2.DistanceSquared(pointA, pointB) > Settings.Epsilon * Settings.Epsilon)
                         {
-                            normal = new Vector2(1.0f, 0.0f);
-                            Vector2 pointA = Transform.Multiply(ref manifold.LocalPoint, ref xfA);
-                            Vector2 pointB = Transform.Multiply(manifold.Points[0].LocalPoint, ref xfB);
-                            if (Vector2.DistanceSquared(pointA, pointB) > Settings.Epsilon * Settings.Epsilon)
-                            {
-                                normal = Vector2.Normalize(pointB - pointA);
-                            }
-
-                            Vector2 cA = pointA + radiusA * normal;
-                            Vector2 cB = pointB - radiusB * normal;
-                            points[0] = 0.5f * (cA + cB);
+                            normal = Vector2.Normalize(pointB - pointA);
                         }
-                        break;
+
+                        Vector2 cA = pointA + radiusA * normal;
+                        Vector2 cB = pointB - radiusB * normal;
+                        points[0] = 0.5f * (cA + cB);
+                    }
+                    break;
 
                     case ManifoldType.FaceA:
-                        {
-                            normal = Complex.Multiply(ref manifold.LocalNormal, ref xfA.q);
-                            Vector2 planePoint = Transform.Multiply(ref manifold.LocalPoint, ref xfA);
+                    {
+                        normal = Complex.Multiply(ref manifold.LocalNormal, ref xfA.q);
+                        Vector2 planePoint = Transform.Multiply(ref manifold.LocalPoint, ref xfA);
 
-                            for (int i = 0; i < manifold.PointCount; ++i)
-                            {
-                                Vector2 clipPoint = Transform.Multiply(manifold.Points[i].LocalPoint, ref xfB);
-                                Vector2 cA = clipPoint + (radiusA - Vector2.Dot(clipPoint - planePoint, normal)) * normal;
-                                Vector2 cB = clipPoint - radiusB * normal;
-                                points[i] = 0.5f * (cA + cB);
-                            }
+                        for (int i = 0; i < manifold.PointCount; ++i)
+                        {
+                            Vector2 clipPoint = Transform.Multiply(manifold.Points[i].LocalPoint, ref xfB);
+                            Vector2 cA = clipPoint + (radiusA - Vector2.Dot(clipPoint - planePoint, normal)) * normal;
+                            Vector2 cB = clipPoint - radiusB * normal;
+                            points[i] = 0.5f * (cA + cB);
                         }
-                        break;
+                    }
+                    break;
 
                     case ManifoldType.FaceB:
+                    {
+                        normal = Complex.Multiply(ref manifold.LocalNormal, ref xfB.q);
+                        Vector2 planePoint = Transform.Multiply(ref manifold.LocalPoint, ref xfB);
+
+                        for (int i = 0; i < manifold.PointCount; ++i)
                         {
-                            normal = Complex.Multiply(ref manifold.LocalNormal, ref xfB.q);
-                            Vector2 planePoint = Transform.Multiply(ref manifold.LocalPoint, ref xfB);
-
-                            for (int i = 0; i < manifold.PointCount; ++i)
-                            {
-                                Vector2 clipPoint = Transform.Multiply(manifold.Points[i].LocalPoint, ref xfA);
-                                Vector2 cB = clipPoint + (radiusB - Vector2.Dot(clipPoint - planePoint, normal)) * normal;
-                                Vector2 cA = clipPoint - radiusA * normal;
-                                points[i] = 0.5f * (cA + cB);
-                            }
-
-                            // Ensure normal points from A to B.
-                            normal = -normal;
+                            Vector2 clipPoint = Transform.Multiply(manifold.Points[i].LocalPoint, ref xfA);
+                            Vector2 cB = clipPoint + (radiusB - Vector2.Dot(clipPoint - planePoint, normal)) * normal;
+                            Vector2 cA = clipPoint - radiusA * normal;
+                            points[i] = 0.5f * (cA + cB);
                         }
-                        break;
+
+                        // Ensure normal points from A to B.
+                        normal = -normal;
+                    }
+                    break;
                 }
             }
         }
@@ -1118,44 +1120,44 @@ namespace FarseerPhysics.Dynamics.Contacts
                 switch (pc.type)
                 {
                     case ManifoldType.Circles:
-                        {
-                            Vector2 pointA = Transform.Multiply(ref pc.localPoint, ref xfA);
-                            Vector2 pointB = Transform.Multiply(pc.localPoints[0], ref xfB);
-                            normal = pointB - pointA;
+                    {
+                        Vector2 pointA = Transform.Multiply(ref pc.localPoint, ref xfA);
+                        Vector2 pointB = Transform.Multiply(pc.localPoints[0], ref xfB);
+                        normal = pointB - pointA;
 
-                            // Handle zero normalization
-                            if (normal != Vector2.Zero)
-                                normal = Vector2.Normalize(normal);
+                        // Handle zero normalization
+                        if (normal != Vector2.Zero)
+                            normal = Vector2.Normalize(normal);
 
-                            point = 0.5f * (pointA + pointB);
-                            separation = Vector2.Dot(pointB - pointA, normal) - pc.radiusA - pc.radiusB;
-                        }
-                        break;
+                        point = 0.5f * (pointA + pointB);
+                        separation = Vector2.Dot(pointB - pointA, normal) - pc.radiusA - pc.radiusB;
+                    }
+                    break;
 
                     case ManifoldType.FaceA:
-                        {
-                            Complex.Multiply(ref pc.localNormal, ref xfA.q, out normal);
-                            Vector2 planePoint = Transform.Multiply(ref pc.localPoint, ref xfA);
+                    {
+                        Complex.Multiply(ref pc.localNormal, ref xfA.q, out normal);
+                        Vector2 planePoint = Transform.Multiply(ref pc.localPoint, ref xfA);
 
-                            Vector2 clipPoint = Transform.Multiply(pc.localPoints[index], ref xfB);
-                            separation = Vector2.Dot(clipPoint - planePoint, normal) - pc.radiusA - pc.radiusB;
-                            point = clipPoint;
-                        }
-                        break;
+                        Vector2 clipPoint = Transform.Multiply(pc.localPoints[index], ref xfB);
+                        separation = Vector2.Dot(clipPoint - planePoint, normal) - pc.radiusA - pc.radiusB;
+                        point = clipPoint;
+                    }
+                    break;
 
                     case ManifoldType.FaceB:
-                        {
-                            Complex.Multiply(ref pc.localNormal, ref xfB.q, out normal);
-                            Vector2 planePoint = Transform.Multiply(ref pc.localPoint, ref xfB);
+                    {
+                        Complex.Multiply(ref pc.localNormal, ref xfB.q, out normal);
+                        Vector2 planePoint = Transform.Multiply(ref pc.localPoint, ref xfB);
 
-                            Vector2 clipPoint = Transform.Multiply(pc.localPoints[index], ref xfA);
-                            separation = Vector2.Dot(clipPoint - planePoint, normal) - pc.radiusA - pc.radiusB;
-                            point = clipPoint;
+                        Vector2 clipPoint = Transform.Multiply(pc.localPoints[index], ref xfA);
+                        separation = Vector2.Dot(clipPoint - planePoint, normal) - pc.radiusA - pc.radiusB;
+                        point = clipPoint;
 
-                            // Ensure normal points from A to B
-                            normal = -normal;
-                        }
-                        break;
+                        // Ensure normal points from A to B
+                        normal = -normal;
+                    }
+                    break;
                     default:
                         normal = Vector2.Zero;
                         point = Vector2.Zero;

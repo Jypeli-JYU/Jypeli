@@ -67,7 +67,8 @@ namespace Jypeli
         public bool IsCursorVisible
         {
             get { return mouse.Cursor.CursorMode == CursorMode.Normal; }
-            set {
+            set
+            {
                 if (value)
                     mouse.Cursor.CursorMode = CursorMode.Normal;
                 else
@@ -225,7 +226,7 @@ namespace Jypeli
         /// <param name="img">Hiiren kuva, tai null</param>
         public void SetCursorImage(Image img)
         {
-            if(img == null)
+            if (img == null)
             {
                 mouse.Cursor.Type = CursorType.Standard;
                 return;

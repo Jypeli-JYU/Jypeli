@@ -15,7 +15,7 @@ namespace Jypeli
         public string CurrentDirectory
         {
             get { return _currentDir; }
-            set { ChDir( value ); }
+            set { ChDir(value); }
         }
 
         /// <summary>
@@ -23,10 +23,10 @@ namespace Jypeli
         /// Kutsu PopDir kun haluat palauttaa työhakemiston edelliseen arvoonsa.
         /// </summary>
         /// <param name="dir"></param>
-        public void PushDir( string dir )
+        public void PushDir(string dir)
         {
-            prevDirs.Push( _currentDir );
-            ChDir( dir );
+            prevDirs.Push(_currentDir);
+            ChDir(dir);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Jypeli
         /// </summary>
         public void PopDir()
         {
-            if ( prevDirs.Count > 0 )
+            if (prevDirs.Count > 0)
                 _currentDir = prevDirs.Pop();
         }
 
@@ -44,12 +44,12 @@ namespace Jypeli
         /// </summary>
         /// <param name="path">Hakemistopolku.</param>
         /// <returns>Onnistuiko hakemiston vaihtaminen (palauttaa false jos hakemistoa ei ole).</returns>
-        public virtual bool ChDir( string path )
+        public virtual bool ChDir(string path)
         {
             Initialize();
-            MakeAbsolute( ref path );
+            MakeAbsolute(ref path);
 
-            if ( !FMAssert( Directory.Exists, false, false, path ) )
+            if (!FMAssert(Directory.Exists, false, false, path))
                 return false;
 
             _currentDir = path;
@@ -60,11 +60,11 @@ namespace Jypeli
         /// Luo uuden hakemiston.
         /// </summary>
         /// <param name="path">Hakemistopolku.</param>
-        public virtual void MkDir( string path )
+        public virtual void MkDir(string path)
         {
             Initialize();
-            MakeAbsolute( ref path );
-            FMAssert( Directory.CreateDirectory, true, null, path );
+            MakeAbsolute(ref path);
+            FMAssert(Directory.CreateDirectory, true, null, path);
         }
 
         /// <summary>
@@ -72,11 +72,11 @@ namespace Jypeli
         /// Ei heitä poikkeusta, jos hakemistoa ei ole olemassa.
         /// </summary>
         /// <param name="path"></param>
-        public virtual void RmDir( string path )
+        public virtual void RmDir(string path)
         {
             Initialize();
-            MakeAbsolute( ref path );
-            FMAssert( Directory.Delete, true, path );
+            MakeAbsolute(ref path);
+            FMAssert(Directory.Delete, true, path);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Jypeli
         public virtual IList<string> GetFileList()
         {
             Initialize();
-            string[] fileList = FMAssert( Directory.GetFiles, false, new string[] { }, _currentDir );
+            string[] fileList = FMAssert(Directory.GetFiles, false, new string[] { }, _currentDir);
             return fileList.ToList<string>().AsReadOnly();
         }
     }

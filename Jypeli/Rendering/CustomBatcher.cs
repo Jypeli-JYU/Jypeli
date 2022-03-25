@@ -72,7 +72,7 @@ namespace Jypeli.Rendering
         private Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>> ImageBatches = new Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>>();
         private Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>> TextBatches = new Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>>();
         // TODO: Pitäisikö tämä tietorakenne muotoilla vielä erilailla?
-        
+
         private Dictionary<IShader, Dictionary<Matrix4x4, List<BatchItem>>> ShaderBatches = new Dictionary<IShader, Dictionary<Matrix4x4, List<BatchItem>>>();
         private Dictionary<Matrix4x4, List<BatchItem>> ShapeBatches = new Dictionary<Matrix4x4, List<BatchItem>>();
 
@@ -80,7 +80,7 @@ namespace Jypeli.Rendering
         {
             if (ShapeBatches.TryGetValue(matrix, out List<BatchItem> list))
             {
-                if(list == null)
+                if (list == null)
                 {
                     list = new List<BatchItem>();
                     ShapeBatches[matrix] = list;
@@ -180,7 +180,7 @@ namespace Jypeli.Rendering
         {
             var withoutImages = ShapeBatches.Keys;
 
-            foreach(var m in withoutImages)
+            foreach (var m in withoutImages)
             {
                 Matrix4x4 matrix = m;
                 Graphics.ShapeBatch.Begin(ref matrix);
@@ -233,14 +233,14 @@ namespace Jypeli.Rendering
                 {
                     Matrix4x4 matrix = batch.Key;
                     Image previmage = null;
-                    Graphics.ShapeBatch.Begin(ref matrix, shader:shader);
+                    Graphics.ShapeBatch.Begin(ref matrix, shader: shader);
                     foreach (var item in ShaderBatches[shader][batch.Key])
                     {
-                        if(item.Image is not null)
+                        if (item.Image is not null)
                         {
-                            if(item.Image != previmage)
+                            if (item.Image != previmage)
                             {
-                                if(previmage is not null)
+                                if (previmage is not null)
                                 {
                                     Graphics.ImageBatch.End();
                                 }
@@ -253,12 +253,12 @@ namespace Jypeli.Rendering
                         {
                             Graphics.ShapeBatch.Draw(item.Cache, item.Color, item.Position, item.Size, item.Rotation);
                         }
-                        
+
                     }
-                    if(previmage is not null)
+                    if (previmage is not null)
                         Graphics.ImageBatch.End();
                     Graphics.ShapeBatch.End();
-                    
+
                     ShaderBatches[shader][batch.Key].Clear();
                 }
             }

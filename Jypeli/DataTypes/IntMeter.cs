@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Jypeli
 {
-	/// <summary>
+    /// <summary>
     /// Mittari, joka mittaa int-tyyppisiä arvoja.
     /// Sidottavissa näyttöihin, kuten <c>ValueDisplay</c> ja <c>BarGauge</c>.
     /// </summary>
@@ -14,16 +14,16 @@ namespace Jypeli
         /// <inheritdoc/>
         public override double RelativeValue
         {
-            get { return ( Value - MinValue ) / (double)( MaxValue - MinValue ); }
-            set { Value = (int)( MinValue + value * ( MaxValue - MinValue ) ); }
+            get { return (Value - MinValue) / (double)(MaxValue - MinValue); }
+            set { Value = (int)(MinValue + value * (MaxValue - MinValue)); }
         }
 
         /// <summary>
         /// Mittari, joka mittaa int-tyyppisiä arvoja.
         /// </summary>
         /// <param name="defaultValue">Oletusarvo</param>
-        public IntMeter( int defaultValue )
-            : base( defaultValue, 0, int.MaxValue )
+        public IntMeter(int defaultValue)
+            : base(defaultValue, 0, int.MaxValue)
         {
         }
 
@@ -33,8 +33,8 @@ namespace Jypeli
         /// <param name="defaultValue">Oletusarvo</param>
         /// <param name="minValue">Minimiarvo</param>
         /// <param name="MaxValue">Maksimiarvo</param>
-        public IntMeter(int defaultValue,int minValue, int MaxValue)
-            : base(defaultValue, minValue,MaxValue)
+        public IntMeter(int defaultValue, int minValue, int MaxValue)
+            : base(defaultValue, minValue, MaxValue)
         {
         }
 
@@ -43,7 +43,7 @@ namespace Jypeli
         /// sellaisessa yhteydessä, jossa vaaditaan tavallista <c>int</c>-
         /// tyyppistä kokonaislukua.
         /// </summary>
-        public static implicit operator int( IntMeter m )
+        public static implicit operator int(IntMeter m)
         {
             return m.Value;
         }
@@ -53,7 +53,7 @@ namespace Jypeli
         /// sellaisessa yhteydessä, jossa vaaditaan tavallista <c>double</c>-
         /// tyyppistä liukulukua.
         /// </summary>
-        public static implicit operator double( IntMeter m )
+        public static implicit operator double(IntMeter m)
         {
             return (double)m.Value;
         }
@@ -63,7 +63,7 @@ namespace Jypeli
         /// mutta helpompi käyttää tapahtumakäsittelijöissä.
         /// </summary>
         /// <param name="change">Lisättävä luku</param>
-        public void AddValue( int change )
+        public void AddValue(int change)
         {
             Value += change;
         }
@@ -73,7 +73,7 @@ namespace Jypeli
         /// mutta helpompi käyttää tapahtumakäsittelijöissä.
         /// </summary>
         /// <param name="multiplier">Uusi arvo</param>
-        public void MultiplyValue( int multiplier )
+        public void MultiplyValue(int multiplier)
         {
             Value *= multiplier;
         }
@@ -83,9 +83,9 @@ namespace Jypeli
         /// mutta helpompi käyttää tapahtumakäsittelijöissä.
         /// </summary>
         /// <param name="multiplier">Uusi arvo</param>
-        public void MultiplyValue( double multiplier )
+        public void MultiplyValue(double multiplier)
         {
-            Value = (int)Math.Round( Value * multiplier );
+            Value = (int)Math.Round(Value * multiplier);
         }
 
         /// <summary>
@@ -95,9 +95,9 @@ namespace Jypeli
         /// <param name="seconds">Aika joka lisämiseen kuluu</param>
         /// <param name="onComplete">Aliohjelma, joka suoritetaan kun lisäys on valmis.</param>
         /// <returns>Operation-tyyppinen muuttuja, jolla voi hallita tapahtuvaa muutosta</returns>
-        public Operation AddOverTime( int change, double seconds, Action onComplete )
+        public Operation AddOverTime(int change, double seconds, Action onComplete)
         {
-            Operation op = AddOverTime( change, seconds );
+            Operation op = AddOverTime(change, seconds);
             op.Finished += onComplete;
             return op;
         }
@@ -108,12 +108,14 @@ namespace Jypeli
         /// <param name="change">Kuinka paljon lisätään</param>
         /// <param name="seconds">Aika joka lisämiseen kuluu</param>
         /// <returns>Operation-tyyppinen muuttuja, jolla voi hallita tapahtuvaa muutosta</returns>
-        public Operation AddOverTime( int change, double seconds )
+        public Operation AddOverTime(int change, double seconds)
         {
-            Operation op = new IntMeterAddOperation( this, change, seconds );
-            op.Finished += delegate { operations.Remove( op ); };
-            op.Stopped += delegate { operations.Remove( op ); };
-            operations.Add( op );
+            Operation op = new IntMeterAddOperation(this, change, seconds);
+            op.Finished += delegate
+            { operations.Remove(op); };
+            op.Stopped += delegate
+            { operations.Remove(op); };
+            operations.Add(op);
             return op;
         }
 
@@ -122,7 +124,7 @@ namespace Jypeli
         /// </summary>
         public void Stop()
         {
-            while ( operations.Count > 0 )
+            while (operations.Count > 0)
                 operations[0].Stop();
         }
 

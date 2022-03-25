@@ -94,7 +94,7 @@ namespace FarseerPhysics.Dynamics
             if (_contacts == null || _contacts.Length < contactCapacity)
             {
                 int newContactBufferCapacity = Math.Max(contactCapacity, 32);
-                newContactBufferCapacity = newContactBufferCapacity + (newContactBufferCapacity*2 >> 4); // grow by x1.125f
+                newContactBufferCapacity = newContactBufferCapacity + (newContactBufferCapacity * 2 >> 4); // grow by x1.125f
                 newContactBufferCapacity = (newContactBufferCapacity + 31) & (~31); // grow in chunks of 32.
                 _contacts = new Contact[newContactBufferCapacity];
             }

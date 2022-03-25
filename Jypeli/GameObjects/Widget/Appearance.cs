@@ -19,7 +19,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="parentTransformation"></param>
         /// <param name="transformation"></param>
-        public virtual void Draw( Matrix parentTransformation, Matrix transformation )
+        public virtual void Draw(Matrix parentTransformation, Matrix transformation)
         {
         }
 

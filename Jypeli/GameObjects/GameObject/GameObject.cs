@@ -59,9 +59,9 @@ namespace Jypeli
 
             DestroyChildren();
 
-            if ( AssociatedListeners != null )
+            if (AssociatedListeners != null)
             {
-                foreach ( Listener listener in AssociatedListeners )
+                foreach (Listener listener in AssociatedListeners)
                 {
                     listener.Destroy();
                 }
@@ -128,26 +128,26 @@ namespace Jypeli
         /// Kappaleen koko ja ulkonäkö ladataan parametrina annetusta kuvasta.
         /// </summary>
         /// <param name="animation">Kuva</param>
-        public GameObject( Animation animation )
+        public GameObject(Animation animation)
             : base()
         {
-            InitDimensions( animation.Width, animation.Height, Shape.Rectangle );
-            InitAppearance( animation );
+            InitDimensions(animation.Width, animation.Height, Shape.Rectangle);
+            InitAppearance(animation);
             InitListeners();
-            InitLayout( animation.Width, animation.Height );
+            InitLayout(animation.Width, animation.Height);
         }
 
         /// <summary>
         /// Alustaa widgetin.
         /// </summary>
-        public GameObject( ILayout layout )
+        public GameObject(ILayout layout)
             : base()
         {
-            Vector defaultSize = new Vector( 100, 100 );
-            InitDimensions( defaultSize.X, defaultSize.Y, Shape.Rectangle );
+            Vector defaultSize = new Vector(100, 100);
+            InitDimensions(defaultSize.X, defaultSize.Y, Shape.Rectangle);
             InitAppearance();
             InitListeners();
-            InitLayout( defaultSize.X, defaultSize.Y, layout );
+            InitLayout(defaultSize.X, defaultSize.Y, layout);
         }
 
         private void InitListeners()
@@ -161,12 +161,12 @@ namespace Jypeli
         /// <see cref="GameObjectBase.IsUpdated"/>
         /// </summary>
         /// <param name="time">Peliaika.</param>
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        public override void Update( Time time )
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override void Update(Time time)
         {
-            base.Update( time );
-            UpdateChildren( time );
-            if ( _layoutNeedsRefreshing )
+            base.Update(time);
+            UpdateChildren(time);
+            if (_layoutNeedsRefreshing)
             {
                 RefreshLayout();
                 _layoutNeedsRefreshing = false;
@@ -174,12 +174,13 @@ namespace Jypeli
             if (oscillators != null)
             {
                 oscillators.Update(time);
-                oscillators.ForEach(o => { 
+                oscillators.ForEach(o =>
+                {
                     if (o.IsDestroyed)
                         oscillators.Remove(o);
                 });
             }
-                
+
         }
     }
 }

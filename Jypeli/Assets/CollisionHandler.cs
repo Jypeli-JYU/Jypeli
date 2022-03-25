@@ -12,7 +12,7 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="collidingObject">Törmäävä olio</param>
         /// <param name="targetObject">Kohde johon törmätään</param>
-        public static void DestroyObject( PhysicsObject collidingObject, PhysicsObject targetObject )
+        public static void DestroyObject(PhysicsObject collidingObject, PhysicsObject targetObject)
         {
             collidingObject.Destroy();
         }
@@ -22,7 +22,7 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="collidingObject">Törmäävä olio</param>
         /// <param name="targetObject">Kohde johon törmätään</param>
-        public static void DestroyTarget( PhysicsObject collidingObject, PhysicsObject targetObject )
+        public static void DestroyTarget(PhysicsObject collidingObject, PhysicsObject targetObject)
         {
             targetObject.Destroy();
         }
@@ -32,7 +32,7 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="collidingObject">Törmäävä olio</param>
         /// <param name="targetObject">Kohde johon törmätään</param>
-        public static void DestroyBoth( PhysicsObject collidingObject, PhysicsObject targetObject )
+        public static void DestroyBoth(PhysicsObject collidingObject, PhysicsObject targetObject)
         {
             collidingObject.Destroy();
             targetObject.Destroy();
@@ -44,15 +44,15 @@ namespace Jypeli.Assets
         /// <param name="radius">Räjähdyksen säde</param>
         /// <param name="destroyObject">Tuhotaanko törmäävä olio</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> ExplodeObject( double radius, bool destroyObject )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> ExplodeObject(double radius, bool destroyObject)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
-                Explosion e = new Explosion( radius );
+                Explosion e = new Explosion(radius);
                 e.Position = collidingObject.Position;
-                Game.Instance.Add( e );
+                Game.Instance.Add(e);
 
-                if ( destroyObject )
+                if (destroyObject)
                     collidingObject.Destroy();
             };
         }
@@ -63,15 +63,15 @@ namespace Jypeli.Assets
         /// <param name="radius">Räjähdyksen säde</param>
         /// <param name="destroyObject">Tuhotaanko törmäävä olio</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> ExplodeTarget( double radius, bool destroyObject )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> ExplodeTarget(double radius, bool destroyObject)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
-                Explosion e = new Explosion( radius );
+                Explosion e = new Explosion(radius);
                 e.Position = targetObject.Position;
-                Game.Instance.Add( e );
+                Game.Instance.Add(e);
 
-                if ( destroyObject )
+                if (destroyObject)
                     targetObject.Destroy();
             };
         }
@@ -83,15 +83,15 @@ namespace Jypeli.Assets
         /// <param name="radius">Räjähdyksen säde</param>
         /// <param name="destroyObject">Tuhotaanko oliot samalla</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> ExplodeBoth( double radius, bool destroyObject )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> ExplodeBoth(double radius, bool destroyObject)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
-                Explosion e = new Explosion( radius );
-                e.Position = Vector.Average( collidingObject.Position, targetObject.Position );
-                Game.Instance.Add( e );
+                Explosion e = new Explosion(radius);
+                e.Position = Vector.Average(collidingObject.Position, targetObject.Position);
+                Game.Instance.Add(e);
 
-                if ( destroyObject )
+                if (destroyObject)
                 {
                     collidingObject.Destroy();
                     targetObject.Destroy();
@@ -106,9 +106,9 @@ namespace Jypeli.Assets
         /// <param name="meter">Mittari</param>
         /// <param name="value">Kuinka paljon lisätään</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> AddMeterValue( IntMeter meter, int value )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> AddMeterValue(IntMeter meter, int value)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
                 meter.Value += value;
             };
@@ -121,9 +121,9 @@ namespace Jypeli.Assets
         /// <param name="meter">Mittari</param>
         /// <param name="value">Kuinka paljon lisätään</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> AddMeterValue( DoubleMeter meter, double value )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> AddMeterValue(DoubleMeter meter, double value)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
                 meter.Value += value;
             };
@@ -134,11 +134,11 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="impulse">Impulssi (massa * nopeus)</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> HitObject( Vector impulse )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> HitObject(Vector impulse)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
-                collidingObject.Hit( impulse );
+                collidingObject.Hit(impulse);
             };
         }
 
@@ -147,11 +147,11 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="impulse">Impulssi (massa * nopeus)</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> HitTarget( Vector impulse )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> HitTarget(Vector impulse)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
-                targetObject.Hit( impulse );
+                targetObject.Hit(impulse);
             };
         }
 
@@ -160,11 +160,11 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="soundEffectName">Ääniefekitin nimi</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> PlaySound( string soundEffectName )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> PlaySound(string soundEffectName)
         {
-            SoundEffect effect = Game.LoadSoundEffect( soundEffectName );
+            SoundEffect effect = Game.LoadSoundEffect(soundEffectName);
 
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
                 effect.Play();
             };
@@ -176,11 +176,11 @@ namespace Jypeli.Assets
         /// <param name="expSystem">Efektijärjestelmä</param>
         /// <param name="numParticles">Kuinka monta partikkelia laitetaan</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> AddEffectOnObject( ExplosionSystem expSystem, int numParticles )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> AddEffectOnObject(ExplosionSystem expSystem, int numParticles)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
-                expSystem.AddEffect( collidingObject.Position, numParticles );
+                expSystem.AddEffect(collidingObject.Position, numParticles);
             };
         }
 
@@ -190,11 +190,11 @@ namespace Jypeli.Assets
         /// <param name="expSystem">Efektijärjestelmä</param>
         /// <param name="numParticles">Kuinka monta partikkelia laitetaan</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> AddEffectOnTarget( ExplosionSystem expSystem, int numParticles )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> AddEffectOnTarget(ExplosionSystem expSystem, int numParticles)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
-                expSystem.AddEffect( targetObject.Position, numParticles );
+                expSystem.AddEffect(targetObject.Position, numParticles);
             };
         }
 
@@ -204,14 +204,16 @@ namespace Jypeli.Assets
         /// <param name="width">Leveyden muutos</param>
         /// <param name="height">Korkeuden muutos</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> IncreaseObjectSize( double width, double height )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> IncreaseObjectSize(double width, double height)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
-                if ( collidingObject.Width + width <= 0 ) return;
-                if ( collidingObject.Height + height <= 0 ) return;
+                if (collidingObject.Width + width <= 0)
+                    return;
+                if (collidingObject.Height + height <= 0)
+                    return;
 
-                collidingObject.Size += new Vector( width, height );
+                collidingObject.Size += new Vector(width, height);
             };
         }
 
@@ -221,14 +223,16 @@ namespace Jypeli.Assets
         /// <param name="width">Leveyden muutos</param>
         /// <param name="height">Korkeuden muutos</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> IncreaseTargetSize( double width, double height )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> IncreaseTargetSize(double width, double height)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
-                if ( targetObject.Width + width <= 0 ) return;
-                if ( targetObject.Height + height <= 0 ) return;
+                if (targetObject.Width + width <= 0)
+                    return;
+                if (targetObject.Height + height <= 0)
+                    return;
 
-                targetObject.Size += new Vector( width, height );
+                targetObject.Size += new Vector(width, height);
             };
         }
 
@@ -237,9 +241,9 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="color">Väri</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> SetColor( Color color )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> SetColor(Color color)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
                 collidingObject.Color = color;
             };
@@ -250,9 +254,9 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="color">Väri</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> SetTargetColor( Color color )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> SetTargetColor(Color color)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
                 targetObject.Color = color;
             };
@@ -263,7 +267,7 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="collidingObject"></param>
         /// <param name="targetObject"></param>
-        public static void SetRandomColor( PhysicsObject collidingObject, PhysicsObject targetObject )
+        public static void SetRandomColor(PhysicsObject collidingObject, PhysicsObject targetObject)
         {
             collidingObject.Color = RandomGen.NextColor();
         }
@@ -274,7 +278,7 @@ namespace Jypeli.Assets
         /// <param name="collidingObject"></param>
         /// <param name="targetObject"></param>
         /// <returns></returns>
-        public static void SetRandomTargetColor( PhysicsObject collidingObject, PhysicsObject targetObject )
+        public static void SetRandomTargetColor(PhysicsObject collidingObject, PhysicsObject targetObject)
         {
             targetObject.Color = RandomGen.NextColor();
         }
@@ -284,11 +288,11 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="message">Viesti.</param>
         /// <returns></returns>
-        public static CollisionHandler<PhysicsObject, PhysicsObject> ShowMessage( string message )
+        public static CollisionHandler<PhysicsObject, PhysicsObject> ShowMessage(string message)
         {
-            return delegate( PhysicsObject collidingObject, PhysicsObject targetObject )
+            return delegate (PhysicsObject collidingObject, PhysicsObject targetObject)
             {
-                Game.Instance.MessageDisplay.Add( message );
+                Game.Instance.MessageDisplay.Add(message);
             };
         }
     }

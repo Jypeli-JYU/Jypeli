@@ -50,14 +50,15 @@ namespace Jypeli
         public GroupCollection Groups { get { return groups; } }
         public bool CanCollide(GroupIgnorer other)
         {
-            if (other == null) { throw new ArgumentNullException("other"); }
+            if (other == null)
+            { throw new ArgumentNullException("other"); }
             return CanCollideInternal(other);
         }
         private bool CanCollideInternal(GroupIgnorer other)
         {
             return !GroupCollection.Intersect(groups, other.groups);
         }
-        public override bool CanCollide( IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other )
+        public override bool CanCollide(IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other)
         {
             GroupIgnorer value = other as GroupIgnorer;
             return

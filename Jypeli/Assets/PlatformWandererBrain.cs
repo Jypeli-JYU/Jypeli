@@ -73,7 +73,7 @@ namespace Jypeli
 
         /// <inheritdoc/>
         /// <param name="target"></param>
-        public override void OnCollision( IGameObject target )
+        public override void OnCollision(IGameObject target)
         {
             //if ( target is PhysicsObject && Owner.Y > target.Y && target.Width > Owner.Width )
             //{
@@ -84,13 +84,13 @@ namespace Jypeli
             //    platform.Image = null;
             //}
 
-            base.OnCollision( target );
+            base.OnCollision(target);
         }
 
         /// <inheritdoc/>
         protected override void Update(Time time)
         {
-            
+
             if (!(this.Owner is PlatformCharacter))
             {
                 return;
@@ -119,10 +119,11 @@ namespace Jypeli
                         lastJumpingPosition = pc.Position;
 
                         //Brains don't change direction in mid-air while jumping:
-                        if(!_fallsOffPlatforms)
+                        if (!_fallsOffPlatforms)
                         {
                             _fallsOffPlatforms = true;
-                            Timer.SingleShot(0.5, delegate { _fallsOffPlatforms = false;});
+                            Timer.SingleShot(0.5, delegate
+                            { _fallsOffPlatforms = false; });
                         }
                     }
                 }
@@ -133,10 +134,12 @@ namespace Jypeli
             {
                 pc.Stop();
 
-                if (_triesToJump && Math.Abs(pc.Velocity.X) < xTolerance) this.Speed *= -1;
+                if (_triesToJump && Math.Abs(pc.Velocity.X) < xTolerance)
+                    this.Speed *= -1;
             }
-    
-            if (!_triesToJump && Math.Abs(pc.Velocity.X) < xTolerance) this.Speed *= -1;
+
+            if (!_triesToJump && Math.Abs(pc.Velocity.X) < xTolerance)
+                this.Speed *= -1;
 
             pc.Walk(this.Speed);
 

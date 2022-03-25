@@ -50,7 +50,7 @@ namespace Jypeli
             set
             {
                 _font = value;
-                for ( int i = 0; i < Content.ItemCount; i++ )
+                for (int i = 0; i < Content.ItemCount; i++)
                     Content[i].Font = value;
             }
         }
@@ -64,7 +64,7 @@ namespace Jypeli
             set
             {
                 _textColor = value;
-                for ( int i = 0; i < Content.ItemCount; i++ )
+                for (int i = 0; i < Content.ItemCount; i++)
                     Content[i].TextColor = value;
             }
         }
@@ -78,7 +78,7 @@ namespace Jypeli
             set
             {
                 _hAlignment = value;
-                for ( int i = 0; i < Content.ItemCount; i++ )
+                for (int i = 0; i < Content.ItemCount; i++)
                     Content[i].HorizontalAlignment = value;
             }
         }
@@ -92,24 +92,24 @@ namespace Jypeli
             {
                 StringBuilder result = new StringBuilder();
 
-                foreach ( var item in Items )
+                foreach (var item in Items)
                 {
-                    result.Append( item ).Append( "\n" );
+                    result.Append(item).Append("\n");
                 }
 
-                return result.RemoveLast( 2 ).ToString();
+                return result.RemoveLast(2).ToString();
             }
             set
             {
-                if ( Width == 0 )
-                    throw new InvalidOperationException( "You must set the list width before assigning text!" );
+                if (Width == 0)
+                    throw new InvalidOperationException("You must set the list width before assigning text!");
 
-                Vector textDims = Font.MeasureSize( value );
+                Vector textDims = Font.MeasureSize(value);
                 double softWidth = 4 * Font.CharacterWidth < Width ? Width - 4 * Font.CharacterWidth : Width;
-                string wrapped = Font.WrapText( value, softWidth, Width );
+                string wrapped = Font.WrapText(value, softWidth, Width);
 
-                StringList newList = new StringList( wrapped.Split( '\n' ) );
-                this.Bind( newList );
+                StringList newList = new StringList(wrapped.Split('\n'));
+                this.Bind(newList);
             }
         }
 
@@ -118,8 +118,8 @@ namespace Jypeli
         /// listaan.
         /// </summary>
         /// <param name="list">Olemassaoleva lista.</param>
-        public StringListWidget( StringList list )
-            : base( list )
+        public StringListWidget(StringList list)
+            : base(list)
         {
         }
 
@@ -127,16 +127,16 @@ namespace Jypeli
         /// Luo uuden (tyhjän) merkkijonolistakomponentin.
         /// </summary>
         public StringListWidget()
-            : base( new StringList() )
+            : base(new StringList())
         {
             SizingByLayout = false;
         }
 
         /// <inheritdoc/>
-        internal protected override Label CreateWidget( string item )
+        internal protected override Label CreateWidget(string item)
         {
-            return new Label( item )
-            { 
+            return new Label(item)
+            {
                 HorizontalSizing = Sizing.Expanding,
                 Font = Font,
                 Color = Color.Transparent,

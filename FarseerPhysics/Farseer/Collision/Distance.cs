@@ -66,40 +66,40 @@ namespace FarseerPhysics.Collision
             switch (shape.ShapeType)
             {
                 case ShapeType.Circle:
-                    {
-                        CircleShape circle = (CircleShape)shape;
-                        Vertices.Add(circle.Position);
-                        Radius = circle.Radius;
-                    }
-                    break;
+                {
+                    CircleShape circle = (CircleShape)shape;
+                    Vertices.Add(circle.Position);
+                    Radius = circle.Radius;
+                }
+                break;
 
                 case ShapeType.Polygon:
-                    {
-                        PolygonShape polygon = (PolygonShape)shape;
-                        Vertices.AddRange(polygon.Vertices);
-                        Radius = polygon.Radius;
-                    }
-                    break;
+                {
+                    PolygonShape polygon = (PolygonShape)shape;
+                    Vertices.AddRange(polygon.Vertices);
+                    Radius = polygon.Radius;
+                }
+                break;
 
                 case ShapeType.Chain:
-                    {
-                        ChainShape chain = (ChainShape)shape;
-                        Debug.Assert(0 <= index && index < chain.Vertices.Count);
-                        Vertices.Add(chain.Vertices[index]);
-                        Vertices.Add(index + 1 < chain.Vertices.Count ? chain.Vertices[index + 1] : chain.Vertices[0]);
+                {
+                    ChainShape chain = (ChainShape)shape;
+                    Debug.Assert(0 <= index && index < chain.Vertices.Count);
+                    Vertices.Add(chain.Vertices[index]);
+                    Vertices.Add(index + 1 < chain.Vertices.Count ? chain.Vertices[index + 1] : chain.Vertices[0]);
 
-                        Radius = chain.Radius;
-                    }
-                    break;
+                    Radius = chain.Radius;
+                }
+                break;
 
                 case ShapeType.Edge:
-                    {
-                        EdgeShape edge = (EdgeShape)shape;
-                        Vertices.Add(edge.Vertex1);
-                        Vertices.Add(edge.Vertex2);
-                        Radius = edge.Radius;
-                    }
-                    break;
+                {
+                    EdgeShape edge = (EdgeShape)shape;
+                    Vertices.Add(edge.Vertex1);
+                    Vertices.Add(edge.Vertex2);
+                    Radius = edge.Radius;
+                }
+                break;
 
                 default:
                     Radius = 0;
@@ -320,20 +320,20 @@ namespace FarseerPhysics.Collision
                     return -V[0].W;
 
                 case 2:
+                {
+                    Vector2 e12 = V[1].W - V[0].W;
+                    float sgn = MathUtils.Cross(e12, -V[0].W);
+                    if (sgn > 0.0f)
                     {
-                        Vector2 e12 = V[1].W - V[0].W;
-                        float sgn = MathUtils.Cross(e12, -V[0].W);
-                        if (sgn > 0.0f)
-                        {
-                            // Origin is left of e12.
-                            return new Vector2(-e12.Y, e12.X);
-                        }
-                        else
-                        {
-                            // Origin is right of e12.
-                            return new Vector2(e12.Y, -e12.X);
-                        }
+                        // Origin is left of e12.
+                        return new Vector2(-e12.Y, e12.X);
                     }
+                    else
+                    {
+                        // Origin is right of e12.
+                        return new Vector2(e12.Y, -e12.X);
+                    }
+                }
 
                 default:
                     Debug.Assert(false);
@@ -730,7 +730,7 @@ namespace FarseerPhysics.Collision
                 vertex.IndexA = input.ProxyA.GetSupport(-Complex.Divide(ref d, ref input.TransformA.q));
                 vertex.WA = Transform.Multiply(input.ProxyA.Vertices[vertex.IndexA], ref input.TransformA);
 
-                vertex.IndexB = input.ProxyB.GetSupport( Complex.Divide(ref d, ref input.TransformB.q));
+                vertex.IndexB = input.ProxyB.GetSupport(Complex.Divide(ref d, ref input.TransformB.q));
                 vertex.WB = Transform.Multiply(input.ProxyB.Vertices[vertex.IndexB], ref input.TransformB);
                 vertex.W = vertex.WB - vertex.WA;
                 simplex.V[simplex.Count] = vertex;

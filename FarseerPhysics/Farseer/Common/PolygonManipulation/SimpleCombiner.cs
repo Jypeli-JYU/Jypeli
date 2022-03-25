@@ -92,7 +92,8 @@ namespace FarseerPhysics.Common.PolygonManipulation
                     int index = 0;
                     for (int i = 0; i < 2 * triangles.Count; ++i, ++index)
                     {
-                        while (index >= triangles.Count) index -= triangles.Count;
+                        while (index >= triangles.Count)
+                            index -= triangles.Count;
                         if (covered[index])
                         {
                             continue;

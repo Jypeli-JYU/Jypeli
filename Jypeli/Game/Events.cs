@@ -17,7 +17,7 @@ namespace Jypeli
             /// </summary>
             /// <param name="condition">Ehto</param>
             /// <param name="handler">Käsittelijä</param>
-            internal CustomEventHandler( Func<bool> condition, Action handler )
+            internal CustomEventHandler(Func<bool> condition, Action handler)
             {
                 this.condition = condition;
                 this.handler = handler;
@@ -44,7 +44,7 @@ namespace Jypeli
             public void Destroy()
             {
                 IsDestroyed = true;
-                if ( Destroyed != null )
+                if (Destroyed != null)
                     Destroyed();
             }
 
@@ -52,9 +52,9 @@ namespace Jypeli
             /// Päivittää tapahtumankäsittelijää (Jypeli kutsuu)
             /// </summary>
             /// <param name="time"></param>
-            public void Update( Time time )
+            public void Update(Time time)
             {
-                if ( condition() )
+                if (condition())
                     handler();
             }
         }
@@ -76,13 +76,13 @@ namespace Jypeli
         /// </summary>
         /// <param name="condition">Ehto josta tapahtuma laukeaa.</param>
         /// <param name="handler">Kutsuttava funktio.</param>
-        public CustomEventHandler AddCustomHandler( Func<bool> condition, Action handler)
+        public CustomEventHandler AddCustomHandler(Func<bool> condition, Action handler)
         {
-            if ( handlers == null )
+            if (handlers == null)
                 handlers = new SynchronousList<CustomEventHandler>();
 
-            var handlerObj = new CustomEventHandler( condition, handler );
-            handlers.Add( handlerObj );
+            var handlerObj = new CustomEventHandler(condition, handler);
+            handlers.Add(handlerObj);
             return handlerObj;
         }
 
@@ -94,9 +94,9 @@ namespace Jypeli
         /// <param name="condition">Ehto josta tapahtuma laukeaa.</param>
         /// <param name="handler">Kutsuttava funktio.</param>
         /// <returns></returns>
-        public CustomEventHandler AddCustomHandler<T>( T obj, Predicate<T> condition, Action<T> handler )
+        public CustomEventHandler AddCustomHandler<T>(T obj, Predicate<T> condition, Action<T> handler)
         {
-            return this.AddCustomHandler( () => condition( obj ), () => handler( obj ) );
+            return this.AddCustomHandler(() => condition(obj), () => handler(obj));
         }
 
         /// <summary>
@@ -109,9 +109,9 @@ namespace Jypeli
         /// <param name="condition">Ehto josta tapahtuma laukeaa.</param>
         /// <param name="handler">Kutsuttava funktio.</param>
         /// <returns></returns>
-        public CustomEventHandler AddCustomHandler<T1, T2>( T1 obj1, T2 obj2, Func<T1, T2, bool> condition, Action<T1, T2> handler )
+        public CustomEventHandler AddCustomHandler<T1, T2>(T1 obj1, T2 obj2, Func<T1, T2, bool> condition, Action<T1, T2> handler)
         {
-            return this.AddCustomHandler( () => condition( obj1, obj2 ), () => handler( obj1, obj2 ) );
+            return this.AddCustomHandler(() => condition(obj1, obj2), () => handler(obj1, obj2));
         }
 
         /// <summary>
@@ -126,20 +126,20 @@ namespace Jypeli
         /// <param name="condition">Ehto josta tapahtuma laukeaa.</param>
         /// <param name="handler">Kutsuttava funktio.</param>
         /// <returns></returns>
-        public CustomEventHandler AddCustomHandler<T1, T2, T3>( T1 obj1, T2 obj2, T3 obj3, Func<T1, T2, T3, bool> condition, Action<T1, T2, T3> handler )
+        public CustomEventHandler AddCustomHandler<T1, T2, T3>(T1 obj1, T2 obj2, T3 obj3, Func<T1, T2, T3, bool> condition, Action<T1, T2, T3> handler)
         {
-            return this.AddCustomHandler( () => condition( obj1, obj2, obj3 ), () => handler( obj1, obj2, obj3 ) );
+            return this.AddCustomHandler(() => condition(obj1, obj2, obj3), () => handler(obj1, obj2, obj3));
         }
 
         /// <summary>
         /// Kutsuu tapahtumankäsittelijöitä.
         /// </summary>
-        protected void UpdateHandlers( Time time )
+        protected void UpdateHandlers(Time time)
         {
             if (handlers == null)
                 return;
 
-            handlers.Update( time );
+            handlers.Update(time);
         }
     }
 }

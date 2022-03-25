@@ -47,7 +47,8 @@ namespace FarseerPhysics.Common.ConvexHull
                     Vector2 tmp = vertices[startIndex];
                     if (MathUtils.Area(ref deque[0], ref deque[1], ref tmp) == 0) //This point is also collinear
                         deque[1] = vertices[startIndex];
-                    else break;
+                    else
+                        break;
                 }
             }
             else

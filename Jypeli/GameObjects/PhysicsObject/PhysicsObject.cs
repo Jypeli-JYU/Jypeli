@@ -48,10 +48,10 @@ namespace Jypeli
         /// <param name="shape">Muoto (esim. Shape.Circle).</param>
         /// <param name="x">Olion sijainnin X-koordinaatti.</param>
         /// <param name="y">Olion sijainnin Y-koordinaatti.</param>
-        public PhysicsObject( double width, double height, Shape shape, double x = 0.0, double y = 0.0)
-            : base( width, height, shape)
+        public PhysicsObject(double width, double height, Shape shape, double x = 0.0, double y = 0.0)
+            : base(width, height, shape)
         {
-            Initialize( width, height, shape );
+            Initialize(width, height, shape);
             Position = new Vector(x, y);
         }
 
@@ -60,8 +60,8 @@ namespace Jypeli
         /// </summary>
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
-        public PhysicsObject( double width, double height )
-            : this( width, height, Shape.Rectangle )
+        public PhysicsObject(double width, double height)
+            : this(width, height, Shape.Rectangle)
         {
         }
 
@@ -81,11 +81,11 @@ namespace Jypeli
         /// Alustaa fysiikkaolion käyttöön.
         /// </summary>
         /// <param name="animation">Animaatio tai kuva.</param>
-		public PhysicsObject( Animation animation )
-			: base( animation )
-		{
-            Initialize( animation.Width, animation.Height, Shape.Rectangle );
-		}
+		public PhysicsObject(Animation animation)
+            : base(animation)
+        {
+            Initialize(animation.Width, animation.Height, Shape.Rectangle);
+        }
 
         /// <summary>
         /// Luo fysiikkaolion, jonka muotona on säde.
@@ -96,11 +96,11 @@ namespace Jypeli
         {
         }
 
-        private void Initialize( double width, double height, Shape shape )
-		{
-            Body = PhysicsGameBase.Instance.Engine.CreateBody( this, width, height, shape );
-			Body.Collided += this.OnCollided;
-		}
+        private void Initialize(double width, double height, Shape shape)
+        {
+            Body = PhysicsGameBase.Instance.Engine.CreateBody(this, width, height, shape);
+            Body.Collided += this.OnCollided;
+        }
 
         /// <summary>
         /// Alustaa fysiikkaolion käyttöön ja tekee siitä staattisen (liikkumattoman).
@@ -108,9 +108,9 @@ namespace Jypeli
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus</param> 
         /// <param name="shape">Muoto (esim. Shape.Circle).</param>
-        public static PhysicsObject CreateStaticObject( double width, double height, Shape shape )
+        public static PhysicsObject CreateStaticObject(double width, double height, Shape shape)
         {
-            var obj = new PhysicsObject( width, height, shape );
+            var obj = new PhysicsObject(width, height, shape);
             obj.MakeStatic();
             return obj;
         }
@@ -120,9 +120,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus</param> 
-        public static PhysicsObject CreateStaticObject( double width, double height )
+        public static PhysicsObject CreateStaticObject(double width, double height)
         {
-            var obj = new PhysicsObject( width, height );
+            var obj = new PhysicsObject(width, height);
             obj.MakeStatic();
             return obj;
         }
@@ -131,9 +131,9 @@ namespace Jypeli
         /// Alustaa fysiikkaolion käyttöön.
         /// </summary>
         /// <param name="animation">Animaatio tai kuva.</param>
-        public static PhysicsObject CreateStaticObject( Animation animation )
+        public static PhysicsObject CreateStaticObject(Animation animation)
         {
-            var obj = new PhysicsObject( animation );
+            var obj = new PhysicsObject(animation);
             obj.MakeStatic();
             return obj;
         }
@@ -159,17 +159,17 @@ namespace Jypeli
         Angle prevAngle;
 
         ///<inheritdoc/>
-        public override void Update( Time time )
+        public override void Update(Time time)
         {
-            if ( Velocity.Magnitude > MaxVelocity )
-                Velocity = Vector.FromLengthAndAngle( MaxVelocity, Velocity.Angle );
-            if ( Math.Abs( AngularVelocity ) > MaxAngularVelocity )
-                AngularVelocity = Math.Sign( AngularVelocity ) * MaxAngularVelocity;
-            
-            if(!IsDestroyed)
+            if (Velocity.Magnitude > MaxVelocity)
+                Velocity = Vector.FromLengthAndAngle(MaxVelocity, Velocity.Angle);
+            if (Math.Abs(AngularVelocity) > MaxAngularVelocity)
+                AngularVelocity = Math.Sign(AngularVelocity) * MaxAngularVelocity;
+
+            if (!IsDestroyed)
                 Body.Update(time);
             UpdateChildrenPos();
-            base.Update( time );
+            base.Update(time);
         }
 
         ///<inheritdoc/>
@@ -185,7 +185,7 @@ namespace Jypeli
             Vector pdiff = Position - prevPos;
             Angle adiff = Angle - prevAngle;
 
-            if(ObjectCount > 0)
+            if (ObjectCount > 0)
             {
                 foreach (var o in Objects)
                 {
@@ -196,7 +196,7 @@ namespace Jypeli
                 }
             }
 
-            if(Objects.AmountToBeAdded > 0)
+            if (Objects.AmountToBeAdded > 0)
             {
                 var objs = Objects.GetObjectsAboutToBeAdded();
                 foreach (var o in objs)

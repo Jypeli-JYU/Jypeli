@@ -66,7 +66,7 @@ namespace Jypeli.Assets
             get { return Size.X; }
             private set
             {
-                Size = new Vector( value, value );
+                Size = new Vector(value, value);
             }
         }
 
@@ -108,8 +108,8 @@ namespace Jypeli.Assets
         /// Luo uuden räjähdyksen entisen pohjalta.
         /// </summary>
         /// <param name="src">Kopioitava räjähdys</param>
-        public Explosion( Explosion src )
-            : this( src.MaxRadius )
+        public Explosion(Explosion src)
+            : this(src.MaxRadius)
         {
             this.UseShockWave = src.UseShockWave;
             this.ShockwaveColor = src.ShockwaveColor;
@@ -121,19 +121,19 @@ namespace Jypeli.Assets
         /// Luo uuden räjähdyksen.
         /// </summary>
         /// <param name="radius">Räjähdyksen säde.</param>
-        public Explosion( double radius )
-            : base( 0.1, 0.1, Shape.Circle )
+        public Explosion(double radius)
+            : base(0.1, 0.1, Shape.Circle)
         {
             UseShockWave = true;
             MaxRadius = radius;
             Speed = 250.0;
             Force = 1000.0;
             Volume = 0.2;
-            shockWave = new GameObject( 1, 1, Shape.Circle );
-            shockWave.Color = new Color( 240, 248, 255, 60 );
-            Add( shockWave );
+            shockWave = new GameObject(1, 1, Shape.Circle);
+            shockWave.Color = new Color(240, 248, 255, 60);
+            Add(shockWave);
 
-            Game.AssertInitialized( PreloadContent );
+            Game.AssertInitialized(PreloadContent);
 
             initialized = false;
             IsUpdated = true;
@@ -141,17 +141,19 @@ namespace Jypeli.Assets
 
         private void PreloadContent()
         {
-            if ( commonImage == null ) commonImage = Game.LoadImageFromResources( "Explosion.png" );
-            if ( commonSound == null ) commonSound = Game.LoadSoundEffectFromResources( "ExplosionSound.wav" );
+            if (commonImage == null)
+                commonImage = Game.LoadImageFromResources("Explosion.png");
+            if (commonSound == null)
+                commonSound = Game.LoadSoundEffectFromResources("ExplosionSound.wav");
 
             Image = commonImage;
             Sound = commonSound;
         }
 
-        private void OnShockwaveReachesObject( IPhysicsObject obj, Vector swForce )
+        private void OnShockwaveReachesObject(IPhysicsObject obj, Vector swForce)
         {
-            if ( ShockwaveReachesObject != null )
-                ShockwaveReachesObject( obj, swForce );
+            if (ShockwaveReachesObject != null)
+                ShockwaveReachesObject(obj, swForce);
         }
 
         /// <summary>
@@ -159,15 +161,17 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="o">Olio, johon paineaallon on osuttava</param>
         /// <param name="handler">Tapahtuman käsittelevä aliohjelma</param>
-        public void AddShockwaveHandler( IPhysicsObject o, Action<IPhysicsObject, Vector> handler )
+        public void AddShockwaveHandler(IPhysicsObject o, Action<IPhysicsObject, Vector> handler)
         {
-            if ( o == null ) throw new NullReferenceException( "Object must not be null" );
-            if ( handler == null ) throw new NullReferenceException( "Handler must not be null" );
+            if (o == null)
+                throw new NullReferenceException("Object must not be null");
+            if (handler == null)
+                throw new NullReferenceException("Handler must not be null");
 
-            this.ShockwaveReachesObject += delegate( IPhysicsObject target, Vector shockForce )
+            this.ShockwaveReachesObject += delegate (IPhysicsObject target, Vector shockForce)
             {
-                if ( target == o )
-                    handler( target, shockForce );
+                if (target == o)
+                    handler(target, shockForce);
             };
         }
 
@@ -178,10 +182,12 @@ namespace Jypeli.Assets
         /// <param name="handler">Tapahtuman käsittelevä aliohjelma</param>
         public void AddShockwaveHandler(string tag, Action<IPhysicsObject, Vector> handler)
         {
-            if (tag == null) throw new NullReferenceException("Tag must not be null");
-            if (handler == null) throw new NullReferenceException("Handler must not be null");
+            if (tag == null)
+                throw new NullReferenceException("Tag must not be null");
+            if (handler == null)
+                throw new NullReferenceException("Handler must not be null");
 
-            this.ShockwaveReachesObject += delegate(IPhysicsObject target, Vector shockForce)
+            this.ShockwaveReachesObject += delegate (IPhysicsObject target, Vector shockForce)
             {
                 string targetTagAsString = target.Tag as string;
 
@@ -190,13 +196,13 @@ namespace Jypeli.Assets
             };
         }
 
-        private void applyShockwave( PhysicsObject target, Vector distance )
+        private void applyShockwave(PhysicsObject target, Vector distance)
         {
             double distanceFromEdge = distance.Magnitude - CurrentRadius;
-            if ( distanceFromEdge >= 0 )
+            if (distanceFromEdge >= 0)
                 return;
 
-            double relDistance = ( CurrentRadius + distanceFromEdge ) / CurrentRadius;
+            double relDistance = (CurrentRadius + distanceFromEdge) / CurrentRadius;
             if (relDistance == 0)
             {
                 // erikoistapaus jos räjähdys on tismalleen samassa paikassa kappaleen kanssa.
@@ -208,15 +214,15 @@ namespace Jypeli.Assets
             double shockQuotient = 1 / Math.Pow(relDistance, 2);
             double shockForce = Force * shockQuotient;
 
-            if ( Math.Abs( shockForce ) > float.Epsilon )
+            if (Math.Abs(shockForce) > float.Epsilon)
             {
-                Vector shockVector = Vector.FromLengthAndAngle( shockForce, distance.Angle );
-                target.Hit( shockVector );
+                Vector shockVector = Vector.FromLengthAndAngle(shockForce, distance.Angle);
+                target.Hit(shockVector);
 
-                if ( !shockwaveHitObjects.Contains( target ) )
+                if (!shockwaveHitObjects.Contains(target))
                 {
-                    OnShockwaveReachesObject( target, shockVector );
-                    shockwaveHitObjects.Add( target );
+                    OnShockwaveReachesObject(target, shockVector);
+                    shockwaveHitObjects.Add(target);
                 }
             }
         }
@@ -225,17 +231,17 @@ namespace Jypeli.Assets
         /// Ajetaan kun pelitilannetta päivitetään. Päivityksen voi toteuttaa omassa luokassa toteuttamalla tämän
         /// metodin. Perityn luokan metodissa tulee kutsua kantaluokan metodia.
         /// </summary>
-        public override void Update( Time time )
+        public override void Update(Time time)
         {
             // this is done only once, after being added to the game.
-            if ( !initialized )
+            if (!initialized)
             {
                 PlaySound();
                 shockwaveHitObjects.Clear();
                 initialized = true;
             }
 
-            if ( CurrentRadius > MaxRadius )
+            if (CurrentRadius > MaxRadius)
             {
                 this.Destroy();
                 return;
@@ -243,24 +249,24 @@ namespace Jypeli.Assets
 
             double dt = time.SinceLastUpdate.TotalSeconds;
             CurrentRadius += dt * Speed;
-            shockwaveHitObjects.Update( time );
+            shockwaveHitObjects.Update(time);
 
-            if ( UseShockWave )
+            if (UseShockWave)
             {
-                if ( Force > 0 )
+                if (Force > 0)
                 {
-                    shockWave.Size = new Vector( 2 * CurrentRadius, 2 * CurrentRadius );
+                    shockWave.Size = new Vector(2 * CurrentRadius, 2 * CurrentRadius);
                 }
 
-                foreach ( var layer in Jypeli.Game.Instance.Layers )
+                foreach (var layer in Jypeli.Game.Instance.Layers)
                 {
-                    foreach ( var o in layer.Objects )
+                    foreach (var o in layer.Objects)
                     {
-                        if ( o is PhysicsObject )
+                        if (o is PhysicsObject)
                         {
                             PhysicsObject po = (PhysicsObject)o;
 
-                            if ( po.IgnoresExplosions )
+                            if (po.IgnoresExplosions)
                             {
                                 // No shockwave
                                 continue;
@@ -268,27 +274,27 @@ namespace Jypeli.Assets
 
                             // Shockwave
                             Vector distance = o.Position - this.Position;
-                            applyShockwave( po, distance );
+                            applyShockwave(po, distance);
                         }
                     }
                 }
             }
 
-            base.Update( time );
+            base.Update(time);
         }
 
         private void PlaySound()
         {
-            if ( Sound == null )
+            if (Sound == null)
                 return;
 
             // play the sound
-            double pitch = RandomGen.NextDouble( -0.1, 0.1 ); // add some variation to explosion sound
-            double pan = this.Position.X / ( Game.Screen.Width / 2 ); // sound comes from left or right speaker
-            pan = MathHelper.Clamp( (float)pan, (float)-1.0, (float)1.0 );
-            if ( !double.IsNaN( pan ) )  // sometimes pan can be Nan, that is why this check is here
+            double pitch = RandomGen.NextDouble(-0.1, 0.1); // add some variation to explosion sound
+            double pan = this.Position.X / (Game.Screen.Width / 2); // sound comes from left or right speaker
+            pan = MathHelper.Clamp((float)pan, (float)-1.0, (float)1.0);
+            if (!double.IsNaN(pan))  // sometimes pan can be Nan, that is why this check is here
             {
-                Sound.Play(Volume, pitch, pan );
+                Sound.Play(Volume, pitch, pan);
             }
         }
     }

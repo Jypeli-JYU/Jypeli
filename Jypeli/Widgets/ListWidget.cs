@@ -38,7 +38,7 @@ namespace Jypeli
     /// Rullattava lista widgeteille
     /// </summary>
     /// <typeparam name="O">Widgetin tyyppi</typeparam>
-    [EditorBrowsable( EditorBrowsableState.Never )]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public class ScrollableList<O> : Widget where O : Widget
     {
         /// <summary>
@@ -68,7 +68,7 @@ namespace Jypeli
         /// Rullattava lista
         /// </summary>
         public ScrollableList()
-            : base( new VerticalScrollLayout() )
+            : base(new VerticalScrollLayout())
         {
             _layout = (VerticalScrollLayout)Layout;
             Color = Color.Transparent;
@@ -91,34 +91,34 @@ namespace Jypeli
         double velocity = 0;
         Queue<double> lastMoves = new Queue<double>();
 
-        void Scroll( Touch touch )
+        void Scroll(Touch touch)
         {
-            if ( _childObjects == null || _childObjects.Count == 0 )
+            if (_childObjects == null || _childObjects.Count == 0)
                 return;
 
             // Works better when divided by 2. Don't know why :)
             double movement = touch.MovementOnScreen.Y / 2;
 
-            if ( lastMoves.Count >= MaxMoves )
+            if (lastMoves.Count >= MaxMoves)
                 lastMoves.Dequeue();
-            lastMoves.Enqueue( movement );
+            lastMoves.Enqueue(movement);
 
             velocity = lastMoves.Average();
 
-            List<GameObject> widgets = _childObjects.FindAll( o => o is Widget );
-            _layout.Scroll( widgets, movement );
+            List<GameObject> widgets = _childObjects.FindAll(o => o is Widget);
+            _layout.Scroll(widgets, movement);
         }
 
-        public override void Update( Time time )
+        public override void Update(Time time)
         {
-            if ( Math.Abs( velocity ) > float.Epsilon && _childObjects != null && _childObjects.Count > 0 )
+            if (Math.Abs(velocity) > float.Epsilon && _childObjects != null && _childObjects.Count > 0)
             {
-                List<GameObject> widgets = _childObjects.FindAll( o => o is Widget );
-                _layout.Scroll( widgets, velocity );
+                List<GameObject> widgets = _childObjects.FindAll(o => o is Widget);
+                _layout.Scroll(widgets, velocity);
             }
 
             velocity *= 0.98;
-            base.Update( time );
+            base.Update(time);
         }
 #endif
 
@@ -127,7 +127,7 @@ namespace Jypeli
         /// </summary>
         public void ScrollUp()
         {
-            _layout.ScrollUp( Objects.items );
+            _layout.ScrollUp(Objects.items);
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Jypeli
         /// </summary>
         public void ScrollDown()
         {
-            _layout.ScrollDown( Objects.items );
+            _layout.ScrollDown(Objects.items);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Jypeli
     /// </summary>
     /// <typeparam name="T">Listan alkion tyyppi.</typeparam>
     /// <typeparam name="O">Listan riviä esittävän olion tyyppi.</typeparam>
-    [EditorBrowsable( EditorBrowsableState.Never )]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class ListWidget<T, O> : Widget
         where O : Widget
     {
@@ -201,13 +201,13 @@ namespace Jypeli
         /// Liitetään annettuun listaa, tälle tehdyt muutokset päivittyvät annetun listan komponenteille
         /// </summary>
         /// <param name="list"></param>
-        public ListWidget( INotifyList<T> list )
-            : base( new HorizontalLayout() )
+        public ListWidget(INotifyList<T> list)
+            : base(new HorizontalLayout())
         {
-            Add( Content = new ScrollableList<O> { Color = Color.Transparent } );
-            Add( CreateVerticalScrollPanel() );
+            Add(Content = new ScrollableList<O> { Color = Color.Transparent });
+            Add(CreateVerticalScrollPanel());
 
-            Bind( list );
+            Bind(list);
 
             AddedToGame += AddListeners;
         }
@@ -215,35 +215,35 @@ namespace Jypeli
         /// <summary>
         /// Luo annettua alkiota vastaavan listan rivin.
         /// </summary>
-        internal protected abstract O CreateWidget( T item );
+        internal protected abstract O CreateWidget(T item);
 
         private void AddListeners()
         {
-             var l1 = Game.Instance.Keyboard.Listen( Key.Up, ButtonState.Pressed, scrollUp, null ).InContext( this );
-             var l2 = Game.Instance.Keyboard.Listen( Key.Down, ButtonState.Pressed, scrollDown, null ).InContext( this );
-             associatedListeners.AddItems(l1, l2);
+            var l1 = Game.Instance.Keyboard.Listen(Key.Up, ButtonState.Pressed, scrollUp, null).InContext(this);
+            var l2 = Game.Instance.Keyboard.Listen(Key.Down, ButtonState.Pressed, scrollDown, null).InContext(this);
+            associatedListeners.AddItems(l1, l2);
         }
 
         private Widget CreateVerticalScrollPanel()
         {
-            Widget scrollPanel = new Widget( new VerticalLayout() ) { Color = Color.Transparent, HorizontalSizing = Sizing.FixedSize };
+            Widget scrollPanel = new Widget(new VerticalLayout()) { Color = Color.Transparent, HorizontalSizing = Sizing.FixedSize };
 
-            if ( upImage == null )
+            if (upImage == null)
             {
-                upImage = Game.LoadImageFromResources( "UpArrow.png" );
-                downImage = Game.LoadImageFromResources( "DownArrow.png" );
-                transparentImage = Image.FromColor( upImage.Width, upImage.Height, Color.Transparent );
+                upImage = Game.LoadImageFromResources("UpArrow.png");
+                downImage = Game.LoadImageFromResources("DownArrow.png");
+                transparentImage = Image.FromColor(upImage.Width, upImage.Height, Color.Transparent);
             }
 
-            scrollUpButton = new PushButton( transparentImage );
+            scrollUpButton = new PushButton(transparentImage);
             scrollUpButton.Clicked += scrollUp;
-            scrollPanel.Add( scrollUpButton );
+            scrollPanel.Add(scrollUpButton);
 
-            scrollPanel.Add( new VerticalSpacer() );
+            scrollPanel.Add(new VerticalSpacer());
 
-            scrollDownButton = new PushButton( transparentImage );
+            scrollDownButton = new PushButton(transparentImage);
             scrollDownButton.Clicked += scrollDown;
-            scrollPanel.Add( scrollDownButton );
+            scrollPanel.Add(scrollDownButton);
 
             return scrollPanel;
         }
@@ -255,15 +255,16 @@ namespace Jypeli
         {
             Content.Clear();
 
-            foreach ( var item in List )
+            foreach (var item in List)
             {
-                Content.Add( CreateWidget( item ) );
+                Content.Add(CreateWidget(item));
             }
 
             // This is a bit tricky case. Because the clear call above doesn't take
             // effect immediately, calling UpdateLayout() uses old objects when updating
             // layout. Thus, let's just wait for at least one update to occur.
-            Game.DoNextUpdate( delegate { if ( !Content.IsAtBottom ) ShowDownButton(); } );
+            Game.DoNextUpdate(delegate
+            { if (!Content.IsAtBottom) ShowDownButton(); });
         }
 
         private void ShowUpButton()
@@ -286,14 +287,14 @@ namespace Jypeli
         {
             Content.ScrollDown();
 
-            if ( !Content.IsAtTop )
+            if (!Content.IsAtTop)
             {
                 ShowUpButton();
             }
 
-            if ( Content.IsAtBottom )
+            if (Content.IsAtBottom)
             {
-                Hide( scrollDownButton );
+                Hide(scrollDownButton);
             }
         }
 
@@ -301,9 +302,9 @@ namespace Jypeli
         {
             Content.ScrollUp();
 
-            if ( Content.IsAtTop )
+            if (Content.IsAtTop)
             {
-                Hide( scrollUpButton );
+                Hide(scrollUpButton);
             }
         }
 
@@ -316,7 +317,7 @@ namespace Jypeli
         /// Sitoo olemassaolevan listan tähän näyttöön.
         /// Kun listaa muutetaan, näytetyt arvot päivittyvät automaattisesti.
         /// </summary>
-        public void Bind( INotifyList<T> list )
+        public void Bind(INotifyList<T> list)
         {
             this.List = list;
             list.Changed += listChanged;

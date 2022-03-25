@@ -60,7 +60,7 @@ namespace Jypeli
         /// Siirtää oliota.
         /// </summary>
         /// <param name="movement">Vektori, joka määrittää kuinka paljon siirretään.</param>
-        public virtual void Move( Vector movement )
+        public virtual void Move(Vector movement)
         {
             Position += movement;
         }
@@ -79,15 +79,15 @@ namespace Jypeli
         /// Aliohjelma, joka ajetaan kun paikkaan on päästy.
         /// Voi olla null, jos ei haluta mitään aliohjelmaa.
         /// </param>
-        public override void MoveTo( Vector location, double speed, Action doWhenArrived )
+        public override void MoveTo(Vector location, double speed, Action doWhenArrived)
         {
-            if ( moveTimer == null )
+            if (moveTimer == null)
             {
                 moveTimer = new Timer();
                 moveTimer.Timeout += MoveToTarget;
                 moveTimer.Interval = 0.01;
             }
-            else if ( moveTimer.Enabled )
+            else if (moveTimer.Enabled)
                 moveTimer.Stop();
 
             moveSpeed = speed;
@@ -101,7 +101,7 @@ namespace Jypeli
         /// </summary>
         public void StopMoveTo()
         {
-            if ( moveTimer != null )
+            if (moveTimer != null)
             {
                 moveTimer.Stop();
                 moveTarget = null;
@@ -113,7 +113,7 @@ namespace Jypeli
         /// </summary>
         protected virtual void MoveToTarget()
         {
-            if ( !moveTarget.HasValue )
+            if (!moveTarget.HasValue)
             {
                 moveTimer.Stop();
                 return;
@@ -122,19 +122,19 @@ namespace Jypeli
             Vector d = moveTarget.Value - Position;
             double vt = moveSpeed * moveTimer.Interval;
 
-            if ( d.Magnitude < vt )
+            if (d.Magnitude < vt)
             {
                 Vector targetLoc = moveTarget.Value;
                 moveTimer.Stop();
                 Position = moveTarget.Value;
                 moveTarget = null;
 
-                if ( arrivedAction != null )
+                if (arrivedAction != null)
                     arrivedAction();
             }
             else
             {
-                Position += Vector.FromLengthAndAngle( vt, d.Angle );
+                Position += Vector.FromLengthAndAngle(vt, d.Angle);
             }
         }
 
@@ -146,12 +146,12 @@ namespace Jypeli
         /// <param name="frequency">Taajuus, eli kuinka monta jaksoa sekunnissa värähdellään.</param>
         /// <param name="phase">Vaihe, eli mistä kohtaa jaksoa aloitetaan. Vaihteluväli 0 - 2 * Math.PI (siniaalto)</param>
         /// <param name="damping">Vaimennuskerroin. 0 = ei vaimene, mitä suurempi niin sitä nopeammin vaimenee.</param>
-        public void Oscillate( Vector axis, double amplitude, double frequency, double phase = 0, double damping = 0 )
+        public void Oscillate(Vector axis, double amplitude, double frequency, double phase = 0, double damping = 0)
         {
-            if ( oscillators == null )
+            if (oscillators == null)
                 oscillators = new SynchronousList<Oscillator>();
 
-            oscillators.Add( new LinearOscillator( this, axis, amplitude, frequency, phase, damping ) );
+            oscillators.Add(new LinearOscillator(this, axis, amplitude, frequency, phase, damping));
             IsUpdated = true;
         }
 
@@ -162,12 +162,12 @@ namespace Jypeli
         /// <param name="amplitude">Amplitudi eli ääripäiden välinen etäisyys (radiaaneina).</param>
         /// <param name="frequency">Taajuus, eli kuinka monta jaksoa sekunnissa värähdellään.</param>
         /// <param name="damping">Vaimennuskerroin. 0 = ei vaimene, mitä suurempi niin sitä nopeammin vaimenee.</param>
-        public void OscillateAngle( double direction, UnlimitedAngle amplitude, double frequency, double damping = 0 )
+        public void OscillateAngle(double direction, UnlimitedAngle amplitude, double frequency, double damping = 0)
         {
-            if ( oscillators == null )
+            if (oscillators == null)
                 oscillators = new SynchronousList<Oscillator>();
 
-            oscillators.Add( new AngularOscillator( this, direction, amplitude, frequency, damping ) );
+            oscillators.Add(new AngularOscillator(this, direction, amplitude, frequency, damping));
             IsUpdated = true;
         }
 
@@ -186,7 +186,7 @@ namespace Jypeli
         /// <param name="stopGradually">Suoritetaanko oskillaatio ensin loppuun, jonka jälkeen vasta pysähdytään alkuperäiseen sijaintiin.</param>
         public void ClearOscillations(bool returnToOriginalPosition = false, bool stopGradually = false)
         {
-            if(oscillators != null && oscillators.Count >= 1)
+            if (oscillators != null && oscillators.Count >= 1)
             {
                 oscillators.ForEach(o => o.Stop(returnToOriginalPosition, stopGradually));
             }

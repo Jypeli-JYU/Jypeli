@@ -11,8 +11,8 @@ namespace Jypeli
         /// Alustaa widgetin.
         /// </summary>
         /// <param name="animation"></param>
-        public Widget( Animation animation )
-            : base( animation )
+        public Widget(Animation animation)
+            : base(animation)
         {
             InitAppearance();
             InitControl();
@@ -22,8 +22,8 @@ namespace Jypeli
         /// Alustaa widgetin.
         /// </summary>
         /// <param name="layout"></param>
-        public Widget( ILayout layout )
-            : base( layout )
+        public Widget(ILayout layout)
+            : base(layout)
         {
             InitAppearance();
             InitControl();
@@ -35,8 +35,8 @@ namespace Jypeli
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="shape"></param>
-        public Widget( double width, double height, Shape shape )
-            : base( width, height, shape )
+        public Widget(double width, double height, Shape shape)
+            : base(width, height, shape)
         {
             InitAppearance();
             InitControl();
@@ -47,8 +47,8 @@ namespace Jypeli
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public Widget( double width, double height )
-            : this( width, height, Shape.Rectangle )
+        public Widget(double width, double height)
+            : this(width, height, Shape.Rectangle)
         {
         }
     }

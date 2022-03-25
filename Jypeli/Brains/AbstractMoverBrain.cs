@@ -6,7 +6,7 @@ namespace Jypeli
     /// <summary>
     /// Yleiset liikkumiseen tarkoitetut aivot.
     /// </summary>
-    [EditorBrowsable( EditorBrowsableState.Never )]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class AbstractMoverBrain : Brain
     {
         private double _speed = 100;
@@ -47,38 +47,39 @@ namespace Jypeli
         /// Yleiset liikkumiseen tarkoitetut aivot
         /// </summary>
         /// <param name="speed">Nopeus</param>
-        public AbstractMoverBrain( double speed )
+        public AbstractMoverBrain(double speed)
         {
             this.Speed = speed;
         }
 
-        private double dist( double a1, double a2 )
+        private double dist(double a1, double a2)
         {
-            return Math.PI - Math.Abs( Math.Abs( a2 - a1 ) - Math.PI );
+            return Math.PI - Math.Abs(Math.Abs(a2 - a1) - Math.PI);
         }
 
         /// <summary>
         /// Kääntää aivojen hallitsemaan hahmoa
         /// </summary>
         /// <param name="angle">Kulma</param>
-        public void Turn( Angle angle )
+        public void Turn(Angle angle)
         {
-            if ( !TurnWhileMoving || Game.Time.SinceLastUpdate.TotalSeconds == 0 || Owner == null || Owner.Angle == angle ) return;
+            if (!TurnWhileMoving || Game.Time.SinceLastUpdate.TotalSeconds == 0 || Owner == null || Owner.Angle == angle)
+                return;
 
             double maxTurn = TurnSpeed.Radians * Game.Time.SinceLastUpdate.TotalSeconds;
 
-            if ( Math.Abs( angle.Radians - Owner.Angle.Radians ) <= maxTurn )
+            if (Math.Abs(angle.Radians - Owner.Angle.Radians) <= maxTurn)
                 Owner.Angle = angle;
             else
             {
                 double a1 = Owner.Angle.Radians;
                 double a2 = angle.Radians;
-                double d = dist( a2, a1 );
-                double dcw = dist( a2, a1 - maxTurn );
-                double dccw = dist( a2, a1 + maxTurn );
+                double d = dist(a2, a1);
+                double dcw = dist(a2, a1 - maxTurn);
+                double dccw = dist(a2, a1 + maxTurn);
 
                 double step = dcw < dccw ? -maxTurn : maxTurn;
-                Owner.Angle = Angle.FromRadians( Owner.Angle.Radians + step );
+                Owner.Angle = Angle.FromRadians(Owner.Angle.Radians + step);
             }
         }
 
@@ -86,11 +87,12 @@ namespace Jypeli
         /// Liikuttaa aivojen hallitsemaa hahmoa
         /// </summary>
         /// <param name="direction">Suunta</param>
-        protected void Move( Vector direction )
+        protected void Move(Vector direction)
         {
-            if ( Owner == null || direction == Vector.Zero ) return;
-            double d = Math.Min( direction.Magnitude, Speed );
-            Owner.Move( Vector.FromLengthAndAngle( d, direction.Angle ) );
+            if (Owner == null || direction == Vector.Zero)
+                return;
+            double d = Math.Min(direction.Magnitude, Speed);
+            Owner.Move(Vector.FromLengthAndAngle(d, direction.Angle));
             Turn(direction.Angle);
         }
 
@@ -98,11 +100,12 @@ namespace Jypeli
         /// Liikuttaa aivojen hallitsemaa hahmoa
         /// </summary>
         /// <param name="direction">Suunta</param>
-        protected void Move( Angle direction )
+        protected void Move(Angle direction)
         {
-            if ( Owner == null ) return;
-            Owner.Move( Vector.FromLengthAndAngle( Speed, direction ) );
-            Turn( direction );
+            if (Owner == null)
+                return;
+            Owner.Move(Vector.FromLengthAndAngle(Speed, direction));
+            Turn(direction);
         }
     }
 }

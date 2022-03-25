@@ -61,7 +61,7 @@ namespace Jypeli
         public IEnumerator<ScoreItem> GetEnumerator()
         {
             int i = 0;
-            while ( i < _scores.Length )
+            while (i < _scores.Length)
             {
                 yield return _scores[i++];
             }
@@ -86,11 +86,11 @@ namespace Jypeli
             get { return _scores[position - 1]; }
             set
             {
-                for ( int i = _scores.Length - 1; i > position - 1; i-- )
+                for (int i = _scores.Length - 1; i > position - 1; i--)
                     _scores[i] = _scores[i - 1];
                 _scores[position - 1] = value;
 
-                for ( int i = 0; i < _scores.Length; i++ )
+                for (int i = 0; i < _scores.Length; i++)
                     _scores[i].Position = i + 1;
 
                 OnChanged();
@@ -109,7 +109,7 @@ namespace Jypeli
 
         private void OnChanged()
         {
-            if ( Changed != null )
+            if (Changed != null)
                 Changed();
         }
 
@@ -117,7 +117,7 @@ namespace Jypeli
         /// Luo tyhjän, 10 sijan top-listan.
         /// </summary>
         public ScoreList()
-            : this( 10, false, 0 )
+            : this(10, false, 0)
         {
         }
 
@@ -128,14 +128,15 @@ namespace Jypeli
         /// <param name="reverse">Käänteinen järjestys (false = suurempi tulos parempi, true = pienempi tulos parempi).</param>
         /// <param name="baseScore">Pohjatulos, jota parempi hyväksyttävän tuloksen on oltava.</param>
         /// <param name="defaultName">Oletusnimi tyhjille paikoille.</param>
-        public ScoreList( int length, bool reverse, double baseScore, string defaultName )
+        public ScoreList(int length, bool reverse, double baseScore, string defaultName)
         {
-            if ( length < 0 ) throw new ArgumentException( "List length must be more than zero!" );
+            if (length < 0)
+                throw new ArgumentException("List length must be more than zero!");
             _scores = new ScoreItem[length];
             Reverse = reverse;
-            
-            ScoreItem zeroItem = new ScoreItem( defaultName, baseScore );
-            for ( int i = 0; i < length; i++ )
+
+            ScoreItem zeroItem = new ScoreItem(defaultName, baseScore);
+            for (int i = 0; i < length; i++)
             {
                 _scores[i] = zeroItem;
                 _scores[i].Position = i + 1;
@@ -163,14 +164,15 @@ namespace Jypeli
         /// </summary>
         /// <param name="obj">Toinen lista</param>
         /// <returns></returns>
-        public override bool Equals( object obj )
+        public override bool Equals(object obj)
         {
             var other = obj as ScoreList;
-            if ( other == null || this.Count != other.Count ) return false;
+            if (other == null || this.Count != other.Count)
+                return false;
 
-            for ( int i = 0; i < _scores.Length; i++ )
+            for (int i = 0; i < _scores.Length; i++)
             {
-                if ( !_scores[i].Equals( other._scores[i] ) )
+                if (!_scores[i].Equals(other._scores[i]))
                     return false;
             }
 
@@ -182,7 +184,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="score">Tulos</param>
         /// <returns>true jos tulos riitää listalle pääsemiseksi, false jos ei.</returns>
-        public bool Qualifies( double score )
+        public bool Qualifies(double score)
         {
             return Reverse && score < _scores[_scores.Length - 1].Score ||
                     !Reverse && score > _scores[_scores.Length - 1].Score;
@@ -194,23 +196,23 @@ namespace Jypeli
         /// <param name="name">Nimi.</param>
         /// <param name="score">Pisteet.</param>
         /// <returns>Pistesija, tai -1 jos tulos ei ole riittävä listalle pääsemiseksi.</returns>
-        public int Add( string name, double score )
+        public int Add(string name, double score)
         {
-            if ( !Qualifies( score ) )
+            if (!Qualifies(score))
                 return -1;
 
             LastEnteredName = name;
 
-            for ( int i = 1; i <= Count; i++ )
+            for (int i = 1; i <= Count; i++)
             {
-                if ( !Reverse && score > this[i].Score || Reverse && score < this[i].Score )
+                if (!Reverse && score > this[i].Score || Reverse && score < this[i].Score)
                 {
-                    this[i] = new ScoreItem( name, score );
+                    this[i] = new ScoreItem(name, score);
                     return i + 1;
                 }
             }
 
-            throw new InvalidOperationException( "Internal error in HighScoreList!" );
+            throw new InvalidOperationException("Internal error in HighScoreList!");
         }
     }
 
@@ -239,7 +241,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="name">Nimi</param>
         /// <param name="score">Pistemäärä.</param>
-        public ScoreItem( string name, double score )
+        public ScoreItem(string name, double score)
         {
             Position = -1;
             Name = name;
@@ -251,13 +253,13 @@ namespace Jypeli
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals( object obj )
+        public override bool Equals(object obj)
         {
-            if ( !( obj is ScoreItem ) )
+            if (!(obj is ScoreItem))
                 return false;
 
             var other = (ScoreItem)obj;
-            return this.Name == other.Name && Math.Abs( this.Score - other.Score ) <= float.Epsilon;
+            return this.Name == other.Name && Math.Abs(this.Score - other.Score) <= float.Epsilon;
         }
 
         /// <summary>

@@ -60,11 +60,13 @@ namespace FarseerPhysics.Common.Decomposition.CDT.Polygon
         /// <param name="points">A list of unique points</param>
         public Polygon(IList<PolygonPoint> points)
         {
-            if (points.Count < 3) throw new ArgumentException("List has fewer than 3 points", "points");
+            if (points.Count < 3)
+                throw new ArgumentException("List has fewer than 3 points", "points");
 
             // Lets do one sanity check that first and last point hasn't got same position
             // Its something that often happen when importing polygon data from other formats
-            if (points[0].Equals(points[points.Count - 1])) points.RemoveAt(points.Count - 1);
+            if (points[0].Equals(points[points.Count - 1]))
+                points.RemoveAt(points.Count - 1);
 
             _points.AddRange(points.Cast<TriangulationPoint>());
         }
@@ -103,7 +105,8 @@ namespace FarseerPhysics.Common.Decomposition.CDT.Polygon
 
         public void ClearTriangles()
         {
-            if (_triangles != null) _triangles.Clear();
+            if (_triangles != null)
+                _triangles.Clear();
         }
 
         /// <summary>
@@ -187,7 +190,8 @@ namespace FarseerPhysics.Common.Decomposition.CDT.Polygon
         /// <param name="poly">A subtraction polygon fully contained inside this polygon.</param>
         public void AddHole(Polygon poly)
         {
-            if (_holes == null) _holes = new List<Polygon>();
+            if (_holes == null)
+                _holes = new List<Polygon>();
             _holes.Add(poly);
 
             // XXX: tests could be made here to be sure it is fully inside

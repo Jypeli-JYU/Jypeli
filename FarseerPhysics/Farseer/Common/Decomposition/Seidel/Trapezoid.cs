@@ -38,31 +38,39 @@ namespace FarseerPhysics.Common.Decomposition.Seidel
         public void UpdateLeft(Trapezoid ul, Trapezoid ll)
         {
             UpperLeft = ul;
-            if (ul != null) ul.UpperRight = this;
+            if (ul != null)
+                ul.UpperRight = this;
             LowerLeft = ll;
-            if (ll != null) ll.LowerRight = this;
+            if (ll != null)
+                ll.LowerRight = this;
         }
 
         // Update neighbors to the right
         public void UpdateRight(Trapezoid ur, Trapezoid lr)
         {
             UpperRight = ur;
-            if (ur != null) ur.UpperLeft = this;
+            if (ur != null)
+                ur.UpperLeft = this;
             LowerRight = lr;
-            if (lr != null) lr.LowerLeft = this;
+            if (lr != null)
+                lr.LowerLeft = this;
         }
 
         // Update neighbors on both sides
         public void UpdateLeftRight(Trapezoid ul, Trapezoid ll, Trapezoid ur, Trapezoid lr)
         {
             UpperLeft = ul;
-            if (ul != null) ul.UpperRight = this;
+            if (ul != null)
+                ul.UpperRight = this;
             LowerLeft = ll;
-            if (ll != null) ll.LowerRight = this;
+            if (ll != null)
+                ll.LowerRight = this;
             UpperRight = ur;
-            if (ur != null) ur.UpperLeft = this;
+            if (ur != null)
+                ur.UpperLeft = this;
             LowerRight = lr;
-            if (lr != null) lr.LowerLeft = this;
+            if (lr != null)
+                lr.LowerLeft = this;
         }
 
         // Recursively trim outside neighbors
@@ -71,10 +79,14 @@ namespace FarseerPhysics.Common.Decomposition.Seidel
             if (Inside)
             {
                 Inside = false;
-                if (UpperLeft != null) UpperLeft.TrimNeighbors();
-                if (LowerLeft != null) LowerLeft.TrimNeighbors();
-                if (UpperRight != null) UpperRight.TrimNeighbors();
-                if (LowerRight != null) LowerRight.TrimNeighbors();
+                if (UpperLeft != null)
+                    UpperLeft.TrimNeighbors();
+                if (LowerLeft != null)
+                    LowerLeft.TrimNeighbors();
+                if (UpperRight != null)
+                    UpperRight.TrimNeighbors();
+                if (LowerRight != null)
+                    LowerRight.TrimNeighbors();
             }
         }
 

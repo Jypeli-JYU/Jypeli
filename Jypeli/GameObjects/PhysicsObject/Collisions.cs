@@ -19,7 +19,7 @@ namespace Jypeli
             set
             {
                 _collisionIgnorer = value;
-                Body.SetCollisionIgnorer( value );
+                Body.SetCollisionIgnorer(value);
             }
         }
 
@@ -39,7 +39,7 @@ namespace Jypeli
             {
                 var groupIgnorer = CollisionIgnorer as JypeliGroupIgnorer;
 
-                if ( groupIgnorer == null )
+                if (groupIgnorer == null)
                     groupIgnorer = new JypeliGroupIgnorer();
                 groupIgnorer.LegacyGroup = value;
                 CollisionIgnorer = groupIgnorer;
@@ -111,20 +111,22 @@ namespace Jypeli
         /// </summary>
         /// <param name="thisBody"></param>
         /// <param name="otherBody"></param>
-        public void OnCollided( IPhysicsBody thisBody, IPhysicsBody otherBody )
+        public void OnCollided(IPhysicsBody thisBody, IPhysicsBody otherBody)
         {
             var thisObject = thisBody.Owner;
             var otherObject = otherBody.Owner;
 
-            if ( thisObject != this || otherObject == null || this.IsDestroyed || otherObject.IsDestroyed ) return;
+            if (thisObject != this || otherObject == null || this.IsDestroyed || otherObject.IsDestroyed)
+                return;
 
-            if ( Collided != null )
+            if (Collided != null)
             {
-                if ( otherObject.ParentStructure != null ) Collided( this, otherObject.ParentStructure );
-                Collided( this, otherObject );
+                if (otherObject.ParentStructure != null)
+                    Collided(this, otherObject.ParentStructure);
+                Collided(this, otherObject);
             }
 
-            Brain.OnCollision( otherObject );
+            Brain.OnCollision(otherObject);
         }
 
         /// <summary>
@@ -134,46 +136,46 @@ namespace Jypeli
         /// </summary>
         /// <returns><c>true</c>, jos ei törmätä, <c>false</c> jos törmätään.</returns>
         /// <param name="target">Olio johon törmäystä tutkitaan.</param>
-        public bool IgnoresCollisionWith( PhysicsObject target )
+        public bool IgnoresCollisionWith(PhysicsObject target)
         {
             if (this == target)
                 return true;
             if (target.Parent != null)
                 return IgnoresCollisionWith((PhysicsObject)target.Parent);
-            if ( this.IgnoresCollisionResponse || target.IgnoresCollisionResponse )
+            if (this.IgnoresCollisionResponse || target.IgnoresCollisionResponse)
                 return true;
-            if ( this.CollisionIgnorer == null || target.CollisionIgnorer == null )
+            if (this.CollisionIgnorer == null || target.CollisionIgnorer == null)
                 return false;
 
-            return !this.CollisionIgnorer.CanCollide( this.Body, target.Body, target.CollisionIgnorer );
+            return !this.CollisionIgnorer.CanCollide(this.Body, target.Body, target.CollisionIgnorer);
         }
 
         /// <summary>
         /// Lisää uuden törmäyksenvälttelyryhmän.
         /// </summary>
         /// <param name="group">Ryhmän numero (indeksi).</param>
-        public void AddCollisionIgnoreGroup( int group )
+        public void AddCollisionIgnoreGroup(int group)
         {
             var groupIgnorer = CollisionIgnorer as JypeliGroupIgnorer;
 
-            if ( groupIgnorer == null )
+            if (groupIgnorer == null)
                 CollisionIgnorer = groupIgnorer = new JypeliGroupIgnorer();
 
-            groupIgnorer.AddGroup( group );
+            groupIgnorer.AddGroup(group);
         }
 
         /// <summary>
         /// Poistaa annetun törmäyksenvälttelyryhmän.
         /// </summary>
         /// <param name="group">Ryhmän numero (indeksi).</param>
-        public void RemoveCollisionIgnoreGroup( int group )
+        public void RemoveCollisionIgnoreGroup(int group)
         {
             var groupIgnorer = CollisionIgnorer as JypeliGroupIgnorer;
 
-            if ( groupIgnorer == null )
+            if (groupIgnorer == null)
                 return;
 
-            groupIgnorer.RemoveGroup( group );
+            groupIgnorer.RemoveGroup(group);
         }
 
         /// <summary>

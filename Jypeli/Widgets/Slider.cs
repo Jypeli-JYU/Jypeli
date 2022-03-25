@@ -152,7 +152,8 @@ namespace Jypeli.Widgets
 
         private void MousePress()
         {
-            if (pressedDown) return;
+            if (pressedDown)
+                return;
             UnsetChangedEvent();
             pressedDown = true;
         }
@@ -167,14 +168,16 @@ namespace Jypeli.Widgets
 
         private void MouseRelease()
         {
-            if (!pressedDown) return;
+            if (!pressedDown)
+                return;
             pressedDown = false;
             SetChangedEvent();
         }
 
         private void TouchPress(Touch touch)
         {
-            if (touchObject != null) return;
+            if (touchObject != null)
+                return;
             UnsetChangedEvent();
             touchObject = touch;
             Knob.Color = activeColor;
@@ -188,7 +191,8 @@ namespace Jypeli.Widgets
 
         private void TouchRelease(Touch touch)
         {
-            if (touchObject == null) return;
+            if (touchObject == null)
+                return;
             touchObject = null;
             SetChangedEvent();
             Knob.Color = inactiveColor;

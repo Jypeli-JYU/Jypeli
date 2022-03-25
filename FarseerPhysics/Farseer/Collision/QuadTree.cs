@@ -55,10 +55,14 @@ namespace FarseerPhysics.Collision
         /// <returns></returns>
         private int Partition(AABB span, AABB test)
         {
-            if (span.Q1.Contains(ref test)) return 1;
-            if (span.Q2.Contains(ref test)) return 2;
-            if (span.Q3.Contains(ref test)) return 3;
-            if (span.Q4.Contains(ref test)) return 4;
+            if (span.Q1.Contains(ref test))
+                return 1;
+            if (span.Q2.Contains(ref test))
+                return 2;
+            if (span.Q3.Contains(ref test))
+                return 3;
+            if (span.Q4.Contains(ref test))
+                return 4;
 
             return 0;
         }
@@ -154,7 +158,8 @@ namespace FarseerPhysics.Collision
                 segmentAABB.LowerBound = Vector2.Min(p1, p2);
                 segmentAABB.UpperBound = Vector2.Max(p1, p2);
             }
-            if (!AABB.TestOverlap(ref aabb, ref segmentAABB)) return false;
+            if (!AABB.TestOverlap(ref aabb, ref segmentAABB))
+                return false;
 
             Vector2 rayDir = p2 - p1;
             Vector2 rayPos = p1;
@@ -193,7 +198,8 @@ namespace FarseerPhysics.Collision
                 foreach (Element<T> n in qt.Nodes)
                     if (AABB.TestOverlap(ref searchR, ref n.Span))
                     {
-                        if (!callback(n)) return;
+                        if (!callback(n))
+                            return;
                     }
 
                 if (qt.IsPartitioned)
@@ -249,7 +255,8 @@ namespace FarseerPhysics.Collision
             nodes.AddRange(Nodes);
 
             if (IsPartitioned)
-                foreach (QuadTree<T> st in SubTrees) st.GetAllNodesR(ref nodes);
+                foreach (QuadTree<T> st in SubTrees)
+                    st.GetAllNodesR(ref nodes);
         }
 
         public void RemoveNode(Element<T> node)

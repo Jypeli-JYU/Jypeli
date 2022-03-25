@@ -45,7 +45,7 @@ namespace Jypeli.Controls.GamePad
         public void Execute()
         {
             // TODO: Jostain syystä ei havaitse PS3 ohjaimen moottoreita
-            if(Gamepad.VibrationMotors.Count == 2)
+            if (Gamepad.VibrationMotors.Count == 2)
             {
                 Gamepad.VibrationMotors[0].Speed = (float)LeftMotor;
                 Gamepad.VibrationMotors[1].Speed = (float)RightMotor;

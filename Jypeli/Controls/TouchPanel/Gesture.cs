@@ -31,7 +31,7 @@ namespace Jypeli
         {
             get
             {
-                return Game.Instance.Camera.ScreenToWorld( PositionOnScreen2 );
+                return Game.Instance.Camera.ScreenToWorld(PositionOnScreen2);
             }
         }
 
@@ -42,7 +42,7 @@ namespace Jypeli
         {
             get
             {
-                return new Vector( (double)_movement2.X, -(double)_movement2.Y );
+                return new Vector((double)_movement2.X, -(double)_movement2.Y);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Jypeli
         {
             get
             {
-                return ( PositionOnWorld2 + MovementOnWorld2 ) - ( PositionOnWorld + MovementOnWorld );
+                return (PositionOnWorld2 + MovementOnWorld2) - (PositionOnWorld + MovementOnWorld);
             }
         }
 
@@ -97,7 +97,7 @@ namespace Jypeli
         {
             get
             {
-                return ( PositionOnScreen2 + MovementOnScreen2 ) - ( PositionOnScreen + MovementOnScreen );
+                return (PositionOnScreen2 + MovementOnScreen2) - (PositionOnScreen + MovementOnScreen);
             }
         }
 
@@ -112,16 +112,16 @@ namespace Jypeli
             }
         }
 
-        internal Gesture( GestureType type, Vector position, Vector movement, Vector position2, Vector movement2 )
-            : base( position, movement )
+        internal Gesture(GestureType type, Vector position, Vector movement, Vector position2, Vector movement2)
+            : base(position, movement)
         {
             this.GestureType = type;
             this._position2 = position2;
             this._movement2 = movement2;
         }
 
-        public Gesture( GestureSample sample )
-            : this( sample.GestureType, sample.Position, sample.Delta, sample.Position2, sample.Delta2 )
+        public Gesture(GestureSample sample)
+            : this(sample.GestureType, sample.Position, sample.Delta, sample.Position2, sample.Delta2)
         {
         }
     }

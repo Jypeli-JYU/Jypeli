@@ -30,10 +30,10 @@ namespace Jypeli
 
         internal ListenContext Context
         {
-            get { return ( dynamicContext ? contextedObject.ControlContext : context ); }
+            get { return (dynamicContext ? contextedObject.ControlContext : context); }
         }
 
-        public TouchListener( Predicate<Touch> triggerRule, ListenContext context, string helpText, Delegate handler, params object[] args )
+        public TouchListener(Predicate<Touch> triggerRule, ListenContext context, string helpText, Delegate handler, params object[] args)
         {
             this.isDestroyed = false;
             this.Destroyed = null;
@@ -45,14 +45,14 @@ namespace Jypeli
             this.contextedObject = null;
 
             this.handlerParams = new object[args.Length + 1];
-            
-            if ( args.Length > 0 )
+
+            if (args.Length > 0)
             {
-                Array.ConstrainedCopy( args, 0, handlerParams, 1, handlerParams.Length - 1 );
+                Array.ConstrainedCopy(args, 0, handlerParams, 1, handlerParams.Length - 1);
             }
         }
 
-        public TouchListener( Predicate<Touch> triggerRule, ControlContexted contexted, string helpText, Delegate handler, params object[] args )
+        public TouchListener(Predicate<Touch> triggerRule, ControlContexted contexted, string helpText, Delegate handler, params object[] args)
         {
             this.isDestroyed = false;
             this.Destroyed = null;
@@ -65,9 +65,9 @@ namespace Jypeli
 
             this.handlerParams = new object[args.Length + 1];
 
-            if ( args.Length > 0 )
+            if (args.Length > 0)
             {
-                Array.ConstrainedCopy( args, 0, handlerParams, 1, handlerParams.Length - 1 );
+                Array.ConstrainedCopy(args, 0, handlerParams, 1, handlerParams.Length - 1);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Jypeli
         /// Kuuntelee tapahtumaa vain tietyssä kontekstissa.
         /// </summary>
         /// <param name="context"></param>
-        public Listener InContext( ListenContext context )
+        public Listener InContext(ListenContext context)
         {
             this.dynamicContext = false;
             this.context = context;
@@ -87,24 +87,24 @@ namespace Jypeli
         /// Esim. Keyboard.Listen(parametrit).InContext(omaIkkuna) kuuntelee
         /// haluttua näppäimistötapahtumaa ainoastaan kun ikkuna on näkyvissä ja päällimmäisenä.
         /// </summary>
-        public Listener InContext( ControlContexted obj )
+        public Listener InContext(ControlContexted obj)
         {
             this.dynamicContext = true;
             this.contextedObject = obj;
             return this;
         }
 
-        public void Invoke( Touch touch )
+        public void Invoke(Touch touch)
         {
             MethodInfo handlerMethod = handler.Method;
             handlerParams[0] = touch;
-            handlerMethod.Invoke( handler.Target, handlerParams );
+            handlerMethod.Invoke(handler.Target, handlerParams);
         }
 
-        public void CheckAndInvoke( Touch touch )
+        public void CheckAndInvoke(Touch touch)
         {
-            if ( !IsDestroyed && Context != null && !Context.IsDestroyed && Context.Active && isTriggered( touch ) )
-                Invoke( touch );
+            if (!IsDestroyed && Context != null && !Context.IsDestroyed && Context.Active && isTriggered(touch))
+                Invoke(touch);
         }
 
         #region Destroyable Members
@@ -131,7 +131,7 @@ namespace Jypeli
 
         private void OnDestroyed()
         {
-            if ( Destroyed != null )
+            if (Destroyed != null)
                 Destroyed();
         }
 

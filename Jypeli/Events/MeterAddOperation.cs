@@ -17,17 +17,17 @@ namespace Jypeli
             get { return timer.Enabled; }
         }
 
-        internal IntMeterAddOperation( IntMeter meter, int change, double seconds )
+        internal IntMeterAddOperation(IntMeter meter, int change, double seconds)
         {
             this.meter = meter;
-            this.dx = Math.Sign( change );
-            int times = (int)Math.Abs( change );
+            this.dx = Math.Sign(change);
+            int times = (int)Math.Abs(change);
 
             timer = new Timer();
             timer.Times.LowerLimit += OnFinished;
-            timer.Interval = Math.Abs( seconds / change );
+            timer.Interval = Math.Abs(seconds / change);
             timer.Timeout += Tick;
-            timer.Start( times );
+            timer.Start(times);
         }
 
         private void Tick()
@@ -39,7 +39,8 @@ namespace Jypeli
         public void Stop()
         {
             timer.Stop();
-            if ( Stopped != null ) Stopped();
+            if (Stopped != null)
+                Stopped();
         }
 
         /// <inheritdoc/>
@@ -50,7 +51,7 @@ namespace Jypeli
 
         private void OnFinished()
         {
-            if ( Finished != null )
+            if (Finished != null)
                 Finished();
         }
     }
@@ -70,25 +71,26 @@ namespace Jypeli
             get { return timer.Enabled; }
         }
 
-        internal DoubleMeterAddOperation( DoubleMeter meter, double change, double seconds )
+        internal DoubleMeterAddOperation(DoubleMeter meter, double change, double seconds)
         {
             this.meter = meter;
 
-            double dt = findDt( seconds );
+            double dt = findDt(seconds);
             this.dx = dt * change / seconds;
-            int times = (int)( seconds / dt );
+            int times = (int)(seconds / dt);
 
             timer = new Timer();
             timer.Times.LowerLimit += OnFinished;
             timer.Interval = dt;
             timer.Timeout += Tick;
-            timer.Start( times );
+            timer.Start(times);
         }
 
-        private double findDt( double seconds )
+        private double findDt(double seconds)
         {
             double dt = seconds;
-            while ( dt > 0.05 ) dt /= 2;
+            while (dt > 0.05)
+                dt /= 2;
             return dt;
         }
 
@@ -101,7 +103,8 @@ namespace Jypeli
         public void Stop()
         {
             timer.Stop();
-            if ( Stopped != null ) Stopped();
+            if (Stopped != null)
+                Stopped();
         }
 
         /// <inheritdoc/>
@@ -112,7 +115,7 @@ namespace Jypeli
 
         private void OnFinished()
         {
-            if ( Finished != null )
+            if (Finished != null)
                 Finished();
         }
     }

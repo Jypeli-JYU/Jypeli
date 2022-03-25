@@ -45,8 +45,8 @@ namespace Jypeli.Widgets
             set
             {
                 base.Animation = value;
-                if ( value != null )
-                    Size = new Vector( value.Width, value.Height );
+                if (value != null)
+                    Size = new Vector(value.Width, value.Height);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Jypeli.Widgets
         public void FitToLevel()
         {
             Level level = Game.Instance.Level;
-            Size = new Vector( level.Width, level.Height );
+            Size = new Vector(level.Width, level.Height);
             TextureWrapSize = Vector.Diagonal;
         }
 
@@ -84,7 +84,7 @@ namespace Jypeli.Widgets
         {
             Level level = Game.Instance.Level;
             Size = level.Size;
-            TextureWrapSize = new Vector( level.Width / Image.Width, level.Height / Image.Height );
+            TextureWrapSize = new Vector(level.Width / Image.Width, level.Height / Image.Height);
 
             tx.TopLeft = new Vector(0, 0);
             tx.TopRight = new Vector(TextureWrapSize.X, 0);
@@ -101,7 +101,7 @@ namespace Jypeli.Widgets
         public void ScaleToLevel()
         {
             Level level = Game.Instance.Level;
-            Size *= Math.Min( level.Width / this.Width, level.Height / this.Height );
+            Size *= Math.Min(level.Width / this.Width, level.Height / this.Height);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Jypeli.Widgets
         public void ScaleToLevelFull()
         {
             Level level = Game.Instance.Level;
-            Size *= Math.Max( level.Width / this.Width, level.Height / this.Height );
+            Size *= Math.Max(level.Width / this.Width, level.Height / this.Height);
         }
 
         /// <summary>
@@ -139,34 +139,34 @@ namespace Jypeli.Widgets
         /// </summary>
         /// <param name="width">Taustakuvan leveys.</param>
         /// /// <param name="height">Taustakuvan korkeus.</param>
-        public Background( double width, double height )
-            : base( width, height )
+        public Background(double width, double height)
+            : base(width, height)
         {
-            this.Size = new Vector( width, height );
+            this.Size = new Vector(width, height);
             this.Scale = 1.0f;
             this.MovesWithCamera = true;
         }
-        
+
         /// <summary>
         /// Luo uuden taustakuvan.
         /// </summary>
         /// <param name="size">Taustakuvan koko.</param>
-        public Background( Vector size )
-            : this( size.X, size.Y )
+        public Background(Vector size)
+            : this(size.X, size.Y)
         {
         }
-        
+
         /// <summary>
         /// Luo avaruustaustakuvan.
         /// </summary>
         /// <param name="amount">Tähtien määrä.</param>
         /// <returns>Kuva.</returns>
-        public Image CreateStars( int amount )
+        public Image CreateStars(int amount)
         {
             int imageWidth = (int)Game.Screen.Width;
             int imageHeight = (int)Game.Screen.Height;
 
-            Image image = Image.CreateStarSky( imageWidth, imageHeight, amount );
+            Image image = Image.CreateStarSky(imageWidth, imageHeight, amount);
 
             Image = image;
             MovesWithCamera = false;
@@ -182,9 +182,9 @@ namespace Jypeli.Widgets
         {
             int textureWidth = (int)Game.Screen.Width;
             int textureHeight = (int)Game.Screen.Height;
-            int amount = ( textureWidth * textureHeight ) / 1000;
+            int amount = (textureWidth * textureHeight) / 1000;
 
-            Image image = this.CreateStars( amount );
+            Image image = this.CreateStars(amount);
 
             Image = image;
             MovesWithCamera = false;
@@ -198,12 +198,12 @@ namespace Jypeli.Widgets
         /// <param name="lowerColor">Alempi väri.</param>
         /// <param name="upperColor">Ylempi väri.</param>
         /// <returns>Kuva.</returns>
-        public Image CreateGradient( Color lowerColor, Color upperColor )
+        public Image CreateGradient(Color lowerColor, Color upperColor)
         {
             int textureWidth = (int)Game.Screen.Width;
             int textureHeight = (int)Game.Screen.Height;
 
-            Image image = Image.FromGradient( textureWidth, textureHeight, lowerColor, upperColor );
+            Image image = Image.FromGradient(textureWidth, textureHeight, lowerColor, upperColor);
 
             Image = image;
             MovesWithCamera = false;
@@ -212,9 +212,10 @@ namespace Jypeli.Widgets
         }
 
         /// <inheritdoc/>
-        public override void Draw( Matrix parentTransformation, Matrix transformation )
+        public override void Draw(Matrix parentTransformation, Matrix transformation)
         {
-            if (Image == null) return;
+            if (Image == null)
+                return;
 
             if (MovesWithCamera)
             {

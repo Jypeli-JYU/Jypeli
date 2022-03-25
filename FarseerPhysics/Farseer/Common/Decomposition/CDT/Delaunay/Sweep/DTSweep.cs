@@ -153,7 +153,8 @@ namespace FarseerPhysics.Common.Decomposition.CDT.Delaunay.Sweep
             {
                 tcx.RemoveFromList(t1);
                 p1 = t1.PointCCW(p1);
-                if (p1 == first) break;
+                if (p1 == first)
+                    break;
 
                 t2 = t1.NeighborCCW(p1);
                 t1.Clear();
@@ -1182,10 +1183,14 @@ namespace FarseerPhysics.Common.Decomposition.CDT.Delaunay.Sweep
             //      the right side.
             t.Neighbors.Clear();
             ot.Neighbors.Clear();
-            if (n1 != null) ot.MarkNeighbor(n1);
-            if (n2 != null) t.MarkNeighbor(n2);
-            if (n3 != null) t.MarkNeighbor(n3);
-            if (n4 != null) ot.MarkNeighbor(n4);
+            if (n1 != null)
+                ot.MarkNeighbor(n1);
+            if (n2 != null)
+                t.MarkNeighbor(n2);
+            if (n3 != null)
+                t.MarkNeighbor(n3);
+            if (n4 != null)
+                ot.MarkNeighbor(n4);
             t.MarkNeighbor(ot);
         }
     }

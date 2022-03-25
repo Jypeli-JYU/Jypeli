@@ -71,7 +71,7 @@ public class PlatformCharacter2 : PhysicsObject
     public Direction FacingDirection
     {
         get { return _curDirection; }
-        set { Turn( value ); }
+        set { Turn(value); }
     }
 
     /// <summary>
@@ -142,35 +142,36 @@ public class PlatformCharacter2 : PhysicsObject
         set
         {
             // First check: same weapon
-            if ( weapon == value ) return;
+            if (weapon == value)
+                return;
 
             // Remove the previous weapon if any
-            if ( weapon != null )
+            if (weapon != null)
             {
                 // Reset the weapon when removing
 
-                if ( !IsWeaponFacingRight() )
+                if (!IsWeaponFacingRight())
                 {
                     weapon.X *= -1;
-                    weapon.TextureWrapSize = new Vector( 1, 1 );
+                    weapon.TextureWrapSize = new Vector(1, 1);
                 }
 
                 weapon.Angle = Angle.Zero;
-                this.Remove( weapon );
+                this.Remove(weapon);
             }
 
             this.weapon = value;
-            if ( value == null )
+            if (value == null)
                 return;
 
-            this.Add( value );
+            this.Add(value);
 
-            if ( FacingDirection == Direction.Left )
+            if (FacingDirection == Direction.Left)
             {
                 // If facing left, set the weapon to match the direction
                 weapon.X *= -1;
                 weapon.Angle = Angle.StraightAngle;
-                weapon.TextureWrapSize = new Vector( 1, -1 );
+                weapon.TextureWrapSize = new Vector(1, -1);
             }
         }
     }
@@ -231,8 +232,8 @@ public class PlatformCharacter2 : PhysicsObject
     /// <summary>
     /// Luo uuden tasohyppelyhahmon.
     /// </summary>
-    public PlatformCharacter2( double width, double height, Shape shape )
-        : base( width, height, shape /*, CollisionShapeQuality.FromValue(0.7)*/ )
+    public PlatformCharacter2(double width, double height, Shape shape)
+        : base(width, height, shape /*, CollisionShapeQuality.FromValue(0.7)*/ )
     {
         KineticFriction = 0.0;
         Restitution = 0.2;
@@ -247,17 +248,17 @@ public class PlatformCharacter2 : PhysicsObject
         IsUpdated = true;
     }
 
-    private void SetAnimation( Animation anim, bool loop = true )
+    private void SetAnimation(Animation anim, bool loop = true)
     {
-        if ( customAnimPlaying || anim == null || Animation == anim || anim.FrameCount == 0 )
+        if (customAnimPlaying || anim == null || Animation == anim || anim.FrameCount == 0)
             return;
 
         Animation = anim;
 
-        if ( loop )
+        if (loop)
             Animation.Start();
         else
-            AnimJump.Start( 1 );
+            AnimJump.Start(1);
     }
 
     /// <summary>
@@ -265,13 +266,13 @@ public class PlatformCharacter2 : PhysicsObject
     /// </summary>
     /// <param name="anim">Animaatio</param>
     /// <param name="onPlayed">Mitä tehdään kun toistettu (oletuksena null)</param>
-    public void PlayAnimation( Animation anim, Action onPlayed = null )
+    public void PlayAnimation(Animation anim, Action onPlayed = null)
     {
         customAnimPlaying = true;
         customAnimAction = onPlayed;
         this.Animation = anim;
         anim.Played += AnimationPlayed;
-        anim.Start( 1 );
+        anim.Start(1);
     }
 
     private void AnimationPlayed()
@@ -287,7 +288,7 @@ public class PlatformCharacter2 : PhysicsObject
         if (Game.Instance is not PhysicsGameBase physGame)
             return;
 
-        if ( physGame.Gravity != _cachedGravity )
+        if (physGame.Gravity != _cachedGravity)
         {
             _cachedGravity = physGame.Gravity;
             _cachedGravityMagnitude = _cachedGravity.Magnitude;
@@ -304,17 +305,17 @@ public class PlatformCharacter2 : PhysicsObject
         if (Game.Instance is not PhysicsGameBase physicsGame)
             throw new InvalidOperationException("Cannot have a platform character in non-physics game");
 
-        Body.Colliding += delegate( IPhysicsBody o1, IPhysicsBody o2, Collision c )
+        Body.Colliding += delegate (IPhysicsBody o1, IPhysicsBody o2, Collision c)
         {
             PhysicsObject other = (PhysicsObject)o2.Owner;
             Vector normal = c.Contacts.First().Normal;
-            OnColliding( this, other, normal );
+            OnColliding(this, other, normal);
         };
 
-        #if VISUALIZE
+#if VISUALIZE
         ssurface.Width = 2 * Math.Sqrt( Game.Level.Width * Game.Level.Width + Game.Level.Height * Game.Level.Height );
         Game.Instance.Add( ssurface );
-        #endif
+#endif
     }
 
     /// <summary>
@@ -323,41 +324,41 @@ public class PlatformCharacter2 : PhysicsObject
     public void Walk()
     {
         walkSteps++;
-        
-        if ( state == PlatformCharacterState.Idle || WalkOnAir )
-            SetAnimation( AnimWalk );
+
+        if (state == PlatformCharacterState.Idle || WalkOnAir)
+            SetAnimation(AnimWalk);
     }
 
     /// <summary>
     /// Kävelee tiettyyn suuntaan.
     /// </summary>
     /// <param name="direction">Rintamasuunta. Direction.Left tai Direction.Right</param>
-    public void Walk( Direction direction )
+    public void Walk(Direction direction)
     {
-        Turn( direction );
+        Turn(direction);
         walkSteps++;
 
-        if ( state == PlatformCharacterState.Idle || WalkOnAir )
-            SetAnimation( AnimWalk );
+        if (state == PlatformCharacterState.Idle || WalkOnAir)
+            SetAnimation(AnimWalk);
     }
-    
+
     /// <summary>
     /// Kääntyy.
     /// </summary>
     /// <param name="direction">Suunta</param>
-    public void Turn( Direction direction )
+    public void Turn(Direction direction)
     {
-        if ( direction == FacingDirection || ( direction != Direction.Left && direction != Direction.Right ) )
+        if (direction == FacingDirection || (direction != Direction.Left && direction != Direction.Right))
             return;
 
         walkSteps = 0;
-        TextureWrapSize = new Vector( -TextureWrapSize.X, TextureWrapSize.Y );
+        TextureWrapSize = new Vector(-TextureWrapSize.X, TextureWrapSize.Y);
 
-        if ( Weapon != null )
+        if (Weapon != null)
         {
             Weapon.X *= -1;
-            Weapon.TextureWrapSize = new Vector( 1, -Weapon.TextureWrapSize.Y );
-            Weapon.Angle = Angle.Supplement( Weapon.Angle );
+            Weapon.TextureWrapSize = new Vector(1, -Weapon.TextureWrapSize.Y);
+            Weapon.Angle = Angle.Supplement(Weapon.Angle);
         }
 
         _curDirection = direction;
@@ -371,8 +372,8 @@ public class PlatformCharacter2 : PhysicsObject
     public void StopWalking()
     {
         walkSteps = 0;
-        if ( state == PlatformCharacterState.Idle )
-            SetAnimation( AnimIdle );
+        if (state == PlatformCharacterState.Idle)
+            SetAnimation(AnimIdle);
     }
 
     private bool IsWeaponFacingRight()
@@ -385,68 +386,69 @@ public class PlatformCharacter2 : PhysicsObject
     /// Hyppää tietyllä nopeudella, jos hahmo seisoo tukevalla pohjalla.
     /// </summary>
     /// <param name="speed">Lähtönopeus.</param>
-    public void Jump( double speed )
+    public void Jump(double speed)
     {
-        if ( Platform == null || state == PlatformCharacterState.Jumping ) return;
-        ForceJump( speed );
+        if (Platform == null || state == PlatformCharacterState.Jumping)
+            return;
+        ForceJump(speed);
     }
 
     /// <summary>
     /// Hyppää vaikka olio ei olisikaan toisen päällä.
     /// </summary>
     /// <param name="speed">Lähtönopeus maasta.</param>
-    public void ForceJump( double speed )
+    public void ForceJump(double speed)
     {
         IgnoresGravity = false;
-        this.Hit( Mass * speed * -GravityNormal );
+        this.Hit(Mass * speed * -GravityNormal);
         Platform = null;
-        
+
         state = PlatformCharacterState.Jumping;
-        SetAnimation( AnimJump, LoopJumpAnim );
+        SetAnimation(AnimJump, LoopJumpAnim);
 
         Timer t = new Timer();
         t.Interval = 0.01;
         t.Timeout += delegate
         {
-            if ( this.Velocity.Y < 0 )
+            if (this.Velocity.Y < 0)
             {
                 t.Stop();
                 state = PlatformCharacterState.Falling;
-                SetAnimation( AnimFall, LoopFallAnim );
+                SetAnimation(AnimFall, LoopFallAnim);
             }
         };
         t.Start();
     }
 
     /// <inheritdoc/>
-    protected override void PrepareThrowable( PhysicsObject obj, Angle angle, double force, double distanceDelta, double axialDelta )
+    protected override void PrepareThrowable(PhysicsObject obj, Angle angle, double force, double distanceDelta, double axialDelta)
     {
-        double d = ( this.Width + obj.Width ) / 2;
+        double d = (this.Width + obj.Width) / 2;
         Angle throwAngle = FacingDirection == Direction.Left ? Angle.StraightAngle - angle : angle;
         obj.Position = this.Position + this.FacingDirection.GetVector() * d + GravityNormal * axialDelta;
-        obj.Hit( Vector.FromLengthAndAngle( force, throwAngle ) );
+        obj.Hit(Vector.FromLengthAndAngle(force, throwAngle));
     }
-    
-    private void OnColliding( PhysicsObject collisionHelperObject, PhysicsObject target, Vector normal )
+
+    private void OnColliding(PhysicsObject collisionHelperObject, PhysicsObject target, Vector normal)
     {
-        if ( target.IgnoresCollisionResponse )
+        if (target.IgnoresCollisionResponse)
             return;
 
-        double dot = Vector.DotProduct( normal, GravityNormal );
-        if ( Math.Abs( dot ) < 0.5 )
+        double dot = Vector.DotProduct(normal, GravityNormal);
+        if (Math.Abs(dot) < 0.5)
             return;
 
-        if ( Platform != null && Platform != target )
+        if (Platform != null && Platform != target)
             return;
 
-        if ( Platform == null )
+        if (Platform == null)
             Platform = target;
-            
+
         collisionDetected = true;
         noCollisionCount = 0;
         PlatformNormal = normal;
 
-        if ( state == PlatformCharacterState.Falling )
+        if (state == PlatformCharacterState.Falling)
             state = PlatformCharacterState.Idle;
     }
 
@@ -458,42 +460,42 @@ public class PlatformCharacter2 : PhysicsObject
     [EditorBrowsable(EditorBrowsableState.Never)]
     public override void Update(Time time)
     {
-        if ( Platform != null && !collisionDetected )
+        if (Platform != null && !collisionDetected)
         {
-            if ( ++noCollisionCount > PlatformTolerance )
+            if (++noCollisionCount > PlatformTolerance)
             {
                 Platform = null;
 
-                if ( state != PlatformCharacterState.Jumping )
+                if (state != PlatformCharacterState.Jumping)
                 {
                     state = PlatformCharacterState.Falling;
-                    SetAnimation( AnimFall, LoopFallAnim );
+                    SetAnimation(AnimFall, LoopFallAnim);
                 }
             }
         }
 
         collisionDetected = false;
 
-        if ( walkSteps > 0 )
+        if (walkSteps > 0)
         {
             // Walking
             Vector unitX = GravityMagnitude > 0 ? GravityNormal.LeftNormal : Vector.UnitX;
 
-            if ( _curDirection == Direction.Left && -Velocity.X < MaxVelocity )
-                this.Push( Mass * Acceleration * -unitX );
-            else if ( _curDirection == Direction.Right && Velocity.X < MaxVelocity )
-                this.Push( Mass * Acceleration * unitX );
+            if (_curDirection == Direction.Left && -Velocity.X < MaxVelocity)
+                this.Push(Mass * Acceleration * -unitX);
+            else if (_curDirection == Direction.Right && Velocity.X < MaxVelocity)
+                this.Push(Mass * Acceleration * unitX);
 
             walkSteps--;
 
-            if ( state == PlatformCharacterState.Idle )
-                SetAnimation( AnimWalk );
+            if (state == PlatformCharacterState.Idle)
+                SetAnimation(AnimWalk);
         }
         else
         {
             // Not walking
-            if ( state == PlatformCharacterState.Idle )
-                SetAnimation( AnimIdle );
+            if (state == PlatformCharacterState.Idle)
+                SetAnimation(AnimIdle);
             /*switch ( state )
             {
                 case PlatformCharacterState.Idle: SetAnimation( AnimIdle ); break;
@@ -509,10 +511,13 @@ public class PlatformCharacter2 : PhysicsObject
     /// Siirtää oliota.
     /// </summary>
     /// <param name="movement">Vektori, joka määrittää kuinka paljon siirretään.</param>
-    public override void Move( Vector movement )
+    public override void Move(Vector movement)
     {
-        if ( movement.X > 0 ) Walk( Direction.Right );
-        else if ( movement.X < 0 ) Walk( Direction.Left );
-        if ( movement.Y > 0 ) Jump( movement.Y );
+        if (movement.X > 0)
+            Walk(Direction.Right);
+        else if (movement.X < 0)
+            Walk(Direction.Left);
+        if (movement.Y > 0)
+            Jump(movement.Y);
     }
 }

@@ -35,7 +35,7 @@ namespace Jypeli.Assets
         {
             get
             {
-                return ( CheckpointsPassed.Value < Checkpoints.Count ) ? Checkpoints[CheckpointsPassed.Value] : null;
+                return (CheckpointsPassed.Value < Checkpoints.Count) ? Checkpoints[CheckpointsPassed.Value] : null;
             }
         }
 
@@ -55,12 +55,12 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="checkpoints">Tarkistuspisteet, joiden läpi pelaajan on ajettava.</param>
         /// <param name="rounds">Kierrosten määrä.</param>
-        public DriverBrain( List<PhysicsObject> checkpoints, int rounds )
+        public DriverBrain(List<PhysicsObject> checkpoints, int rounds)
         {
-            RoundsDriven = new IntMeter( 0 );
+            RoundsDriven = new IntMeter(0);
             RoundsDriven.MaxValue = rounds;
 
-            CheckpointsPassed = new IntMeter( 0 );
+            CheckpointsPassed = new IntMeter(0);
             CheckpointsPassed.MaxValue = 1;
             CheckpointsPassed.UpperLimit += nextRound;
 
@@ -77,16 +77,16 @@ namespace Jypeli.Assets
         /// Kutsutaan, kun tapahtuu törmäys.
         /// </summary>
         /// <param name="target">Toinen törmääjä.</param>
-        public override void OnCollision( IGameObject target )
-        {            
-            if ( target == NextCheckpoint )
+        public override void OnCollision(IGameObject target)
+        {
+            if (target == NextCheckpoint)
             {
                 // Checkpoint reached, set next
                 CheckpointsPassed.MaxValue = Checkpoints.Count;
                 ++CheckpointsPassed.Value;
             }
 
-            base.OnCollision( target );
+            base.OnCollision(target);
         }
     }
 
@@ -102,8 +102,8 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="checkpoints">Tarkistuspisteet, joiden läpi pelaajan on ajettava.</param>
         /// <param name="rounds">Kierrosten määrä.</param>
-        public ComputerDriverBrain( List<PhysicsObject> checkpoints, int rounds )
-            : base( checkpoints, rounds )
+        public ComputerDriverBrain(List<PhysicsObject> checkpoints, int rounds)
+            : base(checkpoints, rounds)
         {
         }
 
@@ -112,36 +112,36 @@ namespace Jypeli.Assets
         /// Ajamislogiikka sijaitsee täällä.
         /// </summary>
         /// <param name="time">The game time.</param>
-        protected override void Update( Time time )
+        protected override void Update(Time time)
         {
             Automobile OwnerAuto = Owner as Automobile;
 
-            if ( OwnerAuto != null )
+            if (OwnerAuto != null)
             {
                 Vector distance = NextCheckpoint.Position - OwnerAuto.Position;
                 Angle turnAngle = distance.Angle - OwnerAuto.Angle;
 
                 double dt = time.SinceLastUpdate.TotalSeconds;
-                double dist = Math.Max( distance.Magnitude, Double.Epsilon );
-                double spd = Math.Max( OwnerAuto.Velocity.Magnitude, Double.Epsilon );
+                double dist = Math.Max(distance.Magnitude, Double.Epsilon);
+                double spd = Math.Max(OwnerAuto.Velocity.Magnitude, Double.Epsilon);
                 double eta = dist / spd;
                 double braketime = spd / OwnerAuto.BrakeDeceleration;
-                double turntime = Math.Abs( turnAngle.Radians ) / OwnerAuto.Maneuverability.Radians;                
+                double turntime = Math.Abs(turnAngle.Radians) / OwnerAuto.Maneuverability.Radians;
 
-                if ( turntime >= eta || braketime * OwnerAuto.KineticFriction >= eta )
+                if (turntime >= eta || braketime * OwnerAuto.KineticFriction >= eta)
                 {
-                    OwnerAuto.Brake( dt );
+                    OwnerAuto.Brake(dt);
                 }
 
                 else
                 {
-                    OwnerAuto.Accelerate( dt );
+                    OwnerAuto.Accelerate(dt);
                 }
 
-                OwnerAuto.Turn( turnAngle, dt );
+                OwnerAuto.Turn(turnAngle, dt);
             }
 
-            base.Update( time );
+            base.Update(time);
         }
     }
 }

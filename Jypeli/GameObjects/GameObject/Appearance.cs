@@ -34,7 +34,7 @@ namespace Jypeli
     {
         private Color _color = Color.White;
         private bool _textureFillsShape = false;
-        private Vector _textureWrapSize = new Vector( 1, 1 );
+        private Vector _textureWrapSize = new Vector(1, 1);
 
         /// <summary>
         /// Piirretäänkö oliota ruudulle.
@@ -95,7 +95,7 @@ namespace Jypeli
             this.IsVisible = true;
         }
 
-        private void InitAppearance( Animation animation )
+        private void InitAppearance(Animation animation)
         {
             this.Animation = animation;
             InitAppearance();
@@ -105,9 +105,9 @@ namespace Jypeli
         /// Lataa kuvan tiedostosta ja asettaa sen oliolle.
         /// </summary>
         /// <param name="file"></param>
-        public void SetImage( StorageFile file )
+        public void SetImage(StorageFile file)
         {
-            this.Image = Image.FromStream( file.Stream );
+            this.Image = Image.FromStream(file.Stream);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Jypeli
         /// </summary>
         public void MirrorImage()
         {
-            TextureWrapSize = new Vector( -TextureWrapSize.X, TextureWrapSize.Y );
+            TextureWrapSize = new Vector(-TextureWrapSize.X, TextureWrapSize.Y);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Jypeli
         /// </summary>
         public void FlipImage()
         {
-            TextureWrapSize = new Vector( TextureWrapSize.X, -TextureWrapSize.Y );
+            TextureWrapSize = new Vector(TextureWrapSize.X, -TextureWrapSize.Y);
         }
     }
 }

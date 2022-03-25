@@ -330,7 +330,8 @@ namespace Jypeli.Assets
         /// </summary>
         public override void Explode()
         {
-            if (!IsAddedToGame) return;
+            if (!IsAddedToGame)
+                return;
 
             Vector posOffset;
             double direction;

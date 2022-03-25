@@ -56,7 +56,7 @@ namespace Jypeli
             keyboard.KeyUp += KeyboardKeyUp;
             keyboard.KeyChar += KeyboardKeyChar;
 #if DESKTOP
-            Game.Instance.TextInput += delegate(object sender, char key)
+            Game.Instance.TextInput += delegate (object sender, char key)
             {
                 TextInput?.Invoke(key);
             };
@@ -83,7 +83,7 @@ namespace Jypeli
         internal void BeginInput()
         {
             keyboard.BeginInput();
-            
+
         }
 
         internal void EndInput()

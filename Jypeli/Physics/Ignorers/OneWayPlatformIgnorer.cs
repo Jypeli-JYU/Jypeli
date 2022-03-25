@@ -26,7 +26,7 @@
         public override bool CanCollide(IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other)
         {
             if (otherBody.IgnoresPhysicsLogics)
-                // || otherBody.IsBroadPhaseOnly)
+            // || otherBody.IsBroadPhaseOnly)
             {
                 return true;
             }

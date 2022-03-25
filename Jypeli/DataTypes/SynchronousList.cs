@@ -15,7 +15,7 @@ namespace Jypeli
     public class SynchronousList<T> : IEnumerable<T>, Updatable
     {
         #region Item actions
-        
+
         private enum ListOperation
         {
             Add,
@@ -104,7 +104,7 @@ namespace Jypeli
         /// Luo uuden synkronisen listan.
         /// </summary>
         /// <param name="firstIndex">Ensimmäisen elementin indeksi.</param>
-        public SynchronousList( int firstIndex )
+        public SynchronousList(int firstIndex)
         {
             FirstIndex = firstIndex;
         }
@@ -113,16 +113,16 @@ namespace Jypeli
         /// Luo uuden synkronisen listan.
         /// </summary>
         public SynchronousList()
-            : this( 0 )
+            : this(0)
         {
         }
 
-        private void OnItemAdded( T item )
+        private void OnItemAdded(T item)
         {
             ItemAdded?.Invoke(item);
         }
 
-        private void OnItemRemoved( T item )
+        private void OnItemRemoved(T item)
         {
             ItemRemoved?.Invoke(item);
         }
@@ -196,9 +196,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public bool Contains( T item )
+        public bool Contains(T item)
         {
-            return items.Contains( item );
+            return items.Contains(item);
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public bool WillContain( T item )
+        public bool WillContain(T item)
         {
             ListAction[] actionArray = actions.ToArray();
             bool exists = Contains(item);
@@ -231,9 +231,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public int IndexOf( T item )
+        public int IndexOf(T item)
         {
-            return FirstIndex + items.IndexOf( item );
+            return FirstIndex + items.IndexOf(item);
         }
 
         /// <summary>
@@ -241,9 +241,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="pred"></param>
         /// <returns></returns>
-        public T Find( Predicate<T> pred )
+        public T Find(Predicate<T> pred)
         {
-            return items.Find( pred );
+            return items.Find(pred);
         }
 
         /// <summary>
@@ -251,9 +251,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="pred"></param>
         /// <returns></returns>
-        public List<T> FindAll( Predicate<T> pred )
+        public List<T> FindAll(Predicate<T> pred)
         {
-            return items.FindAll( pred );
+            return items.FindAll(pred);
         }
 
         /// <summary>
@@ -263,7 +263,8 @@ namespace Jypeli
         /// <returns>Muutettiinko listaa</returns>
         public bool UpdateChanges()
         {
-            if ( actions.Count == 0 ) return false;
+            if (actions.Count == 0)
+                return false;
 
             while (actions.Count > 0)
             {
@@ -304,20 +305,21 @@ namespace Jypeli
         /// Update-metodia.
         /// </summary>
         /// <param name="time"></param>
-        public void Update( Time time )
+        public void Update(Time time)
         {
             bool changed = UpdateChanges();
 
-            foreach ( var item in items )
+            foreach (var item in items)
             {
                 if (item is Destroyable DestroyableItem && DestroyableItem.IsDestroyed)
                     Remove(item);
-                if ( item is Updatable UpdatableItem && UpdatableItem.IsUpdated )
-                    UpdatableItem.Update( time );
+                if (item is Updatable UpdatableItem && UpdatableItem.IsUpdated)
+                    UpdatableItem.Update(time);
             }
 
             changed |= UpdateChanges();
-            if ( changed ) OnChanged();
+            if (changed)
+                OnChanged();
         }
 
         /// <summary>
@@ -326,11 +328,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="time"></param>
 		/// <param name="isUpdated"></param>
-        public void Update( Time time, Predicate<T> isUpdated )
+        public void Update(Time time, Predicate<T> isUpdated)
         {
             bool changed = UpdateChanges();
 
-            foreach ( var item in items )
+            foreach (var item in items)
             {
                 if (item is Destroyable DestroyableItem && DestroyableItem.IsDestroyed)
                     Remove(item);
@@ -339,18 +341,19 @@ namespace Jypeli
             }
 
             changed |= UpdateChanges();
-            if ( changed ) OnChanged();
+            if (changed)
+                OnChanged();
         }
 
         /// <summary>
         /// Suorittaa annetun toimenpiteen kaikille (nykyisille) listan alkioille.
         /// </summary>
         /// <param name="action">Toiminto</param>
-        public void ForEach( Action<T> action )
+        public void ForEach(Action<T> action)
         {
-            for ( int i = 0; i < items.Count; i++ )
+            for (int i = 0; i < items.Count; i++)
             {
-                action( items[i] );
+                action(items[i]);
             }
         }
 
@@ -360,11 +363,11 @@ namespace Jypeli
         /// <typeparam name="T1">Toisen parametrin tyyppi</typeparam>
         /// <param name="action">Toiminto</param>
         /// <param name="p1">Toinen parametri</param>
-        public void ForEach<T1>( Action<T, T1> action, T1 p1 )
+        public void ForEach<T1>(Action<T, T1> action, T1 p1)
         {
-            for ( int i = 0; i < items.Count; i++ )
+            for (int i = 0; i < items.Count; i++)
             {
-                action( items[i], p1 );
+                action(items[i], p1);
             }
         }
 

@@ -4,25 +4,25 @@ namespace Jypeli
 {
     public partial class Level
     {
-        private Surface CreateBorder( Direction direction, double restitution, bool isVisible, Image borderImage, Color borderColor )
+        private Surface CreateBorder(Direction direction, double restitution, bool isVisible, Image borderImage, Color borderColor)
         {
-            Surface s = Surface.Create( this, direction );
+            Surface s = Surface.Create(this, direction);
             s.Restitution = restitution;
             s.IsVisible = isVisible;
             s.Image = borderImage;
             s.Color = borderColor;
-            game.Add( s );
+            game.Add(s);
             return s;
         }
 
-        private Surface CreateBorder( Direction direction, double min, double max, int points, double restitution, bool isVisible, Image borderImage, Color borderColor )
+        private Surface CreateBorder(Direction direction, double min, double max, int points, double restitution, bool isVisible, Image borderImage, Color borderColor)
         {
-            Surface s = Surface.Create( this, direction, min, max, points );
+            Surface s = Surface.Create(this, direction, min, max, points);
             s.Restitution = restitution;
             s.IsVisible = isVisible;
             s.Image = borderImage;
             s.Color = borderColor;
-            game.Add( s );
+            game.Add(s);
             return s;
         }
 
@@ -31,16 +31,16 @@ namespace Jypeli
         /// </summary>
         public Surfaces CreateBorders()
         {
-            return CreateBorders( 1, true );
+            return CreateBorders(1, true);
         }
 
         /// <summary>
         /// Lisää kaikille kentän sivuille reunat, joihin oliot voivat törmätä.
         /// </summary>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
-        public Surfaces CreateBorders( bool isVisible )
+        public Surfaces CreateBorders(bool isVisible)
         {
-            return CreateBorders( 1, isVisible );
+            return CreateBorders(1, isVisible);
         }
 
         /// <summary>
@@ -48,9 +48,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
-        public Surfaces CreateBorders( double restitution, bool isVisible )
+        public Surfaces CreateBorders(double restitution, bool isVisible)
         {
-            return CreateBorders( restitution, isVisible, Color.Gray );
+            return CreateBorders(restitution, isVisible, Color.Gray);
         }
 
         /// <summary>
@@ -59,13 +59,13 @@ namespace Jypeli
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
         /// <param name="borderColor">Reunojen väri.</param>
-        public Surfaces CreateBorders( double restitution, bool isVisible, Color borderColor )
+        public Surfaces CreateBorders(double restitution, bool isVisible, Color borderColor)
         {
             Surfaces borders = new Surfaces();
-            borders.Left = CreateBorder( Direction.Left, restitution, isVisible, null, borderColor );
-            borders.Right = CreateBorder( Direction.Right, restitution, isVisible, null, borderColor );
-            borders.Top = CreateBorder( Direction.Up, restitution, isVisible, null, borderColor );
-            borders.Bottom = CreateBorder( Direction.Down, restitution, isVisible, null, borderColor );
+            borders.Left = CreateBorder(Direction.Left, restitution, isVisible, null, borderColor);
+            borders.Right = CreateBorder(Direction.Right, restitution, isVisible, null, borderColor);
+            borders.Top = CreateBorder(Direction.Up, restitution, isVisible, null, borderColor);
+            borders.Bottom = CreateBorder(Direction.Down, restitution, isVisible, null, borderColor);
             return borders;
         }
 
@@ -75,13 +75,13 @@ namespace Jypeli
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
         /// <param name="borderImage">Reunojen kuva / tekstuuri.</param>
-        public Surfaces CreateBorders( double restitution, bool isVisible, Image borderImage )
+        public Surfaces CreateBorders(double restitution, bool isVisible, Image borderImage)
         {
             Surfaces borders = new Surfaces();
-            borders.Left = CreateBorder( Direction.Left, restitution, isVisible, borderImage, Color.Gray );
-            borders.Right = CreateBorder( Direction.Right, restitution, isVisible, borderImage, Color.Gray );
-            borders.Top = CreateBorder( Direction.Up, restitution, isVisible, borderImage, Color.Gray );
-            borders.Bottom = CreateBorder( Direction.Down, restitution, isVisible, borderImage, Color.Gray );
+            borders.Left = CreateBorder(Direction.Left, restitution, isVisible, borderImage, Color.Gray);
+            borders.Right = CreateBorder(Direction.Right, restitution, isVisible, borderImage, Color.Gray);
+            borders.Top = CreateBorder(Direction.Up, restitution, isVisible, borderImage, Color.Gray);
+            borders.Bottom = CreateBorder(Direction.Down, restitution, isVisible, borderImage, Color.Gray);
             return borders;
         }
 
@@ -90,16 +90,16 @@ namespace Jypeli
         /// </summary>
         public Surfaces CreateHorizontalBorders()
         {
-            return CreateHorizontalBorders( 1, true );
+            return CreateHorizontalBorders(1, true);
         }
 
         /// <summary>
         /// Lisää kaikille kentän vaakasivuille reunat, joihin oliot voivat törmätä.
         /// </summary>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
-        public Surfaces CreateHorizontalBorders( bool isVisible )
+        public Surfaces CreateHorizontalBorders(bool isVisible)
         {
-            return CreateHorizontalBorders( 1, isVisible );
+            return CreateHorizontalBorders(1, isVisible);
         }
 
         /// <summary>
@@ -107,9 +107,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
-        public Surfaces CreateHorizontalBorders( double restitution, bool isVisible )
+        public Surfaces CreateHorizontalBorders(double restitution, bool isVisible)
         {
-            return CreateHorizontalBorders( restitution, isVisible, Color.Gray );
+            return CreateHorizontalBorders(restitution, isVisible, Color.Gray);
         }
 
         /// <summary>
@@ -118,11 +118,11 @@ namespace Jypeli
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
         /// <param name="borderColor">Reunojen väri.</param>
-        public Surfaces CreateHorizontalBorders( double restitution, bool isVisible, Color borderColor )
+        public Surfaces CreateHorizontalBorders(double restitution, bool isVisible, Color borderColor)
         {
             Surfaces borders = new Surfaces();
-            borders.Left = CreateBorder( Direction.Left, restitution, isVisible, null, borderColor );
-            borders.Right = CreateBorder( Direction.Right, restitution, isVisible, null, borderColor );
+            borders.Left = CreateBorder(Direction.Left, restitution, isVisible, null, borderColor);
+            borders.Right = CreateBorder(Direction.Right, restitution, isVisible, null, borderColor);
             return borders;
         }
 
@@ -132,11 +132,11 @@ namespace Jypeli
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
         /// <param name="borderColor">Reunojen väri.</param>
-        public Surfaces CreateVerticalBorders( double restitution, bool isVisible, Color borderColor )
+        public Surfaces CreateVerticalBorders(double restitution, bool isVisible, Color borderColor)
         {
             Surfaces borders = new Surfaces();
-            borders.Top = CreateBorder( Direction.Up, restitution, isVisible, null, borderColor );
-            borders.Bottom = CreateBorder( Direction.Down, restitution, isVisible, null, borderColor );
+            borders.Top = CreateBorder(Direction.Up, restitution, isVisible, null, borderColor);
+            borders.Bottom = CreateBorder(Direction.Down, restitution, isVisible, null, borderColor);
             return borders;
         }
 
@@ -146,11 +146,11 @@ namespace Jypeli
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
         /// <param name="borderImage">Reunojen kuva / tekstuuri.</param>
-        public Surfaces CreateHorizontalBorders( double restitution, bool isVisible, Image borderImage )
+        public Surfaces CreateHorizontalBorders(double restitution, bool isVisible, Image borderImage)
         {
             Surfaces borders = new Surfaces();
-            borders.Left = CreateBorder( Direction.Left, restitution, isVisible, borderImage, Color.Gray );
-            borders.Right = CreateBorder( Direction.Right, restitution, isVisible, borderImage, Color.Gray );
+            borders.Left = CreateBorder(Direction.Left, restitution, isVisible, borderImage, Color.Gray);
+            borders.Right = CreateBorder(Direction.Right, restitution, isVisible, borderImage, Color.Gray);
             return borders;
         }
 
@@ -159,16 +159,16 @@ namespace Jypeli
         /// </summary>
         public Surfaces CreateVerticalBorders()
         {
-            return CreateVerticalBorders( 1, true );
+            return CreateVerticalBorders(1, true);
         }
 
         /// <summary>
         /// Lisää kaikille kentän pystysivuille reunat, joihin oliot voivat törmätä.
         /// </summary>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
-        public Surfaces CreateVerticalBorders( bool isVisible )
+        public Surfaces CreateVerticalBorders(bool isVisible)
         {
-            return CreateVerticalBorders( 1, isVisible );
+            return CreateVerticalBorders(1, isVisible);
         }
 
         /// <summary>
@@ -176,9 +176,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
-        public Surfaces CreateVerticalBorders( double restitution, bool isVisible )
+        public Surfaces CreateVerticalBorders(double restitution, bool isVisible)
         {
-            return CreateVerticalBorders( restitution, isVisible, Color.Gray );
+            return CreateVerticalBorders(restitution, isVisible, Color.Gray);
         }
 
         /// <summary>
@@ -187,11 +187,11 @@ namespace Jypeli
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
         /// <param name="borderImage">Reunojen kuva / tekstuuri.</param>
-        public Surfaces CreateVerticalBorders( double restitution, bool isVisible, Image borderImage )
+        public Surfaces CreateVerticalBorders(double restitution, bool isVisible, Image borderImage)
         {
             Surfaces borders = new Surfaces();
-            borders.Top = CreateBorder( Direction.Up, restitution, isVisible, borderImage, Color.Gray );
-            borders.Bottom = CreateBorder( Direction.Down, restitution, isVisible, borderImage, Color.Gray );
+            borders.Top = CreateBorder(Direction.Up, restitution, isVisible, borderImage, Color.Gray);
+            borders.Bottom = CreateBorder(Direction.Down, restitution, isVisible, borderImage, Color.Gray);
             return borders;
         }
 
@@ -203,13 +203,13 @@ namespace Jypeli
         /// <param name="points">Pisteiden määrä (kuinka vaihtelevaa maasto on).</param>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="borderColor">Reunojen väri.</param>
-        public Surfaces CreateBorders( double min, double max, int points, double restitution, Color borderColor )
+        public Surfaces CreateBorders(double min, double max, int points, double restitution, Color borderColor)
         {
             Surfaces s = new Surfaces();
-            s.Left = CreateBorder( Direction.Left, min, max, points, restitution, true, null, borderColor );
-            s.Right = CreateBorder( Direction.Right, min, max, points, restitution, true, null, borderColor );
-            s.Top = CreateBorder( Direction.Up, min, max, points, restitution, true, null, borderColor );
-            s.Bottom = CreateBorder( Direction.Down, min, max, points, restitution, true, null, borderColor );
+            s.Left = CreateBorder(Direction.Left, min, max, points, restitution, true, null, borderColor);
+            s.Right = CreateBorder(Direction.Right, min, max, points, restitution, true, null, borderColor);
+            s.Top = CreateBorder(Direction.Up, min, max, points, restitution, true, null, borderColor);
+            s.Bottom = CreateBorder(Direction.Down, min, max, points, restitution, true, null, borderColor);
             return s;
         }
 
@@ -221,13 +221,13 @@ namespace Jypeli
         /// <param name="points">Pisteiden määrä (kuinka vaihtelevaa maasto on).</param>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="borderImage">Reunojen kuva / tekstuuri.</param>
-        public Surfaces CreateBorders( double min, double max, int points, double restitution, Image borderImage )
+        public Surfaces CreateBorders(double min, double max, int points, double restitution, Image borderImage)
         {
             Surfaces s = new Surfaces();
-            s.Left = CreateBorder( Direction.Left, min, max, points, restitution, true, borderImage, Color.Gray );
-            s.Right = CreateBorder( Direction.Right, min, max, points, restitution, true, borderImage, Color.Gray );
-            s.Top = CreateBorder( Direction.Up, min, max, points, restitution, true, borderImage, Color.Gray );
-            s.Bottom = CreateBorder( Direction.Down, min, max, points, restitution, true, borderImage, Color.Gray );
+            s.Left = CreateBorder(Direction.Left, min, max, points, restitution, true, borderImage, Color.Gray);
+            s.Right = CreateBorder(Direction.Right, min, max, points, restitution, true, borderImage, Color.Gray);
+            s.Top = CreateBorder(Direction.Up, min, max, points, restitution, true, borderImage, Color.Gray);
+            s.Bottom = CreateBorder(Direction.Down, min, max, points, restitution, true, borderImage, Color.Gray);
             return s;
         }
 
@@ -238,9 +238,9 @@ namespace Jypeli
         /// <param name="max">Reunan maksimipaksuus.</param>
         /// <param name="points">Pisteiden määrä (kuinka vaihtelevaa maasto on).</param>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
-        public Surfaces CreateBorders( double min, double max, int points, double restitution )
+        public Surfaces CreateBorders(double min, double max, int points, double restitution)
         {
-            return CreateBorders( min, max, points, restitution, Color.Gray );
+            return CreateBorders(min, max, points, restitution, Color.Gray);
         }
 
         /// <summary>
@@ -249,9 +249,9 @@ namespace Jypeli
         /// <param name="min">Reunan minimipaksuus.</param>
         /// <param name="max">Reunan maksimipaksuus.</param>
         /// <param name="points">Pisteiden määrä (kuinka vaihtelevaa maasto on).</param>
-        public Surfaces CreateBorders( double min, double max, int points )
+        public Surfaces CreateBorders(double min, double max, int points)
         {
-            return CreateBorders( min, max, points, 1, Color.Gray );
+            return CreateBorders(min, max, points, 1, Color.Gray);
         }
 
         /// <summary>
@@ -261,9 +261,9 @@ namespace Jypeli
         /// <param name="max">Reunan maksimipaksuus.</param>
         /// <param name="points">Pisteiden määrä (kuinka vaihtelevaa maasto on).</param>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
-        public Surfaces CreateHorizontalBorders( double min, double max, int points, double restitution )
+        public Surfaces CreateHorizontalBorders(double min, double max, int points, double restitution)
         {
-            return CreateHorizontalBorders( min, max, points, restitution, Color.Gray );
+            return CreateHorizontalBorders(min, max, points, restitution, Color.Gray);
         }
 
         /// <summary>
@@ -274,11 +274,11 @@ namespace Jypeli
         /// <param name="points">Pisteiden määrä (kuinka vaihtelevaa maasto on).</param>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="borderImage">Reunojen kuva / tekstuuri.</param>
-        public Surfaces CreateHorizontalBorders( double min, double max, int points, double restitution, Image borderImage )
+        public Surfaces CreateHorizontalBorders(double min, double max, int points, double restitution, Image borderImage)
         {
             Surfaces s = new Surfaces();
-            s.Left = CreateBorder( Direction.Left, min, max, points, restitution, true, borderImage, Color.Gray );
-            s.Right = CreateBorder( Direction.Right, min, max, points, restitution, true, borderImage, Color.Gray );
+            s.Left = CreateBorder(Direction.Left, min, max, points, restitution, true, borderImage, Color.Gray);
+            s.Right = CreateBorder(Direction.Right, min, max, points, restitution, true, borderImage, Color.Gray);
             return s;
         }
 
@@ -290,11 +290,11 @@ namespace Jypeli
         /// <param name="points">Pisteiden määrä (kuinka vaihtelevaa maasto on).</param>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="borderColor">Reunojen väri.</param>
-        public Surfaces CreateHorizontalBorders( double min, double max, int points, double restitution, Color borderColor )
+        public Surfaces CreateHorizontalBorders(double min, double max, int points, double restitution, Color borderColor)
         {
             Surfaces s = new Surfaces();
-            s.Left = CreateBorder( Direction.Left, min, max, points, restitution, true, null, borderColor );
-            s.Right = CreateBorder( Direction.Right, min, max, points, restitution, true, null, borderColor );
+            s.Left = CreateBorder(Direction.Left, min, max, points, restitution, true, null, borderColor);
+            s.Right = CreateBorder(Direction.Right, min, max, points, restitution, true, null, borderColor);
             return s;
         }
 
@@ -304,9 +304,9 @@ namespace Jypeli
         /// <param name="min">Reunan minimipaksuus.</param>
         /// <param name="max">Reunan maksimipaksuus.</param>
         /// <param name="points">Pisteiden määrä (kuinka vaihtelevaa maasto on).</param>
-        public Surfaces CreateHorizontalBorders( double min, double max, int points )
+        public Surfaces CreateHorizontalBorders(double min, double max, int points)
         {
-            return CreateHorizontalBorders( min, max, points, 1 );
+            return CreateHorizontalBorders(min, max, points, 1);
         }
 
         /// <summary>
@@ -316,9 +316,9 @@ namespace Jypeli
         /// <param name="max">Reunan maksimipaksuus.</param>
         /// <param name="points">Pisteiden määrä (kuinka vaihtelevaa maasto on).</param>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
-        public Surfaces CreateVerticalBorders( double min, double max, int points, double restitution )
+        public Surfaces CreateVerticalBorders(double min, double max, int points, double restitution)
         {
-            return CreateVerticalBorders( min, max, points, restitution, Color.Gray );
+            return CreateVerticalBorders(min, max, points, restitution, Color.Gray);
         }
 
         /// <summary>
@@ -329,11 +329,11 @@ namespace Jypeli
         /// <param name="points">Pisteiden määrä (kuinka vaihtelevaa maasto on).</param>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="borderImage">Reunojen kuva / tekstuuri.</param>
-        public Surfaces CreateVerticalBorders( double min, double max, int points, double restitution, Image borderImage )
+        public Surfaces CreateVerticalBorders(double min, double max, int points, double restitution, Image borderImage)
         {
             Surfaces s = new Surfaces();
-            s.Top = CreateBorder( Direction.Up, min, max, points, restitution, true, borderImage, Color.Gray );
-            s.Bottom = CreateBorder( Direction.Down, min, max, points, restitution, true, borderImage, Color.Gray );
+            s.Top = CreateBorder(Direction.Up, min, max, points, restitution, true, borderImage, Color.Gray);
+            s.Bottom = CreateBorder(Direction.Down, min, max, points, restitution, true, borderImage, Color.Gray);
             return s;
         }
 
@@ -345,11 +345,11 @@ namespace Jypeli
         /// <param name="points">Pisteiden määrä (kuinka vaihtelevaa maasto on).</param>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="borderColor">Reunojen väri.</param>
-        public Surfaces CreateVerticalBorders( double min, double max, int points, double restitution, Color borderColor )
+        public Surfaces CreateVerticalBorders(double min, double max, int points, double restitution, Color borderColor)
         {
             Surfaces s = new Surfaces();
-            s.Top = CreateBorder( Direction.Up, min, max, points, restitution, true, null, borderColor );
-            s.Bottom = CreateBorder( Direction.Down, min, max, points, restitution, true, null, borderColor );
+            s.Top = CreateBorder(Direction.Up, min, max, points, restitution, true, null, borderColor);
+            s.Bottom = CreateBorder(Direction.Down, min, max, points, restitution, true, null, borderColor);
             return s;
         }
 
@@ -359,17 +359,17 @@ namespace Jypeli
         /// <param name="min">Reunan minimipaksuus.</param>
         /// <param name="max">Reunan maksimipaksuus.</param>
         /// <param name="points">Pisteiden määrä (kuinka vaihtelevaa maasto on).</param>
-        public Surfaces CreateVerticalBorders( double min, double max, int points )
+        public Surfaces CreateVerticalBorders(double min, double max, int points)
         {
-            return CreateVerticalBorders( min, max, points, 1 );
+            return CreateVerticalBorders(min, max, points, 1);
         }
 
-        private PhysicsObject CreateBorder( double width, double height )
+        private PhysicsObject CreateBorder(double width, double height)
         {
-            PhysicsObject b = PhysicsObject.CreateStaticObject( width, height );
+            PhysicsObject b = PhysicsObject.CreateStaticObject(width, height);
             b.Color = Color.Gray;
             //b.Body.CollisionIgnorer = ignorerForBorders;
-            game.Add( b );
+            game.Add(b);
             return b;
         }
 
@@ -379,11 +379,11 @@ namespace Jypeli
         /// <returns>Uusi reuna.</returns>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
-        public PhysicsObject CreateLeftBorder( double restitution, bool isVisible )
+        public PhysicsObject CreateLeftBorder(double restitution, bool isVisible)
         {
             double thickness = GetBorderThickness();
-            PhysicsObject b = CreateBorder( thickness, this.Height );
-            b.Position = new Vector( Left - ( thickness / 2 ), Center.Y );
+            PhysicsObject b = CreateBorder(thickness, this.Height);
+            b.Position = new Vector(Left - (thickness / 2), Center.Y);
             b.Restitution = restitution;
             b.IsVisible = isVisible;
             return b;
@@ -395,11 +395,11 @@ namespace Jypeli
         /// <returns>Uusi reuna.</returns>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
-        public PhysicsObject CreateRightBorder( double restitution, bool isVisible )
+        public PhysicsObject CreateRightBorder(double restitution, bool isVisible)
         {
             double thickness = GetBorderThickness();
-            PhysicsObject b = CreateBorder( thickness, this.Height );
-            b.Position = new Vector( Right + ( thickness / 2 ), Center.Y );
+            PhysicsObject b = CreateBorder(thickness, this.Height);
+            b.Position = new Vector(Right + (thickness / 2), Center.Y);
             b.Restitution = restitution;
             b.IsVisible = isVisible;
             return b;
@@ -411,12 +411,12 @@ namespace Jypeli
         /// <returns>Uusi reuna.</returns>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
-        public PhysicsObject CreateTopBorder( double restitution, bool isVisible )
+        public PhysicsObject CreateTopBorder(double restitution, bool isVisible)
         {
             double thickness = GetBorderThickness();
-            PhysicsObject b = CreateBorder( this.Width + ( 2 * thickness ), thickness );
-            b.Angle = Angle.FromRadians( Math.PI );
-            b.Position = new Vector( Center.X, Top + ( thickness / 2 ) );
+            PhysicsObject b = CreateBorder(this.Width + (2 * thickness), thickness);
+            b.Angle = Angle.FromRadians(Math.PI);
+            b.Position = new Vector(Center.X, Top + (thickness / 2));
             b.Restitution = restitution;
             b.IsVisible = isVisible;
             return b;
@@ -428,12 +428,12 @@ namespace Jypeli
         /// <returns>Uusi reuna.</returns>
         /// <param name="restitution">Reunojen kimmoisuus (0.0 = pysäyttää, 1.0 = kimpoaa täydellä voimalla)</param>
         /// <param name="isVisible">Reunan näkyvyys <c>true</c>, jos näkyvät reunat, muuten <c>false</c>.</param>
-        public PhysicsObject CreateBottomBorder( double restitution, bool isVisible )
+        public PhysicsObject CreateBottomBorder(double restitution, bool isVisible)
         {
             double thickness = GetBorderThickness();
-            PhysicsObject b = CreateBorder( Width + ( 2 * thickness ), thickness );
+            PhysicsObject b = CreateBorder(Width + (2 * thickness), thickness);
             b.Angle = Angle.Zero;
-            b.Position = new Vector( Center.X, Bottom - ( thickness / 2 ) );
+            b.Position = new Vector(Center.X, Bottom - (thickness / 2));
             b.Restitution = restitution;
             b.IsVisible = isVisible;
             return b;
@@ -445,7 +445,7 @@ namespace Jypeli
         /// <returns>Uusi reuna.</returns>
         public PhysicsObject CreateLeftBorder()
         {
-            return CreateLeftBorder( 1, true );
+            return CreateLeftBorder(1, true);
         }
 
         /// <summary>
@@ -454,7 +454,7 @@ namespace Jypeli
         /// <returns>Uusi reuna.</returns>
         public PhysicsObject CreateRightBorder()
         {
-            return CreateRightBorder( 1, true );
+            return CreateRightBorder(1, true);
         }
 
         /// <summary>
@@ -463,7 +463,7 @@ namespace Jypeli
         /// <returns>Uusi reuna.</returns>
         public PhysicsObject CreateTopBorder()
         {
-            return CreateTopBorder( 1, true );
+            return CreateTopBorder(1, true);
         }
 
         /// <summary>
@@ -472,7 +472,7 @@ namespace Jypeli
         /// <returns>Uusi reuna.</returns>
         public PhysicsObject CreateBottomBorder()
         {
-            return CreateBottomBorder( 1, true );
+            return CreateBottomBorder(1, true);
         }
 
         /// <summary>
@@ -487,9 +487,9 @@ namespace Jypeli
         /// <remarks>
         /// Huomaa, että maastossa ei voi olla kahta pistettä päällekkäin.
         /// </remarks>
-        public PhysicsObject CreateGround( double[] heights, double scale )
+        public PhysicsObject CreateGround(double[] heights, double scale)
         {
-            return CreateGround( heights, scale, null );
+            return CreateGround(heights, scale, null);
         }
 
         /// <summary>
@@ -503,12 +503,12 @@ namespace Jypeli
         /// Tavallisesti arvoksi kelpaa 1.0.</param>
         /// <param name="image">Maastossa käytettävä kuva.</param>
         /// <returns></returns>
-        public PhysicsObject CreateGround( double[] heights, double scale, Image image )
+        public PhysicsObject CreateGround(double[] heights, double scale, Image image)
         {
-            var ground = new Surface( Width, heights, scale );
-            ground.Position = new Vector( Center.X, Bottom - ( heights.Max() / 2 ) );
+            var ground = new Surface(Width, heights, scale);
+            ground.Position = new Vector(Center.X, Bottom - (heights.Max() / 2));
             ground.Image = image;
-            game.Add( ground );
+            game.Add(ground);
             return ground;
         }
 

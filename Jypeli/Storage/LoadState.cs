@@ -13,15 +13,15 @@ namespace Jypeli
         private XmlReader reader;
         private List<String> objectsRead;
 
-        internal LoadState( FileManager manager, string fileName )
+        internal LoadState(FileManager manager, string fileName)
         {
             this.manager = manager;
-            File = manager.Open( fileName, false );
+            File = manager.Open(fileName, false);
             BeginReadXml();
             objectsRead = new List<string>();
         }
 
-        internal LoadState( StorageFile file, string fileName )
+        internal LoadState(StorageFile file, string fileName)
         {
             File = file;
             BeginReadXml();
@@ -46,15 +46,15 @@ namespace Jypeli
             reader = null;
             objectsRead.Clear();
 
-            if ( File.Stream.CanSeek )
+            if (File.Stream.CanSeek)
             {
-                File.Stream.Seek( 0, System.IO.SeekOrigin.Begin );
+                File.Stream.Seek(0, System.IO.SeekOrigin.Begin);
             }
             else
             {
                 string fileName = File.Name;
                 File.Close();
-                File = manager.Open( fileName, false );
+                File = manager.Open(fileName, false);
             }
 
             BeginReadXml();
@@ -62,22 +62,23 @@ namespace Jypeli
 
         private void BeginReadXml()
         {
-            if ( reader != null )
+            if (reader != null)
                 return;
 
-            reader = XmlReader.Create( File.Stream );
+            reader = XmlReader.Create(File.Stream);
             reader.Read();
-            if ( !reader.IsStartElement( "State" ) ) throw new ArgumentException( "File is corrupted or not a save state file." );
+            if (!reader.IsStartElement("State"))
+                throw new ArgumentException("File is corrupted or not a save state file.");
         }
 
-        public T Load<T>( T obj, string name )
+        public T Load<T>(T obj, string name)
         {
-            return (T)Load( obj, typeof( T ), name );
+            return (T)Load(obj, typeof(T), name);
         }
 
-        public object Load( object obj, Type type, string name )
+        public object Load(object obj, Type type, string name)
         {
-            if ( objectsRead.Contains( name ) )
+            if (objectsRead.Contains(name))
             {
                 // Start from beginning
                 ResetFile();
@@ -87,41 +88,42 @@ namespace Jypeli
 
             int depth = 0;
 
-            while ( !reader.EOF )
+            while (!reader.EOF)
             {
                 reader.Read();
 
-                if ( reader.NodeType == XmlNodeType.None )
-                    throw new IOException( "Error loading object: reader not initialized" );
+                if (reader.NodeType == XmlNodeType.None)
+                    throw new IOException("Error loading object: reader not initialized");
 
-                if ( reader.NodeType == XmlNodeType.Element )
+                if (reader.NodeType == XmlNodeType.Element)
                 {
-                    if ( depth == 0 )
+                    if (depth == 0)
                     {
-                        if ( reader.Name != "Object" )
-                            throw new XmlException( "Unexpected element in save state file: " + reader.Name );
+                        if (reader.Name != "Object")
+                            throw new XmlException("Unexpected element in save state file: " + reader.Name);
 
-                        string objName = reader.GetAttribute( "Name" );
-                        if ( string.IsNullOrEmpty( objName ) )
-                            throw new XmlException( "Unnamed object in save state file" );
+                        string objName = reader.GetAttribute("Name");
+                        if (string.IsNullOrEmpty(objName))
+                            throw new XmlException("Unnamed object in save state file");
 
-                        if ( name == objName )
-                            return File.LoadData( reader, type, obj );
+                        if (name == objName)
+                            return File.LoadData(reader, type, obj);
                         else
-                            objectsRead.Add( objName );
+                            objectsRead.Add(objName);
                     }
 
-                    if ( !reader.IsEmptyElement )
+                    if (!reader.IsEmptyElement)
                         depth++;
                 }
-                else if ( reader.NodeType == XmlNodeType.EndElement )
+                else if (reader.NodeType == XmlNodeType.EndElement)
                 {
                     depth--;
-                    if ( depth < 0 ) throw new InvalidOperationException( "Error loading object: parse depth < 0" );
+                    if (depth < 0)
+                        throw new InvalidOperationException("Error loading object: parse depth < 0");
                 }
             }
 
-            throw new KeyNotFoundException( "Object with name " + name + " could not be found in file " + File.Name );
+            throw new KeyNotFoundException("Object with name " + name + " could not be found in file " + File.Name);
         }
     }
 }

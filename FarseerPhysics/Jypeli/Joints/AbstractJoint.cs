@@ -28,7 +28,7 @@ namespace Jypeli
         /// <summary>
         /// Liitoksen pehmeys eli kuinka paljon sillä on liikkumavaraa.
         /// </summary>
-        public abstract double Softness { get;  set; }
+        public abstract double Softness { get; set; }
 
         Physics.IPhysicsEngine engine = null;
 
@@ -39,10 +39,14 @@ namespace Jypeli
 
         public void AddToEngine()
         {
-            if (this.engine == null) throw new InvalidOperationException("AddToEngine: physics engine not set");
-            if (this.Object1 == null) throw new InvalidOperationException("AddToEngine: joint.Object1 == null");
-            if (!this.Object1.IsAddedToGame) throw new InvalidOperationException("AddToEngine: object 1 not added to game");
-            if (this.Object2 == null && !this.Object2.IsAddedToGame) throw new InvalidOperationException("AddToEngine: object 2 not added to game");
+            if (this.engine == null)
+                throw new InvalidOperationException("AddToEngine: physics engine not set");
+            if (this.Object1 == null)
+                throw new InvalidOperationException("AddToEngine: joint.Object1 == null");
+            if (!this.Object1.IsAddedToGame)
+                throw new InvalidOperationException("AddToEngine: object 1 not added to game");
+            if (this.Object2 == null && !this.Object2.IsAddedToGame)
+                throw new InvalidOperationException("AddToEngine: object 2 not added to game");
 
             engine.AddJoint(this);
         }

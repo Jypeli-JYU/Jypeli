@@ -54,10 +54,12 @@ namespace FarseerPhysics.Common
             Vector2 w = point - start;
 
             float c1 = Vector2.Dot(w, v);
-            if (c1 <= 0) return Vector2.Distance(point, start);
+            if (c1 <= 0)
+                return Vector2.Distance(point, start);
 
             float c2 = Vector2.Dot(v, v);
-            if (c2 <= c1) return Vector2.Distance(point, end);
+            if (c2 <= c1)
+                return Vector2.Distance(point, end);
 
             float b = c1 / c2;
             Vector2 pointOnLine = start + v * b;
@@ -73,7 +75,7 @@ namespace FarseerPhysics.Common
         ///Grazing lines should not return true.
         /// 
         /// </summary>
-        public static bool LineIntersect2(ref Vector2 a0, ref Vector2 a1, ref Vector2 b0, ref  Vector2 b1, out Vector2 intersectionPoint)
+        public static bool LineIntersect2(ref Vector2 a0, ref Vector2 a1, ref Vector2 b0, ref Vector2 b1, out Vector2 intersectionPoint)
         {
             intersectionPoint = Vector2.Zero;
 

@@ -64,10 +64,10 @@ namespace Jypeli
                 QueryWidget.Color = value;
 
 #if ANDROID
-                if ( OkButtonOnPhone )
+                if (OkButtonOnPhone)
 #endif
                 {
-                    OKButton.Color = Color.Darker( value, 40 );
+                    OKButton.Color = Color.Darker(value, 40);
                 }
                 base.Color = value;
             }
@@ -77,9 +77,9 @@ namespace Jypeli
         /// Alustaa uuden kyselyikkunan.
         /// </summary>
         /// <param name="message">Viesti tai kysymys</param>
-        public CustomQueryWindow( string message )
+        public CustomQueryWindow(string message)
         {
-            Game.AssertInitialized<string>( Initialize, message );
+            Game.AssertInitialized<string>(Initialize, message);
         }
 
         /// <summary>
@@ -88,41 +88,41 @@ namespace Jypeli
         /// <param name="width">Ikkunan leveys</param>
         /// <param name="height">Ikkunan korkeus</param>
         /// <param name="message">Viesti tai kysymys</param>
-        public CustomQueryWindow( double width, double height, string message )
-            : base( width, height )
+        public CustomQueryWindow(double width, double height, string message)
+            : base(width, height)
         {
-            Game.AssertInitialized<string>( Initialize, message );
+            Game.AssertInitialized<string>(Initialize, message);
         }
 
-        private void Initialize( string message )
+        private void Initialize(string message)
         {
             Layout = new VerticalLayout { Spacing = 20, LeftPadding = 15, RightPadding = 15, TopPadding = 15, BottomPadding = 15 };
 
-//#if ANDROID
+            //#if ANDROID
             int maxWidth = (int)Game.Screen.Width - 30;
             Message = new Label(Math.Min(maxWidth, Font.Default.MeasureSize(message).X), 50, message)
-                { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
-//#else
-// Wrapped text and layouts don't work that well together... :/
-// A simple workaround:
-//            Message = new Label( 600, 100, message );
-//            Message.SizeMode = TextSizeMode.Wrapped;
-//            Message.HorizontalAlignment = HorizontalAlignment.Left;
-//            Message.VerticalAlignment = VerticalAlignment.Top;
-//#endif
+            { SizeMode = TextSizeMode.Wrapped, VerticalSizing = Sizing.Expanding };
+            //#else
+            // Wrapped text and layouts don't work that well together... :/
+            // A simple workaround:
+            //            Message = new Label( 600, 100, message );
+            //            Message.SizeMode = TextSizeMode.Wrapped;
+            //            Message.HorizontalAlignment = HorizontalAlignment.Left;
+            //            Message.VerticalAlignment = VerticalAlignment.Top;
+            //#endif
             Add(Message);
-            
+
             QueryWidget = CreateQueryWidget();
-            Add( QueryWidget );
+            Add(QueryWidget);
 
 #if ANDROID
-            if ( OkButtonOnPhone )
+            if (OkButtonOnPhone)
 #endif
             {
                 // By adding some space, we make it harder to accidently hit the OK button, especially on the phone.
                 // Buttonrow is created in order to move the button to the right edge, for the same reason.
-                Add( new VerticalSpacer { PreferredSize = new Vector( 1, 20 ), VerticalSizing = Sizing.FixedSize } );
-                Add( CreateButtonRow() );
+                Add(new VerticalSpacer { PreferredSize = new Vector(1, 20), VerticalSizing = Sizing.FixedSize });
+                Add(CreateButtonRow());
             }
 
             AddedToGame += AddListeners;
@@ -131,18 +131,18 @@ namespace Jypeli
         private Widget CreateButtonRow()
         {
             // Button row with only one button :)
-            Widget buttonRow = new Widget( new HorizontalLayout() ) { Color = Color.Transparent };
-            buttonRow.Add( new HorizontalSpacer() );
+            Widget buttonRow = new Widget(new HorizontalLayout()) { Color = Color.Transparent };
+            buttonRow.Add(new HorizontalSpacer());
 
-            OKButton = new PushButton( "OK" );
+            OKButton = new PushButton("OK");
 #if ANDROID
-            if ( Game.Device.DisplayResolution == DisplayResolution.Large )
+            if (Game.Device.DisplayResolution == DisplayResolution.Large)
                 OKButton.TextScale = new Vector(2, 2);
-            else if ( Game.Device.DisplayResolution == DisplayResolution.HD720 )
-                OKButton.TextScale = new Vector( 3, 3 );
+            else if (Game.Device.DisplayResolution == DisplayResolution.HD720)
+                OKButton.TextScale = new Vector(3, 3);
 #endif
             OKButton.Clicked += new Action(Close);
-            buttonRow.Add( OKButton );
+            buttonRow.Add(OKButton);
 
             return buttonRow;
         }
@@ -157,7 +157,8 @@ namespace Jypeli
         {
             Listener l;
 #if ANDROID
-            l = Game.Instance.TouchPanel.Listen(ButtonState.Pressed, delegate{ Close(); }, null).InContext(this);
+            l = Game.Instance.TouchPanel.Listen(ButtonState.Pressed, delegate
+            { Close(); }, null).InContext(this);
 #else
             l = Game.Instance.Keyboard.Listen(Key.Enter, ButtonState.Pressed, OKButton.Click, null).InContext(this);
 #endif

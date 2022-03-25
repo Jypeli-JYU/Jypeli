@@ -20,13 +20,13 @@ namespace Jypeli
         {
             int vertexBufferSize = Game.GraphicsDevice.BufferSize;
             vertexBuffer = new VertexPositionColorTexture[vertexBufferSize];
-           
+
             shader = Graphics.BasicColorShader;
         }
 
-        public void Begin( ref Matrix matrix )
+        public void Begin(ref Matrix matrix)
         {
-            Debug.Assert( !beginHasBeenCalled );
+            Debug.Assert(!beginHasBeenCalled);
             beginHasBeenCalled = true;
 
             this.matrix = matrix;
@@ -35,14 +35,14 @@ namespace Jypeli
 
         public void End()
         {
-            Debug.Assert( beginHasBeenCalled );
+            Debug.Assert(beginHasBeenCalled);
             Flush();
             beginHasBeenCalled = false;
         }
 
         private void Flush()
         {
-            if ( iVertexBuffer > 0 )
+            if (iVertexBuffer > 0)
             {
                 shader.Use();
 
@@ -60,7 +60,7 @@ namespace Jypeli
             {
                 Flush();
             }
-            vertexBuffer[iVertexBuffer++] = new VertexPositionColorTexture(new Vector3((float)startPoint.X, (float)startPoint.Y, 0f),color, Vector.Zero);
+            vertexBuffer[iVertexBuffer++] = new VertexPositionColorTexture(new Vector3((float)startPoint.X, (float)startPoint.Y, 0f), color, Vector.Zero);
             vertexBuffer[iVertexBuffer++] = new VertexPositionColorTexture(new Vector3((float)endPoint.X, (float)endPoint.Y, 0f), color, Vector.Zero);
         }
     }

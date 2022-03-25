@@ -10,12 +10,12 @@ namespace Jypeli
         /// <summary>
         /// Vaakasuuntainen, vasemmalle käännetty.
         /// </summary>
-        public static DisplayOrientation LandscapeLeft = new DisplayOrientation( 1, 0 );
+        public static DisplayOrientation LandscapeLeft = new DisplayOrientation(1, 0);
 
         /// <summary>
         /// Vaakasuuntainen, oikealle käännetty.
         /// </summary>
-        public static DisplayOrientation LandscapeRight = new DisplayOrientation( -1, 0 );
+        public static DisplayOrientation LandscapeRight = new DisplayOrientation(-1, 0);
 
         /// <summary>
         /// Vaakasuuntainen.
@@ -25,12 +25,12 @@ namespace Jypeli
         /// <summary>
         /// Pystysuuntainen.
         /// </summary>
-        public static DisplayOrientation Portrait = new DisplayOrientation( 0, 1 );
+        public static DisplayOrientation Portrait = new DisplayOrientation(0, 1);
 
         /// <summary>
         /// Pystysuuntainen, ylösalaisin käännetty.
         /// </summary>
-        public static DisplayOrientation PortraitInverse = new DisplayOrientation( 0, -1 );
+        public static DisplayOrientation PortraitInverse = new DisplayOrientation(0, -1);
 
         /// <summary>
         /// X-kerroin: 1 jos vaakasuora vasemmalle, -1 jos vaakasuora oikealle, 0 jos pystysuora.
@@ -62,9 +62,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals( object obj )
+        public override bool Equals(object obj)
         {
-            return this.Equals( obj as DisplayOrientation );
+            return this.Equals(obj as DisplayOrientation);
         }
 
         /// <summary>
@@ -72,9 +72,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals( DisplayOrientation other )
+        public bool Equals(DisplayOrientation other)
         {
-            if ( other == null )
+            if (other == null)
                 return false;
 
             return other.Xmul == this.Xmul && other.Ymul == this.Ymul;
@@ -86,11 +86,11 @@ namespace Jypeli
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator ==( DisplayOrientation a, DisplayOrientation b )
+        public static bool operator ==(DisplayOrientation a, DisplayOrientation b)
         {
-            if ( ReferenceEquals( a, null ) )
-                return ReferenceEquals( b, null );
-            if ( ReferenceEquals( b, null ) )
+            if (ReferenceEquals(a, null))
+                return ReferenceEquals(b, null);
+            if (ReferenceEquals(b, null))
                 return false;
 
             return a.Xmul == b.Xmul && a.Ymul == b.Ymul;
@@ -102,11 +102,11 @@ namespace Jypeli
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator !=( DisplayOrientation a, DisplayOrientation b )
+        public static bool operator !=(DisplayOrientation a, DisplayOrientation b)
         {
-            if ( ReferenceEquals( a, null ) )
-                return !ReferenceEquals( b, null );
-            if ( ReferenceEquals( b, null ) )
+            if (ReferenceEquals(a, null))
+                return !ReferenceEquals(b, null);
+            if (ReferenceEquals(b, null))
                 return true;
 
             return a.Xmul != b.Xmul || a.Ymul != b.Ymul;

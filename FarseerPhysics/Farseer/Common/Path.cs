@@ -211,17 +211,25 @@ namespace FarseerPhysics.Common
 
                 // use a circular indexing system
                 int p0 = p - 1;
-                if (p0 < 0) p0 = p0 + (ControlPoints.Count - 1);
-                else if (p0 >= ControlPoints.Count - 1) p0 = p0 - (ControlPoints.Count - 1);
+                if (p0 < 0)
+                    p0 = p0 + (ControlPoints.Count - 1);
+                else if (p0 >= ControlPoints.Count - 1)
+                    p0 = p0 - (ControlPoints.Count - 1);
                 int p1 = p;
-                if (p1 < 0) p1 = p1 + (ControlPoints.Count - 1);
-                else if (p1 >= ControlPoints.Count - 1) p1 = p1 - (ControlPoints.Count - 1);
+                if (p1 < 0)
+                    p1 = p1 + (ControlPoints.Count - 1);
+                else if (p1 >= ControlPoints.Count - 1)
+                    p1 = p1 - (ControlPoints.Count - 1);
                 int p2 = p + 1;
-                if (p2 < 0) p2 = p2 + (ControlPoints.Count - 1);
-                else if (p2 >= ControlPoints.Count - 1) p2 = p2 - (ControlPoints.Count - 1);
+                if (p2 < 0)
+                    p2 = p2 + (ControlPoints.Count - 1);
+                else if (p2 >= ControlPoints.Count - 1)
+                    p2 = p2 - (ControlPoints.Count - 1);
                 int p3 = p + 2;
-                if (p3 < 0) p3 = p3 + (ControlPoints.Count - 1);
-                else if (p3 >= ControlPoints.Count - 1) p3 = p3 - (ControlPoints.Count - 1);
+                if (p3 < 0)
+                    p3 = p3 + (ControlPoints.Count - 1);
+                else if (p3 >= ControlPoints.Count - 1)
+                    p3 = p3 - (ControlPoints.Count - 1);
 
                 // relative time
                 float lt = (time - _deltaT * p) / _deltaT;
@@ -236,17 +244,25 @@ namespace FarseerPhysics.Common
 
                 // 
                 int p0 = p - 1;
-                if (p0 < 0) p0 = 0;
-                else if (p0 >= ControlPoints.Count - 1) p0 = ControlPoints.Count - 1;
+                if (p0 < 0)
+                    p0 = 0;
+                else if (p0 >= ControlPoints.Count - 1)
+                    p0 = ControlPoints.Count - 1;
                 int p1 = p;
-                if (p1 < 0) p1 = 0;
-                else if (p1 >= ControlPoints.Count - 1) p1 = ControlPoints.Count - 1;
+                if (p1 < 0)
+                    p1 = 0;
+                else if (p1 >= ControlPoints.Count - 1)
+                    p1 = ControlPoints.Count - 1;
                 int p2 = p + 1;
-                if (p2 < 0) p2 = 0;
-                else if (p2 >= ControlPoints.Count - 1) p2 = ControlPoints.Count - 1;
+                if (p2 < 0)
+                    p2 = 0;
+                else if (p2 >= ControlPoints.Count - 1)
+                    p2 = ControlPoints.Count - 1;
                 int p3 = p + 2;
-                if (p3 < 0) p3 = 0;
-                else if (p3 >= ControlPoints.Count - 1) p3 = ControlPoints.Count - 1;
+                if (p3 < 0)
+                    p3 = 0;
+                else if (p3 >= ControlPoints.Count - 1)
+                    p3 = ControlPoints.Count - 1;
 
                 // relative time
                 float lt = (time - _deltaT * p) / _deltaT;
@@ -261,7 +277,7 @@ namespace FarseerPhysics.Common
         {
             double sqAmount = amount * amount;
             double cuAmount = sqAmount * amount;
-            
+
             double x;
             double y;
             x = 2.0 * p1.X;

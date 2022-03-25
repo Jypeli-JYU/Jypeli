@@ -28,7 +28,7 @@ namespace Jypeli.GameObjects
 
         public event Action Destroyed;
 
-        public Oscillator( IGameObject obj, double f, double phase, double damping )
+        public Oscillator(IGameObject obj, double f, double phase, double damping)
         {
             this.Object = obj;
             this.Frequency = f;
@@ -40,14 +40,14 @@ namespace Jypeli.GameObjects
 
         public double GetDampingMultiplier()
         {
-            return Math.Pow( Math.E, -Damping * t );
+            return Math.Pow(Math.E, -Damping * t);
         }
 
-        public void Update( Time time )
+        public void Update(Time time)
         {
             t += time.SinceLastUpdate.TotalSeconds;
 
-            if ( GetDampingMultiplier() < 1e-12 )
+            if (GetDampingMultiplier() < 1e-12)
             {
                 Stop();
                 Destroy();
@@ -63,7 +63,8 @@ namespace Jypeli.GameObjects
         public void Destroy()
         {
             IsDestroyed = true;
-            if ( Destroyed != null ) Destroyed();
+            if (Destroyed != null)
+                Destroyed();
         }
 
         public abstract void Stop(bool returnToOriginalPosition = false, bool stopGradually = false);
@@ -78,16 +79,16 @@ namespace Jypeli.GameObjects
         public Vector Axis;
         public double Amplitude;
 
-        public LinearOscillator( IGameObject obj, Vector axis, double a, double f, double phase, double damping )
-            : base( obj, f, phase, damping )
+        public LinearOscillator(IGameObject obj, Vector axis, double a, double f, double phase, double damping)
+            : base(obj, f, phase, damping)
         {
             this.Axis = axis.Normalize();
             this.Amplitude = a;
-            this.Center = obj.Position - Axis * Amplitude * Math.Sin( phase );
+            this.Center = obj.Position - Axis * Amplitude * Math.Sin(phase);
 
-            if ( Object is IPhysicsObject )
+            if (Object is IPhysicsObject)
             {
-                ( (IPhysicsObject)obj ).Velocity = Axis * Amplitude * 2 * Math.PI * f * Math.Cos( phase );
+                ((IPhysicsObject)obj).Velocity = Axis * Amplitude * 2 * Math.PI * f * Math.Cos(phase);
             }
         }
 
@@ -119,7 +120,8 @@ namespace Jypeli.GameObjects
                 double totalForce = force - dampingForce;
 
                 physObj.Push(totalForce * Axis);
-            }else if(Object is PhysicsObject obj)
+            }
+            else if (Object is PhysicsObject obj)
             {
                 obj.Velocity = GetVelocity();
             }
@@ -170,10 +172,10 @@ namespace Jypeli.GameObjects
         public Angle Center;
         public UnlimitedAngle Amplitude;
 
-        public AngularOscillator( IGameObject obj, double dir, UnlimitedAngle a, double f, double damping )
-            : base( obj, f, 0, damping )
+        public AngularOscillator(IGameObject obj, double dir, UnlimitedAngle a, double f, double damping)
+            : base(obj, f, 0, damping)
         {
-            this.Direction = Math.Sign( dir );
+            this.Direction = Math.Sign(dir);
             this.Amplitude = a;
             this.Center = obj.Angle;
         }
@@ -183,7 +185,7 @@ namespace Jypeli.GameObjects
             return Direction * Amplitude * GetDampingMultiplier() * Math.Cos(W * t + Phase);
         }
 
-        bool IsDynamic( IGameObject obj )
+        bool IsDynamic(IGameObject obj)
         {
             return obj is IPhysicsObject objp && objp.MomentOfInertia != 0;
         }
@@ -242,7 +244,7 @@ namespace Jypeli.GameObjects
                 {
                     Object.Angle = OriginalAngle;
                 }
-                
+
                 Destroy();
             }
             else

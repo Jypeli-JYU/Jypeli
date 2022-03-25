@@ -60,7 +60,7 @@ namespace FarseerPhysics.Dynamics
         /// Typical values are {128 or 256}.
         /// </summary>
         public int PositionConstraintsMultithreadThreshold = 256;
-        
+
         /// <summary>
         /// A threshold for activating multiple cores to solve Collide.
         /// An World with a contact count above this threshold will use multiple threads to solve Collide.
@@ -68,7 +68,7 @@ namespace FarseerPhysics.Dynamics
         /// Typical values are {128 or 256}.
         /// </summary>
         public int CollideMultithreadThreshold = 256;
-        
+
         /// <summary>
         /// Kuinka monta suoritinta korkeintaan käytetään fysiikan laskemiseen.
         /// </summary>
@@ -134,8 +134,8 @@ namespace FarseerPhysics.Dynamics
                 ThreadsToUse = Environment.ProcessorCount * 2;
                 ThreadPool.SetMaxThreads(ThreadsToUse, ThreadsToUse);
             }
-            
-            
+
+
             ContactList = new ContactListHead();
             ContactCount = 0;
             _contactPoolList = new ContactListHead();
@@ -149,7 +149,7 @@ namespace FarseerPhysics.Dynamics
         {
             FixtureProxy proxyA = BroadPhase.GetProxy(proxyIdA);
             FixtureProxy proxyB = BroadPhase.GetProxy(proxyIdB);
-            
+
             Fixture fixtureA = proxyA.Fixture;
             Fixture fixtureB = proxyB.Fixture;
 
@@ -234,7 +234,7 @@ namespace FarseerPhysics.Dynamics
             ContactCount++;
 
 #if USE_ACTIVE_CONTACT_SET
-			ActiveContacts.Add(c);
+            ActiveContacts.Add(c);
 #endif
             // Connect to island graph.
 
@@ -335,11 +335,11 @@ namespace FarseerPhysics.Dynamics
                 contact._nodeB.Next.Prev = contact._nodeB.Prev;
 
 #if USE_ACTIVE_CONTACT_SET
-			if (ActiveContacts.Contains(contact))
-				ActiveContacts.Remove(contact);
+            if (ActiveContacts.Contains(contact))
+                ActiveContacts.Remove(contact);
 #endif
             contact.Destroy();
-            
+
             // Insert into the pool.
             contact.Next = _contactPoolList.Next;
             _contactPoolList.Next = contact;
@@ -424,7 +424,7 @@ namespace FarseerPhysics.Dynamics
                 if (activeA == false && activeB == false)
                 {
 #if USE_ACTIVE_CONTACT_SET
-					ActiveContacts.Remove(c);
+                    ActiveContacts.Remove(c);
 #endif
                     c = c.Next;
                     continue;
@@ -451,7 +451,7 @@ namespace FarseerPhysics.Dynamics
             }
 
 #if USE_ACTIVE_CONTACT_SET
-			ActiveList.Clear();
+            ActiveList.Clear();
 #endif
         }
 
@@ -464,7 +464,7 @@ namespace FarseerPhysics.Dynamics
         internal void CollideMultiCore()
         {
             int lockOrder = 0;
- 
+
             // Update awake contacts.
 #if USE_ACTIVE_CONTACT_SET
             ActiveList.AddRange(ActiveContacts);
@@ -534,7 +534,7 @@ namespace FarseerPhysics.Dynamics
                 if (activeA == false && activeB == false)
                 {
 #if USE_ACTIVE_CONTACT_SET
-					ActiveContacts.Remove(c);
+                    ActiveContacts.Remove(c);
 #endif
                     c = c.Next;
                     continue;
@@ -565,7 +565,7 @@ namespace FarseerPhysics.Dynamics
             }
 
 #if USE_ACTIVE_CONTACT_SET
-			ActiveList.Clear();
+            ActiveList.Clear();
 #endif
             // TODO: Jää joskus tänne jumiin.
             // update contacts
@@ -629,7 +629,7 @@ namespace FarseerPhysics.Dynamics
 #if USE_ACTIVE_CONTACT_SET
         internal void UpdateActiveContacts(ContactEdge ContactList, bool value)
         {
-            if(value)
+            if (value)
             {
                 for (var contactEdge = ContactList; contactEdge != null; contactEdge = contactEdge.Next)
                 {

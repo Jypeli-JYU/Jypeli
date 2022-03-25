@@ -85,7 +85,7 @@ namespace Jypeli
 
         static double GetDefaultHeight()
         {
-            Vector fontDims = Font.Default.MeasureSize( "Ä" );
+            Vector fontDims = Font.Default.MeasureSize("Ä");
             return fontDims.Y;
         }
 
@@ -97,8 +97,8 @@ namespace Jypeli
             get { return originalText; }
             set
             {
-                if ( value == null )
-                    throw new ArgumentException( "Text must not be null" );
+                if (value == null)
+                    throw new ArgumentException("Text must not be null");
                 originalText = value;
                 updateSize();
             }
@@ -109,9 +109,9 @@ namespace Jypeli
         /// </summary>
         public bool IsTruncated
         {
-            get { return visibleText.Length < ( originalText.Length ); }
+            get { return visibleText.Length < (originalText.Length); }
         }
-        
+
         Vector3 _textScale = new Vector3(1, 1, 1);
 
         /// <summary>
@@ -208,9 +208,9 @@ namespace Jypeli
         /// Jos tämä on asetettu, jätetään <c>TextColor</c>-kentän arvo huomioimatta.
         /// Taulukossa pitää olla väri jokaiselle kirjaimelle, ts. sen pituus pitää olla vähintään sama kuin tekstin.
         /// </summary>
-        public Color[] CharacterColors 
-        { 
-            get { return characterColors; } 
+        public Color[] CharacterColors
+        {
+            get { return characterColors; }
             set { characterColors = value; }
         }
 
@@ -249,7 +249,7 @@ namespace Jypeli
         /// <summary>
         /// Marginaali ylä-/alareunasta.
         /// </summary>
-        public double YMargin 
+        public double YMargin
         {
             get { return _yMargin; }
             set { _yMargin = value; updateSize(); }
@@ -278,11 +278,11 @@ namespace Jypeli
         /// koon tekstin mukaan.
         /// </summary>
         public Label()
-            : this( DefaultWidth, 10 )
+            : this(DefaultWidth, 10)
         {
             sizeMode = TextSizeMode.AutoSize;
 
-            if ( Game.Instance != null )
+            if (Game.Instance != null)
             {
                 this.Height = GetDefaultHeight();
                 updateSize();
@@ -295,12 +295,12 @@ namespace Jypeli
         /// Luo uuden tekstikentän annetulla tekstillä. Asettaa
         /// koon tekstin mukaan.
         /// </summary>
-        public Label( string text )
-            : this( DefaultWidth, 10, text )
+        public Label(string text)
+            : this(DefaultWidth, 10, text)
         {
             sizeMode = TextSizeMode.AutoSize;
 
-            if ( Game.Instance != null )
+            if (Game.Instance != null)
             {
                 this.Height = GetDefaultHeight();
                 updateSize();
@@ -312,10 +312,10 @@ namespace Jypeli
         /// <summary>
         /// Luo uuden tekstikentän animaatiolla.
         /// </summary>
-        public Label( Animation animation )
-            : base( animation )
+        public Label(Animation animation)
+            : base(animation)
         {
-            Game.AssertInitialized( Initialize );
+            Game.AssertInitialized(Initialize);
         }
 
         /// <summary>
@@ -323,8 +323,8 @@ namespace Jypeli
         /// </summary>
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
-        public Label( double width, double height )
-            : this( width, height, "" )
+        public Label(double width, double height)
+            : this(width, height, "")
         {
         }
 
@@ -334,17 +334,18 @@ namespace Jypeli
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
         /// <param name="text">Teksti.</param>
-        public Label( double width, double height, string text )
-            : base( width, height, Shape.Rectangle )
+        public Label(double width, double height, string text)
+            : base(width, height, Shape.Rectangle)
         {
             this.sizeMode = TextSizeMode.None;
             this.originalText = text;
-            Game.AssertInitialized( Initialize );
+            Game.AssertInitialized(Initialize);
         }
 
         private void setDefaultHeight()
         {
-            if ( !useDefaultHeight ) return;
+            if (!useDefaultHeight)
+                return;
             this.Height = GetDefaultHeight();
         }
 
@@ -363,17 +364,18 @@ namespace Jypeli
         /// <inheritdoc/>
         protected override void UpdateValue()
         {
-            if ( !initialized || !Bound ) return;
+            if (!initialized || !Bound)
+                return;
 
-            if ( Meter is IntMeter )
+            if (Meter is IntMeter)
             {
-                int newNumber = ( (IntMeter)Meter ).Value;
-                Text = Title + string.Format( intFormatString, newNumber );
+                int newNumber = ((IntMeter)Meter).Value;
+                Text = Title + string.Format(intFormatString, newNumber);
             }
-            else if ( Meter is DoubleMeter )
+            else if (Meter is DoubleMeter)
             {
-                double newNumber = ( (DoubleMeter)Meter ).Value;
-                Text = Title + string.Format( doubleFormatString, newNumber );
+                double newNumber = ((DoubleMeter)Meter).Value;
+                Text = Title + string.Format(doubleFormatString, newNumber);
             }
         }
 
@@ -384,31 +386,31 @@ namespace Jypeli
         {
             visibleText = (title.Length > 0) ? (title + ": " + originalText) : originalText;
 
-            if ( visibleText.Length == 0 )
+            if (visibleText.Length == 0)
             {
                 this.TextSize = Vector.Zero;
                 NotifyParentAboutChangedSizingAttributes();
                 return;
             }
 
-            Vector rawTextDims = Font.MeasureSize( visibleText );
-            Vector clientArea = new Vector( this.Width - 2 * XMargin, this.Height - 2 * YMargin );
-            Vector fullTextDims = new Vector( _textScale.X * rawTextDims.X, _textScale.Y * rawTextDims.Y );
-            TextSize = new Vector( fullTextDims.X, fullTextDims.Y );
+            Vector rawTextDims = Font.MeasureSize(visibleText);
+            Vector clientArea = new Vector(this.Width - 2 * XMargin, this.Height - 2 * YMargin);
+            Vector fullTextDims = new Vector(_textScale.X * rawTextDims.X, _textScale.Y * rawTextDims.Y);
+            TextSize = new Vector(fullTextDims.X, fullTextDims.Y);
 
-            switch ( SizeMode )
+            switch (SizeMode)
             {
                 case TextSizeMode.None:
                     TruncateText();
                     break;
 
                 case TextSizeMode.StretchText:
-                    _textScale = new Vector3( (float)(clientArea.X / rawTextDims.X), (float)(clientArea.Y / rawTextDims.Y), 0);
+                    _textScale = new Vector3((float)(clientArea.X / rawTextDims.X), (float)(clientArea.Y / rawTextDims.Y), 0);
                     TextSize = clientArea;
                     break;
 
                 case TextSizeMode.AutoSize:
-                    base.Size = PreferredSize = new Vector( fullTextDims.X + 2 * XMargin, fullTextDims.Y + 2 * YMargin );
+                    base.Size = PreferredSize = new Vector(fullTextDims.X + 2 * XMargin, fullTextDims.Y + 2 * YMargin);
                     break;
 
                 case TextSizeMode.Wrapped:
@@ -422,32 +424,32 @@ namespace Jypeli
         private void TruncateText()
         {
             double textWidth = this.Width - 2 * XMargin;
-            if ( textWidth <= 0 )
+            if (textWidth <= 0)
             {
                 textWidth = this.Width;
             }
 
-            visibleText = font.TruncateText( Text, textWidth );
+            visibleText = font.TruncateText(Text, textWidth);
 
-            Vector textDims = Font.MeasureSize( visibleText );
-            TextSize = new Vector( textDims.X, textDims.Y );
+            Vector textDims = Font.MeasureSize(visibleText);
+            TextSize = new Vector(textDims.X, textDims.Y);
         }
 
         private void WrapText()
         {
             Vector rawTextDims = Font.MeasureSize(visibleText);
-            Vector fullTextDims = new Vector( _textScale.X * rawTextDims.X, _textScale.Y * rawTextDims.Y );
+            Vector fullTextDims = new Vector(_textScale.X * rawTextDims.X, _textScale.Y * rawTextDims.Y);
 
-            if ( Width <= 0 || fullTextDims.X <= Width )
+            if (Width <= 0 || fullTextDims.X <= Width)
                 return;
 
             double hardBreak = base.Size.X - 2 * XMargin;
-            double softBreak = Math.Max( hardBreak / 2, hardBreak - 5 * Font.CharacterWidth );
+            double softBreak = Math.Max(hardBreak / 2, hardBreak - 5 * Font.CharacterWidth);
 
-            visibleText = Font.WrapText( visibleText, softBreak, hardBreak );
-            Vector textDims = Font.MeasureSize( visibleText );
-            base.Size = PreferredSize = new Vector( base.Size.X, textDims.Y + 2 * YMargin );
-            TextSize = new Vector( textDims.X, textDims.Y );
+            visibleText = Font.WrapText(visibleText, softBreak, hardBreak);
+            Vector textDims = Font.MeasureSize(visibleText);
+            base.Size = PreferredSize = new Vector(base.Size.X, textDims.Y + 2 * YMargin);
+            TextSize = new Vector(textDims.X, textDims.Y);
         }
 
         private double GetHorizontalAlignment()
@@ -467,14 +469,14 @@ namespace Jypeli
 
         private double GetVerticalAlignment()
         {
-            switch ( VerticalAlignment )
+            switch (VerticalAlignment)
             {
                 case VerticalAlignment.Center:
                     return 0;
                 case VerticalAlignment.Top:
-                    return ( Size.Y - TextSize.Y ) / 2 - YMargin;
+                    return (Size.Y - TextSize.Y) / 2 - YMargin;
                 case VerticalAlignment.Bottom:
-                    return ( -Size.Y + TextSize.Y ) / 2 + YMargin;
+                    return (-Size.Y + TextSize.Y) / 2 + YMargin;
                 default:
                     return YMargin;
             }
@@ -490,7 +492,7 @@ namespace Jypeli
         protected void Draw(Matrix parentTransformation, Matrix transformation, string text)
         {
             Vector v = font.SpriteFont.MeasureString(text);
-            Vector pos = Position - new Vector(GetHorizontalAlignment() + v.X * TextScale.X/2, GetVerticalAlignment() - v.Y * TextScale.Y/2);
+            Vector pos = Position - new Vector(GetHorizontalAlignment() + v.X * TextScale.X / 2, GetVerticalAlignment() - v.Y * TextScale.Y / 2);
 
             if (characterColors is null)
                 Renderer.DrawText(text, ref parentTransformation, pos, Font, TextColor, TextScale);

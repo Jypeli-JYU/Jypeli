@@ -36,12 +36,13 @@ namespace Jypeli.Android
             string fullPath = Path.Combine(ContentPath, name);
             try
             {
-                 s = Game.AssetManager.Open(fullPath);
-            }catch
+                s = Game.AssetManager.Open(fullPath);
+            }
+            catch
             {
                 s = FindContentFile(fullPath, extensions);
             }
-            
+
             return s;
         }
 
@@ -64,7 +65,7 @@ namespace Jypeli.Android
             throw new FileNotFoundException($"Tiedostoa {name} ei löydy");
         }
 
-        public override void Vibrate( int milliSeconds )
+        public override void Vibrate(int milliSeconds)
         {
             Essentials.Vibration.Vibrate(milliSeconds);
         }
@@ -79,13 +80,13 @@ namespace Jypeli.Android
             Vector defaultSize = Game.Screen.ViewportSize;
             Vector defaultScale = Vector.Diagonal;
 
-            if ( DisplayResolution == DisplayResolution.Small )
+            if (DisplayResolution == DisplayResolution.Small)
             {
-                defaultSize = new Vector( 400, 240 );
-                defaultScale = new Vector( Game.Screen.ViewportSize.X / defaultSize.X, Game.Screen.ViewportSize.Y / defaultSize.Y );
+                defaultSize = new Vector(400, 240);
+                defaultScale = new Vector(Game.Screen.ViewportSize.X / defaultSize.X, Game.Screen.ViewportSize.Y / defaultSize.Y);
             }
 
-            if ( DisplayOrientation == DisplayOrientation.Portrait || DisplayOrientation == DisplayOrientation.PortraitInverse )
+            if (DisplayOrientation == DisplayOrientation.Portrait || DisplayOrientation == DisplayOrientation.PortraitInverse)
             {
                 Game.Screen.Size = defaultSize.Transpose();
                 Game.Screen.Scale = defaultScale.Transpose();

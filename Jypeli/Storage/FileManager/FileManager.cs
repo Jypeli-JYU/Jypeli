@@ -8,33 +8,34 @@ namespace Jypeli
     public partial class FileManager
     {
         protected string[] pathCandidates;
-        
-        public FileManager( params string[] pathCandidates )
+
+        public FileManager(params string[] pathCandidates)
         {
             this.pathCandidates = pathCandidates;
         }
-        
+
         protected void Initialize()
         {
-            if ( _currentDir != null )
+            if (_currentDir != null)
                 return;
 
-            for ( int i = 0; i < pathCandidates.Length; i++ )
+            for (int i = 0; i < pathCandidates.Length; i++)
             {
                 _currentDir = pathCandidates[i];
 
-                if ( Directory.Exists( _currentDir ) )
+                if (Directory.Exists(_currentDir))
                     return;
                 else
                 {
-                    var parent = Directory.GetParent( _currentDir );
-                    if ( !parent.Exists ) continue;
-                    Directory.CreateDirectory( _currentDir );
+                    var parent = Directory.GetParent(_currentDir);
+                    if (!parent.Exists)
+                        continue;
+                    Directory.CreateDirectory(_currentDir);
                 }
             }
         }
     }
-    
+
     /// <summary>
     /// Usein käytettyjä polkuja Windowsissa.
     /// </summary>

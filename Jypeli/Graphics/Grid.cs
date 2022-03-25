@@ -24,7 +24,7 @@ namespace Jypeli
         public Grid()
         {
             Color = Color.Green;
-            CellSize = new Vector( 10, 10 );
+            CellSize = new Vector(10, 10);
         }
 
         /// <summary>
@@ -32,11 +32,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public Vector SnapToLines( Vector v )
+        public Vector SnapToLines(Vector v)
         {
             Vector result;
-            result.X = Math.Round( v.X / this.CellSize.X ) * this.CellSize.X;
-            result.Y = Math.Round( v.Y / this.CellSize.Y ) * this.CellSize.Y;
+            result.X = Math.Round(v.X / this.CellSize.X) * this.CellSize.X;
+            result.Y = Math.Round(v.Y / this.CellSize.Y) * this.CellSize.Y;
             return result;
         }
     }

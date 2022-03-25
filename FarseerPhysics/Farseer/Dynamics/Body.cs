@@ -78,9 +78,9 @@ namespace FarseerPhysics.Dynamics
         /// Samaan ryhmään kuuluvat eivät törmää
         /// </summary>
         public JypeliGroupIgnorer JypeliGroupIgnorer { get; internal set; }
-        
+
         public Vector2 oneWayDir;
-        
+
         internal AdaptedIgnorer CollisionIgnorer;
 
         private float _angularDamping;
@@ -189,7 +189,7 @@ namespace FarseerPhysics.Dynamics
                     World.ContactManager.Destroy(ce0.Contact);
                 }
                 ContactList = null;
-                
+
                 if (World != null)
                 {
                     // Touch the proxies so that new contacts will be created (when appropriate)
@@ -309,24 +309,24 @@ namespace FarseerPhysics.Dynamics
                     if (!_awake)
                     {
                         _sleepTime = 0.0f;
-                        
+
 #if USE_ACTIVE_CONTACT_SET
                         World.ContactManager.UpdateActiveContacts(ContactList, true);
 #endif
 
 #if USE_AWAKE_BODY_SET
-						if (World is not null && !World.AwakeBodySet.Contains(this))
-							World.AwakeBodySet.Add(this);
+                        if (World is not null && !World.AwakeBodySet.Contains(this))
+                            World.AwakeBodySet.Add(this);
 #endif
                     }
                 }
                 else
                 {
 #if USE_AWAKE_BODY_SET
-					// Check even for BodyType.Static because if this body had just been changed to Static it will have
-					// set Awake = false in the process.
-					if (World is not null && World.AwakeBodySet.Contains(this))
-						World.AwakeBodySet.Remove(this);
+                    // Check even for BodyType.Static because if this body had just been changed to Static it will have
+                    // set Awake = false in the process.
+                    if (World is not null && World.AwakeBodySet.Contains(this))
+                        World.AwakeBodySet.Remove(this);
 #endif
                     ResetDynamics();
                     _sleepTime = 0.0f;
@@ -395,7 +395,7 @@ namespace FarseerPhysics.Dynamics
         /// Create all proxies.
         /// </summary>
         internal void CreateProxies()
-        {   
+        {
             IBroadPhase broadPhase = World.ContactManager.BroadPhase;
             for (int i = 0; i < FixtureList._list.Count; i++)
                 FixtureList._list[i].CreateProxies(broadPhase, ref _xf);
@@ -415,7 +415,7 @@ namespace FarseerPhysics.Dynamics
         /// Destroy the attached contacts.
         /// </summary>
         private void DestroyContacts()
-        {            
+        {
             ContactEdge ce = ContactList;
             while (ce != null)
             {
@@ -1214,15 +1214,15 @@ namespace FarseerPhysics.Dynamics
                     }
                 }
             }
-            
+
             if (oneWayDir != Vector2.Zero || other.oneWayDir != Vector2.Zero)
             {
                 return CheckOneWay(this, other);
             }
-            
+
             return true;
         }
-        
+
         internal static bool CheckOneWay(Body a, Body b)
         {
             Jypeli.Vector normalA = a.LinearVelocity;

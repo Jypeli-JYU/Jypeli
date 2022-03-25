@@ -65,16 +65,16 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="width">Auton leveys (X-suunnassa).</param>
         /// <param name="height">Auton korkeus (Y-suunnassa).</param>
-        public Automobile( double width, double height )
-            : base( width, height, Shape.Rectangle )
+        public Automobile(double width, double height)
+            : base(width, height, Shape.Rectangle)
         {
-            SpeedMeter = new DoubleMeter( 0 );
+            SpeedMeter = new DoubleMeter(0);
             TopSpeed = 1000;
             Acceleration = 100;
             BrakeDeceleration = 200;
-            Maneuverability = Angle.FromDegrees( 20 );
-            if ( commonImage == null )
-                commonImage = Game.LoadImageFromResources( "Auto.png" );
+            Maneuverability = Angle.FromDegrees(20);
+            if (commonImage == null)
+                commonImage = Game.LoadImageFromResources("Auto.png");
             Image = commonImage;// Image.Color( commonImage, Color ); // TODO: Image coloring.
             IsUpdated = true;
         }
@@ -83,7 +83,7 @@ namespace Jypeli.Assets
         /// Kiihdyttää.
         /// </summary>
         /// <param name="time">Kuinka monta sekuntia kiihdytetään.</param>
-        public void Accelerate( double time )
+        public void Accelerate(double time)
         {
             pendingAcceleration += Acceleration * time;
         }
@@ -92,7 +92,7 @@ namespace Jypeli.Assets
         /// Jarruttaa.
         /// </summary>
         /// <param name="time">Kuinka monta sekuntia jarrutetaan.</param>
-        public void Brake( double time )
+        public void Brake(double time)
         {
             pendingDeceleration += BrakeDeceleration * time;
         }
@@ -126,52 +126,52 @@ namespace Jypeli.Assets
         /// </summary>
         /// <param name="angle">Kääntökulma.</param>
         /// <param name="time">Aika, joka kääntämiseen käytetään.</param>
-        public void Turn( Angle angle, double time )
+        public void Turn(Angle angle, double time)
         {
-            int sign = Math.Sign( angle.Radians );
-            Angle += ( sign * angle <= time * Maneuverability ) ? angle : sign * time * Maneuverability;
+            int sign = Math.Sign(angle.Radians);
+            Angle += (sign * angle <= time * Maneuverability) ? angle : sign * time * Maneuverability;
         }
 
         /// <summary>
         /// Ajetaan kun pelitilannetta päivitetään. Päivityksen voi toteuttaa omassa luokassa toteuttamalla tämän
         /// metodin. Perityn luokan metodissa tulee kutsua kantaluokan metodia.
         /// </summary>
-        public override void Update( Time time )
+        public override void Update(Time time)
         {
             double dt = time.SinceLastUpdate.TotalSeconds;
             bool nochange = true;
 
-            if ( pendingAcceleration != 0 )
+            if (pendingAcceleration != 0)
             {
                 // Accelerate                
-                double accel = Math.Min( pendingAcceleration, Acceleration * dt );
+                double accel = Math.Min(pendingAcceleration, Acceleration * dt);
                 pendingAcceleration -= accel;
 
-                Velocity += Vector.FromLengthAndAngle( accel, Angle );
+                Velocity += Vector.FromLengthAndAngle(accel, Angle);
                 SpeedMeter.Value += accel;
 
                 nochange = false;
             }
 
-            if ( pendingDeceleration > 0 )
+            if (pendingDeceleration > 0)
             {
                 // Brake
                 double decel = Math.Min(Math.Min((float)pendingDeceleration, (float)(BrakeDeceleration * dt)), (float)Velocity.Magnitude);
                 pendingDeceleration -= decel;
 
-                Velocity += Vector.FromLengthAndAngle( -decel, Velocity.Angle );
+                Velocity += Vector.FromLengthAndAngle(-decel, Velocity.Angle);
                 SpeedMeter.Value -= decel;
 
                 nochange = false;
 
             }
 
-            if ( nochange )
+            if (nochange)
             {
                 SpeedMeter.Value -= dt * Acceleration;
             }
 
-            base.Update( time );
+            base.Update(time);
         }
     }
 }

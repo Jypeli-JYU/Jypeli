@@ -14,7 +14,7 @@ namespace Jypeli
         private Vector destination;
         private double timeSinceNewDestination;
         private double directionChangeTimeout = 1.0;
-        
+
         /// <summary>
         /// Jos jäädään jumiin, kuinka pian arvotaan uusi suunta. Oletuksena 1 sekunti.
         /// </summary>
@@ -45,7 +45,7 @@ namespace Jypeli
             }
         }
 
-        
+
         /// <summary>
         /// Luo uudet aivot, jotka saavat omistajansa vaeltelemaan labyrintissä.
         /// </summary>
@@ -75,7 +75,7 @@ namespace Jypeli
         /// <param name="speed">Nopeus.</param>
         /// <param name="wallTag">Tagilla varustetut oliot tulkitaan seiniksi, muita ei väistetä.</param>
         public LabyrinthWandererBrain(double tileSize, double speed, string wallTag)
-            :base(speed)
+            : base(speed)
         {
             this.tileSize = tileSize;
             labyrinthWallTag = wallTag;
@@ -104,16 +104,17 @@ namespace Jypeli
         {
             PhysicsObject owner = this.Owner as PhysicsObject;
 
-            if (owner == null || owner.Game == null) return;
+            if (owner == null || owner.Game == null)
+                return;
 
             Game game = owner.Game;
-            List<Vector> directions = new List<Vector>{direction, 
+            List<Vector> directions = new List<Vector>{direction,
                                                         Vector.FromLengthAndAngle(tileSize, direction.Angle - Angle.RightAngle),
                                                         Vector.FromLengthAndAngle(tileSize, direction.Angle + Angle.RightAngle)};
-            
+
             GameObject tile;
-            double radius =  tileSize / 5;
-            
+            double radius = tileSize / 5;
+
             while (directions.Count > 0)
             {
                 Vector directionCandidate = RandomGen.SelectOne<Vector>(directions);
@@ -121,7 +122,7 @@ namespace Jypeli
 
                 if (labyrinthWallTag != null)
                 {
-                    tile = game.GetObjectAt(owner.Position + directionCandidate, labyrinthWallTag,  radius);
+                    tile = game.GetObjectAt(owner.Position + directionCandidate, labyrinthWallTag, radius);
                 }
                 else
                 {
@@ -134,21 +135,21 @@ namespace Jypeli
                     direction = directionCandidate.Normalize() * tileSize;
                     //direction.X = Math.Round(direction.X);
                     //direction.Y = Math.Round(direction.Y);
-                    
+
                     destination = owner.Position + direction;
                     return;
                 }
-                
+
             }
 
             direction = -direction.Normalize() * tileSize;
             //direction.X = Math.Round(direction.X);
             //direction.Y = Math.Round(direction.Y);
-            
+
             destination = owner.Position + direction;
         }
 
-        
+
         /// <summary>
         /// Liikuttaa omistajaa Move-metodilla.
         /// Asetetaan uusi suunta jos ollaan saavutettu annettu määränpää, annettu määränpää on kauempana kuin yksi ruudun koko tai edellisestä suunnan asettamisesta on kulunut riittävän pitkä aika.
@@ -178,7 +179,7 @@ namespace Jypeli
                     SetNextDirectionAndDestination();
                     timeSinceNewDestination = time.SinceStartOfGame.TotalSeconds;
                 }
-                
+
                 Move(direction.Angle);
             }
         }

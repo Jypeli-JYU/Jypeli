@@ -6,7 +6,7 @@
 
         private Sizing _horizontalSizing = Sizing.FixedSize;
         private Sizing _verticalSizing = Sizing.FixedSize;
-        private Vector _preferredSize = new Vector( 50, 50 );
+        private Vector _preferredSize = new Vector(50, 50);
         private bool _sizeByLayout = true;
         private bool _layoutNeedsRefreshing = false;
 
@@ -18,7 +18,7 @@
         {
             get
             {
-                if ( SizingByLayout && ( Layout != null ) )
+                if (SizingByLayout && (Layout != null))
                     return Layout.HorizontalSizing;
                 return _horizontalSizing;
             }
@@ -37,7 +37,7 @@
         {
             get
             {
-                if ( SizingByLayout && ( Layout != null ) )
+                if (SizingByLayout && (Layout != null))
                     return Layout.VerticalSizing;
                 return _verticalSizing;
             }
@@ -56,7 +56,7 @@
         {
             get
             {
-                if ( Layout != null )
+                if (Layout != null)
                     return Layout.PreferredSize;
                 return _preferredSize;
             }
@@ -82,13 +82,13 @@
         /// </summary>
         internal protected void NotifyParentAboutChangedSizingAttributes()
         {
-            if ( Parent == null )
+            if (Parent == null)
             {
                 _layoutNeedsRefreshing = true;
             }
-            else if ( Parent is GameObject )
+            else if (Parent is GameObject)
             {
-                ( (GameObject)Parent ).NotifyParentAboutChangedSizingAttributes();
+                ((GameObject)Parent).NotifyParentAboutChangedSizingAttributes();
             }
         }
 
@@ -100,7 +100,7 @@
             get { return _layout; }
             set
             {
-                if ( _layout != null )
+                if (_layout != null)
                 {
                     ILayout old = _layout;
                     _layout = null;
@@ -119,10 +119,10 @@
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public void InitLayout( double width, double height )
+        public void InitLayout(double width, double height)
         {
             autoResizeChildObjects = false;
-            this.PreferredSize = new Vector( width, height );
+            this.PreferredSize = new Vector(width, height);
         }
 
         /// <summary>
@@ -131,10 +131,10 @@
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="layout"></param>
-        public void InitLayout( double width, double height, ILayout layout )
+        public void InitLayout(double width, double height, ILayout layout)
         {
             this.Layout = layout;
-            InitLayout( width, height );
+            InitLayout(width, height);
         }
 
         /// <summary>
@@ -148,7 +148,7 @@
         /// </summary>
         public void RefreshLayout()
         {
-            if ( Layout != null )
+            if (Layout != null)
             {
                 _childObjects.UpdateChanges();
 
@@ -156,14 +156,14 @@
                 UpdateSizeHints();
 
                 // Then, lets set the size accordingly, if we are allowed to do so.
-                if ( SizingByLayout )
+                if (SizingByLayout)
                 {
                     Vector newSize = Layout.PreferredSize;
                     Vector maxSize = this.GetMaximumSize();
 
-                    if ( newSize.X > maxSize.X )
+                    if (newSize.X > maxSize.X)
                         newSize.X = maxSize.X;
-                    if ( newSize.Y > maxSize.Y )
+                    if (newSize.Y > maxSize.Y)
                         newSize.Y = maxSize.Y;
 
                     _size = newSize;
@@ -171,7 +171,7 @@
 
                 // Finally, lets position the child objects into the space we have available
                 // for them.
-                UpdateLayout( _size );
+                UpdateLayout(_size);
             }
         }
 
@@ -181,15 +181,16 @@
         /// </summary>
         private void UpdateSizeHints()
         {
-            if ( _childObjects == null ) return;
+            if (_childObjects == null)
+                return;
 
-            foreach ( var child in _childObjects )
+            foreach (var child in _childObjects)
             {
                 child.UpdateSizeHints();
             }
 
-            if ( Layout != null )
-                Layout.UpdateSizeHints( _childObjects.items );
+            if (Layout != null)
+                Layout.UpdateSizeHints(_childObjects.items);
         }
 
         /// <summary>
@@ -199,16 +200,16 @@
         /// know how big the objects need to be.
         /// </summary>
         /// <param name="maximumSize">The actual size that is allocated for the layout.</param>
-        private void UpdateLayout( Vector maximumSize )
+        private void UpdateLayout(Vector maximumSize)
         {
-            if ( Layout != null )
-                Layout.Update( Objects.items, maximumSize );
+            if (Layout != null)
+                Layout.Update(Objects.items, maximumSize);
 
-            if ( _childObjects != null )
+            if (_childObjects != null)
             {
-                foreach ( var child in _childObjects )
+                foreach (var child in _childObjects)
                 {
-                    child.UpdateLayout( child.Size );
+                    child.UpdateLayout(child.Size);
                 }
             }
         }
@@ -221,7 +222,7 @@
         /// <returns></returns>
         protected virtual Vector GetMaximumSize()
         {
-            return new Vector( double.PositiveInfinity, double.PositiveInfinity );
+            return new Vector(double.PositiveInfinity, double.PositiveInfinity);
         }
     }
 }

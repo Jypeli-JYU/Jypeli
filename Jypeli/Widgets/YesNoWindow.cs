@@ -48,20 +48,22 @@ namespace Jypeli
 
         private void OnYes()
         {
-            if ( Yes != null ) Yes();
+            if (Yes != null)
+                Yes();
         }
 
         private void OnNo()
         {
-            if ( No != null ) No();
+            if (No != null)
+                No();
         }
 
         /// <summary>
         /// Luo uuden kyselyikkunan.
         /// </summary>
         /// <param name="question">Kysymys</param>
-        public YesNoWindow( string question )
-            : this( question, "Yes", "No" )
+        public YesNoWindow(string question)
+            : this(question, "Yes", "No")
         {
         }
 
@@ -71,11 +73,11 @@ namespace Jypeli
         /// <param name="question">Kysymys</param>
         /// <param name="yesString">Kyllä-vaihtoehto</param>
         /// <param name="noString">Ei-vaihtoehto</param>
-        public YesNoWindow( string question, string yesString, string noString )
-            : base( question, yesString, noString )
+        public YesNoWindow(string question, string yesString, string noString)
+            : base(question, yesString, noString)
         {
-            AddItemHandler( 0, OnYes );
-            AddItemHandler( 1, OnNo );
+            AddItemHandler(0, OnYes);
+            AddItemHandler(1, OnNo);
 
             Buttons[0].Color = Color.Green;
             Buttons[1].Color = Color.DarkRed;

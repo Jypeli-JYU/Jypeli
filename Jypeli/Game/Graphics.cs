@@ -81,7 +81,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="x">Ikkunan vasemman reunan x-koordinaatti</param>
         /// <param name="y">Ikkunan yläreunan y-koordinaatti (kasvaa alaspäin)</param>
-        public void SetWindowPosition( int x, int y )
+        public void SetWindowPosition(int x, int y)
         {
 #if DESKTOP
             ((IWindow)Window).Position = new Silk.NET.Maths.Vector2D<int>(x, y);

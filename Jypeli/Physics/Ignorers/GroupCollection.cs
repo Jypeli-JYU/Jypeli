@@ -107,7 +107,8 @@ namespace Jypeli
         /// <returns>the number of IDs that were not already part of the group.</returns>
         public int AddRange(int[] array)
         {
-            if (array == null) { throw new ArgumentNullException("collection"); }
+            if (array == null)
+            { throw new ArgumentNullException("collection"); }
             Array.Sort(array);
             List<int> newGroups = new List<int>(groups.Count + array.Length);
 
@@ -171,7 +172,8 @@ namespace Jypeli
         /// <returns>The number of groups in the array it is part of.</returns>
         public int ContainsRange(int[] array)
         {
-            if (array == null) { throw new ArgumentNullException("collection"); }
+            if (array == null)
+            { throw new ArgumentNullException("collection"); }
             Array.Sort(array);
             int index1 = 0;
             int index2 = 0;
@@ -203,7 +205,8 @@ namespace Jypeli
         public bool Remove(int item)
         {
             int index = groups.BinarySearch(item);
-            if (index < 0) { return false; }
+            if (index < 0)
+            { return false; }
             groups.RemoveAt(index);
             return true;
         }
@@ -214,10 +217,11 @@ namespace Jypeli
         /// <returns>the number of groups the ignore was removed from.</returns>
         public int RemoveRange(int[] array)
         {
-            if (array == null) { throw new ArgumentNullException("collection"); }
+            if (array == null)
+            { throw new ArgumentNullException("collection"); }
             Array.Sort(array);
             int index = 0;
-            return groups.RemoveAll(delegate(int value)
+            return groups.RemoveAll(delegate (int value)
             {
                 while (index < array.Length)
                 {

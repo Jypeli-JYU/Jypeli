@@ -117,7 +117,7 @@ namespace Jypeli.Effects
                             int particlesPerBranch = particlesPerLayer / node.ChildNodes.Count;
                             for (int i = 0; i < particlesPerBranch; i++)
                             {
-                                base.AddEffect(node.Position + v*(i/(double)particlesPerBranch), 1);
+                                base.AddEffect(node.Position + v * (i / (double)particlesPerBranch), 1);
                             }
                         }
                         //base.AddEffect(node.Position, 1);

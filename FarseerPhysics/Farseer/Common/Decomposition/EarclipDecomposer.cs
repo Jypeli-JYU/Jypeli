@@ -172,7 +172,8 @@ namespace FarseerPhysics.Common.Decomposition
                 int currDest = 0;
                 for (int i = 0; i < vNum; ++i)
                 {
-                    if (currDest == earIndex) ++currDest;
+                    if (currDest == earIndex)
+                        ++currDest;
                     newx[i] = xrem[currDest];
                     newy[i] = yrem[currDest];
                     ++currDest;
@@ -250,7 +251,8 @@ namespace FarseerPhysics.Common.Decomposition
             if (hasPinchPoint)
             {
                 int sizeA = pinchIndexB - pinchIndexA;
-                if (sizeA == pin.Count) return false; //has dupe points at wraparound, not a problem here
+                if (sizeA == pin.Count)
+                    return false; //has dupe points at wraparound, not a problem here
 
                 for (int i = 0; i < sizeA; ++i)
                 {
@@ -379,10 +381,14 @@ namespace FarseerPhysics.Common.Decomposition
                 Vector2 b = this[1];
                 Vector2 c = this[2];
 
-                if (x < a.X && x < b.X && x < c.X) return false;
-                if (x > a.X && x > b.X && x > c.X) return false;
-                if (y < a.Y && y < b.Y && y < c.Y) return false;
-                if (y > a.Y && y > b.Y && y > c.Y) return false;
+                if (x < a.X && x < b.X && x < c.X)
+                    return false;
+                if (x > a.X && x > b.X && x > c.X)
+                    return false;
+                if (y < a.Y && y < b.Y && y < c.Y)
+                    return false;
+                if (y > a.Y && y > b.Y && y > c.Y)
+                    return false;
 
                 float vx2 = x - a.X;
                 float vy2 = y - a.Y;

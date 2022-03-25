@@ -18,11 +18,11 @@
             else
                 MessageDisplay.Clear();
 
-            if ( !MessageDisplay.IsAddedToGame || force)
-                Add( MessageDisplay );
+            if (!MessageDisplay.IsAddedToGame || force)
+                Add(MessageDisplay);
         }
 
-        private bool IsJypeliWidget<T>( T obj ) where T : IGameObject
+        private bool IsJypeliWidget<T>(T obj) where T : IGameObject
         {
             return ReferenceEquals(obj, MessageDisplay);
         }

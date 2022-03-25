@@ -42,7 +42,7 @@ namespace Jypeli
             {
                 QuestionLabel.Font = value;
 
-                for ( int i = 0; i < Buttons.Length; i++ )
+                for (int i = 0; i < Buttons.Length; i++)
                 {
                     Buttons[i].Font = value;
                 }
@@ -59,7 +59,8 @@ namespace Jypeli
             set
             {
                 _defaultCancel = value;
-                if ( IsAddedToGame ) AddDefaultControls();
+                if (IsAddedToGame)
+                    AddDefaultControls();
             }
         }
 
@@ -71,8 +72,9 @@ namespace Jypeli
             get { return _selectedIndex; }
             set
             {
-                if ( !IsAddedToGame ) RememberSelection = true;
-                SelectButton( value );
+                if (!IsAddedToGame)
+                    RememberSelection = true;
+                SelectButton(value);
             }
         }
 
@@ -95,7 +97,8 @@ namespace Jypeli
             }
             set
             {
-                if ( !_buttonColorSet ) _setButtonColor( Color.Darker( value, 40 ) );
+                if (!_buttonColorSet)
+                    _setButtonColor(Color.Darker(value, 40));
                 base.Color = value;
             }
         }
@@ -109,7 +112,7 @@ namespace Jypeli
             set
             {
                 SelectedButton.Color = value;
-                SelectButton( _selectedIndex );
+                SelectButton(_selectedIndex);
             }
         }
 
@@ -129,10 +132,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="question">Kysymys.</param>
         /// <param name="buttonTexts">Nappien tekstit merkkijonoina.</param>
-        public MultiSelectWindow( string question, params string[] buttonTexts )
+        public MultiSelectWindow(string question, params string[] buttonTexts)
             : base()
         {
-            if ( buttonTexts.Length == 0 ) throw new InvalidOperationException( "You must add at least one button" );
+            if (buttonTexts.Length == 0)
+                throw new InvalidOperationException("You must add at least one button");
 
             VerticalScrollLayout layout = new VerticalScrollLayout();
             layout.LeftPadding = layout.RightPadding = 20;
@@ -140,23 +144,24 @@ namespace Jypeli
             layout.Spacing = 20;
             this.Layout = layout;
 
-            QuestionLabel = new Label( question );
-            Add( QuestionLabel );
+            QuestionLabel = new Label(question);
+            Add(QuestionLabel);
 
             Buttons = new PushButton[buttonTexts.Length];
             this._font = Font.Default;
-            for ( int i = 0; i < buttonTexts.Length; i++ )
+            for (int i = 0; i < buttonTexts.Length; i++)
             {
-                PushButton button = new PushButton( buttonTexts[i] );
+                PushButton button = new PushButton(buttonTexts[i]);
                 button.Tag = i;
-                button.Clicked += new Action( delegate { ButtonClicked( (int)button.Tag ); } );
+                button.Clicked += new Action(delegate
+                { ButtonClicked((int)button.Tag); });
 #if ANDROID
-                if ( Game.Device.DisplayResolution == DisplayResolution.Large )
+                if (Game.Device.DisplayResolution == DisplayResolution.Large)
                     button.TextScale = new Vector(2, 2);
-                else if ( Game.Device.DisplayResolution == DisplayResolution.HD720 )
-                    button.TextScale = new Vector( 3, 3 );
+                else if (Game.Device.DisplayResolution == DisplayResolution.HD720)
+                    button.TextScale = new Vector(3, 3);
 #endif
-                Add( button );
+                Add(button);
                 Buttons[i] = button;
             }
 
@@ -169,7 +174,7 @@ namespace Jypeli
             AddControls();
             AddDefaultControls();
 #if !ANDROID
-            SelectButton( ( RememberSelection && _selectedIndex >= 0 ) ? _selectedIndex : 0 );
+            SelectButton((RememberSelection && _selectedIndex >= 0) ? _selectedIndex : 0);
 #endif
         }
 
@@ -179,10 +184,11 @@ namespace Jypeli
             _defaultListeners.Clear();
         }
 
-        private void SelectButton( int p )
+        private void SelectButton(int p)
         {
             UnselectButton();
-            if ( p < 0 || p >= Buttons.Length ) return;
+            if (p < 0 || p >= Buttons.Length)
+                return;
 
             _selectedIndex = p;
             SelectedButton.SetState(PushButton.State.Selected);
@@ -190,7 +196,8 @@ namespace Jypeli
 
         private void UnselectButton()
         {
-            if ( _selectedIndex < 0 ) return;
+            if (_selectedIndex < 0)
+                return;
             SelectedButton.SetState(PushButton.State.Released);
             _selectedIndex = -1;
         }
@@ -200,7 +207,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="item">Nappulan indeksi</param>
         /// <param name="handler">Kuuntelija</param>
-        public void AddItemHandler( int item, Action handler )
+        public void AddItemHandler(int item, Action handler)
         {
             Buttons[item].Clicked += handler;
         }
@@ -212,9 +219,10 @@ namespace Jypeli
         /// <param name="item">Nappulan indeksi</param>
         /// <param name="handler">Kuuntelija</param>
         /// <param name="p1">Kuuntelijan parametri</param>
-        public void AddItemHandler<T1>( int item, Action<T1> handler, T1 p1 )
+        public void AddItemHandler<T1>(int item, Action<T1> handler, T1 p1)
         {
-            Buttons[item].Clicked += delegate { handler( p1 ); };
+            Buttons[item].Clicked += delegate
+            { handler(p1); };
         }
 
         /// <summary>
@@ -226,9 +234,10 @@ namespace Jypeli
         /// <param name="handler">Kuuntelija</param>
         /// <param name="p1">Kuuntelijan ensimmäinen parametri</param>
         /// <param name="p2">Kuuntelijan toinen parametri</param>
-        public void AddItemHandler<T1, T2>( int item, Action<T1, T2> handler, T1 p1, T2 p2 )
+        public void AddItemHandler<T1, T2>(int item, Action<T1, T2> handler, T1 p1, T2 p2)
         {
-            Buttons[item].Clicked += delegate { handler( p1, p2 ); };
+            Buttons[item].Clicked += delegate
+            { handler(p1, p2); };
         }
 
         /// <summary>
@@ -242,9 +251,10 @@ namespace Jypeli
         /// <param name="p1">Kuuntelijan ensimmäinen parametri</param>
         /// <param name="p2">Kuuntelijan toinen parametri</param>
         /// <param name="p3">Kuuntelijan kolmas parametri</param>
-        public void AddItemHandler<T1, T2, T3>( int item, Action<T1, T2, T3> handler, T1 p1, T2 p2, T3 p3 )
+        public void AddItemHandler<T1, T2, T3>(int item, Action<T1, T2, T3> handler, T1 p1, T2 p2, T3 p3)
         {
-            Buttons[item].Clicked += delegate { handler( p1, p2, p3 ); };
+            Buttons[item].Clicked += delegate
+            { handler(p1, p2, p3); };
         }
 
         /// <summary>
@@ -252,27 +262,27 @@ namespace Jypeli
         /// </summary>
         /// <param name="item"></param>
         /// <param name="handler"></param>
-        public void RemoveItemHandler( int item, Action handler )
+        public void RemoveItemHandler(int item, Action handler)
         {
             Buttons[item].Clicked -= handler;
         }
 
-        private void _setButtonColor( Color color )
+        private void _setButtonColor(Color color)
         {
-            for ( int i = 0; i < Buttons.Length; i++ )
+            for (int i = 0; i < Buttons.Length; i++)
             {
                 Buttons[i].Color = color;
             }
-            SelectButton( _selectedIndex );
+            SelectButton(_selectedIndex);
         }
 
         /// <summary>
         /// Asettaa jokaisen nappulan värin vastaamaan arvoa
         /// </summary>
         /// <param name="color"></param>
-        public void SetButtonColor( Color color )
+        public void SetButtonColor(Color color)
         {
-            _setButtonColor( color );
+            _setButtonColor(color);
             _buttonColorSet = true;
         }
 
@@ -280,9 +290,9 @@ namespace Jypeli
         /// Asettaa jokaisen nappulan tekstin värin vastaamaan arvoa
         /// </summary>
         /// <param name="color"></param>
-        public void SetButtonTextColor( Color color )
+        public void SetButtonTextColor(Color color)
         {
-            for ( int i = 0; i < Buttons.Length; i++ )
+            for (int i = 0; i < Buttons.Length; i++)
             {
                 Buttons[i].TextColor = color;
             }
@@ -292,26 +302,29 @@ namespace Jypeli
         {
             var Keyboard = Game.Instance.Keyboard;
 
-            for ( int i = 0; i < Math.Min( Buttons.Length, keys.Length ); i++ )
+            for (int i = 0; i < Math.Min(Buttons.Length, keys.Length); i++)
             {
                 var l = Keyboard.Listen(keys[i], ButtonState.Pressed, SelectButton, null, i).InContext(this);
                 associatedListeners.Add(l);
             }
 
-            Action selectPrev = delegate { SelectButton( _selectedIndex > 0 ? _selectedIndex - 1 : Buttons.Length - 1 ); };
-            Action selectNext = delegate { SelectButton( _selectedIndex < Buttons.Length - 1 ? _selectedIndex + 1 : 0 ); };
-            Action confirmSelect = delegate { SelectedButton.Click(); };
+            Action selectPrev = delegate
+            { SelectButton(_selectedIndex > 0 ? _selectedIndex - 1 : Buttons.Length - 1); };
+            Action selectNext = delegate
+            { SelectButton(_selectedIndex < Buttons.Length - 1 ? _selectedIndex + 1 : 0); };
+            Action confirmSelect = delegate
+            { SelectedButton.Click(); };
 
-            var l1 = Keyboard.Listen( Key.Up, ButtonState.Pressed, selectPrev, null ).InContext( this );
-            var l2 = Keyboard.Listen( Key.Down, ButtonState.Pressed, selectNext, null ).InContext( this );
-            var l3 = Keyboard.Listen( Key.Enter, ButtonState.Pressed, confirmSelect, null ).InContext( this );
+            var l1 = Keyboard.Listen(Key.Up, ButtonState.Pressed, selectPrev, null).InContext(this);
+            var l2 = Keyboard.Listen(Key.Down, ButtonState.Pressed, selectNext, null).InContext(this);
+            var l3 = Keyboard.Listen(Key.Enter, ButtonState.Pressed, confirmSelect, null).InContext(this);
             associatedListeners.AddItems(l1, l2, l3);
 
-            foreach ( var controller in Game.Instance.GameControllers )
+            foreach (var controller in Game.Instance.GameControllers)
             {
-                l1 = controller.Listen( Button.DPadUp, ButtonState.Pressed, selectPrev, null ).InContext( this );
-                l2 = controller.Listen( Button.DPadDown, ButtonState.Pressed, selectNext, null ).InContext( this );
-                l3 = controller.Listen( Button.A, ButtonState.Pressed, confirmSelect, null ).InContext( this );
+                l1 = controller.Listen(Button.DPadUp, ButtonState.Pressed, selectPrev, null).InContext(this);
+                l2 = controller.Listen(Button.DPadDown, ButtonState.Pressed, selectNext, null).InContext(this);
+                l3 = controller.Listen(Button.A, ButtonState.Pressed, confirmSelect, null).InContext(this);
                 associatedListeners.AddItems(l1, l2, l3);
             }
         }
@@ -321,19 +334,19 @@ namespace Jypeli
             _defaultListeners.ForEach(l => l.Destroy());
             _defaultListeners.Clear();
 
-            if ( _defaultCancel >= 0 && _defaultCancel < Buttons.Length )
+            if (_defaultCancel >= 0 && _defaultCancel < Buttons.Length)
             {
-                var l1 = Game.Instance.PhoneBackButton.Listen( Buttons[_defaultCancel].Click, null ).InContext( this );
-                var l2 = Game.Instance.Keyboard.Listen( Key.Escape, ButtonState.Pressed, Buttons[_defaultCancel].Click, null ).InContext( this );
-                var l3 = Game.Instance.ControllerOne.Listen( Button.B, ButtonState.Pressed, Buttons[_defaultCancel].Click, null ).InContext( this );
+                var l1 = Game.Instance.PhoneBackButton.Listen(Buttons[_defaultCancel].Click, null).InContext(this);
+                var l2 = Game.Instance.Keyboard.Listen(Key.Escape, ButtonState.Pressed, Buttons[_defaultCancel].Click, null).InContext(this);
+                var l3 = Game.Instance.ControllerOne.Listen(Button.B, ButtonState.Pressed, Buttons[_defaultCancel].Click, null).InContext(this);
                 _defaultListeners.AddItems(l1, l2, l3);
             }
         }
 
-        private void ButtonClicked( int index )
+        private void ButtonClicked(int index)
         {
-            if ( ItemSelected != null )
-                ItemSelected( index );
+            if (ItemSelected != null)
+                ItemSelected(index);
 
             Close();
         }

@@ -106,12 +106,12 @@ public class Pong : PhysicsGame
     {
         if (kohde == oikeaReuna)
         {
-            MessageDisplay.Add( "Piste 1. pelaajalle" );
+            MessageDisplay.Add("Piste 1. pelaajalle");
             pelaajan1Pisteet.Value += 1;
         }
         else if (kohde == vasenReuna)
         {
-            MessageDisplay.Add( "Piste 2. pelaajalle" );
+            MessageDisplay.Add("Piste 2. pelaajalle");
             pelaajan2Pisteet.Value += 1;
         }
     }
@@ -190,13 +190,13 @@ public class Pong : PhysicsGame
         if (kulkusuunta.Degrees > 70 && kulkusuunta.Degrees < 90)
             pallo.Velocity = Vector.FromLengthAndAngle(pallo.Velocity.Magnitude, kulkusuunta -= Angle.FromDegrees(1));
         else if (kulkusuunta.Degrees > 90 && kulkusuunta.Degrees < 110)
-           pallo.Velocity = Vector.FromLengthAndAngle(pallo.Velocity.Magnitude, kulkusuunta += Angle.FromDegrees(1));
+            pallo.Velocity = Vector.FromLengthAndAngle(pallo.Velocity.Magnitude, kulkusuunta += Angle.FromDegrees(1));
         else if (kulkusuunta.Degrees > 250 && kulkusuunta.Degrees < 270)
-           pallo.Velocity = Vector.FromLengthAndAngle(pallo.Velocity.Magnitude, kulkusuunta -= Angle.FromDegrees(1));
+            pallo.Velocity = Vector.FromLengthAndAngle(pallo.Velocity.Magnitude, kulkusuunta -= Angle.FromDegrees(1));
         else if (kulkusuunta.Degrees > 270 && kulkusuunta.Degrees < 290)
-           pallo.Velocity = Vector.FromLengthAndAngle(pallo.Velocity.Magnitude, kulkusuunta += Angle.FromDegrees(1));
-        
-        if(pallo.Velocity.Magnitude < 100)
+            pallo.Velocity = Vector.FromLengthAndAngle(pallo.Velocity.Magnitude, kulkusuunta += Angle.FromDegrees(1));
+
+        if (pallo.Velocity.Magnitude < 100)
             pallo.Velocity = Vector.FromLengthAndAngle(200, kulkusuunta);
 
         base.Update(time);

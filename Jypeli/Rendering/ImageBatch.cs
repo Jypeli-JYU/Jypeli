@@ -65,7 +65,7 @@ namespace Jypeli.Rendering
 
         public void Initialize()
         {
-            this.BufferSize = Game.GraphicsDevice.BufferSize/6;
+            this.BufferSize = Game.GraphicsDevice.BufferSize / 6;
             vertexBuffer = new VertexPositionColorTexture[BufferSize * VerticesPerTexture];
             shader = Graphics.BasicTextureShader;
         }

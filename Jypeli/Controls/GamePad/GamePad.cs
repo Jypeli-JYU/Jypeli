@@ -170,22 +170,26 @@ namespace Jypeli
                 ButtonState.Up => delegate (GamePadState prev, GamePadState curr)
                 {
                     return (curr.IsButtonUp(button));
-                },
+                }
+                ,
 
                 ButtonState.Down => delegate (GamePadState prev, GamePadState curr)
                 {
                     return (curr.IsButtonDown(button));
-                },
+                }
+                ,
 
                 ButtonState.Pressed => delegate (GamePadState prev, GamePadState curr)
                 {
                     return (prev.IsButtonUp(button) && curr.IsButtonDown(button));
-                },
+                }
+                ,
 
                 ButtonState.Released => delegate (GamePadState prev, GamePadState curr)
                 {
                     return (prev.IsButtonDown(button) && curr.IsButtonUp(button));
-                },
+                }
+                ,
 
                 _ => AlwaysTrigger
             };
@@ -200,24 +204,28 @@ namespace Jypeli
                     double xdist = curr.LeftThumbStick.X - prev.LeftThumbStick.X;
                     double ydist = curr.LeftThumbStick.Y - prev.LeftThumbStick.Y;
                     return xdist * xdist + ydist * ydist > moveTrigger * moveTrigger;
-                },
+                }
+                ,
 
                 AnalogControl.RightStick => delegate (GamePadState prev, GamePadState curr)
                 {
                     double xdist = curr.RightThumbStick.X - prev.RightThumbStick.X;
                     double ydist = curr.RightThumbStick.Y - prev.RightThumbStick.Y;
                     return xdist * xdist + ydist * ydist > moveTrigger * moveTrigger;
-                },
+                }
+                ,
 
                 AnalogControl.LeftTrigger => delegate (GamePadState prev, GamePadState curr)
                 {
                     return Math.Abs(curr.LeftTrigger - prev.LeftTrigger) > moveTrigger;
-                },
+                }
+                ,
 
                 AnalogControl.RightTrigger => delegate (GamePadState prev, GamePadState curr)
                 {
                     return Math.Abs(curr.RightTrigger - prev.RightTrigger) > moveTrigger;
-                },
+                }
+                ,
 
                 _ => throw new ArgumentException(control.ToString() + " is not a valid analog control for a GamePad"),
             };

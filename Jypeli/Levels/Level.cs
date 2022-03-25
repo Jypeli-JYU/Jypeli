@@ -47,9 +47,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="tag">Tagi, joka oliolla tulee olla.</param>
         /// <param name="method">Metodi, joka muokkaa oliota tai palauttaa uuden.</param>
-        public void AddByTag( string tag, Func<GameObject, GameObject> method )
+        public void AddByTag(string tag, Func<GameObject, GameObject> method)
         {
-            MethodsByTag.Add( tag, method );
+            MethodsByTag.Add(tag, method);
         }
 
         /// <summary>
@@ -59,9 +59,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="template">Template, jonka pohjalta olio on luotu.</param>
         /// <param name="method">Metodi, joka muokkaa oliota tai palauttaa uuden.</param>
-        public void AddByTemplate( string template, Func<GameObject, GameObject> method )
+        public void AddByTemplate(string template, Func<GameObject, GameObject> method)
         {
-            MethodsByTemplate.Add( template, method );
+            MethodsByTemplate.Add(template, method);
         }
     }
 
@@ -124,7 +124,7 @@ namespace Jypeli
         /// </summary>
         public Vector Size
         {
-            get { return new Vector( _width, _height ); }
+            get { return new Vector(_width, _height); }
             set { _width = value.X; _height = value.Y; }
         }
 
@@ -165,16 +165,16 @@ namespace Jypeli
         /// </summary>
         public BoundingRectangle BoundingRect
         {
-            get { return new BoundingRectangle( Center.X, Center.Y, Width, Height ); }
+            get { return new BoundingRectangle(Center.X, Center.Y, Width, Height); }
         }
 
-        internal Level( Game game )
+        internal Level(Game game)
         {
             this.game = game;
             AmbientLight = Color.White;
 
             // creates a null background
-            this.Background = new Jypeli.Widgets.Background( Vector.Zero );
+            this.Background = new Jypeli.Widgets.Background(Vector.Zero);
             this.Background.Color = Color.LightBlue; // default color
         }
 
@@ -190,9 +190,9 @@ namespace Jypeli
         {
             var objectsAboutToBeAdded = Game.GetObjectsAboutToBeAdded();
 
-            if ( ( Game.Instance.ObjectCount + objectsAboutToBeAdded.Count ) == 0 )
+            if ((Game.Instance.ObjectCount + objectsAboutToBeAdded.Count) == 0)
             {
-                throw new InvalidOperationException( "There must be at least one object" );
+                throw new InvalidOperationException("There must be at least one object");
             }
 
             double left = double.PositiveInfinity;
@@ -200,38 +200,38 @@ namespace Jypeli
             double top = double.NegativeInfinity;
             double bottom = double.PositiveInfinity;
 
-            foreach ( var layer in Game.Instance.Layers )
+            foreach (var layer in Game.Instance.Layers)
             {
                 if (layer.IgnoresZoom)
                     continue;
 
-                foreach ( var o in layer.Objects )
+                foreach (var o in layer.Objects)
                 {
-                    if ( o.Left < left )
+                    if (o.Left < left)
                         left = o.Left * layer.RelativeTransition.X;
-                    if ( o.Right > right )
+                    if (o.Right > right)
                         right = o.Right * layer.RelativeTransition.X;
-                    if ( o.Top > top )
+                    if (o.Top > top)
                         top = o.Top * layer.RelativeTransition.Y;
-                    if ( o.Bottom < bottom )
+                    if (o.Bottom < bottom)
                         bottom = o.Bottom * layer.RelativeTransition.Y;
                 }
             }
 
-            foreach ( var o in objectsAboutToBeAdded )
+            foreach (var o in objectsAboutToBeAdded)
             {
-                if ( o.Left < left )
+                if (o.Left < left)
                     left = o.Left;
-                if ( o.Right > right )
+                if (o.Right > right)
                     right = o.Right;
-                if ( o.Top > top )
+                if (o.Top > top)
                     top = o.Top;
-                if ( o.Bottom < bottom )
+                if (o.Bottom < bottom)
                     bottom = o.Bottom;
             }
 
             // Jos kentällä ei ollut ainuttakaan objektia kerroksilla jotka eivät ignooraa kameran zoomia.
-            if(left == double.PositiveInfinity)
+            if (left == double.PositiveInfinity)
             {
                 left = 1;
                 right = -1;
@@ -239,7 +239,7 @@ namespace Jypeli
                 bottom = -1;
             }
 
-            return new BoundingRectangle( new Vector( left, top ), new Vector( right, bottom ) );
+            return new BoundingRectangle(new Vector(left, top), new Vector(right, bottom));
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace Jypeli
         /// <returns>Vektori.</returns>
         public Vector GetRandomPosition()
         {
-            return new Vector( RandomGen.NextDouble( Left, Right ), RandomGen.NextDouble( Bottom, Top ) );
+            return new Vector(RandomGen.NextDouble(Left, Right), RandomGen.NextDouble(Bottom, Top));
         }
 
         /// <summary>
@@ -258,8 +258,10 @@ namespace Jypeli
         /// <returns></returns>
         public Vector GetRandomFreePosition(double radius)
         {
-            if (radius < 0) throw new ArgumentException("Radius cannot be negative!");
-            if (radius == 0) return GetRandomPosition();
+            if (radius < 0)
+                throw new ArgumentException("Radius cannot be negative!");
+            if (radius == 0)
+                return GetRandomPosition();
 
             Vector position;
 

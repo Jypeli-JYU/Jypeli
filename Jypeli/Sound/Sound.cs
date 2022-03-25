@@ -19,7 +19,7 @@ namespace Jypeli
         /// <summary>
         /// Jos <c>true</c>, ääntä soitetaan toistuvasti.
         /// </summary>
-        public bool IsLooped 
+        public bool IsLooped
         {
             get { return OpenAL.GetLooping(soundeffect.handle); }
             set { OpenAL.SetLooping(soundeffect.handle, value); }
@@ -68,7 +68,7 @@ namespace Jypeli
         public double Pitch
         {
             get { return PitchFromAL(OpenAL.GetPitch(soundeffect.handle)); }
-            set { OpenAL.SetPitch(soundeffect.handle,PitchToAL(value)); }
+            set { OpenAL.SetPitch(soundeffect.handle, PitchToAL(value)); }
         }
 
         /*

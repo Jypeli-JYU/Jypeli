@@ -136,7 +136,7 @@ namespace FarseerPhysics.Dynamics
         public OnSeparationEventHandler OnSeparation;
 
         internal Fixture() // Note: This is internal because it's used by Deserialization.
-        {   
+        {
             _collisionCategories = Category.Cat1;
             _collidesWith = Category.All;
             _collisionGroup = 0;
@@ -149,12 +149,12 @@ namespace FarseerPhysics.Dynamics
         public Fixture(Shape shape) : this()
         {
             Shape = shape.Clone();
-            
+
             // Reserve proxy space
             Proxies = new FixtureProxy[Shape.ChildCount];
             ProxyCount = 0;
         }
-        
+
         /// <summary>
         /// Defaults to 0
         /// 
@@ -277,8 +277,8 @@ namespace FarseerPhysics.Dynamics
                 _restitution = value;
             }
         }
-        
-        
+
+
         /// <summary>
         /// Contacts are persistant and will keep being persistant unless they are
         /// flagged for filtering.
@@ -417,7 +417,7 @@ namespace FarseerPhysics.Dynamics
         {
             return CloneOnto(body, this.Shape);
         }
-        
+
         /// <summary>
         /// Clones the fixture and attached shape onto the specified body.
         /// Note: This is used only by Deserialization.
@@ -434,7 +434,7 @@ namespace FarseerPhysics.Dynamics
             fixture._collisionGroup = _collisionGroup;
             fixture._collisionCategories = _collisionCategories;
             fixture._collidesWith = _collidesWith;
-            
+
             body.Add(fixture);
             return fixture;
         }

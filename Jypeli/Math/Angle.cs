@@ -41,22 +41,22 @@ namespace Jypeli
         /// <summary>
         /// Nollakulma.
         /// </summary>
-        public static readonly Angle Zero = new Angle( 0 );
+        public static readonly Angle Zero = new Angle(0);
 
         /// <summary>
         /// Suora kulma (90 astetta).
         /// </summary>
-        public static readonly Angle RightAngle = new Angle( 0.5 * Math.PI );
+        public static readonly Angle RightAngle = new Angle(0.5 * Math.PI);
 
         /// <summary>
         /// Oikokulma (180 astetta).
         /// </summary>
-        public static readonly Angle StraightAngle = new Angle( Math.PI );
+        public static readonly Angle StraightAngle = new Angle(Math.PI);
 
         /// <summary>
         /// Täysikulma (360 astetta).
         /// </summary>
-        public static readonly Angle FullAngle = new Angle( 2 * Math.PI );
+        public static readonly Angle FullAngle = new Angle(2 * Math.PI);
 
 
         private double radian;
@@ -69,11 +69,11 @@ namespace Jypeli
         {
             get
             {
-                return RadianToDegree( radian );
+                return RadianToDegree(radian);
             }
             set
             {
-                radian = DegreeToRadian( value );
+                radian = DegreeToRadian(value);
             }
         }
 
@@ -97,9 +97,12 @@ namespace Jypeli
         {
             get
             {
-                if ( radian >= -Math.PI / 4 && radian <= Math.PI / 4 ) return Direction.Right;
-                if ( radian > Math.PI / 4 && radian < 3 * Math.PI / 4 ) return Direction.Up;
-                if ( radian < -Math.PI / 4 && radian > -3 * Math.PI / 4 ) return Direction.Down;
+                if (radian >= -Math.PI / 4 && radian <= Math.PI / 4)
+                    return Direction.Right;
+                if (radian > Math.PI / 4 && radian < 3 * Math.PI / 4)
+                    return Direction.Up;
+                if (radian < -Math.PI / 4 && radian > -3 * Math.PI / 4)
+                    return Direction.Down;
                 return Direction.Left;
             }
         }
@@ -109,7 +112,7 @@ namespace Jypeli
         /// </summary>
         public double Sin
         {
-            get { return Math.Sin( this.Radians ); }
+            get { return Math.Sin(this.Radians); }
         }
 
         /// <summary>
@@ -117,7 +120,7 @@ namespace Jypeli
         /// </summary>
         public double Cos
         {
-            get { return Math.Cos( this.Radians ); }
+            get { return Math.Cos(this.Radians); }
         }
 
         /// <summary>
@@ -125,13 +128,13 @@ namespace Jypeli
         /// </summary>
         public double Tan
         {
-            get { return Math.Tan( this.Radians ); }
+            get { return Math.Tan(this.Radians); }
         }
 
 
-        private Angle( double radians )
+        private Angle(double radians)
         {
-            this.radian = MathHelper.ClampAngle( (float)radians );
+            this.radian = MathHelper.ClampAngle((float)radians);
         }
 
         #region Operators
@@ -142,9 +145,9 @@ namespace Jypeli
         /// <param name="a">Kulma.</param>
         /// <param name="b">Kulma.</param>
         /// <returns>Kulmien summa.</returns>
-        public static Angle operator +( Angle a, Angle b )
+        public static Angle operator +(Angle a, Angle b)
         {
-            return FromRadians( a.Radians + b.Radians );
+            return FromRadians(a.Radians + b.Radians);
         }
 
         /// <summary>
@@ -153,18 +156,18 @@ namespace Jypeli
         /// <param name="a">Kulma.</param>
         /// <param name="b">Kulma.</param>
         /// <returns>Kulmien erotus.</returns>
-        public static Angle operator -( Angle a, Angle b )
+        public static Angle operator -(Angle a, Angle b)
         {
-            return FromRadians( a.GetPositiveRadians() - b.GetPositiveRadians() );
+            return FromRadians(a.GetPositiveRadians() - b.GetPositiveRadians());
         }
 
         /// <summary>
         /// Ottaa kulman vastakulman.
         /// </summary>
         /// <param name="a">Kulma.</param>
-        public static Angle operator -( Angle a )
+        public static Angle operator -(Angle a)
         {
-            return FromRadians( -a.Radians );
+            return FromRadians(-a.Radians);
         }
 
         /// <summary>
@@ -173,9 +176,9 @@ namespace Jypeli
         /// <param name="a">Reaaliluku.</param>
         /// <param name="b">Kulma.</param>
         /// <returns>Kulma.</returns>
-        public static Angle operator *( double a, Angle b )
+        public static Angle operator *(double a, Angle b)
         {
-            return FromRadians( a * b.Radians );
+            return FromRadians(a * b.Radians);
         }
 
         /// <summary>
@@ -184,9 +187,9 @@ namespace Jypeli
         /// <param name="a">Kulma.</param>
         /// <param name="b">Reaaliluku.</param>
         /// <returns>Kulma.</returns>
-        public static Angle operator *( Angle a, double b )
+        public static Angle operator *(Angle a, double b)
         {
-            return FromRadians( a.Radians * b );
+            return FromRadians(a.Radians * b);
         }
 
         /// <summary>
@@ -195,9 +198,9 @@ namespace Jypeli
         /// <param name="a">Kulma.</param>
         /// <param name="b">Reaaliluku.</param>
         /// <returns>Kulma.</returns>
-        public static Angle operator /( Angle a, double b )
+        public static Angle operator /(Angle a, double b)
         {
-            return FromRadians( a.Radians / b );
+            return FromRadians(a.Radians / b);
         }
 
         /// <summary>
@@ -206,7 +209,7 @@ namespace Jypeli
         /// <param name="a">Kulma.</param>
         /// <param name="b">Kulma.</param>
         /// <returns>Yhtäsuuruus.</returns>
-        public static bool operator ==( Angle a, Angle b )
+        public static bool operator ==(Angle a, Angle b)
         {
             return a.Radians == b.Radians;
         }
@@ -217,7 +220,7 @@ namespace Jypeli
         /// <param name="a">Kulma.</param>
         /// <param name="b">Kulma.</param>
         /// <returns>Erisuuruus.</returns>
-        public static bool operator !=( Angle a, Angle b )
+        public static bool operator !=(Angle a, Angle b)
         {
             return a.Radians != b.Radians;
         }
@@ -228,7 +231,7 @@ namespace Jypeli
         /// <param name="a">Kulma.</param>
         /// <param name="b">Kulma.</param>
         /// <returns><c>true</c> jos suurempi, <c>false</c> jos pienempi tai yhtäsuuri.</returns>
-        public static bool operator <( Angle a, Angle b )
+        public static bool operator <(Angle a, Angle b)
         {
             return a.Radians < b.Radians;
         }
@@ -239,7 +242,7 @@ namespace Jypeli
         /// <param name="a">Kulma.</param>
         /// <param name="b">Kulma.</param>
         /// <returns><c>true</c> jos suurempi tai yhtäsuuri, <c>false</c> jos pienempi.</returns>
-        public static bool operator <=( Angle a, Angle b )
+        public static bool operator <=(Angle a, Angle b)
         {
             return a.Radians <= b.Radians;
         }
@@ -250,7 +253,7 @@ namespace Jypeli
         /// <param name="a">Kulma.</param>
         /// <param name="b">Kulma.</param>
         /// <returns><c>true</c> jos pienempi, <c>false</c> jos suurempi tai yhtäsuuri.</returns>
-        public static bool operator >( Angle a, Angle b )
+        public static bool operator >(Angle a, Angle b)
         {
             return a.Radians > b.Radians;
         }
@@ -261,7 +264,7 @@ namespace Jypeli
         /// <param name="a">Kulma.</param>
         /// <param name="b">Kulma.</param>
         /// <returns><c>true</c> jos pienempi tai yhtäsuuri, <c>false</c> jos suurempi.</returns>
-        public static bool operator >=( Angle a, Angle b )
+        public static bool operator >=(Angle a, Angle b)
         {
             return a.Radians >= b.Radians;
         }
@@ -271,7 +274,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="angle">Rajoitettu kulma</param>
         /// <returns>Rajoittamaton kulma</returns>
-        public static explicit operator UnlimitedAngle( Angle angle )
+        public static explicit operator UnlimitedAngle(Angle angle)
         {
             return angle.Unlimit();
         }
@@ -284,7 +287,7 @@ namespace Jypeli
         /// <returns>Rajoitettu kulma</returns>
         public static Angle Sum(UnlimitedAngle a, Angle b)
         {
-            return Angle.FromRadians( a.Radians + b.Radians );
+            return Angle.FromRadians(a.Radians + b.Radians);
         }
 
         /// <summary>
@@ -293,9 +296,9 @@ namespace Jypeli
         /// <param name="a">Rajoitettu kulma</param>
         /// <param name="b">Rajoittamaton kulma</param>
         /// <returns>Rajoitettu kulma</returns>
-        public static Angle Sum( Angle a, UnlimitedAngle b )
+        public static Angle Sum(Angle a, UnlimitedAngle b)
         {
-            return Angle.FromRadians( a.Radians + b.Radians );
+            return Angle.FromRadians(a.Radians + b.Radians);
         }
 
         #endregion
@@ -305,25 +308,25 @@ namespace Jypeli
         /// </summary>
         public UnlimitedAngle Unlimit()
         {
-            return UnlimitedAngle.FromRadians( this.radian );
+            return UnlimitedAngle.FromRadians(this.radian);
         }
 
         /// <summary>
         /// Luo kulman annettujen radiaanien mukaan.
         /// </summary>
         /// <param name="radian">Radiaanit.</param>
-        public static Angle FromRadians( double radian )
+        public static Angle FromRadians(double radian)
         {
-            return new Angle( radian );
+            return new Angle(radian);
         }
 
         /// <summary>
         /// Luo kulman annettujen asteiden mukaan.
         /// </summary>
         /// <param name="degree">Asteet.</param>
-        public static Angle FromDegrees( double degree )
+        public static Angle FromDegrees(double degree)
         {
-            return new Angle( DegreeToRadian( degree ) );
+            return new Angle(DegreeToRadian(degree));
         }
 
         /// <summary>
@@ -331,7 +334,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="degree">Asteet.</param>
         /// <returns></returns>
-        public static double DegreeToRadian( double degree )
+        public static double DegreeToRadian(double degree)
         {
             return MathHelper.ClampAngle((float)(degree * (System.Math.PI / 180)));
         }
@@ -341,10 +344,10 @@ namespace Jypeli
         /// </summary>
         /// <param name="radian">Radiaanit.</param>
         /// <returns></returns>
-        public static double RadianToDegree( double radian )
+        public static double RadianToDegree(double radian)
         {
             double a = MathHelper.ClampAngle((float)radian);
-            return a * ( 180 / System.Math.PI );
+            return a * (180 / System.Math.PI);
         }
 
         /// <summary>
@@ -352,9 +355,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="a">Kulma.</param>
         /// <returns></returns>
-        public static Angle Complement( Angle a )
+        public static Angle Complement(Angle a)
         {
-            return FromRadians( 0.5 * Math.PI - a.Radians );
+            return FromRadians(0.5 * Math.PI - a.Radians);
         }
 
         /// <summary>
@@ -362,9 +365,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="a">Kulma.</param>
         /// <returns></returns>
-        public static Angle Supplement( Angle a )
+        public static Angle Supplement(Angle a)
         {
-            return FromRadians( Math.PI - a.Radians );
+            return FromRadians(Math.PI - a.Radians);
         }
 
         /// <summary>
@@ -372,9 +375,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="a">Kulma.</param>
         /// <returns></returns>
-        public static Angle Explement( Angle a )
+        public static Angle Explement(Angle a)
         {
-            return FromRadians( 2 * Math.PI - a.Radians );
+            return FromRadians(2 * Math.PI - a.Radians);
         }
 
         /// <summary>
@@ -385,7 +388,7 @@ namespace Jypeli
         /// </returns>
         public override int GetHashCode()
         {
-            return Convert.ToInt32( Degrees );
+            return Convert.ToInt32(Degrees);
         }
 
         /// <summary>
@@ -393,11 +396,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="obj">Toinen kulma.</param>
         /// <returns></returns>
-        public override bool Equals( object obj )
+        public override bool Equals(object obj)
         {
-            if ( obj is Angle )
+            if (obj is Angle)
             {
-                return Double.Equals( this.Radians, ( (Angle)obj ).Radians );
+                return Double.Equals(this.Radians, ((Angle)obj).Radians);
             }
 
             return false;
@@ -409,7 +412,7 @@ namespace Jypeli
         /// <returns></returns>
         public override string ToString()
         {
-            return radian.ToString( System.Globalization.NumberFormatInfo.InvariantInfo );
+            return radian.ToString(System.Globalization.NumberFormatInfo.InvariantInfo);
         }
 
         /// <summary>
@@ -417,9 +420,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="formatProvider"></param>
         /// <returns></returns>
-        public string ToString( IFormatProvider formatProvider )
+        public string ToString(IFormatProvider formatProvider)
         {
-            return radian.ToString( formatProvider );
+            return radian.ToString(formatProvider);
         }
 
         /// <summary>
@@ -428,9 +431,9 @@ namespace Jypeli
         /// <param name="angleStr">Kulma radiaaneina</param>
         /// <param name="formatProvider"></param>
         /// <returns></returns>
-        public static Angle Parse( string angleStr, IFormatProvider formatProvider )
+        public static Angle Parse(string angleStr, IFormatProvider formatProvider)
         {
-            return new Angle( double.Parse( angleStr, formatProvider ) );
+            return new Angle(double.Parse(angleStr, formatProvider));
         }
 
         /// <summary>
@@ -438,9 +441,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="angleStr">Kulma radiaaneina</param>
         /// <returns></returns>
-        public static Angle Parse( string angleStr )
+        public static Angle Parse(string angleStr)
         {
-            return new Angle( double.Parse( angleStr, NumberFormatInfo.InvariantInfo ) );
+            return new Angle(double.Parse(angleStr, NumberFormatInfo.InvariantInfo));
         }
 
         /// <summary>
@@ -469,7 +472,7 @@ namespace Jypeli
         /// <returns></returns>
         public Vector GetVector()
         {
-            return Vector.FromAngle( this );
+            return Vector.FromAngle(this);
         }
 
         #region Arcusfunktiot
@@ -479,9 +482,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="d">Lukuarvo välillä 0-1.</param>
         /// <returns>Kulma.</returns>
-        public static Angle ArcSin( double d )
+        public static Angle ArcSin(double d)
         {
-            return new Angle( Math.Asin( d ) );
+            return new Angle(Math.Asin(d));
         }
 
         /// <summary>
@@ -489,9 +492,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="d">Lukuarvo välillä 0-1.</param>
         /// <returns>Kulma.</returns>
-        public static Angle ArcCos( double d )
+        public static Angle ArcCos(double d)
         {
-            return new Angle( Math.Acos( d ) );
+            return new Angle(Math.Acos(d));
         }
 
         /// <summary>
@@ -499,9 +502,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="d">Lukuarvo.</param>
         /// <returns>Kulma.</returns>
-        public static Angle ArcTan( double d )
+        public static Angle ArcTan(double d)
         {
-            return new Angle( Math.Atan( d ) );
+            return new Angle(Math.Atan(d));
         }
 
         #endregion

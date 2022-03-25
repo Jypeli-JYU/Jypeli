@@ -14,15 +14,16 @@ namespace Jypeli
         /// <param name="actual">Luokka jota verrataan</param>
         /// <param name="expected"> Mihin verrataan</param>
         /// <returns></returns>
-        public static bool InheritsFrom( Type actual, Type expected )
+        public static bool InheritsFrom(Type actual, Type expected)
         {
             Type t = actual;
 
             do
             {
-                if ( t == expected ) return true;
+                if (t == expected)
+                    return true;
                 t = t.BaseType;
-            } while ( t != null && t != typeof( object ) );
+            } while (t != null && t != typeof(object));
 
             return false;
         }
@@ -32,7 +33,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="type">Tyyppi</param>
         /// <returns></returns>
-        public static string ToString( Type type )
+        public static string ToString(Type type)
         {
             /* When objects of class Type are stored, things get a little
              * tricky:
@@ -46,22 +47,23 @@ namespace Jypeli
              * should be System.Type instead of System.RuntimeType.
              */
             var runtimeType = type.GetType();
-            if ( type == runtimeType )
+            if (type == runtimeType)
             {
-                return typeof( Type ).AssemblyQualifiedName;
+                return typeof(Type).AssemblyQualifiedName;
             }
 
-            StringBuilder sb = new StringBuilder( type.AssemblyQualifiedName );
+            StringBuilder sb = new StringBuilder(type.AssemblyQualifiedName);
 
-            if ( !type.ContainsGenericParameters ) return sb.ToString();
+            if (!type.ContainsGenericParameters)
+                return sb.ToString();
             Type[] genargs = type.GetGenericArguments();
 
-            sb.Append( '<' );
+            sb.Append('<');
 
-            for ( int i = 0; i < genargs.Length; i++ )
+            for (int i = 0; i < genargs.Length; i++)
             {
-                sb.Append( TypeHelper.ToString( genargs[i] ) );
-                sb.Append( ',' );
+                sb.Append(TypeHelper.ToString(genargs[i]));
+                sb.Append(',');
             }
 
             sb[sb.Length - 1] = '>';
@@ -73,22 +75,25 @@ namespace Jypeli
         /// </summary>
         /// <param name="typeStr"></param>
         /// <returns></returns>
-        public static Type Parse( string typeStr )
+        public static Type Parse(string typeStr)
         {
-            int genOpen = typeStr.IndexOf( '<' );
-            int genClose = typeStr.IndexOf( '>' );
+            int genOpen = typeStr.IndexOf('<');
+            int genClose = typeStr.IndexOf('>');
 
-            if ( genOpen < 0 && genClose < 0 ) return Type.GetType( typeStr );
-            if ( genOpen >= 0 && genClose < 0 ) throw new ArgumentException( "Unterminated < in type string: " + typeStr );
-            if ( genOpen < 0 && genClose >= 0 ) throw new ArgumentException( "Unexpected > in type string: " + typeStr );
+            if (genOpen < 0 && genClose < 0)
+                return Type.GetType(typeStr);
+            if (genOpen >= 0 && genClose < 0)
+                throw new ArgumentException("Unterminated < in type string: " + typeStr);
+            if (genOpen < 0 && genClose >= 0)
+                throw new ArgumentException("Unexpected > in type string: " + typeStr);
 
-            Type parsedType = Type.GetType( typeStr.Substring( 0, genOpen ) );
-            string[] genargStrings = typeStr.Substring( genOpen + 1, genClose - genOpen - 1 ).Split( ',' );
+            Type parsedType = Type.GetType(typeStr.Substring(0, genOpen));
+            string[] genargStrings = typeStr.Substring(genOpen + 1, genClose - genOpen - 1).Split(',');
             Type[] genargs = new Type[genargStrings.Length];
 
-            for ( int i = 0; i < genargStrings.Length; i++ )
+            for (int i = 0; i < genargStrings.Length; i++)
             {
-                genargs[i] = TypeHelper.Parse( genargStrings[i] );
+                genargs[i] = TypeHelper.Parse(genargStrings[i]);
             }
 
             return parsedType;

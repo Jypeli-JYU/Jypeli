@@ -44,32 +44,32 @@ namespace Jypeli
         /// </summary>
         public static bool NextBool()
         {
-            return ( rand.NextDouble() >= 0.5 );
+            return (rand.NextDouble() >= 0.5);
         }
 
         /// <summary>
         /// Palauttaa satunnaisen kokonaisluvun, joka on vähintään 0 ja pienempi kuin <code>max</code>.
         /// </summary>
         /// <returns></returns>
-        public static int NextInt( int maxValue )
+        public static int NextInt(int maxValue)
         {
-            return rand.Next( maxValue );
+            return rand.Next(maxValue);
         }
 
         /// <summary>
         /// Palauttaa satunnaisen kokonaisluvun, joka on vähintään <code>min</code> ja pienempi kuin <code>max</code>.
         /// </summary>
-        public static int NextInt( int min, int max )
+        public static int NextInt(int min, int max)
         {
-            return rand.Next( min, max );
-        }        
+            return rand.Next(min, max);
+        }
 
         /// <summary>
         /// Palauttaa satunnaisen liukuluvun parametrien <code>min</code> ja <code>max</code> väliltä.
         /// </summary>
-        public static double NextDouble( double min, double max )
+        public static double NextDouble(double min, double max)
         {
-            return min + rand.NextDouble() * ( max - min );
+            return min + rand.NextDouble() * (max - min);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Jypeli
         {
             int startCode = upperCase ? (int)'A' : (int)'a';
             int endCode = upperCase ? (int)'Z' : (int)'z';
-            return (char)NextInt( startCode, endCode + 1 );
+            return (char)NextInt(startCode, endCode + 1);
         }
 
         /// <summary>
@@ -91,13 +91,13 @@ namespace Jypeli
         {
             double randdir = rand.NextDouble();
 
-            if ( randdir <= 0.25 )
+            if (randdir <= 0.25)
                 return Direction.Up;
 
-            if ( randdir <= 0.5 )
+            if (randdir <= 0.5)
                 return Direction.Down;
 
-            if ( randdir <= 0.75 )
+            if (randdir <= 0.75)
                 return Direction.Left;
 
             return Direction.Right;
@@ -110,13 +110,13 @@ namespace Jypeli
         /// <param name="max">Suurin arvo.</param>
         /// <param name="size">Taulukon koko.</param>
         /// <returns>Taulukko.</returns>
-        public static double[] NextDoubleArray( double min, double max, int size )
+        public static double[] NextDoubleArray(double min, double max, int size)
         {
             double[] array = new double[size];
 
-            for ( int i = 0; i < size; i++ )
+            for (int i = 0; i < size; i++)
             {
-                array[i] = NextDouble( min, max );
+                array[i] = NextDouble(min, max);
             }
 
             return array;
@@ -130,15 +130,15 @@ namespace Jypeli
         /// <param name="size">Taulukon koko.</param>
         /// <param name="maxchange">Suurin sallittu muutos kahden luvun välillä.</param>
         /// <returns>Taulukko.</returns>
-        public static double[] NextDoubleArray( double min, double max, int size, int maxchange )
+        public static double[] NextDoubleArray(double min, double max, int size, int maxchange)
         {
             double[] array = new double[size];
             double curmin = min;
             double curmax = max;
 
-            for ( int i = 0; i < size; i++ )
+            for (int i = 0; i < size; i++)
             {
-                array[i] = NextDouble( curmin, curmax );
+                array[i] = NextDouble(curmin, curmax);
 
                 curmin = MathHelper.Max((float)min, (float)(array[i] - maxchange));
                 curmax = MathHelper.Min((float)max, (float)(array[i] + maxchange));
@@ -162,7 +162,7 @@ namespace Jypeli
         /// <returns>Satunnainen vaalea väri</returns>
         public static Color NextLightColor()
         {
-            return Color.Mix( NextColor(), Color.White );
+            return Color.Mix(NextColor(), Color.White);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace Jypeli
         /// <returns>Satunnainen tumma väri</returns>
         public static Color NextDarkColor()
         {
-            return Color.Mix( NextColor(), Color.Black );
+            return Color.Mix(NextColor(), Color.Black);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="obj">Olio</param>
         /// <returns>Väri.</returns>
-        public static Color NextColor( object obj )
+        public static Color NextColor(object obj)
         {
             var r = new Random(obj.GetHashCode());
             return new Color((float)r.NextDouble(), (float)r.NextDouble(), (float)r.NextDouble(), 1);
@@ -201,7 +201,7 @@ namespace Jypeli
         /// <returns>Kulma.</returns>
         public static Angle NextAngle()
         {
-            return Angle.FromRadians( NextDouble( 0, 2 * Math.PI ) );
+            return Angle.FromRadians(NextDouble(0, 2 * Math.PI));
         }
 
         /// <summary>
@@ -210,9 +210,9 @@ namespace Jypeli
         /// <param name="minLength">Vektorin minimipituus.</param>
         /// <param name="maxLength">Vektorin maksimipituus.</param>
         /// <returns>Satunnainen vektori</returns>
-        public static Vector NextVector( double minLength, double maxLength )
+        public static Vector NextVector(double minLength, double maxLength)
         {
-            return Vector.FromLengthAndAngle( NextDouble( minLength, maxLength ), NextAngle() );
+            return Vector.FromLengthAndAngle(NextDouble(minLength, maxLength), NextAngle());
         }
 
         /// <summary>
@@ -223,9 +223,9 @@ namespace Jypeli
         /// <param name="maxX">Suurin sallittu X-koordinaatti</param>
         /// <param name="maxY">Suurin sallittu Y-koordinaatti</param>
         /// <returns></returns>
-        public static Vector NextVector( double minX, double minY, double maxX, double maxY )
+        public static Vector NextVector(double minX, double minY, double maxX, double maxY)
         {
-            return new Vector( NextDouble( minX, maxX ), NextDouble( minY, maxY ) );
+            return new Vector(NextDouble(minX, maxX), NextDouble(minY, maxY));
         }
 
         /// <summary>
@@ -234,9 +234,9 @@ namespace Jypeli
         /// <param name="rect">suorakaisen joka rajoittaa arvontaa</param>
         /// <param name="r">säde joka otetaan reunoilta sisäänpäin</param>
         /// <returns>Satunnainen vektori</returns>
-        public static Vector NextVector( BoundingRectangle rect, int r = 0 )
+        public static Vector NextVector(BoundingRectangle rect, int r = 0)
         {
-            return new Vector( NextDouble( rect.Left + r, rect.Right - r ), NextDouble( rect.Bottom + r, rect.Top - r ) );
+            return new Vector(NextDouble(rect.Left + r, rect.Right - r), NextDouble(rect.Bottom + r, rect.Top - r));
         }
 
         /// <summary>
@@ -244,9 +244,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="max">Maksimikulma.</param>
         /// <returns>Kulma.</returns>
-        public static Angle NextAngle( Angle max )
+        public static Angle NextAngle(Angle max)
         {
-            return Angle.FromRadians( NextDouble( 0, max.Radians ) );
+            return Angle.FromRadians(NextDouble(0, max.Radians));
         }
 
         /// <summary>
@@ -255,12 +255,13 @@ namespace Jypeli
         /// <param name="min">Minimikulma.</param>
         /// <param name="max">Maksimikulma.</param>
         /// <returns>Kulma.</returns>
-        public static Angle NextAngle( Angle min, Angle max )
+        public static Angle NextAngle(Angle min, Angle max)
         {
             double a1 = min.Radians;
             double a2 = max.Radians;
-            while ( a2 < a1 ) a2 += 2 * Math.PI;
-            return Angle.FromRadians( NextDouble( a1, a2 ) );
+            while (a2 < a1)
+                a2 += 2 * Math.PI;
+            return Angle.FromRadians(NextDouble(a1, a2));
         }
 
         /// <summary>
@@ -269,9 +270,9 @@ namespace Jypeli
         /// <param name="minSeconds">Minimikesto sekunteina</param>
         /// <param name="maxSeconds">Maksimikesto sekunteina</param>
         /// <returns></returns>
-        public static TimeSpan NextTimeSpan( double minSeconds, double maxSeconds )
+        public static TimeSpan NextTimeSpan(double minSeconds, double maxSeconds)
         {
-            return TimeSpan.FromSeconds( NextDouble( minSeconds, maxSeconds ) );
+            return TimeSpan.FromSeconds(NextDouble(minSeconds, maxSeconds));
         }
 
         /// <summary>
@@ -295,15 +296,16 @@ namespace Jypeli
         /// int luku3 = RandomGen.NextIntWithProbabilities( 0.6, 0.4 );  // palauttaa 60% tod.näk. nollan ja 40% tn. ykkösen
         /// </example>
         /// <returns>Kokonaisluku väliltä 0 - (p+1)</returns>
-        public static int NextIntWithProbabilities( params double[] p )
+        public static int NextIntWithProbabilities(params double[] p)
         {
             double randomNum = rand.NextDouble();
             double accumulator = 0;
 
-            for ( int i = 0; i < p.Length; i++ )
+            for (int i = 0; i < p.Length; i++)
             {
                 accumulator += p[i];
-                if ( randomNum < accumulator ) return i;
+                if (randomNum < accumulator)
+                    return i;
             }
 
             return p.Length;
@@ -335,9 +337,9 @@ namespace Jypeli
         /// <typeparam name="T">Vaihtoehtojen tyyppi</typeparam>
         /// <param name="choices">Vaihtoehdot</param>
         /// <returns>Satunnainen vaihtoehto</returns>
-        public static T SelectOne<T>( params T[] choices )
+        public static T SelectOne<T>(params T[] choices)
         {
-            int i = NextInt( choices.Length );
+            int i = NextInt(choices.Length);
             return choices[i];
         }
 
@@ -348,9 +350,9 @@ namespace Jypeli
         /// <typeparam name="T">Vaihtoehtojen tyyppi</typeparam>
         /// <param name="choices">Vaihtoehdot</param>
         /// <returns>Satunnainen vaihtoehto</returns>
-        public static T SelectOne<T>( IList<T> choices )
+        public static T SelectOne<T>(IList<T> choices)
         {
-            int i = NextInt( choices.Count );
+            int i = NextInt(choices.Count);
             return choices[i];
         }
     }

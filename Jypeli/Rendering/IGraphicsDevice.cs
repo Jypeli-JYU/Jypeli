@@ -16,12 +16,12 @@ namespace Jypeli.Rendering
         /// <summary>
         /// Käytössä olevan renderöintialustan nimi.
         /// </summary>
-        public string Name {  get;}
+        public string Name { get; }
 
         /// <summary>
         /// Kätössä olevan renderöintialustan versio.
         /// </summary>
-        public string Version { get;}
+        public string Version { get; }
 
         /// <summary>
         /// Verteksipuskurin koko. 

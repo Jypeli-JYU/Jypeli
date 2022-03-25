@@ -155,7 +155,7 @@ namespace Jypeli
             //}
             //else
             //{
-                Game.Instance.Add(o);
+            Game.Instance.Add(o);
             //}
 
             return o;

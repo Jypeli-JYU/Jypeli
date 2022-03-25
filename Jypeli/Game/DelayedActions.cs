@@ -50,9 +50,9 @@ namespace Jypeli
         /// Suorittaa aliohjelman kun peli on varmasti alustettu.
         /// </summary>
         /// <param name="actionMethod">Suoritettava aliohjelma.</param>
-        public static void AssertInitialized( Action actionMethod )
+        public static void AssertInitialized(Action actionMethod)
         {
-            if ( Instance != null )
+            if (Instance != null)
                 actionMethod();
             else
                 InstanceInitialized += actionMethod;
@@ -62,10 +62,10 @@ namespace Jypeli
         /// Suorittaa aliohjelman seuraavalla päivityksellä.
         /// </summary>
         /// <param name="action"></param>
-        public static void DoNextUpdate( Action action )
+        public static void DoNextUpdate(Action action)
         {
-            if ( Instance != null )
-                Instance.PendingActions.Enqueue( action );
+            if (Instance != null)
+                Instance.PendingActions.Enqueue(action);
             else
                 InstanceInitialized += action;
         }
@@ -76,9 +76,10 @@ namespace Jypeli
         /// <typeparam name="T1"></typeparam>
         /// <param name="action"></param>
         /// <param name="p1"></param>
-        public static void DoNextUpdate<T1>( Action<T1> action, T1 p1 )
+        public static void DoNextUpdate<T1>(Action<T1> action, T1 p1)
         {
-            DoNextUpdate( delegate { action( p1 ); } );
+            DoNextUpdate(delegate
+            { action(p1); });
         }
 
         /// <summary>
@@ -89,9 +90,10 @@ namespace Jypeli
         /// <param name="action"></param>
         /// <param name="p1"></param>
         /// <param name="p2"></param>
-        public static void DoNextUpdate<T1, T2>( Action<T1, T2> action, T1 p1, T2 p2 )
+        public static void DoNextUpdate<T1, T2>(Action<T1, T2> action, T1 p1, T2 p2)
         {
-            DoNextUpdate( delegate { action( p1, p2 ); } );
+            DoNextUpdate(delegate
+            { action(p1, p2); });
         }
 
         /// <summary>
@@ -100,12 +102,13 @@ namespace Jypeli
         /// <typeparam name="T1">Aliohjelmalle välitettävän parametrin tyyppi</typeparam>
         /// <param name="actionMethod">Suoritettava aliohjelma.</param>
         /// <param name="o1">Aliohjelmalle välitettävä parametri.</param>
-        public static void AssertInitialized<T1>( Action<T1> actionMethod, T1 o1 )
+        public static void AssertInitialized<T1>(Action<T1> actionMethod, T1 o1)
         {
-            if ( Instance != null )
-                actionMethod( o1 );
+            if (Instance != null)
+                actionMethod(o1);
             else
-                InstanceInitialized += delegate { actionMethod( o1 ); };
+                InstanceInitialized += delegate
+                { actionMethod(o1); };
         }
 
         /// <summary>
@@ -122,12 +125,13 @@ namespace Jypeli
         /// <param name="noAction">Mitä tehdään jos käyttäjä vastaa ei.</param>
         public void ConfirmExit(Action noAction)
         {
-            YesNoWindow kyselyIkkuna = new YesNoWindow( "Do you want to quit?" );
+            YesNoWindow kyselyIkkuna = new YesNoWindow("Do you want to quit?");
             kyselyIkkuna.Yes += Exit;
-            if(noAction != null)
+            if (noAction != null)
                 kyselyIkkuna.No += noAction;
-            kyselyIkkuna.Closed += delegate { IsPaused = false; };
-            Add( kyselyIkkuna );
+            kyselyIkkuna.Closed += delegate
+            { IsPaused = false; };
+            Add(kyselyIkkuna);
 
             IsPaused = true;
         }
@@ -137,16 +141,16 @@ namespace Jypeli
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        protected void OnExiting( object sender, EventArgs args )
+        protected void OnExiting(object sender, EventArgs args)
         {
-            if ( Exiting != null )
+            if (Exiting != null)
                 Exiting();
 
         }
 
         private void ExecutePendingActions()
         {
-            while ( PendingActions.Count > 0 )
+            while (PendingActions.Count > 0)
                 PendingActions.Dequeue()();
         }
     }

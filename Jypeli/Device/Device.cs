@@ -72,11 +72,12 @@ namespace Jypeli.Devices
             get { return _displayResolution; }
             set
             {
-                if ( _displayResolution == value )
+                if (_displayResolution == value)
                     return;
 
                 _displayResolution = value;
-                if ( Game.Instance != null && Game.Screen != null ) ResetScreen();
+                if (Game.Instance != null && Game.Screen != null)
+                    ResetScreen();
             }
         }
 
@@ -93,12 +94,13 @@ namespace Jypeli.Devices
             get { return _displayOrientation; }
             set
             {
-                if ( _displayOrientation == value )
+                if (_displayOrientation == value)
                     return;
 
                 _displayOrientation = value;
                 //Game.Instance.Accelerometer.DisplayOrientation = value;
-                if ( Game.Instance != null && Game.Screen != null ) UpdateScreen();
+                if (Game.Instance != null && Game.Screen != null)
+                    UpdateScreen();
             }
         }
 
@@ -127,7 +129,7 @@ namespace Jypeli.Devices
         /// Värisyttää puhelinta.
         /// </summary>
         /// <param name="milliSeconds">Värinän kesto millisekunteina.</param>
-        public virtual void Vibrate( int milliSeconds )
+        public virtual void Vibrate(int milliSeconds)
         {
         }
 
@@ -137,7 +139,7 @@ namespace Jypeli.Devices
         public virtual void StopVibrating()
         {
         }
-        
+
         /// <summary>
         /// Päivittää näytön koon ja asemoinnin
         /// </summary>
@@ -146,13 +148,13 @@ namespace Jypeli.Devices
             Vector defaultSize = Game.Screen.ViewportSize;
             Vector defaultScale = Vector.Diagonal;
 
-            if ( _displayResolution == DisplayResolution.Small )
+            if (_displayResolution == DisplayResolution.Small)
             {
-                defaultSize = new Vector( 400, 240 );
-                defaultScale = new Vector( Game.Screen.ViewportSize.X / defaultSize.X, Game.Screen.ViewportSize.Y / defaultSize.Y );
+                defaultSize = new Vector(400, 240);
+                defaultScale = new Vector(Game.Screen.ViewportSize.X / defaultSize.X, Game.Screen.ViewportSize.Y / defaultSize.Y);
             }
 
-            if ( _displayOrientation == DisplayOrientation.Portrait || _displayOrientation == DisplayOrientation.PortraitInverse )
+            if (_displayOrientation == DisplayOrientation.Portrait || _displayOrientation == DisplayOrientation.PortraitInverse)
             {
                 Game.Screen.Size = defaultSize.Transpose();
                 Game.Screen.Scale = defaultScale.Transpose();
@@ -162,7 +164,7 @@ namespace Jypeli.Devices
             {
                 Game.Screen.Size = defaultSize;
                 Game.Screen.Scale = defaultScale;
-                Game.Screen.Angle = _displayOrientation == DisplayOrientation.LandscapeRight ?  Angle.StraightAngle : Angle.Zero;
+                Game.Screen.Angle = _displayOrientation == DisplayOrientation.LandscapeRight ? Angle.StraightAngle : Angle.Zero;
             }
         }
 

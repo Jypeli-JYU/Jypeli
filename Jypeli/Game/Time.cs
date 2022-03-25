@@ -61,7 +61,7 @@ namespace Jypeli
         /// <summary>
         /// Ajetaan Updaten sijaan kun peli on pysähdyksissä.
         /// </summary>
-        protected virtual void PausedUpdate( Time time )
+        protected virtual void PausedUpdate(Time time)
         {
             foreach (var layer in Layers)
             {
@@ -87,7 +87,7 @@ namespace Jypeli
 
             if (!IsPaused)
             {
-                if(FixedTimeStep)
+                if (FixedTimeStep)
                     currentTime.Advance(1 / 60.0);
                 else
                     currentTime.Advance(dt);
@@ -105,7 +105,7 @@ namespace Jypeli
         /// <param name="dt">Kulunut aika edellisestä päivityksestä</param>
         protected void OnDraw(double dt)
         {
-            if(!Closing) // Jos peli ollaan sulkemassa, ei yritetä piirtää.
+            if (!Closing) // Jos peli ollaan sulkemassa, ei yritetä piirtää.
                 Draw(Time);
         }
 

@@ -44,25 +44,25 @@
         /// <summary>
         /// Luo uudet satunnaisliikkujan aivot ja asettaa niille nopeuden.
         /// </summary>
-        public RandomMoverBrain( double speed )
+        public RandomMoverBrain(double speed)
             : this()
         {
             Speed = speed;
         }
 
         /// <inheritdoc/>
-        protected override void OnAdd( IGameObject newOwner )
+        protected override void OnAdd(IGameObject newOwner)
         {
             changeDirectionTimer.Start();
             WanderPosition = newOwner.Position;
-            base.OnAdd( newOwner );
+            base.OnAdd(newOwner);
         }
 
         /// <inheritdoc/>
-        protected override void OnRemove( IGameObject prevOwner )
+        protected override void OnRemove(IGameObject prevOwner)
         {
             changeDirectionTimer.Stop();
-            base.OnRemove( prevOwner );
+            base.OnRemove(prevOwner);
         }
 
         void ChangeDirection()
@@ -74,32 +74,32 @@
         /// Kutsutaan, kun tapahtuu törmäys.
         /// </summary>
         /// <param name="target">Olio, johon törmätään.</param>
-        public override void OnCollision( IGameObject target )
+        public override void OnCollision(IGameObject target)
         {
             Vector d = target.Position - Owner.Position;
             Angle n1 = d.Angle - Angle.RightAngle;
             Angle n2 = d.Angle + Angle.RightAngle;
 
-            currentDirection = RandomGen.NextAngle( n1, n2 );
+            currentDirection = RandomGen.NextAngle(n1, n2);
 
-            base.OnCollision( target );
+            base.OnCollision(target);
         }
 
         /// <inheritdoc/>
-        protected override void Update( Time time )
+        protected override void Update(Time time)
         {
-            if ( Owner == null )
+            if (Owner == null)
                 return;
 
-            if ( !double.IsInfinity( WanderRadius ) )
+            if (!double.IsInfinity(WanderRadius))
             {
                 Vector d = WanderPosition - Owner.Position;
-                if ( d.Magnitude > WanderRadius )
+                if (d.Magnitude > WanderRadius)
                     currentDirection = d.Angle;
             }
 
-            Move( currentDirection );
-            base.Update( time );
+            Move(currentDirection);
+            base.Update(time);
         }
     }
 }

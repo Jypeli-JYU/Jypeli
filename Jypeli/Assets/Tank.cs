@@ -45,7 +45,7 @@ namespace Jypeli.Assets
         private List<PhysicsObject> wheels = new List<PhysicsObject>();
         private List<IMotorJoint> joints = new List<IMotorJoint>();
         //private IntMeter ammo = new IntMeter( 10 );
-        private IntMeter hitPoints = new IntMeter( 10 );
+        private IntMeter hitPoints = new IntMeter(10);
         private bool accelerateCalled = false;
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Jypeli.Assets
         public override Vector Size
         {
             get { return base.Size; }
-            set { throw new NotImplementedException( "The size of the tank can not be changed." ); }
+            set { throw new NotImplementedException("The size of the tank can not be changed."); }
         }
 
         /// <summary>
@@ -95,12 +95,12 @@ namespace Jypeli.Assets
         /// <summary>
         /// Alustaa uuden tankin.
         /// </summary>
-        public Tank( double width, double height )
-            : base( width, height )
+        public Tank(double width, double height)
+            : base(width, height)
         {
-            if ( commonImage == null )
-                commonImage = Game.LoadImageFromResources( "Tank.png" );
-            if ( commonShape == null )
+            if (commonImage == null)
+                commonImage = Game.LoadImageFromResources("Tank.png");
+            if (commonShape == null)
                 commonShape = Shape.FromImage(commonImage);
             Image = commonImage;
             Shape = commonShape;
@@ -108,11 +108,11 @@ namespace Jypeli.Assets
             CollisionIgnorer = new ObjectIgnorer();
             LinearDamping = 0.99;
 
-            cannon = new Cannon( Width * 0.75, Height * 0.2 );
+            cannon = new Cannon(Width * 0.75, Height * 0.2);
             Cannon.Position = new Vector(0, Height * 0.25);
-            Cannon.TimeBetweenUse = TimeSpan.FromSeconds( 0.5 );
+            Cannon.TimeBetweenUse = TimeSpan.FromSeconds(0.5);
             Cannon.Ammo.Value = 100;
-            this.Add( Cannon );
+            this.Add(Cannon);
 
             AddedToGame += AddWheels;
         }
@@ -120,24 +120,25 @@ namespace Jypeli.Assets
         private void AddWheels()
         {
             PhysicsGameBase pg = Game.Instance as PhysicsGameBase;
-            if ( pg == null ) throw new InvalidOperationException( "Cannot have a tank in non-physics game" );
+            if (pg == null)
+                throw new InvalidOperationException("Cannot have a tank in non-physics game");
 
             const int wheelCount = 6;
 
-            double r = this.Width / ( 2 * wheelCount );
+            double r = this.Width / (2 * wheelCount);
             double left = this.X - this.Width / 2 + r;
             double[] wheelYPositions = new double[wheelCount];
-            for ( int i = 0; i < wheelYPositions.Length; i++ )
+            for (int i = 0; i < wheelYPositions.Length; i++)
                 wheelYPositions[i] = this.Y - this.Height / 2;
-            wheelYPositions[0] = wheelYPositions[wheelCount - 1] = this.Position.Y - ( this.Height * 3 / 8 );
+            wheelYPositions[0] = wheelYPositions[wheelCount - 1] = this.Position.Y - (this.Height * 3 / 8);
 
-            for ( int i = 0; i < wheelCount; i++ )
+            for (int i = 0; i < wheelCount; i++)
             {
-                PhysicsObject wheel = new PhysicsObject( 2 * r, 2 * r, Shape.Circle );
+                PhysicsObject wheel = new PhysicsObject(2 * r, 2 * r, Shape.Circle);
                 wheel.Color = Color.Gray;
                 wheel.CollisionIgnorer = this.CollisionIgnorer;
-                wheels.Add( wheel );
-                pg.Add( wheel );
+                wheels.Add(wheel);
+                pg.Add(wheel);
                 Vector axlePos = new Vector(left + i * (this.Width / wheelCount), wheelYPositions[i]);
                 wheel.Position = axlePos;
                 wheel.Mass = this.Mass / 20;
@@ -146,7 +147,7 @@ namespace Jypeli.Assets
 
                 IMotorJoint joint = (IMotorJoint)pg.Engine.CreateJoint(this, wheel, JointTypes.WheelJoint);
 
-                joint.Softness = Mass*10;
+                joint.Softness = Mass * 10;
                 joint.MaxMotorTorque = Mass * 50;
                 joint.MotorEnabled = false;
                 joint.Axis = Vector.UnitY;
@@ -159,9 +160,9 @@ namespace Jypeli.Assets
         /// <inheritdoc/>
         public override void Destroy()
         {
-            foreach ( var j in joints )
+            foreach (var j in joints)
                 j.Destroy();
-            foreach ( var w in wheels )
+            foreach (var w in wheels)
                 w.Destroy();
             Cannon.Destroy();
             base.Destroy();
@@ -169,10 +170,10 @@ namespace Jypeli.Assets
 
         private void Break()
         {
-            Explosion rajahdys = new Explosion( 150 );
+            Explosion rajahdys = new Explosion(150);
             rajahdys.Force = 10;
             rajahdys.Position = Position;
-            Game.Instance.Add( rajahdys );
+            Game.Instance.Add(rajahdys);
 
             this.Destroy();
         }
@@ -197,7 +198,7 @@ namespace Jypeli.Assets
         /// Ampuu halutulla voimalla.
         /// </summary>
         /// <param name="power">Voima.</param>
-        public void Shoot( double power )
+        public void Shoot(double power)
         {
             Cannon.Power.Value = power;
             Shoot();
@@ -214,7 +215,7 @@ namespace Jypeli.Assets
         /// <inheritdoc/>
         public override void Update(Time time)
         {
-            if(!accelerateCalled)
+            if (!accelerateCalled)
                 foreach (var j in joints)
                 {
                     j.MotorEnabled = false;

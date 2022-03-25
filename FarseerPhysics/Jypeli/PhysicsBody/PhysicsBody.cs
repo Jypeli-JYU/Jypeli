@@ -85,7 +85,7 @@ namespace Jypeli
             get
             {
                 List<List<Vector2>> vert = new List<List<Vector2>>();
-                for(int i = 0; i < FSBody.FixtureList.Count; i++)
+                for (int i = 0; i < FSBody.FixtureList.Count; i++)
                 {
                     vert.Add(new List<Vector2>());
                     Fixture f = FSBody.FixtureList[i];
@@ -158,7 +158,7 @@ namespace Jypeli
 
         public void SetCollisionIgnorer(Ignorer ignorer)
         {
-            if(ignorer is null)
+            if (ignorer is null)
             {
                 FSBody.JypeliGroupIgnorer = null;
                 FSBody.ObjectIgnorer = null;
@@ -203,7 +203,8 @@ namespace Jypeli
             {
                 if (child is PhysicsObject)
                 {
-                    if (!child.IsAddedToGame) continue;
+                    if (!child.IsAddedToGame)
+                        continue;
                     PhysicsObject physChild = child as PhysicsObject;
                     physChild.Parent.Size *= 1;
                     physChild.Body.RegenerateConnectedFixtures();

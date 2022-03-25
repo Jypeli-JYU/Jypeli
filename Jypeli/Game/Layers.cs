@@ -61,23 +61,23 @@ namespace Jypeli
         {
             get
             {
-                return Layers.Sum( l => l.Objects.Count );
+                return Layers.Sum(l => l.Objects.Count);
             }
         }
 
         private void InitLayers()
         {
-            Layers = new SynchronousList<Layer>( -3 );
+            Layers = new SynchronousList<Layer>(-3);
             Layers.ItemAdded += OnLayerAdded;
             Layers.ItemRemoved += OnLayerRemoved;
 
-            for ( int i = 0; i < 7; i++ )
+            for (int i = 0; i < 7; i++)
             {
-                Layers.Add( new Layer() );
+                Layers.Add(new Layer());
             }
 
             // This is the widget layer
-            Layers.Add( Layer.CreateStaticLayer() );
+            Layers.Add(Layer.CreateStaticLayer());
 
             Layers.UpdateChanges();
         }
@@ -86,7 +86,7 @@ namespace Jypeli
         /// Kun olio lisätään kerrokselle
         /// </summary>
         /// <param name="obj"></param>
-        protected virtual void OnObjectAdded( IGameObject obj )
+        protected virtual void OnObjectAdded(IGameObject obj)
         {
             if (obj is not IGameObjectInternal iObj)
                 return;
@@ -101,7 +101,7 @@ namespace Jypeli
         /// Kun olio poistetaan kerrokselta
         /// </summary>
         /// <param name="obj"></param>
-        protected virtual void OnObjectRemoved( IGameObject obj )
+        protected virtual void OnObjectRemoved(IGameObject obj)
         {
             if (obj is not IGameObjectInternal iObj)
                 return;
@@ -112,25 +112,25 @@ namespace Jypeli
                 DeactivateObject(cObj);
         }
 
-        internal static void OnAddObject( IGameObject obj )
+        internal static void OnAddObject(IGameObject obj)
         {
-            Debug.Assert( Instance != null );
-            Instance.OnObjectAdded( obj );
+            Debug.Assert(Instance != null);
+            Instance.OnObjectAdded(obj);
         }
 
-        internal static void OnRemoveObject( IGameObject obj )
+        internal static void OnRemoveObject(IGameObject obj)
         {
-            Debug.Assert( Instance != null );
-            Instance.OnObjectRemoved( obj );
+            Debug.Assert(Instance != null);
+            Instance.OnObjectRemoved(obj);
         }
 
-        private void OnLayerAdded( Layer l )
+        private void OnLayerAdded(Layer l)
         {
             l.Objects.ItemAdded += this.OnObjectAdded;
             l.Objects.ItemRemoved += this.OnObjectRemoved;
         }
 
-        private void OnLayerRemoved( Layer l )
+        private void OnLayerRemoved(Layer l)
         {
             l.Objects.ItemAdded -= this.OnObjectAdded;
             l.Objects.ItemRemoved -= this.OnObjectRemoved;
@@ -141,22 +141,24 @@ namespace Jypeli
         /// Tavalliset oliot tulevat automaattisesti kerrokselle 0
         /// ja ruutuoliot päällimmäiselle kerrokselle.
         /// </summary>
-        public void Add( IGameObject o )
+        public void Add(IGameObject o)
         {
             if (o.IsDestroyed)
                 throw new NotSupportedException("Destroyed object cannot be added back to the game!");
-            if ( o.Layer != null && o.Layer.Objects.WillContain( o ) )
+            if (o.Layer != null && o.Layer.Objects.WillContain(o))
             {
-                if ( o.Layer == Layers[0] )
+                if (o.Layer == Layers[0])
                 {
-                    throw new NotSupportedException( "Object cannot be added twice" );
+                    throw new NotSupportedException("Object cannot be added twice");
                 }
                 else
-                    throw new NotSupportedException( "Object cannot be added to multiple layers" );
+                    throw new NotSupportedException("Object cannot be added to multiple layers");
             }
 
-            if ( o is Widget ) Add( o, MaxLayer );
-            else Add( o, 0 );
+            if (o is Widget)
+                Add(o, MaxLayer);
+            else
+                Add(o, 0);
         }
 
         /// <summary>
@@ -164,19 +166,20 @@ namespace Jypeli
         /// </summary>
         /// <param name="o">Lisättävä olio.</param>
         /// <param name="layer">Kerros, luku väliltä [-3, 3].</param>
-        public virtual void Add( IGameObject o, int layer )
+        public virtual void Add(IGameObject o, int layer)
         {
-            if ( o == null ) throw new NullReferenceException( "Tried to add a null object to game" );
-            Layers[layer].Add( o );
+            if (o == null)
+                throw new NullReferenceException("Tried to add a null object to game");
+            Layers[layer].Add(o);
         }
 
         internal static IList<IGameObject> GetObjectsAboutToBeAdded()
         {
             List<IGameObject> result = new List<IGameObject>();
 
-            foreach ( Layer layer in Instance.Layers )
+            foreach (Layer layer in Instance.Layers)
             {
-                layer.GetObjectsAboutToBeAdded( result );
+                layer.GetObjectsAboutToBeAdded(result);
             }
 
             return result;
@@ -186,9 +189,9 @@ namespace Jypeli
         /// Lisää oliokerroksen peliin.
         /// </summary>
         /// <param name="l"></param>
-        public void Add( Layer l )
+        public void Add(Layer l)
         {
-            Layers.Add( l );
+            Layers.Add(l);
             Layers.UpdateChanges();
         }
 
@@ -200,22 +203,22 @@ namespace Jypeli
         /// Oliota ei poisteta välittömästi, vaan viimeistään seuraavan 
         /// päivityksen jälkeen. 
         /// </remarks> 
-        public void Remove( IGameObject o )
+        public void Remove(IGameObject o)
         {
-            if ( !o.IsAddedToGame )
+            if (!o.IsAddedToGame)
                 return;
 
-            foreach ( Layer l in Layers )
-                l.Remove( o );
+            foreach (Layer l in Layers)
+                l.Remove(o);
         }
 
         /// <summary>
         /// Poistaa oliokerroksen pelistä.
         /// </summary>
         /// <param name="l"></param>
-        public void Remove( Layer l )
+        public void Remove(Layer l)
         {
-            Layers.Remove( l );
+            Layers.Remove(l);
             Layers.UpdateChanges();
         }
 
@@ -278,13 +281,13 @@ namespace Jypeli
         /// </summary>
         /// <param name="condition">Ehto</param>
         /// <returns>Lista olioista</returns>
-        public List<GameObject> GetObjects( Predicate<GameObject> condition )
+        public List<GameObject> GetObjects(Predicate<GameObject> condition)
         {
             List<GameObject> objs = new List<GameObject>();
 
-            for ( int i = MaxLayer; i >= MinLayer; i-- )
+            for (int i = MaxLayer; i >= MinLayer; i--)
             {
-                foreach ( var obj in Layers[i].Objects )
+                foreach (var obj in Layers[i].Objects)
                 {
                     if (obj is GameObject gobj && condition(gobj))
                         objs.Add(gobj);
@@ -301,7 +304,7 @@ namespace Jypeli
             return objs;
         }
 
-         /// <summary>
+        /// <summary>
         /// Palauttaa listan kaikista peliolioista.
         /// Lista on järjestetty päällimmäisestä alimmaiseen.
         /// </summary>
@@ -310,7 +313,7 @@ namespace Jypeli
         {
             return GetObjects(g => true);
         }
-        
+
         /// <summary>
         /// Palauttaa listan kaikista peliolioista joilla on tietty tagi.
         /// Lista on järjestetty päällimmäisestä alimmaiseen.
@@ -321,7 +324,7 @@ namespace Jypeli
         {
             return GetObjects(o => tags.Contains<string>(o.Tag as string));
         }
-        
+
         /// <summary>
         /// Palauttaa listan kaikista peliolioista joilla on tietty tagi.
         /// Lista on järjestetty päällimmäisestä alimmaiseen.
@@ -338,11 +341,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="condition">Ehto</param>
         /// <returns>Olio</returns>
-        public GameObject GetFirstObject( Predicate<GameObject> condition )
+        public GameObject GetFirstObject(Predicate<GameObject> condition)
         {
-            for ( int i = MaxLayer; i >= MinLayer; i-- )
+            for (int i = MaxLayer; i >= MinLayer; i--)
             {
-                foreach ( var obj in Layers[i].Objects )
+                foreach (var obj in Layers[i].Objects)
                 {
                     if (obj is GameObject gobj && condition(gobj))
                         return gobj;
@@ -359,9 +362,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="position">Paikkakoordinaatit</param>
         /// <returns>Lista olioista</returns>
-        public List<GameObject> GetObjectsAt( Vector position )
+        public List<GameObject> GetObjectsAt(Vector position)
         {
-            return GetObjects( obj => obj.IsInside( position ) );
+            return GetObjects(obj => obj.IsInside(position));
         }
 
         /// <summary>
@@ -372,7 +375,7 @@ namespace Jypeli
         /// <param name="position">Paikkakoordinaatit</param>
         /// <param name="radius">Säde jolla etsitään</param>
         /// <returns>Lista olioista</returns>
-        public List<GameObject> GetObjectsAt( Vector position, double radius )
+        public List<GameObject> GetObjectsAt(Vector position, double radius)
         {
             bool isInsideRadius(GameObject obj)
             {
@@ -395,9 +398,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="position">Paikkakoordinaatit</param>
         /// <returns>Mahdollinen olio</returns>
-        public GameObject GetObjectAt( Vector position )
+        public GameObject GetObjectAt(Vector position)
         {
-            return GetFirstObject( obj => obj.IsInside( position ) && !IsJypeliWidget( obj ) );
+            return GetFirstObject(obj => obj.IsInside(position) && !IsJypeliWidget(obj));
         }
 
         /// <summary>
@@ -408,9 +411,9 @@ namespace Jypeli
         /// <param name="position">Paikkakoordinaatit</param>
         /// <param name="radius">Säde jolla etsitään</param>
         /// <returns>Mahdollinen olio</returns>
-        public GameObject GetObjectAt( Vector position, double radius )
+        public GameObject GetObjectAt(Vector position, double radius)
         {
-            var objs = GetObjectsAt( position, radius );
+            var objs = GetObjectsAt(position, radius);
             return objs.Count > 0 ? objs[0] : null;
         }
 
@@ -489,7 +492,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="condition">Ehto</param>
         /// <returns>Lista olioista</returns>
-        public Widget GetFirstWidget( Predicate<Widget> condition )
+        public Widget GetFirstWidget(Predicate<Widget> condition)
         {
             return (Widget)GetFirstObject(obj => obj is Widget widget && condition(widget));
         }
@@ -501,10 +504,10 @@ namespace Jypeli
         /// </summary>
         /// <param name="position">Paikkakoordinaatit</param>
         /// <returns>Mahdollinen ruutuolio</returns>
-        public Widget GetWidgetAt( Vector position )
+        public Widget GetWidgetAt(Vector position)
         {
             return (Widget)GetFirstObject(obj => obj is Widget && obj.IsInside(position) && !IsJypeliWidget<IGameObject>(obj));
         }
-#endregion
+        #endregion
     }
 }

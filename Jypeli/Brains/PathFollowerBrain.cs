@@ -22,7 +22,7 @@ namespace Jypeli.Assets
             get { return path; }
             set
             {
-                path = new List<Vector>( value );
+                path = new List<Vector>(value);
                 wayPointIndex = 0;
             }
         }
@@ -102,7 +102,7 @@ namespace Jypeli.Assets
         /// <summary>
         /// Luo uudet polunseuraaja-aivot ja asettaa niille nopeuden.
         /// </summary>
-        public PathFollowerBrain( double speed )
+        public PathFollowerBrain(double speed)
             : this()
         {
             Speed = speed;
@@ -111,54 +111,55 @@ namespace Jypeli.Assets
         /// <summary>
         /// Luo aivot, jotka seuraavat polkua <c>path</c>.
         /// </summary>
-        public PathFollowerBrain( params Vector[] path )
+        public PathFollowerBrain(params Vector[] path)
         {
             this.Path = path;
-            DistanceToWaypoint = new DoubleMeter( double.PositiveInfinity, 0, double.PositiveInfinity );
+            DistanceToWaypoint = new DoubleMeter(double.PositiveInfinity, 0, double.PositiveInfinity);
         }
 
         /// <summary>
         /// Luo aivot, jotka seuraavat polkua <c>path</c>.
         /// </summary>
-        public PathFollowerBrain( double speed, params Vector[] path )
+        public PathFollowerBrain(double speed, params Vector[] path)
         {
             this.Speed = speed;
             this.Path = path;
-            DistanceToWaypoint = new DoubleMeter( double.PositiveInfinity, 0, double.PositiveInfinity );
+            DistanceToWaypoint = new DoubleMeter(double.PositiveInfinity, 0, double.PositiveInfinity);
         }
 
         /// <summary>
         /// Luo aivot, jotka seuraavat polkua <c>path</c>.
         /// </summary>
-        public PathFollowerBrain( List<Vector>path )
+        public PathFollowerBrain(List<Vector> path)
         {
             this.Path = path.ToArray();
-            DistanceToWaypoint = new DoubleMeter( double.PositiveInfinity, 0, double.PositiveInfinity );
+            DistanceToWaypoint = new DoubleMeter(double.PositiveInfinity, 0, double.PositiveInfinity);
         }
 
         /// <summary>
         /// Luo aivot, jotka seuraavat polkua <c>path</c>.
         /// </summary>
-        public PathFollowerBrain( double speed, List<Vector> path )
+        public PathFollowerBrain(double speed, List<Vector> path)
         {
             this.Speed = speed;
             this.Path = path.ToArray();
-            DistanceToWaypoint = new DoubleMeter( double.PositiveInfinity, 0, double.PositiveInfinity );
+            DistanceToWaypoint = new DoubleMeter(double.PositiveInfinity, 0, double.PositiveInfinity);
         }
 
         /// <inheritdoc/>
         protected override void Update(Time time)
         {
-            if ( Owner == null || Path == null || Path.Count == 0 ) return;
+            if (Owner == null || Path == null || Path.Count == 0)
+                return;
 
-            if ( wayPointIndex < 0 )
+            if (wayPointIndex < 0)
                 wayPointIndex = 0;
-            else if ( wayPointIndex >= Path.Count )
+            else if (wayPointIndex >= Path.Count)
                 wayPointIndex = Path.Count - 1;
 
-            if ( stoppedAtCount >= 0 )
+            if (stoppedAtCount >= 0)
             {
-                if ( stoppedAtCount == Path.Count )
+                if (stoppedAtCount == Path.Count)
                     return;
 
                 stoppedAtCount = -1;
@@ -168,15 +169,15 @@ namespace Jypeli.Assets
             Vector dist = target - Owner.Position;
             DistanceToWaypoint.Value = dist.Magnitude;
 
-            if ( DistanceToWaypoint.Value < WaypointRadius )
+            if (DistanceToWaypoint.Value < WaypointRadius)
             {
                 // Arrived at waypoint
                 Arrived();
             }
-            else if ( DistanceToWaypoint.Value > 2 * Speed * time.SinceLastUpdate.TotalSeconds )
+            else if (DistanceToWaypoint.Value > 2 * Speed * time.SinceLastUpdate.TotalSeconds)
             {
                 // Continue moving
-                Move( dist.Angle );
+                Move(dist.Angle);
             }
 
             base.Update(time);
@@ -184,42 +185,44 @@ namespace Jypeli.Assets
 
         private void OnArrivedAtWaypoint()
         {
-            if ( ArrivedAtWaypoint != null )
+            if (ArrivedAtWaypoint != null)
                 ArrivedAtWaypoint();
         }
 
         private void OnArrivedAtEnd()
         {
-            if ( ArrivedAtEnd != null )
+            if (ArrivedAtEnd != null)
                 ArrivedAtEnd();
 
-            if ( Owner is PhysicsObject )
-                ( (PhysicsObject)Owner ).Stop();
+            if (Owner is PhysicsObject)
+                ((PhysicsObject)Owner).Stop();
         }
 
         private void Arrived()
         {
-            if ( Path == null || Path.Count == 0 || wayPointIndex >= path.Count )
+            if (Path == null || Path.Count == 0 || wayPointIndex >= path.Count)
                 return;
 
             OnArrivedAtWaypoint();
 
             int nextIndex = wayPointIndex + step;
 
-            if ( nextIndex < 0 || nextIndex >= path.Count )
+            if (nextIndex < 0 || nextIndex >= path.Count)
             {
                 OnArrivedAtEnd();
 
-                if ( ReverseReturn )
+                if (ReverseReturn)
                 {
                     step = -step;
                     wayPointIndex = nextIndex + step;
                 }
-                else if ( Loop )
+                else if (Loop)
                 {
-                    wayPointIndex = nextIndex + Math.Sign( step ) * Path.Count;
-                    while ( wayPointIndex < 0 ) wayPointIndex += Path.Count;
-                    while ( wayPointIndex >= Path.Count ) wayPointIndex -= Path.Count;
+                    wayPointIndex = nextIndex + Math.Sign(step) * Path.Count;
+                    while (wayPointIndex < 0)
+                        wayPointIndex += Path.Count;
+                    while (wayPointIndex >= Path.Count)
+                        wayPointIndex -= Path.Count;
                 }
                 else
                 {

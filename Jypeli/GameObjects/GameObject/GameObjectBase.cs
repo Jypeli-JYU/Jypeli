@@ -30,7 +30,8 @@ namespace Jypeli.GameObjects
         {
             get
             {
-                if ( Parent != null ) return Parent.Layer;
+                if (Parent != null)
+                    return Parent.Layer;
                 return _layer;
             }
             set
@@ -99,10 +100,10 @@ namespace Jypeli.GameObjects
             set
             {
                 _brain.Owner = null;
-                _brain = ( ( value != null ) ? value : Brain.None );
+                _brain = ((value != null) ? value : Brain.None);
                 _brain.Owner = (IGameObject)this;
                 _brain.AddToGameEvent();
-                if ( value != null )
+                if (value != null)
                     IsUpdated = true;
             }
         }
@@ -131,7 +132,7 @@ namespace Jypeli.GameObjects
         /// </summary>
         public void OnRemoved()
         {
-            if ( Removed != null )
+            if (Removed != null)
                 Removed();
         }
 
@@ -150,7 +151,7 @@ namespace Jypeli.GameObjects
         /// </summary>
         protected void OnDestroyed()
         {
-            if ( Destroyed != null )
+            if (Destroyed != null)
                 Destroyed();
         }
 
@@ -159,7 +160,7 @@ namespace Jypeli.GameObjects
         /// </summary>
         public virtual void Destroy()
         {
-            if ( IsDestroyed )
+            if (IsDestroyed)
                 return;
 
             IsDestroyed = true;
@@ -223,7 +224,7 @@ namespace Jypeli.GameObjects
                 {
                     MaximumLifetime = Lifetime + value;
                 }
-                catch ( OverflowException )
+                catch (OverflowException)
                 {
                     MaximumLifetime = TimeSpan.MaxValue;
                 }
@@ -236,7 +237,7 @@ namespace Jypeli.GameObjects
         public double Width
         {
             get { return Size.X; }
-            set { Size = new Vector( value, Size.Y ); }
+            set { Size = new Vector(value, Size.Y); }
         }
 
         /// <summary>
@@ -245,7 +246,7 @@ namespace Jypeli.GameObjects
         public double Height
         {
             get { return Size.Y; }
-            set { Size = new Vector( Size.X, value ); }
+            set { Size = new Vector(Size.X, value); }
         }
 
         internal Vector InitialRelativePosition { get; set; }
@@ -310,7 +311,7 @@ namespace Jypeli.GameObjects
         {
             get
             {
-                if ( Parent != null )
+                if (Parent != null)
                     return this.Angle - Parent.Angle;
                 return Angle;
             }
@@ -318,7 +319,8 @@ namespace Jypeli.GameObjects
             {
                 if (Parent != null)
                     Angle = Parent.Angle + value;
-                else Angle = value;
+                else
+                    Angle = value;
             }
         }
 
@@ -375,8 +377,8 @@ namespace Jypeli.GameObjects
         /// </summary>
         public double Left
         {
-            get { return Position.X - 0.5 * ( Size.Y * Math.Abs( Angle.Sin ) + Size.X * Math.Abs( Angle.Cos ) ); }
-            set { Position = new Vector( value + Size.X / 2, Position.Y ); }
+            get { return Position.X - 0.5 * (Size.Y * Math.Abs(Angle.Sin) + Size.X * Math.Abs(Angle.Cos)); }
+            set { Position = new Vector(value + Size.X / 2, Position.Y); }
         }
 
         /// <summary>
@@ -384,8 +386,8 @@ namespace Jypeli.GameObjects
         /// </summary>
         public double Right
         {
-            get { return Position.X + 0.5 * ( Size.Y * Math.Abs( Angle.Sin ) + Size.X * Math.Abs( Angle.Cos ) ); }
-            set { Position = new Vector( value - Size.X / 2, Position.Y ); }
+            get { return Position.X + 0.5 * (Size.Y * Math.Abs(Angle.Sin) + Size.X * Math.Abs(Angle.Cos)); }
+            set { Position = new Vector(value - Size.X / 2, Position.Y); }
         }
 
         /// <summary>
@@ -393,8 +395,8 @@ namespace Jypeli.GameObjects
         /// </summary>
         public double Top
         {
-            get { return Position.Y + 0.5 * ( Size.X * Math.Abs( Angle.Sin ) + Size.Y * Math.Abs( Angle.Cos ) ); }
-            set { Position = new Vector( Position.X, value - Size.Y / 2 ); }
+            get { return Position.Y + 0.5 * (Size.X * Math.Abs(Angle.Sin) + Size.Y * Math.Abs(Angle.Cos)); }
+            set { Position = new Vector(Position.X, value - Size.Y / 2); }
         }
 
         /// <summary>
@@ -402,8 +404,8 @@ namespace Jypeli.GameObjects
         /// </summary>
         public double Bottom
         {
-            get { return Position.Y - 0.5 * ( Size.X * Math.Abs( Angle.Sin ) + Size.Y * Math.Abs( Angle.Cos ) ); }
-            set { Position = new Vector( Position.X, value + Size.Y / 2 ); }
+            get { return Position.Y - 0.5 * (Size.X * Math.Abs(Angle.Sin) + Size.Y * Math.Abs(Angle.Cos)); }
+            set { Position = new Vector(Position.X, value + Size.Y / 2); }
         }
 
         /// <summary>
@@ -453,7 +455,7 @@ namespace Jypeli.GameObjects
             }
             set
             {
-                Position = new Vector( value, Position.Y );
+                Position = new Vector(value, Position.Y);
             }
         }
 
@@ -468,7 +470,7 @@ namespace Jypeli.GameObjects
             }
             set
             {
-                Position = new Vector( Position.X, value );
+                Position = new Vector(Position.X, value);
             }
         }
 
@@ -497,7 +499,7 @@ namespace Jypeli.GameObjects
         /// </summary>
         public Vector UnitX
         {
-            get { return Vector.FromAngle( Angle ); }
+            get { return Vector.FromAngle(Angle); }
         }
 
         /// <summary>
@@ -513,7 +515,7 @@ namespace Jypeli.GameObjects
         /// </summary>
         public Vector RelativeUnitX
         {
-            get { return Vector.FromAngle( RelativeAngle ); }
+            get { return Vector.FromAngle(RelativeAngle); }
         }
 
         /// <summary>
@@ -536,7 +538,7 @@ namespace Jypeli.GameObjects
         {
             get
             {
-                if ( Animation != null )
+                if (Animation != null)
                     return Animation.CurrentFrame;
                 return null;
             }
@@ -569,7 +571,7 @@ namespace Jypeli.GameObjects
         /// Aliohjelma, joka ajetaan kun paikkaan on päästy.
         /// Voi olla null, jos ei haluta mitään aliohjelmaa.
         /// </param>
-        public abstract void MoveTo( Vector location, double speed, Action doWhenArrived );
+        public abstract void MoveTo(Vector location, double speed, Action doWhenArrived);
 
         /// <summary>
         /// Yrittää siirtyä annettuun paikkaan annetulla nopeudella.
@@ -580,9 +582,9 @@ namespace Jypeli.GameObjects
         /// Nopeus on maksiminopeus. Jos välissä on hitaampaa maastoa tai
         /// esteitä, liikkumisnopeus voi olla alle sen.
         /// </param>
-        public void MoveTo( Vector location, double speed )
+        public void MoveTo(Vector location, double speed)
         {
-            MoveTo( location, speed, null );
+            MoveTo(location, speed, null);
         }
 
         /// <summary>
@@ -591,19 +593,19 @@ namespace Jypeli.GameObjects
         /// <see cref="IsUpdated"/>
         /// </summary>
         /// <param name="time">Peliaika.</param>
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        public virtual void Update( Time time )
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public virtual void Update(Time time)
         {
-            if ( IsDestroyed )
+            if (IsDestroyed)
                 return;
 
-            if ( Lifetime > MaximumLifetime )
+            if (Lifetime > MaximumLifetime)
             {
                 Destroy();
                 return;
             }
 
-            Brain.DoUpdate( time );
+            Brain.DoUpdate(time);
         }
     }
 }

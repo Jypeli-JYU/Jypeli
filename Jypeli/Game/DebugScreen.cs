@@ -207,7 +207,7 @@ namespace Jypeli
         {
             if (!DebugScreenVisible)
                 return;
-            
+
             if (DebugViewSettings.DrawOutlines)
                 PaintDebugScreen();
 

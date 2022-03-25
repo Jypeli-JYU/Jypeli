@@ -54,10 +54,14 @@ namespace Jypeli
         /// <returns></returns>
         public IEnumerator<Surface> GetEnumerator()
         {
-            if ( Left != null ) yield return Left;
-            if ( Right != null ) yield return Right;
-            if ( Top != null ) yield return Top;
-            if ( Bottom != null ) yield return Bottom;
+            if (Left != null)
+                yield return Left;
+            if (Right != null)
+                yield return Right;
+            if (Top != null)
+                yield return Top;
+            if (Bottom != null)
+                yield return Bottom;
         }
 
         /// <summary>
@@ -67,10 +71,14 @@ namespace Jypeli
         /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            if ( Left != null ) yield return Left;
-            if ( Right != null ) yield return Right;
-            if ( Top != null ) yield return Top;
-            if ( Bottom != null ) yield return Bottom;
+            if (Left != null)
+                yield return Left;
+            if (Right != null)
+                yield return Right;
+            if (Top != null)
+                yield return Top;
+            if (Bottom != null)
+                yield return Bottom;
         }
 
         /// <summary>
@@ -78,12 +86,16 @@ namespace Jypeli
         /// </summary>
         /// <param name="directions">Mukaan laskettavien reunojen suunnat</param>
         /// <returns></returns>
-        public IEnumerable<Surface> Get( params Direction[] directions )
+        public IEnumerable<Surface> Get(params Direction[] directions)
         {
-            if ( directions.Contains(Direction.Left) && Left != null ) yield return Left;
-            if ( directions.Contains(Direction.Right) && Right != null ) yield return Right;
-            if ( directions.Contains(Direction.Up) && Top != null ) yield return Top;
-            if ( directions.Contains(Direction.Down) && Bottom != null ) yield return Bottom;
+            if (directions.Contains(Direction.Left) && Left != null)
+                yield return Left;
+            if (directions.Contains(Direction.Right) && Right != null)
+                yield return Right;
+            if (directions.Contains(Direction.Up) && Top != null)
+                yield return Top;
+            if (directions.Contains(Direction.Down) && Bottom != null)
+                yield return Bottom;
         }
     }
 }

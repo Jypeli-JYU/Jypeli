@@ -1644,8 +1644,10 @@ namespace FarseerPhysics.Collision
             float distance1 = normal.X * v1.V.X + normal.Y * v1.V.Y - offset;
 
             // If the points are behind the plane
-            if (distance0 <= 0.0f) vOut[numOut++] = v0;
-            if (distance1 <= 0.0f) vOut[numOut++] = v1;
+            if (distance0 <= 0.0f)
+                vOut[numOut++] = v0;
+            if (distance1 <= 0.0f)
+                vOut[numOut++] = v1;
 
             // If the points are on different sides of the plane
             if (distance0 * distance1 < 0.0f)
@@ -1733,7 +1735,7 @@ namespace FarseerPhysics.Collision
 
             // Vector pointing from the centroid of poly1 to the centroid of poly2.
             Vector2 c2local = Transform.Divide(poly2.MassData.Centroid, ref xf1To2);
-            Vector2 dLocal1 = c2local - poly1.MassData.Centroid;            
+            Vector2 dLocal1 = c2local - poly1.MassData.Centroid;
 
             // Find edge normal on poly1 that has the largest projection onto d.
             int edge = 0;

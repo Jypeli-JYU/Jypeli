@@ -40,10 +40,10 @@ namespace Jypeli
         Vector Acceleration { get; set; }
         double AngularVelocity { get; set; }
         double AngularAcceleration { get; set; }
-        
+
         double LinearDamping { get; set; }
         double AngularDamping { get; set; }
-        
+
         bool IgnoresExplosions { get; set; }
         bool IgnoresCollisionResponse { get; set; }
         bool IgnoresGravity { get; set; }
@@ -54,13 +54,13 @@ namespace Jypeli
         /// </summary>
         event CollisionHandler<IPhysicsObject, IPhysicsObject> Collided;
 
-        void Push( Vector force );
-        void Push( Vector force, TimeSpan time );
-        void Hit( Vector impulse );
-        void ApplyTorque( double torque );
+        void Push(Vector force);
+        void Push(Vector force, TimeSpan time);
+        void Hit(Vector impulse);
+        void ApplyTorque(double torque);
 
         void Stop();
-        void StopAxial( Vector axis );
+        void StopAxial(Vector axis);
         void StopHorizontal();
         void StopVertical();
         void StopAngular();
@@ -89,12 +89,12 @@ namespace Jypeli
     /// metodilla ei ole paluuarvoa ja se ottaa yhden <code>Collision</code>-tyyppisen
     /// parametrin.
     /// </summary>
-    public delegate void CollisionHandler<O, T>( O collidingObject, T otherObject );
+    public delegate void CollisionHandler<O, T>(O collidingObject, T otherObject);
 
     /// <summary>
     /// Törmäystapahtumiin liitettävän metodin tyyppi. Törmäyksen käsittelevällä
     /// metodilla ei ole paluuarvoa ja se ottaa yhden <code>Collision</code>-tyyppisen
     /// parametrin.
     /// </summary>
-    public delegate void AdvancedCollisionHandler<O, T>( O collidingObject, T otherObject, Collision collision );
+    public delegate void AdvancedCollisionHandler<O, T>(O collidingObject, T otherObject, Collision collision);
 }

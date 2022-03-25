@@ -54,7 +54,7 @@ namespace Jypeli.GameObjects
         private double _firstVisibleItemOffset = 0;
 
 
-        [EditorBrowsable( EditorBrowsableState.Never )]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public GameObject Parent { get; set; }
 
         /// <summary>
@@ -114,47 +114,48 @@ namespace Jypeli.GameObjects
 
         private void NotifyParent()
         {
-            if ( Parent != null )
+            if (Parent != null)
             {
                 Parent.NotifyParentAboutChangedSizingAttributes();
             }
         }
 
-        public void ScrollUp( IList<GameObject> objects )
+        public void ScrollUp(IList<GameObject> objects)
         {
-            if ( StartIndex > 0 )
+            if (StartIndex > 0)
             {
                 StartIndex--;
                 _firstVisibleItemOffset = 0;
-                Update( objects, Parent.Size );
+                Update(objects, Parent.Size);
             }
         }
 
-        public void ScrollDown( IList<GameObject> objects )
+        public void ScrollDown(IList<GameObject> objects)
         {
-            if ( StartIndex < objects.Count - 1 )
+            if (StartIndex < objects.Count - 1)
             {
                 StartIndex++;
                 _firstVisibleItemOffset = 0;
-                Update( objects, Parent.Size );
+                Update(objects, Parent.Size);
             }
         }
 
         /// <summary>
         /// Listan portaaton vieritys.
         /// </summary>
-        public void Scroll( IList<GameObject> objects, double amount )
+        public void Scroll(IList<GameObject> objects, double amount)
         {
-            if ( objects.Count == 0 ) return;
+            if (objects.Count == 0)
+                return;
 
-            if ( amount < 0 )
+            if (amount < 0)
             {
                 double totalScrollingAmount = -amount;
                 double spaceForCurrentObject = _firstVisibleItemOffset;
 
-                while ( spaceForCurrentObject < totalScrollingAmount )
+                while (spaceForCurrentObject < totalScrollingAmount)
                 {
-                    if ( StartIndex == 0 )
+                    if (StartIndex == 0)
                     {
                         spaceForCurrentObject = 0;
                         break;
@@ -164,7 +165,7 @@ namespace Jypeli.GameObjects
                     StartIndex--;
                     spaceForCurrentObject = objects[StartIndex].PreferredSize.Y + Spacing;
                 }
-                
+
                 spaceForCurrentObject -= totalScrollingAmount;
                 _firstVisibleItemOffset = spaceForCurrentObject;
             }
@@ -173,9 +174,9 @@ namespace Jypeli.GameObjects
                 double totalScrollingAmount = -amount;
                 double spaceForCurrentObject = objects[StartIndex].PreferredSize.Y + Spacing - _firstVisibleItemOffset;
 
-                while ( spaceForCurrentObject < -totalScrollingAmount )
+                while (spaceForCurrentObject < -totalScrollingAmount)
                 {
-                    if ( StartIndex >= objects.Count - 1 )
+                    if (StartIndex >= objects.Count - 1)
                     {
                         spaceForCurrentObject = 0;
                         break;
@@ -190,13 +191,13 @@ namespace Jypeli.GameObjects
                 _firstVisibleItemOffset = objects[StartIndex].PreferredSize.Y + Spacing - spaceForCurrentObject;
             }
 
-            Update( objects, Parent.Size );
+            Update(objects, Parent.Size);
         }
 
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        public void UpdateSizeHints( IList<GameObject> objects )
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void UpdateSizeHints(IList<GameObject> objects)
         {
-            if ( objects.Count == 0 )
+            if (objects.Count == 0)
                 return;
 
             double maxWidth = 0;
@@ -205,80 +206,80 @@ namespace Jypeli.GameObjects
             Sizing horizontalSizing = Sizing.FixedSize;
             Sizing verticalSizing = Sizing.FixedSize;
 
-            foreach ( var o in objects )
+            foreach (var o in objects)
             {
-                if ( o.PreferredSize.X > maxWidth )
+                if (o.PreferredSize.X > maxWidth)
                 {
                     maxWidth = o.PreferredSize.X;
                 }
 
-                if ( o.VerticalSizing != Sizing.FixedSize )
+                if (o.VerticalSizing != Sizing.FixedSize)
                 {
                     verticalSizing = Sizing.Expanding;
                     heightOfExpandingObjects += o.PreferredSize.Y;
                 }
-                else if ( o.VerticalSizing == Sizing.FixedSize )
+                else if (o.VerticalSizing == Sizing.FixedSize)
                 {
                     heightOfFixedSizeObjects += o.PreferredSize.Y;
                 }
 
-                if ( o.HorizontalSizing != Sizing.FixedSize )
+                if (o.HorizontalSizing != Sizing.FixedSize)
                 {
                     horizontalSizing = Sizing.Expanding;
                 }
             }
 
-            double preferredHeight = TopPadding + heightOfExpandingObjects + heightOfFixedSizeObjects + ( ( objects.Count - 1 ) * Spacing ) + BottomPadding;
+            double preferredHeight = TopPadding + heightOfExpandingObjects + heightOfFixedSizeObjects + ((objects.Count - 1) * Spacing) + BottomPadding;
             double preferredWidth = LeftPadding + maxWidth + RightPadding;
 
             _horizontalSizing = horizontalSizing;
             _verticalSizing = verticalSizing;
             _heightRequestedByExpandingObjects = heightOfExpandingObjects;
             _heightRequestedByFixedSizeObjects = heightOfFixedSizeObjects;
-            _preferredSize = new Vector( preferredWidth, preferredHeight );
+            _preferredSize = new Vector(preferredWidth, preferredHeight);
         }
 
-        [EditorBrowsable( EditorBrowsableState.Never )]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public Sizing HorizontalSizing
         {
             get { return _horizontalSizing; }
         }
 
-        [EditorBrowsable( EditorBrowsableState.Never )]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public Sizing VerticalSizing
         {
             get { return _verticalSizing; }
         }
 
-        [EditorBrowsable( EditorBrowsableState.Never )]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public Vector PreferredSize
         {
             get { return _preferredSize; }
         }
 
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        public void Update( IList<GameObject> objects, Vector maximumSize )
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void Update(IList<GameObject> objects, Vector maximumSize)
         {
-            double contentHeight = maximumSize.Y - ( TopPadding + BottomPadding );
-            double contentWidth = maximumSize.X - ( LeftPadding + RightPadding );
+            double contentHeight = maximumSize.Y - (TopPadding + BottomPadding);
+            double contentWidth = maximumSize.X - (LeftPadding + RightPadding);
             double contentBottomLimit = -maximumSize.Y / 2 + BottomPadding;
             double top = maximumSize.Y / 2 - TopPadding;
             double offset = _firstVisibleItemOffset;
             int i = StartIndex;
 
-            while ( ( i < objects.Count ) && ( top >= contentBottomLimit ) )
+            while ((i < objects.Count) && (top >= contentBottomLimit))
             {
                 GameObject o = objects[i];
                 double width = o.PreferredSize.X;
                 double height = o.PreferredSize.Y;
 
-                if ( ( o.PreferredSize.X > contentWidth ) || ( o.HorizontalSizing != Sizing.FixedSize ) )
+                if ((o.PreferredSize.X > contentWidth) || (o.HorizontalSizing != Sizing.FixedSize))
                 {
                     width = contentWidth;
                 }
 
-                o.Size = new Vector( width, height );
-                o.X = ( -maximumSize.X / 2 ) + ( LeftPadding + contentWidth / 2 ) + Parent.X;
+                o.Size = new Vector(width, height);
+                o.X = (-maximumSize.X / 2) + (LeftPadding + contentWidth / 2) + Parent.X;
                 o.Y = top - height / 2 + offset + Parent.Y;
 
                 top -= height + Spacing - offset;

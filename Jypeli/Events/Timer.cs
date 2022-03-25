@@ -50,11 +50,11 @@ namespace Jypeli
         private bool _enabled = false;
 
         private TimeSpan timeToTrigger = TimeSpan.MaxValue;
-        private TimeSpan trigInterval = new TimeSpan( 0, 0, 1 );
+        private TimeSpan trigInterval = new TimeSpan(0, 0, 1);
         private TimeSpan savedTrigger = TimeSpan.Zero;
-        
+
         private TimeSpan timeToCount = TimeSpan.MaxValue;
-        private TimeSpan countInterval = TimeSpan.FromMilliseconds( 10 );
+        private TimeSpan countInterval = TimeSpan.FromMilliseconds(10);
         private TimeSpan savedCount = TimeSpan.Zero;
 
         #region Properties
@@ -67,8 +67,9 @@ namespace Jypeli
             get { return _enabled; }
             set
             {
-                if ( value == _enabled ) return;
-                if ( value )
+                if (value == _enabled)
+                    return;
+                if (value)
                     Start();
                 else
                     Stop();
@@ -88,7 +89,8 @@ namespace Jypeli
             get { return trigInterval.TotalSeconds; }
             set
             {
-                if ( value <= 0 ) throw new ArgumentException( "Interval cannot be zero or negative!" );
+                if (value <= 0)
+                    throw new ArgumentException("Interval cannot be zero or negative!");
 
                 try
                 {
@@ -100,7 +102,7 @@ namespace Jypeli
                     trigInterval = TimeSpan.MaxValue;
                 }
 
-                if ( Enabled )
+                if (Enabled)
                     timeToTrigger = trigInterval;
             }
         }
@@ -168,8 +170,8 @@ namespace Jypeli
         /// </summary>
         public Timer()
         {
-            SecondCounter = new DoubleMeter( 0 );
-            Times = new IntMeter( 1 );
+            SecondCounter = new DoubleMeter(0);
+            Times = new IntMeter(1);
             Times.MinValue = 1;
             Times.MaxValue = 1;
             Enabled = false;
@@ -217,12 +219,12 @@ namespace Jypeli
         /// </summary>
         /// <param name="seconds">Aika sekunteina.</param>
         /// <param name="onTimeout">Kutsuttava aliohjelma.</param>
-        public static void SingleShot( double seconds, Action onTimeout )
+        public static void SingleShot(double seconds, Action onTimeout)
         {
             Timer t = new Timer();
             t.Interval = seconds;
             t.Timeout += onTimeout;
-            t.Start( 1 );
+            t.Start(1);
         }
 
         /// <summary>
@@ -231,18 +233,18 @@ namespace Jypeli
         /// <param name="action">Toiminta</param>
         /// <param name="seconds">Kuinka monta sekuntia täytyy odottaa ennen seuraavaa suoritusta</param>
         /// <returns>Rajoitettu aliohjelma</returns>
-        public static Action Limit( Action action, double seconds )
+        public static Action Limit(Action action, double seconds)
         {
             Timer limiter = new Timer();
             bool allowInvoke = true;
 
             limiter.Interval = seconds;
-            limiter.LimitTimes( 1 );
+            limiter.LimitTimes(1);
             limiter.Timeout += () => allowInvoke = true;
 
             return delegate
             {
-                if ( allowInvoke )
+                if (allowInvoke)
                 {
                     allowInvoke = false;
                     action();
@@ -250,7 +252,7 @@ namespace Jypeli
                 }
             };
         }
-        
+
         /// <summary>
         /// Käynnistää ajastimen.
         /// </summary>
@@ -259,20 +261,20 @@ namespace Jypeli
             _enabled = true;
             timeToTrigger = trigInterval;
             timeToCount = countInterval;
-            timers.Add( this );
+            timers.Add(this);
         }
 
         /// <summary> 
         /// Käynnistää ajastimen, rajoittaa suorituskerrat. 
         /// </summary> 
         /// <param name="times">Kuinka monta kertaa tulee ajastintapahtuma.</param> 
-        public void Start( int times )
+        public void Start(int times)
         {
             _enabled = true;
-            LimitTimes( times );
+            LimitTimes(times);
             timeToTrigger = trigInterval - savedTrigger;
             timeToCount = countInterval - savedCount;
-            timers.Add( this );
+            timers.Add(this);
         }
 
         /// <summary>
@@ -283,7 +285,7 @@ namespace Jypeli
             _enabled = false;
             savedTrigger = trigInterval - timeToTrigger;
             savedCount = countInterval - timeToCount;
-            timers.Remove( this );
+            timers.Remove(this);
         }
 
         /// <summary>
@@ -294,7 +296,7 @@ namespace Jypeli
             _enabled = false;
             savedTrigger = TimeSpan.Zero;
             savedCount = TimeSpan.Zero;
-            timers.Remove( this );
+            timers.Remove(this);
         }
 
         /// <summary>
@@ -308,7 +310,7 @@ namespace Jypeli
             timeToTrigger = trigInterval;
         }
 
-        private void LimitTimes( int numTimes )
+        private void LimitTimes(int numTimes)
         {
             TimesLimited = true;
             Times.DefaultValue = numTimes;
@@ -325,21 +327,21 @@ namespace Jypeli
             timers.Clear();
         }
 
-        private static void UpdateTimer( Timer timer, TimeSpan dt )
+        private static void UpdateTimer(Timer timer, TimeSpan dt)
         {
-            if ( !timer.Enabled )
+            if (!timer.Enabled)
                 return;
 
             timer.timeToCount -= dt;
 
-            while ( timer.timeToCount.TotalSeconds <= 0 )
+            while (timer.timeToCount.TotalSeconds <= 0)
             {
                 // Count second counter
                 timer.timeToCount += timer.countInterval;
                 timer.SecondCounter.Value += timer.countInterval.TotalSeconds;
             }
 
-            if ( timer.Timeout != null || timer.TimesLimited )
+            if (timer.Timeout != null || timer.TimesLimited)
             {
                 timer.timeToTrigger -= dt;
 
@@ -363,20 +365,20 @@ namespace Jypeli
             }
         }
 
-        internal static void UpdateAll( Time time )
+        internal static void UpdateAll(Time time)
         {
-            timers.Update( time );
-            timers.ForEach( UpdateTimer, time.SinceLastUpdate );
+            timers.Update(time);
+            timers.ForEach(UpdateTimer, time.SinceLastUpdate);
         }
 
-        internal static void UpdateAll( Time time, Predicate<Timer> isUpdated )
+        internal static void UpdateAll(Time time, Predicate<Timer> isUpdated)
         {
-            timers.Update( time );
+            timers.Update(time);
 
-            foreach ( var timer in timers )
+            foreach (var timer in timers)
             {
-                if ( isUpdated( timer ) )
-                    UpdateTimer( timer, time.SinceLastUpdate );
+                if (isUpdated(timer))
+                    UpdateTimer(timer, time.SinceLastUpdate);
             }
         }
 

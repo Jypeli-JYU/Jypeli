@@ -36,7 +36,7 @@
         }
 
         internal void SetButtonUp(Silk.NET.Input.MouseButton button)
-{
+        {
             buttons[(int)button] = false;
         }
 

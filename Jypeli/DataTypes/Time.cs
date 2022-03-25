@@ -37,7 +37,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="fromUpdate">Päivityksestä kulunut aika</param>
         /// <param name="fromStart">Pelin alusta kulunut aika</param>
-        internal Time( TimeSpan fromUpdate, TimeSpan fromStart )
+        internal Time(TimeSpan fromUpdate, TimeSpan fromStart)
         {
             _upd = fromUpdate;
             _start = fromStart;

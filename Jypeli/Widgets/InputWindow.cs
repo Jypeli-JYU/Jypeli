@@ -72,7 +72,7 @@ namespace Jypeli
         /// <summary>
         /// Syöttöikkunatapahtumien käsittelijä.
         /// </summary>
-        public delegate void InputWindowHandler( InputWindow sender );
+        public delegate void InputWindowHandler(InputWindow sender);
 
         /// <summary>
         /// Tapahtuu kun käyttäjä on syöttänyt tekstin ja painanut OK / sulkenut ikkunan.
@@ -88,8 +88,8 @@ namespace Jypeli
         /// Alustaa uuden tekstinkyselyikkunan.
         /// </summary>
         /// <param name="question">Kysymys</param>
-        public InputWindow( string question )
-            : base( question )
+        public InputWindow(string question)
+            : base(question)
         {
             Init();
         }
@@ -100,8 +100,8 @@ namespace Jypeli
         /// <param name="width">Ikkunan leveys</param>
         /// <param name="height">Ikkunan korkeus</param>
         /// <param name="question">Kysymys</param>
-        public InputWindow( double width, double height, string question )
-            : base( width, height, question )
+        public InputWindow(double width, double height, string question)
+            : base(width, height, question)
         {
             Init();
         }
@@ -125,7 +125,7 @@ namespace Jypeli
             return new InputBox(40);
         }
 
-        protected void InputWindow_Closed( Window sender )
+        protected void InputWindow_Closed(Window sender)
         {
             ((InputWindow)sender).OnTextEntered();
             Game.Keyboard.EndInput();

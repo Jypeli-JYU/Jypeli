@@ -46,7 +46,7 @@ namespace Jypeli
         /// Mittarin arvo vähenee.
         /// </summary>
         Down,
-        
+
         /// <summary>
         /// Ei väliä suunnalla (kasvaa tai vähenee).
         /// </summary>
@@ -80,8 +80,10 @@ namespace Jypeli
 
             Type[] genargs = meterType.GetGenericArguments();
 
-            if ( genargs.Length < 1 ) throw new ArgumentException( "This meter is not typed" );
-            if ( genargs[0] != typeof( T ) ) throw new ArgumentException( String.Format( "This meter measures {0}, not {1}", genargs[0].Name, typeof( T ).Name ) );
+            if (genargs.Length < 1)
+                throw new ArgumentException("This meter is not typed");
+            if (genargs[0] != typeof(T))
+                throw new ArgumentException(String.Format("This meter measures {0}, not {1}", genargs[0].Name, typeof(T).Name));
 
             return (Meter<T>)this;
         }
@@ -126,18 +128,20 @@ namespace Jypeli
             get { return val; }
             set
             {
-                if ( value.Equals( val ) )
+                if (value.Equals(val))
                     return;
 
                 ValueType oldval = val;
                 valueSet = true;
 
-                if (value.CompareTo(minval) < 0) value = minval;
-                if (value.CompareTo(maxval) > 0) value = maxval;
+                if (value.CompareTo(minval) < 0)
+                    value = minval;
+                if (value.CompareTo(maxval) > 0)
+                    value = maxval;
 
                 val = value;
                 OnChange(oldval, value);
-                CheckLimits( oldval, value );
+                CheckLimits(oldval, value);
                 CheckTriggers(oldval, value);
             }
         }
@@ -150,8 +154,9 @@ namespace Jypeli
             get { return defval; }
             set
             {
-                defval = clampValue( value, minval, maxval );
-                if ( !valueSet ) Value = value;
+                defval = clampValue(value, minval, maxval);
+                if (!valueSet)
+                    Value = value;
             }
         }
 
@@ -180,7 +185,7 @@ namespace Jypeli
         /// <summary>
         /// Mittarin muutostapahtumankäsittelijä.
         /// </summary>
-        public delegate void ChangeHandler( ValueType oldValue, ValueType newValue );
+        public delegate void ChangeHandler(ValueType oldValue, ValueType newValue);
 
         /// <summary>
         /// Tapahtuu, kun mittarin arvo muuttuu.
@@ -192,43 +197,44 @@ namespace Jypeli
 	    /// </summary>
         public event Action LowerLimit;
 
-	    /// <summary>
-	    /// Tapahtuu, kun mittari saavuttaa suurimman sallitun arvonsa.
-	    /// </summary>
-	    public event Action UpperLimit;
+        /// <summary>
+        /// Tapahtuu, kun mittari saavuttaa suurimman sallitun arvonsa.
+        /// </summary>
+        public event Action UpperLimit;
 
 
-        private void OnChange( ValueType oldValue, ValueType newValue )
+        private void OnChange(ValueType oldValue, ValueType newValue)
         {
-            if ( Changed != null )
-                Changed( oldValue, newValue );
+            if (Changed != null)
+                Changed(oldValue, newValue);
         }
 
-        private void CheckLimits( ValueType oldValue, ValueType newValue )
+        private void CheckLimits(ValueType oldValue, ValueType newValue)
         {
-            if ( LowerLimit != null && newValue.CompareTo( minval ) <= 0 )
+            if (LowerLimit != null && newValue.CompareTo(minval) <= 0)
             {
                 LowerLimit();
                 return;
             }
 
-            if ( UpperLimit != null && newValue.CompareTo( maxval ) >= 0 )
+            if (UpperLimit != null && newValue.CompareTo(maxval) >= 0)
             {
                 UpperLimit();
                 return;
             }
         }
 
-        private void CheckTriggers( ValueType oldValue, ValueType newValue )
+        private void CheckTriggers(ValueType oldValue, ValueType newValue)
         {
-            if ( triggers == null ) return;
+            if (triggers == null)
+                return;
 
-            foreach ( Trigger t in triggers )
+            foreach (Trigger t in triggers)
             {
-                if ( t.direction != TriggerDirection.Down && oldValue.CompareTo( t.value ) < 0 && newValue.CompareTo( t.value ) >= 0 )
+                if (t.direction != TriggerDirection.Down && oldValue.CompareTo(t.value) < 0 && newValue.CompareTo(t.value) >= 0)
                     t.method();
-                
-                else if ( t.direction != TriggerDirection.Up && oldValue.CompareTo( t.value ) > 0 && newValue.CompareTo( t.value ) <= 0 )
+
+                else if (t.direction != TriggerDirection.Up && oldValue.CompareTo(t.value) > 0 && newValue.CompareTo(t.value) <= 0)
                     t.method();
             }
         }
@@ -241,7 +247,7 @@ namespace Jypeli
         /// <param name="defaultVal">Oletusarvo.</param>
         /// <param name="minVal">Pienin sallittu arvo.</param>
         /// <param name="maxVal">Suurin sallittu arvo.</param>
-        public Meter( ValueType defaultVal, ValueType minVal, ValueType maxVal )
+        public Meter(ValueType defaultVal, ValueType minVal, ValueType maxVal)
         {
             minval = minVal;
             maxval = maxVal;
@@ -254,7 +260,7 @@ namespace Jypeli
         /// Luo uuden mittarin kopiona parametrina annetusta.
         /// </summary>
         /// <param name="src">Kopioitava mittari.</param>
-        public Meter( Meter<ValueType> src )
+        public Meter(Meter<ValueType> src)
         {
             minval = src.minval;
             maxval = src.maxval;
@@ -276,7 +282,7 @@ namespace Jypeli
         /// mutta helpompi käyttää tapahtumakäsittelijöissä.
         /// </summary>
         /// <param name="value">Uusi arvo</param>
-        public void SetValue( ValueType value )
+        public void SetValue(ValueType value)
         {
             Value = value;
         }
@@ -287,10 +293,11 @@ namespace Jypeli
         /// <param name="value">Mittarin arvo</param>
         /// <param name="direction">Suunta (TriggerDirection.Irrelevant, TriggerDirection.Up tai TriggerDirection.Down)</param>
         /// <param name="method">Aliohjelma, jota kutsutaan.</param>
-        public void AddTrigger( ValueType value, TriggerDirection direction, Action method )
+        public void AddTrigger(ValueType value, TriggerDirection direction, Action method)
         {
-            if ( triggers == null ) triggers = new List<Trigger>();
-            triggers.Add( new Trigger( value, direction, method ) );
+            if (triggers == null)
+                triggers = new List<Trigger>();
+            triggers.Add(new Trigger(value, direction, method));
         }
 
         /// <summary>
@@ -299,29 +306,32 @@ namespace Jypeli
         /// <param name="value">Mittarin arvo</param>
         /// <param name="direction">Suunta (TriggerDirection.Irrelevant, TriggerDirection.Up tai TriggerDirection.Down)</param>
         /// <param name="method">Aliohjelma, jota kutsutaan (parametrina mittarin arvo).</param>
-        public void AddTrigger( ValueType value, TriggerDirection direction, Action<ValueType> method )
+        public void AddTrigger(ValueType value, TriggerDirection direction, Action<ValueType> method)
         {
-            AddTrigger( value, direction, delegate() { method( this.Value ); } );
+            AddTrigger(value, direction, delegate ()
+            { method(this.Value); });
         }
 
         /// <summary>
         /// Poistaa kaikki tietylle arvolle asetetut raja-arvotapahtumat.
         /// </summary>
         /// <param name="value">Arvo</param>
-        public void RemoveTriggers( ValueType value )
+        public void RemoveTriggers(ValueType value)
         {
-            if ( triggers == null ) return;
-            triggers.RemoveAll( t => t.value.Equals( value ) );
+            if (triggers == null)
+                return;
+            triggers.RemoveAll(t => t.value.Equals(value));
         }
 
         /// <summary>
         /// Poistaa kaikki raja-arvotapahtumat, jotka kutsuvat tiettyä aliohjelmaa.
         /// </summary>
         /// <param name="method">Aliohjelma</param>
-        public void RemoveTriggers( Action method )
+        public void RemoveTriggers(Action method)
         {
-            if ( triggers == null ) return;
-            triggers.RemoveAll( t => t.method == method );
+            if (triggers == null)
+                return;
+            triggers.RemoveAll(t => t.method == method);
         }
 
         /// <summary>
@@ -329,34 +339,35 @@ namespace Jypeli
         /// </summary>
         public void ClearTriggers()
         {
-            if ( triggers == null ) return;
+            if (triggers == null)
+                return;
             triggers.Clear();
         }
 
-        private static ValueType clampValue( ValueType v, ValueType min, ValueType max )
+        private static ValueType clampValue(ValueType v, ValueType min, ValueType max)
         {
-            if ( v.CompareTo( min ) < 0 )
+            if (v.CompareTo(min) < 0)
                 return min;
 
-            if ( v.CompareTo( max ) > 0 )
+            if (v.CompareTo(max) > 0)
                 return max;
 
             return v;
         }
 
-        private static void clampValue( ref ValueType v, ValueType min, ValueType max )
+        private static void clampValue(ref ValueType v, ValueType min, ValueType max)
         {
-            if ( v.CompareTo( min ) < 0 )
+            if (v.CompareTo(min) < 0)
                 v = min;
 
-            else if ( v.CompareTo( max ) > 0 )
+            else if (v.CompareTo(max) > 0)
                 v = max;
         }
 
         private void updateBounds()
         {
-            clampValue( ref val, minval, maxval );
-            clampValue( ref defval, minval, maxval );
+            clampValue(ref val, minval, maxval);
+            clampValue(ref defval, minval, maxval);
         }
 
         /// <summary>
@@ -366,5 +377,5 @@ namespace Jypeli
         {
             return Value.ToString();
         }
-    }    
+    }
 }

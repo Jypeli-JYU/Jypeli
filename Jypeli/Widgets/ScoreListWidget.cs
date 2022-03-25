@@ -44,15 +44,15 @@ namespace Jypeli.Widgets
         public Label Score;
 
         public ScoreItemWidget()
-            : base( new HorizontalLayout() )
+            : base(new HorizontalLayout())
         {
             Color = Color.Transparent;
             Place = new Label() { Color = Color.Transparent, HorizontalAlignment = HorizontalAlignment.Left };
             Name = new Label() { Color = Color.Transparent, SizeMode = TextSizeMode.None, HorizontalAlignment = HorizontalAlignment.Left, XMargin = 20, HorizontalSizing = Sizing.Expanding };
             Score = new Label() { Color = Color.Transparent, HorizontalAlignment = HorizontalAlignment.Right };
-            Add( Place );
-            Add( Name );
-            Add( Score );
+            Add(Place);
+            Add(Name);
+            Add(Score);
         }
     }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
@@ -78,7 +78,7 @@ namespace Jypeli.Widgets
             set
             {
                 font = value;
-                for ( int i = 0; i < Content.ItemCount; i++ )
+                for (int i = 0; i < Content.ItemCount; i++)
                 {
                     Content[i].Place.Font = value;
                     Content[i].Name.Font = value;
@@ -96,7 +96,7 @@ namespace Jypeli.Widgets
             set
             {
                 posColor = value;
-                for ( int i = 0; i < Content.ItemCount; i++ )
+                for (int i = 0; i < Content.ItemCount; i++)
                     Content[i].Place.TextColor = value;
             }
         }
@@ -110,7 +110,7 @@ namespace Jypeli.Widgets
             set
             {
                 nameColor = value;
-                for ( int i = 0; i < Content.ItemCount; i++ )
+                for (int i = 0; i < Content.ItemCount; i++)
                     Content[i].Name.TextColor = value;
             }
         }
@@ -124,7 +124,7 @@ namespace Jypeli.Widgets
             set
             {
                 scoreColor = value;
-                for ( int i = 0; i < Content.ItemCount; i++ )
+                for (int i = 0; i < Content.ItemCount; i++)
                     Content[i].Score.TextColor = value;
             }
         }
@@ -159,29 +159,29 @@ namespace Jypeli.Widgets
         /// Luo uuden ruudulla näytettävän parhaiden pisteiden listan.
         /// </summary>
         /// <param name="list">Olemassaoleva lista.</param>
-        public ScoreListWidget( ScoreList list )
-            : base( list )
+        public ScoreListWidget(ScoreList list)
+            : base(list)
         {
         }
 
         internal ScoreListWidget()
-            : base( new ScoreList() )
+            : base(new ScoreList())
         {
         }
 
         /// <inheritdoc/>
-        internal protected override ScoreItemWidget CreateWidget( ScoreItem item )
+        internal protected override ScoreItemWidget CreateWidget(ScoreItem item)
         {
             var w = new ScoreItemWidget();
             w.Place.Font = Font;
             w.Place.TextColor = PositionColor;
-            w.Place.Text = String.Format( "{0}.", item.Position );
+            w.Place.Text = String.Format("{0}.", item.Position);
             w.Name.Font = Font;
             w.Name.TextColor = NameColor;
             w.Name.Text = item.Name;
             w.Score.Font = Font;
             w.Score.TextColor = ScoreColor;
-            w.Score.Text = double.IsInfinity( item.Score ) ? InfinityMarker : String.Format( ScoreFormat, item.Score );
+            w.Score.Text = double.IsInfinity(item.Score) ? InfinityMarker : String.Format(ScoreFormat, item.Score);
             return w;
         }
     }

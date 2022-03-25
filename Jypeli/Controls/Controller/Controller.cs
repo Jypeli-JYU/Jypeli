@@ -63,9 +63,11 @@ namespace Jypeli.Controls
     public abstract class Controller<ControllerState, Control> : IController where Control : IComparable
     {
         protected static readonly ChangePredicate<ControllerState> AlwaysTrigger
-            = delegate { return true; };
+            = delegate
+            { return true; };
         protected static readonly ChangePredicate<ControllerState> NeverTrigger
-            = delegate { return false; };
+            = delegate
+            { return false; };
 
         private SynchronousList<Listener<ControllerState, Control>> listeners = new SynchronousList<Listener<ControllerState, Control>>();
         private SynchronousList<Listener<ControllerState, Control>> disabledListeners = new SynchronousList<Listener<ControllerState, Control>>();
@@ -94,9 +96,9 @@ namespace Jypeli.Controls
             PrevState = CurrentState;
             CurrentState = GetState();
 
-            listeners.Update( Game.Time );
+            listeners.Update(Game.Time);
             disabledListeners.Update(Game.Time);
-            listeners.ForEach( l => l.CheckAndInvoke( PrevState, CurrentState ) );
+            listeners.ForEach(l => l.CheckAndInvoke(PrevState, CurrentState));
         }
 
         /// <summary>
@@ -109,10 +111,10 @@ namespace Jypeli.Controls
         /// <param name="handler"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        protected Listener AddListener( ChangePredicate<ControllerState> rule, Control control, string controlName, string helpText, Delegate handler, params object[] args )
+        protected Listener AddListener(ChangePredicate<ControllerState> rule, Control control, string controlName, string helpText, Delegate handler, params object[] args)
         {
-            var l = new Listener<ControllerState, Control>( rule, Game.Instance.ControlContext, control, controlName, helpText, handler, args );
-            listeners.Add( l );
+            var l = new Listener<ControllerState, Control>(rule, Game.Instance.ControlContext, control, controlName, helpText, handler, args);
+            listeners.Add(l);
             return l;
         }
 
@@ -126,15 +128,15 @@ namespace Jypeli.Controls
         /// Poistaa tietyt kuuntelutapahtumat käytöstä.
         /// </summary>
         /// <param name="predicate">Ehto, jonka tapahtuman on toteutettava.</param>
-        public void Disable( Predicate<Listener<ControllerState, Control>> predicate )
+        public void Disable(Predicate<Listener<ControllerState, Control>> predicate)
         {
-            foreach ( var l in listeners )
+            foreach (var l in listeners)
             {
-                if ( predicate( l ) )
+                if (predicate(l))
                 {
                     // Note: synchronous list, does not actually change the list while iterating
-                    listeners.Remove( l );
-                    disabledListeners.Add( l );
+                    listeners.Remove(l);
+                    disabledListeners.Add(l);
                 }
             }
         }
@@ -143,15 +145,15 @@ namespace Jypeli.Controls
         /// Ottaa käytöstä poistetun kontrollin takaisin käyttöön.
         /// </summary>
         /// <param name="predicate">Ehto, jonka tapahtuman on toteutettava.</param>
-        public void Enable( Predicate<Listener<ControllerState, Control>> predicate )
+        public void Enable(Predicate<Listener<ControllerState, Control>> predicate)
         {
-            foreach ( var l in disabledListeners )
+            foreach (var l in disabledListeners)
             {
-                if ( predicate( l ) )
+                if (predicate(l))
                 {
                     // Note: synchronous list, does not actually change the list while iterating
-                    listeners.Add( l );
-                    disabledListeners.Remove( l );
+                    listeners.Add(l);
+                    disabledListeners.Remove(l);
                 }
             }
         }
@@ -160,18 +162,18 @@ namespace Jypeli.Controls
         /// Poistaa kontrollin käytöstä.
         /// </summary>
         /// <param name="c">Kontrolli.</param>
-        public void Disable( Control c )
+        public void Disable(Control c)
         {
-            Disable( l => l.Control.Equals( c ) );
+            Disable(l => l.Control.Equals(c));
         }
 
         /// <summary>
         /// Ottaa kontrollin takaisin käyttöön.
         /// </summary>
         /// <param name="c">Kontrolli.</param>
-        public void Enable( Control c )
+        public void Enable(Control c)
         {
-            Enable( l => l.Control.Equals( c ) );
+            Enable(l => l.Control.Equals(c));
         }
 
         /// <summary>
@@ -179,7 +181,7 @@ namespace Jypeli.Controls
         /// </summary>
         public void EnableAll()
         {
-            Enable( x => true );
+            Enable(x => true);
         }
 
         /// <summary>
@@ -187,15 +189,15 @@ namespace Jypeli.Controls
         /// </summary>
         public void DisableAll()
         {
-            Disable( x => true );
+            Disable(x => true);
         }
 
         public IEnumerable<string> GetHelpTexts()
         {
-            foreach ( var l in listeners )
+            foreach (var l in listeners)
             {
-                if ( l.ControlName != null && l.HelpText != null )
-                    yield return String.Format( "{0} - {1}", l.ControlName, l.HelpText );
+                if (l.ControlName != null && l.HelpText != null)
+                    yield return String.Format("{0} - {1}", l.ControlName, l.HelpText);
             }
         }
     }

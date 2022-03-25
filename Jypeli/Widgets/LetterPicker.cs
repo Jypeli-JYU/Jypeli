@@ -51,7 +51,7 @@ namespace Jypeli
             get { return _selectedIndex; }
             set
             {
-                _selectedIndex = AdvMod( value, Charset.Length );
+                _selectedIndex = AdvMod(value, Charset.Length);
                 _selectedCharacter = Charset[_selectedIndex];
                 Text = _selectedCharacter.ToString();
                 OnLetterChanged();
@@ -66,7 +66,7 @@ namespace Jypeli
             get { return _selectedCharacter; }
             set
             {
-                SelectedIndex = Charset.IndexOf( value );
+                SelectedIndex = Charset.IndexOf(value);
                 _selectedCharacter = value;
                 Text = value.ToString();
                 OnLetterChanged();
@@ -90,24 +90,24 @@ namespace Jypeli
         /// <param name="height">Korkeus.</param>
         /// <param name="charset">Käytettävät merkit.</param>
         /// <param name="initialCharacter">Oletusmerkki</param>
-        public LetterPicker( double width, double height, string charset = "", char initialCharacter = 'a' )
-            : base( width, height )
+        public LetterPicker(double width, double height, string charset = "", char initialCharacter = 'a')
+            : base(width, height)
         {
-            Charset = ( charset.Length > 0 ) ? charset : Jypeli.Charset.Alphanumeric + " ";
+            Charset = (charset.Length > 0) ? charset : Jypeli.Charset.Alphanumeric + " ";
             base.Font = new Font(40);
             SelectedCharacter = initialCharacter;
             YMargin = 10;
 
-            UpArrow = new Widget( this.Width, 10, Shape.Triangle );
+            UpArrow = new Widget(this.Width, 10, Shape.Triangle);
             UpArrow.Top = this.Height / 2;
             UpArrow.Color = Color.Red;
-            Add( UpArrow );
+            Add(UpArrow);
 
-            DownArrow = new Widget( this.Width, 10, Shape.Triangle );
+            DownArrow = new Widget(this.Width, 10, Shape.Triangle);
             DownArrow.Bottom = -this.Height / 2;
             DownArrow.Angle = Angle.StraightAngle;
             DownArrow.Color = Color.Red;
-            Add( DownArrow );
+            Add(DownArrow);
 
             AddedToGame += AddControls;
             Removed += RemoveControls;
@@ -116,7 +116,7 @@ namespace Jypeli
         internal LetterPicker Clone()
         {
             // TODO: make a better clone method, maybe using the DataStorage load / save system
-            var lpClone = new LetterPicker( this.Width, this.Height, this.Charset, this.SelectedCharacter );
+            var lpClone = new LetterPicker(this.Width, this.Height, this.Charset, this.SelectedCharacter);
             lpClone.Font = this.Font;
             lpClone.Color = this.Color;
             lpClone.BorderColor = this.BorderColor;
@@ -143,43 +143,43 @@ namespace Jypeli
 
         private void OnLetterChanged()
         {
-            if ( LetterChanged != null )
-                LetterChanged( this );
+            if (LetterChanged != null)
+                LetterChanged(this);
         }
 
         private void AddControls()
         {
-            _controls.Add( Game.TouchPanel.ListenOn( this, ButtonState.Pressed, StartDrag, null ).InContext( this ) );
-            _controls.Add( Game.TouchPanel.Listen( ButtonState.Released, EndDrag, null ).InContext( this ) );
+            _controls.Add(Game.TouchPanel.ListenOn(this, ButtonState.Pressed, StartDrag, null).InContext(this));
+            _controls.Add(Game.TouchPanel.Listen(ButtonState.Released, EndDrag, null).InContext(this));
         }
 
         private void RemoveControls()
         {
             // SynchronousList removes every destroyed object automatically
-            _controls.ForEach( c => c.Destroy() );
+            _controls.ForEach(c => c.Destroy());
         }
 
-        private void StartDrag( Touch touch )
+        private void StartDrag(Touch touch)
         {
-            if ( _touch != null )
+            if (_touch != null)
                 return;
 
             _touch = touch;
             _touchStart = touch.PositionOnScreen.Y;
         }
 
-        private void EndDrag( Touch touch )
+        private void EndDrag(Touch touch)
         {
-            if ( _touch != touch )
+            if (_touch != touch)
                 return;
 
-            double delta = _touch != null ? ( _touch.PositionOnScreen.Y - _touchStart ) / TextSize.Y : 0;
+            double delta = _touch != null ? (_touch.PositionOnScreen.Y - _touchStart) / TextSize.Y : 0;
             _touch = null;
 
-            if ( touch.MovementOnScreen.Y < 1 )
+            if (touch.MovementOnScreen.Y < 1)
             {
                 // Set the index now
-                SelectedIndex += (int)Math.Round( delta );
+                SelectedIndex += (int)Math.Round(delta);
                 _indexDelta = 0;
             }
             else
@@ -190,59 +190,62 @@ namespace Jypeli
             }
         }
 
-        private int AdvMod( int x, int n )
+        private int AdvMod(int x, int n)
         {
-            if ( n <= 0 ) return -1;
-            while ( x < 0 ) x += n;
-            while ( x >= n ) x -= n;
+            if (n <= 0)
+                return -1;
+            while (x < 0)
+                x += n;
+            while (x >= n)
+                x -= n;
             return x;
         }
 
         /// <inheritdoc/>
-        public override void Update( Time time )
+        public override void Update(Time time)
         {
-            if ( _touch != null )
+            if (_touch != null)
             {
-                _indexDelta = ( _touch.PositionOnScreen.Y - _touchStart ) / TextSize.Y;
+                _indexDelta = (_touch.PositionOnScreen.Y - _touchStart) / TextSize.Y;
             }
 
-            else if ( _indexVelocity > 0 )
+            else if (_indexVelocity > 0)
             {
-                _indexDelta += Math.Sign( _indexDelta ) * _indexVelocity * time.SinceLastUpdate.TotalSeconds;
+                _indexDelta += Math.Sign(_indexDelta) * _indexVelocity * time.SinceLastUpdate.TotalSeconds;
                 _indexVelocity *= 0.95;
 
-                if ( _indexVelocity < 1.5 )
+                if (_indexVelocity < 1.5)
                 {
-                    SelectedIndex += (int) Math.Round( _indexDelta );
+                    SelectedIndex += (int)Math.Round(_indexDelta);
                     _indexDelta = 0;
                     _indexVelocity = 0;
                 }
             }
 
             _controls.UpdateChanges();
-            base.Update( time );
+            base.Update(time);
         }
 
         /// <inheritdoc/>
-        public override void Draw( Matrix parentTransformation, Matrix transformation )
+        public override void Draw(Matrix parentTransformation, Matrix transformation)
         {
-            if ( _indexDelta == 0 )
+            if (_indexDelta == 0)
             {
-                base.Draw( parentTransformation, transformation );
+                base.Draw(parentTransformation, transformation);
                 return;
             }
 
-            int indexDeltaInt = (int)Math.Round( _indexDelta );
+            int indexDeltaInt = (int)Math.Round(_indexDelta);
             double yDelta = _indexDelta - indexDeltaInt;  // for smooth scrolling
 
-            for ( int i = -1; i <= 1; i++ )
+            for (int i = -1; i <= 1; i++)
             {
                 Matrix m = Matrix.CreateScale((float)TextScale.X, (float)TextScale.Y, 1)
-                           * Matrix.CreateRotationZ( (float)Angle.Radians )
-                           * Matrix.CreateTranslation( (float)Position.X, (float)( Position.Y - ( i - yDelta ) * TextSize.Y ), 0 )
+                           * Matrix.CreateRotationZ((float)Angle.Radians)
+                           * Matrix.CreateTranslation((float)Position.X, (float)(Position.Y - (i - yDelta) * TextSize.Y), 0)
                            * parentTransformation;
 
-                int ci = AdvMod( this.SelectedIndex + indexDeltaInt + i, this.Charset.Length );
+                int ci = AdvMod(this.SelectedIndex + indexDeltaInt + i, this.Charset.Length);
                 //Renderer.DrawText( Charset[ci].ToString(), ref m, Font, TextColor );
             }
         }

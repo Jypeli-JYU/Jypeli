@@ -95,22 +95,23 @@ namespace Jypeli
         {
             get
             {
-                if ( !IsPlaying ) return currentIndex;
+                if (!IsPlaying)
+                    return currentIndex;
 
                 double secondsNow = Game.Time.SinceStartOfGame.TotalSeconds;
                 double secondsAdvanced = secondsNow - startTime.TotalSeconds;
-                int currentRepeat = (int)( secondsAdvanced / ( FrameCount * secondsPerFrame ) );
+                int currentRepeat = (int)(secondsAdvanced / (FrameCount * secondsPerFrame));
 
-                if ( currentRepeat > lastRepeat )
+                if (currentRepeat > lastRepeat)
                 {
                     OnPlayed();
                     lastRepeat = currentRepeat;
                 }
-                    
-                if ( repeatCount >= 0 && currentRepeat >= repeatCount )
+
+                if (repeatCount >= 0 && currentRepeat >= repeatCount)
                     Stop();
 
-                return ( (int)( secondsAdvanced * FPS ) ) % FrameCount;
+                return ((int)(secondsAdvanced * FPS)) % FrameCount;
             }
         }
 
@@ -122,8 +123,8 @@ namespace Jypeli
             get { return 1 / secondsPerFrame; }
             set
             {
-                if ( value == 0 )
-                    throw new ArgumentException( "FPS can not be zero" );
+                if (value == 0)
+                    throw new ArgumentException("FPS can not be zero");
                 secondsPerFrame = 1 / value;
             }
         }
@@ -163,7 +164,7 @@ namespace Jypeli
         /// </summary>
         public Vector Size
         {
-            get { return new Vector( Width, Height ); }
+            get { return new Vector(Width, Height); }
         }
 
         /// <summary>
@@ -173,17 +174,18 @@ namespace Jypeli
 
         private void OnPlayed()
         {
-            if ( Played != null ) Played();
+            if (Played != null)
+                Played();
         }
 
         /// <summary>
         /// Luo uuden animaation.
         /// </summary>
         /// <param name="frames">Animaation ruudut.</param>
-        public Animation( params Image[] frames )
+        public Animation(params Image[] frames)
         {
-            if ( frames.Length == 0 )
-                throw new ArgumentException( "Animation must have at least one frame." );
+            if (frames.Length == 0)
+                throw new ArgumentException("Animation must have at least one frame.");
             FPS = 25;
             currentIndex = 0;
             startTime = Game.Time.SinceStartOfGame;
@@ -196,15 +198,16 @@ namespace Jypeli
         /// <param name="image">Kuva.</param>
         public static implicit operator Animation(Image image)
         {
-            if ( image == null ) return null;
-            return new Animation( image );
+            if (image == null)
+                return null;
+            return new Animation(image);
         }
 
         /// <summary>
         /// Luo kopion jo tunnetusta animaatiosta.
         /// </summary>
         /// <param name="src">Kopioitava animaatio.</param>
-        public Animation( Animation src )
+        public Animation(Animation src)
         {
             FPS = src.FPS;
             IsPlaying = src.IsPlaying;
@@ -214,7 +217,7 @@ namespace Jypeli
             frames = new Image[src.FrameCount];
 
             // Copy only the references to images.
-            for ( int i = 0; i < src.FrameCount; i++ )
+            for (int i = 0; i < src.FrameCount; i++)
                 frames[i] = src.frames[i];
         }
 
@@ -224,11 +227,11 @@ namespace Jypeli
         /// <param name="anim">Animaatio</param>
         /// <param name="method">Metodi, joka ottaa parametriksi kuvan ja palauttaa kuvan</param>
         /// <returns>Uusi animaatio</returns>
-        public static Animation Apply( Animation anim, ImageConverter method )
+        public static Animation Apply(Animation anim, ImageConverter method)
         {
-            Animation applied = new Animation( anim );
+            Animation applied = new Animation(anim);
 
-            for ( int i = 0; i < anim.frames.Length; i++ )
+            for (int i = 0; i < anim.frames.Length; i++)
             {
                 applied.frames[i] = method(anim.frames[i]);
             }
@@ -241,9 +244,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="anim">Animaatio</param>
         /// <returns>Peilattu animaatio</returns>
-        public static Animation Mirror( Animation anim )
+        public static Animation Mirror(Animation anim)
         {
-            return Apply( anim, Image.Mirror );
+            return Apply(anim, Image.Mirror);
         }
 
         /// <summary>
@@ -251,9 +254,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="anim">Animaatio</param>
         /// <returns>Peilattu animaatio</returns>
-        public static Animation Flip( Animation anim )
+        public static Animation Flip(Animation anim)
         {
-            return Apply( anim, Image.Flip );
+            return Apply(anim, Image.Flip);
         }
 
         /// <summary>
@@ -261,11 +264,11 @@ namespace Jypeli
         /// </summary>
         /// <param name="anim">Animaatio</param>
         /// <returns>Käännetty animaatio</returns>
-        public static Animation Reverse( Animation anim )
+        public static Animation Reverse(Animation anim)
         {
-            Animation reversed = new Animation( anim );
+            Animation reversed = new Animation(anim);
 
-            for ( int i = 0; i < anim.frames.Length / 2; i++ )
+            for (int i = 0; i < anim.frames.Length / 2; i++)
             {
                 reversed.frames[i] = anim.frames[anim.frames.Length - 1 - i];
                 reversed.frames[anim.frames.Length - 1 - i] = anim.frames[i];
@@ -279,14 +282,14 @@ namespace Jypeli
         /// </summary>
         public void Start()
         {
-            Start( -1 );
+            Start(-1);
         }
 
         /// <summary>
         /// Käynnistää animaation alusta.
         /// </summary>
         /// <param name="repeatCount">Kuinka monta kertaa animaatio suoritetaan.</param>
-        public void Start( int repeatCount )
+        public void Start(int repeatCount)
         {
             this.repeatCount = repeatCount;
             startTime = Game.Time.SinceStartOfGame;
@@ -317,7 +320,7 @@ namespace Jypeli
         {
             IsPlaying = false;
             currentIndex = 0;
-            if ( StopOnLastFrame )
+            if (StopOnLastFrame)
                 currentIndex = FrameCount - 1;
             repeatCount = -1;
         }
@@ -327,17 +330,18 @@ namespace Jypeli
         /// kulkea taaksepäin.
         /// </summary>
         /// <param name="numberOfFrames">Edettävä määrä ruutuja.</param>
-        public void Step( int numberOfFrames )
+        public void Step(int numberOfFrames)
         {
             IsPlaying = false;
             currentIndex = currentIndex + numberOfFrames;
 
-            if ( currentIndex >= FrameCount )
+            if (currentIndex >= FrameCount)
             {
                 // Animation has reached its final frame
-                if ( repeatCount > 0 ) repeatCount--;
+                if (repeatCount > 0)
+                    repeatCount--;
 
-                if ( repeatCount == 0 )
+                if (repeatCount == 0)
                     Stop();
                 else
                 {
@@ -354,7 +358,7 @@ namespace Jypeli
         /// </summary>
         public void Step()
         {
-            Step( 1 );
+            Step(1);
         }
 
         #region IEnumerable<Image> Members
@@ -365,7 +369,7 @@ namespace Jypeli
         /// <returns></returns>
         public IEnumerator<Image> GetEnumerator()
         {
-            foreach ( Image frame in frames )
+            foreach (Image frame in frames)
                 yield return frame;
         }
 

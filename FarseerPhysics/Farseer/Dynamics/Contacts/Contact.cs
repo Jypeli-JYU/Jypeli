@@ -64,7 +64,7 @@ namespace FarseerPhysics.Dynamics.Contacts
         /// The next contact edge in the body's contact list
         /// </summary>
         public ContactEdge Next { get; internal set; }
-        
+
         /// <summary>
         /// The previous contact edge in the body's contact list
         /// </summary>
@@ -474,7 +474,7 @@ namespace FarseerPhysics.Dynamics.Contacts
                 else
                     c.Reset(fixtureB, indexB, fixtureA, indexA);
             }
-        
+
 
             c._type = _registers[(int)type1, (int)type2];
 

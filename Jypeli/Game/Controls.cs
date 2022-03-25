@@ -69,7 +69,7 @@ namespace Jypeli
         /// <summary>
         /// Lista kaikista peliohjaimista järjestyksessä.
         /// </summary>
-        public List<GamePad> GameControllers { get; private set; } 
+        public List<GamePad> GameControllers { get; private set; }
 
         /// <summary>
         /// Ensimmäinen peliohjain.
@@ -133,13 +133,13 @@ namespace Jypeli
             controllers.Add(Keyboard);
 
             controllers.Add(Accelerometer);
-            controllers.Add( TouchPanel );
+            controllers.Add(TouchPanel);
 #if ANDROID
-            controllers.Add( PhoneBackButton );
+            controllers.Add(PhoneBackButton);
 #endif
         }
 
-        private void UpdateControls( Time gameTime )
+        private void UpdateControls(Time gameTime)
         {
             controllers.ForEach(c => c.Update());
             GameControllers.ForEach(g => g.UpdateVibrations(gameTime));
@@ -150,7 +150,7 @@ namespace Jypeli
         /// </summary>
         public void ClearControls()
         {
-            controllers.ForEach( c => c.Clear() );
+            controllers.ForEach(c => c.Clear());
         }
 
         /// <summary>
@@ -158,32 +158,32 @@ namespace Jypeli
         /// </summary>
         public void ShowControlHelp()
         {
-            controllers.ForEach( c => MessageDisplay.Add( c.GetHelpTexts() ) );
+            controllers.ForEach(c => MessageDisplay.Add(c.GetHelpTexts()));
         }
 
         /// <summary>
         /// Näyttää kontrollien ohjetekstit tietylle ohjaimelle.
         /// </summary>
-        public void ShowControlHelp( IController controller )
+        public void ShowControlHelp(IController controller)
         {
-            MessageDisplay.Add( controller.GetHelpTexts() );
+            MessageDisplay.Add(controller.GetHelpTexts());
         }
 
-        private void ActivateObject( ControlContexted obj )
+        private void ActivateObject(ControlContexted obj)
         {
             obj.ControlContext.Active = true;
 
-            if ( obj.IsModal )
+            if (obj.IsModal)
             {
                 Game.Instance.ControlContext.SaveFocus();
                 Game.Instance.ControlContext.Active = false;
 
-                foreach ( Layer l in Layers )
+                foreach (Layer l in Layers)
                 {
-                    foreach ( IGameObject lo in l.Objects )
+                    foreach (IGameObject lo in l.Objects)
                     {
                         ControlContexted co = lo as ControlContexted;
-                        if ( lo == obj || co == null )
+                        if (lo == obj || co == null)
                             continue;
 
                         co.ControlContext.SaveFocus();
@@ -193,20 +193,20 @@ namespace Jypeli
             }
         }
 
-        private void DeactivateObject( ControlContexted obj )
+        private void DeactivateObject(ControlContexted obj)
         {
             obj.ControlContext.Active = false;
 
-            if ( obj.IsModal )
+            if (obj.IsModal)
             {
                 Game.Instance.ControlContext.RestoreFocus();
 
-                foreach ( Layer l in Layers )
+                foreach (Layer l in Layers)
                 {
-                    foreach ( IGameObject lo in l.Objects )
+                    foreach (IGameObject lo in l.Objects)
                     {
                         ControlContexted co = lo as ControlContexted;
-                        if ( lo == obj || co == null )
+                        if (lo == obj || co == null)
                             continue;
 
                         co.ControlContext.RestoreFocus();

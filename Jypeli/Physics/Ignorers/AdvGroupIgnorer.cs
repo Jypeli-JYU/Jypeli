@@ -40,11 +40,11 @@ namespace Jypeli
             this.groups = new GroupCollection();
             this.ignoredGroups = new GroupCollection();
         }
-        protected AdvGroupIgnorer( AdvGroupIgnorer copy )
-            : base( copy )
+        protected AdvGroupIgnorer(AdvGroupIgnorer copy)
+            : base(copy)
         {
-            this.groups = new GroupCollection( copy.groups );
-            this.groups = new GroupCollection( copy.ignoredGroups );
+            this.groups = new GroupCollection(copy.groups);
+            this.groups = new GroupCollection(copy.ignoredGroups);
         }
         public override bool BothNeeded
         {
@@ -52,25 +52,26 @@ namespace Jypeli
         }
         public GroupCollection Groups { get { return groups; } }
         public GroupCollection IgnoredGroups { get { return ignoredGroups; } }
-        public bool CanCollide( AdvGroupIgnorer other )
+        public bool CanCollide(AdvGroupIgnorer other)
         {
-            if ( other == null ) { throw new ArgumentNullException( "other" ); }
-            return CanCollideInternal( other );
+            if (other == null)
+            { throw new ArgumentNullException("other"); }
+            return CanCollideInternal(other);
         }
-        private bool CanCollideInternal( AdvGroupIgnorer other )
+        private bool CanCollideInternal(AdvGroupIgnorer other)
         {
-            return !GroupCollection.Intersect( ignoredGroups, other.groups );
+            return !GroupCollection.Intersect(ignoredGroups, other.groups);
         }
-        public override bool CanCollide( IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other )
+        public override bool CanCollide(IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other)
         {
             AdvGroupIgnorer value = other as AdvGroupIgnorer;
             return
                 value == null ||
-                CanCollideInternal( value );
+                CanCollideInternal(value);
         }
         public virtual object Clone()
         {
-            return new AdvGroupIgnorer( this );
+            return new AdvGroupIgnorer(this);
         }
     }
 }

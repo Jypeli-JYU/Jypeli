@@ -13,9 +13,9 @@
         /// <returns>Ensimmäinen ei-null listasta, tai null jos mikään ei täsmää</returns>
         public static T ReturnFirstNotNull<T>(params T[] list) where T : class
         {
-            for ( int i = 0; i < list.Length; i++ )
+            for (int i = 0; i < list.Length; i++)
             {
-                if ( list[i] != null )
+                if (list[i] != null)
                     return list[i];
             }
 
@@ -28,14 +28,16 @@
         /// <param name="howMany"></param>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static bool IsNotNull( int howMany, params object[] list )
+        public static bool IsNotNull(int howMany, params object[] list)
         {
             int notNull = 0;
 
-            for ( int i = 0; i < list.Length; i++ )
+            for (int i = 0; i < list.Length; i++)
             {
-                if ( list[i] != null ) notNull++;
-                if ( notNull >= howMany ) return true;
+                if (list[i] != null)
+                    notNull++;
+                if (notNull >= howMany)
+                    return true;
             }
 
             return false;

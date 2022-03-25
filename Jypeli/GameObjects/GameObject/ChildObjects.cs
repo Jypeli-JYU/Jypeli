@@ -62,9 +62,9 @@ namespace Jypeli
         /// <returns></returns>
         public IEnumerable<T> GetChildObjects<T>() where T : IGameObject
         {
-            foreach ( IGameObject o in Objects )
+            foreach (IGameObject o in Objects)
             {
-                if ( o is T )
+                if (o is T)
                     yield return (T)o;
             }
         }
@@ -74,11 +74,11 @@ namespace Jypeli
         /// </summary>
         /// <typeparam name="T">Olion tyyppi rakenteessa (esim. PhysicsObject)</typeparam>
         /// <returns></returns>
-        public IEnumerable<T> GetChildObjects<T>( Predicate<T> predicate ) where T : IGameObject
+        public IEnumerable<T> GetChildObjects<T>(Predicate<T> predicate) where T : IGameObject
         {
-            foreach ( IGameObject o in Objects )
+            foreach (IGameObject o in Objects)
             {
-                if ( o is T && predicate( (T)o ) )
+                if (o is T && predicate((T)o))
                     yield return (T)o;
             }
         }
@@ -103,11 +103,11 @@ namespace Jypeli
             {
                 PhysicsGameBase.Instance.Engine.ConnectBodies((PhysicsObject)this, (PhysicsObject)childObject);
             }
-            
-            if ( !( childObject is GameObject ) )
-                throw new ArgumentException( "Child object can not be a non-GameObject" );
 
-            Objects.Add( (GameObject)childObject );
+            if (!(childObject is GameObject))
+                throw new ArgumentException("Child object can not be a non-GameObject");
+
+            Objects.Add((GameObject)childObject);
             childObject.Parent = this;
             ((GameObject)childObject).InitialRelativePosition = childObject.RelativePositionToMainParent;
             ((GameObject)childObject).InitialRelativeAngle = childObject.RelativeAngleToMainParent;
@@ -121,12 +121,12 @@ namespace Jypeli
         /// Oliota ei poisteta välittömästi, vaan viimeistään seuraavan 
         /// päivityksen jälkeen. 
         /// </remarks> 
-        public void Remove( IGameObject childObject )
+        public void Remove(IGameObject childObject)
         {
-            if ( !( childObject is GameObject ) )
-                throw new ArgumentException( "Child object can not be a non-GameObject" );
+            if (!(childObject is GameObject))
+                throw new ArgumentException("Child object can not be a non-GameObject");
 
-            Objects.Remove( (GameObject)childObject );
+            Objects.Remove((GameObject)childObject);
             childObject.Parent = null;
         }
 
@@ -135,7 +135,8 @@ namespace Jypeli
         /// </summary>
         protected virtual void InitChildren()
         {
-            if ( _childObjects != null ) return;
+            if (_childObjects != null)
+                return;
             _childObjects = new SynchronousList<GameObject>();
             _childObjects.ItemAdded += this.OnChildAdded;
             _childObjects.ItemRemoved += this.OnChildRemoved;
@@ -148,9 +149,9 @@ namespace Jypeli
             IsUpdated = true;
         }
 
-        private void OnChildAdded( GameObject child )
+        private void OnChildAdded(GameObject child)
         {
-            child.Parent = this; 
+            child.Parent = this;
 
             // It is possible to add children to objects which themselves are not yet (or not at the moment)
             // added to the game. This might not be obvious, since the _childObjects SynchronousList is
@@ -161,7 +162,7 @@ namespace Jypeli
                 Game.OnAddObject(child);
         }
 
-        private void OnChildRemoved( GameObject child )
+        private void OnChildRemoved(GameObject child)
         {
             // In the same vein as in OnChildAdded, it is possible that a child is removed from
             // _childObjects while not in game. This avoids multiple removal.
@@ -170,23 +171,24 @@ namespace Jypeli
 
             // This 'if' ensures that nothing is broken if a child is transferred
             // to another parent first and removed afterwards
-            if ( child.Parent == this )
+            if (child.Parent == this)
                 child.Parent = null;
         }
 
         private void DestroyChildren()
         {
-            if ( _childObjects == null ) return;
+            if (_childObjects == null)
+                return;
 
-            foreach ( GameObject child in _childObjects )
+            foreach (GameObject child in _childObjects)
             {
                 child.Destroy();
             }
         }
 
-        private void UpdateChildren( Time time )
+        private void UpdateChildren(Time time)
         {
-            Objects.Update( time );
+            Objects.Update(time);
         }
 
         /// <summary>
@@ -196,36 +198,41 @@ namespace Jypeli
         /// <returns></returns>
         public GameObject GetMainParent()
         {
-            if (this.Parent is null) return this;
-            else return ((GameObject)Parent).GetMainParent();
+            if (this.Parent is null)
+                return this;
+            else
+                return ((GameObject)Parent).GetMainParent();
         }
 
-        private void UpdateChildSizes( Vector oldSize, Vector newSize )
+        private void UpdateChildSizes(Vector oldSize, Vector newSize)
         {
-            if ( _childObjects == null ) return;
+            if (_childObjects == null)
+                return;
 
             double xFactor = newSize.X / oldSize.X;
             double yFactor = newSize.Y / oldSize.Y;
 
-            foreach ( var o in _childObjects )
+            foreach (var o in _childObjects)
             {
                 Vector oldChildSize = o.Size;
-                o.Size = new Vector( oldChildSize.X * xFactor, oldChildSize.Y * yFactor );
+                o.Size = new Vector(oldChildSize.X * xFactor, oldChildSize.Y * yFactor);
 
                 //                    Vector direction = o.Position.Normalize();
                 //                    double distance = o.Position.Magnitude;
                 Vector oldChildPosition = o.Position;
-                o.Position = new Vector( oldChildPosition.X * xFactor, oldChildPosition.Y * yFactor );
+                o.Position = new Vector(oldChildPosition.X * xFactor, oldChildPosition.Y * yFactor);
             }
         }
 
-        private bool IsInsideChildren( Vector point )
+        private bool IsInsideChildren(Vector point)
         {
-            if ( _childObjects == null ) return false;
+            if (_childObjects == null)
+                return false;
 
-            for ( int i = 0; i < _childObjects.Count; i++ )
+            for (int i = 0; i < _childObjects.Count; i++)
             {
-                if ( _childObjects[i].IsInside( point ) ) return true;
+                if (_childObjects[i].IsInside(point))
+                    return true;
             }
 
             return false;

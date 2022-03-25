@@ -341,11 +341,15 @@ namespace FarseerPhysics.Collision.Shapes
                 // OPT: Vector2.Min(ref aabb.LowerBound, ref v, out aabb.LowerBound);
                 // OPT: Vector2.Max(ref aabb.UpperBound, ref v, out aabb.UpperBound);
                 Debug.Assert(aabb.LowerBound.X <= aabb.UpperBound.X);
-                if (vX < aabb.LowerBound.X) aabb.LowerBound.X = vX;
-                else if (vX > aabb.UpperBound.X) aabb.UpperBound.X = vX;
+                if (vX < aabb.LowerBound.X)
+                    aabb.LowerBound.X = vX;
+                else if (vX > aabb.UpperBound.X)
+                    aabb.UpperBound.X = vX;
                 Debug.Assert(aabb.LowerBound.Y <= aabb.UpperBound.Y);
-                if (vY < aabb.LowerBound.Y) aabb.LowerBound.Y = vY;
-                else if (vY > aabb.UpperBound.Y) aabb.UpperBound.Y = vY;
+                if (vY < aabb.LowerBound.Y)
+                    aabb.LowerBound.Y = vY;
+                else if (vY > aabb.UpperBound.Y)
+                    aabb.UpperBound.Y = vY;
             }
 
             // OPT: Vector2 r = new Vector2(Radius, Radius);

@@ -10,7 +10,7 @@ namespace Jypeli.Tests.Physics
     public class GravityTest : TestClass
     {
         PhysicsObject obj;
-        
+
         public override void Setup()
         {
             base.Setup();

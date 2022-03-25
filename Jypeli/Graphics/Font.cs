@@ -67,7 +67,8 @@ namespace Jypeli
             set
             {
                 DoLoad();
-                if (value <= 0) throw new Exception("Fontsize must be greater than zero.");
+                if (value <= 0)
+                    throw new Exception("Fontsize must be greater than zero.");
                 size = value;
                 font = fontsystem.GetFont(Size);
                 GenerateCommonGlyphs();
@@ -129,7 +130,7 @@ namespace Jypeli
         /// </summary>
         public double CharacterWidth
         {
-            get 
+            get
             {
                 return SpriteFont.MeasureString("X").X;
             } // TODO: pitäisi todellisuudessa etsiä fontin suurin merkki ja katsoa sen mitat.
@@ -161,7 +162,7 @@ namespace Jypeli
         /// Luo uuden oletusfontin halutulla koolla.
         /// </summary>
         /// <param name="fontSize">Fontin koko. Oletusfontti on kokoa 25</param>
-        public Font(int fontSize=25) : this(defaultFont, ContentSource.ResourceContent, fontSize)
+        public Font(int fontSize = 25) : this(defaultFont, ContentSource.ResourceContent, fontSize)
         {
         }
 
@@ -194,7 +195,7 @@ namespace Jypeli
             this.size = 25;
         }
 
-        internal Font( string name, ContentSource source, int fontSize)
+        internal Font(string name, ContentSource source, int fontSize)
         {
             this.name = name;
             this.source = source;
@@ -208,7 +209,7 @@ namespace Jypeli
                 if (settings == null)
                     settings = new FontSystemSettings();
                 fontsystem = new FontSystem(settings);
-                if(source == ContentSource.GameContent)
+                if (source == ContentSource.GameContent)
                 {
                     fontsystem.AddFont(Game.Device.StreamContent(name, FontExtensions));
                 }
@@ -228,7 +229,7 @@ namespace Jypeli
         private void GenerateCommonGlyphs()
         {
             StringBuilder s = new StringBuilder();
-            for (char i =(char)32; i < 255; i++)
+            for (char i = (char)32; i < 255; i++)
             {
                 s.Append(i);
             }
@@ -297,9 +298,10 @@ namespace Jypeli
 
         private static void appendLine(StringBuilder dest, StringBuilder line)
         {
-            if ( dest.Length > 0 ) dest.Append( "\n" );
-            line.RemoveLeading( c => Char.IsWhiteSpace( c ) );
-            line.PutTo( dest );
+            if (dest.Length > 0)
+                dest.Append("\n");
+            line.RemoveLeading(c => Char.IsWhiteSpace(c));
+            line.PutTo(dest);
         }
 
         /// <summary>
@@ -308,30 +310,30 @@ namespace Jypeli
         /// <param name="text">Rivitettävä teksti.</param>
         /// <param name="softLineWidth">Leveys jonka jälkeen seuraava sana rivitetään seuraavalle riville.</param>
         /// <param name="hardLineWidth">Leveys jonka jälkeen sana katkaistaan keskeltä.</param>
-        public string WrapText( string text, double softLineWidth, double hardLineWidth )
+        public string WrapText(string text, double softLineWidth, double hardLineWidth)
         {
-            if ( softLineWidth <= 0 || hardLineWidth <= 0 )
+            if (softLineWidth <= 0 || hardLineWidth <= 0)
             {
-                throw new ArgumentException( "Width must be positive." );
+                throw new ArgumentException("Width must be positive.");
             }
 
-            StringBuilder src = new StringBuilder( text );
+            StringBuilder src = new StringBuilder(text);
             StringBuilder word = new StringBuilder();
             StringBuilder line = new StringBuilder();
             StringBuilder dest = new StringBuilder();
             double lineWidth = 0;
 
-            while ( src.Length > 0 || word.Length > 0 )
+            while (src.Length > 0 || word.Length > 0)
             {
                 if (word.Length == 0)
-                    src.TakeFirstWord( word );
+                    src.TakeFirstWord(word);
 
                 var wordWidth = MeasureSize(word.ToString()).X;
 
-                if ( lineWidth + wordWidth > softLineWidth )
+                if (lineWidth + wordWidth > softLineWidth)
                 {
-                    appendLine( dest, line );
-                    word.PutTo( line );
+                    appendLine(dest, line);
+                    word.PutTo(line);
                     lineWidth = 0;
                 }
                 else if (lineWidth + wordWidth > hardLineWidth)
@@ -343,13 +345,13 @@ namespace Jypeli
                 }
                 else
                 {
-                    word.PutTo( line );
+                    word.PutTo(line);
                     lineWidth += wordWidth;
                 }
             }
 
-            if ( line.Length > 0 )
-                appendLine( dest, line );
+            if (line.Length > 0)
+                appendLine(dest, line);
 
             return dest.ToString();
         }
@@ -362,7 +364,7 @@ namespace Jypeli
         /// <param name="maxWidth">Maksimileveys pikseleinä</param>
         /// <param name="fromRight">Oikealta vasemmalle (oletus vasemmalta oikealle)</param>
         /// <returns>Katkaisukohdan indeksi</returns>
-        private int FindWrapIndex( StringBuilder text, double maxWidth, bool fromRight )
+        private int FindWrapIndex(StringBuilder text, double maxWidth, bool fromRight)
         {
             // TODO: Font char spacing
             /*
@@ -379,7 +381,7 @@ namespace Jypeli
             }
 
             return fromRight ? -1 : text.Length;*/
-            return 5; 
+            return 5;
         }
     }
 }

@@ -52,10 +52,14 @@ namespace Jypeli
 
                 for (int i = 1; i < objects.Count; i++)
                 {
-                    if (objects[i].Top > top) top = objects[i].Top;
-                    if (objects[i].Left < left) left = objects[i].Left;
-                    if (objects[i].Bottom < bottom) bottom = objects[i].Bottom;
-                    if (objects[i].Right > right) right = objects[i].Right;
+                    if (objects[i].Top > top)
+                        top = objects[i].Top;
+                    if (objects[i].Left < left)
+                        left = objects[i].Left;
+                    if (objects[i].Bottom < bottom)
+                        bottom = objects[i].Bottom;
+                    if (objects[i].Right > right)
+                        right = objects[i].Right;
                 }
 
                 return new BoundingRectangle(new Vector(left, top), new Vector(right, bottom));
@@ -182,7 +186,7 @@ namespace Jypeli
         #endregion
 
         #region IPhysicsObject
-        
+
         double? _setMomentOfInertia = null;
         double _calcMomentOfInertia = 0;
 
@@ -215,7 +219,7 @@ namespace Jypeli
         public bool IgnoresGravity
         {
             get { return centerObject.IgnoresGravity; }
-            set 
+            set
             {
                 objects.ForEach(item => item.IgnoresGravity = value);
                 centerObject.IgnoresGravity = value;
@@ -228,7 +232,7 @@ namespace Jypeli
         public bool IgnoresCollisionResponse
         {
             get { return centerObject.IgnoresCollisionResponse; }
-            set 
+            set
             {
                 objects.ForEach(item => item.IgnoresCollisionResponse = value);
                 centerObject.IgnoresCollisionResponse = value;
@@ -241,7 +245,7 @@ namespace Jypeli
         public bool IgnoresExplosions
         {
             get { return centerObject.IgnoresExplosions; }
-            set 
+            set
             {
                 objects.ForEach(item => item.IgnoresExplosions = value);
                 centerObject.IgnoresExplosions = value;
@@ -699,7 +703,8 @@ namespace Jypeli
         /// </summary>
         protected virtual void ReallyDestroy()
         {
-            foreach (var obj in objects) obj.Destroy();
+            foreach (var obj in objects)
+                obj.Destroy();
             this.MaximumLifetime = new TimeSpan(0);
             base.Destroy();
         }

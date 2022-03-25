@@ -63,7 +63,7 @@ namespace Jypeli
         {
             get
             {
-                if ( renderTarget == null )
+                if (renderTarget == null)
                 {
                     renderTarget = Game.GraphicsDevice.CreateRenderTarget((uint)size.X, (uint)size.Y);
                     Graphics.ResetScreenSize();
@@ -144,7 +144,7 @@ namespace Jypeli
             get { return flipAndMirror /*|| _effect == SpriteEffects.FlipVertically*/; }
             set
             {
-                if ( IsMirrored )
+                if (IsMirrored)
                 {
                     /*_effect = SpriteEffects.None;*/
                     flipAndMirror = true;
@@ -165,9 +165,9 @@ namespace Jypeli
             get { return flipAndMirror /* || _effect == SpriteEffects.FlipVertically*/; }
             set
             {
-                if ( IsFlipped )
+                if (IsFlipped)
                 {
-                   // _effect = SpriteEffects.None;
+                    // _effect = SpriteEffects.None;
                     flipAndMirror = true;
                 }
                 else
@@ -183,7 +183,7 @@ namespace Jypeli
         /// </summary>
         public Angle Angle
         {
-            get { return Angle.FromRadians( -angle ); }
+            get { return Angle.FromRadians(-angle); }
             set { angle = -(float)value.Radians; }
         }
 
@@ -241,7 +241,7 @@ namespace Jypeli
         /// </summary>
         public Vector Size
         {
-            get { return new Vector( Width, Height ); }
+            get { return new Vector(Width, Height); }
             set
             {
 #if DESKTOP
@@ -259,7 +259,7 @@ namespace Jypeli
         /// </summary>
         public double ViewportWidth
         {
-			get
+            get
             {
                 return Game.Instance.Window.Size.X;
             }
@@ -289,7 +289,7 @@ namespace Jypeli
         /// </summary>
         public Vector ViewportSize
         {
-            get { return new Vector( ViewportWidth, ViewportHeight ); }
+            get { return new Vector(ViewportWidth, ViewportHeight); }
         }
 
         /// <summary>
@@ -358,10 +358,10 @@ namespace Jypeli
         /// Skaalaa näkymän mahtumaan ruudulle
         /// </summary>
 		public void ScaleToFit()
-		{
-			// TODO: Angle
-			this.Scale = new Vector( ViewportSize.X / Size.X, ViewportSize.Y / Size.Y );
-		}
+        {
+            // TODO: Angle
+            this.Scale = new Vector(ViewportSize.X / Size.X, ViewportSize.Y / Size.Y);
+        }
 
         /// <summary>
         /// Muuntaa standardeista ruutukoordinaateista Jypelin ruutukoordinaateiksi.
@@ -383,14 +383,14 @@ namespace Jypeli
         /// </summary>
         /// <param name="position">Sijainti joka muutetaan</param>
         /// <returns></returns>
-        internal static Vector ToDisplayCoords( Vector position)
+        internal static Vector ToDisplayCoords(Vector position)
         {
             var screenSize = Game.Screen.Size;
             double x = screenSize.X / 2 + position.X;
             double y = screenSize.Y / 2 - position.Y;
             return new Vector(x, y);
         }
-        
+
         // TODO: Tehdäänkö tällä enää mitään?
         /// <summary>
         /// Muuntaa matriisin Jypelin ruutukoordinaateista XNA:n ruutukoordinaatteihin.
@@ -403,7 +403,7 @@ namespace Jypeli
         {
             // Keskitetään sprite ruudulla, mutta toteutetaan alkuperäinen muunnos Jypelin koordinaateissa.
             var centralize = Matrix.CreateTranslation((screenSize - scale) / 2);
-            var toXna      = Matrix.CreateScale(1, -1, 1) * Matrix.CreateTranslation(screenSize / 2);
+            var toXna = Matrix.CreateScale(1, -1, 1) * Matrix.CreateTranslation(screenSize / 2);
             Matrix.Invert(toXna, out Matrix toJypeli);
 
             return centralize * toJypeli * matrix * toXna;
@@ -418,9 +418,9 @@ namespace Jypeli
         /// <returns></returns>
         internal Matrix GetScreenTransform()
         {
-            return Matrix.CreateScale( scale )
-                * Matrix.CreateRotationZ( angle )
-                * Matrix.CreateTranslation( -center.X, -center.Y, 0 );
+            return Matrix.CreateScale(scale)
+                * Matrix.CreateRotationZ(angle)
+                * Matrix.CreateTranslation(-center.X, -center.Y, 0);
         }
 
         /// <summary>
@@ -432,9 +432,9 @@ namespace Jypeli
         /// <returns></returns>
         internal Matrix GetScreenInverse()
         {
-            return Matrix.CreateScale( scaleInv )
-                * Matrix.CreateRotationZ( -angle )
-                * Matrix.CreateTranslation( center.X, center.Y, 0 );
+            return Matrix.CreateScale(scaleInv)
+                * Matrix.CreateRotationZ(-angle)
+                * Matrix.CreateTranslation(center.X, center.Y, 0);
         }
 
         internal void Render()

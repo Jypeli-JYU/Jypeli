@@ -14,6 +14,6 @@
         /// Päivitysfunktio
         /// </summary>
         /// <param name="time">Kulunut aika edellisestä päivityksestä</param>
-        void Update( Time time );
+        void Update(Time time);
     }
 }

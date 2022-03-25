@@ -48,27 +48,27 @@ namespace Jypeli
         /// <summary>
         /// Ei suuntaa.
         /// </summary>
-        public static Direction None = new Direction( "None", 0, 0 );
+        public static Direction None = new Direction("None", 0, 0);
 
         /// <summary>
         /// Suunta ylös.
         /// </summary>
-        public static Direction Up = new Direction( "Up", 0, 1 );
+        public static Direction Up = new Direction("Up", 0, 1);
 
         /// <summary>
         /// Suunta alas.
         /// </summary>
-        public static Direction Down = new Direction( "Down", 0, -1 );
+        public static Direction Down = new Direction("Down", 0, -1);
 
         /// <summary>
         /// Suunta vasemmalle.
         /// </summary>
-        public static Direction Left = new Direction( "Left", -1, 0 );
+        public static Direction Left = new Direction("Left", -1, 0);
 
         /// <summary>
         /// Suunta oikealle.
         /// </summary>
-        public static Direction Right = new Direction( "Right", 1, 0 );
+        public static Direction Right = new Direction("Right", 1, 0);
 
         /// <summary>
         /// Suuntaa vastaava yksikkövektori.
@@ -88,8 +88,8 @@ namespace Jypeli
         /// </summary>
         public string Name;
 
-        private Direction( string name, int x, int y )
-        {            
+        private Direction(string name, int x, int y)
+        {
             Name = name;
             Vector = new Vector(x, y);
         }
@@ -99,54 +99,59 @@ namespace Jypeli
         /// </summary>
         /// <param name="d">Suunta.</param>
         /// <returns>Vastakkainen suunta.</returns>
-        public static Direction Inverse( Direction d )
+        public static Direction Inverse(Direction d)
         {
-            if ( d == Direction.Up ) return Direction.Down;
-            if ( d == Direction.Down ) return Direction.Up;
-            if ( d == Direction.Left ) return Direction.Right;
-            if ( d == Direction.Right ) return Direction.Left;
+            if (d == Direction.Up)
+                return Direction.Down;
+            if (d == Direction.Down)
+                return Direction.Up;
+            if (d == Direction.Left)
+                return Direction.Right;
+            if (d == Direction.Right)
+                return Direction.Left;
 
             return Direction.None;
         }
 
-		/// <summary>
-		/// Palauttaa suunnan yksikkövektorina.
-		/// </summary>
-		/// <returns>Suuntaa vastaava yksikkövektori.</returns>
+        /// <summary>
+        /// Palauttaa suunnan yksikkövektorina.
+        /// </summary>
+        /// <returns>Suuntaa vastaava yksikkövektori.</returns>
         public Vector GetVector()
         {
             return Vector;
         }
 
-		/// <summary>
-		/// Serves as a hash function for a particular type.
-		/// </summary>
-		/// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a hash table.</returns>
-		public override int GetHashCode()
-		{
-			return Name.GetHashCode() ^ Vector.GetHashCode();
-		}
-
-		/// <summary>
-		/// Vertaa kahta suuntaa keskenään.
-		/// </summary>
-		/// <param name="obj">Verrattava olio</param>
-		/// <returns><c>true</c> jos sama, <c>false</c> jos eri.</returns>
-        public override bool Equals( object obj )
+        /// <summary>
+        /// Serves as a hash function for a particular type.
+        /// </summary>
+        /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a hash table.</returns>
+        public override int GetHashCode()
         {
-            if ( !( obj is Direction ) ) return false;
-            return this == ( (Direction)obj );
+            return Name.GetHashCode() ^ Vector.GetHashCode();
         }
 
-		/// <param name="left">Left.</param>
-		/// <param name="right">Right.</param>
+        /// <summary>
+        /// Vertaa kahta suuntaa keskenään.
+        /// </summary>
+        /// <param name="obj">Verrattava olio</param>
+        /// <returns><c>true</c> jos sama, <c>false</c> jos eri.</returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Direction))
+                return false;
+            return this == ((Direction)obj);
+        }
+
+        /// <param name="left">Left.</param>
+        /// <param name="right">Right.</param>
         public static bool operator ==(Direction left, Direction right)
         {
             return (left.Vector == right.Vector && left.Name == right.Name);
         }
 
-		/// <param name="left">Left.</param>
-		/// <param name="right">Right.</param>
+        /// <param name="left">Left.</param>
+        /// <param name="right">Right.</param>
         public static bool operator !=(Direction left, Direction right)
         {
             return (left.Vector != right.Vector || left.Name != right.Name);

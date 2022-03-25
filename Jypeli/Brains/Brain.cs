@@ -44,7 +44,7 @@ namespace Jypeli
         /// </summary>
         internal static readonly Brain None = new Brain();
 
-        private bool active = true;        
+        private bool active = true;
 
         /// <summary>
         /// Aivot käytössä tai pois käytöstä.
@@ -70,11 +70,14 @@ namespace Jypeli
             get { return _owner; }
             set
             {
-                if ( _owner == value ) return;
+                if (_owner == value)
+                    return;
                 IGameObject prevOwner = _owner;
                 _owner = value;
-                if ( prevOwner != null ) OnRemove( prevOwner );
-                if ( value != null ) OnAdd( value );
+                if (prevOwner != null)
+                    OnRemove(prevOwner);
+                if (value != null)
+                    OnAdd(value);
             }
         }
 
@@ -83,12 +86,13 @@ namespace Jypeli
             OnAddToGame();
         }
 
-        internal void DoUpdate( Time time )
+        internal void DoUpdate(Time time)
         {
-            if ( Active )
+            if (Active)
             {
-                Update( time );
-                if ( Updated != null ) Updated( this );
+                Update(time);
+                if (Updated != null)
+                    Updated(this);
             }
         }
 
@@ -96,8 +100,8 @@ namespace Jypeli
         /// Kutsutaan, kun aivot lisätään oliolle.
         /// </summary>
         /// <param name="newOwner">Olio, jolle aivot lisättiin.</param>
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        protected virtual void OnAdd( IGameObject newOwner )
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected virtual void OnAdd(IGameObject newOwner)
         {
         }
 
@@ -105,8 +109,8 @@ namespace Jypeli
         /// Kutsutaan, kun aivot poistetaan oliolta.
         /// </summary>
         /// <param name="prevOwner">Olio, jolta aivot poistettiin.</param>
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        protected virtual void OnRemove( IGameObject prevOwner )
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected virtual void OnRemove(IGameObject prevOwner)
         {
         }
 
@@ -114,7 +118,7 @@ namespace Jypeli
         /// Kutsutaan, kun aivojen omistaja lisätään peliin tai omistajaksi
         /// asetetaan olio, joka on jo lisätty peliin.
         /// </summary>
-        [EditorBrowsable( EditorBrowsableState.Never )]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         protected virtual void OnAddToGame() { }
 
         /// <summary>
@@ -124,8 +128,8 @@ namespace Jypeli
         /// kantaluokan methodia.
         /// </summary>
         /// <param name="time">Päivityksen ajanhetki.</param>
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        protected virtual void Update( Time time ) { }
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected virtual void Update(Time time) { }
 
         /// <summary>
         /// Kutsutaan, kun tapahtuu törmäys.
@@ -133,8 +137,8 @@ namespace Jypeli
         /// kantaluokan methodia.
         /// </summary>
         /// <param name="target">Olio, johon törmätään.</param>
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        public virtual void OnCollision( IGameObject target )
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public virtual void OnCollision(IGameObject target)
         {
         }
     }

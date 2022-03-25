@@ -30,12 +30,13 @@ namespace Jypeli
         public override Vector Position
         {
             get { return Body.Position; }
-            set 
+            set
             {
                 Vector diff = value - Position;
                 Body.Position = value;
 
-                Objects?.ForEach(o => {
+                Objects?.ForEach(o =>
+                {
                     o.Position += diff;
                 });
 
@@ -52,13 +53,14 @@ namespace Jypeli
         public override Angle Angle
         {
             get { return Angle.FromRadians(Body.Angle); }
-            set 
+            set
             {
                 UpdateChildrenPos();
                 Angle diff = value - Angle;
                 Body.Angle = value.Radians;
 
-                Objects?.ForEach(o => {
+                Objects?.ForEach(o =>
+                {
                     o.Angle += diff;
                     Vector vdiff = o.Position - Position;
                     o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, diff + vdiff.Angle);
@@ -79,13 +81,13 @@ namespace Jypeli
         public override Vector Size
         {
             get { return Body.Size; }
-            set 
+            set
             {
                 if (IsDestroyed)
                     throw new InvalidOperationException("Object is already destroyed");
                 if (value.X < 0 || value.Y < 0)
                     throw new ArgumentException("The size must be positive!");
-                if(IsAddedToGame)
+                if (IsAddedToGame)
                     Body.Size = value;
                 /*if (Parent != null) // TODO: tästä tulee stackoverflow
                     Body.RegenerateConnectedFixtures();*/
@@ -96,7 +98,7 @@ namespace Jypeli
         public override Shape Shape
         {
             get { return Body.Shape; }
-            set 
+            set
             {
                 if (IsDestroyed)
                     throw new InvalidOperationException("Object is already destroyed");

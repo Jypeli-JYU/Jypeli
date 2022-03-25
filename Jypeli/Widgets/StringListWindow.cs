@@ -50,8 +50,8 @@ namespace Jypeli
         /// Merkkijonolistaikkuna
         /// </summary>
         /// <param name="question">Viesti tai kysymys</param>
-        public StringListWindow( string question )
-            : base( question )
+        public StringListWindow(string question)
+            : base(question)
         {
             AddedToGame += AddControls;
         }
@@ -62,8 +62,8 @@ namespace Jypeli
         /// <param name="width">Ikkunan leveys</param>
         /// <param name="height">Ikkunan korkeus</param>
         /// <param name="question">Viesti tai kysymys</param>
-        public StringListWindow( double width, double height, string question )
-            : base( width, height, question )
+        public StringListWindow(double width, double height, string question)
+            : base(width, height, question)
         {
             AddedToGame += AddControls;
         }
@@ -76,7 +76,7 @@ namespace Jypeli
 
         void AddControls()
         {
-            var l = Jypeli.Game.Instance.PhoneBackButton.Listen( Close, null ).InContext( this );
+            var l = Jypeli.Game.Instance.PhoneBackButton.Listen(Close, null).InContext(this);
             associatedListeners.Add(l);
         }
     }

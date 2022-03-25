@@ -77,7 +77,7 @@ namespace Jypeli.Effects
         {
             base.InitializeParticle(p, position);
             if (!IgnoreWind)
-            p.Acceleration = Game.Wind;
+                p.Acceleration = Game.Wind;
         }
     }
 }

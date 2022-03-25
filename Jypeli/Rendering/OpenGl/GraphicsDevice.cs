@@ -256,7 +256,7 @@ namespace Jypeli.Rendering.OpenGl
         /// <inheritdoc/>
         public void GetScreenContents(void* ptr)
         {
-            if(SelectedRendertarget == null)
+            if (SelectedRendertarget == null)
                 Gl.ReadPixels(0, 0, (uint)Game.Screen.Width, (uint)Game.Screen.Height, GLEnum.Rgba, GLEnum.UnsignedByte, ptr);
             else
                 Gl.ReadPixels(0, 0, (uint)SelectedRendertarget.Width, (uint)SelectedRendertarget.Height, GLEnum.Rgba, GLEnum.UnsignedByte, ptr);
@@ -266,7 +266,7 @@ namespace Jypeli.Rendering.OpenGl
         public void GetScreenContentsToImage(Image img)
         {
             img.image.TryGetSinglePixelSpan(out Span<Rgba32> ptr);
-            fixed(void* p = ptr)
+            fixed (void* p = ptr)
                 GetScreenContents(p);
         }
 

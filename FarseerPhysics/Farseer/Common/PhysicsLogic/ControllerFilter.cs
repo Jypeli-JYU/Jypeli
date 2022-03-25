@@ -12,7 +12,7 @@ namespace FarseerPhysics.Common.PhysicsLogic
     [Flags]
     public enum ControllerCategory
     {
-        None  = 0x00000000,
+        None = 0x00000000,
         Cat01 = 0x00000001,
         Cat02 = 0x00000002,
         Cat03 = 0x00000004,
@@ -50,7 +50,7 @@ namespace FarseerPhysics.Common.PhysicsLogic
     public struct ControllerFilter
     {
         public ControllerCategory ControllerCategories;
-        
+
         public ControllerFilter(ControllerCategory controllerCategory)
         {
             this.ControllerCategories = controllerCategory;
@@ -70,7 +70,7 @@ namespace FarseerPhysics.Common.PhysicsLogic
         /// </summary>
         /// <param name="category">The logic type.</param>
         public void RestoreController(ControllerCategory category)
-        {   
+        {
             ControllerCategories |= category;
         }
 

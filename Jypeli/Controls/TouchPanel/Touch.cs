@@ -58,7 +58,7 @@ namespace Jypeli
         public Vector PositionOnScreen
         {
             get { return _position; }
-            set 
+            set
             {
                 _previousPosition = _position;
                 _position = value;
@@ -73,7 +73,7 @@ namespace Jypeli
         {
             get
             {
-                return Game.Instance.Camera.ScreenToWorld( PositionOnScreen );
+                return Game.Instance.Camera.ScreenToWorld(PositionOnScreen);
             }
         }
 
@@ -95,7 +95,7 @@ namespace Jypeli
         {
             get
             {
-                return Game.Instance.Camera.ScreenToWorld( PrevPositionOnScreen );
+                return Game.Instance.Camera.ScreenToWorld(PrevPositionOnScreen);
             }
         }
 
@@ -130,7 +130,7 @@ namespace Jypeli
             this._position = this._previousPosition = location.Position;
         }*/
 
-        internal Touch( Vector position, Vector movement )
+        internal Touch(Vector position, Vector movement)
         {
             this._position = position;
             this._movement = movement;

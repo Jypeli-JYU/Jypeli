@@ -89,7 +89,7 @@ namespace Jypeli
             set
             {
                 imageReleased = value;
-                if ( !isPressed && !Game.Mouse.IsCursorOn( this ) )
+                if (!isPressed && !Game.Mouse.IsCursorOn(this))
                     Image = value;
             }
         }
@@ -103,7 +103,7 @@ namespace Jypeli
             set
             {
                 imagePressed = value;
-                if ( isPressed )
+                if (isPressed)
                     Image = value;
             }
         }
@@ -117,7 +117,7 @@ namespace Jypeli
             set
             {
                 imageHover = value;
-                if ( !isPressed && Game.Mouse.IsCursorOn( this ) )
+                if (!isPressed && Game.Mouse.IsCursorOn(this))
                     Image = value;
             }
         }
@@ -214,24 +214,24 @@ namespace Jypeli
         /// </summary>
         public event Action RightClicked;
 
-        private void TouchHover( Touch touch )
+        private void TouchHover(Touch touch)
         {
             double touchX = touch.PositionOnScreen.X;
             double touchY = touch.PositionOnScreen.Y;
 
-            if ( touchX >= Left && touchX <= Right && touchY >= Bottom && touchY <= Top )
-                SetState( State.Hover );
-            else if ( Game.TouchPanel.NumTouches == 1 )
-                SetState( State.Released );
+            if (touchX >= Left && touchX <= Right && touchY >= Bottom && touchY <= Top)
+                SetState(State.Hover);
+            else if (Game.TouchPanel.NumTouches == 1)
+                SetState(State.Released);
         }
 
-        private void TouchRelease( Touch touch )
+        private void TouchRelease(Touch touch)
         {
-            if ( Game.TouchPanel.NumTouches <= 1 )
-                SetState( State.Released );
+            if (Game.TouchPanel.NumTouches <= 1)
+                SetState(State.Released);
         }
 
-        private void TouchClick( Touch touch )
+        private void TouchClick(Touch touch)
         {
             Click();
         }
@@ -240,8 +240,8 @@ namespace Jypeli
         /// Luo uuden painonapin.
         /// </summary>
         /// <param name="text">Napin teksti.</param>
-        public PushButton( string text )
-            : base( text )
+        public PushButton(string text)
+            : base(text)
         {
             Initialize();
         }
@@ -250,8 +250,8 @@ namespace Jypeli
         /// Luo uuden painonapin.
         /// </summary>
         /// <param name="image">Napin kuva.</param>
-        public PushButton( Image image )
-            : base( image )
+        public PushButton(Image image)
+            : base(image)
         {
             Initialize();
             this.Image = image;
@@ -262,8 +262,8 @@ namespace Jypeli
         /// </summary>
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
-        public PushButton( double width, double height )
-            : base( width, height )
+        public PushButton(double width, double height)
+            : base(width, height)
         {
             Initialize();
         }
@@ -290,8 +290,8 @@ namespace Jypeli
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
         /// <param name="image">Kuva.</param>
-        public PushButton( double width, double height, Image image )
-            : this( width, height )
+        public PushButton(double width, double height, Image image)
+            : this(width, height)
         {
             this.Image = image;
         }
@@ -302,8 +302,8 @@ namespace Jypeli
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
         /// <param name="text">Teksti.</param>
-        public PushButton( double width, double height, string text )
-            : base( width, height, text )
+        public PushButton(double width, double height, string text)
+            : base(width, height, text)
         {
             Initialize();
         }
@@ -335,64 +335,64 @@ namespace Jypeli
             double relativeHorizontalSize = edgeSize / Width;
             double relativeVerticalSize = edgeSize / Height;
 
-            Vector topLeftOuter = new Vector( -0.5, 0.5 );
-            Vector topLeftInner = new Vector( -0.5 + relativeHorizontalSize, 0.5 - relativeVerticalSize );
-            Vector bottomLeftOuter = new Vector( -0.5, -0.5 );
-            Vector bottomLeftInner = new Vector( -0.5 + relativeHorizontalSize, -0.5 + relativeVerticalSize );
-            Vector topRightOuter = new Vector( 0.5, 0.5 );
-            Vector topRightInner = new Vector( 0.5 - relativeHorizontalSize, 0.5 - relativeVerticalSize );
-            Vector bottomRightOuter = new Vector( 0.5, -0.5 );
-            Vector bottomRightInner = new Vector( 0.5 - relativeHorizontalSize, -0.5 + relativeVerticalSize );
+            Vector topLeftOuter = new Vector(-0.5, 0.5);
+            Vector topLeftInner = new Vector(-0.5 + relativeHorizontalSize, 0.5 - relativeVerticalSize);
+            Vector bottomLeftOuter = new Vector(-0.5, -0.5);
+            Vector bottomLeftInner = new Vector(-0.5 + relativeHorizontalSize, -0.5 + relativeVerticalSize);
+            Vector topRightOuter = new Vector(0.5, 0.5);
+            Vector topRightInner = new Vector(0.5 - relativeHorizontalSize, 0.5 - relativeVerticalSize);
+            Vector bottomRightOuter = new Vector(0.5, -0.5);
+            Vector bottomRightInner = new Vector(0.5 - relativeHorizontalSize, -0.5 + relativeVerticalSize);
 
-            IndexTriangle[] triangles = { new IndexTriangle( 0, 1, 2 ), new IndexTriangle( 1, 3, 2 ), };
+            IndexTriangle[] triangles = { new IndexTriangle(0, 1, 2), new IndexTriangle(1, 3, 2), };
 
             Vector[] leftSideVertices = { topLeftOuter, topLeftInner, bottomLeftOuter, bottomLeftInner, };
             Vector[] topSideVertices = { topLeftOuter, topRightOuter, topLeftInner, topRightInner, };
             Vector[] rightSideVertices = { topRightOuter, bottomRightOuter, topRightInner, bottomRightInner, };
             Vector[] bottomSideVertices = { bottomRightOuter, bottomLeftOuter, bottomRightInner, bottomLeftInner, };
 
-            leftSideShape = new ShapeCache( leftSideVertices, triangles );
-            topSideShape = new ShapeCache( topSideVertices, triangles );
-            RightSideShape = new ShapeCache( rightSideVertices, triangles );
-            BottomSideShape = new ShapeCache( bottomSideVertices, triangles );
+            leftSideShape = new ShapeCache(leftSideVertices, triangles);
+            topSideShape = new ShapeCache(topSideVertices, triangles);
+            RightSideShape = new ShapeCache(rightSideVertices, triangles);
+            BottomSideShape = new ShapeCache(bottomSideVertices, triangles);
 
             const double scale = 1.4;
 
-            topLeftOuter = new Vector( -0.5, 0.5 );
-            topLeftInner = new Vector( -0.5 + relativeHorizontalSize / scale, 0.5 - relativeVerticalSize / scale );
-            bottomLeftOuter = new Vector( -0.5, -0.5 );
-            bottomLeftInner = new Vector( -0.5 + relativeHorizontalSize / scale, -0.5 + relativeVerticalSize * scale );
-            topRightOuter = new Vector( 0.5, 0.5 );
-            topRightInner = new Vector( 0.5 - relativeHorizontalSize * scale, 0.5 - relativeVerticalSize / scale );
-            bottomRightOuter = new Vector( 0.5, -0.5 );
-            bottomRightInner = new Vector( 0.5 - relativeHorizontalSize * scale, -0.5 + relativeVerticalSize * scale );
+            topLeftOuter = new Vector(-0.5, 0.5);
+            topLeftInner = new Vector(-0.5 + relativeHorizontalSize / scale, 0.5 - relativeVerticalSize / scale);
+            bottomLeftOuter = new Vector(-0.5, -0.5);
+            bottomLeftInner = new Vector(-0.5 + relativeHorizontalSize / scale, -0.5 + relativeVerticalSize * scale);
+            topRightOuter = new Vector(0.5, 0.5);
+            topRightInner = new Vector(0.5 - relativeHorizontalSize * scale, 0.5 - relativeVerticalSize / scale);
+            bottomRightOuter = new Vector(0.5, -0.5);
+            bottomRightInner = new Vector(0.5 - relativeHorizontalSize * scale, -0.5 + relativeVerticalSize * scale);
 
             Vector[] leftSidePressedVertices = { topLeftOuter, topLeftInner, bottomLeftOuter, bottomLeftInner, };
             Vector[] topSidePressedVertices = { topLeftOuter, topRightOuter, topLeftInner, topRightInner, };
             Vector[] rightSidePressedVertices = { topRightOuter, bottomRightOuter, topRightInner, bottomRightInner, };
             Vector[] bottomSidePressedVertices = { bottomRightOuter, bottomLeftOuter, bottomRightInner, bottomLeftInner, };
 
-            leftSidePressedShape = new ShapeCache( leftSidePressedVertices, triangles );
-            topSidePressedShape = new ShapeCache( topSidePressedVertices, triangles );
-            RightSidePressedShape = new ShapeCache( rightSidePressedVertices, triangles );
-            BottomSidePressedShape = new ShapeCache( bottomSidePressedVertices, triangles );
+            leftSidePressedShape = new ShapeCache(leftSidePressedVertices, triangles);
+            topSidePressedShape = new ShapeCache(topSidePressedVertices, triangles);
+            RightSidePressedShape = new ShapeCache(rightSidePressedVertices, triangles);
+            BottomSidePressedShape = new ShapeCache(bottomSidePressedVertices, triangles);
         }
 
-        internal void SetState( State state )
+        internal void SetState(State state)
         {
             this.state = state;
 
-            switch ( state )
+            switch (state)
             {
                 case State.Hover:
                     base.Color = hoverColor;
-                    if ( ImageHover != null )
+                    if (ImageHover != null)
                         Image = ImageHover;
                     break;
                 case State.RightPressed:
                 case State.LeftPressed:
                     base.Color = pressedColor;
-                    if ( ImagePressed != null )
+                    if (ImagePressed != null)
                         ImagePressed = ImagePressed;
                     break;
                 case State.Selected:
@@ -400,7 +400,7 @@ namespace Jypeli
                     break;
                 default:
                     base.Color = releasedColor;
-                    if ( ImageReleased != null )
+                    if (ImageReleased != null)
                         Image = ImageReleased;
                     break;
             }
@@ -411,7 +411,7 @@ namespace Jypeli
         /// </summary>
         public void Click()
         {
-            if ( Clicked != null )
+            if (Clicked != null)
                 Clicked();
         }
 
@@ -420,7 +420,7 @@ namespace Jypeli
         /// </summary>
         public void RightClick()
         {
-            if ( RightClicked != null )
+            if (RightClicked != null)
                 RightClicked();
         }
 
@@ -428,7 +428,7 @@ namespace Jypeli
         /// Lisää pikanäppäimen napille.
         /// </summary>
         /// <param name="key">Näppäin</param>
-        public Listener AddShortcut( Key key )
+        public Listener AddShortcut(Key key)
         {
             return Jypeli.Game.Instance.Keyboard.Listen(key, ButtonState.Pressed, Click, null).InContext(this);
         }
@@ -437,7 +437,7 @@ namespace Jypeli
         /// Lisää pikanäppäimen kaikille ohjaimille.
         /// </summary>
         /// <param name="button">Näppäin</param>
-        public List<Listener> AddShortcut( Button button )
+        public List<Listener> AddShortcut(Button button)
         {
             var listeners = new List<Listener>(Game.GameControllers.Count);
             Game.Instance.GameControllers.ForEach(c => listeners.Add(AddShortcut(c, button)));
@@ -449,9 +449,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="player">Peliohjaimen indeksi 0-3</param>
         /// <param name="button">Näppäin</param>
-        public Listener AddShortcut( int player, Button button )
+        public Listener AddShortcut(int player, Button button)
         {
-            return AddShortcut( Game.Instance.GameControllers[player], button );
+            return AddShortcut(Game.Instance.GameControllers[player], button);
         }
 
         /// <summary>
@@ -459,7 +459,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="controller">Peliohjain</param>
         /// <param name="button">Näppäin</param>
-        public Listener AddShortcut( GamePad controller, Button button )
+        public Listener AddShortcut(GamePad controller, Button button)
         {
             return controller.Listen(button, ButtonState.Pressed, Click, null).InContext(this);
         }
@@ -469,45 +469,48 @@ namespace Jypeli
             bool wasLeft = state == State.LeftPressed;
             bool wasRight = state == State.RightPressed;
 
-            if ( Game.Mouse.IsCursorOn( this ) )
+            if (Game.Mouse.IsCursorOn(this))
             {
-                SetState( State.Hover );
+                SetState(State.Hover);
             }
             else
             {
-                SetState( State.Released );
+                SetState(State.Released);
                 return;
             }
 
-            if ( wasLeft ) Click();
-            else if ( wasRight ) RightClick();
+            if (wasLeft)
+                Click();
+            else if (wasRight)
+                RightClick();
         }
 
         private void CheckHover()
         {
-            if ( isPressed || state == State.Selected) return; // Ehkä voisi olla jonkinlainen lisäkorostus jos hiiri on päällä ja nappula on valittuna samanaikaisesti...
+            if (isPressed || state == State.Selected)
+                return; // Ehkä voisi olla jonkinlainen lisäkorostus jos hiiri on päällä ja nappula on valittuna samanaikaisesti...
             SetState(Game.Mouse.IsCursorOn(this) ? State.Hover : State.Released);
         }
 
         /// <inheritdoc/>
-        public override void Draw( Matrix parentTransformation, Matrix transformation )
+        public override void Draw(Matrix parentTransformation, Matrix transformation)
         {
-            base.Draw( parentTransformation, transformation );
+            base.Draw(parentTransformation, transformation);
 
-            if ( Image == null )
+            if (Image == null)
             {
-                Color color1 = Color.Lighter( Color, 20 );
-                Color color2 = Color.Darker( Color, 20 );
+                Color color1 = Color.Lighter(Color, 20);
+                Color color2 = Color.Darker(Color, 20);
 
                 ShapeCache left = leftSideShape;
                 ShapeCache top = topSideShape;
                 ShapeCache right = RightSideShape;
                 ShapeCache bottom = BottomSideShape;
 
-                if ( isPressed )
+                if (isPressed)
                 {
-                    color1 = Color.Darker( Color, 20 );
-                    color2 = Color.Lighter( Color, 20 );
+                    color1 = Color.Darker(Color, 20);
+                    color2 = Color.Lighter(Color, 20);
                     left = leftSidePressedShape;
                     top = topSidePressedShape;
                     right = RightSidePressedShape;

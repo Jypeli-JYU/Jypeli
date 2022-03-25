@@ -211,7 +211,7 @@ namespace Jypeli
 
         public void UpdateTouches()
         {
-            if(touch != null)
+            if (touch != null)
             {
                 touch.PositionOnScreen = mouse.Position;
                 DownListeners.ForEach(dl => dl.CheckAndInvoke(touch));
@@ -224,7 +224,7 @@ namespace Jypeli
                 prevTouch = touch;
             }
 
-            if(touch == null && prevTouch != null)
+            if (touch == null && prevTouch != null)
             {
                 // Released touch
                 ReleaseListeners.ForEach(dl => dl.CheckAndInvoke(prevTouch));

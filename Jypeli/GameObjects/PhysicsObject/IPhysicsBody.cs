@@ -14,15 +14,15 @@ namespace Jypeli.Physics
         Vector Size { get; set; }
         Shape Shape { get; set; }
         List<List<Vector2>> Vertices { get; }
-        
+
         double Mass { get; set; }
         double MassInv { get; set; }
         double MomentOfInertia { get; set; }
-        
+
         double Restitution { get; set; }
         double StaticFriction { get; set; }
         double KineticFriction { get; set; }
-        
+
         Vector Position { get; set; }
         Vector Velocity { get; set; }
         Vector Acceleration { get; set; }
@@ -43,15 +43,15 @@ namespace Jypeli.Physics
         void MakeOneWay();
         void MakeOneWay(Vector direction);
 
-        void ApplyForce( Vector force );
-        void ApplyImpulse( Vector impulse );
-        void ApplyTorque( double torque );
+        void ApplyForce(Vector force);
+        void ApplyImpulse(Vector impulse);
+        void ApplyTorque(double torque);
 
         void Stop();
-        void StopAxial( Vector axis );
+        void StopAxial(Vector axis);
         void StopAngular();
 
-        void SetCollisionIgnorer( Ignorer ignorer );
+        void SetCollisionIgnorer(Ignorer ignorer);
 
         event CollisionHandler<IPhysicsBody, IPhysicsBody> Collided;
         event AdvancedCollisionHandler<IPhysicsBody, IPhysicsBody> Colliding;

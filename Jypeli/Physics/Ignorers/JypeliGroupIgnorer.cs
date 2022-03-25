@@ -44,58 +44,59 @@ namespace Jypeli
             get { return true; }
         }
 
-        public override bool CanCollide( IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other )
+        public override bool CanCollide(IPhysicsBody thisBody, IPhysicsBody otherBody, Ignorer other)
         {
             JypeliGroupIgnorer jOther = other as JypeliGroupIgnorer;
-            if ( jOther == null ) return true;
+            if (jOther == null)
+                return true;
 
-            return ( this.LegacyGroup == 0 || jOther.LegacyGroup == 0 || this.LegacyGroup != jOther.LegacyGroup ) && ( this.IgnoreMask & jOther.IgnoreMask ) == 0;
+            return (this.LegacyGroup == 0 || jOther.LegacyGroup == 0 || this.LegacyGroup != jOther.LegacyGroup) && (this.IgnoreMask & jOther.IgnoreMask) == 0;
         }
 
         public JypeliGroupIgnorer()
         {
         }
 
-        public JypeliGroupIgnorer( params int[] groups )
+        public JypeliGroupIgnorer(params int[] groups)
         {
-            for ( int i = 0; i < groups.Length; i++ )
-                AddGroup( groups[i] );
+            for (int i = 0; i < groups.Length; i++)
+                AddGroup(groups[i]);
         }
 
-        public void AddGroup( int groupIndex )
+        public void AddGroup(int groupIndex)
         {
-            if ( groupIndex > 32 )
-                throw new ArgumentException( "A maximum of 32 groups is supported." );
+            if (groupIndex > 32)
+                throw new ArgumentException("A maximum of 32 groups is supported.");
 
-            if ( groupIndex <= 0 )
-                throw new ArgumentException( "Collision group indexes start from 1." );
+            if (groupIndex <= 0)
+                throw new ArgumentException("Collision group indexes start from 1.");
 
-            IgnoreMask |= ( 1 << ( groupIndex - 1 ) );
+            IgnoreMask |= (1 << (groupIndex - 1));
         }
 
-        public void RemoveGroup( int groupIndex )
+        public void RemoveGroup(int groupIndex)
         {
-            if ( groupIndex > 32 )
-                throw new ArgumentException( "A maximum of 32 groups is supported." );
+            if (groupIndex > 32)
+                throw new ArgumentException("A maximum of 32 groups is supported.");
 
-            if ( groupIndex <= 0 )
-                throw new ArgumentException( "Collision group indexes start from 1." );
+            if (groupIndex <= 0)
+                throw new ArgumentException("Collision group indexes start from 1.");
 
-            IgnoreMask &= (int)( uint.MaxValue - ( 1 << ( groupIndex - 1 ) ) );
+            IgnoreMask &= (int)(uint.MaxValue - (1 << (groupIndex - 1)));
         }
 
-        public bool TestGroupIgnore( int groupIndex )
+        public bool TestGroupIgnore(int groupIndex)
         {
-            if ( LegacyGroup != 0 && LegacyGroup == groupIndex )
+            if (LegacyGroup != 0 && LegacyGroup == groupIndex)
                 return true;
 
-            if ( groupIndex > 32 )
-                throw new ArgumentException( "A maximum of 32 groups is supported." );
+            if (groupIndex > 32)
+                throw new ArgumentException("A maximum of 32 groups is supported.");
 
-            if ( groupIndex <= 0 )
-                throw new ArgumentException( "Collision group indexes start from 1." );
+            if (groupIndex <= 0)
+                throw new ArgumentException("Collision group indexes start from 1.");
 
-            return ( this.IgnoreMask & ( 1 << ( groupIndex - 1 ) ) ) != 0;
+            return (this.IgnoreMask & (1 << (groupIndex - 1))) != 0;
         }
     }
 }

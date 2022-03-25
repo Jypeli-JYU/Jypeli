@@ -21,6 +21,6 @@ namespace FarseerPhysics.Common.PhysicsLogic
 
             return base.IsActiveOn(body);
         }
-        
+
     }
 }

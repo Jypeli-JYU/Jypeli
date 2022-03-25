@@ -395,7 +395,7 @@ namespace FarseerPhysics.Dynamics.Joints
                     Vector2 impulse2 = -K.Solve22(C1);
                     impulse = new Vector3(impulse2.X, impulse2.Y, 0.0f);
                 }
-                else 
+                else
                 {
                     impulse = -K.Solve33(C);
                 }

@@ -19,18 +19,22 @@ namespace Jypeli.Controls
         {
             get
             {
-                if ( destroyed ) return false;
-                if ( Parent != null && !Parent.Active ) return false;
+                if (destroyed)
+                    return false;
+                if (Parent != null && !Parent.Active)
+                    return false;
                 return _active;
             }
 
             set
             {
-                if ( value != _active )
+                if (value != _active)
                 {
                     _active = value;
-                    if ( value && Activated != null ) Activated();
-                    if ( !value && Deactivated != null ) Deactivated();
+                    if (value && Activated != null)
+                        Activated();
+                    if (!value && Deactivated != null)
+                        Deactivated();
                 }
             }
         }
@@ -46,8 +50,9 @@ namespace Jypeli.Controls
         {
             get
             {
-                if ( dynamicParent && parentObject == null ) return null;
-                return ( dynamicParent ? parentObject.ControlContext : parentContext );
+                if (dynamicParent && parentObject == null)
+                    return null;
+                return (dynamicParent ? parentObject.ControlContext : parentContext);
             }
         }
 
@@ -70,12 +75,12 @@ namespace Jypeli.Controls
         {
         }
 
-        private ListenContext( ListenContext parent )
+        private ListenContext(ListenContext parent)
         {
             this.parentContext = parent;
         }
 
-        private ListenContext( ControlContexted parentObj )
+        private ListenContext(ControlContexted parentObj)
         {
             this.dynamicParent = true;
             this.parentObject = parentObj;
@@ -87,18 +92,20 @@ namespace Jypeli.Controls
         /// <returns></returns>
         public ListenContext CreateSubcontext()
         {
-            return new ListenContext( this );
+            return new ListenContext(this);
         }
 
         internal void SaveFocus()
         {
-            if ( savedStates == null ) savedStates = new Stack<bool>();
-            savedStates.Push( Active );
+            if (savedStates == null)
+                savedStates = new Stack<bool>();
+            savedStates.Push(Active);
         }
 
         internal void RestoreFocus()
         {
-            if ( savedStates == null || savedStates.Count == 0 ) return;
+            if (savedStates == null || savedStates.Count == 0)
+                return;
             Active = savedStates.Pop();
         }
 
@@ -136,7 +143,8 @@ namespace Jypeli.Controls
         {
             destroyed = true;
             savedStates = null;
-            if ( Destroyed != null ) Destroyed();
+            if (Destroyed != null)
+                Destroyed();
         }
 
         #endregion

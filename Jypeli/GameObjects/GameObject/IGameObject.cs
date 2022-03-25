@@ -24,7 +24,7 @@ namespace Jypeli
         TimeSpan CreationTime { get; }
         TimeSpan Lifetime { get; }
         TimeSpan MaximumLifetime { get; set; }
-        
+
         Angle Angle { get; set; }
 
         Vector RelativePositionToMainParent { get; set; }
@@ -35,7 +35,7 @@ namespace Jypeli
         Vector UnitY { get; }
         Vector RelativeUnitX { get; }
         Vector RelativeUnitY { get; }
-        
+
         Animation Animation { get; set; }
         Image Image { get; set; }
         Color Color { get; set; }
@@ -48,17 +48,17 @@ namespace Jypeli
         event Action AddedToGame;
         event Action Removed;
 
-        bool IsInside( Vector point );
+        bool IsInside(Vector point);
 
-        void Add( IGameObject childObject );
-        void Remove( IGameObject childObject );
+        void Add(IGameObject childObject);
+        void Remove(IGameObject childObject);
 
-        void Move( Vector movement );
-        void MoveTo( Vector location, double speed, Action doWhenArrived );
+        void Move(Vector movement);
+        void MoveTo(Vector location, double speed, Action doWhenArrived);
         void StopMoveTo();
 
         IEnumerable<T> GetChildObjects<T>() where T : IGameObject;
-        IEnumerable<T> GetChildObjects<T>( Predicate<T> predicate ) where T : IGameObject;
+        IEnumerable<T> GetChildObjects<T>(Predicate<T> predicate) where T : IGameObject;
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 

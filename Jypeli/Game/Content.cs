@@ -107,7 +107,8 @@ namespace Jypeli
         /// <returns>Kuvataulukko</returns>
         public static Image[] LoadImages(string baseName, int startIndex, int endIndex, bool zeroPad = false)
         {
-            if (startIndex > endIndex) throw new ArgumentException("Starting index must be smaller than ending index.");
+            if (startIndex > endIndex)
+                throw new ArgumentException("Starting index must be smaller than ending index.");
 
             Image[] result = new Image[endIndex - startIndex];
             string format;

@@ -223,7 +223,8 @@ public class Koripallo : PhysicsGame
             while (true)
             {
                 korinSuunta = RandomGen.NextInt(-1, 2);
-                if (korinSuunta != 0) break;
+                if (korinSuunta != 0)
+                    break;
             }
             korinSuunta = korinSuunta * kentanNro;
             liikkuvuusAjastin.Start();

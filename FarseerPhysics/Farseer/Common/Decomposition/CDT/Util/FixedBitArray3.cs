@@ -121,7 +121,8 @@ namespace FarseerPhysics.Common.Decomposition.CDT.Util
 
         private IEnumerable<bool> Enumerate()
         {
-            for (int i = 0; i < 3; ++i) yield return this[i];
+            for (int i = 0; i < 3; ++i)
+                yield return this[i];
         }
     }
 }

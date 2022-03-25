@@ -9,12 +9,12 @@
         /// Lisää peliolion.
         /// </summary>
         /// <param name="obj">Olio</param>
-        void Add( IGameObject obj );
+        void Add(IGameObject obj);
 
         /// <summary>
         /// Poistaa peliolion tuhoamatta sitä.
         /// </summary>
         /// <param name="obj">Olio</param>
-        void Remove( IGameObject obj );
+        void Remove(IGameObject obj);
     }
 }

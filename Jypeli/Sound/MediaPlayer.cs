@@ -80,7 +80,8 @@ namespace Jypeli
         /// <param name="songName">Kappaleen nimi.</param>
         public void Play(string songName)
         {
-            if (!CanPlay) return;
+            if (!CanPlay)
+                return;
             if (sound != null)
             {
                 sound.Stop();
@@ -96,7 +97,8 @@ namespace Jypeli
         /// </summary>
         public void Pause()
         {
-            if (!CanPlay || sound == null) return;
+            if (!CanPlay || sound == null)
+                return;
             sound.Pause();
         }
 
@@ -105,7 +107,8 @@ namespace Jypeli
         /// </summary>
         public void Resume()
         {
-            if (!CanPlay || sound == null) return;
+            if (!CanPlay || sound == null)
+                return;
             sound.Resume();
         }
 
@@ -114,7 +117,8 @@ namespace Jypeli
         /// </summary>
         public void Stop()
         {
-            if (!CanPlay || sound == null) return;
+            if (!CanPlay || sound == null)
+                return;
             sound.Stop();
         }
     }

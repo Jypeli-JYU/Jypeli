@@ -150,7 +150,7 @@ public class Marswagen : PhysicsGame
         voimaPalkki.BorderColor = Color.Black;
         voimaPalkki.Color = Color.Black;
         voimaPalkki.BarColor = Color.Green;
-        
+
         Add(voimaPalkki);
     }
 
@@ -318,7 +318,8 @@ public class Marswagen : PhysicsGame
 
         Timer laskeutuneenAjastin = new Timer();
         laskeutuneenAjastin.Interval = 1.5;
-        laskeutuneenAjastin.Timeout += delegate { LaskeutunutAmpuu(laskeutunutTyyppi, laskeutuneenAjastin); };
+        laskeutuneenAjastin.Timeout += delegate
+        { LaskeutunutAmpuu(laskeutunutTyyppi, laskeutuneenAjastin); };
         laskeutuneenAjastin.Start();
 
         AddCollisionHandler(laskeutunutTyyppi, LaskeutuneenTormays);
@@ -375,7 +376,8 @@ public class Marswagen : PhysicsGame
     {
         for (int i = 0; i < kopteriLista.Count; i++)
         {
-            if (kopteriLista[i].IsDestroyed) kopteriLista.Remove(kopteriLista[i]);
+            if (kopteriLista[i].IsDestroyed)
+                kopteriLista.Remove(kopteriLista[i]);
             else if (kopteriLista[i].Left > Level.Right && kopteriLista[i].Velocity.X > 0)
             {
                 kopteriLista[i].X = Level.Left - kopteriLista[i].Width;
@@ -475,19 +477,22 @@ public class Marswagen : PhysicsGame
 
     void LaskeutuneenLuotiOsui(PhysicsObject ammus, PhysicsObject kohde)
     {
-        if (kohde.Tag.ToString() == "laskeutunut") return;
+        if (kohde.Tag.ToString() == "laskeutunut")
+            return;
         if (kohde == tankki)
         {
             hpMittari.Value -= 10.0;
             ammus.Destroy();
             tankkiinOsui.AddEffect(ammus.Position, 30);
         }
-        else ammus.Destroy();
+        else
+            ammus.Destroy();
     }
 
     void LuotiOsui(PhysicsObject ammus, PhysicsObject kohde)
     {
-        if (kohde == tankki) return;
+        if (kohde == tankki)
+            return;
         if (kohde.Tag.ToString() == "tyyppi")
         {
             tirskahdus.AddEffect(ammus.Position, 2);
@@ -502,12 +507,14 @@ public class Marswagen : PhysicsGame
             ammus.Destroy();
             miesLaskuri.Value++;
         }
-        else if (kohde == maa || kohde.Tag.ToString() == "reuna") ammus.Destroy();
+        else if (kohde == maa || kohde.Tag.ToString() == "reuna")
+            ammus.Destroy();
     }
 
     void TykkiOsui(PhysicsObject ammus, PhysicsObject kohde)
     {
-        if (kohde == tankki) return;
+        if (kohde == tankki)
+            return;
         if (kohde.Tag.ToString() == "tyyppi")
         {
             tirskahdus.AddEffect(ammus.Position, 2);
@@ -528,7 +535,8 @@ public class Marswagen : PhysicsGame
             kohde.Destroy();
             miesLaskuri.Value++;
         }
-        else if (kohde == maa || kohde.Tag.ToString() == "reuna") ammus.Destroy();
+        else if (kohde == maa || kohde.Tag.ToString() == "reuna")
+            ammus.Destroy();
 
     }
 
@@ -556,7 +564,8 @@ public class Marswagen : PhysicsGame
         Keyboard.Listen(Key.Space, ButtonState.Released, AmmuTykilla, null, tankki);
         Keyboard.Listen(Key.LeftControl, ButtonState.Down, AmmuKK, "Ammu konekiväärillä");
 
-        Keyboard.Listen(Key.H, ButtonState.Pressed, delegate { tahtaysavustin = !tahtaysavustin; }, "Näytä tähtäysavustin");
+        Keyboard.Listen(Key.H, ButtonState.Pressed, delegate
+        { tahtaysavustin = !tahtaysavustin; }, "Näytä tähtäysavustin");
     }
 
     void LataaTykinVoimaa(double lisaVoima)

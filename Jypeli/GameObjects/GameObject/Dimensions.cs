@@ -44,7 +44,7 @@ namespace Jypeli
         {
             get
             {
-                if ( _layoutNeedsRefreshing )
+                if (_layoutNeedsRefreshing)
                 {
                     // This is needed if, for example, child objects have
                     // been added right before the size is read.
@@ -54,8 +54,8 @@ namespace Jypeli
             }
             set
             {
-                if ( value.X < 0.0 || value.Y < 0.0 )
-                    throw new ArgumentException( "The size must be positive." );
+                if (value.X < 0.0 || value.Y < 0.0)
+                    throw new ArgumentException("The size must be positive.");
 
                 Vector oldSize = _size;
                 _size = value;
@@ -68,7 +68,7 @@ namespace Jypeli
         }
 
         /// <inheritdoc/>
-        public override Vector Position 
+        public override Vector Position
         {
             get
             {
@@ -100,7 +100,7 @@ namespace Jypeli
         private Angle _angle;
 
         /// <inheritdoc/>
-        public override Angle Angle 
+        public override Angle Angle
         {
             get
             {
@@ -111,9 +111,10 @@ namespace Jypeli
                 Angle diff = value - Angle;
                 _angle = value;
 
-                if(ObjectCount > 0)
+                if (ObjectCount > 0)
                 {
-                    Objects?.ForEach(o => {
+                    Objects?.ForEach(o =>
+                    {
                         o.Angle += diff;
                         Vector vdiff = o.Position - Position;
                         o.Position += -vdiff + Vector.FromLengthAndAngle(vdiff.Magnitude, diff + vdiff.Angle);
@@ -121,7 +122,7 @@ namespace Jypeli
                 }
 
                 // Tarkistetaan määrä ensin, sillä muuten luodaan turhaan yksi iteraattori joka lisää turhaan roskien luontia.
-                if(Objects?.AmountToBeAdded > 0)
+                if (Objects?.AmountToBeAdded > 0)
                 {
                     foreach (var o in Objects?.GetObjectsAboutToBeAdded())
                     {
@@ -148,27 +149,27 @@ namespace Jypeli
         internal string ShapeString
         {
             get { return Shape.GetType().Name; }
-            set { Shape = Shape.FromString( value ); }
+            set { Shape = Shape.FromString(value); }
         }
 
-        private void InitDimensions( double width, double height, Shape shape )
+        private void InitDimensions(double width, double height, Shape shape)
         {
             if (width < 0 || height < 0)
                 throw new ArgumentException("The size must be positive!");
-            this._size = new Vector( width, height );
+            this._size = new Vector(width, height);
             this._shape = shape;
         }
 
         /// <summary>
         /// Onko piste <c>p</c> tämän olion sisäpuolella.
         /// </summary>
-        public bool IsInside( Vector point )
+        public bool IsInside(Vector point)
         {
             Vector p = this.Position;
             double pX, pY;
             double pointX, pointY;
 
-            if ( Angle == Angle.Zero )
+            if (Angle == Angle.Zero)
             {
                 // A special (faster) case of the general case below
                 pX = p.X;
@@ -178,63 +179,65 @@ namespace Jypeli
             }
             else
             {
-                Vector unitX = Vector.FromLengthAndAngle( 1, this.Angle );
+                Vector unitX = Vector.FromLengthAndAngle(1, this.Angle);
                 Vector unitY = unitX.LeftNormal;
-                pX = p.ScalarProjection( unitX );
-                pY = p.ScalarProjection( unitY );
-                pointX = point.ScalarProjection( unitX );
-                pointY = point.ScalarProjection( unitY );
+                pX = p.ScalarProjection(unitX);
+                pY = p.ScalarProjection(unitY);
+                pointX = point.ScalarProjection(unitX);
+                pointY = point.ScalarProjection(unitY);
             }
 
-            if ( Shape.IsUnitSize )
+            if (Shape.IsUnitSize)
             {
-                double x = 2 * ( pointX - pX ) / this.Width;
-                double y = 2 * ( pointY - pY ) / this.Height;
-                if ( this.Shape.IsInside( x, y ) )
+                double x = 2 * (pointX - pX) / this.Width;
+                double y = 2 * (pointY - pY) / this.Height;
+                if (this.Shape.IsInside(x, y))
                     return true;
             }
             else
             {
                 double x = pointX - pX;
                 double y = pointY - pY;
-                if ( this.Shape.IsInside( x, y ) )
+                if (this.Shape.IsInside(x, y))
                     return true;
             }
 
-            return IsInsideChildren( point );
+            return IsInsideChildren(point);
         }
 
         /// <summary>
         /// Onko piste <c>p</c> tämän olion ympäröivän suorakulmion sisäpuolella.
         /// </summary>
-        public bool IsInsideRect( Vector point )
+        public bool IsInsideRect(Vector point)
         {
             Vector p = this.Position;
 
-            if ( Angle == Angle.Zero )
+            if (Angle == Angle.Zero)
             {
                 // A special (faster) case of the general case below
-                if ( point.X >= ( p.X - Width / 2 )
-                    && point.X <= ( p.X + Width / 2 )
-                    && point.Y >= ( p.Y - Height / 2 )
-                    && point.Y <= ( p.Y + Height / 2 ) ) return true;
+                if (point.X >= (p.X - Width / 2)
+                    && point.X <= (p.X + Width / 2)
+                    && point.Y >= (p.Y - Height / 2)
+                    && point.Y <= (p.Y + Height / 2))
+                    return true;
             }
             else
             {
-                Vector unitX = Vector.FromLengthAndAngle( 1, this.Angle );
+                Vector unitX = Vector.FromLengthAndAngle(1, this.Angle);
                 Vector unitY = unitX.LeftNormal;
-                double pX = p.ScalarProjection( unitX );
-                double pY = p.ScalarProjection( unitY );
-                double pointX = point.ScalarProjection( unitX );
-                double pointY = point.ScalarProjection( unitY );
+                double pX = p.ScalarProjection(unitX);
+                double pY = p.ScalarProjection(unitY);
+                double pointX = point.ScalarProjection(unitX);
+                double pointY = point.ScalarProjection(unitY);
 
-                if ( pointX >= ( pX - Width / 2 )
-                    && pointX <= ( pX + Width / 2 )
-                    && pointY >= ( pY - Height / 2 )
-                    && pointY <= ( pY + Height / 2 ) ) return true;
+                if (pointX >= (pX - Width / 2)
+                    && pointX <= (pX + Width / 2)
+                    && pointY >= (pY - Height / 2)
+                    && pointY <= (pY + Height / 2))
+                    return true;
             }
 
-            return IsInsideChildren( point );
+            return IsInsideChildren(point);
         }
 
         /// <summary>

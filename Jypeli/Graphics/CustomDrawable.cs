@@ -16,6 +16,6 @@ namespace Jypeli
         /// Piirtää olion ruudulle
         /// </summary>
         /// <param name="parentTransformation"></param>
-        void Draw( Matrix parentTransformation );
+        void Draw(Matrix parentTransformation);
     }
 }

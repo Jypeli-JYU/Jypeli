@@ -367,7 +367,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             al.GetBufferProperty((uint)buffer, GetBufferInteger.Channels, out int channels);
             al.GetBufferProperty((uint)buffer, GetBufferInteger.Bits, out int bits);
 
-            return size/(double)(frequency * channels * bits/8);
+            return size / (double)(frequency * channels * bits / 8);
         }
 
         internal static bool GetLooping(uint handle)

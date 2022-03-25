@@ -75,8 +75,8 @@ namespace Jypeli.Widgets
         {
             this.score = new ScoreList(places, false, 0, defaultName);
             this.fileName = fileName;
-            Game.AssertInitialized( LoadData );
-            Game.AssertInitialized( InitHSWindow );
+            Game.AssertInitialized(LoadData);
+            Game.AssertInitialized(InitHSWindow);
         }
 
         /// <summary>
@@ -88,8 +88,8 @@ namespace Jypeli.Widgets
         {
             this.score = new ScoreList(places, false, 0);
             this.fileName = fileName;
-            Game.AssertInitialized( LoadData );
-            Game.AssertInitialized( InitHSWindow );
+            Game.AssertInitialized(LoadData);
+            Game.AssertInitialized(InitHSWindow);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Jypeli.Widgets
         /// </summary>
         public void Show()
         {
-            Game.Instance.Add( HighScoreWindow );
+            Game.Instance.Add(HighScoreWindow);
         }
 
         /// <summary>
@@ -136,8 +136,8 @@ namespace Jypeli.Widgets
         /// </summary>
         public void Clear()
         {
-            score = new ScoreList( score.Count, score.Reverse, 0 );
-            Game.DataStorage.Save<ScoreList>( score, fileName );
+            score = new ScoreList(score.Count, score.Reverse, 0);
+            Game.DataStorage.Save<ScoreList>(score, fileName);
         }
 
         /// <summary>
@@ -148,8 +148,8 @@ namespace Jypeli.Widgets
         public void EnterAndShow(double newScore)
         {
             HighScoreWindow.NameInputWindow.Closed += SaveData;
-            HighScoreWindow.ShowNameInput( newScore );
-            Game.Instance.Add( HighScoreWindow );
+            HighScoreWindow.ShowNameInput(newScore);
+            Game.Instance.Add(HighScoreWindow);
         }
 
         private void SaveData(Window sender)

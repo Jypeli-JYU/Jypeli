@@ -39,7 +39,7 @@ namespace Jypeli
     {
         private string assetName;
 
-        internal static string[] ImageExtensions { get; } = { ".png", ".jpg"}; // TODO: Kaikki päätteet joita ImageSharp tukee
+        internal static string[] ImageExtensions { get; } = { ".png", ".jpg" }; // TODO: Kaikki päätteet joita ImageSharp tukee
 
         /// <summary>
         /// ImageSharpin raakakuva
@@ -63,8 +63,8 @@ namespace Jypeli
         /// </summary>
         public ImageScaling Scaling
         {
-            get => scaling; 
-            set 
+            get => scaling;
+            set
             {
                 scaling = value;
                 Game.GraphicsDevice.UpdateTextureScaling(this); // TODO: Pitäisikö tämä tehdä samoin kuin datan muokkaus, eli vasta piirtovaiheessa?
@@ -208,15 +208,20 @@ namespace Jypeli
         public Color[,] GetData(int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue)
         {
             int ny = Height;
-            if (h < ny) ny = h;
-            if (Height < ny + oy) ny = Height - oy;
+            if (h < ny)
+                ny = h;
+            if (Height < ny + oy)
+                ny = Height - oy;
             int nx = Width;
-            if (w < nx) nx = w;
-            if (Width < nx + ox) nx = Width - ox;
-            if (nx <= 0 || ny <= 0) return new Color[0, 0];
+            if (w < nx)
+                nx = w;
+            if (Width < nx + ox)
+                nx = Width - ox;
+            if (nx <= 0 || ny <= 0)
+                return new Color[0, 0];
 
             Color[,] bmp = new Color[ny, nx];
-            
+
             for (int i = oy; i < oy + ny; i++)
             {
                 Span<Rgba32> row = image.GetPixelRowSpan(i);
@@ -241,15 +246,22 @@ namespace Jypeli
         /// <returns>pikselit Color-taulukkona</returns>
         public void SetData(Color[,] bmp, int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue)
         {
-            int ny = bmp.GetLength( 0 );
-            int nx = bmp.GetLength( 1 );
-            if ( ny > Height ) ny = Height;
-            if ( nx > Width ) nx = Height;
-            if ( ny > h ) ny = h;
-            if ( nx > w ) nx = w;
-            if ( Height < ny + oy ) ny = Height - oy;
-            if ( Width < nx + ox ) nx = Width - ox;
-            if ( nx <= 0 || ny <= 0 ) return;
+            int ny = bmp.GetLength(0);
+            int nx = bmp.GetLength(1);
+            if (ny > Height)
+                ny = Height;
+            if (nx > Width)
+                nx = Height;
+            if (ny > h)
+                ny = h;
+            if (nx > w)
+                nx = w;
+            if (Height < ny + oy)
+                ny = Height - oy;
+            if (Width < nx + ox)
+                nx = Width - ox;
+            if (nx <= 0 || ny <= 0)
+                return;
 
             // TODO: Onko indeksointioperaatio kuinka hidas/nopea verrattuna muihin tapoihin muokata kuvaa?
             // TODO: Testaa kaikki Set/GetData metodit...
@@ -309,15 +321,20 @@ namespace Jypeli
         /// <param name="w">alueen leveys joka kopioidaan</param>
         /// <param name="h">lueen korkaus joka kopioidaan</param>
         /// <returns>Kuvan pikselit ARGB-taulukkona</returns>
-        public uint[,] GetDataUInt( int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue )
+        public uint[,] GetDataUInt(int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue)
         {
             int ny = Height;
-            if ( h < ny ) ny = h;
-            if ( Height < ny + oy ) ny = Height - oy;
+            if (h < ny)
+                ny = h;
+            if (Height < ny + oy)
+                ny = Height - oy;
             int nx = Width;
-            if ( w < nx ) nx = w;
-            if ( Width < nx + ox ) nx = Width - ox;
-            if ( nx <= 0 || ny <= 0 ) return new uint[0, 0];
+            if (w < nx)
+                nx = w;
+            if (Width < nx + ox)
+                nx = Width - ox;
+            if (nx <= 0 || ny <= 0)
+                return new uint[0, 0];
 
             uint[,] bmp = new uint[ny, nx];
 
@@ -342,15 +359,20 @@ namespace Jypeli
         /// <param name="w">alueen leveys joka kopioidaan</param>
         /// <param name="h">lueen korkaus joka kopioidaan</param>
         /// <returns>Kuvan pikselit ARGB-taulukkona</returns>
-        public uint[][] GetDataUIntAA( int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue )
+        public uint[][] GetDataUIntAA(int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue)
         {
             int ny = Height;
-            if ( h < ny ) ny = h;
-            if ( Height < ny + oy ) ny = Height - oy;
+            if (h < ny)
+                ny = h;
+            if (Height < ny + oy)
+                ny = Height - oy;
             int nx = Width;
-            if ( w < nx ) nx = w;
-            if ( Width < nx + ox ) nx = Width - ox;
-            if ( nx <= 0 || ny <= 0 ) return Array.Empty<uint[]>();
+            if (w < nx)
+                nx = w;
+            if (Width < nx + ox)
+                nx = Width - ox;
+            if (nx <= 0 || ny <= 0)
+                return Array.Empty<uint[]>();
 
             uint[][] bmp = new uint[ny][];
 
@@ -376,18 +398,25 @@ namespace Jypeli
         /// <param name="oy">siirtymä y-suunnassa vasemmasta ylänurkasta</param>
         /// <param name="w">alueen leveys johon kopioidaan</param>
         /// <param name="h">alueen korkeus johon kopioidaan</param>
-        public void SetData( uint[,] bmp, int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue )
+        public void SetData(uint[,] bmp, int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue)
         {
-            int ny = bmp.GetLength( 0 );
-            int nx = bmp.GetLength( 1 );
-            if ( ny > Height ) ny = Height;
-            if ( nx > Width ) nx = Width;
-            if ( ny > h ) ny = h;
-            if ( nx > w ) nx = w;
-            if ( Height < ny + oy ) ny = Height - oy;
-            if ( Width < nx + ox ) nx = Width - ox;
+            int ny = bmp.GetLength(0);
+            int nx = bmp.GetLength(1);
+            if (ny > Height)
+                ny = Height;
+            if (nx > Width)
+                nx = Width;
+            if (ny > h)
+                ny = h;
+            if (nx > w)
+                nx = w;
+            if (Height < ny + oy)
+                ny = Height - oy;
+            if (Width < nx + ox)
+                nx = Width - ox;
 
-            if ( nx <= 0 || ny <= 0 ) return;
+            if (nx <= 0 || ny <= 0)
+                return;
 
             for (int iy = oy; iy < ny; iy++)
             {
@@ -408,15 +437,20 @@ namespace Jypeli
         /// <param name="oy">siirtymä y-suunnassa vasemmasta ylänurkasta</param>
         /// <param name="w">alueen leveys johon kopioidaan</param>
         /// <param name="h">alueen korkeus johon kopioidaan</param>
-        public void SetData( uint[][] bmp, int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue )
+        public void SetData(uint[][] bmp, int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue)
         {
             int ny = bmp.Length;
             int nx = bmp[0].Length;
-            if ( ny > Height ) ny = Height;
-            if ( nx > Width ) nx = Width;
-            if ( ny > h ) ny = h;
-            if ( nx > w ) nx = w;
-            if ( nx <= 0 || ny <= 0 ) return;
+            if (ny > Height)
+                ny = Height;
+            if (nx > Width)
+                nx = Width;
+            if (ny > h)
+                ny = h;
+            if (nx > w)
+                nx = w;
+            if (nx <= 0 || ny <= 0)
+                return;
 
             for (int iy = oy; iy < ny; iy++)
             {
@@ -430,8 +464,8 @@ namespace Jypeli
 
         private static void AssertDimensions(int width, int height)
         {
-            if ( width < 1 || height < 1 )
-                throw new ArgumentException( String.Format( "Image dimensions must be at least 1 x 1! (given: {0} x {1}", width, height ) );
+            if (width < 1 || height < 1)
+                throw new ArgumentException(String.Format("Image dimensions must be at least 1 x 1! (given: {0} x {1}", width, height));
         }
 
         /// <summary>
@@ -458,7 +492,7 @@ namespace Jypeli
             {
                 for (int j = 0; j < data.GetLength(1); j++)
                 {
-                    data[i,j] = operation(data[i,j]);
+                    data[i, j] = operation(data[i, j]);
                 }
             }
             SetData(data);
@@ -550,11 +584,11 @@ namespace Jypeli
         /// <param name="textColor">Tekstin väri</param>
         /// <param name="backgroundColor">Tekstin taustaväri</param>
         /// <returns>Teksti kuvana</returns>
-        public static Image FromText( string text, Font font, Color textColor, Color backgroundColor )
+        public static Image FromText(string text, Font font, Color textColor, Color backgroundColor)
         {
-            if ( text == null )
+            if (text == null)
                 text = "";
-            
+
             var device = Game.GraphicsDevice;
 
             Vector textDims = font.MeasureSize(text);
@@ -575,7 +609,7 @@ namespace Jypeli
             Matrix4x4 temp = Graphics.ViewProjectionMatrix;
             Graphics.ViewProjectionMatrix = ProjectionMatrix;
 
-            Renderer.DrawText(text, Vector.Zero + new Vector(0, texth/2), font, textColor, Vector.One);
+            Renderer.DrawText(text, Vector.Zero + new Vector(0, texth / 2), font, textColor, Vector.One);
             Graphics.CustomBatch.Flush(); // TODO: Joku DrawTextImmediately tms. Voiko tämä mennä jossain tilanteissa nyt pieleen?
 
             Graphics.ViewProjectionMatrix = temp;
@@ -598,7 +632,7 @@ namespace Jypeli
         /// <param name="textColor">Tekstin väri</param>
         /// <param name="backgroundColor">Tekstin taustaväri</param>
         /// <returns>Kuva tekstin kanssa</returns>
-        public static Image DrawTextOnImage( Image img, string text, Vector position, Font font, Color textColor, Color backgroundColor )
+        public static Image DrawTextOnImage(Image img, string text, Vector position, Font font, Color textColor, Color backgroundColor)
         {
             if (text == null)
                 text = "";
@@ -645,9 +679,9 @@ namespace Jypeli
         /// <param name="font">Fontti</param>
         /// <param name="textColor">Tekstin väri</param>
         /// <returns>Kuva tekstin kanssa</returns>
-        public static Image DrawTextOnImage( Image img, string text, Font font, Color textColor )
+        public static Image DrawTextOnImage(Image img, string text, Font font, Color textColor)
         {
-            return DrawTextOnImage( img, text, Vector.Zero, font, textColor, Jypeli.Color.Transparent );
+            return DrawTextOnImage(img, text, Vector.Zero, font, textColor, Jypeli.Color.Transparent);
         }
 
         //TODO: Ehkä mielummin CreateGradient...
@@ -791,12 +825,14 @@ namespace Jypeli
             int width = right - left;
             int height = bottom - top;
 
-            if ( width <= 0 ) throw new ArgumentException( "Left coordinate must be less than right coordinate" );
-            if ( height <= 0 ) throw new ArgumentException( "Top coordinate must be less than bottom coordinate" );
-            
+            if (width <= 0)
+                throw new ArgumentException("Left coordinate must be less than right coordinate");
+            if (height <= 0)
+                throw new ArgumentException("Top coordinate must be less than bottom coordinate");
+
             Color[,] data = new Color[height, width];
 
-            for ( int i = 0; i < width; i++)
+            for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {

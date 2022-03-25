@@ -245,7 +245,7 @@ namespace FarseerPhysics.Dynamics
             // If AwakeBodyList is empty, the Island code will not have a chance
             // to update the diagnostics timer so reset the timer here. 
             Island.JointUpdateTime = TimeSpan.Zero;
-      
+
             Debug.Assert(AwakeBodyList.Count == 0);
             AwakeBodyList.AddRange(AwakeBodySet);
 
@@ -859,20 +859,20 @@ namespace FarseerPhysics.Dynamics
         public Vector2 Gravity
         {
             get { return _gravity; }
-            set 
+            set
             {
                 if (IsLocked)
                     throw new InvalidOperationException("The World is locked.");
                 _gravity = value;
             }
         }
-        
+
         Jypeli.Vector IPhysicsEngine.Gravity
         {
             get => Gravity * FSConvert.SimToDisplay;
             set => Gravity = value * FSConvert.DisplayToSim;
         }
-        
+
         /// <summary>
         /// Is the world locked (in the middle of a time step).
         /// </summary>        
@@ -943,16 +943,16 @@ namespace FarseerPhysics.Dynamics
                 throw new ArgumentException("body belongs to another world.", "body");
 
 #if USE_AWAKE_BODY_SET
-                    if (body.Awake)
-                    {
-                        if (!AwakeBodySet.Contains(body))
-                            AwakeBodySet.Add(body);
-                    }
-                    else
-                    {
-                        if (AwakeBodySet.Contains(body))
-                            AwakeBodySet.Remove(body);
-                    }
+            if (body.Awake)
+            {
+                if (!AwakeBodySet.Contains(body))
+                    AwakeBodySet.Add(body);
+            }
+            else
+            {
+                if (AwakeBodySet.Contains(body))
+                    AwakeBodySet.Remove(body);
+            }
 #endif
 
             body._world = this;
@@ -1038,7 +1038,7 @@ namespace FarseerPhysics.Dynamics
             if (bodyRemovedHandler != null)
                 bodyRemovedHandler(this, body);
         }
-        
+
         /// <summary>
         /// Create a joint to constrain bodies together. This may cause the connected bodies to cease colliding.
         /// Warning: This method is locked during callbacks.
@@ -1127,7 +1127,7 @@ namespace FarseerPhysics.Dynamics
                 throw new ArgumentNullException("joint");
             if (joint.World != this)
                 return; // Liitokset poistuvat jos niihin liitetty kappale poistetaan. Jos liitosta sen jälkeen yritetään poistaa niin ei tehdä mitään.
-                
+
 
             bool collideConnected = joint.CollideConnected;
 
@@ -1355,7 +1355,7 @@ namespace FarseerPhysics.Dynamics
 #endif
         #endregion // LEGACY_ASYNCADDREMOVE
 
-        
+
         /// <summary>
         /// Take a time step. This performs collision detection, integration,
         /// and consraint solution.
@@ -1706,7 +1706,7 @@ namespace FarseerPhysics.Dynamics
             }
 
         }
-        
+
         #region Jypeli's IPhysicsEngine members
 
         public IPhysicsBody CreateBody(IPhysicsObject owner, double width, double height, Jypeli.Shape shape)
@@ -1809,7 +1809,7 @@ namespace FarseerPhysics.Dynamics
             }
             fsBody2.FixtureList._list.Clear();
             fsBody2.Enabled = false;
-            if(fsBody2.World != null)
+            if (fsBody2.World != null)
                 Remove(fsBody2);
             fsBody1.ResetMassData();
         }

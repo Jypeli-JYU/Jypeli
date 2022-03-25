@@ -16,8 +16,10 @@ namespace Jypeli
         {
             get
             {
-                if (Game.Instance == null) throw new InvalidOperationException("Game class is not initialized");
-                if (!(Game.Instance is PhysicsGameBase)) throw new InvalidOperationException("Game class is not PhysicsGame");
+                if (Game.Instance == null)
+                    throw new InvalidOperationException("Game class is not initialized");
+                if (!(Game.Instance is PhysicsGameBase))
+                    throw new InvalidOperationException("Game class is not PhysicsGame");
 
                 return (PhysicsGame)(Game.Instance);
             }

@@ -83,7 +83,7 @@ namespace Jypeli
             set
             {
                 _font = value;
-                fontHeight = _font.MeasureSize( "A" ).Y;
+                fontHeight = _font.MeasureSize("A").Y;
                 UpdateSizeAndPosition();
             }
         }
@@ -120,7 +120,7 @@ namespace Jypeli
         private Queue<String> unseen = new Queue<string>();
 
         private Timer removeTimer;
-        
+
         /// <summary>
         /// Luo uuden viestinäytön.
         /// </summary>
@@ -134,25 +134,26 @@ namespace Jypeli
             Color = Color.Transparent;
 
             MaxMessageCount = 20;
-            MessageTime = TimeSpan.FromSeconds( 5 );
+            MessageTime = TimeSpan.FromSeconds(5);
             Font = Font.Default;
 
             // default position to top-left-corner
-            this.Position = new Vector( Game.Screen.LeftSafe + Game.Screen.WidthSafe / 2,
-                                        Game.Screen.TopSafe - Game.Screen.HeightSafe / 2 );
+            this.Position = new Vector(Game.Screen.LeftSafe + Game.Screen.WidthSafe / 2,
+                                        Game.Screen.TopSafe - Game.Screen.HeightSafe / 2);
         }
 
         private void RemoveMessages()
         {
             removeTimer.Stop();
 
-            while ( messages.Count > 0 && messages[0].Expired )
+            while (messages.Count > 0 && messages[0].Expired)
             {
-                messages.RemoveAt( 0 );
-                if ( unseen.Count > 0 ) Add( unseen.Dequeue() );
+                messages.RemoveAt(0);
+                if (unseen.Count > 0)
+                    Add(unseen.Dequeue());
             }
 
-            if ( messages.Count > 0 )
+            if (messages.Count > 0)
             {
                 removeTimer.Interval = messages[0].TimeLeft.TotalSeconds;
                 removeTimer.Start();
@@ -169,7 +170,7 @@ namespace Jypeli
             Graphics.FontRenderer.Begin();
             for (int i = 0; i < Math.Min(messages.Count, MaxMessageCount); i++)
             {
-                Font.SpriteFont.DrawText(Graphics.FontRenderer, messages[i].Text, Position - new Vector(Width/2, i * fontHeight - Height/2), messages[i].Color.ToSystemDrawing());
+                Font.SpriteFont.DrawText(Graphics.FontRenderer, messages[i].Text, Position - new Vector(Width / 2, i * fontHeight - Height / 2), messages[i].Color.ToSystemDrawing());
             }
             base.Draw(parentTransformation, transformation);
         }
@@ -194,31 +195,31 @@ namespace Jypeli
             if (maxW > 0)
                 Size = new Vector(maxW, fontHeight * Math.Min(messages.Count, MaxMessageCount));
 
-            Position = new Vector(-Game.Screen.Width / 2 + Width/2, Game.Screen.Height / 2 - Height/2); // TODO: Tää on huono
+            Position = new Vector(-Game.Screen.Width / 2 + Width / 2, Game.Screen.Height / 2 - Height / 2); // TODO: Tää on huono
         }
 
         /// <summary>
         /// Lisää uuden viestin näkymään.
         /// </summary>
-        public void Add( string message )
+        public void Add(string message)
         {
-            if ( messages.Count > MaxMessageCount )
+            if (messages.Count > MaxMessageCount)
             {
-                if ( RealTime )
+                if (RealTime)
                 {
-                    messages.RemoveRange( 0, messages.Count - MaxMessageCount + 1 );
+                    messages.RemoveRange(0, messages.Count - MaxMessageCount + 1);
                 }
                 else
                 {
-                    unseen.Enqueue( message );
+                    unseen.Enqueue(message);
                     return;
                 }
             }
 
-            messages.Add( new Message( message, TextColor, MessageTime ) );
+            messages.Add(new Message(message, TextColor, MessageTime));
             UpdateSizeAndPosition();
 
-            if ( !removeTimer.Enabled )
+            if (!removeTimer.Enabled)
             {
                 removeTimer.Interval = MessageTime.TotalSeconds;
                 removeTimer.Start();
@@ -229,35 +230,35 @@ namespace Jypeli
         /// Lisää useita tekstirivejä viestinäkymään
         /// </summary>
         /// <param name="strings"></param>
-        public void Add( IEnumerable<string> strings )
+        public void Add(IEnumerable<string> strings)
         {
             // TODO: optimization?
-            foreach ( string s in strings )
-                Add( s );
+            foreach (string s in strings)
+                Add(s);
         }
 
         /// <summary>
         /// Lisää uuden viestin näkymään.
         /// </summary>
-        public void Add( string message, Color color )
+        public void Add(string message, Color color)
         {
-            if ( messages.Count > MaxMessageCount )
+            if (messages.Count > MaxMessageCount)
             {
-                if ( RealTime )
+                if (RealTime)
                 {
-                    messages.RemoveRange( 0, messages.Count - MaxMessageCount + 1 );
+                    messages.RemoveRange(0, messages.Count - MaxMessageCount + 1);
                 }
                 else
                 {
-                    unseen.Enqueue( message );
+                    unseen.Enqueue(message);
                     return;
                 }
             }
 
-            messages.Add( new Message( message, color, MessageTime ) );
+            messages.Add(new Message(message, color, MessageTime));
             UpdateSizeAndPosition();
 
-            if ( !removeTimer.Enabled )
+            if (!removeTimer.Enabled)
             {
                 removeTimer.Interval = MessageTime.TotalSeconds;
                 removeTimer.Start();

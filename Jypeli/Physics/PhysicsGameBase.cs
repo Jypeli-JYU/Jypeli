@@ -17,7 +17,7 @@ namespace Jypeli
             public object targetTag;
             public Delegate handler;
 
-            public CollisionRecord( IPhysicsObject obj, IPhysicsObject target, object targetTag, Delegate handler )
+            public CollisionRecord(IPhysicsObject obj, IPhysicsObject target, object targetTag, Delegate handler)
             {
                 this.obj = obj;
                 this.target = target;
@@ -33,7 +33,7 @@ namespace Jypeli
             new Dictionary<CollisionRecord, CollisionHandler<IPhysicsObject, IPhysicsObject>>();
         protected Dictionary<CollisionRecord, CollisionHandler<IPhysicsObject, IPhysicsObject>> protectedCollisionHandlers =
             new Dictionary<CollisionRecord, CollisionHandler<IPhysicsObject, IPhysicsObject>>();
-        
+
         private Vector gravity = Vector.Zero;
 
         /// <summary>
@@ -59,10 +59,12 @@ namespace Jypeli
         {
             get
             {
-                if ( Game.Instance == null ) throw new InvalidOperationException( "Game class is not initialized" );
-                if ( !( Game.Instance is PhysicsGameBase ) ) throw new InvalidOperationException( "Game class is not PhysicsGame" );
+                if (Game.Instance == null)
+                    throw new InvalidOperationException("Game class is not initialized");
+                if (!(Game.Instance is PhysicsGameBase))
+                    throw new InvalidOperationException("Game class is not PhysicsGame");
 
-                return (PhysicsGameBase)( Game.Instance );
+                return (PhysicsGameBase)(Game.Instance);
             }
         }
 
@@ -74,7 +76,7 @@ namespace Jypeli
         /// <summary>
         /// Alustaa uuden fysiikkapelin.
         /// </summary>
-        public PhysicsGameBase( IPhysicsEngine engine )
+        public PhysicsGameBase(IPhysicsEngine engine)
             : base()
         {
             this.Engine = engine;
@@ -84,57 +86,57 @@ namespace Jypeli
             Joints.ItemRemoved += OnJointRemoved;
         }
 
-        void OnJointAdded( IAxleJoint j )
+        void OnJointAdded(IAxleJoint j)
         {
-            if ( !j.Object1.IsAddedToGame )
+            if (!j.Object1.IsAddedToGame)
             {
-                j.SetEngine( Engine );
+                j.SetEngine(Engine);
                 j.Object1.AddedToGame += j.AddToEngine;
             }
-            else if ( j.Object2 != null && !j.Object2.IsAddedToGame )
+            else if (j.Object2 != null && !j.Object2.IsAddedToGame)
             {
-                j.SetEngine( Engine );
+                j.SetEngine(Engine);
                 j.Object2.AddedToGame += j.AddToEngine;
             }
             else
             {
-                Engine.AddJoint( j );
+                Engine.AddJoint(j);
             }
         }
 
-        void OnJointRemoved( IAxleJoint j )
+        void OnJointRemoved(IAxleJoint j)
         {
-            Engine.RemoveJoint( j );
+            Engine.RemoveJoint(j);
         }
 
         /// <summary>
         /// Kun olio lisätään peliin
         /// </summary>
         /// <param name="obj"></param>
-        protected override void OnObjectAdded( IGameObject obj )
+        protected override void OnObjectAdded(IGameObject obj)
         {
-            if ( obj is PhysicsObject && obj.Parent == null )
+            if (obj is PhysicsObject && obj.Parent == null)
             {
                 PhysicsObject po = (PhysicsObject)obj;
-                Engine.AddBody( po.Body );
+                Engine.AddBody(po.Body);
             }
 
-            base.OnObjectAdded( obj );
+            base.OnObjectAdded(obj);
         }
 
         /// <summary>
         /// Kun olio poistetaan pelistä
         /// </summary>
         /// <param name="obj"></param>
-        protected override void OnObjectRemoved( IGameObject obj )
+        protected override void OnObjectRemoved(IGameObject obj)
         {
-            if ( obj is PhysicsObject )
+            if (obj is PhysicsObject)
             {
                 PhysicsObject po = (PhysicsObject)obj;
-                Engine.RemoveBody( po.Body );
+                Engine.RemoveBody(po.Body);
             }
 
-            base.OnObjectRemoved( obj );
+            base.OnObjectRemoved(obj);
         }
 
         /// <summary>
@@ -142,12 +144,12 @@ namespace Jypeli
         /// </summary>
         public void StopAll()
         {
-            foreach ( var layer in Layers )
+            foreach (var layer in Layers)
             {
-                foreach ( var obj in layer.Objects )
+                foreach (var obj in layer.Objects)
                 {
-                    if ( obj is PhysicsObject )
-                        ( (PhysicsObject)obj ).Stop();
+                    if (obj is PhysicsObject)
+                        ((PhysicsObject)obj).Stop();
                 }
             }
         }
@@ -157,7 +159,7 @@ namespace Jypeli
         /// </summary>
         public override void ClearAll()
         {
-            if(!FarseerGame)
+            if (!FarseerGame)
                 ClearPhysics(); // Farseerilla tämä poistaa jo kappaleet moottorilta ja ne poistettaisiin uudestaan myöhemmin Layerien tyhjennyksen yhteydessä, joka taas aiheuttaa nullpointerin.
             RemoveCollisionHandlers();
             base.ClearAll();
@@ -176,37 +178,37 @@ namespace Jypeli
         /// toteuttamalla tämän metodin. Perityn luokan metodissa tulee kutsua kantaluokan metodia.
         /// </summary>
         /// <param name="time"></param>
-        protected override void Update( Time time )
+        protected override void Update(Time time)
         {
             double dt = time.SinceLastUpdate.TotalSeconds;
 
-            if ( PhysicsEnabled )
+            if (PhysicsEnabled)
             {
-                Engine.Update( dt );
+                Engine.Update(dt);
             }
 
-            base.Update( time );
+            base.Update(time);
 
             // Updating joints must be after base.Update so that the bodies 
             // are added to the engine before the joints
-            Joints.Update( time );
+            Joints.Update(time);
         }
 
         /// <summary>
         /// Lisää liitoksen peliin.
         /// </summary>
-        public void Add( IAxleJoint j )
+        public void Add(IAxleJoint j)
         {
-            Joints.Add( j );
+            Joints.Add(j);
         }
 
         /// <summary>
         /// Poistaa liitoksen pelistä.
         /// </summary>
         /// <param name="j"></param>
-        internal void Remove( IAxleJoint j )
+        internal void Remove(IAxleJoint j)
         {
-            Joints.Remove( j );
+            Joints.Remove(j);
         }
 
         #region Collision handlers
@@ -218,22 +220,24 @@ namespace Jypeli
         /// <typeparam name="T">Kohdeolion tyyppi.</typeparam>
         /// <param name="obj">Törmäävä olio</param>
         /// <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
-        public void AddCollisionHandler<O, T>( O obj, CollisionHandler<O, T> handler )
+        public void AddCollisionHandler<O, T>(O obj, CollisionHandler<O, T> handler)
             where O : IPhysicsObject
             where T : IPhysicsObject
         {
-            if ( obj == null ) throw new NullReferenceException( "Colliding object must not be null" );
-            if ( handler == null ) throw new NullReferenceException( "Handler must not be null" );
+            if (obj == null)
+                throw new NullReferenceException("Colliding object must not be null");
+            if (handler == null)
+                throw new NullReferenceException("Handler must not be null");
 
             CollisionHandler<IPhysicsObject, IPhysicsObject> targetHandler =
-                delegate( IPhysicsObject collider, IPhysicsObject collidee )
+                delegate (IPhysicsObject collider, IPhysicsObject collidee)
                 {
-                    if ( collidee is T )
-                        handler( (O)collider, (T)collidee );
+                    if (collidee is T)
+                        handler((O)collider, (T)collidee);
                 };
 
             obj.Collided += targetHandler;
-            collisionHandlers.Add( new CollisionRecord( obj, null, null, handler ), targetHandler );
+            collisionHandlers.Add(new CollisionRecord(obj, null, null, handler), targetHandler);
         }
 
         /// <summary>
@@ -244,23 +248,25 @@ namespace Jypeli
         /// <typeparam name="T">Kohdeolion tyyppi.</typeparam>
         /// <param name="obj">Törmäävä olio</param>
         /// <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        public void AddProtectedCollisionHandler<O, T>( O obj, CollisionHandler<O, T> handler )
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void AddProtectedCollisionHandler<O, T>(O obj, CollisionHandler<O, T> handler)
             where O : IPhysicsObject
             where T : IPhysicsObject
         {
-            if ( obj == null ) throw new NullReferenceException( "Colliding object must not be null" );
-            if ( handler == null ) throw new NullReferenceException( "Handler must not be null" );
+            if (obj == null)
+                throw new NullReferenceException("Colliding object must not be null");
+            if (handler == null)
+                throw new NullReferenceException("Handler must not be null");
 
             CollisionHandler<IPhysicsObject, IPhysicsObject> targetHandler =
-                delegate( IPhysicsObject collider, IPhysicsObject collidee )
+                delegate (IPhysicsObject collider, IPhysicsObject collidee)
                 {
-                    if ( collidee is T )
-                        handler( (O)collider, (T)collidee );
+                    if (collidee is T)
+                        handler((O)collider, (T)collidee);
                 };
 
             obj.Collided += targetHandler;
-            protectedCollisionHandlers.Add( new CollisionRecord( obj, null, null, handler ), targetHandler );
+            protectedCollisionHandlers.Add(new CollisionRecord(obj, null, null, handler), targetHandler);
         }
 
         /// <summary>
@@ -269,9 +275,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="obj">Törmäävä olio</param>
         /// <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
-        public void AddCollisionHandler( IPhysicsObject obj, CollisionHandler<IPhysicsObject, IPhysicsObject> handler )
+        public void AddCollisionHandler(IPhysicsObject obj, CollisionHandler<IPhysicsObject, IPhysicsObject> handler)
         {
-            AddCollisionHandler<IPhysicsObject, IPhysicsObject>( obj, handler );
+            AddCollisionHandler<IPhysicsObject, IPhysicsObject>(obj, handler);
         }
 
         /// <summary>
@@ -279,9 +285,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="obj">Törmäävä olio</param>
         /// <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
-        public void AddCollisionHandler( PhysicsObject obj, CollisionHandler<PhysicsObject, PhysicsObject> handler )
+        public void AddCollisionHandler(PhysicsObject obj, CollisionHandler<PhysicsObject, PhysicsObject> handler)
         {
-            AddCollisionHandler<PhysicsObject, PhysicsObject>( obj, handler );
+            AddCollisionHandler<PhysicsObject, PhysicsObject>(obj, handler);
         }
 
         /// <summary>
@@ -289,9 +295,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="obj">Törmäävä olio</param>
         /// <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
-        public void AddCollisionHandler( PhysicsObject obj, CollisionHandler<PhysicsObject, PhysicsStructure> handler )
+        public void AddCollisionHandler(PhysicsObject obj, CollisionHandler<PhysicsObject, PhysicsStructure> handler)
         {
-            AddCollisionHandler<PhysicsObject, PhysicsStructure>( obj, handler );
+            AddCollisionHandler<PhysicsObject, PhysicsStructure>(obj, handler);
         }
 
         /// <summary>
@@ -299,9 +305,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="obj">Törmäävä fysiikkarakenne</param>
         /// <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
-        public void AddCollisionHandler( PhysicsStructure obj, CollisionHandler<PhysicsStructure, PhysicsObject> handler )
+        public void AddCollisionHandler(PhysicsStructure obj, CollisionHandler<PhysicsStructure, PhysicsObject> handler)
         {
-            AddCollisionHandler<PhysicsStructure, PhysicsObject>( obj, handler );
+            AddCollisionHandler<PhysicsStructure, PhysicsObject>(obj, handler);
         }
 
         /// <summary>
@@ -309,9 +315,9 @@ namespace Jypeli
         /// </summary>
         /// <param name="obj">Törmäävä fysiikkarakenne</param>
         /// <param name="handler">Törmäyksen käsittelevä aliohjelma.</param>
-        public void AddCollisionHandler( PhysicsStructure obj, CollisionHandler<PhysicsStructure, PhysicsStructure> handler )
+        public void AddCollisionHandler(PhysicsStructure obj, CollisionHandler<PhysicsStructure, PhysicsStructure> handler)
         {
-            AddCollisionHandler<PhysicsStructure, PhysicsStructure>( obj, handler );
+            AddCollisionHandler<PhysicsStructure, PhysicsStructure>(obj, handler);
         }
 
         /// <summary>
@@ -321,23 +327,26 @@ namespace Jypeli
         /// <param name="obj">Törmäävä olio.</param>
         /// <param name="target">Olio johon törmätään.</param>
         /// <param name="handler">Metodi, joka käsittelee törmäyksen (ei parametreja).</param>
-        public void AddCollisionHandlerByRef<O, T>( O obj, T target, CollisionHandler<O, T> handler )
+        public void AddCollisionHandlerByRef<O, T>(O obj, T target, CollisionHandler<O, T> handler)
             where O : IPhysicsObject
             where T : IPhysicsObject
         {
-            if ( obj == null ) throw new NullReferenceException( "Colliding object must not be null" );
-            if ( target == null ) throw new NullReferenceException( "Collision target must not be null" );
-            if ( handler == null ) throw new NullReferenceException( "Handler must not be null" );
+            if (obj == null)
+                throw new NullReferenceException("Colliding object must not be null");
+            if (target == null)
+                throw new NullReferenceException("Collision target must not be null");
+            if (handler == null)
+                throw new NullReferenceException("Handler must not be null");
 
             CollisionHandler<IPhysicsObject, IPhysicsObject> targetHandler =
-                delegate( IPhysicsObject collider, IPhysicsObject collidee )
+                delegate (IPhysicsObject collider, IPhysicsObject collidee)
                 {
-                    if ( object.ReferenceEquals( collidee, target ) )
-                        handler( (O)collider, (T)collidee );
+                    if (object.ReferenceEquals(collidee, target))
+                        handler((O)collider, (T)collidee);
                 };
 
             obj.Collided += targetHandler;
-            collisionHandlers.Add( new CollisionRecord( obj, target, null, handler ), targetHandler );
+            collisionHandlers.Add(new CollisionRecord(obj, target, null, handler), targetHandler);
         }
 
         /// <summary>
@@ -347,23 +356,26 @@ namespace Jypeli
         /// <param name="obj">Törmäävä olio.</param>
         /// <param name="tag">Törmättävän olion tagi.</param>
         /// <param name="handler">Metodi, joka käsittelee törmäyksen (ei parametreja).</param>
-        public void AddCollisionHandlerByTag<O, T>( O obj, object tag, CollisionHandler<O, T> handler )
+        public void AddCollisionHandlerByTag<O, T>(O obj, object tag, CollisionHandler<O, T> handler)
             where O : IPhysicsObject
             where T : IPhysicsObject
         {
-            if ( obj == null ) throw new NullReferenceException( "Colliding object must not be null" );
-            if ( tag == null ) throw new NullReferenceException( "Tag must not be null" );
-            if ( handler == null ) throw new NullReferenceException( "Handler must not be null" );
+            if (obj == null)
+                throw new NullReferenceException("Colliding object must not be null");
+            if (tag == null)
+                throw new NullReferenceException("Tag must not be null");
+            if (handler == null)
+                throw new NullReferenceException("Handler must not be null");
 
             CollisionHandler<IPhysicsObject, IPhysicsObject> targetHandler =
-                delegate( IPhysicsObject collider, IPhysicsObject collidee )
+                delegate (IPhysicsObject collider, IPhysicsObject collidee)
                 {
-                    if ( collidee is T && StringHelpers.StringEquals( collidee.Tag, tag ) )
-                        handler( (O)collider, (T)collidee );
+                    if (collidee is T && StringHelpers.StringEquals(collidee.Tag, tag))
+                        handler((O)collider, (T)collidee);
                 };
 
             obj.Collided += targetHandler;
-            collisionHandlers.Add( new CollisionRecord( obj, null, tag, handler ), targetHandler );
+            collisionHandlers.Add(new CollisionRecord(obj, null, tag, handler), targetHandler);
         }
 
         /// <summary>
@@ -373,14 +385,14 @@ namespace Jypeli
         /// <param name="obj">Törmäävä olio.</param>
         /// <param name="target">Törmättävän olion viite tai tagi.</param>
         /// <param name="handler">Metodi, joka käsittelee törmäyksen (ei parametreja).</param>
-        public void AddCollisionHandler<O, T>( O obj, object target, CollisionHandler<O, T> handler )
+        public void AddCollisionHandler<O, T>(O obj, object target, CollisionHandler<O, T> handler)
             where O : IPhysicsObject
             where T : IPhysicsObject
         {
-            if ( target is T )
-                AddCollisionHandlerByRef( obj, (T)target, handler );
+            if (target is T)
+                AddCollisionHandlerByRef(obj, (T)target, handler);
             else
-                AddCollisionHandlerByTag( obj, target, handler );
+                AddCollisionHandlerByTag(obj, target, handler);
         }
 
         /// <summary>
@@ -390,9 +402,9 @@ namespace Jypeli
         /// <param name="obj">Törmäävä olio.</param>
         /// <param name="tag">Törmättävän olion tagi.</param>
         /// <param name="handler">Metodi, joka käsittelee törmäyksen (ei parametreja).</param>
-        public void AddCollisionHandler( IPhysicsObject obj, object tag, CollisionHandler<IPhysicsObject, IPhysicsObject> handler )
+        public void AddCollisionHandler(IPhysicsObject obj, object tag, CollisionHandler<IPhysicsObject, IPhysicsObject> handler)
         {
-            AddCollisionHandler<IPhysicsObject, IPhysicsObject>( obj, tag, handler );
+            AddCollisionHandler<IPhysicsObject, IPhysicsObject>(obj, tag, handler);
         }
 
         /// <summary>
@@ -402,11 +414,11 @@ namespace Jypeli
         /// <param name="obj">Törmäävä olio.</param>
         /// <param name="tag">Törmättävän olion tagi.</param>
         /// <param name="handler">Metodi, joka käsittelee törmäyksen (ei parametreja).</param>
-        public void AddCollisionHandler( PhysicsObject obj, object tag, CollisionHandler<PhysicsObject, PhysicsObject> handler )
+        public void AddCollisionHandler(PhysicsObject obj, object tag, CollisionHandler<PhysicsObject, PhysicsObject> handler)
         {
-            AddCollisionHandler<PhysicsObject, PhysicsObject>( obj, tag, handler );
+            AddCollisionHandler<PhysicsObject, PhysicsObject>(obj, tag, handler);
         }
-        
+
         /// <summary>
         /// Poistaa kaikki ehdot täyttävät törmäyksenkäsittelijät.
         /// </summary>
@@ -414,19 +426,20 @@ namespace Jypeli
         /// <param name="target">Törmäyksen kohde. null jos ei väliä.</param>
         /// <param name="tag">Törmäyksen kohteen tagi. null jos ei väliä.</param>
         /// <param name="handler">Törmäyksenkäsittelijä. null jos ei väliä.</param>
-        public void RemoveCollisionHandlers( PhysicsObject obj = null, PhysicsObject target = null, object tag = null, Delegate handler = null )
+        public void RemoveCollisionHandlers(PhysicsObject obj = null, PhysicsObject target = null, object tag = null, Delegate handler = null)
         {
             Predicate<CollisionRecord> pred = rec =>
-                ( obj == null || object.ReferenceEquals( obj, rec.obj ) ) &&
-                ( target == null || target == rec.target ) &&
-                ( tag == null || StringHelpers.StringEquals( tag, rec.targetTag ) ) &&
-                ( handler == null || object.ReferenceEquals( handler, rec.handler ) );
+                (obj == null || object.ReferenceEquals(obj, rec.obj)) &&
+                (target == null || target == rec.target) &&
+                (tag == null || StringHelpers.StringEquals(tag, rec.targetTag)) &&
+                (handler == null || object.ReferenceEquals(handler, rec.handler));
 
             List<CollisionRecord> remove = new List<CollisionRecord>();
 
             foreach (var key in collisionHandlers.Keys)
             {
-                if (pred(key)) remove.Add(key);
+                if (pred(key))
+                    remove.Add(key);
             }
 
             foreach (var key in remove)
@@ -444,26 +457,27 @@ namespace Jypeli
         /// <param name="target">Törmäyksen kohde. null jos ei väliä.</param>
         /// <param name="tag">Törmäyksen kohteen tagi. null jos ei väliä.</param>
         /// <param name="handler">Törmäyksenkäsittelijä. null jos ei väliä.</param>
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        public void RemoveProtectedCollisionHandlers( PhysicsObject obj = null, PhysicsObject target = null, object tag = null, Delegate handler = null )
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void RemoveProtectedCollisionHandlers(PhysicsObject obj = null, PhysicsObject target = null, object tag = null, Delegate handler = null)
         {
             Predicate<CollisionRecord> pred = rec =>
-                ( obj == null || object.ReferenceEquals( obj, rec.obj ) ) &&
-                ( target == null || target == rec.target ) &&
-                ( tag == null || tag.Equals( rec.targetTag ) ) &&
-                ( handler == null || object.ReferenceEquals( handler, rec.handler ) );
+                (obj == null || object.ReferenceEquals(obj, rec.obj)) &&
+                (target == null || target == rec.target) &&
+                (tag == null || tag.Equals(rec.targetTag)) &&
+                (handler == null || object.ReferenceEquals(handler, rec.handler));
 
             List<CollisionRecord> remove = new List<CollisionRecord>();
 
-            foreach ( var key in collisionHandlers.Keys )
+            foreach (var key in collisionHandlers.Keys)
             {
-                if ( pred( key ) ) remove.Add( key );
+                if (pred(key))
+                    remove.Add(key);
             }
 
-            foreach ( var key in remove )
+            foreach (var key in remove)
             {
                 key.obj.Collided -= protectedCollisionHandlers[key];
-                protectedCollisionHandlers.Remove( key );
+                protectedCollisionHandlers.Remove(key);
             }
         }
 

@@ -81,13 +81,13 @@ namespace Jypeli
         /// Asettaa liitokselle fysiikkamoottorin
         /// </summary>
         /// <param name="engine"></param>
-        [EditorBrowsable( EditorBrowsableState.Never )]
-        void SetEngine( Jypeli.Physics.IPhysicsEngine engine );
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        void SetEngine(Jypeli.Physics.IPhysicsEngine engine);
 
         /// <summary>
         /// Lisää liitoksen fysiikkamoottorille
         /// </summary>
-        [EditorBrowsable( EditorBrowsableState.Never)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         void AddToEngine();
     }
 }

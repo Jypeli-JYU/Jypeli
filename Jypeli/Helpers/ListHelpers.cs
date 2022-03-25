@@ -14,13 +14,14 @@ namespace Jypeli
         /// </summary>
         /// <param name="values"></param>
         /// <returns></returns>
-        public static double Min( this IEnumerable<double> values )
+        public static double Min(this IEnumerable<double> values)
         {
             double min = double.PositiveInfinity;
 
-            foreach ( var value in values )
+            foreach (var value in values)
             {
-                if ( value < min ) min = value;
+                if (value < min)
+                    min = value;
             }
 
             return min;
@@ -31,13 +32,14 @@ namespace Jypeli
         /// </summary>
         /// <param name="values"></param>
         /// <returns></returns>
-        public static double Max( this IEnumerable<double> values )
+        public static double Max(this IEnumerable<double> values)
         {
             double max = double.NegativeInfinity;
 
-            foreach ( var value in values )
+            foreach (var value in values)
             {
-                if ( value > max ) max = value;
+                if (value > max)
+                    max = value;
             }
 
             return max;
@@ -48,12 +50,12 @@ namespace Jypeli
         /// </summary>
         /// <param name="values"></param>
         /// <returns></returns>
-        public static double Average( this IEnumerable<double> values )
+        public static double Average(this IEnumerable<double> values)
         {
             double sum = 0;
             int count = 0;
 
-            foreach ( var value in values )
+            foreach (var value in values)
             {
                 sum += value;
                 count++;
@@ -67,19 +69,19 @@ namespace Jypeli
         /// </summary>
         /// <param name="values"></param>
         /// <returns></returns>
-        public static Vector Average( this IEnumerable<Vector> values )
+        public static Vector Average(this IEnumerable<Vector> values)
         {
             double xsum = 0, ysum = 0;
             int count = 0;
 
-            foreach ( var value in values )
+            foreach (var value in values)
             {
                 xsum += value.X;
                 ysum += value.Y;
                 count++;
             }
 
-            return new Vector( xsum / count, ysum / count );
+            return new Vector(xsum / count, ysum / count);
         }
 
         //TODO: Iso osa seuraavista metodeista on jo toteutettu standardikirjastoon.
@@ -93,31 +95,31 @@ namespace Jypeli
         /// <param name="items">Muunnettava kokoelma</param>
         /// <param name="converter">Muunnosmetodi yhdelle oliolle</param>
         /// <returns>Muunnettu kokoelma</returns>
-        public static IEnumerable<TOutput> ConvertAll<TInput, TOutput>( this IEnumerable<TInput> items, Converter<TInput, TOutput> converter )
+        public static IEnumerable<TOutput> ConvertAll<TInput, TOutput>(this IEnumerable<TInput> items, Converter<TInput, TOutput> converter)
         {
             // Huom/TK: ConvertAll<TOutput>-metodi on jo olemassa, mutta sitä ei ole toteutettu X360/WP7-alustoille.
 
             List<TOutput> outList = new List<TOutput>();
 
-            foreach ( TInput item in items )
+            foreach (TInput item in items)
             {
-                outList.Add( converter( item ) );
+                outList.Add(converter(item));
             }
 
             return outList;
         }
 
 
-        public static List<T> FindAll<T>( this IEnumerable<T> items, Predicate<T> pred )
+        public static List<T> FindAll<T>(this IEnumerable<T> items, Predicate<T> pred)
         {
             // Huom/TK: FindAll-metodi on jo olemassa, mutta sitä ei ole toteutettu X360/WP7-alustoille.
 
             List<T> outList = new List<T>();
 
-            foreach ( var item in items )
+            foreach (var item in items)
             {
-                if ( pred( item ) )
-                    outList.Add( item );
+                if (pred(item))
+                    outList.Add(item);
             }
 
             return outList;
@@ -126,34 +128,34 @@ namespace Jypeli
         public static void AddItems<T>(this List<T> list, params T[] items) =>
             list.AddRange(items);
 
-        public static void RemoveAll<T>( this List<T> items, Predicate<T> pred )
+        public static void RemoveAll<T>(this List<T> items, Predicate<T> pred)
         {
             // Huom/TK: RemoveAll-metodi on jo olemassa, mutta sitä ei ole toteutettu X360/WP7-alustoille.
 
-            foreach ( var item in items.FindAll( pred ) )
+            foreach (var item in items.FindAll(pred))
             {
-                items.Remove( item );
+                items.Remove(item);
             }
         }
 
-        public static T Find<T>( this List<T> items, Predicate<T> pred )
+        public static T Find<T>(this List<T> items, Predicate<T> pred)
         {
             // Huom/TK: FindAll-metodi on jo olemassa, mutta sitä ei ole toteutettu X360/WP7-alustoille.
 
 #if WINDOWS
             return items.Find( pred );
 #else
-            foreach ( var item in items )
+            foreach (var item in items)
             {
-                if ( pred( item ) )
+                if (pred(item))
                     return item;
             }
 
-            return default( T );
+            return default(T);
 #endif
         }
 
-        public static T ArrayFind<T>( T[] array, Predicate<T> pred )
+        public static T ArrayFind<T>(T[] array, Predicate<T> pred)
         {
             // Huom/TK: FindAll-metodi on jo olemassa, mutta sitä ei ole toteutettu X360/WP7-alustoille.
 
@@ -162,28 +164,29 @@ namespace Jypeli
 #else
             for (int i = 0; i < array.Length; i++)
             {
-                if ( pred( array[i] ) )
+                if (pred(array[i]))
                     return array[i];
             }
 
-            return default( T );
+            return default(T);
 #endif
         }
 
-        public static IEnumerable<K> FindAll<K,V>( this Dictionary<K,V>.KeyCollection keys, Predicate<K> pred )
+        public static IEnumerable<K> FindAll<K, V>(this Dictionary<K, V>.KeyCollection keys, Predicate<K> pred)
         {
-            for ( int i = 0; i < keys.Count; i++ )
+            for (int i = 0; i < keys.Count; i++)
             {
-                K key = keys.ElementAt( i );
-                if ( pred( key ) ) yield return key;
+                K key = keys.ElementAt(i);
+                if (pred(key))
+                    yield return key;
             }
         }
 
-        public static void ForEach<T>( this T[] array, Action<T> action )
+        public static void ForEach<T>(this T[] array, Action<T> action)
         {
-            for ( int i = 0; i < array.Length; i++ )
+            for (int i = 0; i < array.Length; i++)
             {
-                action( array[i] );
+                action(array[i]);
             }
         }
     }

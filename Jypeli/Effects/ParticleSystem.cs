@@ -218,7 +218,7 @@ namespace Jypeli.Effects
             databuffer.VertexAttributePointer(4, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(Particledata), 8);
             databuffer.VertexAttributePointer(5, 1, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(Particledata), 12);
             databuffer.VertexAttributePointer(6, 4, Silk.NET.OpenGL.VertexAttribPointerType.Float, (uint)sizeof(Particledata), 16);
-            
+
             gl.BindBuffer(Silk.NET.OpenGL.BufferTargetARB.ArrayBuffer, 0);
         }
         Rendering.OpenGl.VertexArrayObject<VertexPositionColorTexture, Vector4> Vao;

@@ -75,7 +75,7 @@ namespace Jypeli
         {
             get
             {
-                return new Vector( Font.CharacterWidth * WidthInCharacters + 2 * XMargin, Font.CharacterHeight + 2 * YMargin );
+                return new Vector(Font.CharacterWidth * WidthInCharacters + 2 * XMargin, Font.CharacterHeight + 2 * YMargin);
             }
         }
 
@@ -86,7 +86,7 @@ namespace Jypeli
             set
             {
                 base.Size = value;
-                if ( Cursor != null )
+                if (Cursor != null)
                     UpdateCursorPosition();
             }
         }
@@ -100,10 +100,10 @@ namespace Jypeli
             get { return base.Text; }
             set
             {
-				base.Text = value.Length > MaxCharacters ?
-					base.Text = value.Substring (0, MaxCharacters) : value;
- 
-				UpdateCursorPosition();
+                base.Text = value.Length > MaxCharacters ?
+                    base.Text = value.Substring(0, MaxCharacters) : value;
+
+                UpdateCursorPosition();
             }
         }
 
@@ -117,8 +117,8 @@ namespace Jypeli
         /// </summary>
         protected void OnTextChanged()
         {
-            if ( TextChanged != null )
-                TextChanged( Text );
+            if (TextChanged != null)
+                TextChanged(Text);
         }
 
 #if ANDROID
@@ -132,7 +132,7 @@ namespace Jypeli
         /// Kentän leveys merkkeinä. Tämä ei rajoita kirjoitettavan tekstin pituutta.
         /// <see cref="MaxCharacters"/>
         /// </param>
-        public InputBox( int characters )
+        public InputBox(int characters)
             : base()
         {
             MaxCharacters = int.MaxValue;
@@ -142,14 +142,14 @@ namespace Jypeli
             XMargin = 7;
             YMargin = 2;
             TextColor = Color.Black;
-            Color = new Color( 0, 255, 255, 150 );
-            BorderColor = new Color( 200, 200, 200 );
+            Color = new Color(0, 255, 255, 150);
+            BorderColor = new Color(200, 200, 200);
             SizeMode = TextSizeMode.None;
             Size = PreferredSize;
 
-            Cursor = new Widget(Font.MeasureSize("I").X/2, Font.CharacterHeight);
+            Cursor = new Widget(Font.MeasureSize("I").X / 2, Font.CharacterHeight);
             Cursor.Color = new Color(255, 0, 0, 100);
-            Add( Cursor );
+            Add(Cursor);
             AddedToGame += UpdateCursorPosition;
 
             cursorBlinkTimer = new Timer();
@@ -159,7 +159,7 @@ namespace Jypeli
             AddedToGame += OnAdded;
             Removed += OnRemoved;
         }
-       
+
         private void OnAdded()
         {
             cursorBlinkTimer.Start();
@@ -243,7 +243,7 @@ namespace Jypeli
             string shownText = ShownText();
             int endPos = CursorPos - firstVisibleChar;
             double strLen = Font.MeasureSize(shownText.Substring(0, endPos < 0 ? 0 : endPos > shownText.Length ? shownText.Length : endPos)).X;
-            Cursor.Left = Left + strLen + Cursor.Width*2;
+            Cursor.Left = Left + strLen + Cursor.Width * 2;
             Cursor.Y = Y; // TODO: Isäntäelementin Y muuttuu kun ensimmäinen merkki syötetään.
         }
 
@@ -252,7 +252,8 @@ namespace Jypeli
             if (CursorPos > 0 && dir == -1)
             {
                 CursorPos--;
-                while (CursorPos < firstVisibleChar) {
+                while (CursorPos < firstVisibleChar)
+                {
                     ShownText();
                     distFromEnd++;
                 }
@@ -270,11 +271,13 @@ namespace Jypeli
 
             UpdateCursorPosition();
         }
-        
-        private void InputText( object sender, char input )
+
+        private void InputText(object sender, char input)
         {
-            if ( !this.ControlContext.Active ) return;
-            if ( input == 0x7F || input == 0x08 || input == 0x1B ) return; // delete, backspace, esc
+            if (!this.ControlContext.Active)
+                return;
+            if (input == 0x7F || input == 0x08 || input == 0x1B)
+                return; // delete, backspace, esc
 
             // TODO: Ei välttämättä tarvi välittää
             /*if ( !this.Font.Characters.Contains( e.Character ) )
@@ -282,10 +285,10 @@ namespace Jypeli
                 // Unsupported character
                 return;
             }*/
-            
+
             AddText(input.ToString());
         }
-    
+
 
         private void AddText(string text)
         {
@@ -298,8 +301,9 @@ namespace Jypeli
 
         private void EraseText()
         {
-            if (Text.Length == 0 || CursorPos == 0) return;
-            Text = Text.Remove(CursorPos-1, 1);
+            if (Text.Length == 0 || CursorPos == 0)
+                return;
+            Text = Text.Remove(CursorPos - 1, 1);
             CursorPos--;
             OnTextChanged();
             UpdateCursorPosition();
@@ -309,7 +313,7 @@ namespace Jypeli
         {
             string shownText = "";
 
-            for ( int i = Text.Length - 1 - distFromEnd; i >= 0; i-- )
+            for (int i = Text.Length - 1 - distFromEnd; i >= 0; i--)
             {
                 string newText = Text[i] + shownText;
 
@@ -325,11 +329,11 @@ namespace Jypeli
 
             return shownText;
         }
-        
+
         /// <inheritdoc/>
         public override void Draw(Matrix parentTransformation, Matrix transformation)
         {
-            if(!IsTruncated)
+            if (!IsTruncated)
                 base.Draw(parentTransformation, transformation, Text);
             else
                 base.Draw(parentTransformation, transformation, ShownText());

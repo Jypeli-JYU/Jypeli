@@ -44,7 +44,8 @@ namespace Jypeli.Widgets
             get { return _controlHelp; }
             set
             {
-                if (StartLabel.Text == _controlHelp) StartLabel.Text = value;
+                if (StartLabel.Text == _controlHelp)
+                    StartLabel.Text = value;
                 _controlHelp = value;
             }
         }
@@ -57,7 +58,8 @@ namespace Jypeli.Widgets
             get { return _loadingText; }
             set
             {
-                if (StartLabel.Text == _loadingText) StartLabel.Text = value;
+                if (StartLabel.Text == _loadingText)
+                    StartLabel.Text = value;
                 _loadingText = value;
             }
         }
@@ -160,7 +162,8 @@ namespace Jypeli.Widgets
         private void AddControls()
         {
             var l1 = Game.Keyboard.Listen(Key.Enter, ButtonState.Pressed, BeginLoad, null, StartLabel).InContext(this);
-            var l2 = Game.Keyboard.Listen(Key.Escape, ButtonState.Pressed, Game.Instance.Exit, null).InContext(this); ;
+            var l2 = Game.Keyboard.Listen(Key.Escape, ButtonState.Pressed, Game.Instance.Exit, null).InContext(this);
+            ;
             var l3 = Game.Mouse.Listen(MouseButton.Left, ButtonState.Down, BeginLoad, null, StartLabel).InContext(this);
             associatedListeners.AddItems(l1, l2, l3);
 
@@ -171,7 +174,8 @@ namespace Jypeli.Widgets
                 associatedListeners.AddItems(l1, l2);
             }
 
-            l1 = Game.TouchPanel.ListenOn(StartLabel, ButtonState.Pressed, delegate { BeginLoad(StartLabel); }, null).InContext(this);
+            l1 = Game.TouchPanel.ListenOn(StartLabel, ButtonState.Pressed, delegate
+            { BeginLoad(StartLabel); }, null).InContext(this);
             l2 = Game.PhoneBackButton.Listen(Game.Instance.Exit, null).InContext(this);
             associatedListeners.AddItems(l1, l2);
         }

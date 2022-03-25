@@ -56,10 +56,10 @@ namespace FarseerPhysics.Dynamics
         public Body CreateRectangle(float width, float height, float density, Vector2 position = new Vector2(), float rotation = 0, BodyType bodyType = BodyType.Static)
         {
             if (width <= 0)
-                throw new ArgumentOutOfRangeException("width", "Width must be more than 0 meters");
+                throw new ArgumentOutOfRangeException(nameof(width), "Width must be more than 0 meters");
 
             if (height <= 0)
-                throw new ArgumentOutOfRangeException("height", "Height must be more than 0 meters");
+                throw new ArgumentOutOfRangeException(nameof(height), "Height must be more than 0 meters");
 
             Body body = CreateBody(position, rotation, bodyType);
 
@@ -227,7 +227,7 @@ namespace FarseerPhysics.Dynamics
             PathManager.AttachBodiesWithRevoluteJoint(this, chainLinks, new Vector2(0, -linkHeight), new Vector2(0, linkHeight), false, false);
 
             if (attachRopeJoint)
-                JointFactory.CreateRopeJoint(this, chainLinks[0], chainLinks[chainLinks.Count - 1], Vector2.Zero, Vector2.Zero);
+                JointFactory.CreateRopeJoint(this, chainLinks[0], chainLinks[^1], Vector2.Zero, Vector2.Zero);
 
             return path;
         }

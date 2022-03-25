@@ -490,7 +490,7 @@ namespace Jypeli
         /// <param name="obj">Lisättävä olio</param>
         public void Add(IGameObject obj)
         {
-            if (!(obj is PhysicsObject))
+            if (obj is not PhysicsObject)
                 throw new NotImplementedException("Currently only PhysicsObjects can be added to a structure.");
 
             if (!IsAddedToGame)
@@ -514,7 +514,7 @@ namespace Jypeli
         /// <param name="obj"></param>
         public void Remove(IGameObject obj)
         {
-            if (!(obj is PhysicsObject))
+            if (obj is not PhysicsObject)
                 throw new NotImplementedException("Currently only PhysicsObjects can be added to a structure.");
 
             PhysicsObject physObj = (PhysicsObject)obj;

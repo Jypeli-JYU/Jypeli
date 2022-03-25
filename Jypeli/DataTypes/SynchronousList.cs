@@ -119,14 +119,12 @@ namespace Jypeli
 
         private void OnItemAdded( T item )
         {
-            if ( ItemAdded != null )
-                ItemAdded( item );
+            ItemAdded?.Invoke(item);
         }
 
         private void OnItemRemoved( T item )
         {
-            if ( ItemRemoved != null )
-                ItemRemoved( item );
+            ItemRemoved?.Invoke(item);
         }
 
         #region INotifyList<T> Members
@@ -138,14 +136,17 @@ namespace Jypeli
 
         private void OnChanged()
         {
-            if ( Changed != null )
-                Changed();
+            Changed?.Invoke();
         }
 
         #endregion
 
         #region IEnumerable Members
 
+        /// <summary>
+        /// Listan numeraattori
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<T> GetEnumerator()
         {
             return items.GetEnumerator();
@@ -158,6 +159,11 @@ namespace Jypeli
 
         #endregion
 
+        /// <summary>
+        /// Lisää alkio listaan.
+        /// Huom! Alkio todellisuudessa lisätään vasta kun listan <see cref="Update(Time)">Update</see> metodia on kutsuttu.
+        /// </summary>
+        /// <param name="item"></param>
         public void Add(T item)
         {
             actions.Enqueue(new ListAction(ListOperation.Add, item));
@@ -165,21 +171,41 @@ namespace Jypeli
             toBeAdded.Add(item);
         }
 
+        /// <summary>
+        /// Poistaa alkion listasta.
+        /// Huom! Alkio todellisuudessa poistetaan vasta kun listan <see cref="Update(Time)">Update</see> metodia on kutsuttu.
+        /// </summary>
+        /// <param name="item"></param>
         public void Remove(T item)
         {
             actions.Enqueue(new ListAction(ListOperation.Remove, item));
         }
 
+        /// <summary>
+        /// Tyhjentää listan.
+        /// Huom! Lista todellisuudessa tyhjennetään vasta kun listan <see cref="Update(Time)">Update</see> metodia on kutsuttu.
+        /// </summary>
         public void Clear()
         {
             actions.Enqueue(new ListAction(ListOperation.Clear));
         }
 
+        /// <summary>
+        /// Sisältääkö lista alkion.
+        /// Katso myös <see cref="WillContain(T)">WillContain</see>
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Contains( T item )
         {
             return items.Contains( item );
         }
 
+        /// <summary>
+        /// Tuleeko lista sisältämään alkion sen seuraavan päivityksen jälkeen.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool WillContain( T item )
         {
             ListAction[] actionArray = actions.ToArray();
@@ -200,16 +226,31 @@ namespace Jypeli
             return exists;
         }
 
+        /// <summary>
+        /// Alkion indeksi listassa.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public int IndexOf( T item )
         {
             return FirstIndex + items.IndexOf( item );
         }
 
+        /// <summary>
+        /// Antaa ehdon toteuttavan alkion.
+        /// </summary>
+        /// <param name="pred"></param>
+        /// <returns></returns>
         public T Find( Predicate<T> pred )
         {
             return items.Find( pred );
         }
 
+        /// <summary>
+        /// Antaa kaikki alkiot jotka toteuttavat ehdon.
+        /// </summary>
+        /// <param name="pred"></param>
+        /// <returns></returns>
         public List<T> FindAll( Predicate<T> pred )
         {
             return items.FindAll( pred );
@@ -269,12 +310,9 @@ namespace Jypeli
 
             foreach ( var item in items )
             {
-                var DestroyableItem = item as Destroyable;
-                var UpdatableItem = item as Updatable;
-
-                if ( DestroyableItem != null && DestroyableItem.IsDestroyed )
-                    Remove( item );
-                if ( UpdatableItem != null && UpdatableItem.IsUpdated )
+                if (item is Destroyable DestroyableItem && DestroyableItem.IsDestroyed)
+                    Remove(item);
+                if ( item is Updatable UpdatableItem && UpdatableItem.IsUpdated )
                     UpdatableItem.Update( time );
             }
 
@@ -294,13 +332,10 @@ namespace Jypeli
 
             foreach ( var item in items )
             {
-                var DestroyableItem = item as Destroyable;
-                var UpdatableItem = item as Updatable;
-
-                if ( DestroyableItem != null && DestroyableItem.IsDestroyed )
-                    Remove( item );
-                else if ( UpdatableItem != null && UpdatableItem.IsUpdated && isUpdated(item) )
-                    UpdatableItem.Update( time );
+                if (item is Destroyable DestroyableItem && DestroyableItem.IsDestroyed)
+                    Remove(item);
+                else if (item is Updatable UpdatableItem && UpdatableItem.IsUpdated && isUpdated(item))
+                    UpdatableItem.Update(time);
             }
 
             changed |= UpdateChanges();

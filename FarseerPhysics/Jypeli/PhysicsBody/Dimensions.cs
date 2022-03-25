@@ -138,15 +138,14 @@ namespace Jypeli
         internal static List<Vertices> CreatePhysicsShape(Shape shape, Vector size)
         {
             List<Vertices> res = new List<Vertices>();
-            if (shape is RaySegment)
+            if (shape is RaySegment raySegment)
             {
-                RaySegment raySegment = (RaySegment)shape;
                 res.Add(PolygonTools.CreateLine(raySegment.Origin, raySegment.Origin + raySegment.Direction * raySegment.Length * FSConvert.DisplayToSim));
                 return res;
             }
             else if (shape is Rectangle)
             {
-                res.Add(PolygonTools.CreateRectangle((float)size.X/2, (float)size.Y/2));
+                res.Add(PolygonTools.CreateRectangle((float)size.X / 2, (float)size.Y / 2));
                 return res;
             }
             else

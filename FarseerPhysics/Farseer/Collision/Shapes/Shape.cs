@@ -94,7 +94,7 @@ namespace FarseerPhysics.Collision.Shapes
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
+            if (obj is null)
                 return false;
 
             if (obj.GetType() != typeof(MassData))
@@ -105,14 +105,7 @@ namespace FarseerPhysics.Collision.Shapes
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                int result = Area.GetHashCode();
-                result = (result * 397) ^ Centroid.GetHashCode();
-                result = (result * 397) ^ Inertia.GetHashCode();
-                result = (result * 397) ^ Mass.GetHashCode();
-                return result;
-            }
+            return HashCode.Combine(Area, Centroid, Inertia, Mass);
         }
     }
 

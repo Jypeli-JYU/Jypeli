@@ -62,7 +62,7 @@ namespace FarseerPhysics.Dynamics
         public Fixture CreateCircle(float radius, float density)
         {
             if (radius <= 0)
-                throw new ArgumentOutOfRangeException("radius", "Radius must be more than 0 meters");
+                throw new ArgumentOutOfRangeException(nameof(radius), "Radius must be more than 0 meters");
 
             CircleShape circleShape = new CircleShape(radius, density);
             return CreateFixture(circleShape);
@@ -71,7 +71,7 @@ namespace FarseerPhysics.Dynamics
         public Fixture CreateCircle(float radius, float density, Vector2 offset)
         {
             if (radius <= 0)
-                throw new ArgumentOutOfRangeException("radius", "Radius must be more than 0 meters");
+                throw new ArgumentOutOfRangeException(nameof(radius), "Radius must be more than 0 meters");
 
             CircleShape circleShape = new CircleShape(radius, density);
             circleShape.Position = offset;
@@ -81,7 +81,7 @@ namespace FarseerPhysics.Dynamics
         public Fixture CreatePolygon(Vertices vertices, float density)
         {
             if (vertices.Count <= 1)
-                throw new ArgumentOutOfRangeException("vertices", "Too few points to be a polygon");
+                throw new ArgumentOutOfRangeException(nameof(vertices), "Too few points to be a polygon");
 
             PolygonShape polygon = new PolygonShape(vertices, density);
             return CreateFixture(polygon);
@@ -90,10 +90,10 @@ namespace FarseerPhysics.Dynamics
         public Fixture CreateEllipse(float xRadius, float yRadius, int edges, float density)
         {
             if (xRadius <= 0)
-                throw new ArgumentOutOfRangeException("xRadius", "X-radius must be more than 0");
+                throw new ArgumentOutOfRangeException(nameof(xRadius), "X-radius must be more than 0");
 
             if (yRadius <= 0)
-                throw new ArgumentOutOfRangeException("yRadius", "Y-radius must be more than 0");
+                throw new ArgumentOutOfRangeException(nameof(yRadius), "Y-radius must be more than 0");
 
             Vertices ellipseVertices = PolygonTools.CreateEllipse(xRadius, yRadius, edges);
             PolygonShape polygonShape = new PolygonShape(ellipseVertices, density);

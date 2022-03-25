@@ -202,7 +202,6 @@ namespace Jypeli.Widgets
         {
             int textureWidth = (int)Game.Screen.Width;
             int textureHeight = (int)Game.Screen.Height;
-            int amount = ( textureWidth * textureHeight ) / 800;
 
             Image image = Image.FromGradient( textureWidth, textureHeight, lowerColor, upperColor );
 

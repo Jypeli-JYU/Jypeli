@@ -88,13 +88,13 @@ namespace Jypeli
         /// <param name="obj"></param>
         protected virtual void OnObjectAdded( IGameObject obj )
         {
-            IGameObjectInternal iObj = obj as IGameObjectInternal;
-            if ( iObj == null ) return;
+            if (obj is not IGameObjectInternal iObj)
+                return;
             iObj.IsAddedToGame = true;
             iObj.OnAddedToGame();
 
-            ControlContexted cObj = obj as ControlContexted;
-            if ( cObj != null ) ActivateObject( cObj );
+            if (obj is ControlContexted cObj)
+                ActivateObject(cObj);
         }
 
         /// <summary>
@@ -103,13 +103,13 @@ namespace Jypeli
         /// <param name="obj"></param>
         protected virtual void OnObjectRemoved( IGameObject obj )
         {
-            IGameObjectInternal iObj = obj as IGameObjectInternal;
-            if ( iObj == null ) return;
+            if (obj is not IGameObjectInternal iObj)
+                return;
             iObj.IsAddedToGame = false;
             iObj.OnRemoved();
 
-            ControlContexted cObj = obj as ControlContexted;
-            if ( cObj != null ) DeactivateObject( cObj );
+            if (obj is ControlContexted cObj)
+                DeactivateObject(cObj);
         }
 
         internal static void OnAddObject( IGameObject obj )
@@ -174,7 +174,7 @@ namespace Jypeli
         {
             List<IGameObject> result = new List<IGameObject>();
 
-            foreach ( Layer layer in Game.Instance.Layers )
+            foreach ( Layer layer in Instance.Layers )
             {
                 layer.GetObjectsAboutToBeAdded( result );
             }
@@ -286,17 +286,13 @@ namespace Jypeli
             {
                 foreach ( var obj in Layers[i].Objects )
                 {
-                    GameObject gobj = obj as GameObject;
-
-                    if ( gobj != null && condition( gobj ) )
-                        objs.Add( gobj );
+                    if (obj is GameObject gobj && condition(gobj))
+                        objs.Add(gobj);
                 }
 
                 foreach (var obj in Layers[i].Objects.GetObjectsAboutToBeAdded())
                 {
-                    GameObject gobj = obj as GameObject;
-
-                    if (gobj != null && condition(gobj))
+                    if (obj is GameObject gobj && condition(gobj))
                         objs.Add(gobj);
                 }
 
@@ -348,9 +344,7 @@ namespace Jypeli
             {
                 foreach ( var obj in Layers[i].Objects )
                 {
-                    GameObject gobj = obj as GameObject;
-
-                    if ( gobj != null && condition( gobj ) )
+                    if (obj is GameObject gobj && condition(gobj))
                         return gobj;
                 }
             }
@@ -380,17 +374,18 @@ namespace Jypeli
         /// <returns>Lista olioista</returns>
         public List<GameObject> GetObjectsAt( Vector position, double radius )
         {
-            Predicate<GameObject> isInsideRadius = delegate( GameObject obj )
+            bool isInsideRadius(GameObject obj)
             {
-                if (IsJypeliWidget(obj)) return false;
+                if (IsJypeliWidget(obj))
+                    return false;
 
                 BoundingRectangle br1 = new BoundingRectangle(new Vector(obj.Left, obj.Top), new Vector(obj.Right, obj.Bottom));
-                BoundingRectangle br2 = new BoundingRectangle(position.X, position.Y, radius*2, radius*2);
+                BoundingRectangle br2 = new BoundingRectangle(position.X, position.Y, radius * 2, radius * 2);
 
                 return BoundingRectangle.Intersects(br1, br2);
-            };
+            }
 
-            return GetObjects( isInsideRadius );
+            return GetObjects(isInsideRadius);
         }
 
         /// <summary>
@@ -486,7 +481,7 @@ namespace Jypeli
         /// <returns></returns>
         public List<GameObject> GetObjectsBetween(Vector pos1, Vector pos2)
         {
-            return GetObjects(palikka => !(palikka is Widget) && palikka.IsBetween(pos1, pos2));
+            return GetObjects(palikka => palikka is not Widget && palikka.IsBetween(pos1, pos2));
         }
 
         /// <summary>
@@ -496,7 +491,7 @@ namespace Jypeli
         /// <returns>Lista olioista</returns>
         public Widget GetFirstWidget( Predicate<Widget> condition )
         {
-            return (Widget)GetFirstObject( obj => obj is Widget && condition( (Widget)obj ) );
+            return (Widget)GetFirstObject(obj => obj is Widget widget && condition(widget));
         }
 
         /// <summary>
@@ -508,7 +503,7 @@ namespace Jypeli
         /// <returns>Mahdollinen ruutuolio</returns>
         public Widget GetWidgetAt( Vector position )
         {
-            return (Widget)GetFirstObject( obj => obj is Widget && obj.IsInside( position ) && !IsJypeliWidget<IGameObject>( obj ) );
+            return (Widget)GetFirstObject(obj => obj is Widget && obj.IsInside(position) && !IsJypeliWidget<IGameObject>(obj));
         }
 #endregion
     }

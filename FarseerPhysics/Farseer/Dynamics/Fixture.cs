@@ -397,9 +397,8 @@ namespace FarseerPhysics.Dynamics
                 FixtureProxy proxy = Proxies[i];
 
                 // Compute an AABB that covers the swept Shape (may miss some rotation effect).
-                AABB aabb1, aabb2;
-                Shape.ComputeAABB(out aabb1, ref transform1, proxy.ChildIndex);
-                Shape.ComputeAABB(out aabb2, ref transform2, proxy.ChildIndex);
+                Shape.ComputeAABB(out AABB aabb1, ref transform1, proxy.ChildIndex);
+                Shape.ComputeAABB(out AABB aabb2, ref transform2, proxy.ChildIndex);
 
                 proxy.AABB.Combine(ref aabb1, ref aabb2);
 

@@ -17,8 +17,6 @@ using System.Diagnostics;
 
 using Matrix = System.Numerics.Matrix4x4;
 
-#pragma warning disable CS1591
-
 namespace Jypeli
 {
     // User contribution from Sickbattery aka David Reschke.
@@ -223,10 +221,10 @@ namespace Jypeli
             bool? pixelOffsetOptimization, Matrix? transform)
         {
             if (data != null && !width.HasValue)
-                throw new ArgumentNullException("width", "'width' can't be null if 'data' is set.");
+                throw new ArgumentNullException(nameof(width), "'width' can't be null if 'data' is set.");
 
             if (data == null && width.HasValue)
-                throw new ArgumentNullException("data", "'data' can't be null if 'width' is set.");
+                throw new ArgumentNullException(nameof(data), "'data' can't be null if 'width' is set.");
 
             if (data != null && width.HasValue)
                 SetTextureData(data, width.Value);
@@ -266,13 +264,13 @@ namespace Jypeli
         private void SetTextureData(uint[] data, int width)
         {
             if (data == null)
-                throw new ArgumentNullException("data", "'data' can't be null.");
+                throw new ArgumentNullException(nameof(data), "'data' can't be null.");
 
             if (data.Length < 4)
-                throw new ArgumentOutOfRangeException("data", "'data' length can't be less then 4. Your texture must be at least 2 x 2 pixels in size.");
+                throw new ArgumentOutOfRangeException(nameof(data), "'data' length can't be less then 4. Your texture must be at least 2 x 2 pixels in size.");
 
             if (width < 2)
-                throw new ArgumentOutOfRangeException("width", "'width' can't be less then 2. Your texture must be at least 2 x 2 pixels in size.");
+                throw new ArgumentOutOfRangeException(nameof(width), "'width' can't be less then 2. Your texture must be at least 2 x 2 pixels in size.");
 
             if (data.Length % width != 0)
                 throw new ArgumentException("'width' has an invalid value.");
@@ -425,7 +423,7 @@ namespace Jypeli
                                                 holePolygon.Add(holePolygon[0]);
 
                                                 int vertex1Index, vertex2Index;
-                                                if (SplitPolygonEdge(polygon, holeEntrance.Value, out vertex1Index, out vertex2Index))
+                                                if (SplitPolygonEdge(polygon, holeEntrance.Value, out _, out vertex2Index))
                                                     polygon.InsertRange(vertex2Index, holePolygon);
 
                                                 break;
@@ -550,7 +548,7 @@ namespace Jypeli
         private Vector? SearchHoleEntrance(Vertices polygon, Vector? lastHoleEntrance)
         {
             if (polygon == null)
-                throw new ArgumentNullException("'polygon' can't be null.");
+                throw new ArgumentNullException(nameof(polygon), "'polygon' can't be null.");
 
             if (polygon.Count < 3)
                 throw new ArgumentException("'polygon.MainPolygon.Count' can't be less then 3.");
@@ -633,7 +631,6 @@ namespace Jypeli
                                         if (DistanceToHullAcceptable(polygon, entrance.Value, true))
                                             return entrance;
 
-                                        entrance = null;
                                         break;
                                     }
                                 }
@@ -659,7 +656,7 @@ namespace Jypeli
         private bool DistanceToHullAcceptableHoles(Vertices polygon, Vector point, bool higherDetail)
         {
             if (polygon == null)
-                throw new ArgumentNullException("polygon", "'polygon' can't be null.");
+                throw new ArgumentNullException(nameof(polygon), "'polygon' can't be null.");
 
             if (polygon.Count < 3)
                 throw new ArgumentException("'polygon.MainPolygon.Count' can't be less then 3.");
@@ -688,13 +685,13 @@ namespace Jypeli
         private bool DistanceToHullAcceptable(Vertices polygon, Vector point, bool higherDetail)
         {
             if (polygon == null)
-                throw new ArgumentNullException("polygon", "'polygon' can't be null.");
+                throw new ArgumentNullException(nameof(polygon), "'polygon' can't be null.");
 
             if (polygon.Count < 3)
                 throw new ArgumentException("'polygon.Count' can't be less then 3.");
 
 
-            Vector edgeVertex2 = polygon[polygon.Count - 1];
+            Vector edgeVertex2 = polygon[^1];
             Vector edgeVertex1;
 
             if (higherDetail)
@@ -800,7 +797,7 @@ namespace Jypeli
         private List<double> SearchCrossingEdgesHoles(Vertices polygon, int y)
         {
             if (polygon == null)
-                throw new ArgumentNullException("polygon", "'polygon' can't be null.");
+                throw new ArgumentNullException(nameof(polygon), "'polygon' can't be null.");
 
             if (polygon.Count < 3)
                 throw new ArgumentException("'polygon.MainPolygon.Count' can't be less then 3.");
@@ -849,7 +846,7 @@ namespace Jypeli
                 // There is a gap between the last and the first vertex in the vertex list.
                 // We will bridge that by setting the last vertex (vertex2) to the last 
                 // vertex in the list.
-                vertex2 = polygon[polygon.Count - 1];
+                vertex2 = polygon[^1];
 
                 // We are moving along the polygon edges.
                 for (int i = 0; i < polygon.Count; i++)
@@ -1022,8 +1019,7 @@ namespace Jypeli
                     }
                     else
                     {
-                        Vector temp;
-                        if (SearchNearPixels(false, ref entrance, out temp))
+                        if (SearchNearPixels(false, ref entrance, out Vector temp))
                         {
                             current = temp;
                             entranceFound = true;
@@ -1048,8 +1044,7 @@ namespace Jypeli
                 do
                 {
                     // Search in the pre vision list for an outstanding point.
-                    Vector outstanding;
-                    if (SearchForOutstandingVertex(hullArea, out outstanding))
+                    if (SearchForOutstandingVertex(hullArea, out Vector outstanding))
                     {
                         if (endOfHull)
                         {
@@ -1173,7 +1168,7 @@ namespace Jypeli
             int x;
 
             bool foundTransparent = false;
-            bool inPolygon = false;
+            bool inPolygon;
 
             for (int i = (int)start.X + (int)start.Y * _width; i <= _dataLength; i++)
             {

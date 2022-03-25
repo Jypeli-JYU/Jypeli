@@ -21,7 +21,7 @@ namespace FarseerPhysics.Common.Decomposition.CDT.Util
 
         public static List<TriangulationPoint> UniformGrid(int n, double scale)
         {
-            double x = 0;
+            double x;
             double size = scale / n;
             double halfScale = 0.5 * scale;
 

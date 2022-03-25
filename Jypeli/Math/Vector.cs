@@ -87,7 +87,7 @@ namespace Jypeli
         /// <summary>
         /// Diagonaalivektori (1,1)
         /// </summary>
-        public static readonly Vector Diagonal = Vector.One;
+        public static readonly Vector Diagonal = One;
 
         /// <summary>
         /// Vasen normaali.
@@ -198,7 +198,7 @@ namespace Jypeli
         /// <returns></returns>
         public double ScalarProjection(Vector vector)
         {
-            return (Vector.DotProduct(this, vector) / vector.MagnitudeSquared);
+            return (DotProduct(this, vector) / vector.MagnitudeSquared);
         }
 
         /// <summary>
@@ -305,7 +305,7 @@ namespace Jypeli
                 count++;
             }
 
-            return count > 0 ? new Vector( sumX, sumY ) / count : Vector.Zero;
+            return count > 0 ? new Vector( sumX, sumY ) / count : Zero;
         }
 
         /// <summary>
@@ -324,7 +324,7 @@ namespace Jypeli
                 sumY += v.Y;
             }
 
-            return vectors.Length > 0 ? new Vector( sumX, sumY ) / vectors.Length : Vector.Zero;
+            return vectors.Length > 0 ? new Vector( sumX, sumY ) / vectors.Length : Zero;
         }
 
         /// <summary>

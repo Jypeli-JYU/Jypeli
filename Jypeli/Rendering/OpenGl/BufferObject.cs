@@ -41,6 +41,7 @@ namespace Jypeli.Rendering.OpenGl
         /// </summary>
         /// <param name="index">Indeksi</param>
         /// <param name="size">Vastaanotettavan muuttujan koko tavuina</param>
+        /// <param name="type">Muuttujien tyyppi</param>
         /// <param name="stride">Taulukon yhden alkion koko</param>
         /// <param name="offset">Offset tavuina mistä kohtaa alkion dataa luetaan</param>
         /// <param name="vertexDivisor">Kuinka moneen instansoituun esiintymään käytetään yhden taulukon alkion dataa</param>
@@ -57,6 +58,7 @@ namespace Jypeli.Rendering.OpenGl
         /// </summary>
         /// <param name="index">Indeksi</param>
         /// <param name="size">Vastaanotettavan muuttujan koko tavuina</param>
+        /// <param name="type">Muuttujien tyyppi</param>
         /// <param name="stride">Taulukon yhden alkion koko</param>
         /// <param name="offset">Offset tavuina mistä kohtaa alkion dataa luetaan</param>
         public void VertexAttributePointer(uint index, int size, VertexAttribPointerType type, uint stride, uint offset)

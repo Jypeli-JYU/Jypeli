@@ -89,8 +89,8 @@ namespace Jypeli
                 {
                     vert.Add(new List<Vector2>());
                     Fixture f = FSBody.FixtureList[i];
-                    if (f.Shape is PolygonShape)
-                        vert[i].AddRange(((PolygonShape)f.Shape).Vertices);
+                    if (f.Shape is PolygonShape shape)
+                        vert[i].AddRange(shape.Vertices);
                 }
                 return vert;
             }
@@ -103,6 +103,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
+        /// <param name="world">Fysiikkamoottorin maailma johon kappale luodaan.</param>
         public PhysicsBody(double width, double height, World world)
             : this(width, height, Shape.Rectangle, world)
         {
@@ -114,6 +115,7 @@ namespace Jypeli
         /// <param name="width">Leveys.</param>
         /// <param name="height">Korkeus.</param>
         /// <param name="shape">Muoto.</param>
+        /// <param name="world">Fysiikkamoottorin maailma johon kappale luodaan.</param>
         public PhysicsBody(double width, double height, Shape shape, World world)
         {
             this._size = new Vector(width, height) * FSConvert.DisplayToSim;
@@ -140,6 +142,7 @@ namespace Jypeli
         /// Luo fysiikkaolion, jonka muotona on säde.
         /// </summary>
         /// <param name="raySegment">Säde.</param>
+        /// <param name="world">Fysiikkamoottorin maailma johon kappale luodaan</param>
         public PhysicsBody(RaySegment raySegment, World world)
             : this(1, 1, raySegment, world)
         {

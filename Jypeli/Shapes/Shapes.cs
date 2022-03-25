@@ -181,7 +181,15 @@ namespace Jypeli
             return new ShapeCache( vertices, triangles, outlineIndices );
         }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        /// <summary>
+        /// Ovatko pisteet <c>p1</c> ja <c>p2</c> pisteiden <c>a</c> ja <c>b</c>
+        /// määräämän janan samalla puolella.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
         protected static bool SameSide( Vector a, Vector b, Vector p1, Vector p2 )
         {
             double cp1 = Vector.CrossProduct( b - a, p1 - a );
@@ -189,6 +197,14 @@ namespace Jypeli
             return cp1 * cp2 >= 0;
         }
 
+        /// <summary>
+        /// Onko piste <c>p</c> pisteiden <c>a</c>, <c>b</c> ja <c>c</c> määräämän kolmion sisällä.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="c"></param>
+        /// <returns></returns>
         protected static bool IsInsideTriangle( Vector p, Vector a, Vector b, Vector c )
         {
             Vector v0 = c - a;
@@ -212,6 +228,11 @@ namespace Jypeli
 
         // TODO: Benchmark these two methods and use as default that which is faster
 
+        /// <summary>
+        /// Onko piste <c>p</c> tämän muodon kolmioiden sisällä.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         protected bool IsInsideTriangles( Vector p )
         {
             for ( int i = 0; i < Cache.Triangles.Length; i++ )
@@ -227,6 +248,11 @@ namespace Jypeli
             return false;
         }
 
+        /// <summary>
+        /// Onko piste <c>p</c> tämän muodon rajojen sisällä.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         protected bool IsInsideOutlines( Vector p )
         {
             Vector a, b;
@@ -240,7 +266,7 @@ namespace Jypeli
                     return false;
             }
 
-            a = Cache.OutlineVertices[Cache.OutlineVertices.Length - 1];
+            a = Cache.OutlineVertices[^1];
             b = Cache.OutlineVertices[0];
             if ( !SameSide( a, b, p, Vector.Zero ) )
                 return false;
@@ -248,11 +274,17 @@ namespace Jypeli
             return true;
         }
 
-        protected bool IsInsideCircle( double x, double y, double r )
+        /// <summary>
+        /// Onko <c>x</c> ja <c>y</c> <c>r</c>-säteisen origokeskisen ympyrän sisällä.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="r"></param>
+        /// <returns></returns>
+        protected static bool IsInsideCircle( double x, double y, double r )
         {
             return x * x + y * y <= r;
         }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Onko piste muodon sisällä.

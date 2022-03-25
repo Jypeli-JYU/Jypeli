@@ -32,41 +32,6 @@ namespace Jypeli
     /// </summary>
     public class Layer : Updatable
     {
-        /// <summary>
-        /// Vertices for drawing a filled square.
-        /// </summary>
-        static readonly Vector[] squareVertices =
-        {
-            new Vector( -0.5, -0.5 ),
-            new Vector( -0.5, 0.5 ),
-            new Vector( 0.5, -0.5 ),
-            new Vector( 0.5, 0.5 )
-        };
-
-        /// <summary>
-        /// Indices for the vertex array of the square.
-        /// </summary>
-        static readonly Int16[] squareIndices =
-        {
-            0, 1, 2,
-            2, 1, 3
-        };
-
-        /// <summary>
-        /// Vertices for drawing a filled triangle.
-        /// </summary>
-        static readonly Vector[] triangleVertices =
-        {
-            new Vector( 0f, 0.5f ),
-            new Vector( 0.5f, -0.5f ),
-            new Vector( -0.5f, -0.5f ),
-        };
-
-        /// <summary>
-        /// Indices for the vertex array of the triangle.
-        /// </summary>
-        static readonly Int16[] triangleIndices = { 0, 1, 2 };
-
         static readonly TextureCoordinates defaultCoords = new TextureCoordinates()
         {
             TopLeft = new Vector(0.0f, 0.0f),
@@ -147,9 +112,9 @@ namespace Jypeli
 
         private void ObjectAdded(IGameObject obj)
         {
-            if (obj is ParticleSystem)
+            if (obj is ParticleSystem system)
             {
-                Effects.Add((ParticleSystem)obj);
+                Effects.Add(system);
             }
             else
             if (obj is CustomDrawable)
@@ -170,9 +135,9 @@ namespace Jypeli
 
         private void ObjectRemoved(IGameObject obj)
         {
-            if (obj is ParticleSystem)
+            if (obj is ParticleSystem system)
             {
-                Effects.Remove((ParticleSystem)obj);
+                Effects.Remove(system);
             }
             else
             {
@@ -346,10 +311,10 @@ namespace Jypeli
 
             foreach (var o in Objects)
             {
-                if (o is CustomDrawable)
+                if (o is CustomDrawable drawable)
                 {
                     if (o.IsVisible)
-                        ((CustomDrawable)o).Draw(worldMatrix);
+                        drawable.Draw(worldMatrix);
                 }
                 else
                 {
@@ -462,8 +427,7 @@ namespace Jypeli
 
             for (int i = 0; i < Objects.Count; i++)
             {
-                var go = Objects[i] as GameObject;
-                if (go == null || go._childObjects == null || go is Window)
+                if (Objects[i] is not GameObject go || go._childObjects == null || go is Window)
                     continue;
 
                 if (go.Shape.IsUnitSize)
@@ -497,7 +461,7 @@ namespace Jypeli
             Graphics.ShapeBatch.End();
         }
 
-        private void DrawTexture(IGameObject o, ref Matrix parentTransformation)
+        private static void DrawTexture(IGameObject o, ref Matrix parentTransformation)
         {
             Vector position = new Vector((float)o.Position.X, (float)o.Position.Y);
             Vector scale = new Vector((float)o.Size.X, (float)o.Size.Y);
@@ -552,7 +516,7 @@ namespace Jypeli
             }
         }
 
-        private void DrawShape(IGameObject o, ref Matrix parentTransformation)
+        private static void DrawShape(IGameObject o, ref Matrix parentTransformation)
         {
             if (!o.IsVisible)
                 return;
@@ -577,7 +541,7 @@ namespace Jypeli
             }
         }
 
-        private void Draw(IGameObject o, ref Matrix parentTransformation)
+        private static void Draw(IGameObject o, ref Matrix parentTransformation)
         {
             Vector drawScale = new Vector(1, 1);
             if (o.Shape.IsUnitSize)
@@ -595,9 +559,9 @@ namespace Jypeli
                     * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0f)
                     * parentTransformation;
 
-                if (o is CustomDrawable)
+                if (o is CustomDrawable drawable)
                 {
-                    ((CustomDrawable)o).Draw(parentTransformation);
+                    drawable.Draw(parentTransformation);
                 }
                 else if (o.Image != null && (!o.TextureFillsShape))
                 {

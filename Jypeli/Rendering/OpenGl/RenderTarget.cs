@@ -28,6 +28,7 @@ namespace Jypeli.Rendering.OpenGl
         /// <summary>
         /// Tekstuuri johon voidaan piirtää kuva.
         /// </summary>
+        /// <param name="device">Grafiikkalaite</param>
         /// <param name="width">Leveys</param>
         /// <param name="height">Korkeus</param>
         public RenderTarget(GraphicsDevice device, uint width, uint height)

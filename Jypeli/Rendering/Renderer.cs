@@ -131,6 +131,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="text">Teksti</param>
         /// <param name="transformation">Transformaatiomatriisi</param>
+        /// <param name="position">Sijainti</param>
         /// <param name="font">Fontti</param>
         /// <param name="color">Tekstin väri</param>
         /// <param name="scale">Tekstin skaalaus</param>
@@ -145,6 +146,7 @@ namespace Jypeli
         /// </summary>
         /// <param name="text">Teksti</param>
         /// <param name="transformation">Transformaatiomatriisi</param>
+        /// <param name="position">Sijainti</param>
         /// <param name="font">Fontti</param>
         /// <param name="colors">Tekstin kirjainten väri</param>
         /// <param name="scale">Tekstin skaalaus</param>

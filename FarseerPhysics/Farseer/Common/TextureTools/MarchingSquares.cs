@@ -378,7 +378,7 @@ namespace FarseerPhysics.Common.TextureTools
                     if ((val & (1 << i)) != 0)
                     {
                         if (i == 7 && (val & 1) == 0)
-                            poly.Points.Add(p = new Vector2(x0, YLerp(y0, y1, x0, v0, v3, f, bin)));
+                            poly.Points.Add(new Vector2(x0, YLerp(y0, y1, x0, v0, v3, f, bin)));
                         else
                         {
                             if (i == 0) p = new Vector2(x0, y0);
@@ -501,7 +501,6 @@ namespace FarseerPhysics.Common.TextureTools
         {
             // first node in the list
             CxFastListNode<T> _head;
-            int _count;
 
             /// <summary>
             /// Iterator to start of list (O(1))
@@ -537,14 +536,11 @@ namespace FarseerPhysics.Common.TextureTools
                 {
                     newNode._next = null;
                     _head = newNode;
-                    _count++;
                     return newNode;
                 }
 
                 newNode._next = _head;
                 _head = newNode;
-
-                _count++;
 
                 return newNode;
             }
@@ -573,14 +569,12 @@ namespace FarseerPhysics.Common.TextureTools
                                 if (head == _head)
                                 {
                                     _head = head._next;
-                                    _count--;
                                     return true;
                                 }
                                 else
                                 {
                                     // were not at the head
                                     prev._next = head._next;
-                                    _count--;
                                     return true;
                                 }
                             }
@@ -622,8 +616,6 @@ namespace FarseerPhysics.Common.TextureTools
                 newNode._next = nextNode;
                 node._next = newNode;
 
-                _count++;
-
                 return newNode;
             }
 
@@ -642,7 +634,6 @@ namespace FarseerPhysics.Common.TextureTools
                 else
                     return null;
 
-                _count--;
                 return nextNode;
             }
 
@@ -687,7 +678,6 @@ namespace FarseerPhysics.Common.TextureTools
                 }
 
                 _head = null;
-                _count = 0;
             }
 
             /// <summary>

@@ -56,7 +56,7 @@ namespace Jypeli
                     {
                         Graphics.LineBatch.Draw(vertices[i], vertices[i + 1], BorderColor);
                     }
-                    Graphics.LineBatch.Draw(vertices[vertices.Length - 1], vertices[0], BorderColor);
+                    Graphics.LineBatch.Draw(vertices[^1], vertices[0], BorderColor);
                 }
                 Graphics.LineBatch.End();
             }
@@ -67,9 +67,7 @@ namespace Jypeli
             {
                 foreach (var child in Objects)
                 {
-                    Widget wc = child as Widget;
-
-                    if (wc != null && wc.IsVisible)
+                    if (child is Widget wc && wc.IsVisible)
                     {
                         wc.Draw(parentTransformation);
                     }

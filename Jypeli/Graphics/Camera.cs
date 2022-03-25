@@ -281,7 +281,7 @@ namespace Jypeli
 
             FollowedObject = new GameObject( 1.0, 1.0 );
             followedObjects = new List<GameObject>( gameobjects );
-            updateAvgPoint();
+            UpdateAvgPoint();
         }
 
         /// <summary>
@@ -320,7 +320,7 @@ namespace Jypeli
             FollowedObject = null;
         }
 
-        private void updateAvgPoint()
+        private void UpdateAvgPoint()
         {
             FollowedObject.Position = followedObjects.ConvertAll<GameObject, Vector>( ( GameObject o ) => { return o.Position; } ).Average();
 
@@ -378,10 +378,10 @@ namespace Jypeli
         public void ZoomToAllObjects( double borderSize )
         {
             // Do the real zoom next update so all objects waiting to be added are added before that
-            Game.DoNextUpdate( doZoomToAllObjects, borderSize );
+            Game.DoNextUpdate( DoZoomToAllObjects, borderSize );
         }
 
-        private void doZoomToAllObjects( double borderSize )
+        private void DoZoomToAllObjects( double borderSize )
         {
             if ( Game.Instance.ObjectCount > 0 )
                 ZoomTo( Game.Instance.Level.FindObjectLimits(), borderSize );
@@ -447,7 +447,7 @@ namespace Jypeli
                 Vector worldOffset = ScreenToWorld( FollowOffset );
 
                 // Update the average point if following multiple objects
-                if ( followedObjects != null ) updateAvgPoint();
+                if ( followedObjects != null ) UpdateAvgPoint();
 
                 if ( FollowsX && FollowsY )
                     Position = FollowedObject.Position + ( worldOffset - center );

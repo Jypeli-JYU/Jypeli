@@ -141,7 +141,7 @@ namespace FarseerPhysics.Common.TextureTools
         /// </summary>
         /// <param name="data"></param>
         /// <param name="offset"></param>
-        public void ApplyData(sbyte[,] data, Vector2 offset = default(Vector2))
+        public void ApplyData(sbyte[,] data, Vector2 offset = default)
         {
             for (int x = 0; x < data.GetUpperBound(0); x++)
             {

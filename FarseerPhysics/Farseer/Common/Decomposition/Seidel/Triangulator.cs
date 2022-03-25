@@ -152,7 +152,7 @@ namespace FarseerPhysics.Common.Decomposition.Seidel
                 edges.Add(new Edge(points[i], points[i + 1]));
             }
 
-            edges.Add(new Edge(points[0], points[points.Count - 1]));
+            edges.Add(new Edge(points[0], points[^1]));
             return OrderSegments(edges);
         }
 

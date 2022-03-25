@@ -288,7 +288,7 @@ namespace Jypeli
         /// <returns>Rajoittamaton kulma</returns>
         public static UnlimitedAngle Sum( UnlimitedAngle a, Angle b )
         {
-            return UnlimitedAngle.FromRadians( a.Radians + b.Radians );
+            return FromRadians( a.Radians + b.Radians );
         }
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace Jypeli
         /// <returns>Rajoittamaton kulma</returns>
         public static UnlimitedAngle Sum( Angle a, UnlimitedAngle b )
         {
-            return UnlimitedAngle.FromRadians( a.Radians + b.Radians );
+            return FromRadians( a.Radians + b.Radians );
         }
 
         #endregion
@@ -337,7 +337,7 @@ namespace Jypeli
         /// <returns></returns>
         public static double DegreeToRadian( double degree )
         {
-            return (float)( degree * ( System.Math.PI / 180 ) );
+            return (float)( degree * ( Math.PI / 180 ) );
         }
 
         /// <summary>
@@ -368,14 +368,14 @@ namespace Jypeli
         /// <returns></returns>
         public override bool Equals( object obj )
         {
-            if ( obj is UnlimitedAngle )
+            if ( obj is UnlimitedAngle uAngle)
             {
-                return Double.Equals( this.Radians, ( (UnlimitedAngle)obj ).Radians );
+                return Equals( Radians, uAngle.Radians );
             }
 
-            else if ( obj is Angle )
+            else if ( obj is Angle angle)
             {
-                return Double.Equals( this.Radians, ( (Angle)obj ).Radians );
+                return Equals( Radians, angle.Radians );
             }
 
             return false;
@@ -387,7 +387,7 @@ namespace Jypeli
         /// <returns></returns>
         public override string ToString()
         {
-            return radian.ToString( System.Globalization.NumberFormatInfo.InvariantInfo );
+            return radian.ToString( NumberFormatInfo.InvariantInfo );
         }
 
         /// <summary>

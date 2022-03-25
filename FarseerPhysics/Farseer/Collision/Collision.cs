@@ -610,9 +610,7 @@ namespace FarseerPhysics.Collision
             _input.TransformB = xfB;
             _input.UseRadii = true;
 
-            SimplexCache cache;
-            DistanceOutput output;
-            Distance.ComputeDistance(out output, out cache, _input);
+            Distance.ComputeDistance(out DistanceOutput output, out _, _input);
 
             return output.Distance < 10.0f * Settings.Epsilon;
         }
@@ -772,8 +770,8 @@ namespace FarseerPhysics.Collision
                                (float)
                                Math.Sqrt(manifold.LocalNormal.X * manifold.LocalNormal.X +
                                          manifold.LocalNormal.Y * manifold.LocalNormal.Y);
-                manifold.LocalNormal.X = manifold.LocalNormal.X * factor;
-                manifold.LocalNormal.Y = manifold.LocalNormal.Y * factor;
+                manifold.LocalNormal.X *= factor;
+                manifold.LocalNormal.Y *= factor;
                 manifold.LocalPoint = v1;
 
                 ManifoldPoint p0b = manifold.Points[0];
@@ -798,8 +796,8 @@ namespace FarseerPhysics.Collision
                                (float)
                                Math.Sqrt(manifold.LocalNormal.X * manifold.LocalNormal.X +
                                          manifold.LocalNormal.Y * manifold.LocalNormal.Y);
-                manifold.LocalNormal.X = manifold.LocalNormal.X * factor;
-                manifold.LocalNormal.Y = manifold.LocalNormal.Y * factor;
+                manifold.LocalNormal.X *= factor;
+                manifold.LocalNormal.Y *= factor;
                 manifold.LocalPoint = v2;
 
                 ManifoldPoint p0c = manifold.Points[0];
@@ -847,13 +845,11 @@ namespace FarseerPhysics.Collision
             manifold.PointCount = 0;
             float totalRadius = polyA.Radius + polyB.Radius;
 
-            int edgeA = 0;
-            float separationA = FindMaxSeparation(out edgeA, polyA, ref transformA, polyB, ref transformB);
+            float separationA = FindMaxSeparation(out int edgeA, polyA, ref transformA, polyB, ref transformB);
             if (separationA > totalRadius)
                 return;
 
-            int edgeB = 0;
-            float separationB = FindMaxSeparation(out edgeB, polyB, ref transformB, polyA, ref transformA);
+            float separationB = FindMaxSeparation(out int edgeB, polyB, ref transformB, polyA, ref transformA);
             if (separationB > totalRadius)
                 return;
 
@@ -886,8 +882,7 @@ namespace FarseerPhysics.Collision
                 flip = false;
             }
 
-            FixedArray2<ClipVertex> incidentEdge;
-            FindIncidentEdge(out incidentEdge, poly1, ref xf1, edge1, poly2, ref xf2);
+            FindIncidentEdge(out FixedArray2<ClipVertex> incidentEdge, poly1, ref xf1, edge1, poly2, ref xf2);
 
             int count1 = poly1.Vertices.Count;
 
@@ -918,17 +913,15 @@ namespace FarseerPhysics.Collision
             float sideOffset2 = tangent.X * v12.X + tangent.Y * v12.Y + totalRadius;
 
             // Clip incident edge against extruded edge1 side edges.
-            FixedArray2<ClipVertex> clipPoints1;
-            FixedArray2<ClipVertex> clipPoints2;
 
             // Clip to box side 1
-            int np = ClipSegmentToLine(out clipPoints1, ref incidentEdge, -tangent, sideOffset1, iv1);
+            int np = ClipSegmentToLine(out FixedArray2<ClipVertex> clipPoints1, ref incidentEdge, -tangent, sideOffset1, iv1);
 
             if (np < 2)
                 return;
 
             // Clip to negative box side 1
-            np = ClipSegmentToLine(out clipPoints2, ref clipPoints1, tangent, sideOffset2, iv2);
+            np = ClipSegmentToLine(out FixedArray2<ClipVertex> clipPoints2, ref clipPoints1, tangent, sideOffset2, iv2);
 
             if (np < 2)
             {
@@ -1157,7 +1150,6 @@ namespace FarseerPhysics.Collision
                 // 8. Clip
 
                 TempPolygon tempPolygonB = new TempPolygon(Settings.MaxPolygonVertices);
-                Transform xf;
                 Vector2 centroidB;
                 Vector2 normal0 = new Vector2();
                 Vector2 normal1;
@@ -1167,7 +1159,7 @@ namespace FarseerPhysics.Collision
                 float radius;
                 bool front;
 
-                Transform.Divide(ref xfB, ref xfA, out xf);
+                Transform.Divide(ref xfB, ref xfA, out Transform xf);
 
                 centroidB = Transform.Multiply(polygonB.MassData.Centroid, ref xf);
 
@@ -1494,12 +1486,10 @@ namespace FarseerPhysics.Collision
                 rf.sideOffset2 = Vector2.Dot(rf.sideNormal2, rf.v2);
 
                 // Clip incident edge against extruded edge1 side edges.
-                FixedArray2<ClipVertex> clipPoints1;
-                FixedArray2<ClipVertex> clipPoints2;
                 int np;
 
                 // Clip to box side 1
-                np = ClipSegmentToLine(out clipPoints1, ref ie, rf.sideNormal1, rf.sideOffset1, rf.i1);
+                np = ClipSegmentToLine(out FixedArray2<ClipVertex> clipPoints1, ref ie, rf.sideNormal1, rf.sideOffset1, rf.i1);
 
                 if (np < Settings.MaxManifoldPoints)
                 {
@@ -1507,7 +1497,7 @@ namespace FarseerPhysics.Collision
                 }
 
                 // Clip to negative box side 1
-                np = ClipSegmentToLine(out clipPoints2, ref clipPoints1, rf.sideNormal2, rf.sideOffset2, rf.i2);
+                np = ClipSegmentToLine(out FixedArray2<ClipVertex> clipPoints2, ref clipPoints1, rf.sideNormal2, rf.sideOffset2, rf.i2);
 
                 if (np < Settings.MaxManifoldPoints)
                 {

@@ -114,8 +114,6 @@ namespace FarseerPhysics.Collision.Shapes
             get { return _prevVertex; }
             set
             {
-                Debug.Assert(value != null);
-
                 _prevVertex = value;
                 _hasPrevVertex = true;
             }
@@ -130,8 +128,6 @@ namespace FarseerPhysics.Collision.Shapes
             get { return _nextVertex; }
             set
             {
-                Debug.Assert(value != null);
-
                 _nextVertex = value;
                 _hasNextVertex = true;
             }

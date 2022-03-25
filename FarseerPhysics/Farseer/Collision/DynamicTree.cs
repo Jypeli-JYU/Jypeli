@@ -292,7 +292,6 @@ namespace FarseerPhysics.Collision
         /// <summary>
         /// Set proxy user data.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="proxyId">The proxy id.</param>
         /// <param name="userData">The proxy user data.</param>
         public void SetUserData(int proxyId, T userData)
@@ -303,7 +302,6 @@ namespace FarseerPhysics.Collision
         /// <summary>
         /// Get proxy user data.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="proxyId">The proxy id.</param>
         /// <returns>the proxy user data or 0 if the id is invalid.</returns>
         public T GetUserData(int proxyId)

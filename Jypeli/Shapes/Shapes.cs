@@ -33,6 +33,7 @@ using System.Linq;
 
 using System.Reflection;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Jypeli
 {
@@ -127,9 +128,56 @@ namespace Jypeli
             Vector[] polygonVertices = new Vector[vertices.Count];
             for (int i = 0; i < vertices.Count; i++)
                 polygonVertices[i] = new Vector(vertices[i].X, vertices[i].Y);
+            try
+            {
+                List<List<Vector>> verts = PolygonManipulation.CDTDecomposer.ConvexPartition(polygonVertices.ToList());
 
-            ShapeCache cache = new ShapeCache(polygonVertices);
-            return new Polygon(cache);
+                List<IndexTriangle> indices = FormIndices(verts, polygonVertices);
+
+                ShapeCache cache = new ShapeCache(polygonVertices, indices.ToArray(), Array.ConvertAll(Enumerable.Range(0, vertices.Count).ToArray(), v => (short)v));
+                return new Polygon(cache);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Kuvasta muodostettua muotoa ei voity täyttää kolmioilla jostain syystä.");
+                Debug.WriteLine("Muotoa ei voida piirtää täytettynä värillä.");
+                Debug.WriteLine(e.Message);
+                ShapeCache cache = new ShapeCache(polygonVertices);
+                return new Polygon(cache);
+            }
+
+        }
+        
+        private static List<IndexTriangle> FormIndices(List<List<Vector>> triangles, Vector[] polygonVertices)
+        {
+            List<IndexTriangle> indices = new List<IndexTriangle>();
+            
+            for (int i = 0; i < triangles.Count; i++)
+            {
+                List<Vector> triangle = triangles[i];
+
+                uint[] ind = new uint[3];
+                for (int j = 0; j < 3; j++)
+                {
+                    // CDTDecomposer muodostaa vektorit uudestaan, jolloin tapahtuu luultavasti jonkinlaista liukulukuvirhettä.
+                    // Sen voisi joskus muuttaa käyttämään Jypelin vektoreita ja Doubleja, jolloin voi olla että tätä ei tapahtuisi.
+                    // Tämä nyt myös hajoaa jos muodostetaan hyyvin pieniä muotoja, mutta sitä ei pitäisi ikinä muutenkaan tapahtua.
+                    Vector t = polygonVertices.Where((v) => (v - triangle[j]).Magnitude < 0.00001).First();
+                    int index = Array.IndexOf(polygonVertices, t);
+                    if (index == -1)
+                    {
+                        throw new Exception("Verteksiä ei löytynyt.");
+                    }
+                    else
+                    {
+                        ind[j] = (uint)index;
+                    }
+                }
+
+                indices.Add(new IndexTriangle(ind[0], ind[1], ind[2]));
+            }
+
+            return indices;
         }
 
         /// <summary>

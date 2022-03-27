@@ -251,6 +251,18 @@ namespace Jypeli
 
                     canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
                 }
+
+                if (vertex.Count > 2)
+                {
+                    double x1 = wmul * vertex[^1].X;
+                    double y1 = hmul * vertex[^1].Y;
+                    double x2 = wmul * vertex[0].X;
+                    double y2 = hmul * vertex[0].Y;
+                    
+                    var t1 = new Vector(x1, y1).Transform(transform);
+                    var t2 = new Vector(x2, y2).Transform(transform);
+                    canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
+                }
             }
         }
 

@@ -209,7 +209,12 @@ namespace Jypeli
                 return;
 
             if (DebugViewSettings.DrawOutlines)
+            {
+                Matrix m = Matrix.Identity;
+                Graphics.Canvas.Begin(ref m, Level);
                 PaintDebugScreen();
+                Graphics.Canvas.End();
+            }
 
             DebugLayer.Draw(Camera);
         }
@@ -232,32 +237,19 @@ namespace Jypeli
                     * Matrix.CreateTranslation(-(float)camera.Position.X, -(float)camera.Position.Y, 0f)
                     * Matrix.CreateScale((float)(camera.ZoomFactor), (float)(camera.ZoomFactor), 1f);
 
-            foreach (var vertexes in vertices)
+            foreach (var vertex in vertices)
             {
-                for (int j = 0; j < vertexes.Count - 1; j++)
+                for (int j = 0; j < vertex.Count - 1; j++)
                 {
-                    double x1 = wmul * vertexes[j].X;
-                    double y1 = hmul * vertexes[j].Y;
-                    double x2 = wmul * vertexes[j + 1].X;
-                    double y2 = hmul * vertexes[j + 1].Y;
-                    /*
-                    var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
-                    var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
+                    double x1 = wmul * vertex[j].X;
+                    double y1 = hmul * vertex[j].Y;
+                    double x2 = wmul * vertex[j + 1].X;
+                    double y2 = hmul * vertex[j + 1].Y;
+                    
+                    var t1 = new Vector(x1, y1).Transform(transform);
+                    var t2 = new Vector(x2, y2).Transform(transform);
 
-                    canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);*/
-                }
-
-                if (vertexes.Count > 2)
-                {
-                    double x1 = wmul * vertexes[vertexes.Count - 1].X;
-                    double y1 = hmul * vertexes[vertexes.Count - 1].Y;
-                    double x2 = wmul * vertexes[0].X;
-                    double y2 = hmul * vertexes[0].Y;
-                    /*
-                    var t1 = Vector2.Transform(new Vector2((float)x1, (float)y1), transform);
-                    var t2 = Vector2.Transform(new Vector2((float)x2, (float)y2), transform);
-
-                    canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);*/
+                    canvas.DrawLine(t1.X, t1.Y, t2.X, t2.Y);
                 }
             }
         }
@@ -288,6 +280,7 @@ namespace Jypeli
 
         private void PaintDebugScreen()
         {
+            
             Layers.ForEach(l => l.DrawOutlines(Camera, DebugViewSettings.GameObjectColor, typeof(GameObject)));
             Layers.ForEach(l => l.DrawOutlines(Camera, DebugViewSettings.PhysicsObjectColor, typeof(PhysicsObject)));
 
@@ -316,7 +309,17 @@ namespace Jypeli
             foreach (var joint in PhysicsGameBase.Instance.Joints)
             {
                 DrawJoints(debugCanvas, joint);
-
+            }
+            
+            foreach (var item in GetAllObjects())
+            {
+                if (item is PhysicsObject obj)
+                {
+                    if (obj.Body != null)
+                    {
+                        PaintPhysicsOutlines(debugCanvas, obj, DebugViewSettings.PhysicsObjectVertexColor);
+                    }
+                }
             }
         }
     }

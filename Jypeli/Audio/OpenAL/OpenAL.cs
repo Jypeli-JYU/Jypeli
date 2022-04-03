@@ -39,9 +39,9 @@ using System.Threading.Tasks;
 
 using Silk.NET.OpenAL;
 
-namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta jos tulevaisuudessa tulee jokin muukin alusta äänen toistoa varten.
+namespace Jypeli.Audio.OpenAL
 {
-    internal static unsafe class OpenAL
+    internal unsafe class OpenAL : IAudioOutput<uint>
     {
         private static AL al;
         private static bool initialized;
@@ -93,7 +93,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             al.SetListenerProperty(ListenerVector3.Position, 0, 0, 1);
         }
 
-        internal static uint LoadSound(Stream stream)
+        public uint LoadSound(Stream stream)
         {
             using (var memoryStream = new MemoryStream())
             {
@@ -102,7 +102,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             }
         }
 
-        internal static uint LoadSound(string filename)
+        public uint LoadSound(string filename)
         {
             ReadOnlySpan<byte> file = File.ReadAllBytes(filename);
             return LoadWAV(file);
@@ -260,12 +260,12 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             return source;
         }
 
-        internal static void Destroy(uint handle)
+        public void Destroy(uint handle)
         {
             al.DeleteSource(handle);
         }
 
-        internal static uint Duplicate(uint from)
+        public uint Duplicate(uint from)
         {
             if (al is null)
             {
@@ -279,22 +279,22 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             return to;
         }
 
-        internal static void Play(uint source)
+        public void Play(uint source)
         {
             al?.SourcePlay(source);
         }
 
-        internal static void Stop(uint source)
+        public void Stop(uint source)
         {
             al?.SourceStop(source);
         }
 
-        internal static void Pause(uint source)
+        public void Pause(uint source)
         {
             al?.SourcePause(source);
         }
 
-        internal static double GetPan(uint handle)
+        public double GetPan(uint handle)
         {
             if (al is null)
             {
@@ -305,25 +305,25 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             return value.X;
         }
 
-        internal static void SetPan(uint handle, double value)
+        public void SetPan(uint handle, double value)
         {
             System.Numerics.Vector3 v = new System.Numerics.Vector3((float)value, 0, 0);
             al?.SetSourceProperty(handle, SourceVector3.Position, in v);
         }
 
-        internal static Vector GetPosition(uint handle)
+        public Vector GetPosition(uint handle)
         {
             al.GetSourceProperty(handle, SourceVector3.Position, out System.Numerics.Vector3 value);
             return new Vector(value.X, value.Y);
         }
 
-        internal static void SetPosition(uint handle, Vector value)
+        public void SetPosition(uint handle, Vector value)
         {
             System.Numerics.Vector3 v = new System.Numerics.Vector3((float)value.X, (float)value.Y, 0);
             al?.SetSourceProperty(handle, SourceVector3.Position, in v);
         }
 
-        internal static double GetVolume(uint handle)
+        public double GetVolume(uint handle)
         {
             if (al is null)
             {
@@ -333,12 +333,12 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             return value;
         }
 
-        internal static void SetVolume(uint handle, double value)
+        public void SetVolume(uint handle, double value)
         {
             al?.SetSourceProperty(handle, SourceFloat.Gain, (float)value);
         }
 
-        internal static double GetPitch(uint handle)
+        public double GetPitch(uint handle)
         {
             if (al is null)
             {
@@ -348,12 +348,12 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             return value;
         }
 
-        internal static void SetPitch(uint handle, double value)
+        public void SetPitch(uint handle, double value)
         {
             al?.SetSourceProperty(handle, SourceFloat.Pitch, (float)value);
         }
 
-        internal static double GetDuration(uint handle)
+        public double GetDuration(uint handle)
         {
             if (al is null)
             {
@@ -370,7 +370,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             return size / (double)(frequency * channels * bits / 8);
         }
 
-        internal static bool GetLooping(uint handle)
+        public bool GetLooping(uint handle)
         {
             if (al is null)
             {
@@ -381,7 +381,7 @@ namespace Jypeli.Audio.OpenAL // Laitetaan omaan nimiavaruuteen siltä varalta j
             return value;
         }
 
-        internal static void SetLooping(uint handle, bool value)
+        public void SetLooping(uint handle, bool value)
         {
             al?.SetSourceProperty(handle, SourceBoolean.Looping, value);
         }

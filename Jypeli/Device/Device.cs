@@ -81,7 +81,12 @@ namespace Jypeli.Devices
             }
         }
 
-        internal virtual Stream StreamContent(string name, string[] extensions)
+        public virtual Stream StreamContent(string name, string[] extensions)
+        {
+            return File.OpenRead(name);
+        }
+
+        public virtual Stream StreamContent(string name)
         {
             return File.OpenRead(name);
         }

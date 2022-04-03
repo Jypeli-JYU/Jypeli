@@ -40,12 +40,14 @@ using Matrix = System.Numerics.Matrix4x4;
 using Jypeli.Effects;
 using System.Diagnostics;
 using System.Linq;
+using Jypeli.Audio;
 
 
 #if ANDROID
 using Android.Content.Res;
 using Jypeli.Controls.Keyboard;
 using Android.App;
+using AudioTrack = Android.Media.AudioTrack;
 #endif
 
 namespace Jypeli
@@ -131,6 +133,11 @@ namespace Jypeli
         /// </summary>
         public static bool AudioEnabled { get; private set; } = true;
 
+#if ANDROID
+        internal static IAudioOutput<Audio.Android.AudioTrackContainer> AudioOutput { get; set; }
+#else
+        internal static IAudioOutput<uint> AudioOutput { get; set; }
+#endif
         /// <summary>
         /// Aktiivinen kenttä.
         /// </summary>
@@ -243,7 +250,12 @@ namespace Jypeli
         {
             try
             {
+#if ANDROID
+                AudioOutput = new Audio.Android.AndroidAudio();
+#else
+                AudioOutput = new Audio.OpenAL.OpenAL();
                 Audio.OpenAL.OpenAL.Init();
+#endif
             }
             catch (Exception ex)
             {

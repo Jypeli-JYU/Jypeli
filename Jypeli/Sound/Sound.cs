@@ -21,8 +21,8 @@ namespace Jypeli
         /// </summary>
         public bool IsLooped
         {
-            get { return OpenAL.GetLooping(soundeffect.handle); }
-            set { OpenAL.SetLooping(soundeffect.handle, value); }
+            get { return Game.AudioOutput.GetLooping(soundeffect.handle); }
+            set { Game.AudioOutput.SetLooping(soundeffect.handle, value); }
         }
 
         /// <summary>
@@ -35,8 +35,8 @@ namespace Jypeli
         /// </remarks>
         public double Pan
         {
-            get { return OpenAL.GetPan(soundeffect.handle); }
-            set { OpenAL.SetPan(soundeffect.handle, value); }
+            get { return Game.AudioOutput.GetPan(soundeffect.handle); }
+            set { Game.AudioOutput.SetPan(soundeffect.handle, value); }
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace Jypeli
         /// </remarks>
         public Vector Position
         {
-            get { return OpenAL.GetPosition(soundeffect.handle); }
-            set { OpenAL.SetPosition(soundeffect.handle, value); }
+            get { return Game.AudioOutput.GetPosition(soundeffect.handle); }
+            set { Game.AudioOutput.SetPosition(soundeffect.handle, value); }
         }
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace Jypeli
         /// </summary>
         public double Volume
         {
-            get { return OpenAL.GetVolume(soundeffect.handle); }
-            set { OpenAL.SetVolume(soundeffect.handle, value); }
+            get { return Game.AudioOutput.GetVolume(soundeffect.handle); }
+            set { Game.AudioOutput.SetVolume(soundeffect.handle, value); }
         }
 
         /// <summary>
@@ -67,8 +67,8 @@ namespace Jypeli
         /// </summary>
         public double Pitch
         {
-            get { return PitchFromAL(OpenAL.GetPitch(soundeffect.handle)); }
-            set { OpenAL.SetPitch(soundeffect.handle, PitchToAL(value)); }
+            get { return PitchFromAL(Game.AudioOutput.GetPitch(soundeffect.handle)); }
+            set { Game.AudioOutput.SetPitch(soundeffect.handle, PitchToAL(value)); }
         }
 
         /*
@@ -113,8 +113,8 @@ namespace Jypeli
         {
             try
             {
-                OpenAL.SetVolume(soundeffect.handle, Volume * Game.MasterVolume);
-                OpenAL.Play(soundeffect.handle);
+                Game.AudioOutput.SetVolume(soundeffect.handle, Volume * Game.MasterVolume);
+                Game.AudioOutput.Play(soundeffect.handle);
             }
             catch (NullReferenceException)
             {
@@ -135,7 +135,7 @@ namespace Jypeli
         /// </summary>
         public void Resume()
         {
-            OpenAL.Play(soundeffect.handle);
+            Game.AudioOutput.Play(soundeffect.handle);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Jypeli
         /// </summary>
         public void Stop()
         {
-            OpenAL.Stop(soundeffect.handle);
+            Game.AudioOutput.Stop(soundeffect.handle);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Jypeli
         /// </summary>
         public void Pause()
         {
-            OpenAL.Pause(soundeffect.handle);
+            Game.AudioOutput.Pause(soundeffect.handle);
         }
     }
 }

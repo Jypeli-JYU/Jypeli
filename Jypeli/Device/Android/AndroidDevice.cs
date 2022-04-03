@@ -4,7 +4,6 @@ using Jypeli.Devices;
 
 #if ANDROID
 using Android.Content.Res;
-
 using Essentials = Xamarin.Essentials;
 
 
@@ -28,9 +27,10 @@ namespace Jypeli.Android
             Accelerometer = new AndroidAccelerometer();
             Storage = new FileManager(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
             ContentPath = "Content/";
+            Game.AudioOutput = new Audio.Android.AndroidAudio();
         }
 
-        internal override Stream StreamContent(string name, string[] extensions)
+        public override Stream StreamContent(string name, string[] extensions)
         {
             Stream s;
             string fullPath = Path.Combine(ContentPath, name);
@@ -44,6 +44,11 @@ namespace Jypeli.Android
             }
 
             return s;
+        }
+
+        public override Stream StreamContent(string name)
+        {
+            return StreamContent(name, Array.Empty<string>());
         }
 
         private Stream FindContentFile(string name, string[] extensions)

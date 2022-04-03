@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.IO;
-using Jypeli.Audio.OpenAL;
+using Jypeli.Audio;
 
 namespace Jypeli
 {
@@ -19,8 +19,11 @@ namespace Jypeli
         private string assetName;
         private Timer posTimer;
 
+#if ANDROID
+        internal Audio.Android.AudioTrackContainer handle;
+#else
         internal uint handle;
-
+#endif
         /// <summary>
         /// Tapahtuu kun ääniefekti on toistettu loppuun.
         /// </summary>
@@ -29,7 +32,7 @@ namespace Jypeli
         /// <summary>
         /// Ääniefektin kesto sekunteina.
         /// </summary>
-        public TimeSpan Duration { get { return TimeSpan.FromSeconds(OpenAL.GetDuration(handle)); } }
+        public TimeSpan Duration { get { return TimeSpan.FromSeconds(Game.AudioOutput.GetDuration(handle)); } }
 
         /// <summary>
         /// Paikka äänessä sekunteina (missä kohtaa toistoa ollaan). Ei voi asettaa.
@@ -45,14 +48,14 @@ namespace Jypeli
         {
             this.assetName = assetName;
 
-            handle = OpenAL.LoadSound(assetName);
+            handle = Game.AudioOutput.LoadSound(assetName);
             InitPosition();
         }
 
         internal SoundEffect(string assetName, Stream stream)
         {
             this.assetName = assetName;
-            handle = OpenAL.LoadSound(stream);
+            handle = Game.AudioOutput.LoadSound(stream);
             InitPosition();
         }
 
@@ -61,7 +64,7 @@ namespace Jypeli
 
         private void InitPosition()
         {
-            Position = new DoubleMeter(0, 0, OpenAL.GetDuration(handle));
+            Position = new DoubleMeter(0, 0, Game.AudioOutput.GetDuration(handle));
             posTimer = new Timer();
             posTimer.Interval = 0.01;
             posTimer.Timeout += new Action(IncrementPosition);
@@ -169,7 +172,7 @@ namespace Jypeli
         internal SoundEffect Clone()
         {
             var s = new SoundEffect();
-            s.handle = OpenAL.Duplicate(handle);
+            s.handle = Game.AudioOutput.Duplicate(handle);
             s.assetName = this.assetName;
             return s;
         }
@@ -187,7 +190,7 @@ namespace Jypeli
         /// </summary>
         ~SoundEffect()
         {
-            OpenAL.Destroy(handle);
+            Game.AudioOutput.Destroy(handle);
         }
     }
 }

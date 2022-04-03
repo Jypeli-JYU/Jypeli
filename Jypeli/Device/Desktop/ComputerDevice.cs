@@ -22,9 +22,12 @@ namespace Jypeli.Devices
         {
             Storage = new FileManager(FileLocation.DataPath, FileLocation.MyDocuments);
             ContentPath = FileLocation.ContentPath;
+#if !ANDROID
+            Game.AudioOutput = new Audio.OpenAL.OpenAL();
+#endif
         }
 
-        internal override Stream StreamContent(string name, string[] extensions)
+        public override Stream StreamContent(string name, string[] extensions)
         {
             string fullPath = Path.Combine(ContentPath, name);
             if (File.Exists(fullPath))

@@ -13,10 +13,13 @@ namespace Jypeli
     {
         public unsafe static Image<Rgba32> CaptureRaw()
         {
-            Image<Rgba32> img = new Image<Rgba32>((int)Game.Screen.Width, (int)Game.Screen.Height);
-            var a = img.TryGetSinglePixelSpan(out Span<Rgba32> pixels);
-            fixed (void* ptr = pixels)
+            int w = (int)Game.Screen.Width;
+            int h = (int)Game.Screen.Height;
+            var bytes = new byte[w * h * sizeof(Rgba32)];
+            fixed (void* ptr = bytes)
                 Game.GraphicsDevice.GetScreenContents(ptr);
+
+            Image<Rgba32> img = Image<Rgba32>.LoadPixelData<Rgba32>(bytes, w, h);
 
             img.Mutate(i => i.Flip(FlipMode.Vertical));
             return img;

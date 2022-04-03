@@ -185,38 +185,37 @@ namespace Jypeli.Rendering.OpenGl
         /// <inheritdoc/>
         public void LoadImage(Image image)
         {
-            fixed (void* data = &MemoryMarshal.GetReference(image.image.GetPixelRowSpan(0)))
-            {
-                image.handle = Gl.GenTexture();
-                BindTexture(image);
+            void* data = GetImageDataPtr(image);
 
-                Gl.TexImage2D(TextureTarget.Texture2D, 0, InternalFormat.Rgba, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
+            image.handle = Gl.GenTexture();
+            BindTexture(image);
 
-                GLEnum scaling = image.Scaling == ImageScaling.Linear ? GLEnum.Linear : GLEnum.Nearest;
+            Gl.TexImage2D(TextureTarget.Texture2D, 0, InternalFormat.Rgba, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
 
-                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)scaling);
-                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)scaling);
+            GLEnum scaling = image.Scaling == ImageScaling.Linear ? GLEnum.Linear : GLEnum.Nearest;
 
-                Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapS, (int)GLEnum.ClampToEdge);
-                Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapT, (int)GLEnum.ClampToEdge);
-            }
+            Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)scaling);
+            Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)scaling);
+
+            Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapS, (int)GLEnum.ClampToEdge);
+            Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapT, (int)GLEnum.ClampToEdge);
+
         }
 
         /// <inheritdoc/>
         public void UpdateTextureData(Image image)
         {
-            fixed (void* data = &MemoryMarshal.GetReference(image.image.GetPixelRowSpan(0)))
-            {
-                BindTexture(image);
+            void* data = GetImageDataPtr(image);
 
-                Gl.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (uint)image.Width, (uint)image.Height, PixelFormat.Rgba, PixelType.UnsignedByte, data);
+            BindTexture(image);
 
-                GLEnum scaling = image.Scaling == ImageScaling.Linear ? GLEnum.Linear : GLEnum.Nearest;
+            Gl.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (uint)image.Width, (uint)image.Height, PixelFormat.Rgba, PixelType.UnsignedByte, data);
 
-                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)scaling);
-                Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)scaling);
-                Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapS, (int)GLEnum.Repeat);
-            }
+            GLEnum scaling = image.Scaling == ImageScaling.Linear ? GLEnum.Linear : GLEnum.Nearest;
+
+            Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)scaling);
+            Gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)scaling);
+            Gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapS, (int)GLEnum.Repeat);
         }
 
         /// <inheritdoc/>
@@ -265,15 +264,32 @@ namespace Jypeli.Rendering.OpenGl
         /// <inheritdoc/>
         public void GetScreenContentsToImage(Image img)
         {
-            img.image.TryGetSinglePixelSpan(out Span<Rgba32> ptr);
-            fixed (void* p = ptr)
-                GetScreenContents(p);
+            void* p = GetImageDataPtr(img);
+            GetScreenContents(p);
         }
 
         /// <inheritdoc/>
         public int GetMaxTextureSize()
         {
             return Gl.GetInteger(GLEnum.MaxTextureSize);
+        }
+
+        private void* GetImageDataPtr(Image image)
+        {
+            var bytes = new byte[image.Width * image.Height * sizeof(Rgba32)];
+            image.image.ProcessPixelRows
+            (
+                a =>
+                {
+                    for (var y = 0; y < a.Height; y++)
+                    {
+                        MemoryMarshal.Cast<Rgba32, byte>(a.GetRowSpan(y)).CopyTo(bytes.AsSpan().Slice((y * a.Width * sizeof(Rgba32))));
+                    }
+                }
+            );
+
+            fixed (void* ptr = bytes)
+                return ptr;
         }
     }
 }

@@ -222,14 +222,21 @@ namespace Jypeli
 
             Color[,] bmp = new Color[ny, nx];
 
-            for (int i = oy; i < oy + ny; i++)
-            {
-                Span<Rgba32> row = image.GetPixelRowSpan(i);
-                for (int j = ox; j < ox + nx; j++)
+            image.ProcessPixelRows
+            (
+                r =>
                 {
-                    bmp[i - oy, j - ox] = new Color(row[j].R, row[j].G, row[j].B, row[j].A);
+                    for (int i = oy; i < oy + ny; i++)
+                    {
+                        Span<Rgba32> row = r.GetRowSpan(i);
+                        for (int j = ox; j < ox + nx; j++)
+                        {
+                            bmp[i - oy, j - ox] = new Color(row[j].R, row[j].G, row[j].B, row[j].A);
+                        }
+                    }
                 }
-            }
+            );
+            
 
             return bmp;
         }
@@ -305,12 +312,21 @@ namespace Jypeli
         /// Tavut ovat järjestyksessä punainen, vihreä, sininen, läpinäkyvyys.
         /// </summary>
         /// <returns>pikselit byte-taulukkona</returns>
-        public byte[] GetByteArray()
+        public unsafe byte[] GetByteArray()
         {
-            image.TryGetSinglePixelSpan(out var pixelSpan);
-            byte[] rgbaBytes = MemoryMarshal.AsBytes(pixelSpan).ToArray();
+            var bytes = new byte[image.Width * image.Height * sizeof(Rgba32)];
+            image.ProcessPixelRows
+            (
+                r =>
+                {
+                    for (var y = 0; y < r.Height; y++)
+                    {
+                        MemoryMarshal.Cast<Rgba32, byte>(r.GetRowSpan(y)).CopyTo(bytes.AsSpan().Slice((y * r.Width * sizeof(Rgba32))));
+                    }
+                }
+            );
 
-            return rgbaBytes;
+            return bytes;
         }
 
         /// <summary>
@@ -338,14 +354,20 @@ namespace Jypeli
 
             uint[,] bmp = new uint[ny, nx];
 
-            for (int i = oy; i < oy + ny; i++)
-            {
-                Span<Rgba32> row = image.GetPixelRowSpan(i);
-                for (int j = ox; j < ox + nx; j++)
+            image.ProcessPixelRows
+            (
+                r =>
                 {
-                    bmp[i - oy, j - ox] = row[j].PackedValue;
+                    for (int i = oy; i < ny; i++)
+                    {
+                        Span<Rgba32> row = r.GetRowSpan(i);
+                        for (int j = ox; j < ox + nx; j++)
+                        {
+                            bmp[i - oy, j - ox] = (uint)(row[j].R << 24 | row[j].G << 16 | row[j].B << 8 | row[j].A);
+                        }
+                    }
                 }
-            }
+            );
 
             return bmp;
         }
@@ -376,15 +398,21 @@ namespace Jypeli
 
             uint[][] bmp = new uint[ny][];
 
-            for (int i = oy; i < oy + ny; i++)
-            {
-                bmp[i - oy] = new uint[nx];
-                Span<Rgba32> row = image.GetPixelRowSpan(i);
-                for (int j = ox; j < ox + nx; j++)
+            image.ProcessPixelRows
+            (
+                r =>
                 {
-                    bmp[i - oy][j - ox] = row[j].PackedValue;
+                    for (int i = oy; i < ny; i++)
+                    {
+                        Span<Rgba32> row = r.GetRowSpan(i);
+                        bmp[i - oy] = new uint[nx];
+                        for (int j = ox; j < ox + nx; j++)
+                        {
+                            bmp[i - oy][j - ox] = (uint)(row[j].R << 24 | row[j].G << 16 | row[j].B << 8 | row[j].A);
+                        }
+                    }
                 }
-            }
+            );
 
             return bmp;
         }

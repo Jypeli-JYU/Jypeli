@@ -117,7 +117,7 @@ namespace Jypeli
             Keyboard = new Keyboard(inputContext);
             Mouse = new Mouse(Screen, inputContext);
             PhoneBackButton = new BackButton();
-            TouchPanel = new TouchPanel(Screen, inputContext);
+            TouchPanel = new TouchPanel();
 
             controllers = new List<IController>();
             GameControllers = new List<GamePad>(4);

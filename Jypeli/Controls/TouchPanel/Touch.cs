@@ -35,7 +35,6 @@ namespace Jypeli
     /// </summary>
     public class Touch
     {
-        private ScreenView screen;
         protected Vector _previousPosition;
         protected Vector _position;
         protected Vector _movement;
@@ -120,15 +119,11 @@ namespace Jypeli
                 return PositionOnWorld - PrevPositionOnWorld;
             }
         }
-
-        /*public TouchLocationState State { get; internal set; }
-
-        internal Touch( ScreenView screen, TouchLocation location )
+        internal Touch(Controls.RawTouch raw)
         {
-            this.screen = screen;
-            this.Id = location.Id;
-            this._position = this._previousPosition = location.Position;
-        }*/
+            this.Id = raw.Id;
+            this._position = this._previousPosition = raw.Position;
+        }
 
         internal Touch(Vector position, Vector movement)
         {
@@ -136,13 +131,12 @@ namespace Jypeli
             this._movement = movement;
         }
 
-        /*internal void Update( TouchLocation location )
+        internal void Update(Controls.RawTouch raw)
         {
             _previousPosition = _position;
-            _position = location.Position;
+            _position = raw.Position;
             _movement = _position - _previousPosition;
-            State = location.State;
             DurationInTicks++;
-        }*/
+        }
     }
 }

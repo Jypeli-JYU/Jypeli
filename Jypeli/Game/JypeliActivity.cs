@@ -1,8 +1,10 @@
 ﻿#if ANDROID
+using System;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
+using Java.Interop;
 using Silk.NET.Windowing.Sdl.Android;
 
 namespace Jypeli
@@ -29,14 +31,16 @@ namespace Jypeli
             }
             return base.DispatchKeyEvent(e);
         }
-
+        
         public override bool DispatchTouchEvent(MotionEvent ev)
         {
             for (int i = 0; i < ev.PointerCount; i++)
             {
-                System.Diagnostics.Debug.WriteLine($"{ev.GetX(i)}, {ev.GetY(i)}");
+                Controls.RawTouch r = new Controls.RawTouch();
+                r.Position = new Vector(ev.GetX(i), ev.GetY(i));
+                r.Id = ev.GetPointerId(i);
+                Game.Instance.TouchPanel.RawTouches.Add(r);
             }
-
             return base.DispatchTouchEvent(ev);
         }
     }

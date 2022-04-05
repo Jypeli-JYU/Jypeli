@@ -18,33 +18,37 @@ namespace Jypeli
     /// </summary>
     public class TouchPanel : IController
     {
+        internal List<RawTouch> RawTouches { get; } = new List<RawTouch>();
+
         protected static readonly Predicate<Touch> AlwaysTrigger = delegate { return true; };
 
-        private ScreenView screen;
-        private IMouse mouse;
-        private MouseState internalState;
-        //private TouchPanelCapabilities caps;
-        private List<Touch> touches;
-        private List<Touch> newTouches;
-        private List<Gesture> gestures;
+        private List<Touch> touches = new List<Touch>();
+        private List<Touch> newTouches = new List<Touch>();
+        private List<Gesture> gestures = new List<Gesture>();
 
         private readonly SynchronousList<TouchListener> DownListeners = new SynchronousList<TouchListener>();
         private readonly SynchronousList<TouchListener> PressListeners = new SynchronousList<TouchListener>();
         private readonly SynchronousList<TouchListener> ReleaseListeners = new SynchronousList<TouchListener>();
-        private readonly SynchronousList<TouchListener> GestureListeners = new SynchronousList<TouchListener>();
+        private readonly SynchronousList<TouchListener> GestureListeners = new SynchronousList<TouchListener>(); // TODO: Gestures
 
         private ListenContext _snipContext = null;
         private ListenContext _pinchContext = null;
 
-        private Touch prevTouch;
-        private Touch touch;
 
         /// <summary>
         /// Onko kosketusnäyttö kytketty.
+        /// Toistaiseksi Androidilla palauttaa aina true, muuten false.
         /// </summary>
         public bool IsConnected
         {
-            get { return false; }//caps.IsConnected; }
+            get 
+            {
+#if ANDROID
+                return true;
+#else
+                return false;
+#endif
+            }
         }
 
         /// <summary>
@@ -60,15 +64,16 @@ namespace Jypeli
         /// </summary>
         public int NumTouches
         {
-            get { return 1; }// touches.Count; }
+            get { return touches.Count; }
         }
 
         /// <summary>
         /// Kuinka monta yhtäaikaista kosketusta näyttö tukee.
+        /// Toistaiseksi palauttaa aina 10.
         /// </summary>
         public int MaxTouches
         {
-            get { return 1; } //caps.MaximumTouchCount; }
+            get { return 10; }
         }
 
         /// <summary>
@@ -133,40 +138,8 @@ namespace Jypeli
             }
         }
 
-        private IInputContext input;
-
-        internal TouchPanel(ScreenView screen, IInputContext input)
+        internal TouchPanel()
         {
-            this.screen = screen;
-            this.internalState = default;
-            this.mouse = input.Mice[0];
-
-            // TODO: Toistaiseksi kosketusnäyttö on yksi virtuaalinen hiiri.
-            mouse.MouseDown += Mouse_MouseDown;
-            mouse.MouseUp += Mouse_MouseUp;
-
-            this.input = input;
-            try
-            {
-                //this.caps = XnaTouchPanel.GetCapabilities();
-            }
-            catch (TypeLoadException)
-            {
-                //this.caps = new TouchPanelCapabilities();
-            }
-
-            //this.touches = new List<Touch>( caps.MaximumTouchCount );
-            //this.newTouches = new List<Touch>( caps.MaximumTouchCount );
-        }
-
-        private void Mouse_MouseUp(IMouse arg1, Silk.NET.Input.MouseButton arg2)
-        {
-            touch = null;
-        }
-
-        private void Mouse_MouseDown(IMouse arg1, Silk.NET.Input.MouseButton arg2)
-        {
-            touch = new Touch(arg1.Position, Vector.Zero);
         }
 
         /// <summary>
@@ -211,29 +184,42 @@ namespace Jypeli
 
         public void UpdateTouches()
         {
-            if (touch != null)
+            for (int i = 0; i < RawTouches.Count; i++)
             {
-                touch.PositionOnScreen = mouse.Position;
-                DownListeners.ForEach(dl => dl.CheckAndInvoke(touch));
-            }
+                Touch prevTouch = touches.Find(s => s.Id == RawTouches[i].Id);
+                Touch thisTouch = prevTouch != null ? prevTouch : new Touch(RawTouches[i]);
 
-            if (prevTouch == null && touch != null)
-            {
-                // New touch
-                PressListeners.ForEach(dl => dl.CheckAndInvoke(touch));
-                prevTouch = touch;
-            }
+                newTouches.Add(thisTouch);
+                DownListeners.ForEach(dl => dl.CheckAndInvoke(thisTouch));
 
-            if (touch == null && prevTouch != null)
+                if (prevTouch == null)
+                {
+                    // New touch
+                    PressListeners.ForEach(dl => dl.CheckAndInvoke(thisTouch));
+                }
+                else
+                {
+                    // Existing touch
+                    touches.Remove(thisTouch);
+                    thisTouch.Update(RawTouches[i]);
+                }
+            }
+            for (int i = 0; i < touches.Count; i++)
             {
                 // Released touch
-                ReleaseListeners.ForEach(dl => dl.CheckAndInvoke(prevTouch));
-                prevTouch = null;
+                ReleaseListeners.ForEach(dl => dl.CheckAndInvoke(touches[i]));
             }
 
             DownListeners.UpdateChanges();
             PressListeners.UpdateChanges();
             ReleaseListeners.UpdateChanges();
+
+            touches.Clear();
+            var empty = touches;
+            touches = newTouches;
+            newTouches = empty;
+            
+            RawTouches.Clear();
         }
 
         public void UpdateGestures()

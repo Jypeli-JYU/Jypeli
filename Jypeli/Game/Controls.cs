@@ -121,7 +121,7 @@ namespace Jypeli
 
             controllers = new List<IController>();
             GameControllers = new List<GamePad>(4);
-#if DESKTOP
+
             GameControllers.Add(new GamePad(inputContext, 0));
             GameControllers.Add(new GamePad(inputContext, 1));
             GameControllers.Add(new GamePad(inputContext, 2));
@@ -129,14 +129,14 @@ namespace Jypeli
             controllers.AddRange(GameControllers);
 
             controllers.Add(Mouse);
-#endif
+
             controllers.Add(Keyboard);
 
             controllers.Add(Accelerometer);
             controllers.Add(TouchPanel);
-#if ANDROID
+
             controllers.Add(PhoneBackButton);
-#endif
+
         }
 
         private void UpdateControls(Time gameTime)

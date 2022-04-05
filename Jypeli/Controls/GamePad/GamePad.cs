@@ -128,6 +128,8 @@ namespace Jypeli
 
         internal GamePad(IInputContext input, int index)
         {
+            if (input.Gamepads.Count <= index)
+                return;
             gamepad = input.Gamepads[index];
 
             vibrations = new SynchronousList<Vibration>();
@@ -252,7 +254,7 @@ namespace Jypeli
         [Obsolete("Ei toistaiseksi toiminnassa!")]
         public void Vibrate(double leftMotor, double rightMotor, double leftAcceleration, double rightAcceleration, double time)
         {
-            vibrations.Add(new Vibration(gamepad, leftMotor, rightMotor, leftAcceleration, rightAcceleration, time));
+            vibrations?.Add(new Vibration(gamepad, leftMotor, rightMotor, leftAcceleration, rightAcceleration, time));
         }
 
         /// <summary>
@@ -260,12 +262,12 @@ namespace Jypeli
         /// </summary>
         public void StopVibration()
         {
-            vibrations.Clear();
+            vibrations?.Clear();
         }
 
         internal void UpdateVibrations(Time time)
         {
-            vibrations.Update(time);
+            vibrations?.Update(time);
         }
 
         /// <summary>

@@ -8,14 +8,16 @@ namespace Jypeli
     /// </summary>
     public class BackButton : Controller<bool, Button>
     {
+        internal bool State { get; set; }
+
         internal override bool GetState()
         {
-            return false;//XnaGamePad.GetState( PlayerIndex.One ).IsButtonDown( Buttons.Back ); // TODO: Controllers
+            return State;
         }
 
         private static bool ButtonDown(bool prev, bool curr)
         {
-            return curr;
+            return !prev && curr;
         }
 
         /// <summary>

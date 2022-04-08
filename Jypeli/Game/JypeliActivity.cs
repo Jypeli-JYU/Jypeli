@@ -1,9 +1,13 @@
-﻿#if ANDROID
+﻿
+#if ANDROID
 using System;
 using Android.App;
 using Android.Content.PM;
+using Android.Content.Res;
+using Android.Graphics;
 using Android.OS;
 using Android.Views;
+using Views = Android.Views;
 using Java.Interop;
 using Silk.NET.Windowing.Sdl.Android;
 
@@ -15,6 +19,7 @@ namespace Jypeli
         protected override void OnCreate(Bundle savedInstanceState)
         {
             ActionBar.Hide();
+            Window.AddFlags(WindowManagerFlags.Fullscreen);
             Game.AssetManager = Assets;
             base.OnCreate(savedInstanceState);
         }
@@ -34,10 +39,13 @@ namespace Jypeli
         
         public override bool DispatchTouchEvent(MotionEvent ev)
         {
+            Rect re = new Rect();
+            Window.DecorView.GetWindowVisibleDisplayFrame(re);
+            
             for (int i = 0; i < ev.PointerCount; i++)
             {
                 Controls.RawTouch r = new Controls.RawTouch();
-                r.Position = new Vector(ev.GetX(i), ev.GetY(i));
+                r.Position = new Vector(ev.GetX(i), ev.GetY(i) - re.Top);
                 r.Id = ev.GetPointerId(i);
                 Game.Instance.TouchPanel.RawTouches.Add(r);
             }

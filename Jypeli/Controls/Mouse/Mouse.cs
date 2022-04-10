@@ -396,7 +396,7 @@ namespace Jypeli
 #else
             if (obj == null || obj.Layer == null || obj.IsDestroyed)
                 return false;
-            return obj.IsInside(Game.Instance.Camera.ScreenToWorld(this.PositionOnScreen, obj.Layer));
+            return obj.IsInside(Game.Instance.Camera.ScreenToWorld(new Vector(CurrentState.PosX, CurrentState.PosY), obj.Layer));
 #endif
         }
 

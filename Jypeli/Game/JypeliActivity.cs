@@ -22,6 +22,7 @@ namespace Jypeli
             Window.AddFlags(WindowManagerFlags.Fullscreen);
             Game.AssetManager = Assets;
             base.OnCreate(savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
         }
         protected override void OnRun()
         {
@@ -50,6 +51,13 @@ namespace Jypeli
                 Game.Instance.TouchPanel.RawTouches.Add(r);
             }
             return base.DispatchTouchEvent(ev);
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

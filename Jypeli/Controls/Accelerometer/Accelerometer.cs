@@ -12,9 +12,9 @@ namespace Jypeli
     }
 
     /// <summary>
-    /// Kiihtyvyysanturi/>
+    /// Kiihtyvyysanturi
     /// </summary>
-    public abstract class Accelerometer : Controller<System.Numerics.Vector3, AccelerometerDirection>
+    public abstract class Accelerometer : Controller<Vector3, AccelerometerDirection>
     {
         /// <summary>
         /// Onko anturi käynnistetty

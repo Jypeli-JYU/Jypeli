@@ -22,9 +22,12 @@ namespace Jypeli.Android
         /// </summary>
         public override void Start()
         {
-            Essentials.Accelerometer.Start(Essentials.SensorSpeed.Default);
-            Essentials.Accelerometer.ReadingChanged += AccelerometerReadingChanged;
-            base.Start();
+            if (!Essentials.Accelerometer.IsMonitoring)
+            {
+                Essentials.Accelerometer.Start(Essentials.SensorSpeed.Default);
+                Essentials.Accelerometer.ReadingChanged += AccelerometerReadingChanged;
+                base.Start();
+            }
         }
 
         private void AccelerometerReadingChanged(object sender, Essentials.AccelerometerChangedEventArgs e)

@@ -83,10 +83,30 @@ namespace Jypeli
         /// </summary>
         public bool DebugKeyEnabled { get; set; }
 
+        private bool debugScreenVisible = false;
         /// <summary>
         /// Debug-ruutu näkyvissä / pois.
         /// </summary>
-        public bool DebugScreenVisible { get; set; }
+        public bool DebugScreenVisible 
+        {
+            get => debugScreenVisible;
+            set
+            {
+                if (value)
+                {
+                    // Päivitetään elementtien sijainti ruudulle oikeaan kohtaan
+                    UpdateLayerWindow(); // Ensimmäistä aukaisua varten pitää täydentää elementtien sisällöt
+                    FPSDisplay.Text = fpsText;
+
+                    LayerWindow.Left = Screen.Left;
+                    LayerWindow.Top = Screen.Top;
+
+                    FPSWindow.Right = Screen.Right;
+                    FPSWindow.Top = Screen.Top;
+                }
+                debugScreenVisible = value;
+            }
+        }
 
         /// <summary>
         /// FPS-ikkuna.
@@ -164,23 +184,12 @@ namespace Jypeli
             if (DebugKeyEnabled && Keyboard.GetKeyState(Key.F12) == ButtonState.Pressed)
             {
                 DebugScreenVisible = !DebugScreenVisible;
-
-                // Päivitetään elementtien sijainti ruudulle oikeaan kohtaan
-                UpdateLayerWindow(); // Ensimmäistä aukaisua varten pitää täydentää elementtien sisällöt
-                FPSDisplay.Text = fpsText;
-
-                LayerWindow.Left = Screen.Left;
-                LayerWindow.Top = Screen.Top;
-
-                FPSWindow.Right = Screen.Right;
-                FPSWindow.Top = Screen.Top;
             }
-
-            DebugLayer.Update(time);
 
             if (!DebugScreenVisible)
                 return;
-
+            
+            DebugLayer.Update(time);
             FPSDisplay.Text = fpsText;
             UpdateLayerWindow();
         }

@@ -398,6 +398,7 @@ namespace Jypeli
             ClearLights();
             ClearControls();
             GC.Collect();
+            Keyboard.RemoveAllTextInputHandlers();
             ControlContext.Enable();
             AddMessageDisplay();
             Camera.Reset();

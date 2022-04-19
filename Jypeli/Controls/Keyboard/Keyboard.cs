@@ -28,6 +28,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using Jypeli.Controls;
 using Silk.NET.Input;
 
@@ -38,10 +39,46 @@ namespace Jypeli
     /// </summary>
     public class Keyboard : Controller<KeyboardState, Key>
     {
+
+        /// <summary>
+        /// Tekstin syötön tapahtuma. Tätä pitää käyttää Jypelin sisällä.
+        /// </summary>
+        internal event Action<char> InternalTextInput;
+        
         /// <summary>
         /// Tapahtuu kun tekstiä syötetään näppäimistöltä.
         /// </summary>
-        public event Action<char> TextInput;
+        public event Action<char> TextInput
+        {
+            add
+            {
+                InternalTextInput += value;
+                eventHandlers.Add(value);
+            }
+
+            remove
+            {
+                InternalTextInput -= value;
+                eventHandlers.Remove(value);
+            }
+        }
+
+        // ClearAllin yhteydessä halutaan poistaa kaikki tapahtumankuuntelijat.
+        // Toistaiseksi C# ei salli "helpompaa" keinoa.
+
+        private List<Action<char>> eventHandlers = new List<Action<char>>();
+
+        /// <summary>
+        /// Poistaa kaikki näppäimistölle annetut <see cref="TextInput"/>-tapahtumat.
+        /// </summary>
+        internal void RemoveAllTextInputHandlers()
+        {
+            foreach (Action<char> e in eventHandlers)
+            {
+                InternalTextInput -= e;
+            }
+            eventHandlers.Clear();
+        }
 
         private KeyboardState internalState;
         private IKeyboard keyboard;
@@ -58,7 +95,7 @@ namespace Jypeli
 #if DESKTOP
             Game.Instance.TextInput += delegate (object sender, char key)
             {
-                TextInput?.Invoke(key);
+                InternalTextInput?.Invoke(key);
             };
 #endif
         }

@@ -173,6 +173,20 @@ namespace Jypeli
             Layers[layer].Add(o);
         }
 
+        /// <summary>
+        /// Lisää peliolion peliin, tiettyyn kerrokseen.
+        /// </summary>
+        /// <param name="o">Lisättävä olio.</param>
+        /// <param name="layer">Kerros.</param>
+        public virtual void Add(IGameObject o, Layer layer)
+        {
+            if (o == null)
+                throw new NullReferenceException("Tried to add a null object to game");
+            if (layer == null)
+                throw new NullReferenceException("Tried to add to a null layes");
+            layer.Add(o);
+        }
+
         internal static IList<IGameObject> GetObjectsAboutToBeAdded()
         {
             List<IGameObject> result = new List<IGameObject>();

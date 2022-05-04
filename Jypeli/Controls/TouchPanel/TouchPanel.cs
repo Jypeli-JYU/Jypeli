@@ -158,8 +158,8 @@ namespace Jypeli
 
         private static HoverState GetHoverState(Touch touch, GameObject obj)
         {
-            bool prevOn = IsBeingTouched(Game.Screen, touch.PrevPositionOnScreen, obj);
-            bool currOn = IsBeingTouched(Game.Screen, touch.PositionOnScreen, obj);
+            bool prevOn = IsBeingTouched(Game.Screen, touch._previousPosition, obj);
+            bool currOn = IsBeingTouched(Game.Screen, touch._position, obj);
 
             if (prevOn && currOn)
                 return HoverState.On;
@@ -197,7 +197,11 @@ namespace Jypeli
                     Touch prevTouch = touches.Find(s => s.Id == rawTouch.Id);
                     Touch thisTouch = prevTouch != null ? prevTouch : new Touch(rawTouch);
 
-                    newTouches.Add(thisTouch);
+                    if (!rawTouch.Up)
+                    {
+                        newTouches.Add(thisTouch);
+                    }
+                    
                     DownListeners.ForEach(dl => dl.CheckAndInvoke(thisTouch));
                     if (prevTouch == null)
                     {

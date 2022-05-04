@@ -35,9 +35,9 @@ namespace Jypeli
     /// </summary>
     public class Touch
     {
-        protected Vector _previousPosition;
-        protected Vector _position;
-        protected Vector _movement;
+        internal Vector _previousPosition;
+        internal Vector _position;
+        internal Vector _movement;
 
         internal long DurationInTicks = 0;
 
@@ -56,7 +56,7 @@ namespace Jypeli
         /// </summary>
         public Vector PositionOnScreen
         {
-            get { return _position; }
+            get { return ScreenView.FromDisplayCoords(_position); }
             set
             {
                 _previousPosition = _position;

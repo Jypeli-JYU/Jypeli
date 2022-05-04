@@ -186,7 +186,7 @@ namespace Jypeli.Widgets
         private void TouchMove(Touch touch)
         {
             if (touchObject == touch)
-                GenMove(touch.PositionOnScreen - Game.Camera.WorldToScreen(Position, Layer));
+                GenMove(touch.PositionOnScreen);
         }
 
         private void TouchRelease(Touch touch)

@@ -216,13 +216,7 @@ namespace Jypeli
 
         private void TouchHover(Touch touch)
         {
-            double touchX = touch.PositionOnScreen.X;
-            double touchY = touch.PositionOnScreen.Y;
-
-            if (touchX >= Left && touchX <= Right && touchY >= Bottom && touchY <= Top)
-                SetState(State.Hover);
-            else if (Game.TouchPanel.NumTouches == 1)
-                SetState(State.Released);
+            SetState(State.Hover);
         }
 
         private void TouchRelease(Touch touch)
@@ -320,7 +314,7 @@ namespace Jypeli
 
             var l7 = Game.Mouse.ListenMovement(1.0, CheckHover, null).InContext(this);
 
-            var l8 = Game.Instance.TouchPanel.Listen(ButtonState.Down, TouchHover, null).InContext(this);
+            var l8 = Game.Instance.TouchPanel.ListenOn(this, ButtonState.Down, TouchHover, null).InContext(this);
             var l9 = Game.Instance.TouchPanel.ListenOn(this, ButtonState.Released, TouchRelease, null).InContext(this);
             var l10 = Game.Instance.TouchPanel.Listen(ButtonState.Released, TouchRelease, null).InContext(this);
             var l11 = Game.Instance.TouchPanel.ListenOn(this, ButtonState.Released, TouchClick, null).InContext(this);

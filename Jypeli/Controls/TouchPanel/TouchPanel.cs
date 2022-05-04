@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Jypeli.Controls;
@@ -18,6 +19,9 @@ namespace Jypeli
     /// </summary>
     public class TouchPanel : IController
     {
+        // Androidin DispatchTouchEvent tapahtuu eri säikeessä kuin missä pelin päivityssilmukka on
+        internal readonly object TouchLock = new object();
+        internal bool RawTouchesUpdated = false;
         internal List<RawTouch> RawTouches { get; } = new List<RawTouch>();
 
         protected static readonly Predicate<Touch> AlwaysTrigger = delegate { return true; };
@@ -184,42 +188,47 @@ namespace Jypeli
 
         public void UpdateTouches()
         {
-            for (int i = 0; i < RawTouches.Count; i++)
+            lock (TouchLock)
             {
-                Touch prevTouch = touches.Find(s => s.Id == RawTouches[i].Id);
-                Touch thisTouch = prevTouch != null ? prevTouch : new Touch(RawTouches[i]);
-
-                newTouches.Add(thisTouch);
-                DownListeners.ForEach(dl => dl.CheckAndInvoke(thisTouch));
-
-                if (prevTouch == null)
+                if (!RawTouchesUpdated)
+                    return;
+                foreach (var rawTouch in RawTouches)
                 {
-                    // New touch
-                    PressListeners.ForEach(dl => dl.CheckAndInvoke(thisTouch));
+                    Touch prevTouch = touches.Find(s => s.Id == rawTouch.Id);
+                    Touch thisTouch = prevTouch != null ? prevTouch : new Touch(rawTouch);
+
+                    newTouches.Add(thisTouch);
+                    DownListeners.ForEach(dl => dl.CheckAndInvoke(thisTouch));
+                    if (prevTouch == null)
+                    {
+                        // New touch
+                        PressListeners.ForEach(dl => dl.CheckAndInvoke(thisTouch));
+                    }
+                    else if(!rawTouch.Up)
+                    {
+                        // Existing touch
+                        touches.Remove(thisTouch);
+                        thisTouch.Update(rawTouch);
+                    }
                 }
-                else
+                for (int i = 0; i < touches.Count; i++)
                 {
-                    // Existing touch
-                    touches.Remove(thisTouch);
-                    thisTouch.Update(RawTouches[i]);
+                    // Released touch
+                    ReleaseListeners.ForEach(dl => dl.CheckAndInvoke(touches[i]));
                 }
-            }
-            for (int i = 0; i < touches.Count; i++)
-            {
-                // Released touch
-                ReleaseListeners.ForEach(dl => dl.CheckAndInvoke(touches[i]));
-            }
 
-            DownListeners.UpdateChanges();
-            PressListeners.UpdateChanges();
-            ReleaseListeners.UpdateChanges();
+                DownListeners.UpdateChanges();
+                PressListeners.UpdateChanges();
+                ReleaseListeners.UpdateChanges();
 
-            touches.Clear();
-            var empty = touches;
-            touches = newTouches;
-            newTouches = empty;
-            
-            RawTouches.Clear();
+                touches.Clear();
+                var empty = touches;
+                touches = newTouches;
+                newTouches = empty;
+
+                RawTouches.Clear();
+                RawTouchesUpdated = false;
+            }
         }
 
         public void UpdateGestures()

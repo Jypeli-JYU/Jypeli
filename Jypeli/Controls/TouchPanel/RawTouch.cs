@@ -10,5 +10,6 @@ namespace Jypeli.Controls
     {
         public Vector Position;
         public int Id;
+        public bool Up;
     }
 }

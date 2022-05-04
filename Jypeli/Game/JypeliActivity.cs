@@ -10,6 +10,7 @@ using Android.Views;
 using Views = Android.Views;
 using Java.Interop;
 using Silk.NET.Windowing.Sdl.Android;
+using System.Linq;
 
 namespace Jypeli
 {
@@ -40,17 +41,35 @@ namespace Jypeli
         
         public override bool DispatchTouchEvent(MotionEvent ev)
         {
-            Rect re = new Rect();
-            Window.DecorView.GetWindowVisibleDisplayFrame(re);
-            
-            for (int i = 0; i < ev.PointerCount; i++)
+            // Voi olla, että tänne tullaan uudestaan, ennen kuin edelliset kosketukset on käsitelty,
+            // tai jopa kesken käsittelyn koska tätä kutsutaan eri säikeestä.
+            lock (Game.Instance.TouchPanel.TouchLock)
             {
-                Controls.RawTouch r = new Controls.RawTouch();
-                r.Position = new Vector(ev.GetX(i), ev.GetY(i) - re.Top);
-                r.Id = ev.GetPointerId(i);
-                Game.Instance.TouchPanel.RawTouches.Add(r);
+                var raw = Game.Instance.TouchPanel.RawTouches;
+
+                Rect re = new Rect();
+                Window.DecorView.GetWindowVisibleDisplayFrame(re);
+                for (int i = 0; i < ev.PointerCount; i++)
+                {
+                    Controls.RawTouch r = new Controls.RawTouch();
+                    r.Position = new Vector(ev.GetX(i), ev.GetY(i) - re.Top);
+                    r.Id = ev.GetPointerId(i);
+                    int index = raw.FindIndex(ra => ra.Id == r.Id);
+                    if (index == -1)
+                    {
+                        raw.Add(r);
+                    }
+                    else
+                    {
+                        var ra = raw[index];
+                        ra.Up = (int)ev.Action == 1 || (int)ev.Action == 6;
+                        ra.Position = new Vector(ev.GetX(i), ev.GetY(i) - re.Top);
+                        raw[index] = ra;
+                    }
+                }
+                Game.Instance.TouchPanel.RawTouchesUpdated = true;
+                return base.DispatchTouchEvent(ev);
             }
-            return base.DispatchTouchEvent(ev);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)

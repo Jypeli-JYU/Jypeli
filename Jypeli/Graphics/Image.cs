@@ -12,8 +12,7 @@ using SixLabors.ImageSharp.Processing;
 
 using ColorConverter = System.Converter<Jypeli.Color, Jypeli.Color>;
 // Ehkä vähän tyhmät viritelmät samannimisten luokkien ympärille...
-using SImage = SixLabors.ImageSharp.Image;
-using SXImage = SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>;
+using SImage = SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>;
 using System.Numerics;
 
 namespace Jypeli
@@ -44,7 +43,7 @@ namespace Jypeli
         /// <summary>
         /// ImageSharpin raakakuva
         /// </summary>
-        internal SXImage image;
+        internal SImage rawImage;
 
         /// <summary>
         /// Kuvan kahva näytönohjaimessa
@@ -76,7 +75,7 @@ namespace Jypeli
         /// </summary>
         public int Width
         {
-            get { return image.Width; }
+            get { return rawImage.Width; }
         }
 
         /// <summary>
@@ -84,7 +83,7 @@ namespace Jypeli
         /// </summary>
         public int Height
         {
-            get { return image.Height; }
+            get { return rawImage.Height; }
         }
 
         /// <summary>
@@ -116,12 +115,12 @@ namespace Jypeli
 
         internal Image(Stream s)
         {
-            image = (SXImage)SImage.Load(s);
+            rawImage = SixLabors.ImageSharp.Image.Load<Rgba32>(s);
         }
 
         internal Image(string assetName)
         {
-            image = (SXImage)SImage.Load(assetName);
+            rawImage = SixLabors.ImageSharp.Image.Load<Rgba32>(assetName);
             this.assetName = assetName;
         }
 
@@ -132,7 +131,7 @@ namespace Jypeli
 
         internal Image(SImage img)
         {
-            image = (SXImage)img;
+            rawImage = img;
         }
 
         /// <summary>
@@ -167,7 +166,7 @@ namespace Jypeli
             col.B = color.BlueComponent;
             col.A = color.AlphaComponent;
 
-            image = new SXImage(width, height, col);
+            rawImage = new SImage(width, height, col);
         }
 
         /// <summary>
@@ -181,7 +180,7 @@ namespace Jypeli
             get
             {
                 // Imagesharpin indeksointi menee x,y, kun taas yleisesti 2d taulukko on y,x
-                Rgba32 color = image[col, row];
+                Rgba32 color = rawImage[col, row];
                 return new Color(color.R, color.G, color.B, color.A);
             }
             set
@@ -192,7 +191,7 @@ namespace Jypeli
                 color.B = value.BlueComponent;
                 color.A = value.AlphaComponent;
 
-                image[col, row] = color;
+                rawImage[col, row] = color;
                 dirty = true;
             }
         }
@@ -222,7 +221,7 @@ namespace Jypeli
 
             Color[,] bmp = new Color[ny, nx];
 
-            image.ProcessPixelRows
+            rawImage.ProcessPixelRows
             (
                 r =>
                 {
@@ -293,7 +292,7 @@ namespace Jypeli
         /// <param name="width">Kuvan korkeus</param>
         public void SetData(byte[] byteArr, int height, int width)
         {
-            image = SImage.LoadPixelData<Rgba32>(byteArr, height, width);
+            rawImage = SImage.LoadPixelData<Rgba32>(byteArr, height, width);
         }
 
         /// <summary>
@@ -314,8 +313,8 @@ namespace Jypeli
         /// <returns>pikselit byte-taulukkona</returns>
         public unsafe byte[] GetByteArray()
         {
-            var bytes = new byte[image.Width * image.Height * sizeof(Rgba32)];
-            image.ProcessPixelRows
+            var bytes = new byte[rawImage.Width * rawImage.Height * sizeof(Rgba32)];
+            rawImage.ProcessPixelRows
             (
                 r =>
                 {
@@ -354,7 +353,7 @@ namespace Jypeli
 
             uint[,] bmp = new uint[ny, nx];
 
-            image.ProcessPixelRows
+            rawImage.ProcessPixelRows
             (
                 r =>
                 {
@@ -398,7 +397,7 @@ namespace Jypeli
 
             uint[][] bmp = new uint[ny][];
 
-            image.ProcessPixelRows
+            rawImage.ProcessPixelRows
             (
                 r =>
                 {
@@ -503,7 +502,7 @@ namespace Jypeli
         public Image Clone()
         {
             Image copy = new Image();
-            copy.image = image.Clone();
+            copy.rawImage = rawImage.Clone();
 
             return copy;
         }
@@ -552,7 +551,7 @@ namespace Jypeli
         /// <returns></returns>
         public static Image FromStream(Stream stream)
         {
-            return new Image(SImage.Load(stream));
+            return new Image(SImage.Load<Rgba32>(stream));
         }
 
         /// <summary> 
@@ -564,7 +563,7 @@ namespace Jypeli
         {
             var req = FileManager.Client.GetAsync(url);
             req.Wait();
-            Image img = new Image(SImage.Load(req.Result.Content.ReadAsStream()));
+            Image img = new Image(SImage.Load<Rgba32>(req.Result.Content.ReadAsStream()));
             return img;
         }
 
@@ -756,7 +755,7 @@ namespace Jypeli
         public static Image Mirror(Image image)
         {
             Image img = image.Clone();
-            img.image.Mutate(x => x.Flip(FlipMode.Horizontal));
+            img.rawImage.Mutate(x => x.Flip(FlipMode.Horizontal));
             return img;
         }
 
@@ -782,7 +781,7 @@ namespace Jypeli
         public static Image Flip(Image image)
         {
             Image img = image.Clone();
-            img.image.Mutate(x => x.Flip(FlipMode.Vertical));
+            img.rawImage.Mutate(x => x.Flip(FlipMode.Vertical));
             return img;
         }
 
@@ -810,10 +809,10 @@ namespace Jypeli
             int width = left.Width + right.Width;
             int height = Math.Max(left.Height, right.Height);
 
-            SImage img = new SXImage(width, height);
+            SImage img = new SImage(width, height);
             img.Mutate(o => o
-                        .DrawImage(left.image, new Point(0, 0), 1f)
-                        .DrawImage(right.image, new Point(left.Width, 0), 1f)
+                        .DrawImage(left.rawImage, new Point(0, 0), 1f)
+                        .DrawImage(right.rawImage, new Point(left.Width, 0), 1f)
             );
             return new Image(img);
 
@@ -830,10 +829,10 @@ namespace Jypeli
             int width = Math.Max(top.Width, bottom.Width);
             int height = top.Height + bottom.Height;
 
-            SImage img = new SXImage(width, height);
+            SImage img = new SImage(width, height);
             img.Mutate(o => o
-                        .DrawImage(top.image, new Point(0, 0), 1f)
-                        .DrawImage(bottom.image, new Point(0, top.Height), 1f)
+                        .DrawImage(top.rawImage, new Point(0, 0), 1f)
+                        .DrawImage(bottom.rawImage, new Point(0, top.Height), 1f)
             );
             return new Image(img);
         }
@@ -880,7 +879,7 @@ namespace Jypeli
         /// <param name="backColor"></param>
         public void Fill(Color backColor)
         {
-            image = new SXImage(Width, Height, new Rgba32(backColor.ToUInt()));
+            rawImage = new SImage(Width, Height, new Rgba32(backColor.ToUInt()));
 
             UpdateTexture();
         }
@@ -934,7 +933,7 @@ namespace Jypeli
         /// <param name="path">Tiedoston nimi</param>
         public void SaveAsJpeg(string path)
         {
-            image.SaveAsJpeg(path);
+            rawImage.SaveAsJpeg(path);
         }
 
 
@@ -944,7 +943,7 @@ namespace Jypeli
         /// <param name="path">Tiedoston nimi</param>
         public void SaveAsPng(string path)
         {
-            image.SaveAsPng(path);
+            rawImage.SaveAsPng(path);
         }
     }
 }

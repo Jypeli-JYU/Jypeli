@@ -277,7 +277,7 @@ namespace Jypeli.Rendering.OpenGl
         private void* GetImageDataPtr(Image image)
         {
             var bytes = new byte[image.Width * image.Height * sizeof(Rgba32)];
-            image.image.ProcessPixelRows
+            image.rawImage.ProcessPixelRows
             (
                 a =>
                 {

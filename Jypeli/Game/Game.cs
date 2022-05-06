@@ -231,10 +231,16 @@ namespace Jypeli
 #if ANDROID
             var options = ViewOptions.Default;
             options.API = new GraphicsAPI(ContextAPI.OpenGLES, ContextProfile.Core, ContextFlags.Default, new APIVersion(3, 0));
+            options.FramesPerSecond = 60;
+            options.PreferredBitDepth = new Silk.NET.Maths.Vector4D<int>(8, 8, 8, 8);
+            options.PreferredDepthBufferBits = 8;
             Window = Silk.NET.Windowing.Window.GetView(options);
 #else
             var options = WindowOptions.Default;
             options.Size = new Silk.NET.Maths.Vector2D<int>(1024, 768);
+            options.PreferredBitDepth = new Silk.NET.Maths.Vector4D<int>(8,8,8,8);
+            options.PreferredDepthBufferBits = 8;
+            options.FramesPerSecond = 60;
             options.Title = Name;
 
             Window = Silk.NET.Windowing.Window.Create(options);

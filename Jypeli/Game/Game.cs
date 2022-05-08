@@ -231,9 +231,11 @@ namespace Jypeli
 #if ANDROID
             var options = ViewOptions.Default;
             options.API = new GraphicsAPI(ContextAPI.OpenGLES, ContextProfile.Core, ContextFlags.Default, new APIVersion(3, 0));
-            options.FramesPerSecond = 60;
             options.PreferredBitDepth = new Silk.NET.Maths.Vector4D<int>(8, 8, 8, 8);
             options.PreferredDepthBufferBits = 8;
+            options.FramesPerSecond = 60;
+            options.UpdatesPerSecond = 60;
+            options.VSync = false;
             Window = Silk.NET.Windowing.Window.GetView(options);
 #else
             var options = WindowOptions.Default;
@@ -241,6 +243,8 @@ namespace Jypeli
             options.PreferredBitDepth = new Silk.NET.Maths.Vector4D<int>(8,8,8,8);
             options.PreferredDepthBufferBits = 8;
             options.FramesPerSecond = 60;
+            options.UpdatesPerSecond = 60;
+            options.VSync = false;
             options.Title = Name;
 
             Window = Silk.NET.Windowing.Window.Create(options);
@@ -301,7 +305,7 @@ namespace Jypeli
             InitControls();
             InitLayers();
             InitDebugScreen();
-
+            FixedTimeStep = true;
             InstanceInitialized?.Invoke();
 
             AddMessageDisplay();

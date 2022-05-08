@@ -13,8 +13,25 @@ namespace Jypeli
         /// <summary>
         /// Ajetaanko peliä kiinteällä aika-askeleella.
         /// Eli pelin aika "hidastuu" jos tietokoneen tehot eivät riitä reaaliaikaiseen päivitykseen.
+        /// Tämä pakottaa pelin logiikan toimimaan sillä nopeudella kuin <see cref="UpdatesPerSecod"/> on asetettu.
         /// </summary>
         public static bool FixedTimeStep { get; set; }
+
+        /// <summary>
+        /// Kuinka monta pelipäivitystä ajetaan sekunnissa.
+        /// Vakiona 60.
+        /// Tällä hetkellä myös pelin FPS-tavoite asettuu samaan arvoon.
+        /// Tämän muuttaminen "vääräksi" arvoksi saattaa aiheuttaa erikoisia seurauksia jos <see cref="FixedTimeStep"/> on päällä.
+        /// </summary>
+        public static double UpdatesPerSecod 
+        {
+            get => Instance.Window.UpdatesPerSecond;
+            set 
+            {
+                Instance.Window.UpdatesPerSecond = value;
+                Instance.Window.FramesPerSecond = value;
+            }
+        }
 
         /// <summary>
         /// Onko peli pysähdyksissä.
@@ -88,7 +105,7 @@ namespace Jypeli
             if (!IsPaused)
             {
                 if (FixedTimeStep)
-                    currentTime.Advance(1 / 60.0);
+                    currentTime.Advance(1 / Window.UpdatesPerSecond);
                 else
                     currentTime.Advance(dt);
                 Update(currentTime);

@@ -14,7 +14,6 @@ using System.Linq;
 
 namespace Jypeli
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class JypeliActivity : SilkActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

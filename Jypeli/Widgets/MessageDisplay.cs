@@ -48,7 +48,7 @@ namespace Jypeli
 
             public bool Expired
             {
-                get { return Expires < Game.Time.SinceStartOfGame; }
+                get { return Expires <= Game.Time.SinceStartOfGame; }
             }
 
             public TimeSpan TimeLeft

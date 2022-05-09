@@ -28,6 +28,8 @@
  */
 
 
+using System;
+
 namespace Jypeli
 {
     public partial class GameObject
@@ -35,6 +37,8 @@ namespace Jypeli
         private Color _color = Color.White;
         private bool _textureFillsShape = false;
         private Vector _textureWrapSize = new Vector(1, 1);
+
+        private Timer fadeTimer;
 
         /// <summary>
         /// Piirretäänkö oliota ruudulle.
@@ -125,5 +129,51 @@ namespace Jypeli
         {
             TextureWrapSize = new Vector(TextureWrapSize.X, -TextureWrapSize.Y);
         }
+
+        /// <summary>
+        /// Muuttaa olion väriä toiseen hitaasti liukumalla.
+        /// </summary>
+        /// <param name="targetColor">Väri johon muutetaan</param>
+        /// <param name="seconds">Aika jossa muutos valmistuu</param>
+        public void FadeColorTo(Color targetColor, double seconds)
+        {
+            if (fadeTimer != null && fadeTimer.Enabled)
+            {
+                fadeTimer.Stop();
+            }
+
+            double timeLeft = seconds;
+            double dt = GetPrecision(seconds);
+
+            int counter = 1;
+            Color original = this.Color;
+            int rd = targetColor.RedComponent - this.Color.RedComponent;
+            int gd = targetColor.GreenComponent - this.Color.GreenComponent;
+            int bd = targetColor.BlueComponent - this.Color.BlueComponent;
+            int ad = targetColor.AlphaComponent - this.Color.AlphaComponent;
+
+            fadeTimer = new Timer();
+            fadeTimer.Interval = dt;
+            fadeTimer.Timeout += delegate
+            {
+                byte r = (byte)(original.RedComponent + rd * counter * dt / seconds);
+                byte g = (byte)(original.GreenComponent + gd * counter * dt / seconds);
+                byte b = (byte)(original.BlueComponent + bd * counter * dt / seconds);
+                byte a = (byte)(original.AlphaComponent + ad * counter * dt / seconds);
+                this.Color = new Color(r, g, b, a);
+                counter++;
+            };
+            fadeTimer.Start((int)Math.Ceiling(seconds / dt));
+        }
+
+        private double GetPrecision(double seconds)
+        {
+            double dt = 0.01;
+            while (dt > seconds)
+                dt /= 10;
+            return dt;
+        }
+
+
     }
 }

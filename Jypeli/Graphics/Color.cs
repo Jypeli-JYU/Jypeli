@@ -494,12 +494,12 @@ namespace Jypeli
                 sums[3] += colors[i].AlphaComponent / 255.0;
             }
 
-            return new Color(50, 50, 50);/*
+            return new Color(
                 sums[0] / colors.Length,
                 sums[1] / colors.Length,
                 sums[2] / colors.Length,
                 sums[3] / colors.Length
-            );*/
+            );
         }
 
         /// <summary>

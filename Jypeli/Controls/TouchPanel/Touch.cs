@@ -72,7 +72,7 @@ namespace Jypeli
         {
             get
             {
-                return Game.Instance.Camera.ScreenToWorld(PositionOnScreen);
+                return Game.Instance.Camera.ScreenToWorld(ScreenView.FromDisplayCoords(_position));
             }
         }
 

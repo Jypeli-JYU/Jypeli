@@ -98,7 +98,7 @@ namespace Jypeli
         {
             get
             {
-                return GetPositionOnWorld(mouse.Position);
+                return GetPositionOnWorld(ScreenView.FromDisplayCoords(new Vector(mouse.Position.X, mouse.Position.Y)));
             }
             set
             {

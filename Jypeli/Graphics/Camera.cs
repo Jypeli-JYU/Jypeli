@@ -168,10 +168,8 @@ namespace Jypeli
         public Vector ScreenToWorld(Vector point)
         {
             Matrix4x4 transform =
-                Matrix4x4.CreateTranslation(-new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2)) *
                 Matrix4x4.CreateScale(new Vector(1 / ZoomFactor, 1 / ZoomFactor)) *
-                Matrix4x4.CreateTranslation(new Vector(Position.X, -Position.Y)) *
-                Matrix4x4.CreateScale(new Vector(1, -1)); // Y-akseli menee ruutukoordinaateissa väärään suuntaan.
+                Matrix4x4.CreateTranslation(new Vector(Position.X, Position.Y));
             return point.Transform(transform);
         }
 
@@ -181,10 +179,8 @@ namespace Jypeli
         public Vector WorldToScreen(Vector point)
         {
             Matrix4x4 transform =
-                Matrix4x4.CreateScale(new Vector(1, -1)) *
-                Matrix4x4.CreateTranslation(new Vector(-Position.X, Position.Y)) *
-                Matrix4x4.CreateScale(new Vector(ZoomFactor, ZoomFactor)) *
-                Matrix4x4.CreateTranslation(new Vector(Game.Screen.Size.X / 2, Game.Screen.Size.Y / 2));
+                Matrix4x4.CreateTranslation(-new Vector(Position.X, Position.Y)) *
+                Matrix4x4.CreateScale(new Vector(ZoomFactor, ZoomFactor));
             return point.Transform(transform);
         }
 

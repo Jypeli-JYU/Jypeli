@@ -5,6 +5,8 @@ using Jypeli.Assets;
 using Jypeli.Controls;
 using Jypeli.Widgets;
 
+namespace Fysiikkapeli;
+
 public class Fysiikkapeli : PhysicsGame
 {
     public override void Begin()

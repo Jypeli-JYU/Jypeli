@@ -5,6 +5,8 @@ using Jypeli.Assets;
 using Jypeli.Controls;
 using Jypeli.Widgets;
 
+namespace Tasohyppelypeli;
+
 public class Tasohyppelypeli : PhysicsGame
 {
     private const double NOPEUS = 200;

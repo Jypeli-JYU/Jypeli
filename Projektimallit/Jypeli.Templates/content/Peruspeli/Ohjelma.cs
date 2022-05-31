@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 #endregion
 
-namespace Program
+namespace Peruspeli
 {
     /// <summary>
     /// The main class.

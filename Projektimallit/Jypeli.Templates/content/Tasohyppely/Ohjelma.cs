@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 #endregion
 
-namespace Program
+namespace Tasohyppelypeli
 {
     /// <summary>
     /// The main class.
@@ -17,8 +17,8 @@ namespace Program
         [STAThread]
         static void Main()
         {
-            using ( var game = new Tasohyppelypeli() )
-                game.Run();
+            using var game = new Tasohyppelypeli()
+            game.Run();
         }
     }
 }

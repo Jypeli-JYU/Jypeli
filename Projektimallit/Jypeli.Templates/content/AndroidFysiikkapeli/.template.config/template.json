@@ -1,0 +1,22 @@
+{
+    "author": "University of Jyväskylä",
+    "classifications": [
+        "Jypeli"
+    ],
+    "name": "Android Fysiikkapeli",
+    "identity": "Jypeli.AndroidFysiikkapeli",
+    "groupIdentity": "Jypeli.AndroidFysiikkapeli",
+    "shortName": "AndroidFysiikkapeli",
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "primaryOutputs": [
+        {
+            "path": "AndroidFysiikkapeli.csproj"
+        }
+    ],
+    "sourceName": "AndroidFysiikkapeli",
+    "preferNameDirectory": "true",
+    "description": "Fysiikkapelipohja Androidille."
+}

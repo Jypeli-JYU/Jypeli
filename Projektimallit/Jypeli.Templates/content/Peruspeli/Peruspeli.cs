@@ -5,6 +5,8 @@ using Jypeli.Assets;
 using Jypeli.Controls;
 using Jypeli.Widgets;
 
+namespace Peruspeli;
+
 public class Peruspeli : Game
 {
     public override void Begin()

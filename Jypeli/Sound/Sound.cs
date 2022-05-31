@@ -1,6 +1,7 @@
 ﻿using System;
+#if DESKTOP
 using Jypeli.Audio.OpenAL;
-
+#endif
 namespace Jypeli
 {
     public enum SoundState

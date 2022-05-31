@@ -27,7 +27,7 @@ Original code from: https://github.com/dotnet/Silk.NET/blob/main/examples/CSharp
 */
 
 #endregion
-
+#if DESKTOP
 using System;
 using System.Buffers.Binary;
 using System.Collections.Generic;
@@ -387,3 +387,4 @@ namespace Jypeli.Audio.OpenAL
         }
     }
 }
+#endif

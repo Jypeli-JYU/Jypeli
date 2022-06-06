@@ -165,11 +165,11 @@ namespace Jypeli
         /// <param name="angle">Kiertokulma</param>
         public void DrawImage(Vector point, Image image, Vector scale, Angle angle)
         {
-            if (!Object.ReferenceEquals(image, previousImage))
+            if (!ReferenceEquals(image, previousImage))
             {
                 // Start a new batch with different image
                 Graphics.ImageBatch.End();
-                //Graphics.ImageBatch.Begin( ref worldMatrix, image.XNATexture );
+                Graphics.ImageBatch.Begin(ref worldMatrix, image);
                 previousImage = image;
             }
 

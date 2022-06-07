@@ -163,7 +163,7 @@ namespace Jypeli.Widgets
             Knob.Color = pressedDown || Game.Mouse.IsCursorOn(this) ? activeColor : inactiveColor;
             Vector cached = Game.Mouse.PositionOnScreen;
             if (pressedDown)
-                GenMove(cached - Game.Camera.WorldToScreen(Position, Layer));
+                GenMove(cached - Position);
         }
 
         private void MouseRelease()
@@ -186,7 +186,7 @@ namespace Jypeli.Widgets
         private void TouchMove(Touch touch)
         {
             if (touchObject == touch)
-                GenMove(touch.PositionOnScreen);
+                GenMove(touch.PositionOnScreen - Position);
         }
 
         private void TouchRelease(Touch touch)

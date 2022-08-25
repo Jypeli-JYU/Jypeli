@@ -17,7 +17,7 @@ namespace Tasohyppelypeli
         [STAThread]
         static void Main()
         {
-            using var game = new Tasohyppelypeli()
+            using var game = new Tasohyppelypeli();
             game.Run();
         }
     }

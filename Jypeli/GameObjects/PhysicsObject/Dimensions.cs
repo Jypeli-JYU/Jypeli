@@ -87,8 +87,8 @@ namespace Jypeli
                     throw new InvalidOperationException("Object is already destroyed");
                 if (value.X < 0 || value.Y < 0)
                     throw new ArgumentException("The size must be positive!");
-                if (IsAddedToGame)
-                    Body.Size = value;
+
+                Body.Size = value;
                 /*if (Parent != null) // TODO: tästä tulee stackoverflow
                     Body.RegenerateConnectedFixtures();*/
             }

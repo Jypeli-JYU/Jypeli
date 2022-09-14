@@ -864,6 +864,11 @@ namespace FarseerPhysics.Dynamics
                 if (IsLocked)
                     throw new InvalidOperationException("The World is locked.");
                 _gravity = value;
+
+                foreach (var item in BodyList)
+                {
+                    item.Awake = true;
+                } 
             }
         }
 

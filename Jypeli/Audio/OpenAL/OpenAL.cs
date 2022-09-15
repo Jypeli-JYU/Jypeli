@@ -262,7 +262,7 @@ namespace Jypeli.Audio.OpenAL
 
         public void Destroy(uint handle)
         {
-            al.DeleteSource(handle);
+            al?.DeleteSource(handle);
         }
 
         public uint Duplicate(uint from)

@@ -335,6 +335,12 @@ namespace Jypeli
 
             if (Level.Background.Image != null && !Level.Background.MovesWithCamera)
             {
+                if (Level.Background.Image.dirty)
+                {
+                    GraphicsDevice.UpdateTextureData(Level.Background.Image);
+                    Level.Background.Image.dirty = false;
+                }
+
                 GraphicsDevice.BindTexture(Level.Background.Image);
 
                 Graphics.BasicTextureShader.Use();

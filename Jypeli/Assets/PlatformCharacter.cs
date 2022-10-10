@@ -607,6 +607,8 @@ public class PlatformCharacter : PhysicsObject
     /// <inheritdoc/>
     public override void Destroy()
     {
+        if (IsDestroyed)
+            return;
         for (int i = 0; i < collisionHelpers.Length; i++)
         {
             collisionHelpers[i].Object.Destroy();
@@ -625,7 +627,8 @@ public class PlatformCharacter : PhysicsObject
         if (Visualisation)
             Visualize();
 
-        AdjustPosition();
+        if(!IsDestroyed)
+            AdjustPosition();
 
         if (!isWalking)
             StopWalking();

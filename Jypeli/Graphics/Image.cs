@@ -304,6 +304,7 @@ namespace Jypeli
         public void SetData(byte[] byteArr)
         {
             SetData(byteArr, this.Height, this.Width);
+            dirty = true;
         }
 
         /// <summary>
@@ -835,6 +836,17 @@ namespace Jypeli
                         .DrawImage(bottom.rawImage, new Point(0, top.Height), 1f)
             );
             return new Image(img);
+        }
+
+        /// <summary>
+        /// Skaalaa kuvan annettuun resoluutioon
+        /// </summary>
+        /// <param name="newWidth"></param>
+        /// <param name="newHeight"></param>
+        /// <returns></returns>
+        public void Rescale(int newWidth, int newHeight)
+        {
+            rawImage.Mutate(x => x.Resize(newWidth, newHeight));
         }
 
         #endregion

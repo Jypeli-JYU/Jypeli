@@ -317,7 +317,7 @@ namespace Jypeli.Effects
         {
             Vector direction = GiveRandomDirection();
 
-            double rotation = angle.Degrees;
+            double rotation = angle.Radians;
             double scale = RandomGen.NextDouble(MinScale, MaxScale);
             double velocity = RandomGen.NextDouble(MinVelocity, MaxVelocity);
             double lifetime = RandomGen.NextDouble(MinLifetime, MaxLifetime);

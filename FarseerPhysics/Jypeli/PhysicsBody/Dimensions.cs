@@ -108,6 +108,7 @@ namespace Jypeli
 
         internal void SetShape(Shape shape)
         {
+            bool ignoresCollisionResponseTemp = IgnoresCollisionResponse;
             _shape = shape;
             var collisionHandlers = FSBody.FixtureList[0].OnCollision;
 
@@ -128,6 +129,7 @@ namespace Jypeli
                 fs.AddRange(FixtureFactory.AttachCompoundPolygon(vertices, DefaultDensity, FSBody));
             }
             fs.ForEach((f) => { f.OnCollision += collisionHandlers; f.Tag = FSBody; });
+            IgnoresCollisionResponse = ignoresCollisionResponseTemp;
         }
 
         /// <summary>

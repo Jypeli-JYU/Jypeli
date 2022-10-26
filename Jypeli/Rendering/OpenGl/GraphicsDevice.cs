@@ -109,6 +109,8 @@ namespace Jypeli.Rendering.OpenGl
         /// <inheritdoc/>
         public void DrawPrimitives(PrimitiveType primitivetype, VertexPositionColorTexture[] vertexBuffer, uint numIndices, bool normalized = false)
         {
+            if(primitivetype == PrimitiveType.OpenGLLines)
+                Gl.Enable(GLEnum.LineSmooth);
             Gl.Enable(GLEnum.Blend);
             Gl.BlendFunc(GLEnum.SrcAlpha, GLEnum.OneMinusSrcAlpha);
 

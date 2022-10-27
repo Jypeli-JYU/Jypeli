@@ -358,12 +358,12 @@ namespace Jypeli
             (
                 r =>
                 {
-                    for (int i = oy; i < ny; i++)
+                    for (int i = oy; i < oy + ny; i++)
                     {
                         Span<Rgba32> row = r.GetRowSpan(i);
                         for (int j = ox; j < ox + nx; j++)
                         {
-                            bmp[i - oy, j - ox] = (uint)(row[j].R << 24 | row[j].G << 16 | row[j].B << 8 | row[j].A);
+                            bmp[i - oy, j - ox] = (uint)(row[j].A << 24 | row[j].R << 16 | row[j].G << 8 | row[j].B);
                         }
                     }
                 }
@@ -402,13 +402,13 @@ namespace Jypeli
             (
                 r =>
                 {
-                    for (int i = oy; i < ny; i++)
+                    for (int i = oy; i < oy + ny; i++)
                     {
                         Span<Rgba32> row = r.GetRowSpan(i);
                         bmp[i - oy] = new uint[nx];
                         for (int j = ox; j < ox + nx; j++)
                         {
-                            bmp[i - oy][j - ox] = (uint)(row[j].R << 24 | row[j].G << 16 | row[j].B << 8 | row[j].A);
+                            bmp[i - oy][j - ox] = (uint)(row[j].A << 24 | row[j].R << 16 | row[j].G << 8 | row[j].B);
                         }
                     }
                 }

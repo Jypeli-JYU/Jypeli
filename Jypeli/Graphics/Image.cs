@@ -248,7 +248,7 @@ namespace Jypeli
         /// <param name="ox">siirtymä x-suunnassa vasemmasta ylänurkasta</param>
         /// <param name="oy">siirtymä y-suunnassa vasemmasta ylänurkasta</param>
         /// <param name="w">alueen leveys johon kopioidaan</param>
-        /// <param name="h">lueen korkaus johon kopioidaan</param>
+        /// <param name="h">alueen korkaus johon kopioidaan</param>
         /// <returns>pikselit Color-taulukkona</returns>
         public void SetData(Color[,] bmp, int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue)
         {
@@ -335,7 +335,7 @@ namespace Jypeli
         /// <param name="ox">siirtymä x-suunnassa vasemmasta ylänurkasta</param>
         /// <param name="oy">siirtymä y-suunnassa vasemmasta ylänurkasta</param>
         /// <param name="w">alueen leveys joka kopioidaan</param>
-        /// <param name="h">lueen korkaus joka kopioidaan</param>
+        /// <param name="h">alueen korkaus joka kopioidaan</param>
         /// <returns>Kuvan pikselit ARGB-taulukkona</returns>
         public uint[,] GetDataUInt(int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue)
         {
@@ -379,7 +379,7 @@ namespace Jypeli
         /// <param name="ox">siirtymä x-suunnassa vasemmasta ylänurkasta</param>
         /// <param name="oy">siirtymä y-suunnassa vasemmasta ylänurkasta</param>
         /// <param name="w">alueen leveys joka kopioidaan</param>
-        /// <param name="h">lueen korkaus joka kopioidaan</param>
+        /// <param name="h">alueen korkaus joka kopioidaan</param>
         /// <returns>Kuvan pikselit ARGB-taulukkona</returns>
         public uint[][] GetDataUIntAA(int ox = 0, int oy = 0, int w = int.MaxValue, int h = int.MaxValue)
         {

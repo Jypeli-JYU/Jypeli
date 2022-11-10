@@ -222,7 +222,7 @@ namespace Jypeli.Audio.OpenAL
                 }
                 else if (identifier == "data")
                 {
-                    var data = file.Slice(44, size);
+                    var data = file.Slice(index, size);
                     index += size;
 
                     fixed (byte* pData = data)

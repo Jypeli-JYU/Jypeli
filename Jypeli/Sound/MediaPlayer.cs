@@ -82,14 +82,28 @@ namespace Jypeli
         {
             if (!CanPlay)
                 return;
-            if (sound != null)
-            {
-                sound.Stop();
-            }
+
+            sound?.Stop();
 
             sound = Game.LoadSoundEffect(songName).CreateSound();
 
             sound.Play();
+        }
+
+        /// <summary>
+        /// Soittaa kappaleen.
+        /// </summary>
+        /// <param name="sound">Soitettava ääni.</param>
+        public void Play(SoundEffect sound)
+        {
+            if (!CanPlay)
+                return;
+
+            this.sound?.Stop();
+
+            this.sound = sound.CreateSound();
+
+            this.sound.Play();
         }
 
         /// <summary>

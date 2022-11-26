@@ -33,18 +33,23 @@ namespace Jypeli.Audio.Android
 
         public AudioTrackContainer LoadSound(byte[] bytes)
         {
+            var audioInfo = AudioHelper.Read(bytes);
             var at = new AudioTrack.Builder()
                 .SetAudioAttributes(new Media.AudioAttributes.Builder()
                     .SetUsage(Media.AudioUsageKind.Game)
                     .SetContentType(Media.AudioContentType.Music)
                     .Build())
                 .SetAudioFormat(new Media.AudioFormat.Builder()
-                    .SetEncoding(Media.Encoding.Pcm16bit)
-                    .SetChannelMask(Media.ChannelOut.Mono)
-                    .SetSampleRate(44100)
-                    .Build()).SetBufferSizeInBytes(bytes.Length).SetTransferMode(Media.AudioTrackMode.Static).Build();
+                    // TODO: Tätä on hieman ikävä laajentaa jos sallitaan myös jokin muu enkoodaus tulevaisuudessa.
+                    .SetEncoding(audioInfo.bitsPerSample == 16 ? Media.Encoding.Pcm16bit : Media.Encoding.Pcm8bit)
+                    .SetChannelMask(audioInfo.numChannels == 1 ? Media.ChannelOut.Mono : Media.ChannelOut.Stereo)
+                    .SetSampleRate(audioInfo.sampleRate)
+                    .Build())
+                .SetBufferSizeInBytes(audioInfo.data.Length)
+                .SetTransferMode(Media.AudioTrackMode.Static)
+                .Build();
             // TODO: AudioTrackMode.Static ei ehkä ole paras vaihtoehto jos äänitiedosto on hyvin pitkä.
-            at.Write(bytes, 0, bytes.Length);
+            at.Write(audioInfo.data.ToArray(), 0, audioInfo.data.Length);
 
             return new AudioTrackContainer(at, bytes);
         }

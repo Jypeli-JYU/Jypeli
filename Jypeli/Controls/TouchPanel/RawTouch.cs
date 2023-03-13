@@ -10,6 +10,13 @@ namespace Jypeli.Controls
     {
         public Vector Position;
         public int Id;
-        public bool Up;
+        public TouchAction Action;
+    }
+
+    internal enum TouchAction
+    {
+        Down,
+        Move,
+        Up
     }
 }

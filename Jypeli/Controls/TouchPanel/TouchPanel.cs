@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Jypeli.Controls;
 using Silk.NET.Input;
 using Silk.NET.Windowing;
@@ -21,13 +22,11 @@ namespace Jypeli
     {
         // Androidin DispatchTouchEvent tapahtuu eri säikeessä kuin missä pelin päivityssilmukka on
         internal readonly object TouchLock = new object();
-        internal bool RawTouchesUpdated = false;
-        internal List<RawTouch> RawTouches { get; } = new List<RawTouch>();
+        internal List<RawTouch> RawTouches { get; set; } = new List<RawTouch>();
 
         protected static readonly Predicate<Touch> AlwaysTrigger = delegate { return true; };
 
         private List<Touch> touches = new List<Touch>();
-        private List<Touch> newTouches = new List<Touch>();
         private List<Gesture> gestures = new List<Gesture>();
 
         private readonly SynchronousList<TouchListener> DownListeners = new SynchronousList<TouchListener>();
@@ -190,48 +189,38 @@ namespace Jypeli
         {
             lock (TouchLock)
             {
-                if (!RawTouchesUpdated)
-                    return;
+                RawTouches = RawTouches.OrderBy(r => r.Action).ToList();
                 foreach (var rawTouch in RawTouches)
                 {
                     Touch prevTouch = touches.Find(s => s.Id == rawTouch.Id);
                     Touch thisTouch = prevTouch != null ? prevTouch : new Touch(rawTouch);
 
-                    if (!rawTouch.Up)
+                    if (rawTouch.Action == TouchAction.Down)
                     {
-                        newTouches.Add(thisTouch);
-                    }
-                    
-                    DownListeners.ForEach(dl => dl.CheckAndInvoke(thisTouch));
-                    if (prevTouch == null)
-                    {
-                        // New touch
+                        // Joskus hyvin nopealla spämmillä voi tulla sama kosketus tuplana.
+                        if (prevTouch != null)
+                            continue;
+                        touches.Add(thisTouch);
                         PressListeners.ForEach(dl => dl.CheckAndInvoke(thisTouch));
                     }
-                    else if(!rawTouch.Up)
+                    if (rawTouch.Action == TouchAction.Move)
                     {
-                        // Existing touch
-                        touches.Remove(thisTouch);
                         thisTouch.Update(rawTouch);
+                        DownListeners.ForEach(dl => dl.CheckAndInvoke(thisTouch));
                     }
-                }
-                for (int i = 0; i < touches.Count; i++)
-                {
-                    // Released touch
-                    ReleaseListeners.ForEach(dl => dl.CheckAndInvoke(touches[i]));
+                    if(rawTouch.Action == TouchAction.Up)
+                    {
+                        int removed = touches.RemoveAll(t => t.Id == rawTouch.Id);
+                        if(removed > 0)
+                            ReleaseListeners.ForEach(dl => dl.CheckAndInvoke(thisTouch));
+                    }
                 }
 
                 DownListeners.UpdateChanges();
                 PressListeners.UpdateChanges();
                 ReleaseListeners.UpdateChanges();
 
-                touches.Clear();
-                var empty = touches;
-                touches = newTouches;
-                newTouches = empty;
-
                 RawTouches.Clear();
-                RawTouchesUpdated = false;
             }
         }
 
@@ -327,7 +316,7 @@ namespace Jypeli
         /// <param name="handler">Aliohjelma</param>
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p">Parametri</param>
-        public Listener Listen<T>(ButtonState state, TouchHandler handler, string helpText, T p)
+        public Listener Listen<T>(ButtonState state, TouchHandler<T> handler, string helpText, T p)
         {
             return AddListener(GetList(state), AlwaysTrigger, helpText, handler, p);
         }
@@ -342,7 +331,7 @@ namespace Jypeli
         /// <param name="helpText">Ohjeteksti</param>
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
-        public Listener Listen<T1, T2>(ButtonState state, TouchHandler handler, string helpText, T1 p1, T2 p2)
+        public Listener Listen<T1, T2>(ButtonState state, TouchHandler<T1, T2> handler, string helpText, T1 p1, T2 p2)
         {
             return AddListener(GetList(state), AlwaysTrigger, helpText, handler, p1, p2);
         }
@@ -359,7 +348,7 @@ namespace Jypeli
         /// <param name="p1">1. parametri</param>
         /// <param name="p2">2. parametri</param>
         /// <param name="p3">3. parametri</param>
-        public Listener Listen<T1, T2, T3>(ButtonState state, TouchHandler handler, string helpText, T1 p1, T2 p2, T3 p3)
+        public Listener Listen<T1, T2, T3>(ButtonState state, TouchHandler<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
             return AddListener(GetList(state), AlwaysTrigger, helpText, handler, p1, p2, p3);
         }

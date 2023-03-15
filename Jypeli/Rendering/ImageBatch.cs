@@ -175,7 +175,7 @@ namespace Jypeli.Rendering
             iTexture++;
         }
 
-        public void Draw(Image img, Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, Vector2 scale, float angle, Vector2 origin)
+        public void Draw(Image img, Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, Vector2 scale, float angle)
         {
             Debug.Assert(beginHasBeenCalled);
 
@@ -188,7 +188,7 @@ namespace Jypeli.Rendering
 
             System.Drawing.Rectangle rect = sourceRectangle.Value;
 
-            Vector transf = new Vector(position.X - origin.X * scale.X + (float)rect.Width / 2 * scale.X, position.Y + origin.Y * scale.Y - (float)rect.Height / 2 * scale.Y);
+            Vector transf = new Vector(position.X * scale.X + (float)rect.Width / 2 * scale.X, position.Y * scale.Y - (float)rect.Height / 2 * scale.Y);
 
             Matrix matrix =
                 Matrix.CreateScale(scale.X * rect.Width, scale.Y * rect.Height, 1f)

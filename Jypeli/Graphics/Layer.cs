@@ -204,11 +204,8 @@ namespace Jypeli
                 case DrawOrder.Irrelevant:
                     DrawEfficientlyInNoParticularOrder(ref worldMatrix);
                     break;
-                case DrawOrder.FirstToLast:
-                    DrawInOrderFromFirstToLast(ref worldMatrix); // TODO: Halutaanko tätä vaihtoehtoa enää säilyttää, jos piirtojärjestykseen halutaan vaikuttaa, olisi layerit oikea vaihtoehto.
-                    break;
                 default:
-                    break;
+                    throw new NotSupportedException("Tällä hetkellä vain DrawOrder.Irrelevant on tuettu.");
             }
 
             Effects.ForEach(e => e.Draw(worldMatrix));
@@ -305,29 +302,6 @@ namespace Jypeli
             Graphics.LineBatch.End();
         }
 
-        private void DrawInOrderFromFirstToLast(ref Matrix worldMatrix)
-        {
-            Renderer.LightingEnabled = true;
-
-            foreach (var o in Objects)
-            {
-                if (o is CustomDrawable drawable)
-                {
-                    if (o.IsVisible)
-                        drawable.Draw(worldMatrix);
-                }
-                else
-                {
-                    Renderer.LightingEnabled = !o.IgnoresLighting;
-                    Draw(o, ref worldMatrix);
-                }
-            }
-
-            DrawChildObjects(worldMatrix);
-
-            Renderer.LightingEnabled = false;
-        }
-
         int CompareByImageReference(IGameObject o1, IGameObject o2)
         {
             if (o1.Image == null || o2.Image == null)
@@ -413,16 +387,24 @@ namespace Jypeli
 
         private void DrawCustomDrawables(Matrix worldMatrix)
         {
+            Graphics.ImageBatch.Begin(ref worldMatrix, null);
+            Graphics.ShapeBatch.Begin(ref worldMatrix);
+            Graphics.FontRenderer.Begin(ref worldMatrix);
             foreach (CustomDrawable o in objectsWithDrawMethod)
             {
                 if (o.IsVisible)
                     o.Draw(worldMatrix);
             }
+
+            Graphics.ShapeBatch.End();
+            Graphics.ImageBatch.End();
+            Graphics.TextBatch.End();
         }
 
         private void DrawChildObjects(Matrix worldMatrix)
         {
             Graphics.ShapeBatch.Begin(ref worldMatrix);
+            Graphics.TextBatch.Begin(ref worldMatrix);
             Vector drawScale = new Vector(1, 1);
 
             for (int i = 0; i < Objects.Count; i++)
@@ -459,6 +441,7 @@ namespace Jypeli
             }
 
             Graphics.ShapeBatch.End();
+            Graphics.TextBatch.End();
         }
 
         private static void DrawTexture(IGameObject o, ref Matrix parentTransformation)
@@ -538,44 +521,6 @@ namespace Jypeli
                 default:
                     Graphics.ShapeBatch.Draw(o.Shape.Cache, o.Color, o.Position, drawScale, rotation);
                     break;
-            }
-        }
-
-        private static void Draw(IGameObject o, ref Matrix parentTransformation)
-        {
-            Vector drawScale = new Vector(1, 1);
-            if (o.Shape.IsUnitSize)
-                drawScale = o.Size;
-
-            Vector position = new Vector((float)o.Position.X, (float)o.Position.Y);
-            Vector scale = new Vector((float)drawScale.X, (float)drawScale.Y);
-            float rotation = o.RotateImage ? (float)o.Angle.Radians : 0;
-
-            if (o.IsVisible)
-            {
-                Matrix transformation =
-                    Matrix.CreateScale((float)scale.X, (float)scale.Y, 1f)
-                    * Matrix.CreateRotationZ(rotation)
-                    * Matrix.CreateTranslation((float)position.X, (float)position.Y, 0f)
-                    * parentTransformation;
-
-                if (o is CustomDrawable drawable)
-                {
-                    drawable.Draw(parentTransformation);
-                }
-                else if (o.Image != null && (!o.TextureFillsShape))
-                {
-                    // TODO: TextureFillsShape kuntoon
-                    Renderer.DrawImage(parentTransformation, o.Image, Graphics.DefaultTextureCoords, o.Position, o.Size, (float)o.Angle.Radians);
-                }
-                else if (o.Image != null)
-                {
-                    Renderer.DrawShape(o.Shape, ref transformation, ref transformation, o.Image, o.TextureWrapSize, o.Color);
-                }
-                else
-                {
-                    DrawShape(o, ref parentTransformation);
-                }
             }
         }
 

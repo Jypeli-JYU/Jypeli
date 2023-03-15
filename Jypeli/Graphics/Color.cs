@@ -2,6 +2,7 @@
 
 using System.Globalization;
 using System.Runtime.InteropServices;
+using FontStashSharp;
 
 namespace Jypeli
 {
@@ -357,6 +358,11 @@ namespace Jypeli
         public System.Drawing.Color ToSystemDrawing()
         {
             return System.Drawing.Color.FromArgb(AlphaComponent, RedComponent, GreenComponent, BlueComponent);
+        }
+
+        internal FSColor ToFSColor()
+        {
+            return new FSColor(RedComponent, GreenComponent, BlueComponent, AlphaComponent);
         }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member

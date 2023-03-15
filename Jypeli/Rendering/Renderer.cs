@@ -107,8 +107,7 @@ namespace Jypeli
         public static void DrawText(string text, Vector position, Font font, Color color, Vector scale)
         {
             Vector textSize = font.SpriteFont.MeasureString(text);
-            Graphics.FontRenderer.Begin();
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), color.ToSystemDrawing(), scale);
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), color.ToFSColor(), scale);
         }
 
         /// <summary>
@@ -122,8 +121,7 @@ namespace Jypeli
         public static void DrawText(string text, Vector position, Font font, Color[] colors, Vector scale)
         {
             Vector textSize = font.SpriteFont.MeasureString(text);
-            Graphics.FontRenderer.Begin();
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), colors.ConvertAll((c) => c.ToSystemDrawing()).ToArray(), scale);
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), colors.ConvertAll((c) => c.ToFSColor()).ToArray(), scale);
         }
 
         /// <summary>
@@ -137,8 +135,7 @@ namespace Jypeli
         /// <param name="scale">Tekstin skaalaus</param>
         public static void DrawText(string text, ref Matrix transformation, Vector position, Font font, Color color, Vector scale)
         {
-            Graphics.FontRenderer.Begin(ref transformation);
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position, color.ToSystemDrawing(), scale);
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position, color.ToFSColor(), scale);
         }
 
         /// <summary>
@@ -152,8 +149,7 @@ namespace Jypeli
         /// <param name="scale">Tekstin skaalaus</param>
         public static void DrawText(string text, ref Matrix transformation, Vector position, Font font, Color[] colors, Vector scale)
         {
-            Graphics.FontRenderer.Begin(ref transformation);
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position, colors.ConvertAll((c) => c.ToSystemDrawing()).ToArray(), scale);
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position, colors.ConvertAll((c) => c.ToFSColor()).ToArray(), scale);
         }
 
         /// <summary>
@@ -183,7 +179,7 @@ namespace Jypeli
         /// <param name="color">Väri</param>
         public static void DrawFilledShape(ShapeCache cache, ref Matrix matrix, Vector position, Vector size, float rotation, Color color)
         {
-            Graphics.CustomBatch.AddShape(matrix, cache, color, position, size, rotation);
+            Graphics.ShapeBatch.Draw(cache, color, position, size, rotation);
         }
 
         /// <summary>

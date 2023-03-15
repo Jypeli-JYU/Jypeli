@@ -29,7 +29,6 @@
 
 using System;
 using Jypeli.Widgets;
-
 using Matrix = System.Numerics.Matrix4x4;
 using Vector3 = System.Numerics.Vector3;
 
@@ -495,9 +494,9 @@ namespace Jypeli
             Vector pos = Position - new Vector(GetHorizontalAlignment() + v.X * TextScale.X / 2, GetVerticalAlignment() - v.Y * TextScale.Y / 2);
 
             if (characterColors is null)
-                Renderer.DrawText(text, ref parentTransformation, pos, Font, TextColor, TextScale);
+                Renderer.DrawText(text, ref parentTransformation, pos, Font, TextColor, new Vector(TextScale.X, -TextScale.Y));
             else
-                Renderer.DrawText(text, ref parentTransformation, pos, Font, characterColors, TextScale);
+                Renderer.DrawText(text, ref parentTransformation, pos, Font, characterColors, new Vector(TextScale.X, -TextScale.Y));
 
             base.Draw(parentTransformation, transformation);
         }

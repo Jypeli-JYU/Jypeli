@@ -47,6 +47,7 @@ namespace Jypeli
         // The same batch object must not be used from more
         // than one place at a time, though.
         internal static ImageBatch ImageBatch = new ImageBatch();
+        internal static TextBatch TextBatch = new TextBatch();
         internal static ShapeBatch ShapeBatch = new ShapeBatch();
         internal static LineBatch LineBatch = new LineBatch();
         internal static CustomBatcher CustomBatch = new CustomBatcher();
@@ -98,6 +99,7 @@ namespace Jypeli
             ImageBatch.Initialize();
             ShapeBatch.Initialize();
             LineBatch.Initialize();
+            TextBatch.Initialize();
             FontRenderer = new FontRenderer();
         }
 

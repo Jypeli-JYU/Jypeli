@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using Matrix = System.Numerics.Matrix4x4;
 
 namespace Jypeli
@@ -167,11 +166,12 @@ namespace Jypeli
         {
             if (messages.Count == 0)
                 return;
-            Graphics.FontRenderer.Begin();
+
             for (int i = 0; i < Math.Min(messages.Count, MaxMessageCount); i++)
             {
-                Font.SpriteFont.DrawText(Graphics.FontRenderer, messages[i].Text, Position - new Vector(Width / 2, i * fontHeight - Height / 2), messages[i].Color.ToSystemDrawing());
+                Renderer.DrawText(messages[i].Text, Position - new Vector(0, i * fontHeight - Height / 2), Font, messages[i].Color, new Vector(1,-1));
             }
+
             base.Draw(parentTransformation, transformation);
         }
 

@@ -5,7 +5,9 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using FontStashSharp;
 using FontStashSharp.Interfaces;
+using FSVertexPositionColorTexture = FontStashSharp.Interfaces.VertexPositionColorTexture;
 
 namespace Jypeli.Rendering
 {
@@ -52,39 +54,33 @@ namespace Jypeli.Rendering
         }
     }
 
-    internal class FontRenderer : IFontStashRenderer
+    internal class FontRenderer : IFontStashRenderer2
     {
-        private readonly CustomBatcher _batch;
+        private readonly TextBatch _batch;
         private readonly Texture2DManager _textureManager;
         public ITexture2DManager TextureManager { get => _textureManager; }
         private Matrix4x4 transform;
         public FontRenderer()
         {
             _textureManager = new Texture2DManager();
-            _batch = Graphics.CustomBatch;
+            _batch = Graphics.TextBatch;
         }
 
         public void Begin()
         {
             transform = Matrix4x4.Identity;
+            _batch.Begin(ref transform);
         }
 
         public void Begin(ref Matrix4x4 transformation)
         {
             transform = transformation;
+            _batch.Begin(ref transform);
         }
 
-        public void Draw(object texture, Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, float rotation, Vector2 origin, Vector2 scale, float depth)
+        public void DrawQuad(object texture, ref FSVertexPositionColorTexture topLeft, ref FSVertexPositionColorTexture topRight, ref FSVertexPositionColorTexture bottomLeft, ref FSVertexPositionColorTexture bottomRight)
         {
-            Image img = texture as Image;
-
-            _batch.AddText(transform, img,
-                position,
-                sourceRectangle,
-                color,
-                scale,
-                rotation,
-                origin);
+            _batch.Add(texture as Image, topLeft, topRight, bottomLeft, bottomRight);
         }
     }
 }

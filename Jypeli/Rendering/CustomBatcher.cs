@@ -8,8 +8,8 @@ using System.Numerics;
 namespace Jypeli.Rendering
 {
     /// <summary>
-    /// Hoitaa omien piirtometodien omaavien olioiden piirtämisen tehokkaammin
-    /// yhdistämällä piirtokutsuja.
+    /// TODO: Tästä pitää hankkiutua eroon, tai ainakin toteutusta muuttaa paremmaksi
+    /// Hoitaa omien piirtometodien omaavien olioiden piirtämisen
     /// </summary>
     internal class CustomBatcher
     {
@@ -25,7 +25,6 @@ namespace Jypeli.Rendering
 
             public System.Drawing.Rectangle? SourceRectangle { get; set; }
             public System.Drawing.Color Dcolor { get; set; }
-            public Vector2 Origin { get; set; }
 
             public BatchItem(ShapeCache cache, Color color, Vector position, Vector size, float rotation)
             {
@@ -55,14 +54,13 @@ namespace Jypeli.Rendering
                 Color = color;
             }
 
-            public BatchItem(Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, Vector2 size, float rotation, Vector2 origin)
+            public BatchItem(Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, Vector2 size, float rotation)
             {
                 Position = position;
                 SourceRectangle = sourceRectangle;
                 Dcolor = color;
                 Size = size;
                 Rotation = rotation;
-                Origin = origin;
             }
         }
 
@@ -70,7 +68,6 @@ namespace Jypeli.Rendering
         // Matriisin vaihto tarkoittaa aina uutta piirtokomentoa, joten tämä lienee paras, tai ainakin helpoin, tapa.
         // Ihan vain yksinkertaisuuden takia jaetaan teksti omaan dictionaryyn, vaikka sekin on vain kuva, jonka palasia piirretään.
         private Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>> ImageBatches = new Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>>();
-        private Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>> TextBatches = new Dictionary<Image, Dictionary<Matrix4x4, List<BatchItem>>>();
         // TODO: Pitäisikö tämä tietorakenne muotoilla vielä erilailla?
 
         private Dictionary<IShader, Dictionary<Matrix4x4, List<BatchItem>>> ShaderBatches = new Dictionary<IShader, Dictionary<Matrix4x4, List<BatchItem>>>();
@@ -115,30 +112,6 @@ namespace Jypeli.Rendering
             {
                 batch.Add(matrix, new List<BatchItem>());
                 batch[matrix].Add(new BatchItem(texcoords, position, size, rotation));
-            }
-        }
-
-        public void AddText(Matrix4x4 matrix, Image image, Vector2 position, System.Drawing.Rectangle? sourceRectangle, System.Drawing.Color color, Vector2 size, float rotation, Vector2 origin)
-        {
-            if (!TextBatches.ContainsKey(image))
-            {
-                TextBatches.Add(image, new Dictionary<Matrix4x4, List<BatchItem>>());
-            }
-            Dictionary<Matrix4x4, List<BatchItem>> batch = TextBatches[image];
-
-            if (batch.TryGetValue(matrix, out List<BatchItem> list))
-            {
-                if (list == null)
-                {
-                    list = new List<BatchItem>();
-                    batch[matrix] = list;
-                }
-                list.Add(new BatchItem(position, sourceRectangle, color, size, rotation, origin));
-            }
-            else
-            {
-                batch.Add(matrix, new List<BatchItem>());
-                batch[matrix].Add(new BatchItem(position, sourceRectangle, color, size, rotation, origin));
             }
         }
 
@@ -206,23 +179,6 @@ namespace Jypeli.Rendering
                     }
                     Graphics.ImageBatch.End();
                     ImageBatches[img][batch.Key].Clear();
-                }
-            }
-
-            var textImages = TextBatches.Keys;
-
-            foreach (var img in textImages)
-            {
-                foreach (var batch in TextBatches[img])
-                {
-                    Matrix4x4 matrix = batch.Key;
-                    Graphics.ImageBatch.Begin(ref matrix, img);
-                    foreach (var item in TextBatches[img][batch.Key])
-                    {
-                        Graphics.ImageBatch.Draw(img, item.Position, item.SourceRectangle, item.Dcolor, item.Size, item.Rotation, item.Origin);
-                    }
-                    Graphics.ImageBatch.End();
-                    TextBatches[img][batch.Key].Clear();
                 }
             }
 

@@ -83,7 +83,7 @@ namespace Jypeli
         {
             get
             {
-                return ScreenView.FromDisplayCoords(_position);
+                return ScreenView.FromDisplayCoords(_previousPosition);
             }
         }
 
@@ -94,7 +94,7 @@ namespace Jypeli
         {
             get
             {
-                return Game.Instance.Camera.ScreenToWorld(ScreenView.FromDisplayCoords(_position));
+                return Game.Instance.Camera.ScreenToWorld(ScreenView.FromDisplayCoords(_previousPosition));
             }
         }
 

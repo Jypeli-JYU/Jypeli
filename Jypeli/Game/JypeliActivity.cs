@@ -1,13 +1,13 @@
 ﻿
 #if ANDROID
 using System;
-using Android.App;
 using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Silk.NET.Windowing.Sdl.Android;
 using Jypeli.Controls;
+using Andr = Android;
 
 namespace Jypeli
 {
@@ -15,11 +15,16 @@ namespace Jypeli
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            ActionBar.Hide();
-            Window.AddFlags(WindowManagerFlags.Fullscreen);
+            ActionBar?.Hide();
+            Window?.AddFlags(WindowManagerFlags.Fullscreen);
             Game.AssetManager = Assets;
-            base.OnCreate(savedInstanceState);
+            // SDL vaatii uudella androidilla Bluetoothin Steam controller tuen takia.
+            if (CheckSelfPermission(Andr.Manifest.Permission.BluetoothConnect) != Permission.Granted)
+            {
+                RequestPermissions(new string[] { Andr.Manifest.Permission.BluetoothConnect }, 0);
+            }
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            base.OnCreate(savedInstanceState);
         }
         protected override void OnRun()
         {

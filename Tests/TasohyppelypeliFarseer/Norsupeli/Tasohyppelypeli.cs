@@ -4,7 +4,6 @@ using Jypeli;
 using Jypeli.Assets;
 using Jypeli.Controls;
 using Jypeli.Widgets;
-using System.Numerics;
 
 public class Tasohyppelypeli : PhysicsGame
 {
@@ -14,18 +13,33 @@ public class Tasohyppelypeli : PhysicsGame
 
     public override void Begin()
     {
-        Gravity = new Vector2(0, -0);
+        /*
+        var palkki = new PhysicsObject(10, 500);
+        //palkki.MakeStatic();
+        palkki.X = 200;
+        palkki.Mass = 10000;
+        Add(palkki);
 
-        p1 = new PhysicsObject(5, 50);
-        Add(p1);
-
-        p2 = new PhysicsObject(100, 50);
-        p2.Body.Velocity = new Jypeli.Vector(-120, 10);
-        p2.Position = new Jypeli.Vector(400, 0);
-        Add(p2);
-
-        Surfaces ss = Level.CreateBorders();
-        AddCollisionHandler<PhysicsObject, PhysicsObject>(p1, delegate { MessageDisplay.Add("kissa"); });
+        Keyboard.Listen(Key.Space, ButtonState.Pressed, () =>
+        {
+            var p = new PhysicsObject(10, 10);
+            p.Velocity = new Vector(10000, 0);
+            Add(p);
+        }, null);
+        */
+        Gravity = new Vector(0, -100);
+        Level.BackgroundColor = Color.Black;
+        Level.CreateBorders();
+        
+        for (int i = 0; i < 5000; i++)
+        {
+            var p = new GameObject(20, 20);
+            p.Position = Level.GetRandomPosition();
+            //p.Shape = Shape.Circle;
+            p.Color = RandomGen.NextDarkColor();
+            Add(p);
+        }
+        
     }
 
     protected override void Update(Time time)

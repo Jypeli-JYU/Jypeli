@@ -96,6 +96,7 @@ namespace Jypeli
         /// <param name="dt">Kulunut aika edellisestä päivityksestä</param>
         protected void OnUpdate(double dt)
         {
+            Profiler.Start("Update");
             // Jos jostain syystä olisi tulossa hyvin iso dt, muutetaan se pieneksi.
             // Tämä voi tapahtua esim kun ikkunaa raahataan. Raahauksen aikana ei ajeta päivityksiä,
             // kun raahaus päättyy tulee päivitys hyvin suurella dt-arvolla, joka taas rikkoo fysiikoita.
@@ -114,6 +115,9 @@ namespace Jypeli
             {
                 PausedUpdate(currentRealTime);
             }
+            
+            Profiler.End();
+            var lista = Profiler.Steps;
         }
 
         /// <summary>
@@ -122,8 +126,10 @@ namespace Jypeli
         /// <param name="dt">Kulunut aika edellisestä päivityksestä</param>
         protected void OnDraw(double dt)
         {
+            Profiler.Start("Draw");
             if (!Closing) // Jos peli ollaan sulkemassa, ei yritetä piirtää.
                 Draw(Time);
+            Profiler.End();
         }
 
         /// <summary>
@@ -133,15 +139,36 @@ namespace Jypeli
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected virtual void Update(Time time)
         {
+            Profiler.BeginStep("Controls");
             UpdateControls(time);
+            Profiler.EndStep();
+            
             if (DataStorage.IsUpdated)
                 DataStorage.Update(currentRealTime);
+            
+            Profiler.BeginStep("Camera");
             Camera.Update(time);
+            Profiler.EndStep();
+            
+            Profiler.BeginStep("Layers");
             Layers.Update(time);
+            Profiler.EndStep();
+            
+            Profiler.BeginStep("Timers");
             Timer.UpdateAll(time);
+            Profiler.EndStep();
+            
+            Profiler.BeginStep("DebugScreen");
             UpdateDebugScreen(currentRealTime);
+            Profiler.EndStep();
+            
+            Profiler.BeginStep("Handlers");
             UpdateHandlers(time);
+            Profiler.EndStep();
+            
+            Profiler.BeginStep("PendingActions");
             ExecutePendingActions();
+            Profiler.EndStep();
         }
     }
 }

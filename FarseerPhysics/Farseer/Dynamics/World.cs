@@ -492,7 +492,7 @@ namespace FarseerPhysics.Dynamics
                     c._toi = 1.0f;
                 }
             }
-
+            
             // Find TOI events and solve them.
             for (; ; )
             {
@@ -1443,32 +1443,40 @@ namespace FarseerPhysics.Dynamics
             IsLocked = true;
             try
             {
+                Profiler.BeginStep("Controller");
                 //Update controllers
                 for (int i = 0; i < ControllerList._list.Count; i++)
                 {
                     ControllerList._list[i].Update(dt);
                 }
+                Profiler.EndStep();
                 if (Settings.EnableDiagnostics)
                     ControllersUpdateTime = TimeSpan.FromTicks(_watch.ElapsedTicks) - (AddRemoveTime + NewContactsTime);
 
                 // Update contacts. This is where some contacts are destroyed.
+                Profiler.BeginStep("Contacts");
                 ContactManager.Collide();
+                Profiler.EndStep();
                 if (Settings.EnableDiagnostics)
                     ContactsUpdateTime = TimeSpan.FromTicks(_watch.ElapsedTicks) - (AddRemoveTime + NewContactsTime + ControllersUpdateTime);
 
+                Profiler.BeginStep("Solve");
                 // Integrate velocities, solve velocity constraints, and integrate positions.
                 if (_stepComplete && step.dt > 0.0f)
                 {
                     Solve(ref step);
                 }
+                Profiler.EndStep();
                 if (Settings.EnableDiagnostics)
                     SolveUpdateTime = TimeSpan.FromTicks(_watch.ElapsedTicks) - (AddRemoveTime + NewContactsTime + ControllersUpdateTime + ContactsUpdateTime);
 
+                Profiler.BeginStep("TOI");
                 // Handle TOI events.
                 if (Settings.ContinuousPhysics && step.dt > 0.0f)
                 {
                     SolveTOI(ref step, ref iterations);
                 }
+                Profiler.EndStep();
                 if (Settings.EnableDiagnostics)
                     ContinuousPhysicsTime = TimeSpan.FromTicks(_watch.ElapsedTicks) - (AddRemoveTime + NewContactsTime + ControllersUpdateTime + ContactsUpdateTime + SolveUpdateTime);
 

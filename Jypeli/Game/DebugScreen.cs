@@ -8,9 +8,7 @@ namespace Jypeli
     public partial class Game
     {
         private string fpsText = "00";
-        private int fpsSkipCounter;
         private Canvas debugCanvas;
-        private Matrix canvasTransform = Matrix.Identity;
         private Camera camera { get => Game.Instance.Camera; }
 
         #region debugsettings
@@ -173,10 +171,6 @@ namespace Jypeli
         private void UpdateFps(Time gameTime)
         {
             fpsText = (10000000.0 / gameTime.SinceLastUpdate.Ticks).ToString("F2");
-            if (fpsSkipCounter++ > 10)
-            {
-                fpsSkipCounter = 0;
-            }
         }
 
         private void UpdateDebugScreen(Time time)

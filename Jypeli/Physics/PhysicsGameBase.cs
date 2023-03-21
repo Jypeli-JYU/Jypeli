@@ -184,14 +184,18 @@ namespace Jypeli
 
             if (PhysicsEnabled)
             {
+                Profiler.BeginStep("PhysicsEngine");
                 Engine.Update(dt);
+                Profiler.EndStep();
             }
 
             base.Update(time);
 
             // Updating joints must be after base.Update so that the bodies 
             // are added to the engine before the joints
+            Profiler.BeginStep("Joints");
             Joints.Update(time);
+            Profiler.EndStep();
         }
 
         /// <summary>

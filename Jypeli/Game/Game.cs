@@ -224,6 +224,7 @@ namespace Jypeli
         {
             Name = this.GetType().Assembly.FullName.Split(',')[0];
             Instance = this;
+            Profiler.Init();
         }
 
         private void InitWindow()
@@ -353,31 +354,43 @@ namespace Jypeli
             var worldMatrix =
                 Matrix.CreateTranslation((float)-Camera.Position.X, (float)-Camera.Position.Y, 0)
                 * Matrix.CreateScale((float)Camera.ZoomFactor, (float)Camera.ZoomFactor, 1f);
-
+            
             // If the background should move with camera, draw it here.
             Level.Background.Draw(worldMatrix, Matrix.Identity);
 
+            Profiler.BeginStep("Layers");
             // Draw the layers containing the GameObjects
             DynamicLayers.ForEach(l => l.Draw(Camera));
-
+            Profiler.EndStep();
+            
+            Profiler.BeginStep("Lights");
             // TODO: Tätä ei tarvitsisi tehdä, jos valoja ei käytetä.
             // Yhdistetään valotekstuuri ja objektien tekstuuri.
             GraphicsDevice.DrawLights(worldMatrix);
-
+            Profiler.EndStep();
+            
+            Profiler.BeginStep("UI");
             // Piirretään käyttöliittymäkomponentit valojen päälle
             StaticLayers.ForEach(l => l.Draw(Camera));
-
+            Profiler.EndStep();
+            
+            Profiler.BeginStep("Canvas");
             // Draw on the canvas
             Graphics.Canvas.Begin(ref worldMatrix, Level);
             Paint(Graphics.Canvas);
             Graphics.Canvas.End();
-
+            Profiler.EndStep();
+            
+            Profiler.BeginStep("DebugScreen");
             // Draw the debug information screen
             DrawDebugScreen();
-
+            Profiler.EndStep();
+            
+            Profiler.BeginStep("Final Screen");
             // Render the scene on screen
             Screen.Render();
-
+            Profiler.EndStep();
+            
             if (SaveOutput)
             {
                 if (FrameCounter != 0) // Ekaa framea ei voi tallentaa?

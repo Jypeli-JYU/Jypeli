@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Silk.NET.SDL;
 
 namespace Jypeli
 {
@@ -10,19 +11,27 @@ namespace Jypeli
     {
         internal static Stopwatch sw;
         private static Timing Substep;
-        public static CyclicArray<Timing> Steps;
+        public static Dictionary<string, CyclicArray<Timing>> Steps;
+
+        private static int maxSteps = 200;
 
         public static void Init()
         {
             sw = new Stopwatch();
-            Steps = new CyclicArray<Timing>(500);
+            Steps = new Dictionary<string, CyclicArray<Timing>>();
         }
 
         public static void Start(string name)
         {
             sw.Restart();
             Substep = new Timing(name, Substep);
-            Steps.Add(Substep);
+            
+            if(!Steps.TryGetValue(name, out var val) )
+            {
+                val = new CyclicArray<Timing>(maxSteps);
+                Steps[name] = val;
+            }
+            val.Add(Substep);
         }
 
         public static void End()
@@ -119,13 +128,68 @@ namespace Jypeli
 
         public IEnumerator<T> GetEnumerator()
         {
-            return data.AsEnumerable().GetEnumerator();
+            return new CyclicArrayEnumerator<T>(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
+
+        public class CyclicArrayEnumerator<T> : IEnumerator<T>
+        {
+            public CyclicArray<T> _carr;
+
+            // Enumerators are positioned before the first element
+            // until the first MoveNext() call.
+            int position = -1;
+
+            public CyclicArrayEnumerator(CyclicArray<T> list)
+            {
+                _carr = list;
+                position = list.index;
+            }
+
+            public bool MoveNext()
+            {
+                position++;
+                if (position == _carr._capacity)
+                    position = 0;
+                return (position != _carr.index);
+            }
+
+            public void Reset()
+            {
+                position = _carr.index;
+            }
+
+            void IDisposable.Dispose() { }
+
+            object IEnumerator.Current
+            {
+                get
+                {
+                    return Current;
+                }
+            }
+
+            public T Current
+            {
+                get
+                {
+                    try
+                    {
+                        return _carr.data[position];
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        throw new InvalidOperationException();
+                    }
+                }
+            }
+        }
     }
+
+
 }
 

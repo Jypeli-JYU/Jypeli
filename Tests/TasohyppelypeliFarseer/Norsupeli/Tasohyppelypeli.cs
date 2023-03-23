@@ -7,10 +7,6 @@ using Jypeli.Widgets;
 
 public class Tasohyppelypeli : PhysicsGame
 {
-
-    PhysicsObject p1;
-    PhysicsObject p2;
-
     public override void Begin()
     {
         /*
@@ -30,8 +26,11 @@ public class Tasohyppelypeli : PhysicsGame
         Gravity = new Vector(0, -100);
         Level.BackgroundColor = Color.Black;
         Level.CreateBorders();
-        
-        for (int i = 0; i < 5000; i++)
+    }
+
+    protected override void Update(Time time)
+    {
+        for (int i = 0; i < 20; i++)
         {
             var p = new GameObject(20, 20);
             p.Position = Level.GetRandomPosition();
@@ -39,11 +38,6 @@ public class Tasohyppelypeli : PhysicsGame
             p.Color = RandomGen.NextDarkColor();
             Add(p);
         }
-        
-    }
-
-    protected override void Update(Time time)
-    {
         base.Update(time);
     }
 }

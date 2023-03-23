@@ -41,6 +41,7 @@ using Jypeli.Effects;
 using System.Diagnostics;
 using System.Linq;
 using Jypeli.Audio;
+using Silk.NET.OpenGL.Extensions.ImGui;
 
 
 #if ANDROID
@@ -290,7 +291,7 @@ namespace Jypeli
                 DisableAudio();
             }
         }
-
+        ImGuiController controller = null;
         /// <summary>
         /// Pelin sisällön alustus
         /// </summary>
@@ -321,6 +322,15 @@ namespace Jypeli
 #endif
 
             CallBegin();
+
+            controller = new ImGuiController(
+                ((Jypeli.Rendering.OpenGl.GraphicsDevice)GraphicsDevice).Gl,
+                Window,
+                inputContext
+            );
+
+            //ImGuiNET.ImGui.GetStyle().ScaleAllSizes(5);
+            //ImGuiNET.ImGui.SetWindowFontScale(5);
         }
 
         /// <summary>

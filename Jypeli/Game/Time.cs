@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Linq;
 
 namespace Jypeli
 {
@@ -130,6 +132,21 @@ namespace Jypeli
             if (!Closing) // Jos peli ollaan sulkemassa, ei yritetä piirtää.
                 Draw(Time);
             Profiler.End();
+
+            controller.Update((float)dt);
+            ImGuiNET.ImGui.Begin("Profiler");
+
+            var updates = Profiler.Steps["Update"].Where(t => t != null).Select(s => (float)((s.EndTime - s.StartTime).TotalMilliseconds)).ToArray();
+            var draws = Profiler.Steps["Draw"].Where(t => t != null).Select(s => (float)((s.EndTime - s.StartTime).TotalMilliseconds)).ToArray();
+
+            if (updates.Length > 0)
+            {
+                ImGuiNET.ImGui.PlotLines("Update", ref updates[0], updates.Length, 0, null, 5, 100, new System.Numerics.Vector2(500, 50));
+                ImGuiNET.ImGui.PlotLines("Draw", ref draws[0], draws.Length, 0, null, 5, 100, new System.Numerics.Vector2(500, 50));
+            }
+            
+            ImGuiNET.ImGui.End();
+            controller.Render();
         }
 
         /// <summary>

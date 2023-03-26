@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DefineConstants>TRACE;DEBUG</DefineConstants>
+		<DefineConstants>TRACE;DEBUG;PROFILE</DefineConstants>
 		<Optimize>false</Optimize>
 		<OutputPath>../Compiled</OutputPath>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -137,6 +137,10 @@
 		<PackageReference Include="Silk.NET.OpenGL" Version="2.16.0" />
 		<PackageReference Include="Silk.NET.Windowing" Version="2.16.0" />
 		<PackageReference Include="SixLabors.ImageSharp" Version="2.1.0" />
+		
+	</ItemGroup>
+
+	<ItemGroup Condition="$(DefineConstants.Contains(PROFILE))">
 		<PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" Version="2.16.0" />
 	</ItemGroup>
 

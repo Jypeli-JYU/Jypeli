@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Silk.NET.SDL;
 
-namespace Jypeli
+namespace Jypeli.Profiling
 {
+    
     public static class Profiler
     {
         internal static Stopwatch sw;
@@ -15,12 +15,14 @@ namespace Jypeli
 
         private static int maxSteps = 200;
 
+        [Conditional("PROFILE")]
         public static void Init()
         {
             sw = new Stopwatch();
             Steps = new Dictionary<string, CyclicArray<Timing>>();
         }
 
+        [Conditional("PROFILE")]
         public static void Start(string name)
         {
             sw.Restart();
@@ -34,12 +36,14 @@ namespace Jypeli
             val.Add(Substep);
         }
 
+        [Conditional("PROFILE")]
         public static void End()
         {
             Substep.End();
             Substep = null;
         }
-        
+
+        [Conditional("PROFILE")]
         public static void BeginStep(string name)
         {
             var t = new Timing(name, Substep);
@@ -47,6 +51,7 @@ namespace Jypeli
             Substep = t;
         }
 
+        [Conditional("PROFILE")]
         public static void EndStep()
         {
             Substep.End(); 

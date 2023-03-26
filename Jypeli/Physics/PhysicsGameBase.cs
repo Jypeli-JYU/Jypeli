@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Jypeli.Physics;
+using Jypeli.Profiling;
 
 namespace Jypeli
 {

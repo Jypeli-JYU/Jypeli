@@ -1,7 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
-
+using Jypeli.Profiling;
+#if PROFILE
+using Silk.NET.OpenGL.Extensions.ImGui;
+#endif
 namespace Jypeli
 {
     public partial class Game
@@ -133,7 +137,14 @@ namespace Jypeli
                 Draw(Time);
             Profiler.End();
 
-            controller.Update((float)dt);
+            DrawProfiler(dt);
+        }
+
+        [Conditional("PROFILE")]
+        private void DrawProfiler(double dt)
+        {
+#if PROFILE
+            imguiController.Update((float)dt);
             ImGuiNET.ImGui.Begin("Profiler");
 
             var updates = Profiler.Steps["Update"].Where(t => t != null).Select(s => (float)((s.EndTime - s.StartTime).TotalMilliseconds)).ToArray();
@@ -141,12 +152,18 @@ namespace Jypeli
 
             if (updates.Length > 0)
             {
-                ImGuiNET.ImGui.PlotLines("Update", ref updates[0], updates.Length, 0, null, 5, 100, new System.Numerics.Vector2(500, 50));
-                ImGuiNET.ImGui.PlotLines("Draw", ref draws[0], draws.Length, 0, null, 5, 100, new System.Numerics.Vector2(500, 50));
+                ImGuiNET.ImGui.PlotLines("Update", ref updates[0], updates.Length, 0, null, 2, Math.Max(updates.Max(), 5), new System.Numerics.Vector2(500, 50));
+                ImGuiNET.ImGui.SameLine();
+                ImGuiNET.ImGui.Text($"{updates.Min():F2}/{updates.Average():F2}/{updates.Max():F2} ms");
+
+                ImGuiNET.ImGui.PlotLines("Draw", ref draws[0], draws.Length, 0, null, 2, Math.Max(updates.Max(), 5), new System.Numerics.Vector2(500, 50));
+                ImGuiNET.ImGui.SameLine();
+                ImGuiNET.ImGui.Text($"{draws.Min():F2}/{draws.Average():F2}/{draws.Max():F2}ms");
             }
-            
+
             ImGuiNET.ImGui.End();
-            controller.Render();
+            imguiController.Render();
+#endif
         }
 
         /// <summary>

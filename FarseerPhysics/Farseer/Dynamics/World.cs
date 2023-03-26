@@ -49,6 +49,7 @@ using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using FarseerPhysics.Contacts;
+using Jypeli.Profiling;
 
 namespace FarseerPhysics.Dynamics
 {

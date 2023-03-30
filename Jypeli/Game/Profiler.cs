@@ -10,81 +10,100 @@ namespace Jypeli.Profiling
     public static class Profiler
     {
         internal static Stopwatch sw;
-        private static Timing Substep;
-        public static Dictionary<string, CyclicArray<Timing>> Steps;
-
-        private static int maxSteps = 200;
+        private static Step CurrentStep;
+        public static Dictionary<string, Step> Steps;
 
         [Conditional("PROFILE")]
         public static void Init()
         {
             sw = new Stopwatch();
-            Steps = new Dictionary<string, CyclicArray<Timing>>();
+            Steps = new Dictionary<string, Step>();
         }
 
         [Conditional("PROFILE")]
         public static void Start(string name)
         {
             sw.Restart();
-            Substep = new Timing(name, Substep);
             
             if(!Steps.TryGetValue(name, out var val) )
             {
-                val = new CyclicArray<Timing>(maxSteps);
+                val = new Step(name, null);
                 Steps[name] = val;
             }
-            val.Add(Substep);
+            val.Start();
+            CurrentStep = val;
         }
 
         [Conditional("PROFILE")]
         public static void End()
         {
-            Substep.End();
-            Substep = null;
+            CurrentStep.End();
+            CurrentStep = null;
         }
 
         [Conditional("PROFILE")]
         public static void BeginStep(string name)
         {
-            var t = new Timing(name, Substep);
-            Substep.SubTimings.Add(t);
-            Substep = t;
+            if (!CurrentStep.SubSteps.TryGetValue(name, out var val))
+            {
+                val = new Step(name, CurrentStep);
+                CurrentStep.SubSteps[name] = val;
+            }
+            val.Start();
+            CurrentStep = val;
         }
 
         [Conditional("PROFILE")]
         public static void EndStep()
         {
-            Substep.End(); 
-            Substep = Substep.Parent;
+            CurrentStep.End();
+            CurrentStep = CurrentStep.Parent;
         }
     }
 
-    public class Timing
+    public class Step
     {
-        public Timing Parent { get; set; }
         public string Name { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
+        public Step Parent { get; set; }
+        public Dictionary<string, Step> SubSteps { get; set; }
+        public CyclicArray<Timing> Timings { get; set; }
 
-        public List<Timing> SubTimings { get; set; }
+        private TimeSpan start;
 
-        public Timing(string name, Timing parent)
+        public Step(string name, Step parent)
         {
-            Name = name;
             Parent = parent;
-            
-            StartTime = Profiler.sw.Elapsed;
-            SubTimings = new List<Timing>();
+            Name = name;
+
+            Timings = new CyclicArray<Timing>(500);
+            SubSteps = new Dictionary<string, Step>();
+        }
+
+        public void Start()
+        {
+            start = Profiler.sw.Elapsed;
         }
 
         public void End()
         {
-            EndTime = Profiler.sw.Elapsed;
+            Timings.Add(new Timing()
+            {
+                StartTime = start,
+                EndTime = Profiler.sw.Elapsed
+            });
         }
+    }
+
+    public struct Timing
+    {
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
+
+        public double Duration { get => (EndTime - StartTime).TotalMilliseconds; }
         
         public override string ToString()
         {
-            return $"{Name}: {(EndTime - StartTime).TotalMilliseconds}";
+            return $"{Duration}";
         }
     }
 

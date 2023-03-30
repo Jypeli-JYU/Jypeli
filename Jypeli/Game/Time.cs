@@ -29,10 +29,10 @@ namespace Jypeli
         /// Tällä hetkellä myös pelin FPS-tavoite asettuu samaan arvoon.
         /// Tämän muuttaminen "vääräksi" arvoksi saattaa aiheuttaa erikoisia seurauksia jos <see cref="FixedTimeStep"/> on päällä.
         /// </summary>
-        public static double UpdatesPerSecod 
+        public static double UpdatesPerSecod
         {
             get => Instance.Window.UpdatesPerSecond;
-            set 
+            set
             {
                 Instance.Window.UpdatesPerSecond = value;
                 Instance.Window.FramesPerSecond = value;
@@ -121,7 +121,7 @@ namespace Jypeli
             {
                 PausedUpdate(currentRealTime);
             }
-            
+
             Profiler.End();
             var lista = Profiler.Steps;
         }
@@ -145,20 +145,46 @@ namespace Jypeli
         {
 #if PROFILE
             imguiController.Update((float)dt);
+
             ImGuiNET.ImGui.Begin("Profiler");
 
-            var updates = Profiler.Steps["Update"].Where(t => t != null).Select(s => (float)((s.EndTime - s.StartTime).TotalMilliseconds)).ToArray();
-            var draws = Profiler.Steps["Draw"].Where(t => t != null).Select(s => (float)((s.EndTime - s.StartTime).TotalMilliseconds)).ToArray();
+            var updates = Profiler.Steps["Update"].Timings.Select(s => (float)s.Duration).ToArray();
+            var draws = Profiler.Steps["Draw"].Timings.Select(s => (float)s.Duration).ToArray();
+
+            string MinMaxStr(CyclicArray<Timing> timings)
+            {
+                return $"{timings.Min(t => t.Duration):F2} / {timings.Average(t => t.Duration):F2} / {timings.Max(t => t.Duration):F2}";
+            }
 
             if (updates.Length > 0)
             {
                 ImGuiNET.ImGui.PlotLines("Update", ref updates[0], updates.Length, 0, null, 2, Math.Max(updates.Max(), 5), new System.Numerics.Vector2(500, 50));
                 ImGuiNET.ImGui.SameLine();
-                ImGuiNET.ImGui.Text($"{updates.Min():F2}/{updates.Average():F2}/{updates.Max():F2} ms");
+                ImGuiNET.ImGui.Text($"{MinMaxStr(Profiler.Steps["Update"].Timings)} ms");
 
                 ImGuiNET.ImGui.PlotLines("Draw", ref draws[0], draws.Length, 0, null, 2, Math.Max(updates.Max(), 5), new System.Numerics.Vector2(500, 50));
                 ImGuiNET.ImGui.SameLine();
-                ImGuiNET.ImGui.Text($"{draws.Min():F2}/{draws.Average():F2}/{draws.Max():F2}ms");
+                ImGuiNET.ImGui.Text($"{MinMaxStr(Profiler.Steps["Draw"].Timings)}ms");
+            }
+
+            void PrintProfiler(Step node)
+            {
+                foreach (var item in node.SubSteps.Values)
+                {
+                    if (ImGuiNET.ImGui.TreeNode($"{item.Name} {MinMaxStr(item.Timings)}###{item.Name}"))
+                    {
+                        PrintProfiler(item);
+                    }
+                }
+                ImGuiNET.ImGui.TreePop();
+            }
+
+            foreach (var item in Profiler.Steps.Values)
+            {
+                if (ImGuiNET.ImGui.TreeNode($"{item.Name} {MinMaxStr(item.Timings)}###{item.Name}"))
+                {
+                    PrintProfiler(item);
+                }
             }
 
             ImGuiNET.ImGui.End();
@@ -176,30 +202,30 @@ namespace Jypeli
             Profiler.BeginStep("Controls");
             UpdateControls(time);
             Profiler.EndStep();
-            
+
             if (DataStorage.IsUpdated)
                 DataStorage.Update(currentRealTime);
-            
+
             Profiler.BeginStep("Camera");
             Camera.Update(time);
             Profiler.EndStep();
-            
+
             Profiler.BeginStep("Layers");
             Layers.Update(time);
             Profiler.EndStep();
-            
+
             Profiler.BeginStep("Timers");
             Timer.UpdateAll(time);
             Profiler.EndStep();
-            
+
             Profiler.BeginStep("DebugScreen");
             UpdateDebugScreen(currentRealTime);
             Profiler.EndStep();
-            
+
             Profiler.BeginStep("Handlers");
             UpdateHandlers(time);
             Profiler.EndStep();
-            
+
             Profiler.BeginStep("PendingActions");
             ExecutePendingActions();
             Profiler.EndStep();

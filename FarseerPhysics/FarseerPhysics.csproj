@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DefineConstants>NETSTANDARD2_0;USE_AWAKE_BODY_SET;USE_ACTIVE_CONTACT_SET</DefineConstants>
+		<DefineConstants>NETSTANDARD2_0;USE_AWAKE_BODY_SET;USE_ACTIVE_CONTACT_SET;PROFILE</DefineConstants>
 		<Optimize>false</Optimize>
 		<OutputPath>../Compiled</OutputPath>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>

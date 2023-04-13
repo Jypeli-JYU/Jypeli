@@ -131,7 +131,7 @@ namespace Jypeli
         /// <param name="obj"></param>
         protected override void OnObjectRemoved(IGameObject obj)
         {
-            if (obj is PhysicsObject)
+            if (obj is PhysicsObject && obj.Parent is null)
             {
                 PhysicsObject po = (PhysicsObject)obj;
                 Engine.RemoveBody(po.Body);

@@ -28,3 +28,5 @@ Open the main `Jypeli.sln` with Visual Studio 2022 or JetBrains Rider.
 
 `TestProjects/Tasohyppelypeli` is a test project ready for development purposes.
 `TestProjects/Net6Android` is for Android development.
+
+# test commit

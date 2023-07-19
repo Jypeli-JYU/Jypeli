@@ -9,14 +9,16 @@ using Newtonsoft.Json.Linq;
 namespace Jypeli
 {
     /// <summary>
-    /// TODO summary tähän
+    /// Tilemap which can load JSON data from maps created with Tiled (https://www.mapeditor.org/).
+    /// Allows assigning a custom function for individual tile numbers, overriding the default tile creation function.
     /// </summary>
     public class TiledMap
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-        public delegate void TileMethod(Vector position, double width, double height, Image tileImage);
+        delegate void TileMethod(Vector position, double width, double height, Image tileImage);
         protected Dictionary<int, TileMethod> overrides = new Dictionary<int, TileMethod>();
+        public Dictionary<int, Image> tileImages = new Dictionary<int, Image>();
 
         public List<TiledTileset> tilesets;
         public TiledTileMap tilemap;
@@ -31,6 +33,8 @@ namespace Jypeli
         /// <param name="tilesetFiles">The tileset files in JSON format</param>
         public TiledMap(string tilemapFile, params string[] tilesetFiles)
         {
+            // TODO: load tileset files automatically (relative paths defined in map files)
+
             tilesets = new List<TiledTileset>();
             tilemap = TileMapLoader(tilemapFile);
             foreach (string f in tilesetFiles)
@@ -40,13 +44,13 @@ namespace Jypeli
         }
 
         /// <summary>
-        /// Sets an method to call when looping through the tile matrix
+        /// Override the default tile creation function for a tile.
         /// </summary>
-        /// <param name="tilenum">Tile ID in Tiled to assign a method for</param>
-        /// <param name="method">The method to call</param>
-        public void SetOverride(int tilenum, TileMethod method)
+        /// <param name="tilenum">Tile ID (in Tiled) to assign a method for</param>
+        /// <param name="tileMethod">Callable TileMethod in the form of <c>void TileMethod(Vector position, double width, double height, Image tileImage)</c></param>
+        public void SetOverride(int tilenum, TileMethod tileMethod)
         {
-            overrides[tilenum + 1] = method;
+            overrides[tilenum + 1] = tileMethod;
         }
 
         /// <summary>
@@ -58,7 +62,7 @@ namespace Jypeli
             double mapHeight = tilemap.Height * tilemap.TileHeight;
 
             Game.Instance.Level.Size = new Vector(mapWidth, mapHeight);
-            Game.Instance.Level.CreateBorders();
+            //Game.Instance.Level.CreateBorders();
 
 
             for (int l = 0; l < tilemap.Layers.Count; l++)
@@ -77,12 +81,9 @@ namespace Jypeli
 
                 _layer = _layer != null ? (int)_layer : -1;*/
 
-                _layer = l - 3; // Bottom layer in tiled corresponds to in-game layer -3
+                _layer = l - 2; // Bottom layer in Tiled corresponds to in-game layer -2
 
                 // TODO: write check for more than 7 total layers
-
-                /*Debug.WriteLine(l.ToString());
-                Debug.WriteLine(_layer.ToString());*/
 
                 int i = 0;
                 for (int row = 0; row < tilemap.Height; row++)
@@ -97,20 +98,21 @@ namespace Jypeli
                         {
                             TiledTileset _tileset = tilesets[0];
                             int j = 1;
-                            while (tilenum > _tileset.TileCount)
+                            int _num = tilenum;
+                            while (_num > _tileset.TileCount)
                             {
-                                tilenum -= _tileset.TileCount;
+                                _num -= _tileset.TileCount;
                                 _tileset = tilesets[j];
                                 j++;
                             }
 
                             if (overrides.ContainsKey(tilenum))
                             {
-                                overrides[tilenum].Invoke(new Vector(_x, _y), _tileset.TileWidth, _tileset.TileHeight, TiledMap.GetTileImage(tilenum, _tileset));
+                                overrides[tilenum].Invoke(new Vector(_x, _y), _tileset.TileWidth, _tileset.TileHeight, GetTileImage(tilenum, _tileset));
                             }
                             else
                             {
-                                PhysicsObject t = TiledMap.CreateTile(new Vector(_x, _y), _tileset.TileWidth, _tileset.TileHeight, TiledMap.GetTileImage(tilenum, _tileset), (JArray)props);
+                                PhysicsObject t = CreateTile(new Vector(_x, _y), _tileset.TileWidth, _tileset.TileHeight, GetTileImage(tilenum, _tileset), (JArray)props);
                                 Game.Instance.Add(t, (int)_layer);
                             }
                         }
@@ -120,11 +122,14 @@ namespace Jypeli
             }
         }
 
-        static PhysicsObject CreateTile(Vector pos, double width, double height, Image tileImage, JArray props)
+        PhysicsObject CreateTile(Vector pos, double width, double height, Image tileImage, JArray props)
         {
             PhysicsObject tile = PhysicsObject.CreateStaticObject(width, height);
             tile.Position = pos;
             tile.Color = Color.Transparent;
+            tile.Image = tileImage;
+            tile.Shape = Shape.Rectangle;
+            tileImage.Scaling = ImageScaling.Nearest;
 
             // layer properties
             if (props != null)
@@ -151,38 +156,71 @@ namespace Jypeli
                     }
                 }
 
-            tile.Image = tileImage;
-            tile.Shape = Shape.Rectangle; // Shape.FromImage(tileImg); 
-            tileImage.Scaling = ImageScaling.Nearest;
-
             return tile;
         }
 
-        static Image GetTileImage(int tilenum, TiledTileset tileset)
+        /// <summary>
+        /// Gets a tile image from a tileset
+        /// </summary>
+        /// <param name="tilenum"></param>
+        /// <param name="tileset"></param>
+        /// <returns>Image of the specified tile</returns>
+        public Image GetTileImage(int tilenum, TiledTileset tileset)
         {
             if (tilenum <= 0)
             {
                 return null;
             }
 
-            Image tiles = Game.LoadImage(tileset.Image);
-            tilenum--;
+            if (tileImages.TryGetValue(tilenum, out Image img))
+            {
+                return img;
+            }
+            else
+            {
+                Image tiles = Game.LoadImage(tileset.Image);
+                tilenum--;
 
-            int col = tilenum % tileset.Columns + 1;
-            int row = tilenum / tileset.Columns + 1;
+                int col = tilenum % tileset.Columns + 1;
+                int row = tilenum / tileset.Columns + 1;
 
-            int left = (col - 1) * (tileset.TileWidth + tileset.Spacing);
-            int top = (row - 1) * (tileset.TileHeight + tileset.Spacing);
-            int right = left + tileset.TileWidth;
-            int bottom = top + tileset.TileHeight;
+                int left = (col - 1) * (tileset.TileWidth + tileset.Spacing);
+                int top = (row - 1) * (tileset.TileHeight + tileset.Spacing);
+                int right = left + tileset.TileWidth;
+                int bottom = top + tileset.TileHeight;
 
-            Image t = tiles.Area(left, top, right, bottom);
+                Image t = tiles.Area(left, top, right, bottom);
+                tileImages[tilenum + 1] = t;
 
-            return t;
+                return t;
+            }
         }
 
         /// <summary>
-        /// Tileset data structure. Contains information how the tileset image should be split into individual tiles.  
+        /// Reads text from a file.
+        /// </summary>
+        /// <param name="file">File path</param>
+        /// <returns>File contents</returns>
+        public string LoadText(string file)
+        {
+            string data = String.Empty;
+            string path = Game.Device.IsPhone ? file : Game.Device.ContentPath + "\\" + file; // Tested with Windows 10 and Android 12
+
+            using (StreamReader input = new StreamReader(Game.Device.StreamContent(path)))
+            {
+                string line;
+                while ((line = input.ReadLine()) != null)
+                {
+                    data += line;
+                }
+            }
+            return data;
+        }
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        /// <summary>
+        /// Tileset data structure. 
+        /// Contains information how the tileset image should be split into individual tiles.  
         /// </summary>
         public struct TiledTileset
         {
@@ -200,18 +238,20 @@ namespace Jypeli
             public string Type;
             public string Version;
         }
-        static TiledTileset TilesetLoader(string file)
+        TiledTileset TilesetLoader(string file)
         {
-            string json = File.ReadAllText(String.Format("Content\\{0}", file));
+            string json = LoadText(file);
             TiledTileset set = JsonConvert.DeserializeObject<TiledTileset>(json);
             return set;
         }
 
         /// <summary>
-        /// Tilemap data structure. Contains the actual map data.
+        /// Tilemap data structure. 
+        /// Contains the actual map data.
         /// </summary>
         public struct TiledTileMap
         {
+            public string BackgroundColor;
             public int CompressionLevel;
             public int Height;
             public bool Infinite;
@@ -227,13 +267,30 @@ namespace Jypeli
             public string Type;
             public string Version;
             public int Width;
+
         }
 
-        static TiledTileMap TileMapLoader(string file)
+        TiledTileMap TileMapLoader(string file)
         {
-            string json = File.ReadAllText(String.Format("Content\\{0}", file));
+            string json = LoadText(file);
             TiledTileMap map = JsonConvert.DeserializeObject<TiledTileMap>(json);
             return map;
         }
+        /*
+        // TODO
+        public struct TileMapLayer
+        {
+            public List<int> Data;
+            public int Height;
+            public int ID;
+            public string Name;
+            public double Opacity;
+            public string Type;
+            public bool Visible;
+            public int Width;
+            public double X;
+            public double Y;
+        }*/
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFrameworks>net6.0</TargetFrameworks>
+        <PublishReadyToRun>false</PublishReadyToRun>
+        <TieredCompilation>false</TieredCompilation>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="Content\map.tmj" />
+      <None Remove="Content\tiles.png" />
+      <None Remove="Content\tileset.tsj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Content\map.tmj">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\tiles.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\tileset.tsj">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\FarseerPhysics\FarseerPhysics.csproj" />
+		<ProjectReference Include="..\..\Jypeli\Jypeli.csproj" />
+	</ItemGroup>
+
+</Project>
+

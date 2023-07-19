@@ -29,7 +29,7 @@ namespace Jypeli
         /// Tällä hetkellä myös pelin FPS-tavoite asettuu samaan arvoon.
         /// Tämän muuttaminen "vääräksi" arvoksi saattaa aiheuttaa erikoisia seurauksia jos <see cref="FixedTimeStep"/> on päällä.
         /// </summary>
-        public static double UpdatesPerSecod
+        public static double UpdatesPerSecond
         {
             get => Instance.Window.UpdatesPerSecond;
             set

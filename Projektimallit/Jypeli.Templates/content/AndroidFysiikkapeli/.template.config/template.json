@@ -1,12 +1,30 @@
 {
+    "$schema": "http://json.schemastore.org/template",
     "author": "University of Jyväskylä",
-    "classifications": [
-        "Jypeli"
-    ],
+    "classifications": ["Jypeli"],
     "name": "Android Fysiikkapeli",
     "identity": "Jypeli.AndroidFysiikkapeli",
     "groupIdentity": "Jypeli.AndroidFysiikkapeli",
     "shortName": "AndroidFysiikkapeli",
+    "symbols": {
+        "framework": {
+            "type": "parameter",
+            "description": "Käytettävä .NET-versio.",
+            "datatype": "choice",
+            "defaultValue": "net7.0-android",
+            "replaces": "net7.0-android",
+            "choices": [
+                {
+                    "choice": "net7.0-android",
+                    "description": "Käytä .NET 7"
+                },
+                {
+                    "choice": "net6.0-android",
+                    "description": "Käytä .NET 6"
+                }
+            ]
+        }
+    },
     "tags": {
         "language": "C#",
         "type": "project"
@@ -17,6 +35,6 @@
         }
     ],
     "sourceName": "AndroidFysiikkapeli",
-    "preferNameDirectory": "true",
+    "preferNameDirectory": true,
     "description": "Fysiikkapelipohja Androidille."
 }

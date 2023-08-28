@@ -1,12 +1,30 @@
 {
+    "$schema": "http://json.schemastore.org/template",
     "author": "University of Jyväskylä",
-    "classifications": [
-        "Jypeli"
-    ],
+    "classifications": ["Jypeli"],
     "name": "Peruspeli",
     "identity": "Jypeli.Peruspeli",
     "groupIdentity": "Jypeli.Peruspeli",
     "shortName": "Peruspeli",
+    "symbols": {
+        "framework": {
+            "type": "parameter",
+            "description": "Käytettävä .NET-versio.",
+            "datatype": "choice",
+            "defaultValue": "net7.0",
+            "replaces": "net7.0",
+            "choices": [
+                {
+                    "choice": "net7.0",
+                    "description": "Käytä .NET 7"
+                },
+                {
+                    "choice": "net6.0",
+                    "description": "Käytä .NET 6"
+                }
+            ]
+        }
+    },
     "tags": {
         "language": "C#",
         "type": "project"
@@ -17,6 +35,6 @@
         }
     ],
     "sourceName": "Peruspeli",
-    "preferNameDirectory": "true",
+    "preferNameDirectory": true,
     "description": "Peli ilman fysiikkaa."
 }

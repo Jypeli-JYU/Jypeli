@@ -1,12 +1,58 @@
 {
+    "$schema": "http://json.schemastore.org/template",
     "author": "University of Jyväskylä",
-    "classifications": [
-        "Jypeli"
-    ],
+    "classifications": ["Jypeli"],
     "name": "Tasohyppelypeli",
     "identity": "Jypeli.Tasohyppelypeli",
     "groupIdentity": "Jypeli.Tasohyppelypeli",
     "shortName": "Tasohyppelypeli",
+    "symbols": {
+        "framework": {
+            "type": "parameter",
+            "description": "Käytettävä .NET-versio.",
+            "datatype": "choice",
+            "defaultValue": "net7.0",
+            "replaces": "net7.0",
+            "choices": [
+                {
+                    "choice": "net7.0",
+                    "description": "Käytä .NET 7"
+                },
+                {
+                    "choice": "net6.0",
+                    "description": "Käytä .NET 6"
+                }
+            ]
+        },
+        "version": {
+            "type": "generated",
+            "generator": "now",
+            "parameters": {
+                "format": "dd.MM.yyyy"
+            },
+            "replaces": "Päivämäärä"
+        },
+        "WindowsUserName": {
+            "type": "bind",
+            "binding": "env:USERNAME",
+            "defaultValue": "Omanimi"
+        },
+        "UnixUserName": {
+            "type": "bind",
+            "binding": "env:USER",
+            "defaultValue": "Omanimi"
+        },
+        "author": {
+            "type": "generated",
+            "generator": "coalesce",
+            "parameters": {
+                "sourceVariableName": "WindowsUserName",
+                "fallbackVariableName": "UnixUserName",
+                "defaultValue": "Omanimi"
+            },
+            "replaces": "Omanimi"
+        }
+    },
     "tags": {
         "language": "C#",
         "type": "project"
@@ -17,6 +63,6 @@
         }
     ],
     "sourceName": "Tasohyppelypeli",
-    "preferNameDirectory": "true",
+    "preferNameDirectory": true,
     "description": "Peli jossa on valmiina tasohyppelyhahmo ja tasoja. Käyttää FarseerPhysics-fysiikkamoottoria."
 }

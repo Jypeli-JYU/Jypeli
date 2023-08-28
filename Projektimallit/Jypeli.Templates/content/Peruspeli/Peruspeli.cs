@@ -7,6 +7,11 @@ using Jypeli.Widgets;
 
 namespace Peruspeli;
 
+/// @author Omanimi
+/// @version Päivämäärä
+/// <summary>
+/// 
+/// </summary>
 public class Peruspeli : Game
 {
     public override void Begin()

@@ -7,6 +7,11 @@ using Jypeli.Widgets;
 
 namespace Tasohyppelypeli;
 
+/// @author Omanimi
+/// @version Päivämäärä
+/// <summary>
+/// 
+/// </summary>
 public class Tasohyppelypeli : PhysicsGame
 {
     private const double NOPEUS = 200;

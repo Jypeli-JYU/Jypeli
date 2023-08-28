@@ -22,6 +22,34 @@
                     "description": "Käytä .NET 6"
                 }
             ]
+        },
+        "version": {
+            "type": "generated",
+            "generator": "now",
+            "parameters": {
+                "format": "dd.MM.yyyy"
+            },
+            "replaces": "Päivämäärä"
+        },
+        "WindowsUserName": {
+            "type": "bind",
+            "binding": "env:USERNAME",
+            "defaultValue": "Omanimi"
+        },
+        "UnixUserName": {
+            "type": "bind",
+            "binding": "env:USER",
+            "defaultValue": "Omanimi"
+        },
+        "author": {
+            "type": "generated",
+            "generator": "coalesce",
+            "parameters": {
+                "sourceVariableName": "WindowsUserName",
+                "fallbackVariableName": "UnixUserName",
+                "defaultValue": "Omanimi"
+            },
+            "replaces": "Omanimi"
         }
     },
     "shortName": "Fysiikkapeli",

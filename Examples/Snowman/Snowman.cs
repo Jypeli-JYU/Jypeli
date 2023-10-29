@@ -93,6 +93,7 @@ namespace Snowman
             Keyboard.Listen(Key.Left, ButtonState.Down, () => player.Walk(-moveSpeed), null);
             Keyboard.Listen(Key.Right, ButtonState.Down, () => player.Walk(moveSpeed), null);
             Keyboard.Listen(Key.Space, ButtonState.Pressed, () => player.Jump(450), null);
+            Keyboard.Listen(Key.Up, ButtonState.Pressed, () => player.Jump(450), null);
         }
 
         private void CollectDiamond(IPhysicsObject collidingObject, IPhysicsObject otherObject)

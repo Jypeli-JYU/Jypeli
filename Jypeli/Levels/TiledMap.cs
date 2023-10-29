@@ -72,15 +72,6 @@ namespace Jypeli
 
                 int? _layer = null;
 
-                /*if (props != null) // if layer is manually set in props
-                {
-                    JToken _token = ((JArray)props).SelectToken("$[?(@.name == 'Layer')]"); // find token
-                    _layer = (int?)_token["value"]; // get value
-                    ((JArray)props).Remove(_token); // remove original token to avoid exceptions later
-                }
-
-                _layer = _layer != null ? (int)_layer : -1;*/
-
                 _layer = l - 2; // Bottom layer in Tiled corresponds to in-game layer -2
 
                 // TODO: write check for more than 7 total layers

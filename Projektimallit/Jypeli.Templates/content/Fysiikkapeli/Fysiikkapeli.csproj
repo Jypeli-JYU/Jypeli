@@ -2,9 +2,7 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net6.0</TargetFramework>
-        <PublishReadyToRun>false</PublishReadyToRun>
-        <TieredCompilation>false</TieredCompilation>
+        <TargetFramework>net7.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,4 +11,3 @@
     </ItemGroup>
 
 </Project>
-

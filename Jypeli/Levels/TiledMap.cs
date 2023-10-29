@@ -16,9 +16,9 @@ namespace Jypeli
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-        delegate void TileMethod(Vector position, double width, double height, Image tileImage);
+        public delegate void TileMethod(Vector position, double width, double height, Image tileImage);
         protected Dictionary<int, TileMethod> overrides = new Dictionary<int, TileMethod>();
-        public Dictionary<int, Image> tileImages = new Dictionary<int, Image>();
+        private Dictionary<TiledTileset, Dictionary<int, Image>> tileImages = new Dictionary<TiledTileset, Dictionary<int, Image>>();
 
         public List<TiledTileset> tilesets;
         public TiledTileMap tilemap;
@@ -172,28 +172,40 @@ namespace Jypeli
                 return null;
             }
 
-            if (tileImages.TryGetValue(tilenum, out Image img))
+            if (tileImages.TryGetValue(tileset, out Dictionary<int, Image> ts))
             {
-                return img;
+                if (ts.TryGetValue(tilenum, out Image img))
+                {
+                    return img;
+                }
+                else
+                {
+                    return LoadTileImage(tilenum, tileset);
+                }
             }
             else
             {
-                Image tiles = Game.LoadImage(tileset.Image);
-                tilenum--;
-
-                int col = tilenum % tileset.Columns + 1;
-                int row = tilenum / tileset.Columns + 1;
-
-                int left = (col - 1) * (tileset.TileWidth + tileset.Spacing);
-                int top = (row - 1) * (tileset.TileHeight + tileset.Spacing);
-                int right = left + tileset.TileWidth;
-                int bottom = top + tileset.TileHeight;
-
-                Image t = tiles.Area(left, top, right, bottom);
-                tileImages[tilenum + 1] = t;
-
-                return t;
+                tileImages[tileset] = new Dictionary<int, Image>();
+                return LoadTileImage(tilenum, tileset);
             }
+        }
+        private Image LoadTileImage(int tilenum, TiledTileset tileset)
+        {
+            Image tiles = Game.LoadImage(tileset.Image);
+            tilenum--;
+
+            int col = tilenum % tileset.Columns + 1;
+            int row = tilenum / tileset.Columns + 1;
+
+            int left = (col - 1) * (tileset.TileWidth + tileset.Spacing);
+            int top = (row - 1) * (tileset.TileHeight + tileset.Spacing);
+            int right = left + tileset.TileWidth;
+            int bottom = top + tileset.TileHeight;
+
+            Image t = tiles.Area(left, top, right, bottom);
+            tileImages[tileset][tilenum + 1] = t;
+
+            return t;
         }
 
         /// <summary>

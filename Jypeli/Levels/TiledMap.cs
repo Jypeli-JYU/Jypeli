@@ -55,6 +55,7 @@ namespace Jypeli
 
         /// <summary>
         /// Creates the level.
+        /// Objects are placed from in-game layer -2 upwards.
         /// </summary>
         public void Execute()
         {
@@ -74,7 +75,11 @@ namespace Jypeli
 
                 _layer = l - 2; // Bottom layer in Tiled corresponds to in-game layer -2
 
-                // TODO: write check for more than 7 total layers
+                // TODO: better logic for layers
+                if (_layer > 3)
+                {
+                    _layer = 3;
+                }
 
                 int i = 0;
                 for (int row = 0; row < tilemap.Height; row++)
@@ -163,6 +168,7 @@ namespace Jypeli
                 return null;
             }
 
+            // check if the same image was used before this tile
             if (tileImages.TryGetValue(tileset, out Dictionary<int, Image> ts))
             {
                 if (ts.TryGetValue(tilenum, out Image img))
@@ -182,21 +188,29 @@ namespace Jypeli
         }
         private Image LoadTileImage(int tilenum, TiledTileset tileset)
         {
-            Image tiles = Game.LoadImage(tileset.Image);
-            tilenum--;
+            try
+            {
+                Image tiles = Game.LoadImage(tileset.Image);
 
-            int col = tilenum % tileset.Columns + 1;
-            int row = tilenum / tileset.Columns + 1;
+                tilenum--;
 
-            int left = (col - 1) * (tileset.TileWidth + tileset.Spacing);
-            int top = (row - 1) * (tileset.TileHeight + tileset.Spacing);
-            int right = left + tileset.TileWidth;
-            int bottom = top + tileset.TileHeight;
+                int col = tilenum % tileset.Columns + 1;
+                int row = tilenum / tileset.Columns + 1;
 
-            Image t = tiles.Area(left, top, right, bottom);
-            tileImages[tileset][tilenum + 1] = t;
+                int left = (col - 1) * (tileset.TileWidth + tileset.Spacing);
+                int top = (row - 1) * (tileset.TileHeight + tileset.Spacing);
+                int right = left + tileset.TileWidth;
+                int bottom = top + tileset.TileHeight;
 
-            return t;
+                Image t = tiles.Area(left, top, right, bottom);
+                tileImages[tileset][tilenum + 1] = t;
+
+                return t;
+            }
+            catch (System.IO.FileNotFoundException nfe)
+            {
+                throw new System.IO.FileNotFoundException("Tileset image was not found. Check the file path and make sure everything is set up correctly in Tiled.\nCommon cause of this error is creating the tileset first and then moving it into a new directory.", nfe);
+            }
         }
 
         /// <summary>
@@ -206,8 +220,9 @@ namespace Jypeli
         /// <returns>File contents</returns>
         public string LoadText(string file)
         {
+            // Tested with Windows 10 and Android 12
             string data = String.Empty;
-            string path = Game.Device.IsPhone ? file : Game.Device.ContentPath + "\\" + file; // Tested with Windows 10 and Android 12
+            string path = Game.Device.IsPhone ? file : Game.Device.ContentPath + "\\" + file;
 
             using (StreamReader input = new StreamReader(Game.Device.StreamContent(path)))
             {

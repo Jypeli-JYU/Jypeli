@@ -19,7 +19,7 @@ namespace Jypeli
         /// <summary>
         /// Ajetaanko peliä kiinteällä aika-askeleella.
         /// Eli pelin aika "hidastuu" jos tietokoneen tehot eivät riitä reaaliaikaiseen päivitykseen.
-        /// Tämä pakottaa pelin logiikan toimimaan sillä nopeudella kuin <see cref="UpdatesPerSecod"/> on asetettu.
+        /// Tämä pakottaa pelin logiikan toimimaan sillä nopeudella kuin <see cref="UpdatesPerSecond"/> on asetettu.
         /// </summary>
         public static bool FixedTimeStep { get; set; }
 

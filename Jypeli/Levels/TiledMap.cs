@@ -213,28 +213,6 @@ namespace Jypeli
             }
         }
 
-        /// <summary>
-        /// Reads text from a file.
-        /// </summary>
-        /// <param name="file">File path</param>
-        /// <returns>File contents</returns>
-        public string LoadText(string file)
-        {
-            // Tested with Windows 10 and Android 12
-            string data = String.Empty;
-            string path = Game.Device.IsPhone ? file : Game.Device.ContentPath + "\\" + file;
-
-            using (StreamReader input = new StreamReader(Game.Device.StreamContent(path)))
-            {
-                string line;
-                while ((line = input.ReadLine()) != null)
-                {
-                    data += line;
-                }
-            }
-            return data;
-        }
-
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         /// <summary>
         /// Tileset data structure. 
@@ -258,7 +236,7 @@ namespace Jypeli
         }
         TiledTileset TilesetLoader(string file)
         {
-            string json = LoadText(file);
+            string json = Game.LoadText(file);
             TiledTileset set = JsonConvert.DeserializeObject<TiledTileset>(json);
             return set;
         }
@@ -290,12 +268,12 @@ namespace Jypeli
 
         TiledTileMap TileMapLoader(string file)
         {
-            string json = LoadText(file);
+            string json = Game.LoadText(file);
             TiledTileMap map = JsonConvert.DeserializeObject<TiledTileMap>(json);
             return map;
         }
         /*
-        // TODO
+        // TODO: layer struct
         public struct TileMapLayer
         {
             public List<int> Data;

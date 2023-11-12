@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using Jypeli.Devices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -20,8 +21,8 @@ namespace Jypeli
         protected Dictionary<int, TileMethod> overrides = new Dictionary<int, TileMethod>();
         private Dictionary<TiledTileset, Dictionary<int, Image>> tileImages = new Dictionary<TiledTileset, Dictionary<int, Image>>();
 
-        public List<TiledTileset> tilesets;
-        public TiledTileMap tilemap;
+        public readonly List<TiledTileset> tilesets;
+        public readonly TiledTileMap tilemap;
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
@@ -207,13 +208,16 @@ namespace Jypeli
 
                 return t;
             }
-            catch (System.IO.FileNotFoundException nfe)
+            catch
             {
-                throw new System.IO.FileNotFoundException("Tileset image was not found. Check the file path and make sure everything is set up correctly in Tiled.\nCommon cause of this error is creating the tileset first and then moving it into a new directory.", nfe);
+                // TODO: better error message?
+                throw new FileNotFoundException($"Tileset source file {tileset.Image} was not found.\nMake sure everything is set up correctly.");
             }
         }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        // TODO: make immutable
+
         /// <summary>
         /// Tileset data structure. 
         /// Contains information how the tileset image should be split into individual tiles.  
@@ -263,7 +267,6 @@ namespace Jypeli
             public string Type;
             public string Version;
             public int Width;
-
         }
 
         TiledTileMap TileMapLoader(string file)
@@ -272,6 +275,7 @@ namespace Jypeli
             TiledTileMap map = JsonConvert.DeserializeObject<TiledTileMap>(json);
             return map;
         }
+
         /*
         // TODO: layer struct
         public struct TileMapLayer
@@ -287,6 +291,7 @@ namespace Jypeli
             public double X;
             public double Y;
         }*/
+
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

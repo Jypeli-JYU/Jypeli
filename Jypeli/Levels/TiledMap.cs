@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
-using Jypeli.Devices;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace Jypeli
 {
@@ -20,11 +17,18 @@ namespace Jypeli
         public delegate void TileMethod(Vector position, double width, double height, Image tileImage);
         protected Dictionary<int, TileMethod> overrides = new Dictionary<int, TileMethod>();
         private Dictionary<TiledTileset, Dictionary<int, Image>> tileImages = new Dictionary<TiledTileset, Dictionary<int, Image>>();
+        private Dictionary<TiledTileset, Image> tilesetImages = new Dictionary<TiledTileset, Image>();
 
         public readonly List<TiledTileset> tilesets;
         public readonly TiledTileMap tilemap;
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
+        private JsonSerializerOptions serOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
+        };
 
 
         /// <summary>
@@ -40,7 +44,9 @@ namespace Jypeli
             tilemap = TileMapLoader(tilemapFile);
             foreach (string f in tilesetFiles)
             {
-                tilesets.Add(TilesetLoader(f));
+                TiledTileset t = TilesetLoader(f);
+                tilesets.Add(t);
+                tilesetImages.Add(t, Game.LoadImage(t.Image));
             }
         }
 
@@ -64,17 +70,13 @@ namespace Jypeli
             double mapHeight = tilemap.Height * tilemap.TileHeight;
 
             Game.Instance.Level.Size = new Vector(mapWidth, mapHeight);
-            //Game.Instance.Level.CreateBorders();
-
 
             for (int l = 0; l < tilemap.Layers.Count; l++)
             {
-                JArray data = (JArray)tilemap.Layers[l]["data"];
-                object props = tilemap.Layers[l].TryGetValue("properties", out props) ? props : null;
+                List<int> data = tilemap.Layers[l].Data;
+                List<Property> props = tilemap.Layers[l].Properties;
 
-                int? _layer = null;
-
-                _layer = l - 2; // Bottom layer in Tiled corresponds to in-game layer -2
+                int? _layer = l - 2; // Bottom layer in Tiled corresponds to in-game layer -2
 
                 // TODO: better logic for layers
                 if (_layer > 3)
@@ -93,6 +95,7 @@ namespace Jypeli
                         int tilenum = (int)data[i];
                         if (tilenum != 0)
                         {
+                            // TODO: multiple tilesets
                             TiledTileset _tileset = tilesets[0];
                             int j = 1;
                             int _num = tilenum;
@@ -109,7 +112,7 @@ namespace Jypeli
                             }
                             else
                             {
-                                PhysicsObject t = CreateTile(new Vector(_x, _y), _tileset.TileWidth, _tileset.TileHeight, GetTileImage(tilenum, _tileset), (JArray)props);
+                                PhysicsObject t = CreateTile(new Vector(_x, _y), _tileset.TileWidth, _tileset.TileHeight, GetTileImage(tilenum, _tileset), props);
                                 Game.Instance.Add(t, (int)_layer);
                             }
                         }
@@ -119,7 +122,7 @@ namespace Jypeli
             }
         }
 
-        PhysicsObject CreateTile(Vector pos, double width, double height, Image tileImage, JArray props)
+        PhysicsObject CreateTile(Vector pos, double width, double height, Image tileImage, List<Property> props = null)
         {
             PhysicsObject tile = PhysicsObject.CreateStaticObject(width, height);
             tile.Position = pos;
@@ -128,27 +131,28 @@ namespace Jypeli
             tile.Shape = Shape.Rectangle;
             tileImage.Scaling = ImageScaling.Nearest;
 
-            // layer properties
+            // Layer properties
             if (props != null)
                 foreach (var prop in props)
                 {
-                    PropertyInfo propertyInfo = tile.GetType().GetProperty(prop["name"].ToString());
+                    PropertyInfo propertyInfo = tile.GetType().GetProperty(prop.Name);
 
                     // testing if calling MakeOneWay works when there is a true bool with the same name
-                    if (prop["name"].ToString() == "MakeOneWay" && (bool)prop["value"] && prop["type"].ToString() == "bool")
+                    if (prop.Name == "MakeOneWay")
                     {
-                        tile.MakeOneWay();
+                        if (bool.Parse(prop.Value.ToString()) && prop.Type.ToString() == "bool")
+                            tile.MakeOneWay();
                     }
 
                     if (propertyInfo != null && propertyInfo.CanWrite)
                     {
                         try
                         {
-                            propertyInfo.SetValue(tile, Convert.ChangeType(prop["value"], propertyInfo.PropertyType));
+                            propertyInfo.SetValue(tile, Convert.ChangeType(prop.Value.GetRawText(), propertyInfo.PropertyType));
                         }
                         catch (Exception e)
                         {
-                            System.Diagnostics.Debug.WriteLine(e.Message);
+                            Debug.WriteLine(e.Message);
                         }
                     }
                 }
@@ -189,33 +193,22 @@ namespace Jypeli
         }
         private Image LoadTileImage(int tilenum, TiledTileset tileset)
         {
-            try
-            {
-                Image tiles = Game.LoadImage(tileset.Image);
+            int col = (tilenum - 1) % tileset.Columns + 1;
+            int row = (tilenum - 1) / tileset.Columns + 1;
 
-                tilenum--;
+            int left = (col - 1) * (tileset.TileWidth + tileset.Spacing);
+            int top = (row - 1) * (tileset.TileHeight + tileset.Spacing);
+            int right = left + tileset.TileWidth;
+            int bottom = top + tileset.TileHeight;
 
-                int col = tilenum % tileset.Columns + 1;
-                int row = tilenum / tileset.Columns + 1;
+            Image t = tilesetImages[tileset].Area(left, top, right, bottom);
+            tileImages[tileset][tilenum] = t;
 
-                int left = (col - 1) * (tileset.TileWidth + tileset.Spacing);
-                int top = (row - 1) * (tileset.TileHeight + tileset.Spacing);
-                int right = left + tileset.TileWidth;
-                int bottom = top + tileset.TileHeight;
-
-                Image t = tiles.Area(left, top, right, bottom);
-                tileImages[tileset][tilenum + 1] = t;
-
-                return t;
-            }
-            catch
-            {
-                // TODO: better error message?
-                throw new FileNotFoundException($"Tileset source file {tileset.Image} was not found.\nMake sure everything is set up correctly.");
-            }
+            return t;
         }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         // TODO: make immutable
 
         /// <summary>
@@ -224,73 +217,87 @@ namespace Jypeli
         /// </summary>
         public struct TiledTileset
         {
-            public int Columns;
-            public string Image;
-            public int ImageHeight;
-            public int ImageWidth;
-            public int Margin;
-            public string Name;
-            public int Spacing;
-            public int TileCount;
-            public string TiledVersion;
-            public int TileHeight;
-            public int TileWidth;
-            public string Type;
-            public string Version;
+            public int Columns { get; set; }
+            public string Image { get; set; }
+            public int ImageHeight { get; set; }
+            public int ImageWidth { get; set; }
+            public int Margin { get; set; }
+            public string Name { get; set; }
+            public int Spacing { get; set; }
+            public int TileCount { get; set; }
+            public string TiledVersion { get; set; }
+            public int TileHeight { get; set; }
+            public int TileWidth { get; set; }
+            public string Type { get; set; }
+            public string Version { get; set; }
         }
         TiledTileset TilesetLoader(string file)
         {
             string json = Game.LoadText(file);
-            TiledTileset set = JsonConvert.DeserializeObject<TiledTileset>(json);
+            TiledTileset set = JsonSerializer.Deserialize<TiledTileset>(json, serOptions);
+
             return set;
         }
 
         /// <summary>
         /// Tilemap data structure. 
-        /// Contains the actual map data.
+        /// Contains information about the map.
         /// </summary>
         public struct TiledTileMap
         {
-            public string BackgroundColor;
-            public int CompressionLevel;
-            public int Height;
-            public bool Infinite;
-            public List<Dictionary<string, object>> Layers;
-            public int NextLayerID;
-            public int NextObjectID;
-            public string Orientation;
-            public string RenderOrder;
-            public string TiledVersion;
-            public int TileHeight;
-            public List<Dictionary<string, object>> Tilesets;
-            public int TileWidth;
-            public string Type;
-            public string Version;
-            public int Width;
+            public string BackgroundColor { get; set; }
+            public int CompressionLevel { get; set; }
+            public int Height { get; set; }
+            public bool Infinite { get; set; }
+            public List<TileMapLayer> Layers { get; set; }
+            public int NextLayerID { get; set; }
+            public int NextObjectID { get; set; }
+            public string Orientation { get; set; }
+            public string RenderOrder { get; set; }
+            public string TiledVersion { get; set; }
+            public int TileHeight { get; set; }
+            public List<Dictionary<string, object>> Tilesets { get; set; }
+            public int TileWidth { get; set; }
+            public string Type { get; set; }
+            public string Version { get; set; }
+            public int Width { get; set; }
         }
 
         TiledTileMap TileMapLoader(string file)
         {
             string json = Game.LoadText(file);
-            TiledTileMap map = JsonConvert.DeserializeObject<TiledTileMap>(json);
+            TiledTileMap map = JsonSerializer.Deserialize<TiledTileMap>(json, serOptions);
+
             return map;
         }
 
-        /*
-        // TODO: layer struct
+        /// <summary>
+        /// Tile layer data structure. 
+        /// </summary>
         public struct TileMapLayer
         {
-            public List<int> Data;
-            public int Height;
-            public int ID;
-            public string Name;
-            public double Opacity;
-            public string Type;
-            public bool Visible;
-            public int Width;
-            public double X;
-            public double Y;
-        }*/
+            public List<int> Data { get; set; }
+            public int Height { get; set; }
+            public int ID { get; set; }
+            public string Name { get; set; }
+            public double Opacity { get; set; }
+            public List<Property> Properties { get; set; }
+            public string Type { get; set; }
+            public bool Visible { get; set; }
+            public int Width { get; set; }
+            public double X { get; set; }
+            public double Y { get; set; }
+        }
+
+        /// <summary>
+        /// Tile layer property structure. 
+        /// </summary>
+        public struct Property
+        {
+            public string Name { get; set; }
+            public string Type { get; set; }
+            public JsonElement Value { get; set; }
+        }
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }

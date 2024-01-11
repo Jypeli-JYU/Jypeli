@@ -10,9 +10,13 @@
             "type": "parameter",
             "description": "Käytettävä .NET-versio.",
             "datatype": "choice",
-            "defaultValue": "net7.0",
-            "replaces": "net7.0",
+            "defaultValue": "net8.0",
+            "replaces": "net8.0",
             "choices": [
+			    {
+                    "choice": "net8.0",
+                    "description": "Käytä .NET 8"
+                },
                 {
                     "choice": "net7.0",
                     "description": "Käytä .NET 7"

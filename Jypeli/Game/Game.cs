@@ -37,12 +37,11 @@ using Jypeli.Devices;
 using Silk.NET.Windowing;
 
 using Matrix = System.Numerics.Matrix4x4;
-using Jypeli.Effects;
 using System.Diagnostics;
-using System.Linq;
 using Jypeli.Audio;
 
 using Jypeli.Profiling;
+using Silk.NET.Core.Loader;
 #if PROFILE
 using Silk.NET.OpenGL.Extensions.ImGui;
 #endif
@@ -243,9 +242,21 @@ namespace Jypeli
             options.VSync = false;
             Window = Silk.NET.Windowing.Window.GetView(options);
 #else
+            // Vaikutetaan siihen mistä Silk yrittää ladata natiivikirjastot.
+            // Tämä toistaiseksi hajoaa uusimmalla SILK versiolla...
+            ((DefaultPathResolver)PathResolver.Default).Resolvers = new()
+            {
+                DefaultPathResolver.NativePackageResolver,
+                DefaultPathResolver.RuntimesFolderResolver,
+                DefaultPathResolver.BaseDirectoryResolver,
+                DefaultPathResolver.MainModuleDirectoryResolver,
+                DefaultPathResolver.LinuxVersioningResolver,
+                DefaultPathResolver.MacVersioningResolver,
+            };
+
             var options = WindowOptions.Default;
             options.Size = new Silk.NET.Maths.Vector2D<int>(1024, 768);
-            options.PreferredBitDepth = new Silk.NET.Maths.Vector4D<int>(8,8,8,8);
+            options.PreferredBitDepth = new Silk.NET.Maths.Vector4D<int>(8, 8, 8, 8);
             options.PreferredDepthBufferBits = 8;
             options.FramesPerSecond = 60;
             options.UpdatesPerSecond = 60;
@@ -371,7 +382,7 @@ namespace Jypeli
             var worldMatrix =
                 Matrix.CreateTranslation((float)-Camera.Position.X, (float)-Camera.Position.Y, 0)
                 * Matrix.CreateScale((float)Camera.ZoomFactor, (float)Camera.ZoomFactor, 1f);
-            
+
             // If the background should move with camera, draw it here.
             Level.Background.Draw(worldMatrix, Matrix.Identity);
 
@@ -379,35 +390,35 @@ namespace Jypeli
             // Draw the layers containing the GameObjects
             DynamicLayers.ForEach(l => l.Draw(Camera));
             Profiler.EndStep();
-            
+
             Profiler.BeginStep("Lights");
             // TODO: Tätä ei tarvitsisi tehdä, jos valoja ei käytetä.
             // Yhdistetään valotekstuuri ja objektien tekstuuri.
             GraphicsDevice.DrawLights(worldMatrix);
             Profiler.EndStep();
-            
+
             Profiler.BeginStep("UI");
             // Piirretään käyttöliittymäkomponentit valojen päälle
             StaticLayers.ForEach(l => l.Draw(Camera));
             Profiler.EndStep();
-            
+
             Profiler.BeginStep("Canvas");
             // Draw on the canvas
             Graphics.Canvas.Begin(ref worldMatrix, Level);
             Paint(Graphics.Canvas);
             Graphics.Canvas.End();
             Profiler.EndStep();
-            
+
             Profiler.BeginStep("DebugScreen");
             // Draw the debug information screen
             DrawDebugScreen();
             Profiler.EndStep();
-            
+
             Profiler.BeginStep("Final Screen");
             // Render the scene on screen
             Screen.Render();
             Profiler.EndStep();
-            
+
             if (SaveOutput)
             {
                 if (FrameCounter != 0) // Ekaa framea ei voi tallentaa?

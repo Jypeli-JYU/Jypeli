@@ -9,5 +9,10 @@
         <PackageReference Include="Jypeli.NET" Version="11.*" />
         <PackageReference Include="Jypeli.FarseerPhysics.NET" Version="2.*" />
     </ItemGroup>
+    <ItemGroup>
+      <Content Include="Content/*.*">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
 
 </Project>

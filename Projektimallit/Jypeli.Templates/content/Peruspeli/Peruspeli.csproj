@@ -8,5 +8,10 @@
     <ItemGroup>
         <PackageReference Include="Jypeli.NET" Version="11.*" />
     </ItemGroup>
+    <ItemGroup>
+      <Content Include="Content/*.*">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
 
 </Project>

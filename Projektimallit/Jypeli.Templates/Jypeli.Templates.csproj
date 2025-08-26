@@ -2,7 +2,7 @@
   <PropertyGroup>
     <BaseOutputPath>..\build</BaseOutputPath>
     <PackageType>Template</PackageType>
-    <Version>1.9</Version>
+    <Version>1.10</Version>
 
     <Title>Jypeli projektimallit</Title>
     <Description>Jypelin projektimallit Visual Studiolle</Description>

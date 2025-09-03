@@ -39,7 +39,7 @@ using Silk.NET.Windowing;
 using Matrix = System.Numerics.Matrix4x4;
 using System.Diagnostics;
 using Jypeli.Audio;
-
+using Jypeli.Helpers;
 using Jypeli.Profiling;
 using Silk.NET.Core.Loader;
 #if PROFILE
@@ -243,16 +243,7 @@ namespace Jypeli
             Window = Silk.NET.Windowing.Window.GetView(options);
 #else
             // Vaikutetaan siihen mistä Silk yrittää ladata natiivikirjastot.
-            // Tämä toistaiseksi hajoaa uusimmalla SILK versiolla...
-            ((DefaultPathResolver)PathResolver.Default).Resolvers = new()
-            {
-                DefaultPathResolver.NativePackageResolver,
-                DefaultPathResolver.RuntimesFolderResolver,
-                DefaultPathResolver.BaseDirectoryResolver,
-                DefaultPathResolver.MainModuleDirectoryResolver,
-                DefaultPathResolver.LinuxVersioningResolver,
-                DefaultPathResolver.MacVersioningResolver,
-            };
+            ((DefaultPathResolver)PathResolver.Default).Resolvers = new CleanSilkPathResolver().Resolvers;
 
             var options = WindowOptions.Default;
             options.Size = new Silk.NET.Maths.Vector2D<int>(1024, 768);

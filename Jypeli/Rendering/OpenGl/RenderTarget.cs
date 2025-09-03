@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Silk.NET.OpenGL;
-using Silk.NET.SDL;
 
 namespace Jypeli.Rendering.OpenGl
 {

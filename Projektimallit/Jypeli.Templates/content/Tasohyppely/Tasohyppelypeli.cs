@@ -5,8 +5,6 @@ using Jypeli.Assets;
 using Jypeli.Controls;
 using Jypeli.Widgets;
 
-namespace Tasohyppelypeli;
-
 /// @author Omanimi
 /// @version Päivämäärä
 /// <summary>

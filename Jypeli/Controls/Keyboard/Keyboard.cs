@@ -323,7 +323,13 @@ namespace Jypeli
         /// <exception cref="InvalidDataException"> Jos tietorakenne on tyhjä heitetään poikkeus</exception>
         public Listener ListenMultiple(IEnumerable<Key> k, ButtonState state, Action handler, string helpText)
         {
-            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(k, state);
+            Key[] keys = k.ToArray();
+            if (keys.Length == 0)
+            {
+                throw new InvalidDataException("You should specify at least one key to listen to.");
+            }
+
+            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(keys, state);
             //Lisätään kuuntelija ensimmäiselle näppäimelle. 
             //Tässä valitetaan possible multiple enumeration, mutta foreach silmukan pitäisi nollata se meidän puolesta
             var firstKey = keys[0];

@@ -235,12 +235,7 @@ namespace Jypeli
         /// <returns></returns>
         private string GetKeyName(Key[] keys)
         {
-            string name = GetKeyName(keys[0]);
-            for (int i = 1; i < keys.Length; i++)
-            {
-                name += " + " + GetKeyName(keys[i]);
-            }
-            return name;
+            return string.Join(" + ", keys.Select(GetKeyName));
         }
         
         

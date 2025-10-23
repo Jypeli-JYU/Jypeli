@@ -326,14 +326,7 @@ namespace Jypeli
             ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(k, state);
             //Lisätään kuuntelija ensimmäiselle näppäimelle. 
             //Tässä valitetaan possible multiple enumeration, mutta foreach silmukan pitäisi nollata se meidän puolesta
-            var enumerator = k.GetEnumerator();
-            if (!enumerator.MoveNext())
-            {
-                throw new InvalidDataException("No keys in data structure, possibly empty data structure?");
-            }
-            Key key =  enumerator.Current;
-            //Muistetaan poistaa enumeraattori
-            enumerator.Dispose();   
+            var firstKey = keys[0];
             //Lisätään kuuntelija ensimmäiseen näppäimeen
             return AddListener(rule, key, GetKeyName(key), helpText, handler);
         }

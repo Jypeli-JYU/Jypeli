@@ -28,9 +28,13 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Jypeli.Controls;
 using Silk.NET.Input;
+
 
 namespace Jypeli
 {
@@ -156,7 +160,85 @@ namespace Jypeli
 
             return AlwaysTrigger;
         }
+        
+        /// <summary>
+        /// Tekee trigger rulen iteroitavalla kokoelmalle näppäimiä
+        /// </summary>
+        /// <param name="keys">näppäimet</param>
+        /// <param name="state">tila</param>
+        /// <returns>funktion joka tunnistaa ovatko napit painettuina</returns>
+        private ChangePredicate<KeyboardState> MakeTriggerRuleMultiple(Key[] keys, ButtonState state)
+        {
+            switch (state)
+            {
+                case ButtonState.Up:
+                    return delegate(KeyboardState prev, KeyboardState curr)
+                    {
+                        //Tämän täytyy olla aluksi true, muuten ei voisi ikinä olla tosi silmukan jälkeen 
+                        bool areKeysPressed = true;
+                        //Käydään kaikki näppäimet läpi
+                        foreach (Key key in keys)
+                        { 
+                            //AND operaatiolla saadaan tieto onko kaikki nappaimet painettu eli jos yksi näistä on false niin palautetaan false
+                            areKeysPressed = areKeysPressed && curr.IsKeyUp(key);
+                        }
+                        return areKeysPressed;
+                    };
 
+                case ButtonState.Down:
+                    return delegate(KeyboardState prev, KeyboardState curr)
+                    {
+                        bool areKeysPressed = true;
+                        foreach (Key key in keys)
+                        { 
+                            areKeysPressed = areKeysPressed && curr.IsKeyDown(key);
+                        }
+                        return areKeysPressed;
+                    };
+
+                case ButtonState.Pressed:
+                    return delegate(KeyboardState prev, KeyboardState curr)
+                    {
+                            bool areKeysPressed = true;
+                            foreach (Key key in keys)
+                            {
+                                //AND operaatiolla saadaan tieto onko kaikki nappaimet painettu
+                                //Tässä tarkastus hieman erilainen, sillä pitää tutkia onko näppäin juuri nyt painettu
+                                areKeysPressed = areKeysPressed && (prev.IsKeyUp(key) && curr.IsKeyDown(key));
+                            }
+                            return areKeysPressed;
+                    };
+
+                case ButtonState.Released:
+                    return delegate(KeyboardState prev, KeyboardState curr)
+                    {
+                        bool areKeysPressed = true;
+                        foreach (Key key in keys)
+                        { 
+                            //AND operaatiolla saadaan tieto onko kaikki nappaimet painettu
+                            //Tässä tarkastus hieman erilainen, sillä pitää tutkia onko näppäin juuri nyt painettu
+                            areKeysPressed = areKeysPressed && (prev.IsKeyDown(key) && curr.IsKeyUp(key));
+                                
+                        }
+                        return areKeysPressed;
+                    };
+            }
+
+            return AlwaysTrigger;
+        }
+
+
+        /// <summary>
+        /// Palauttaa useiden näppäinten nimet +-merkkit välissä 
+        /// </summary>
+        /// <param name="keys">taulukko näppäimistä</param>
+        /// <returns></returns>
+        private string GetKeyName(Key[] keys)
+        {
+            return string.Join(" + ", keys.Select(GetKeyName));
+        }
+        
+        
         private string GetKeyName(Key k)
         {
             string keyStr = k.ToString();
@@ -239,6 +321,135 @@ namespace Jypeli
             return CurrentState.IsKeyDown(Key.LeftAlt) || CurrentState.IsKeyDown(Key.RightAlt);
         }
 
+        
+        
+        /// <summary>
+        /// Kuuntelee useiden näppäinten painalluksia, voi ottaa myös parametreja vastaan.
+        /// </summary>
+        /// <param name="k">Näppäimet, nämä voit antaa taulukkona, listana tai minä tahansa muuna IEnumerable rajapinnan toteuttavana tyyppinä</param>
+        /// <param name="state">Näppäimen tila</param>
+        /// <param name="handler">Mitä tehdään</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// /// <returns>Palauttaa kuuntelijan, HUOM sidottu ensimmäiseksi annettuun näppäimeen ei tarvitse poistaa kaikista</returns>
+        /// <exception cref="InvalidDataException"> Jos tietorakenne on tyhjä heitetään poikkeus</exception>
+        public Listener ListenMultiple(IEnumerable<Key> k, ButtonState state, Action handler, string helpText)
+        {
+            //Muutetaan iteroitava taulukoksi helpomman käytön takia
+            Key[] keys = k.ToArray();
+            //Jos ei arvoja heitetään poikkeus
+            if (keys.Length == 0)
+            {
+                throw new InvalidDataException("You should specify at least one key to listen to.");
+            }
+            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(keys, state);
+            
+            //Lisätään kuuntelija ensimmäiselle näppäimelle. Tekstiksi laitetaan kaikki näppäimet 
+            return AddListener(rule, keys[0], GetKeyName(keys), helpText, handler);
+        }
+        /// <summary>
+        /// Kuuntelee useiden näppäimien painallusta, voi ottaa myös parametreja vastaan
+        /// </summary>
+        /// <param name="k">Näppäimet, nämä voit antaa taulukkona, listana tai minä tahansa muuna IEnumerable rajapinnan toteuttavana tyyppinä</param>
+        /// <param name="state">Näppäimen tila</param>
+        /// <param name="handler">Mitä tehdään</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p">parametri</param>
+        /// <typeparam name="T">parametrin tyyppi</typeparam>
+        /// <returns></returns>
+        /// <exception cref="InvalidDataException"> Jos tietorakenne on tyhjä heitetään poikkeus</exception>
+        public Listener ListenMultiple<T>(IEnumerable<Key> k, ButtonState state, Action<T> handler, string helpText, T p)
+        {
+            Key[] keys = k.ToArray();
+            if (keys.Length == 0)
+            {
+                throw new InvalidDataException("You should specify at least one key to listen to.");
+            }
+            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(keys, state);
+            
+            //Lisätään kuuntelija ensimmäiselle näppäimelle. Tekstiksi laitetaan kaikki näppäimet 
+            return AddListener(rule, keys[0], GetKeyName(keys), helpText, handler, p);
+        }
+        /// <summary>
+        /// Kuuntelee useiden näppäimien painallusta, voi ottaa parametreja vastaan
+        /// </summary>
+        /// <param name="k">Näppäimet, nämä voit antaa taulukkona, listana tai minä tahansa muuna IEnumerable rajapinnan toteuttavana tyyppinä</param>
+        /// <param name="state">Näppäimen tila</param>
+        /// <param name="handler">Mitä tehdään</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <typeparam name="T1">parametrin tyyppi</typeparam>
+        /// <param name="p2">2. parametri</param>
+        /// <typeparam name="T2">parametrin tyyppi</typeparam>
+        /// <returns></returns>
+        public Listener ListenMultiple<T1, T2>(IEnumerable<Key> k, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2)
+        {
+            Key[] keys = k.ToArray();
+            if (keys.Length == 0)
+            {
+                throw new InvalidDataException("You should specify at least one key to listen to.");
+            }
+            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(keys, state);
+            
+            //Lisätään kuuntelija ensimmäiselle näppäimelle. Tekstiksi laitetaan kaikki näppäimet 
+            return AddListener(rule, keys[0], GetKeyName(keys), helpText, handler, p1, p2);
+        }
+        
+        /// <summary>
+        /// Kuuntelee useiden näppäimien painallusta, voi ottaa parametreja vastaan
+        /// </summary>
+        /// <param name="k">Näppäimet, nämä voit antaa taulukkona, listana tai minä tahansa muuna IEnumerable rajapinnan toteuttavana tyyppinä</param>
+        /// <param name="state">Näppäimen tila</param>
+        /// <param name="handler">Mitä tehdään</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <typeparam name="T1">parametrin tyyppi</typeparam>
+        /// <param name="p2">2. parametri</param>
+        /// <typeparam name="T2">parametrin tyyppi</typeparam>
+        /// <param name="p3">3. parametri</param>
+        /// <typeparam name="T3">parametrin tyyppi</typeparam>
+        /// <returns></returns>
+        public Listener ListenMultiple<T1, T2, T3>(IEnumerable<Key> k, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3)
+        {
+            Key[] keys = k.ToArray();
+            if (keys.Length == 0)
+            {
+                throw new InvalidDataException("You should specify at least one key to listen to.");
+            }
+            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(keys, state);
+            
+            //Lisätään kuuntelija ensimmäiselle näppäimelle. Tekstiksi laitetaan kaikki näppäimet 
+            return AddListener(rule, keys[0], GetKeyName(keys), helpText, handler, p1, p2, p3);
+        }
+        
+        /// <summary>
+        /// Kuuntelee useiden näppäimien painallusta, voi ottaa parametreja vastaan
+        /// </summary>
+        /// <param name="k">Näppäimet, nämä voit antaa taulukkona, listana tai minä tahansa muuna IEnumerable rajapinnan toteuttavana tyyppinä</param>
+        /// <param name="state">Näppäimen tila</param>
+        /// <param name="handler">Mitä tehdään</param>
+        /// <param name="helpText">Ohjeteksti</param>
+        /// <param name="p1">1. parametri</param>
+        /// <typeparam name="T1">parametrin tyyppi</typeparam>
+        /// <param name="p2">2. parametri</param>
+        /// <typeparam name="T2">parametrin tyyppi</typeparam>
+        /// <param name="p3">3. parametri</param>
+        /// <typeparam name="T3">parametrin tyyppi</typeparam>
+        /// <param name="p4">4. parametri</param>
+        /// <typeparam name="T4">parametrin tyyppi</typeparam>
+        /// <returns></returns>
+        public Listener ListenMultiple<T1, T2, T3, T4>(IEnumerable<Key> k, ButtonState state, Action<T1, T2, T3, T4> handler, string helpText, T1 p1, T2 p2, T3 p3, T4 p4)
+        {
+            Key[] keys = k.ToArray();
+            if (keys.Length == 0)
+            {
+                throw new InvalidDataException("You should specify at least one key to listen to.");
+            }
+            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(keys, state);
+            
+            //Lisätään kuuntelija ensimmäiselle näppäimelle. Tekstiksi laitetaan kaikki näppäimet 
+            return AddListener(rule, keys[0], GetKeyName(keys), helpText, handler, p1, p2, p3, p4);
+        }
+        
         /// <summary>
         /// Kuuntelee näppäinten painalluksia.
         /// </summary>
@@ -251,7 +462,6 @@ namespace Jypeli
             ChangePredicate<KeyboardState> rule = MakeTriggerRule(k, state);
             return AddListener(rule, k, GetKeyName(k), helpText, handler);
         }
-
         /// <summary>
         /// Kuuntelee näppäinten painalluksia.
         /// </summary>

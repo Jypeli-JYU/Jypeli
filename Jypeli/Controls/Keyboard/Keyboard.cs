@@ -31,6 +31,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Jypeli.Controls;
 using Silk.NET.Input;
 
@@ -202,7 +203,7 @@ namespace Jypeli
                             foreach (Key key in keys)
                             {
                                 //AND operaatiolla saadaan tieto onko kaikki nappaimet painettu
-                                //Tässä vielä lisätty extra tarkastus, että varmasti mo
+                                //Tässä tarkastus hieman erilainen, sillä pitää tutkia onko näppäin juuri nyt painettu
                                 areKeysPressed = areKeysPressed && (prev.IsKeyUp(key) && curr.IsKeyDown(key));
                             }
                             return areKeysPressed;
@@ -215,7 +216,7 @@ namespace Jypeli
                         foreach (Key key in keys)
                         { 
                             //AND operaatiolla saadaan tieto onko kaikki nappaimet painettu
-                            //Tässä vielä lisätty extra tarkastus, että varmasti mo
+                            //Tässä tarkastus hieman erilainen, sillä pitää tutkia onko näppäin juuri nyt painettu
                             areKeysPressed = areKeysPressed && (prev.IsKeyDown(key) && curr.IsKeyUp(key));
                                 
                         }
@@ -225,9 +226,24 @@ namespace Jypeli
 
             return AlwaysTrigger;
         }
-        
-        
 
+
+        /// <summary>
+        /// Palauttaa useiden näppäinten nimet +-merkkit välissä 
+        /// </summary>
+        /// <param name="keys">taulukko näppäimistä</param>
+        /// <returns></returns>
+        private string GetKeyName(Key[] keys)
+        {
+            string name = GetKeyName(keys[0]);
+            for (int i = 1; i < keys.Length; i++)
+            {
+                name += " + " + GetKeyName(keys[i]);
+            }
+            return name;
+        }
+        
+        
         private string GetKeyName(Key k)
         {
             string keyStr = k.ToString();
@@ -323,18 +339,17 @@ namespace Jypeli
         /// <exception cref="InvalidDataException"> Jos tietorakenne on tyhjä heitetään poikkeus</exception>
         public Listener ListenMultiple(IEnumerable<Key> k, ButtonState state, Action handler, string helpText)
         {
+            //Muutetaan iteroitava taulukoksi helpomman käytön takia
             Key[] keys = k.ToArray();
+            //Jos ei arvoja heitetään poikkeus
             if (keys.Length == 0)
             {
                 throw new InvalidDataException("You should specify at least one key to listen to.");
             }
-
             ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(keys, state);
-            //Lisätään kuuntelija ensimmäiselle näppäimelle. 
-            //Tässä valitetaan possible multiple enumeration, mutta foreach silmukan pitäisi nollata se meidän puolesta
-            var firstKey = keys[0];
-            //Lisätään kuuntelija ensimmäiseen näppäimeen
-            return AddListener(rule, key, GetKeyName(key), helpText, handler);
+            
+            //Lisätään kuuntelija ensimmäiselle näppäimelle. Tekstiksi laitetaan kaikki näppäimet 
+            return AddListener(rule, keys[0], GetKeyName(keys), helpText, handler);
         }
         /// <summary>
         /// Kuuntelee useiden näppäimien painallusta, voi ottaa myös parametreja vastaan
@@ -349,16 +364,15 @@ namespace Jypeli
         /// <exception cref="InvalidDataException"> Jos tietorakenne on tyhjä heitetään poikkeus</exception>
         public Listener ListenMultiple<T>(IEnumerable<Key> k, ButtonState state, Action<T> handler, string helpText, T p)
         {
-            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(k, state);
-            //Lisätään kuuntelija ensimmäiselle näppäimelle
-            var enumerator = k.GetEnumerator();
-            if (!enumerator.MoveNext())
+            Key[] keys = k.ToArray();
+            if (keys.Length == 0)
             {
-                throw new InvalidDataException("No keys in data structure, possibly empty data structure?");
+                throw new InvalidDataException("You should specify at least one key to listen to.");
             }
-            Key key =  enumerator.Current;
-            enumerator.Dispose();   
-            return AddListener(rule, key, GetKeyName(key), helpText, handler, p);
+            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(keys, state);
+            
+            //Lisätään kuuntelija ensimmäiselle näppäimelle. Tekstiksi laitetaan kaikki näppäimet 
+            return AddListener(rule, keys[0], GetKeyName(keys), helpText, handler, p);
         }
         /// <summary>
         /// Kuuntelee useiden näppäimien painallusta, voi ottaa parametreja vastaan
@@ -374,16 +388,15 @@ namespace Jypeli
         /// <returns></returns>
         public Listener ListenMultiple<T1, T2>(IEnumerable<Key> k, ButtonState state, Action<T1, T2> handler, string helpText, T1 p1, T2 p2)
         {
-            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(k, state);
-            //Lisätään kuuntelija ensimmäiselle näppäimelle
-            var enumerator = k.GetEnumerator();
-            if (!enumerator.MoveNext())
+            Key[] keys = k.ToArray();
+            if (keys.Length == 0)
             {
-                throw new InvalidDataException("No keys in data structure, possibly empty data structure?");
+                throw new InvalidDataException("You should specify at least one key to listen to.");
             }
-            Key key =  enumerator.Current;
-            enumerator.Dispose();   
-            return AddListener(rule, key, GetKeyName(key), helpText, handler, p1, p2);
+            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(keys, state);
+            
+            //Lisätään kuuntelija ensimmäiselle näppäimelle. Tekstiksi laitetaan kaikki näppäimet 
+            return AddListener(rule, keys[0], GetKeyName(keys), helpText, handler, p1, p2);
         }
         
         /// <summary>
@@ -402,16 +415,15 @@ namespace Jypeli
         /// <returns></returns>
         public Listener ListenMultiple<T1, T2, T3>(IEnumerable<Key> k, ButtonState state, Action<T1, T2, T3> handler, string helpText, T1 p1, T2 p2, T3 p3)
         {
-            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(k, state);
-            //Lisätään kuuntelija ensimmäiselle näppäimelle
-            var enumerator = k.GetEnumerator();
-            if (!enumerator.MoveNext())
+            Key[] keys = k.ToArray();
+            if (keys.Length == 0)
             {
-                throw new InvalidDataException("No keys in data structure, possibly empty data structure?");
+                throw new InvalidDataException("You should specify at least one key to listen to.");
             }
-            Key key =  enumerator.Current;
-            enumerator.Dispose();   
-            return AddListener(rule, key, GetKeyName(key), helpText, handler, p1, p2, p3);
+            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(keys, state);
+            
+            //Lisätään kuuntelija ensimmäiselle näppäimelle. Tekstiksi laitetaan kaikki näppäimet 
+            return AddListener(rule, keys[0], GetKeyName(keys), helpText, handler, p1, p2, p3);
         }
         
         /// <summary>
@@ -432,16 +444,15 @@ namespace Jypeli
         /// <returns></returns>
         public Listener ListenMultiple<T1, T2, T3, T4>(IEnumerable<Key> k, ButtonState state, Action<T1, T2, T3, T4> handler, string helpText, T1 p1, T2 p2, T3 p3, T4 p4)
         {
-            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(k, state);
-            //Lisätään kuuntelija ensimmäiselle näppäimelle
-            var enumerator = k.GetEnumerator();
-            if (!enumerator.MoveNext())
+            Key[] keys = k.ToArray();
+            if (keys.Length == 0)
             {
-                throw new InvalidDataException("No keys in data structure, possibly empty data structure?");
+                throw new InvalidDataException("You should specify at least one key to listen to.");
             }
-            Key key =  enumerator.Current;
-            enumerator.Dispose();   
-            return AddListener(rule, key, GetKeyName(key), helpText, handler, p1, p2, p3, p4);
+            ChangePredicate<KeyboardState> rule = MakeTriggerRuleMultiple(keys, state);
+            
+            //Lisätään kuuntelija ensimmäiselle näppäimelle. Tekstiksi laitetaan kaikki näppäimet 
+            return AddListener(rule, keys[0], GetKeyName(keys), helpText, handler, p1, p2, p3, p4);
         }
         
         /// <summary>

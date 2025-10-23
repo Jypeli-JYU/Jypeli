@@ -166,7 +166,7 @@ namespace Jypeli
         /// <param name="keys">näppäimet</param>
         /// <param name="state">tila</param>
         /// <returns>funktion joka tunnistaa ovatko napit painettuina</returns>
-        private ChangePredicate<KeyboardState> MakeTriggerRuleMultiple(IEnumerable<Key> keys, ButtonState state)
+        private ChangePredicate<KeyboardState> MakeTriggerRuleMultiple(Key[] keys, ButtonState state)
         {
             switch (state)
             {

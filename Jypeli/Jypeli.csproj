@@ -19,6 +19,7 @@
 		<PackageProjectUrl>https://github.com/Jypeli-JYU/Jypeli</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Jypeli-JYU/Jypeli</RepositoryUrl>
 		<PackageLicenseFile>Jypeli.txt</PackageLicenseFile>
+		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -37,6 +37,7 @@ namespace Jypeli
         private ContentSource source;
 
         private FontSystemSettings settings;
+        private FontSystemEffect fontEffect;
 
         private int blurAmount = 0;
         private int strokeAmount = 0;
@@ -52,6 +53,16 @@ namespace Jypeli
         {
             get { DoLoad(); return font; }
         }
+
+        internal FontSystemEffect Effect => fontEffect;
+
+        internal int EffectAmount => fontEffect switch
+        {
+            FontSystemEffect.None => 0,
+            FontSystemEffect.Blurry => blurAmount,
+            FontSystemEffect.Stroked => strokeAmount,
+            _ => 0
+        };
 
         /// <summary>
         /// Fontin koko.
@@ -93,8 +104,7 @@ namespace Jypeli
                 blurAmount = value;
                 strokeAmount = 0;
 
-                settings.Effect = FontSystemEffect.Blurry;
-                settings.EffectAmount = value;
+                fontEffect = FontSystemEffect.Blurry;
 
                 DoLoad();
             }
@@ -118,8 +128,7 @@ namespace Jypeli
                 strokeAmount = value;
                 blurAmount = 0;
 
-                settings.Effect = FontSystemEffect.Stroked;
-                settings.EffectAmount = value;
+                fontEffect = FontSystemEffect.Stroked;
 
                 DoLoad();
             }

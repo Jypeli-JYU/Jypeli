@@ -107,7 +107,7 @@ namespace Jypeli
         public static void DrawText(string text, Vector position, Font font, Color color, Vector scale)
         {
             Vector textSize = font.SpriteFont.MeasureString(text);
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), color.ToFSColor(), scale);
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), color.ToFSColor(), scale: scale, effect: font.Effect, effectAmount: font.EffectAmount);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Jypeli
         public static void DrawText(string text, Vector position, Font font, Color[] colors, Vector scale)
         {
             Vector textSize = font.SpriteFont.MeasureString(text);
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), colors.ConvertAll((c) => c.ToFSColor()).ToArray(), scale);
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position - new Vector(textSize.X / 2, 0), colors.ConvertAll((c) => c.ToFSColor()).ToArray(), scale: scale, effect: font.Effect, effectAmount: font.EffectAmount);
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Jypeli
         /// <param name="scale">Tekstin skaalaus</param>
         public static void DrawText(string text, ref Matrix transformation, Vector position, Font font, Color color, Vector scale)
         {
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position, color.ToFSColor(), scale);
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position, color.ToFSColor(), scale: scale, effect: font.Effect, effectAmount: font.EffectAmount);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Jypeli
         /// <param name="scale">Tekstin skaalaus</param>
         public static void DrawText(string text, ref Matrix transformation, Vector position, Font font, Color[] colors, Vector scale)
         {
-            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position, colors.ConvertAll((c) => c.ToFSColor()).ToArray(), scale);
+            font.SpriteFont.DrawText(Graphics.FontRenderer, text, position, colors.ConvertAll((c) => c.ToFSColor()).ToArray(), scale: scale, effect: font.Effect, effectAmount: font.EffectAmount);
         }
 
         /// <summary>

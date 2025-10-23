@@ -132,7 +132,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FontStashSharp" Version="1.2.8" />
+		<PackageReference Include="FontStashSharp.PlatformAgnostic" Version="1.5.0" />
 		<PackageReference Include="Silk.NET.Input" Version="2.22.0" />
 		<PackageReference Include="Silk.NET.OpenGL" Version="2.22.0" />
 		<PackageReference Include="Silk.NET.Windowing" Version="2.22.0" />

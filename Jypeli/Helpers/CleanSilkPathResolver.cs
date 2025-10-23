@@ -44,6 +44,7 @@ namespace Jypeli.Helpers
             MacVersioningResolver,   // Add macos version variations
             MainModuleDirectoryResolver, // Resolve relative to process folder,
             RuntimesFolderResolver, // then convert them into runtime folder paths
+            BaseNameLibraryResolver, // only now do we extract the base name
         };
 
         /// <summary>
@@ -180,6 +181,17 @@ namespace Jypeli.Helpers
             depsResolvedPath is not null
                 ? new[] { appLocalNativePath, depsResolvedPath }
                 : Enumerable.Empty<string>();
+
+
+        /// <summary>
+        /// A resolver that retrievers the file name from the full path.
+        /// Used to allow fallback to system libraries at the very end in cases where the bundled libraries
+        /// are not available.
+        /// </summary>
+        public static readonly Func<string, IEnumerable<string>> BaseNameLibraryResolver = name =>
+            string.IsNullOrWhiteSpace(Path.GetDirectoryName(name))
+                ? Enumerable.Empty<string>()
+                : new[] { Path.GetFileName(name) };
 
         /// <summary>
         ///     Returns an enumerator which yields possible library load targets, in priority order.

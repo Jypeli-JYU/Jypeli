@@ -462,7 +462,6 @@ namespace Jypeli
             ChangePredicate<KeyboardState> rule = MakeTriggerRule(k, state);
             return AddListener(rule, k, GetKeyName(k), helpText, handler);
         }
-        
         /// <summary>
         /// Kuuntelee näppäinten painalluksia.
         /// </summary>

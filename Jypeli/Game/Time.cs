@@ -29,6 +29,7 @@ namespace Jypeli
         /// Tällä hetkellä myös pelin FPS-tavoite asettuu samaan arvoon.
         /// Tämän muuttaminen "vääräksi" arvoksi saattaa aiheuttaa erikoisia seurauksia jos <see cref="FixedTimeStep"/> on päällä.
         /// </summary>
+        [Obsolete("-> UpdatesPerSecond")]
         public static double UpdatesPerSecod
         {
             get => Instance.Window.UpdatesPerSecond;
@@ -36,6 +37,21 @@ namespace Jypeli
             {
                 Instance.Window.UpdatesPerSecond = value;
                 Instance.Window.FramesPerSecond = value;
+            }
+        }
+
+        /// <summary>
+        /// Kuinka monta pelipäivitystä ajetaan sekunnissa.
+        /// Vakiona 60.
+        /// Tällä hetkellä myös pelin FPS-tavoite asettuu samaan arvoon.
+        /// Tämän muuttaminen "vääräksi" arvoksi saattaa aiheuttaa erikoisia seurauksia jos <see cref="FixedTimeStep"/> on päällä.
+        /// </summary>
+        public static double UpdatesPerSecond
+        {
+            get => UpdatesPerSecod;
+            set
+            {
+                UpdatesPerSecod = value;
             }
         }
 

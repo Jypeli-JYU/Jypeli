@@ -6,23 +6,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Jypeli.NET" Version="11.*" />
-        <PackageReference Include="Jypeli.FarseerPhysics.NET" Version="2.*" />
+        <PackageReference Include="Jypeli.NET" Version="11.*"/>
+        <PackageReference Include="Jypeli.FarseerPhysics.NET" Version="2.*"/>
     </ItemGroup>
-
     <ItemGroup>
-        <None Update="Content\kentta1.txt">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Content\maali.wav">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Content\norsu.png">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="Content\tahti.png">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
+        <Content Include="Content/*.*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>

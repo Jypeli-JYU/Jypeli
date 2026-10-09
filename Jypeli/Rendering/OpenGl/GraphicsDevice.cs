@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
-using SixLabors.ImageSharp.PixelFormats;
 
 namespace Jypeli.Rendering.OpenGl
 {
@@ -187,12 +186,11 @@ namespace Jypeli.Rendering.OpenGl
         /// <inheritdoc/>
         public void LoadImage(Image image)
         {
-            void* data = GetImageDataPtr(image);
-
             image.handle = Gl.GenTexture();
             BindTexture(image);
 
-            Gl.TexImage2D(TextureTarget.Texture2D, 0, InternalFormat.Rgba, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
+            fixed (byte* data = image.data)
+                Gl.TexImage2D(TextureTarget.Texture2D, 0, InternalFormat.Rgba, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
 
             GLEnum scaling = image.Scaling == ImageScaling.Linear ? GLEnum.Linear : GLEnum.Nearest;
 
@@ -207,11 +205,10 @@ namespace Jypeli.Rendering.OpenGl
         /// <inheritdoc/>
         public void UpdateTextureData(Image image)
         {
-            void* data = GetImageDataPtr(image);
-
             BindTexture(image);
 
-            Gl.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (uint)image.Width, (uint)image.Height, PixelFormat.Rgba, PixelType.UnsignedByte, data);
+            fixed (byte* data = image.data)
+                Gl.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (uint)image.Width, (uint)image.Height, PixelFormat.Rgba, PixelType.UnsignedByte, data);
 
             GLEnum scaling = image.Scaling == ImageScaling.Linear ? GLEnum.Linear : GLEnum.Nearest;
 
@@ -266,8 +263,14 @@ namespace Jypeli.Rendering.OpenGl
         /// <inheritdoc/>
         public void GetScreenContentsToImage(Image img)
         {
-            void* p = GetImageDataPtr(img);
-            GetScreenContents(p);
+            int w = SelectedRendertarget == null ? (int)Game.Screen.Width : (int)SelectedRendertarget.Width;
+            int h = SelectedRendertarget == null ? (int)Game.Screen.Height : (int)SelectedRendertarget.Height;
+            if (w != img.Width || h != img.Height)
+                throw new ArgumentException($"Image size ({img.Width}x{img.Height}) does not match the render target size ({w}x{h})");
+
+            fixed (byte* p = img.data)
+                GetScreenContents(p);
+            img.dirty = true;
         }
 
         /// <inheritdoc/>
@@ -276,22 +279,5 @@ namespace Jypeli.Rendering.OpenGl
             return Gl.GetInteger(GLEnum.MaxTextureSize);
         }
 
-        private void* GetImageDataPtr(Image image)
-        {
-            var bytes = new byte[image.Width * image.Height * sizeof(Rgba32)];
-            image.rawImage.ProcessPixelRows
-            (
-                a =>
-                {
-                    for (var y = 0; y < a.Height; y++)
-                    {
-                        MemoryMarshal.Cast<Rgba32, byte>(a.GetRowSpan(y)).CopyTo(bytes.AsSpan().Slice((y * a.Width * sizeof(Rgba32))));
-                    }
-                }
-            );
-
-            fixed (void* ptr = bytes)
-                return ptr;
-        }
     }
 }

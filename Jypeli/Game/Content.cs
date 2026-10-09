@@ -184,6 +184,24 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Lukee merkkijonon tiedostosta.
+        /// </summary>
+        /// <param name="file">Tiedoston nimi</param>
+        /// <returns>Tiedoston sisältö merkkijonona</returns>
+        public static string LoadText(string file)
+        {
+            string data = String.Empty;
+            string path = Device.IsPhone ? file : Device.ContentPath + "\\" + file;
+
+            using (StreamReader input = new StreamReader(Device.StreamContent(path)))
+            {
+                data = input.ReadToEnd();
+            }
+            return data;
+        }
+
+
+        /// <summary>
         /// Etsii millä päätteellä annettu tiedosto löytyy
         /// </summary>
         /// <param name="file">Tiedoston nimi</param>

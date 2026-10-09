@@ -56,6 +56,37 @@ namespace Jypeli.Tests.Graphics
         }
 
         [Test]
+        public void FromStream_NonSeekableStream_Loads()
+        {
+            // Androidin AssetManager antaa streamin, jota ei voi kelata. Kuvan on silti ladutta.
+            var source = new NonSeekableStream(new MemoryStream(Convert.FromBase64String(Png2x2Base64)));
+            Image img = Image.FromStream(source);
+            Assert.AreEqual(2, img.Width);
+            Assert.AreEqual(2, img.Height);
+            Assert.AreEqual(Red, img[0, 0]);
+            Assert.AreEqual(HalfWhite, img[1, 1]);
+        }
+
+        /// <summary>
+        /// Vain eteenpäin luettava stream, kuten Android.Runtime.InputStreamInvoker.
+        /// </summary>
+        private sealed class NonSeekableStream : Stream
+        {
+            private readonly Stream inner;
+            public NonSeekableStream(Stream inner) { this.inner = inner; }
+            public override bool CanRead => true;
+            public override bool CanSeek => false;
+            public override bool CanWrite => false;
+            public override long Length => throw new NotSupportedException();
+            public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+            public override void Flush() { }
+            public override int Read(byte[] buffer, int offset, int count) => inner.Read(buffer, offset, count);
+            public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+            public override void SetLength(long value) => throw new NotSupportedException();
+            public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+        }
+
+        [Test]
         public void FromStream_InvalidData_Throws()
         {
             var garbage = new MemoryStream(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });

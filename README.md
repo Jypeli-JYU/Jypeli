@@ -15,14 +15,14 @@ The full source code is available here from GitHub:
 git clone https://github.com/Jypeli-JYU/Jypeli.git
 ```
 
-You need to have .NET 6 installed to build & run Jypeli.
-For Android-projects, you also need to have `net6-android` workload installed:
+You need to have .NET 10 installed to build & run Jypeli.
+For Android-projects, you also need to have `net10.0-android` workload installed:
 
 ```
 dotnet workload install android
 ```
 
-If you do not wish to run android projects, you can also edit `Jypeli.csproj` & `FarseerPhysics.csproj` and remove `net6-android` from targetframeworks.
+If you do not wish to run android projects, you can also edit `Jypeli.csproj` & `FarseerPhysics.csproj` and remove `net10.0-android` from targetframeworks.
 
 Open the main `Jypeli.sln` with Visual Studio 2022 or JetBrains Rider.
 

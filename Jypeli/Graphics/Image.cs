@@ -1,18 +1,13 @@
-﻿
 using System;
 using System.IO;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
 
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using System.Runtime.InteropServices;
-using SixLabors.ImageSharp.Processing;
+using StbImageSharp;
+using StbImageWriteSharp;
 
 using ColorConverter = System.Converter<Jypeli.Color, Jypeli.Color>;
-// Ehkä vähän tyhmät viritelmät samannimisten luokkien ympärille...
-using SImage = SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>;
 using System.Numerics;
 
 namespace Jypeli
@@ -38,12 +33,21 @@ namespace Jypeli
     {
         private string assetName;
 
-        internal static string[] ImageExtensions { get; } = { ".png", ".jpg" }; // TODO: Kaikki päätteet joita ImageSharp tukee
+        internal static string[] ImageExtensions { get; } = { ".png", ".jpg", ".bmp", ".gif", ".tga" };
 
         /// <summary>
-        /// ImageSharpin raakakuva
+        /// Tavuja per pikseli (RGBA).
         /// </summary>
-        internal SImage rawImage;
+        internal const int BytesPerPixel = 4;
+
+        private int width;
+        private int height;
+
+        /// <summary>
+        /// Kuvan pikselit rivi kerrallaan vasemmasta ylänurkasta alkaen.
+        /// Jokaisesta pikselistä on neljä tavua järjestyksessä punainen, vihreä, sininen, läpinäkyvyys.
+        /// </summary>
+        internal byte[] data;
 
         /// <summary>
         /// Kuvan kahva näytönohjaimessa
@@ -75,7 +79,7 @@ namespace Jypeli
         /// </summary>
         public int Width
         {
-            get { return rawImage.Width; }
+            get { return width; }
         }
 
         /// <summary>
@@ -83,7 +87,7 @@ namespace Jypeli
         /// </summary>
         public int Height
         {
-            get { return rawImage.Height; }
+            get { return height; }
         }
 
         /// <summary>
@@ -115,12 +119,13 @@ namespace Jypeli
 
         internal Image(Stream s)
         {
-            rawImage = SixLabors.ImageSharp.Image.Load<Rgba32>(s);
+            Load(s);
         }
 
         internal Image(string assetName)
         {
-            rawImage = SixLabors.ImageSharp.Image.Load<Rgba32>(assetName);
+            using (FileStream fs = File.OpenRead(assetName))
+                Load(fs);
             this.assetName = assetName;
         }
 
@@ -129,9 +134,16 @@ namespace Jypeli
 
         }
 
-        internal Image(SImage img)
+        /// <summary>
+        /// Luo kuvan valmiista RGBA-pikselidatasta. Taulukkoa ei kopioida.
+        /// </summary>
+        internal Image(int width, int height, byte[] rgba)
         {
-            rawImage = img;
+            AssertDimensions(width, height);
+            AssertDataLength(width, height, rgba);
+            this.width = width;
+            this.height = height;
+            data = rgba;
         }
 
         /// <summary>
@@ -158,15 +170,59 @@ namespace Jypeli
             CreateNewTexture(width, height, color);
         }
 
+        private void Load(Stream s)
+        {
+            ImageResult result;
+            try
+            {
+                result = ImageResult.FromStream(s, StbImageSharp.ColorComponents.RedGreenBlueAlpha);
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException("Could not load image: " + e.Message, e);
+            }
+
+            width = result.Width;
+            height = result.Height;
+            data = result.Data;
+        }
+
         private void CreateNewTexture(int width, int height, Color color)
         {
-            Rgba32 col = new Rgba32();
-            col.R = color.RedComponent;
-            col.G = color.GreenComponent;
-            col.B = color.BlueComponent;
-            col.A = color.AlphaComponent;
+            this.width = width;
+            this.height = height;
+            data = new byte[width * height * BytesPerPixel];
+            FillData(color);
+        }
 
-            rawImage = new SImage(width, height, col);
+        private void FillData(Color color)
+        {
+            for (int i = 0; i < data.Length; i += BytesPerPixel)
+            {
+                data[i] = color.RedComponent;
+                data[i + 1] = color.GreenComponent;
+                data[i + 2] = color.BlueComponent;
+                data[i + 3] = color.AlphaComponent;
+            }
+        }
+
+        private int Offset(int row, int col)
+        {
+            if ((uint)row >= (uint)height)
+                throw new ArgumentOutOfRangeException(nameof(row), row, $"Row must be between 0 and {height - 1}");
+            if ((uint)col >= (uint)width)
+                throw new ArgumentOutOfRangeException(nameof(col), col, $"Column must be between 0 and {width - 1}");
+            return (row * width + col) * BytesPerPixel;
+        }
+
+        private Color ColorAt(int offset)
+        {
+            return new Color(data[offset], data[offset + 1], data[offset + 2], data[offset + 3]);
+        }
+
+        private uint ArgbAt(int offset)
+        {
+            return (uint)(data[offset + 3] << 24 | data[offset] << 16 | data[offset + 1] << 8 | data[offset + 2]);
         }
 
         /// <summary>
@@ -179,19 +235,15 @@ namespace Jypeli
         {
             get
             {
-                // Imagesharpin indeksointi menee x,y, kun taas yleisesti 2d taulukko on y,x
-                Rgba32 color = rawImage[col, row];
-                return new Color(color.R, color.G, color.B, color.A);
+                return ColorAt(Offset(row, col));
             }
             set
             {
-                Rgba32 color = new Rgba32();
-                color.R = value.RedComponent;
-                color.G = value.GreenComponent;
-                color.B = value.BlueComponent;
-                color.A = value.AlphaComponent;
-
-                rawImage[col, row] = color;
+                int i = Offset(row, col);
+                data[i] = value.RedComponent;
+                data[i + 1] = value.GreenComponent;
+                data[i + 2] = value.BlueComponent;
+                data[i + 3] = value.AlphaComponent;
                 dirty = true;
             }
         }
@@ -221,21 +273,13 @@ namespace Jypeli
 
             Color[,] bmp = new Color[ny, nx];
 
-            rawImage.ProcessPixelRows
-            (
-                r =>
+            for (int i = oy; i < oy + ny; i++)
+            {
+                for (int j = ox; j < ox + nx; j++)
                 {
-                    for (int i = oy; i < oy + ny; i++)
-                    {
-                        Span<Rgba32> row = r.GetRowSpan(i);
-                        for (int j = ox; j < ox + nx; j++)
-                        {
-                            bmp[i - oy, j - ox] = new Color(row[j].R, row[j].G, row[j].B, row[j].A);
-                        }
-                    }
+                    bmp[i - oy, j - ox] = ColorAt(Offset(i, j));
                 }
-            );
-            
+            }
 
             return bmp;
         }
@@ -292,7 +336,12 @@ namespace Jypeli
         /// <param name="width">Kuvan korkeus</param>
         public void SetData(byte[] byteArr, int height, int width)
         {
-            rawImage = SImage.LoadPixelData<Rgba32>(byteArr, height, width);
+            AssertDimensions(width, height);
+            AssertDataLength(width, height, byteArr);
+            this.width = width;
+            this.height = height;
+            data = (byte[])byteArr.Clone();
+            dirty = true;
         }
 
         /// <summary>
@@ -312,21 +361,9 @@ namespace Jypeli
         /// Tavut ovat järjestyksessä punainen, vihreä, sininen, läpinäkyvyys.
         /// </summary>
         /// <returns>pikselit byte-taulukkona</returns>
-        public unsafe byte[] GetByteArray()
+        public byte[] GetByteArray()
         {
-            var bytes = new byte[rawImage.Width * rawImage.Height * sizeof(Rgba32)];
-            rawImage.ProcessPixelRows
-            (
-                r =>
-                {
-                    for (var y = 0; y < r.Height; y++)
-                    {
-                        MemoryMarshal.Cast<Rgba32, byte>(r.GetRowSpan(y)).CopyTo(bytes.AsSpan().Slice((y * r.Width * sizeof(Rgba32))));
-                    }
-                }
-            );
-
-            return bytes;
+            return (byte[])data.Clone();
         }
 
         /// <summary>
@@ -354,20 +391,13 @@ namespace Jypeli
 
             uint[,] bmp = new uint[ny, nx];
 
-            rawImage.ProcessPixelRows
-            (
-                r =>
+            for (int i = oy; i < oy + ny; i++)
+            {
+                for (int j = ox; j < ox + nx; j++)
                 {
-                    for (int i = oy; i < oy + ny; i++)
-                    {
-                        Span<Rgba32> row = r.GetRowSpan(i);
-                        for (int j = ox; j < ox + nx; j++)
-                        {
-                            bmp[i - oy, j - ox] = (uint)(row[j].A << 24 | row[j].R << 16 | row[j].G << 8 | row[j].B);
-                        }
-                    }
+                    bmp[i - oy, j - ox] = ArgbAt(Offset(i, j));
                 }
-            );
+            }
 
             return bmp;
         }
@@ -398,21 +428,14 @@ namespace Jypeli
 
             uint[][] bmp = new uint[ny][];
 
-            rawImage.ProcessPixelRows
-            (
-                r =>
+            for (int i = oy; i < oy + ny; i++)
+            {
+                bmp[i - oy] = new uint[nx];
+                for (int j = ox; j < ox + nx; j++)
                 {
-                    for (int i = oy; i < oy + ny; i++)
-                    {
-                        Span<Rgba32> row = r.GetRowSpan(i);
-                        bmp[i - oy] = new uint[nx];
-                        for (int j = ox; j < ox + nx; j++)
-                        {
-                            bmp[i - oy][j - ox] = (uint)(row[j].A << 24 | row[j].R << 16 | row[j].G << 8 | row[j].B);
-                        }
-                    }
+                    bmp[i - oy][j - ox] = ArgbAt(Offset(i, j));
                 }
-            );
+            }
 
             return bmp;
         }
@@ -496,6 +519,15 @@ namespace Jypeli
                 throw new ArgumentException(String.Format("Image dimensions must be at least 1 x 1! (given: {0} x {1}", width, height));
         }
 
+        private static void AssertDataLength(int width, int height, byte[] rgba)
+        {
+            if (rgba == null)
+                throw new ArgumentNullException(nameof(rgba));
+            long expected = (long)width * height * BytesPerPixel;
+            if (rgba.Length != expected)
+                throw new ArgumentException($"Pixel data length {rgba.Length} does not match {width} x {height} x {BytesPerPixel} = {expected}");
+        }
+
         /// <summary>
         /// Luo kopion kuvasta
         /// </summary>
@@ -503,7 +535,10 @@ namespace Jypeli
         public Image Clone()
         {
             Image copy = new Image();
-            copy.rawImage = rawImage.Clone();
+            copy.width = width;
+            copy.height = height;
+            copy.data = (byte[])data.Clone();
+            copy.scaling = scaling;
 
             return copy;
         }
@@ -532,6 +567,64 @@ namespace Jypeli
             dirty = true;
         }
 
+        /// <summary>
+        /// Kääntää kuvan ylösalaisin paikallaan.
+        /// </summary>
+        internal void FlipVertical()
+        {
+            int stride = width * BytesPerPixel;
+            byte[] tmp = new byte[stride];
+            for (int top = 0, bottom = height - 1; top < bottom; top++, bottom--)
+            {
+                Buffer.BlockCopy(data, top * stride, tmp, 0, stride);
+                Buffer.BlockCopy(data, bottom * stride, data, top * stride, stride);
+                Buffer.BlockCopy(tmp, 0, data, bottom * stride, stride);
+            }
+            dirty = true;
+        }
+
+        /// <summary>
+        /// Peilaa kuvan vaakasuunnassa paikallaan.
+        /// </summary>
+        internal void FlipHorizontal()
+        {
+            for (int row = 0; row < height; row++)
+            {
+                int rowStart = row * width * BytesPerPixel;
+                for (int left = 0, right = width - 1; left < right; left++, right--)
+                {
+                    int a = rowStart + left * BytesPerPixel;
+                    int b = rowStart + right * BytesPerPixel;
+                    for (int k = 0; k < BytesPerPixel; k++)
+                    {
+                        byte t = data[a + k];
+                        data[a + k] = data[b + k];
+                        data[b + k] = t;
+                    }
+                }
+            }
+            dirty = true;
+        }
+
+        /// <summary>
+        /// Kopioi toisen kuvan pikselit tämän kuvan päälle annettuun kohtaan.
+        /// Kohdealueen ulkopuolelle jäävät pikselit jätetään huomiotta.
+        /// </summary>
+        private void Blit(Image source, int destX, int destY)
+        {
+            int copyWidth = Math.Min(source.width, width - destX);
+            int copyHeight = Math.Min(source.height, height - destY);
+            if (copyWidth <= 0 || copyHeight <= 0)
+                return;
+
+            int rowBytes = copyWidth * BytesPerPixel;
+            for (int row = 0; row < copyHeight; row++)
+            {
+                Buffer.BlockCopy(source.data, row * source.width * BytesPerPixel, data, ((destY + row) * width + destX) * BytesPerPixel, rowBytes);
+            }
+            dirty = true;
+        }
+
         #region static methods
 
 
@@ -552,20 +645,20 @@ namespace Jypeli
         /// <returns></returns>
         public static Image FromStream(Stream stream)
         {
-            return new Image(SImage.Load<Rgba32>(stream));
+            return new Image(stream);
         }
 
-        /// <summary> 
-        /// Lataa kuvan Internetistä. 
-        /// </summary> 
-        /// <param name="url">Kuvan URL-osoite</param> 
-        /// <returns>Kuva</returns> 
+        /// <summary>
+        /// Lataa kuvan Internetistä.
+        /// </summary>
+        /// <param name="url">Kuvan URL-osoite</param>
+        /// <returns>Kuva</returns>
         public static Image FromURL(string url)
         {
             var req = FileManager.Client.GetAsync(url);
             req.Wait();
-            Image img = new Image(SImage.Load<Rgba32>(req.Result.Content.ReadAsStream()));
-            return img;
+            using (Stream s = req.Result.Content.ReadAsStream())
+                return new Image(s);
         }
 
         /// <summary>
@@ -756,7 +849,7 @@ namespace Jypeli
         public static Image Mirror(Image image)
         {
             Image img = image.Clone();
-            img.rawImage.Mutate(x => x.Flip(FlipMode.Horizontal));
+            img.FlipHorizontal();
             return img;
         }
 
@@ -782,7 +875,7 @@ namespace Jypeli
         public static Image Flip(Image image)
         {
             Image img = image.Clone();
-            img.rawImage.Mutate(x => x.Flip(FlipMode.Vertical));
+            img.FlipVertical();
             return img;
         }
 
@@ -810,13 +903,10 @@ namespace Jypeli
             int width = left.Width + right.Width;
             int height = Math.Max(left.Height, right.Height);
 
-            SImage img = new SImage(width, height);
-            img.Mutate(o => o
-                        .DrawImage(left.rawImage, new Point(0, 0), 1f)
-                        .DrawImage(right.rawImage, new Point(left.Width, 0), 1f)
-            );
-            return new Image(img);
-
+            Image img = new Image(width, height, Color.Transparent);
+            img.Blit(left, 0, 0);
+            img.Blit(right, left.Width, 0);
+            return img;
         }
 
         /// <summary>
@@ -830,23 +920,100 @@ namespace Jypeli
             int width = Math.Max(top.Width, bottom.Width);
             int height = top.Height + bottom.Height;
 
-            SImage img = new SImage(width, height);
-            img.Mutate(o => o
-                        .DrawImage(top.rawImage, new Point(0, 0), 1f)
-                        .DrawImage(bottom.rawImage, new Point(0, top.Height), 1f)
-            );
-            return new Image(img);
+            Image img = new Image(width, height, Color.Transparent);
+            img.Blit(top, 0, 0);
+            img.Blit(bottom, 0, top.Height);
+            return img;
         }
 
         /// <summary>
-        /// Skaalaa kuvan annettuun resoluutioon
+        /// Skaalaa kuvan annettuun resoluutioon.
+        /// Käyttää lineaarista interpolointia, paitsi jos kuvan <see cref="Scaling"/> on <see cref="ImageScaling.Nearest"/>.
         /// </summary>
         /// <param name="newWidth"></param>
         /// <param name="newHeight"></param>
         /// <returns></returns>
         public void Rescale(int newWidth, int newHeight)
         {
-            rawImage.Mutate(x => x.Resize(newWidth, newHeight));
+            AssertDimensions(newWidth, newHeight);
+            if (newWidth == width && newHeight == height)
+                return;
+
+            byte[] result = scaling == ImageScaling.Nearest
+                ? ResampleNearest(newWidth, newHeight)
+                : ResampleBilinear(newWidth, newHeight);
+
+            width = newWidth;
+            height = newHeight;
+            data = result;
+            dirty = true;
+        }
+
+        private byte[] ResampleNearest(int newWidth, int newHeight)
+        {
+            byte[] result = new byte[newWidth * newHeight * BytesPerPixel];
+            for (int y = 0; y < newHeight; y++)
+            {
+                int srcY = Math.Min(height - 1, (int)(((long)y * height) / newHeight));
+                for (int x = 0; x < newWidth; x++)
+                {
+                    int srcX = Math.Min(width - 1, (int)(((long)x * width) / newWidth));
+                    Buffer.BlockCopy(data, (srcY * width + srcX) * BytesPerPixel, result, (y * newWidth + x) * BytesPerPixel, BytesPerPixel);
+                }
+            }
+            return result;
+        }
+
+        private byte[] ResampleBilinear(int newWidth, int newHeight)
+        {
+            // Interpolointi tehdään alfalla kerrotuilla väreillä, jotta läpinäkyvien pikselien värit eivät vuoda viereisiin pikseleihin.
+            byte[] result = new byte[newWidth * newHeight * BytesPerPixel];
+            double scaleX = (double)width / newWidth;
+            double scaleY = (double)height / newHeight;
+
+            for (int y = 0; y < newHeight; y++)
+            {
+                double srcY = Math.Clamp((y + 0.5) * scaleY - 0.5, 0, height - 1);
+                int y0 = (int)srcY;
+                int y1 = Math.Min(y0 + 1, height - 1);
+                double fy = srcY - y0;
+
+                for (int x = 0; x < newWidth; x++)
+                {
+                    double srcX = Math.Clamp((x + 0.5) * scaleX - 0.5, 0, width - 1);
+                    int x0 = (int)srcX;
+                    int x1 = Math.Min(x0 + 1, width - 1);
+                    double fx = srcX - x0;
+
+                    double w00 = (1 - fx) * (1 - fy);
+                    double w10 = fx * (1 - fy);
+                    double w01 = (1 - fx) * fy;
+                    double w11 = fx * fy;
+
+                    int i00 = (y0 * width + x0) * BytesPerPixel;
+                    int i10 = (y0 * width + x1) * BytesPerPixel;
+                    int i01 = (y1 * width + x0) * BytesPerPixel;
+                    int i11 = (y1 * width + x1) * BytesPerPixel;
+
+                    double a00 = data[i00 + 3] * w00;
+                    double a10 = data[i10 + 3] * w10;
+                    double a01 = data[i01 + 3] * w01;
+                    double a11 = data[i11 + 3] * w11;
+                    double alpha = a00 + a10 + a01 + a11;
+
+                    int o = (y * newWidth + x) * BytesPerPixel;
+                    if (alpha > 0)
+                    {
+                        for (int c = 0; c < 3; c++)
+                        {
+                            double premultiplied = data[i00 + c] * a00 + data[i10 + c] * a10 + data[i01 + c] * a01 + data[i11 + c] * a11;
+                            result[o + c] = (byte)Math.Clamp((int)Math.Round(premultiplied / alpha), 0, 255);
+                        }
+                    }
+                    result[o + 3] = (byte)Math.Clamp((int)Math.Round(alpha), 0, 255);
+                }
+            }
+            return result;
         }
 
         #endregion
@@ -891,7 +1058,7 @@ namespace Jypeli
         /// <param name="backColor"></param>
         public void Fill(Color backColor)
         {
-            rawImage = new SImage(Width, Height, new Rgba32(backColor.ToUInt()));
+            FillData(backColor);
 
             UpdateTexture();
         }
@@ -945,9 +1112,19 @@ namespace Jypeli
         /// <param name="path">Tiedoston nimi</param>
         public void SaveAsJpeg(string path)
         {
-            rawImage.SaveAsJpeg(path);
+            using (FileStream fs = File.Create(path))
+                SaveAsJpeg(fs);
         }
 
+        /// <summary>
+        /// Tallentaa kuvan jpg-muodossa tietovirtaan
+        /// </summary>
+        /// <param name="stream">Tietovirta johon kuva kirjoitetaan</param>
+        public void SaveAsJpeg(Stream stream)
+        {
+            new ImageWriter().WriteJpg(data, width, height, StbImageWriteSharp.ColorComponents.RedGreenBlueAlpha, stream, 90);
+            stream.Flush();
+        }
 
         /// <summary>
         /// Tallentaa kuvan png-muodossa
@@ -955,8 +1132,38 @@ namespace Jypeli
         /// <param name="path">Tiedoston nimi</param>
         public void SaveAsPng(string path)
         {
-            rawImage.SaveAsPng(path);
+            using (FileStream fs = File.Create(path))
+                SaveAsPng(fs);
+        }
+
+        /// <summary>
+        /// Tallentaa kuvan png-muodossa tietovirtaan
+        /// </summary>
+        /// <param name="stream">Tietovirta johon kuva kirjoitetaan</param>
+        public void SaveAsPng(Stream stream)
+        {
+            new ImageWriter().WritePng(data, width, height, StbImageWriteSharp.ColorComponents.RedGreenBlueAlpha, stream);
+            stream.Flush();
+        }
+
+        /// <summary>
+        /// Tallentaa kuvan bmp-muodossa
+        /// </summary>
+        /// <param name="path">Tiedoston nimi</param>
+        public void SaveAsBmp(string path)
+        {
+            using (FileStream fs = File.Create(path))
+                SaveAsBmp(fs);
+        }
+
+        /// <summary>
+        /// Tallentaa kuvan bmp-muodossa tietovirtaan
+        /// </summary>
+        /// <param name="stream">Tietovirta johon kuva kirjoitetaan</param>
+        public void SaveAsBmp(Stream stream)
+        {
+            new ImageWriter().WriteBmp(data, width, height, StbImageWriteSharp.ColorComponents.RedGreenBlueAlpha, stream);
+            stream.Flush();
         }
     }
 }
-

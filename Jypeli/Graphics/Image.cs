@@ -175,6 +175,17 @@ namespace Jypeli
             ImageResult result;
             try
             {
+                // StbImageSharp kelaa streamia taaksepäin tunnistaessaan tiedostomuotoa.
+                // Esimerkiksi Androidin AssetManager antaa streamin, jota ei voi kelata,
+                // joten sellainen puskuroidaan ensin muistiin.
+                if (!s.CanSeek)
+                {
+                    var buffer = new MemoryStream();
+                    s.CopyTo(buffer);
+                    buffer.Position = 0;
+                    s = buffer;
+                }
+
                 result = ImageResult.FromStream(s, StbImageSharp.ColorComponents.RedGreenBlueAlpha);
             }
             catch (Exception e)

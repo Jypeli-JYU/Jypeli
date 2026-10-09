@@ -148,6 +148,8 @@
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
 		<PackageReference Include="Silk.NET.OpenAL" Version="2.22.0" />
 		<PackageReference Include="Silk.NET.OpenAL.Soft.Native" Version="1.23.1" />
+		<!-- Lifts the transitive System.Text.Json 8.0.0 (via Silk.NET.Core -> Microsoft.Extensions.DependencyModel) above GHSA-8g4q-xg66-9fp4 / GHSA-hh2w-p6rv-4g7w -->
+		<PackageReference Include="System.Text.Json" Version="8.0.5" />
 	</ItemGroup>
 	
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net10.0-android' ">

@@ -2,11 +2,9 @@
 
 Jypeli is a simple C# game programming library. It is used as a tool for teaching programming in the University of Jyväskylä.
 
-Installation instructions for regular users (in Finnish) <https://tim.jyu.fi/view/kurssit/tie/ohj1/tyokalut/windows>
+Installation and using the library (in Finnish): <https://jypeli.it.jyu.fi>
 
-Instructions for using the library (also in Finnish) <https://tim.jyu.fi/view/kurssit/jypeli/wiki>
-
-Jypeli (C) University of Jyväskylä, 2009-2022.
+Jypeli (C) University of Jyväskylä, 2009-2026.
 
 ## Source Code
 

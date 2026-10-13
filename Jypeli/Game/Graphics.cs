@@ -66,6 +66,23 @@ namespace Jypeli
         }
 
         /// <summary>
+        /// Onko peli-ikkuna suurennettu täyttämään koko ruudun.
+        /// Toisin kuin kokoruututilassa, ikkunan otsikkopalkki ja käyttöjärjestelmän
+        /// tehtäväpalkki jäävät näkyviin. Aseta <c>true</c> esimerkiksi <c>Begin</c>-metodissa,
+        /// jolloin peli käynnistyy suurennettuna.
+        /// </summary>
+        public bool IsMaximized
+        {
+#if DESKTOP
+            get { return ((IWindow)Window).WindowState == WindowState.Maximized; }
+            set { ((IWindow)Window).WindowState = value ? WindowState.Maximized : WindowState.Normal; }
+#elif ANDROID
+            get { return true; }
+            set { }
+#endif
+        }
+
+        /// <summary>
         /// Näytön dimensiot, eli koko ja reunat.
         /// </summary>
         public static ScreenView Screen { get; private set; }

@@ -3,15 +3,22 @@ using System.IO;
 using Jypeli.Devices;
 
 #if ANDROID
-using Android.Content.Res;
-using Essentials = Xamarin.Essentials;
+using Android.App;
+using Android.Content;
 
+using AndroidApp = Android.App.Application;
+using VibrationEffect = Android.OS.VibrationEffect;
+using Vibrator = Android.OS.Vibrator;
+using VibratorManager = Android.OS.VibratorManager;
+
+[assembly: UsesPermission(global::Android.Manifest.Permission.Vibrate)]
 
 namespace Jypeli.Android
 {
     public class AndroidDevice : Device
     {
         private double _directionalSign = 1;
+        private Vibrator _vibrator;
 
         public override bool IsPhone
         {
@@ -70,14 +77,45 @@ namespace Jypeli.Android
             throw new FileNotFoundException($"Tiedostoa {name} ei löydy");
         }
 
+        private Vibrator Vibrator
+        {
+            get
+            {
+                if (_vibrator == null)
+                {
+                    if (OperatingSystem.IsAndroidVersionAtLeast(31))
+                    {
+                        var manager = AndroidApp.Context.GetSystemService(Context.VibratorManagerService) as VibratorManager;
+                        _vibrator = manager?.DefaultVibrator;
+                    }
+                    else
+                    {
+                        _vibrator = AndroidApp.Context.GetSystemService(Context.VibratorService) as Vibrator;
+                    }
+                }
+                return _vibrator;
+            }
+        }
+
         public override void Vibrate(int milliSeconds)
         {
-            Essentials.Vibration.Vibrate(milliSeconds);
+            var vibrator = Vibrator;
+            if (vibrator == null || !vibrator.HasVibrator || milliSeconds <= 0)
+                return;
+
+            if (OperatingSystem.IsAndroidVersionAtLeast(26))
+            {
+                vibrator.Vibrate(VibrationEffect.CreateOneShot(milliSeconds, VibrationEffect.DefaultAmplitude));
+            }
+            else
+            {
+                vibrator.Vibrate(milliSeconds);
+            }
         }
 
         public override void StopVibrating()
         {
-            Essentials.Vibration.Cancel();
+            Vibrator?.Cancel();
         }
 
         protected override void UpdateScreen()

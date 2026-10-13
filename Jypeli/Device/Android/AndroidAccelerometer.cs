@@ -2,14 +2,20 @@ using System;
 using System.Diagnostics;
 
 #if ANDROID
-using Essentials = Xamarin.Essentials;
+using Android.Content;
+using Android.Hardware;
+using Android.Runtime;
 
+using AndroidApp = Android.App.Application;
 using Vector3 = System.Numerics.Vector3;
 
 namespace Jypeli.Android
 {
     public class AndroidAccelerometer : Accelerometer
     {
+        private SensorManager sensorManager;
+        private Sensor sensor;
+        private SensorListener listener;
 
         public AndroidAccelerometer()
             : base()
@@ -22,18 +28,20 @@ namespace Jypeli.Android
         /// </summary>
         public override void Start()
         {
-            if (!Essentials.Accelerometer.IsMonitoring)
-            {
-                Essentials.Accelerometer.Start(Essentials.SensorSpeed.Default);
-                Essentials.Accelerometer.ReadingChanged += AccelerometerReadingChanged;
-                base.Start();
-            }
-        }
+            if (listener != null)
+                return;
 
-        private void AccelerometerReadingChanged(object sender, Essentials.AccelerometerChangedEventArgs e)
-        {
-            var v = e.Reading.Acceleration;
-            CurrentState = new Vector3(v.X, v.Y, v.Z);
+            sensorManager ??= AndroidApp.Context.GetSystemService(Context.SensorService) as SensorManager;
+            sensor ??= sensorManager?.GetDefaultSensor(SensorType.Accelerometer);
+            if (sensor == null)
+            {
+                Debug.WriteLine("Laitteessa ei ole kiihtyvyysanturia.");
+                return;
+            }
+
+            listener = new SensorListener(this);
+            sensorManager.RegisterListener(listener, sensor, SensorDelay.Normal);
+            base.Start();
         }
 
         /// <summary>
@@ -41,8 +49,37 @@ namespace Jypeli.Android
         /// </summary>
         public override void Stop()
         {
-            Essentials.Accelerometer.Stop();
+            if (listener != null)
+            {
+                sensorManager.UnregisterListener(listener);
+                listener.Dispose();
+                listener = null;
+            }
             base.Stop();
+        }
+
+        /// <summary>
+        /// Vastaanottaa anturin lukemat ja muuntaa ne maan vetovoiman kerrannaisiksi (g),
+        /// jolloin paikallaan oleva puhelin antaa lukeman, jonka pituus on noin 1.
+        /// </summary>
+        private sealed class SensorListener : Java.Lang.Object, ISensorEventListener
+        {
+            private readonly AndroidAccelerometer owner;
+
+            public SensorListener(AndroidAccelerometer owner)
+            {
+                this.owner = owner;
+            }
+
+            public void OnAccuracyChanged(Sensor sensor, [GeneratedEnum] SensorStatus accuracy)
+            {
+            }
+
+            public void OnSensorChanged(SensorEvent e)
+            {
+                var v = e.Values;
+                owner.CurrentState = new Vector3(v[0], v[1], v[2]) / SensorManager.GravityEarth;
+            }
         }
 
         internal override Vector Project2d(Vector3 spaceVector)

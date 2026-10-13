@@ -23,7 +23,6 @@ namespace Jypeli
             {
                 RequestPermissions(new string[] { Andr.Manifest.Permission.BluetoothConnect }, 0);
             }
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             base.OnCreate(savedInstanceState);
         }
         protected override void OnRun()
@@ -107,13 +106,6 @@ namespace Jypeli
                 ra.Position = pos;
                 raw[index] = ra;
             }
-        }
-
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
-        {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
